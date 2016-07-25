@@ -1,0 +1,43 @@
+{
+  "name": "guide4you-module-search-guide4you-server",
+  "version": "0.1.0",
+  "description": "A G4U Server search parser module for Guide4You.",
+  "keywords": [ "search", "g4u server", "map", "map client", "openlayers" ],
+  "author": "Klaus Benndorf",
+  "homepage": "http://www.benndorf.de",
+  "private": true,
+  "contributors": [
+    "Sascha Klemenjak <sascha.klemenjak@benndorf.de>",
+    "Josef Schugt <josef.schugt@benndorf.de>",
+    "Simon Seyock <simonseyock@gmail.com>"
+  ],
+  "dependencies": {
+    "guide4you": "file:../guide4you",
+    "guide4you-builder": "file:../guide4you-builder",
+    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
+  },
+  "scripts": {
+    "build": "g4u-build -s frame -s dev -c",
+    "dev": "g4u-build -s dev -c",
+    "devServer": "g4u-build -s frame -s devServer -c",
+    "release": "g4u-build -s frame -s release -c",
+    "--buildTests": "cp tests/selenium/*.json build/tests/selenium/ && babel tests/selenium/*.js --out-dir build/ --presets es2015",
+    "--buildUnitTests": "node scripts/buildTest.js --inputMask=tests/unit-tests/*_spec.js --outputDir=build/tests/unit-tests/",
+    "--selenium": "mocha build/tests/selenium/*",
+    "--unitTest": "mocha build/tests/unittests/*",
+    "--lint": "standard src/**/*.js",
+    "--test": "npm run lint && npm run selenium && npm run unitTest",
+    "--jsdoc": "jsdoc src/configurators/ --destination doc/",
+    "gInstall": "npm install ../guide4you && npm install ../guide4you-builder"
+  },
+  "config": {
+    "builds": {
+      "simple": "conf/simple/build.json",
+      "routing": "conf/simple/build.json",
+      "module-search": "conf/simple/build.json",
+      "guide4you-module-search": "conf/simple/build.json",
+      "guide4you-module-search-guide4you": "conf/simple/build.json",
+      "guide4you-module-search-guide4you-server": "conf/simple/build.json"
+    }
+  }
+}

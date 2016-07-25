@@ -1,0 +1,39 @@
+# Emacs style *~ backup files
+*~
+
+# *.stackdump files occur if Perl fails
+*.stackdump
+
+Thumbs.db
+
+# build/doc only contains generated files
+/build/*
+!/build/tests
+/doc/
+
+# CSS files in css/less only occur by accident
+/less/*.css
+
+# files in node_modules can always be obtained using npm
+/node_modules
+
+# tests are precisely that
+/tests/*
+!/tests/selenium
+!/tests/unit-tests
+/tests/selenium/url.json
+
+# brackets files are to be strictly local
+.brackets.json*
+
+# same holds for npm-debug.log files
+npm-debug.log*
+
+# exclude .orig files by kdiff3
+*.orig
+
+# exclude .idea folder of webstorm
+.idea
+
+# Ignore test logs
+test.log
