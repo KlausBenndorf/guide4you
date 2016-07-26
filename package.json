@@ -1,0 +1,37 @@
+{
+  "name": "guide4you-module-search",
+  "version": "0.1.0",
+  "description": "A search parser module for Guide4You.",
+  "keywords": [ "search", "map", "map client", "openlayers" ],
+  "author": "Klaus Benndorf",
+  "homepage": "https://github.com/KlausBenndorf/guide4you-module-search",
+  "contributors": [
+    "Sascha Klemenjak <sascha.klemenjak@benndorf.de>",
+    "Josef Schugt <josef.schugt@benndorf.de>",
+    "Simon Seyock <simonseyock@gmail.com>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KlausBenndorf/guide4you-module-search"
+  },
+  "dependencies": {
+    "guide4you": "1.0.*",
+    "guide4you-builder": "1.0.*",
+    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
+  },
+  "devDependencies": {
+    "esdoc": "^0.4.7",
+    "standard": "^7.0.1"
+  },
+  "scripts": {
+    "build": "g4u-build -m prod -c",
+    "dev": "g4u-build -m dev -c",
+    "lint": "eslint src/",
+    "test": "npm run lint",
+    "doc": "esdoc -c esdoc.json"
+  },
+  "pre-commit": [
+    "lint"
+  ]
+}
