@@ -1,0 +1,6 @@
+{
+  "extends": ["standard"],
+  "rules": {
+    "max-len": ["error", 120]
+  }
+}
