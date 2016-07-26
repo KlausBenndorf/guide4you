@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 2500 2500">
+	<polygon points="600,1400 1700,1400 2250,300 1150,300" style="stroke:{{{svgColor}}}; stroke-width:150; fill:none;" />
+	<polygon points="1250,450 2000,450 1920,610 1170,610" style="stroke:{{{svgColor}}}; stroke-width:1; fill:{{{svgColor}}};" />
+	<polygon points="1100,750 1850,750 1770,910 1020,910" style="stroke:{{{svgColor}}}; stroke-width:1; fill:{{{svgColor}}};" />
+	<polygon points="950,1050 1700,1050 1620,1210 870,1210" style="stroke:{{{svgColor}}}; stroke-width:1; fill:{{{svgColor}}};" />
+	<polygon points="300,1400 2300,1400 2300,2300, 300,2300" style="stroke:{{{svgColor}}}; stroke-width:150; fill:none;" />
+	<polygon points="2000,2000 1900,2000, 1900,1950, 2000,1950" style="stroke:{{{svgColor}}}; stroke-width:150; fill:none;" />
+</svg>

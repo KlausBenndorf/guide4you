@@ -1,0 +1,91 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+
+.g4u-desktop {
+  .g4u-mobilecontrols {
+    display: none;
+  }
+}
+
+.g4u-mobile {
+  @g4u-arrowbutton-left-icon: url("../images/icons/arrow/left.svg");
+  @g4u-arrowbutton-right-icon: url("../images/icons/arrow/right.svg");
+
+  .g4u-mobilecontrols {
+    position: absolute;
+    bottom: 2 * @g4u-mobile-padding;
+    width: 100%;
+    pointer-events: none;
+
+    .g4u-mobilecontrols-shift {
+      margin-left: auto;
+      margin-right: auto;
+      display: table;
+
+      padding: @g4u-mobile-padding;
+      background-color: @g4u-control-background;
+      border-radius: @g4u-mobile-large-border-radius;
+
+      .g4u-mobilecontrols-container {
+        display: inline-block;
+
+        .g4u-mobilecontrols-item-first {
+          .g4u-control-mainbutton {
+            border-top-left-radius: @g4u-mobile-small-border-radius;
+            border-bottom-left-radius: @g4u-mobile-small-border-radius;
+
+            margin-left: 0;
+          }
+        }
+        .g4u-mobilecontrols-item-last {
+          .g4u-control-mainbutton {
+            border-top-right-radius: @g4u-mobile-small-border-radius;
+            border-bottom-right-radius: @g4u-mobile-small-border-radius;
+          }
+        }
+      }
+
+      .g4u-mobilecontrols-item {
+        pointer-events: auto;
+        display: inline-block;
+      }
+
+      .shift-button() {
+        vertical-align: text-top;
+
+        background-color: @g4u-medium-main-color;
+
+        margin-left: @g4u-mobile-padding;
+
+        padding: 0;
+        display: inline-block;
+        width: @g4u-mobile-button-size;
+        height: @g4u-mobile-button-size;
+
+      }
+
+      .g4u-mobilecontrols-move-left {
+        border-top-left-radius: @g4u-mobile-small-border-radius;
+        border-bottom-left-radius: @g4u-mobile-small-border-radius;
+
+        .shift-button();
+        .buttonSquaredWithIcon(@g4u-arrowbutton-left-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+
+        margin-left: 0;
+      }
+
+      .g4u-mobilecontrols-move-right {
+        border-top-right-radius: @g4u-mobile-small-border-radius;
+        border-bottom-right-radius: @g4u-mobile-small-border-radius;
+
+        .shift-button();
+        .buttonSquaredWithIcon(@g4u-arrowbutton-right-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+      }
+
+      .g4u-control-mainbutton {
+        .shift-button();
+      }
+    }
+  }
+}

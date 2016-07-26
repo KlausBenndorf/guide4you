@@ -1,0 +1,95 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+@import "./tooltip";
+@import "./misc";
+
+@g4u-attribution-collapse-icon: url("../images/icons/expand/outline/left.svg");
+@g4u-attribution-info-icon: url("../images/icons/info.svg");
+
+.g4u-desktop {
+  .g4u-attribution {
+    cursor: default;
+    position: absolute;
+    height: @g4u-desktop-button-size; // button to the left
+    min-width: @g4u-desktop-button-size; // button to the left
+    margin: 0;
+    border-radius: @g4u-desktop-large-border-radius;
+    white-space: nowrap;
+
+    &:hover {
+      button {
+        background: fade(@g4u-dark-main-color, 90%);
+      }
+    }
+
+    a {
+      color: darken(@g4u-theme-main-foreground, 15%);
+    }
+
+    .g4u-has-tooltip {
+      .g4u-tooltip-right-above;
+    }
+
+    button {
+      .buttonSquaredWithIcon(@g4u-attribution-collapse-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+      background: fade(@g4u-dark-main-color, 80%);
+      bottom: @g4u-desktop-padding;
+      left: @g4u-desktop-padding; // button to the left
+      position: absolute; // button to the left
+      display: inline;
+      border-top-left-radius: @g4u-desktop-small-border-radius; // button to the left
+      border-bottom-left-radius: @g4u-desktop-small-border-radius; // button to the left
+    }
+
+    img {
+      display: none;
+    }
+
+    ul {
+      .g4u-symbol-colors;
+      margin: 0;
+      margin-left: @g4u-desktop-button-size;
+      position: relative; // button to the left
+      bottom: 0;
+      height: @g4u-desktop-button-size; // button to the left
+      display: inline-block; // button to the left
+      padding: 0;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+
+      li {
+        border-left: @g4u-tiny solid;
+        display: inline-block; // button to the left
+        margin-top: round(0.5 * (@g4u-desktop-button-size - @g4u-desktop-normal-lineheight)); // button to the left
+        list-style: none;
+        padding: 0 round(0.5 * @g4u-desktop-em);
+
+        &:first-of-type {
+          display: none;
+        }
+
+        &:nth-of-type(-n+2) {
+          border-left: none;
+        }
+
+        &:last-of-type {
+        }
+      }
+    }
+
+    &.ol-collapsed {
+      padding-left: @g4u-desktop-padding;
+
+      ul {
+        display: none;
+      }
+
+      button {
+        .changeIcon(@g4u-attribution-info-icon);
+        border-top-right-radius: @g4u-desktop-small-border-radius; // button to the left
+        border-bottom-right-radius: @g4u-desktop-small-border-radius; // button to the left
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+@g4u-home-icon: url("../images/icons/home.svg");
+
+.g4u-desktop {
+  .g4u-link-button {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-home-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-link-button {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-home-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+    }
+  }
+}

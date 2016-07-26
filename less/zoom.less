@@ -1,0 +1,86 @@
+﻿@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+@import "./misc";
+
+@g4u-zoom-in-icon: url("../images/icons/expand/plusminus/plus.svg");
+@g4u-zoom-out-icon: url("../images/icons/expand/plusminus/minus.svg");
+
+.g4u-desktop {
+  .g4u-zoom {
+    cursor: default;
+    position: absolute;
+    border-radius: @g4u-desktop-large-border-radius;
+    overflow: visible;
+
+    button {
+      color: transparent;
+      padding: 0;
+      margin: 0;
+      display: block;
+      width: @g4u-desktop-button-size;
+    }
+
+    .g4u-zoom-in {
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      .buttonSquaredWithIcon(@g4u-zoom-in-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      &:hover {
+        [role=tooltip] {
+          left: @g4u-tooltip-offset;
+        }
+      }
+    }
+
+    .g4u-zoom-out {
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+      .buttonSquaredWithIcon(@g4u-zoom-out-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      margin-top: @g4u-desktop-padding;
+      &:hover {
+        [role=tooltip] {
+          left: @g4u-tooltip-offset;
+        }
+      }
+    }
+
+    .g4u-zoom-in + .g4u-zoomslider {
+      margin-top: @g4u-desktop-padding;
+    }
+
+    .g4u-zoomslider {
+      cursor: pointer;
+      position: relative;
+      background: transparent !important;
+      width: @g4u-desktop-button-size;
+      height: @g4u-zoomslider-height * @g4u-desktop-button-size;
+      min-height: 4 * @g4u-desktop-button-size;
+      padding: 0;
+
+      &.g4u-mouse-down {
+        .g4u-cursor-grabbing;
+      }
+    }
+
+    .g4u-zoomslider-thumb {
+      .g4u-symbol-colors;
+      background: fade(@g4u-theme-main-background, @g4u-not-so-opaque);
+      .g4u-cursor-grab;
+      position: absolute;
+      display: inline-block;
+      overflow: hidden;
+      padding: 0;
+      margin: 0;
+      width: @g4u-desktop-button-size;
+      height: round(@g4u-desktop-button-size * 0.75);
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+
+      &:hover {
+        background: fade(@g4u-theme-main-background, @g4u-very-opaque);
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+.g4u-hidden {
+  display: none !important;
+}
+
+.g4u-content-box-sizing() {
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+
+.g4u-padding-clip() {
+  background-clip: padding-box;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding;
+}
+
+.g4u-desktop-text-padding() {
+  padding: round(0.2 * @g4u-desktop-em) round(0.5 * @g4u-desktop-em);
+}
+
+.g4u-mobile-text-padding() {
+  padding: round(0.2 * @g4u-mobile-em) round(0.5 * @g4u-mobile-em);
+}
+
+.g4u-no-user-select() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.g4u-cursor-grab() {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.g4u-cursor-grabbing() {
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}

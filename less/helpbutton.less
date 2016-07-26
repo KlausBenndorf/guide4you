@@ -1,0 +1,53 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+@g4u-help-icon: url("../images/icons/help.svg");
+
+.g4u-desktop {
+  .g4u-help {
+    padding: 0;
+
+    button.g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-help-icon; @g4u-desktop-button-size; @g4u-desktop-button-size);
+    }
+
+    .g4u-help-table {
+      border-spacing: 0;
+      border-collapse: collapse;
+
+      .g4u-help-altCol {
+        background: #fdd;
+      }
+
+      th {
+        vertical-align: top;
+        padding: 1em;
+      }
+
+      td {
+        vertical-align: top;
+        padding: 1em;
+
+        p:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &.g4u-help-img {
+          text-align: center;
+        }
+
+        .g4u-help-imgDiv {
+          background: #8dc56c;
+          width: 100%;
+          border: @g4u-tiny solid black;
+          padding: 1em 0;
+        }
+
+        img {
+          vertical-align: top;
+        }
+      }
+    }
+  }
+}

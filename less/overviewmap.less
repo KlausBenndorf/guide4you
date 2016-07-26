@@ -1,0 +1,68 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+@import "./misc";
+@import "./tooltip";
+
+@ol-overviewmap-collapse-icon: url("../images/icons/expand/outline/bottom_right.svg");
+@ol-overviewmap-expand-icon: url("../images/icons/globe.svg");
+
+.g4u-desktop {
+  .ol-overviewmap {
+    position: absolute;
+    width: @ol-overviewmap-width;
+    height: @ol-overviewmap-height;
+    border-radius: @g4u-desktop-large-border-radius;
+    padding: @g4u-desktop-padding;
+
+    button {
+      .g4u-symbol-colors;
+      .buttonSquaredWithIcon(@ol-overviewmap-collapse-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+      position: absolute;
+      bottom: @g4u-desktop-padding;
+      right: @g4u-desktop-padding;
+      border-radius: @g4u-desktop-small-border-radius;
+    }
+
+    .ol-overviewmap-map {
+      width: 100%;
+      height: 100%;
+
+      .ol-viewport {
+        border-bottom-left-radius: @g4u-desktop-small-border-radius;
+        border-top-left-radius: @g4u-desktop-small-border-radius;
+        border-top-right-radius: @g4u-desktop-small-border-radius;
+        cursor: default;
+      }
+    }
+
+    &.ol-collapsed {
+      width: @g4u-desktop-button-size;
+      height: @g4u-desktop-button-size;
+
+      .ol-overviewmap-map {
+        display: none;
+      }
+
+      button {
+        border-top-left-radius: @g4u-desktop-small-border-radius;
+        border-top-right-radius: @g4u-desktop-small-border-radius;
+        .changeIcon( @ol-overviewmap-expand-icon );
+      }
+    }
+
+    &:not(.ol-collapsed) {
+      .ol-overviewmap-map {
+        display: block;
+      }
+    }
+
+    .ol-overviewmap-box {
+      border: 2 * @g4u-tiny solid @g4u-darker-main-color;
+    }
+
+    .g4u-has-tooltip {
+      .g4u-tooltip-left-above;
+    }
+  }
+}

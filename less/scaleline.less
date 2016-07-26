@@ -1,0 +1,31 @@
+@import "./lengths";
+@import "./colors";
+@import "./misc";
+
+.g4u-desktop {
+  .g4u-scale-line {
+    position: absolute;
+    cursor: default;
+    padding: @g4u-desktop-padding;
+    border: @g4u-desktop-padding @g4u-control-background solid;
+    width: auto;
+    border-radius: @g4u-desktop-large-border-radius;
+
+    .g4u-symbol-colors;
+
+    .g4u-padding-clip;
+
+    .g4u-scale-line-inner {
+      .g4u-symbol-colors;
+      margin: 0;
+      padding: 0;
+      width: auto;
+      height: @g4u-desktop-button-size - 2 * @g4u-desktop-padding - @g4u-desktop-ruler-linewidth;
+      background: transparent;
+      font-size: round((2* @g4u-desktop-normal-fontsize - @g4u-desktop-ruler-linewidth) / 2);
+      text-align: center;
+      border: @g4u-desktop-ruler-linewidth solid @g4u-theme-main-foreground;
+      border-top: none;
+    }
+  }
+}

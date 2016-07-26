@@ -1,0 +1,207 @@
+﻿@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+@import "./misc";
+
+@g4u-window-close: url("../images/icons/close.svg");
+
+.g4u-desktop {
+  .g4u-window {
+    .g4u-window-scroll-wrap {
+      overflow-y: auto;
+    }
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-width: @g4u-desktop-button-size;
+    background: white; // for IE
+    padding: 0;
+    margin: 0;
+    border-radius: @g4u-desktop-large-border-radius;
+    border: @g4u-desktop-border-width @g4u-medium-main-color solid;
+    overflow: hidden;
+
+    button.g4u-window-button-close {
+      position: relative;
+
+      .buttonWithIcon(@g4u-window-close; @g4u-desktop-button-size; @g4u-desktop-button-size);
+
+      &:before { // overwrites
+        left: auto;
+        top: @g4u-desktop-padding + @g4u-tiny; // @g4u-tiny for IE
+        right: @g4u-desktop-padding;
+      }
+
+      width: 100%;
+      height: @g4u-desktop-button-size + 2 * @g4u-desktop-padding + @g4u-tiny; // @g4u-tiny for IE
+
+      .g4u-symbol-colors;
+
+      padding: 0;
+      display: block;
+
+      &::-moz-focus-inner {
+        padding: 0;
+        border: none;
+      }
+
+      background-color: @g4u-medium-main-color;
+      border: none;
+      cursor: pointer;
+      text-align: right;
+    }
+
+    .g4u-window-content {
+      background: white;
+      padding: @g4u-desktop-padding;
+
+      &:not(input, textarea) {
+        .g4u-no-user-select;
+      }
+    }
+  }
+
+
+
+  .g4u-window {
+    .g4u-window-inner-position {
+    }
+
+    .g4u-window-content {
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+    }
+
+    button.g4u-window-button-close {
+      top: -@g4u-tiny; // @g4u-tiny for IE
+      left: 0;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-window {
+    .g4u-window-scroll-wrap {
+      overflow-y: auto;
+    }
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-width: @g4u-mobile-button-size;
+    background: white; // for IE
+    padding: 0;
+    margin: 0;
+    border-radius: @g4u-mobile-large-border-radius;
+    border: @g4u-mobile-border-width @g4u-medium-main-color solid;
+    overflow: hidden;
+
+    button.g4u-window-button-close {
+      position: relative;
+      .buttonWithIcon(@g4u-window-close; @g4u-mobile-button-size; @g4u-mobile-button-size);
+
+      &:before { // overwrites
+        left: auto;
+        top: @g4u-mobile-padding + @g4u-tiny; // @g4u-tiny for IE
+        right: @g4u-mobile-padding;
+      }
+
+      width: 100%;
+      height: @g4u-mobile-button-size + 2 * @g4u-mobile-padding + @g4u-tiny; // @g4u-tiny for IE
+      .g4u-symbol-colors;
+      padding: 0;
+      display: block;
+
+      &::-moz-focus-inner {
+        padding: 0;
+        border: none;
+      }
+
+      background-color: @g4u-medium-main-color;
+      border: none;
+      cursor: pointer;
+      text-align: right;
+    }
+
+    .g4u-window-content {
+      background: white;
+      padding: @g4u-mobile-padding;
+
+      &:not(input, textarea) {
+        .g4u-no-user-select;
+      }
+    }
+  }
+
+  .g4u-window {
+    position: fixed !important;
+    padding: @g4u-mobile-padding;
+
+    .g4u-window-scroll-wrap {
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      /* Prevent native touch events on Windows */
+      -ms-touch-action: none;
+      /* Prevent the callout on tap-hold and text selection */
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      /* Prevent text resize on orientation change, useful for web-apps */
+      -webkit-text-size-adjust: none;
+      -moz-text-size-adjust: none;
+      -ms-text-size-adjust: none;
+      -o-text-size-adjust: none;
+      text-size-adjust: none;
+    }
+
+    .g4u-window-inner-position {
+      top: 0;
+      bottom: @g4u-mobile-button-size + 2 * @g4u-mobile-padding;
+      left: 0;
+      right: 0;
+      height: auto;
+      width: auto;
+      position: absolute;
+      padding: 0;
+      overflow: hidden;
+    }
+
+
+    button.g4u-window-button-close {
+      position: absolute;
+      top: auto;
+      left: 0;
+      bottom: -@g4u-tiny;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .g4u-window-content {
+      height: auto;
+      width: auto;
+      position: absolute;
+      left: 0;
+      right: @g4u-mobile-padding;
+      /* Prevent elements to be highlighted on tap */
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      /* Put the scroller into the HW Compositing layer right from the start */
+      -webkit-transform: translateZ(0);
+      -moz-transform: translateZ(0);
+      -ms-transform: translateZ(0);
+      -o-transform: translateZ(0);
+      transform: translateZ(0);
+    }
+  }
+}

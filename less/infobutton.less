@@ -1,0 +1,62 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+@g4u-info-icon: url("../images/icons/info.svg");
+
+.g4u-infobutton-attributions {
+  button {
+    display: none;
+  }
+
+  img {
+    display: none;
+  }
+
+  ul {
+    li {
+      &:first-of-type {
+        display: none;
+      }
+    }
+  }
+}
+
+.g4u-desktop {
+  .g4u-infobutton {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-info-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-infobutton {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-info-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+    }
+  }
+
+  .g4u-window-content {
+    .g4u-infobutton {
+      margin-top: 0;
+      background: white;
+      color: black;
+      padding: @g4u-mobile-padding;
+
+      p {
+        margin-top: @g4u-mobile-padding;
+        margin-bottom: 0;
+      }
+
+      h3 {
+        margin-top: 0;
+        margin-bottom: @g4u-mobile-padding;
+      }
+
+      h4 {
+        margin-top: @g4u-mobile-padding;
+      }
+    }
+  }
+}

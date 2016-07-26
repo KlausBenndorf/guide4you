@@ -1,0 +1,64 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+
+@g4u-layers-icon: url("../images/icons/layers.svg");
+
+.g4u-desktop {
+  .g4u-layermenu {
+    cursor: default;
+    width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
+    border-radius: @g4u-desktop-large-border-radius;
+    background: @g4u-control-background;
+    position: absolute;
+
+    button {
+      width: @g4u-layermenu-width + @g4u-desktop-padding;
+
+      &:focus {
+        .g4u-symbol-colors;
+      }
+    }
+
+    .g4u-layermenu-item {
+      border-radius: @g4u-desktop-large-border-radius;
+      padding: 0;
+      overflow: hidden;
+      display: block;
+
+      &:not(:first-of-type) {
+        margin-top: @g4u-desktop-padding;
+      }
+
+      * {
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-layermenu {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-layers-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+    }
+  }
+
+  .g4u-window-content {
+    .g4u-layermenu {
+      border-radius: @g4u-mobile-large-border-radius;
+      margin-bottom: @g4u-mobile-padding;
+
+      .g4u-layermenu-item {
+        border-radius: @g4u-mobile-large-border-radius;
+        padding: 0;
+        overflow: hidden;
+        display: block;
+
+        &:not(:first-of-type) {
+          margin-top: @g4u-mobile-padding;
+        }
+      }
+    }
+  }
+}

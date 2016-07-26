@@ -1,0 +1,69 @@
+{
+  "baseLayers": [
+    {
+      "id": "b1",
+      "title": {
+        "en": "Roads",
+        "de": "Stra&szlig;en"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "(c) OpenStreetMap contributers",
+          "de": "(c) OpenStreetMap Mitwirkende"
+        }
+      },
+      "visible": true
+    },
+    {
+      "id": "b2",
+      "title": {
+        "en": "Cycling Map",
+        "de": "Radkarte"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "(c) OpenCycleMap and OpenStreetMap contributors",
+          "de": "(c) OpenCycleMap und OpenStreetMap Mitwirkende"
+        }
+      }
+    }
+  ],
+  "featureLayers": [
+    {
+      "id": "f1",
+      "title": {
+        "en": "Hotels in Bonn",
+        "de": "Hotels in Bonn"
+      },
+      "type": "KML",
+      "source": {
+        "url": "files/hotelsbonn.kml",
+        "attribution": {
+          "en": "(c) OpenStreetMap contributers",
+          "de": "(c) OpenStreetMap Mitwirkende"
+        }
+      },
+      "style": "#defaultStyle"
+    },
+    {
+      "id": "f2",
+      "title": {
+        "en": "Restaurants in Bonn",
+        "de": "Restaurants in Bonn"
+      },
+      "type": "KML",
+      "source": {
+        "url": "files/restaurantsbonn.kml",
+        "attribution": {
+          "en": "(c) OpenStreetMap contributers",
+          "de": "(c) OpenStreetMap Mitwirkende"
+        }
+      },
+      "style": "#defaultStyle"
+    }
+  ]
+}

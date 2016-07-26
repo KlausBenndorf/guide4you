@@ -1,0 +1,1172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Placemark id="f997267f-6a15-416a-9d7c-b9d1ab5c20d9">
+      <name>Zum Schwan</name>
+      <description><![CDATA[Telefon: +49 2254 9939068<br />Telefax: +49 2254 834262<br /><a href="mailto:info@schwan-metternich.de">info@schwan-metternich.de</a><br /><a href="www.schwan-metternich.de" target="_blank">Website</a><br />Bergstraße 20<br />53919 Metternich]]></description>
+      <Point>
+        <coordinates>6.89032106021106,50.7380207864018</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e560f0ee-bb42-4fc5-8787-6e6d8e1bdf84">
+      <name><![CDATA[B&B Hotel Bonn]]></name>
+      <description><![CDATA[Betreiber: B&B Hotels GmbH<br /><a href="http://www.hotelbb.de" target="_blank">Website</a><br />Heinrich-Böll-Ring 7<br />53119 ]]></description>
+      <Point>
+        <coordinates>7.07814593107362,50.7379470188162</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="78ca8b4b-7518-407b-a15a-8aeecffd50a6">
+      <name>Domäne Walberberg</name>
+      <description><![CDATA[<a href="http://www.domaene-walberberg.de/" target="_blank">Website</a><br />Rheindorfer-Burg-Weg 39<br />Bornheim]]></description>
+      <Point>
+        <coordinates>6.902373560322,50.796968008804</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="9b061b01-2774-42ec-8fe0-bce752f9fecf">
+      <name>avendi Hotel Bad Honnef</name>
+      <Point>
+        <coordinates>7.22281403077154,50.6473535881636</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="28e30229-6395-400f-95af-580c4d51483e">
+      <name>Ling Bao</name>
+      <description><![CDATA[Betreiber: Phantasialand;Phantasialand Gastronomie GmbH<br />Telefon: +49 2232 3690410<br />Telefax: +49 2232 3690601<br /><a href="http://www.phantasialand.de/de/hotels-und-restaurants/hotel-ling-bao" target="_blank">Website</a><br />Berggeiststraße 31-41<br />50321 Brühl]]></description>
+      <Point>
+        <coordinates>6.88443676030006,50.798483209205</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d504cd96-b806-45ff-b7b4-4cf7022cb992">
+      <name>Rheingold</name>
+      <description><![CDATA[Telefon: +49 228 450099<br /><a href="http://www.rheingold-hotel.com/" target="_blank">Website</a><br />Rheinallee 27<br />53859 Niederkassel]]></description>
+      <Point>
+        <coordinates>7.06194278648039,50.7752141958417</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a693b097-22d9-4f82-a73a-aba0d1020cf1">
+      <name>Hotel Hangelar</name>
+      <description><![CDATA[<a href="http://www.hotel-hangelar.de/" target="_blank">Website</a><br />Lindenstraße 21<br />53757 Sankt Augustin]]></description>
+      <Point>
+        <coordinates>7.17306586982164,50.7599644359132</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="16adfd22-ea71-4900-b038-e5eabbb05b6f">
+      <name>TOP Hotel Consul</name>
+      <Point>
+        <coordinates>7.09945495050498,50.7377711879658</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e3e838fc-c14b-462e-9216-050642494cc3">
+      <name>Cäcilienhöhe</name>
+      <Point>
+        <coordinates>7.15297675479588,50.6697303936757</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7c1f8450-9391-461e-8bbd-b94c8b650d1b">
+      <name>City Pension Bonn</name>
+      <description><![CDATA[Telefon: +49 228 707 69 48<br /><a href="mailto:info@citypensionbonn.de">info@citypensionbonn.de</a><br /><a href="http://www.citypensionbonn.de/" target="_blank">Website</a><br />Goethestraße 33<br />53113 Bonn]]></description>
+      <Point>
+        <coordinates>7.10552599411382,50.7250217923135</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6bf87903-3dd0-40aa-916b-4c0bccb89d4a">
+      <name>Zum Laternchen</name>
+      <Point>
+        <coordinates>7.19194494435084,50.7668752306224</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7d477d70-1afc-4072-9374-e3d2781fa8c2">
+      <name>Drachenburg</name>
+      <description><![CDATA[Telefon: +49 228 349159<br />Telefax: +49 228 858841<br /><a href="mailto:info@gasthaus-drachenberg.de">info@gasthaus-drachenberg.de</a><br /><a href="http://www.gasthaus-drachenberg.de" target="_blank">Website</a><br />Mainzer Straße 152<br />Bonn]]></description>
+      <Point>
+        <coordinates>7.19060161249289,50.6622464681479</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="56b76acd-cc08-4be5-8cc5-471fd1eb6582">
+      <name>Hotel Kurfürstenhof</name>
+      <description><![CDATA[Baumschulallee 20<br />53115 Bonn]]></description>
+      <Point>
+        <coordinates>7.09518004773092,50.7305144686148</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b73254bb-4678-4e25-8d6a-b2da4b7ef190">
+      <name>Haus Müllestumpe</name>
+      <description><![CDATA[Betreiber: Haus am Müllestumpe e.V.<br /><a href="http://www.muellestumpe.de/" target="_blank">Website</a><br />An der Rheindorfer Burg 22<br />53117 Bonn]]></description>
+      <Point>
+        <coordinates>7.08107775239406,50.757184337919</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d9d8aee9-99a8-4a73-abcb-d783e42cc765">
+      <name>Bon(n)ito</name>
+      <description><![CDATA[Telefon: +49 228  638089<br /><a href="http://www.hotel-bonnito.de" target="_blank">Website</a><br />Kölnstraße 45<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.099834398881,50.7393588025468</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d5e2d18f-fd3d-40a4-850a-e10884ffa403">
+      <name>Best Western Domicil</name>
+      <description><![CDATA[Betreiber: Best Western<br />Telefon: +49 228-729090<br /><a href="http://www.bestwestern.de/hotels/Bonn/BEST-WESTERN-Hotel-Domicil" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.09509138401237,50.7356249858761</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="3cd603ae-3633-497b-bf82-437c77315d13">
+      <name>Hotel Europa</name>
+      <description><![CDATA[Telefon: +4922860880<br />Telefax: +492286088199<br /><a href="mailto:hotel@hotel-europa-bonn.de">hotel@hotel-europa-bonn.de</a><br /><a href="http://www.hotel-europa-bonn.de" target="_blank">Website</a><br />Thomas-Mann-Straße 7-9<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.09629395868322,50.7366069637101</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="f563560b-0917-490d-a4b1-7c82dae6afd4">
+      <name>acora Hotel und Wohnen Haus 1</name>
+      <description><![CDATA[Westpreußenstraße 20<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.05042081059022,50.7502678066243</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="66df5642-4b52-45ab-9342-ac63f4098e36">
+      <name>Ibis Budget</name>
+      <description><![CDATA[Gräfenhohner Straße 6<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.27493800537042,50.683811992598</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b32c1f91-dd5e-42dc-a6a3-f85d49b4a3e1">
+      <name>Dahl</name>
+      <Point>
+        <coordinates>7.18120792956685,50.6415464110656</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="3f83405e-35ba-452d-b54b-1c210ab4f53f">
+      <name>Hotel Rheinland</name>
+      <description><![CDATA[<a href="www.hotel-rheinland-bonn.de" target="_blank">Website</a><br />Rheinallee 17<br />53173 Bonn]]></description>
+      <Point>
+        <coordinates>7.16169930637315,50.6871762012153</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="c0a3b113-6c5c-40c8-913f-319d5c00dc54">
+      <name>Günnewig Residence</name>
+      <description><![CDATA[<a href="http://www.guennewig.de/homepage.php" target="_blank">Website</a><br />Kaiserplatz 11<br />53113 Bonn]]></description>
+      <Point>
+        <coordinates>7.10115276297567,50.7313195226626</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7dc8eeb3-b05c-4a27-b77b-bfe3170fb142">
+      <name>Hotel Regina</name>
+      <description><![CDATA[Markt 81<br />53757 Sankt Augustin]]></description>
+      <Point>
+        <coordinates>7.18656222058579,50.7763128596977</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="092af2bc-c3e3-4923-9891-af4cb39484f6">
+      <name>Sängerhof</name>
+      <description><![CDATA[Kirchstraße 35<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.27172810647561,50.6821642772156</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b29fb7d0-7cf3-483f-8ff6-9b8dd434e918">
+      <name>acora Hotel und Wohnen Haus 4</name>
+      <description><![CDATA[Westpreußenstraße 26<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.05071058327359,50.749738751501</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="34a7a9ef-f090-40ea-b320-f66206b8e379">
+      <name>Hotel Restaurant Am Markt</name>
+      <description><![CDATA[Aegidiusplatz 1<br />53604 Bad Honnef]]></description>
+      <Point>
+        <coordinates>7.30198111945654,50.662768066472</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="2166142b-f8b7-45de-a8b5-a6a9b0d68f13">
+      <name>Hotel garni Jacobs</name>
+      <Point>
+        <coordinates>7.10863079197462,50.7092548917618</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6fc807fe-0d3e-45d5-859c-f8971b0ce342">
+      <name>Petersberg-Hotel</name>
+      <Point>
+        <coordinates>7.20753296913644,50.6859548864809</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="4b64d4fd-2a2c-41bd-afc7-978e22d7e573">
+      <name>Spargel Weber</name>
+      <description><![CDATA[Knipsgasse 24<br />53347 Alfter]]></description>
+      <Point>
+        <coordinates>7.007851645677,50.7363437505964</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a46cdb9e-2eef-4844-9fab-9b212de6232d">
+      <name>Hotel Maritim Bonn</name>
+      <description><![CDATA[Kurt-Georg-Kiesinger-Allee 1<br />Bonn]]></description>
+      <Point>
+        <coordinates>7.13472655127051,50.7049169892375</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6985dc74-fcff-4d30-95e1-6670a3b548f8">
+      <name>Ramada Hotel Brühl</name>
+      <description><![CDATA[Betreiber: Ramada<br />Römerstraße 1<br />50321 Brühl]]></description>
+      <Point>
+        <coordinates>6.89238262472564,50.8194483982179</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="31999602-417d-423a-8a9b-655e3b50aad4">
+      <name>Spargel Weber</name>
+      <description><![CDATA[Knipsgasse 24<br />53347 Alfter]]></description>
+      <Point>
+        <coordinates>7.00813852208056,50.7364189142938</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="beaee826-0a9d-4e21-a149-757e2ee3cca2">
+      <name>Pension Weitblick</name>
+      <description><![CDATA[Telefon: +49 2242 9334822<br /><a href="http://www.pension-weitblick.de/" target="_blank">Website</a><br />Weitblick 1<br />53773 Hennef (Sieg)]]></description>
+      <Point>
+        <coordinates>7.2998782849975,50.7621259678586</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="11f2f43e-26e8-48ea-81ab-7fb325f54b3b">
+      <name>VENUSBERGHOTEL</name>
+      <description><![CDATA[Telefon: +49 228 910230<br />Telefax: +49 228 9102323<br /><a href="mailto:info@venusberghotel.de">info@venusberghotel.de</a><br /><a href="http://www.venusberghotel.de" target="_blank">Website</a><br />Haager Weg 83<br />53127 Bonn]]></description>
+      <Point>
+        <coordinates>7.08803188352059,50.6935514613141</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7044c24d-5fee-4116-b71c-26bd5aa007dc">
+      <name>Kaspar</name>
+      <Point>
+        <coordinates>7.20589650818336,50.79705306493</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6c88d61e-40c6-4401-8d21-6dd7a2066fdf">
+      <name>acora Hotel und Wohnen Haus 5</name>
+      <description><![CDATA[Westpreußenstraße 28<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.05087883780791,50.7498985030054</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="c1e6fd69-a182-4e3c-819d-b092e1aeb266">
+      <name>Hotel zum Stern</name>
+      <description><![CDATA[<a href="http://www.hotel-siegburg.com/" target="_blank">Website</a><br />Markt 14-15<br />53721 Siegburg]]></description>
+      <Point>
+        <coordinates>7.20717391251738,50.7974412663912</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="4a7a9ca9-1c8d-44d0-b2fc-e7e6d8c40f96">
+      <name>Villa Esplanade</name>
+      <description><![CDATA[<a href="www.hotel-villa-esplanade.de" target="_blank">Website</a><br />Colmantstraße 47<br />53115 Bonn]]></description>
+      <Point>
+        <coordinates>7.09161131060169,50.7312290864496</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8aac3b7b-a4d7-43df-8403-f039020432c6">
+      <name>Hotel Löhndorf</name>
+      <description><![CDATA[Telefon: +49 228 634726<br />Telefax: +49 228 695712<br /><a href="mailto:info@hotel-loehndorf-bonn.de">info@hotel-loehndorf-bonn.de</a><br /><a href="http://www.hotel-loehndorf-bonn.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.10321323215915,50.7346031885655</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="32e557ac-82f9-4955-9b32-d95aed6874c5">
+      <name>Friendly Cityhotel Oktopus</name>
+      <description><![CDATA[Telefon: +49 2241 - 84640-0<br /><a href="http://www.friendly-cityhotel-siegburg.de/" target="_blank">Website</a><br />Zeithstraße 110<br />53721 Siegburg]]></description>
+      <Point>
+        <coordinates>7.2194026784801,50.8027838900044</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="2fedb9c3-83ae-48e7-a95e-4012bbbdaa92">
+      <name>Hotel Adler</name>
+      <description><![CDATA[Betreiber: Petra Hübner<br />Telefon: 02236/378587<br />Telefax: 02236/378584<br /><a href="mailto:AdlerHotel@t-online.de">AdlerHotel@t-online.de</a><br /><a href="http://www.hotel-adler-wesseling.de" target="_blank">Website</a><br />Ahrstraße 31<br />50389 Wesseling]]></description>
+      <Point>
+        <coordinates>6.98622547802699,50.8143402645813</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="393f9c02-1ff8-4f77-aeaa-583d04f0179c">
+      <name>Kasserolle</name>
+      <description><![CDATA[<a href="http://www.kasserolle.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.22381026242163,50.8012579831949</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="df57b977-0d0b-4ec2-85ca-e04d095e04ea">
+      <name>Haus Schlesien</name>
+      <description><![CDATA[<a href="http://www.hausschlesien.info/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.23093797083234,50.6963561694839</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7a1e0345-0c77-4ce4-8acf-4d51344dfbd5">
+      <name>Im Treppchen</name>
+      <description><![CDATA[Drachenfelsstraße 20<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.1954919510681,50.67423128893</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d0f0957f-dcb2-4c02-99cd-e917d10414e9">
+      <name>Bonnem Inn</name>
+      <description><![CDATA[Telefon: 02222 9405-0<br /><a href="http://www.hotel-am-stern.de/bonneminn/html/start.html" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>6.98714918275324,50.759358515002</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="bc7ff7fc-6283-4f7c-bd14-e7b427deaf74">
+      <name>City Hotel Meckenheim</name>
+      <Point>
+        <coordinates>7.02309231773995,50.6291217593926</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="aaacea72-7463-438b-a15e-a19185eb6480">
+      <name>Golf Course Hotel</name>
+      <Point>
+        <coordinates>7.19063332635526,50.7541825463711</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="5b54971f-2420-484d-9b55-428ef76a231f">
+      <name>Waldhotel Sophienhof</name>
+      <description><![CDATA[Telefon: +49 2223 2973-0<br /><a href="mailto:info@waldhotel-sophienhof.de">info@waldhotel-sophienhof.de</a><br /><a href="http://www.waldhotel-sophienhof.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.25075585818949,50.6753910856651</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="bc652e76-8591-4ce1-922c-c3406d6d2281">
+      <name>Hotel Marktterrassen</name>
+      <description><![CDATA[Telefon: +49 2242 913370<br />Telefax: +49 2242 9133729<br /><a href="http://www.hotel-marktterrassen.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.28501841160957,50.7747894819759</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="0c620cb9-8994-471f-a9bd-0707550d443d">
+      <name>Pontivy</name>
+      <description><![CDATA[Betreiber: Dieter Dresen<br />Telefon: 02236943110<br /><a href="mailto:info@hotel-pontivy.de">info@hotel-pontivy.de</a><br /><a href="http://www.hotel-pontivy.de/" target="_blank">Website</a><br />Cranachstraße 75<br />50389 Wesseling]]></description>
+      <Point>
+        <coordinates>6.98456401827273,50.8069777286789</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d4cb05ff-820e-4341-bda6-db374f8c78c7">
+      <name>Sebastianushof</name>
+      <description><![CDATA[Waldburgstraße 34<br />53177 Bonn]]></description>
+      <Point>
+        <coordinates>7.14206277325766,50.6818278700437</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1f0b2ea7-87b1-48d0-b88b-40ce786ec687">
+      <name>Hotel Bergischer Hof</name>
+      <description><![CDATA[Drachenfelsstraße 33<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.19538011081523,50.6743778804397</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="0325ea65-fb11-4a20-95ea-1fa1e66ac989">
+      <name>Haus Dr. Rizk</name>
+      <description><![CDATA[Hauptstraße 345<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.19132628343259,50.6772027659647</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="9f6add42-8875-4ed3-bd05-a58d57d50db2">
+      <name>Mercedes</name>
+      <description><![CDATA[<a href="www.hotel-mercedes-bonn.de/" target="_blank">Website</a><br />Maarflach 17a<br />53113 ]]></description>
+      <Point>
+        <coordinates>7.10604667740606,50.730387736624</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d8b5ad13-b318-4226-afb4-8c7f62dded81">
+      <name>Hotel Görres</name>
+      <description><![CDATA[<a href="www.hotelgoerres.de" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.09261562708934,50.6370189662702</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b3af2d81-0b23-4de7-845e-3d63e05ba05f">
+      <name>Dorint Hotel Venusberg Bonn</name>
+      <description><![CDATA[Betreiber: Neue Dorint GmbH<br />Telefon: +49 228 2880<br />Telefax: +49 228 288288<br /><a href="mailto:info.bonn@dorint.com">info.bonn@dorint.com</a><br /><a href="http://hotel-bonn.dorint.com/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.1002374671053,50.708081387408</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="97c0dae8-8de4-472d-a0f7-c93680f2be3d">
+      <name>Continental Bonn</name>
+      <description><![CDATA[Telefon: +49 (0) 228 391899-0<br /><a href="http://www.continental-bonn.de/" target="_blank">Website</a><br />Am Hauptbahnhof 4<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.09780815892614,50.7324155053846</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b5129ec9-25b2-481e-aa28-225f27991607">
+      <name>Altes Treppchen</name>
+      <Point>
+        <coordinates>7.07063672669584,50.7257953746005</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="c53f69fa-a369-40a1-994a-82a763de004d">
+      <name>Gästehaus Hotel zur Post</name>
+      <Point>
+        <coordinates>7.14737225556979,50.727806407055</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7badc42d-5760-4fc2-b857-5edc3b98a30f">
+      <name>Hotel Krug</name>
+      <description><![CDATA[Telefon: +49228225868<br />Wielsgäßchen 2<br />53115 Bonn]]></description>
+      <Point>
+        <coordinates>7.08992002655934,50.7219987577562</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="5efe825d-586f-48ad-9be5-85e0f91eafb4">
+      <name>Merler Hof</name>
+      <Point>
+        <coordinates>7.05546247474803,50.630534484633</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="0a0ffaeb-53eb-4ac5-bf83-2baca4439057">
+      <name>Haus Berlin</name>
+      <description><![CDATA[Rheinallee 40<br />53173 Bonn]]></description>
+      <Point>
+        <coordinates>7.16451884855542,50.6879903933763</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8c31a910-609b-4805-8282-1d00f12cf587">
+      <name>Hotel Rheinland</name>
+      <Point>
+        <coordinates>7.10488481723984,50.7373358722242</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="fe4d885b-7016-4c7a-93a0-87a778ebe1d2">
+      <name>Hotel Dieck</name>
+      <description><![CDATA[Betreiber: Dieck<br /><a href="http://www.hoteldieck.de/" target="_blank">Website</a><br />Adelheidisstraße 91<br />53225 Bonn]]></description>
+      <Point>
+        <coordinates>7.12558113946229,50.7484316875945</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1430fd99-f439-47c2-bd94-ba06016084f4">
+      <name>Hotel Krone, Weinstube Krone, Restaurant Petit Lion</name>
+      <description><![CDATA[Telefon: +49 2223 700970<br /><a href="http://www.krone-koenigswinter.de" target="_blank">Website</a><br />Hauptstraße 374<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.19301197206324,50.6752862821608</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="fc257fc0-0973-4760-bebe-e77fb44e358d">
+      <name>balladins SUPERIOR</name>
+      <description><![CDATA[Larstraße 1<br />53844 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.13147578524892,50.8071323450328</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="45d9e351-b51e-4b2c-870f-4d6da9c70ac8">
+      <name>Zur Börsch</name>
+      <description><![CDATA[<a href="http://www.zur-boersch.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.07354376478678,50.7736402666258</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e5e37f31-6d99-434a-beb4-b05f6d323108">
+      <name>Hotel Kronprinzen</name>
+      <description><![CDATA[Rheinallee 29<br />53173 Bonn]]></description>
+      <Point>
+        <coordinates>7.16392640962554,50.6880947701277</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="5e9f7089-48d4-4884-a888-c1142b25290f">
+      <name><![CDATA[Bonnox Boardinghouse & Hotel]]></name>
+      <description><![CDATA[Telefon: +49 228 926678 08<br /><a href="http://bonnox.de/" target="_blank">Website</a><br />In der Raste 5<br />53129 Bonn]]></description>
+      <Point>
+        <coordinates>7.12459241488917,50.7069669688713</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a93d5302-af3f-4ceb-a081-8cf6b74a6fd4">
+      <name>Köln-Bonn</name>
+      <description><![CDATA[Telefon: +49 (0) 2227 93000-0<br /><a href="http://www.hotel-koelnbonn.de" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>6.92422202533624,50.7830072813359</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="002b20c8-aa74-424f-9f6d-62b938cb5be6">
+      <name>Hotel/Gasthaus zur Krone</name>
+      <Point>
+        <coordinates>6.91228906650746,50.795441437389</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6ba30751-78ad-4aef-ab71-eddb03e98efa">
+      <name>Mercure Hotel</name>
+      <description><![CDATA[Telefon: +4922825990<br /><a href="http://www.hotel-bonn.org/" target="_blank">Website</a><br />Max-Habermann-Straße 2<br />53123 Bonn]]></description>
+      <Point>
+        <coordinates>7.05397297324496,50.7043409418239</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b89f3cfb-d7ab-4b5a-bd3a-fca2b8df0a92">
+      <name>Hotel Flora</name>
+      <description><![CDATA[Telefon: +49 228 935710<br /><a href="http://www.hotelflora.de/" target="_blank">Website</a><br />Viktoriastraße 16<br />53173 Bonn]]></description>
+      <Point>
+        <coordinates>7.15908189353623,50.692072277794</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e9727033-7f68-480b-b501-f54aa0dde90f">
+      <name>CJD Tagungs- und Gästehaus</name>
+      <description><![CDATA[Telefon: +49 228 9896-0<br /><a href="http://www.cjd-bonn.de/" target="_blank">Website</a><br />Graurheindorfer Straße 149<br />53117 Bonn]]></description>
+      <Point>
+        <coordinates>7.09146290891676,50.7499316726291</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="729c9e5d-eff0-494f-913a-4631a2e04e8e">
+      <name>Zum Löwen</name>
+      <description><![CDATA[Von-Groote-Platz 1<br />53173 Bonn]]></description>
+      <Point>
+        <coordinates>7.15945297917368,50.6849049709113</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="2f0b92b5-5e57-4795-8c5c-9fdd885dfb38">
+      <name>Weinhaus Hoff</name>
+      <Point>
+        <coordinates>7.21351341330894,50.6595514891406</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="0a9ab3fc-0a39-4ec2-b244-3215a1544748">
+      <name>Hotel Primula</name>
+      <description><![CDATA[Am Bürgerhaus 16<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.15494522969091,50.8140442836657</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="37b52101-2b4d-493d-b734-c073dca0a414">
+      <name>Rheinischer Hof</name>
+      <description><![CDATA[Euskirchener Straße 123<br />50321 Brühl]]></description>
+      <Point>
+        <coordinates>6.88829806713307,50.813277285472</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="758605ec-398a-4131-9b3f-69530b3f81d2">
+      <name>My Poppelsdorf</name>
+      <description><![CDATA[Betreiber: Ameron Hotels<br />Telefon: +49 228 26910<br /><a href="mailto:info@mypoppelsdorf.com">info@mypoppelsdorf.com</a>]]></description>
+      <Point>
+        <coordinates>7.08677397262824,50.7206662681825</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="52fc6431-c863-4d88-b50b-4608ac757c19">
+      <name>Hotel Savoy</name>
+      <Point>
+        <coordinates>7.10453959467616,50.7372756656408</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1033e661-c378-4cca-8616-ee0b08a4420c">
+      <name>Em Wingert</name>
+      <description><![CDATA[Telefon: 02242 2095<br /><a href="http://www.gasthof-em-wingert.de" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.30633992487815,50.7489432672923</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="44db9637-b206-4f05-a070-ec8a633d4daa">
+      <name>Alexander</name>
+      <Point>
+        <coordinates>7.04656522772897,50.7144196861921</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8db8b7b6-7a16-485a-891e-06497007c469">
+      <name>Eifeltor</name>
+      <description><![CDATA[Aachener Straße 18-20<br />53359 Rheinbach]]></description>
+      <Point>
+        <coordinates>6.94452183725393,50.6292595362219</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="4eaeec73-9056-4fb5-aafc-d386a83938bc">
+      <name>Hotel Florin</name>
+      <description><![CDATA[Ölbergweg 17<br />53227 Bonn]]></description>
+      <Point>
+        <coordinates>7.13612631774193,50.7264260462789</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="ab092268-13e2-42ac-a845-e1effef9d2f8">
+      <name>Wiesenau</name>
+      <Point>
+        <coordinates>7.12114854596424,50.6561656620016</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="c1dedc93-2c3a-4b44-b6c5-9c80ce23feda">
+      <name>Hotel Mertens</name>
+      <Point>
+        <coordinates>7.11663271503097,50.7460297657333</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="dea22cc9-a931-4bc3-afe8-3263ab8d2ccb">
+      <name><![CDATA[Hotel l& Restaurant Siegblick]]></name>
+      <description><![CDATA[<a href="http://www.siegblick.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.22898599576262,50.7945862040781</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="c4ca0397-f347-4947-b945-948d909de283">
+      <name>Jägerhof</name>
+      <description><![CDATA[Euskirchener Straße 130<br />50321 Brühl]]></description>
+      <Point>
+        <coordinates>6.88708406881339,50.8130658196089</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="5e25a2cf-d382-4258-87a1-07bf401d0ae8">
+      <name>Baden</name>
+      <Point>
+        <coordinates>7.09667682065732,50.7421286137087</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="63965fb9-665b-4f6e-9a6e-d4ee80ffa1c4">
+      <name>Hotel Eden</name>
+      <Point>
+        <coordinates>7.15357161917702,50.6824393100258</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="106da0d4-c1a6-4502-8380-31c8a1b8bcf8">
+      <name>Hotel Willkens</name>
+      <Point>
+        <coordinates>7.12695295943946,50.7381238698955</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="ded34304-0c5a-40bc-b3a9-d36c9972e355">
+      <name>Hotel Nettekoven</name>
+      <description><![CDATA[Telefon: 0228 640511<br /><a href="www.hotel-nettekoven.de" target="_blank">Website</a><br />Rochusstraße 301<br />53123 Bonn]]></description>
+      <Point>
+        <coordinates>7.04168799871631,50.714026193916</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="3188325f-3ada-4c4a-a1ab-99518216a20c">
+      <name>Hotel Bonn Voyage</name>
+      <description><![CDATA[<a href="http://www.hotelbonnvoyage.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.10154515050807,50.7387005908722</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="f42ae5b1-a780-4e9b-b224-4cab4cbe3299">
+      <name>Rheinhotel Dreesen</name>
+      <description><![CDATA[Telefon: +4922882020<br />Telefax: +492288202153<br /><a href="http://www.rheinhoteldreesen.de/" target="_blank">Website</a><br />Rheinstraße 45-49<br />53179 Bonn]]></description>
+      <Point>
+        <coordinates>7.17564451116261,50.6837140236527</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8c7c2fe8-6952-476b-a10b-8f888378cc35">
+      <name>Lambertushof</name>
+      <description><![CDATA[Telefon: 0228 645014<br /><a href="http://www.lambertushof.de" target="_blank">Website</a><br />Hauptstraße 238<br />53347 Alfter]]></description>
+      <Point>
+        <coordinates>7.02281135641205,50.6918702955849</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e2c95129-9e6e-40d3-8504-9b470b08b272">
+      <name>Hotel Nord</name>
+      <description><![CDATA[Betreiber: H. J. Prior GmbH<br />Telefon: +4922261570<br />Telefax: 4922261 571 57<br /><a href="mailto:info@hotelnord.net">info@hotelnord.net</a><br /><a href="www.hotelnord.net" target="_blank">Website</a><br />Boschstraße 6<br />53359 Rheinbach]]></description>
+      <Point>
+        <coordinates>6.96023548507659,50.6329743824387</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="28a8c4e6-a1f9-49d9-8862-6a316cb68182">
+      <name>Hotel Bonn City</name>
+      <description><![CDATA[<a href="http://www.hotelbonncity.de/" target="_blank">Website</a><br />Sandkaule 3<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.10282569894558,50.7380536833743</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="2d5e923c-490b-411e-a1d6-368b5ebe56ef">
+      <name>Park Hotel</name>
+      <Point>
+        <coordinates>7.15555447050366,50.6834942895154</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6db94b79-0e4b-487b-8ab6-7ce3ef0c7a64">
+      <name>Schwan</name>
+      <description><![CDATA[Mozartstraße 24-26<br />53115 Bonn]]></description>
+      <Point>
+        <coordinates>7.0896466052438,50.733030195719</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="815d3242-a238-4805-b15c-1c9112d5770f">
+      <name>Hotel am Roonplatz</name>
+      <description><![CDATA[<a href="http://www.hotel-am-roonplatz.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.09923037168395,50.7242202661971</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="08b662f4-ef3f-4908-bc3d-c2f444124d86">
+      <name>Kameha Grand Hotel</name>
+      <description><![CDATA[Telefon: + 49 (0) 228 4334 5000<br /><a href="http://www.kamehagrand.com/" target="_blank">Website</a><br />Am Bonner Bogen de:Kameha Grand Bonn<br />53227 Bonn]]></description>
+      <Point>
+        <coordinates>7.15266171562574,50.7182750031475</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="49467e24-1f30-4389-bfcb-6bb79b2d5e9e">
+      <name>Katholisch-Soziales Institut</name>
+      <description><![CDATA[Betreiber: Erzbistum Köln<br />Telefon: +49-2224-955-0<br />Telefax: +49-2224-955-100<br /><a href="www.ksi.de" target="_blank">Website</a><br />Selhofer Straße 11<br />]]></description>
+      <Point>
+        <coordinates>7.22953754803678,50.6401587234791</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="04574101-3557-49c3-9eb8-4fcd9beaf987">
+      <name>Zum Rebengarten</name>
+      <Point>
+        <coordinates>7.21359381252687,50.6595707940451</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="645e616a-9149-4f87-9f54-87b40a70a462">
+      <name>Hotel Herting</name>
+      <description><![CDATA[Telefon: +49 2241 999990<br /><a href="http://www.hotel-herting.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.20310966467744,50.7946955107166</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="36975832-e285-4f04-8b50-9c24ee9b0f3c">
+      <name>Ibis Bonn</name>
+      <description><![CDATA[Telefon: +49 228 72660<br />Telefax: 49 228 7266405<br /><a href="mailto:h1441@accor.com">h1441@accor.com</a><br /><a href="http://www.ibis.com/de/hotel-1441-ibis-bonn/index.shtml" target="_blank">Website</a><br />Vorgebirgsstraße 33<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.08705102984552,50.7393967703753</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b484c0ed-f969-4641-b1e5-59dcb52553dc">
+      <name>Waldcafe</name>
+      <description><![CDATA[Am Rehsprung 35<br />53229 ]]></description>
+      <Point>
+        <coordinates>7.16867753311138,50.7422367737494</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="13e41232-4cd6-45ad-864b-ac8ad7886980">
+      <name>Hotel Schönsitz</name>
+      <Point>
+        <coordinates>7.18088579370596,50.6909471705107</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="f2f55e2e-091a-4eae-8ab7-ba6eab0ce711">
+      <name>Stadt Hennef</name>
+      <description><![CDATA[Telefon: +49 2242 92130<br />Telefax: +49 2242 921340<br /><a href="mailto:rezeption@hotel-hennef.de">rezeption@hotel-hennef.de</a><br /><a href="http://www.hotel-hennef.de" target="_blank">Website</a><br />Wehrstraße 48<br />53773 Hennef (Sieg)]]></description>
+      <Point>
+        <coordinates>7.27087604493669,50.7739822955862</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="40a90ae7-5943-4ada-9bc8-5c93baa2b45b">
+      <name>Rheinterrassen</name>
+      <Point>
+        <coordinates>7.02865081778902,50.7910846790876</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e7945529-5349-42be-817c-0dd4760fa85d">
+      <name>Sternhotel</name>
+      <description><![CDATA[Telefon: +49 228 72 67 0<br /><a href="http://www.sternhotel-bonn.de" target="_blank">Website</a><br />Markt 8<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.10267612945078,50.7354150791894</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b07782d9-f13e-49c8-9149-64cba31d84a1">
+      <name>Maritim Hotel Königswinter</name>
+      <description><![CDATA[Rheinallee 3<br />]]></description>
+      <Point>
+        <coordinates>7.19448931242464,50.671388722077</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="cfaedd23-b4d3-443b-af1c-9b65d9aec60f">
+      <name>Hindenburg</name>
+      <description><![CDATA[Hauptstraße 357<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.19199292320493,50.6764442881176</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="567cc301-fbe4-48d6-8bf9-a4233f97e70f">
+      <name>Hotel Eden</name>
+      <description><![CDATA[<a href="http://www.eden-bonn.de/index.php/de/home-eden-am-hofgarten.html" target="_blank">Website</a><br />Am Hofgarten 6<br />53113 Bonn]]></description>
+      <Point>
+        <coordinates>7.10371103720168,50.7314162691765</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d7233ace-b733-4f2a-9eda-6fc3659c8957">
+      <name>Hotel Astoria</name>
+      <description><![CDATA[Hausdorffstraße 105-113<br />53129 Bonn]]></description>
+      <Point>
+        <coordinates>7.10845786628243,50.7153342822678</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="080ab4fb-c97a-4dbc-8319-0e2c549aeb98">
+      <name>Hotel-Garten</name>
+      <description><![CDATA[<a href="http://www.gartenhotel-bonn.de/Startseite/48.html" target="_blank">Website</a><br />Siegburger Straße 107a<br />53229 Bonn]]></description>
+      <Point>
+        <coordinates>7.13471229827069,50.7435884076122</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="f37a8587-d269-4e54-8d7d-adf3cc308fca">
+      <name>Alanus Gästehaus</name>
+      <Point>
+        <coordinates>6.99886618903004,50.7323071356476</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="ffa4a24f-1087-4a00-b0f6-50dcfd38f1da">
+      <name>acora Hotel und Wohnen Haus 2</name>
+      <description><![CDATA[Westpreußenstraße 22<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.05035706032823,50.7500670163315</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="abb6debe-d3ae-44a2-9bce-f36a609aa5ff">
+      <name>Hof von Holland</name>
+      <description><![CDATA[Betreiber: Hotel Garni<br />Turmstraße 5<br />53175 Bonn]]></description>
+      <Point>
+        <coordinates>7.16619674607665,50.6980792472035</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="bcf7c241-3d24-4ae5-ad67-f92d02e60787">
+      <name>Wald-Hotel</name>
+      <description><![CDATA[Altenrather Straße 49<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.16604267918091,50.8215453251666</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="e25d6d9a-9c34-47aa-962b-366508ecff6c">
+      <name>Rheinhotel Loreley</name>
+      <description><![CDATA[Telefon: +49 2223 9250<br />Rheinallee 12<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.19154802930576,50.6745511041085</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="ef5400f3-2bab-495c-bbad-55b3c2511b3a">
+      <name>Drachenfelshotel</name>
+      <description><![CDATA[Rheinallee 9<br />]]></description>
+      <Point>
+        <coordinates>7.19209958052909,50.6737974951716</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8d517e20-ff88-42a7-a274-563c3b9b7626">
+      <name>Hotel zum Adler</name>
+      <Point>
+        <coordinates>7.15522730407719,50.6838984027024</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1db0d223-3634-4e35-babc-58bce89948e9">
+      <name>Hotel Otto</name>
+      <description><![CDATA[Telefon: +49 2244 3683<br />Telefax: +49 2244 81357<br /><a href="mailto:service@hotelotto.de">service@hotelotto.de</a><br /><a href="http://www.hotelotto.de" target="_blank">Website</a><br />Steinringer Straße 5<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.24820608008705,50.6968283009439</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="9dd70b5f-0468-44da-858e-faf14a3eca89">
+      <name>InterCityHotel Bonn</name>
+      <description><![CDATA[Telefon: +49 228 9261810<br />Telefax: +49 228 926181514<br /><a href="mailto:reservations@bonn.intercityhotel.de">reservations@bonn.intercityhotel.de</a><br /><a href="http://www.intercityhotel.com/bonn/" target="_blank">Website</a><br />Quantiusstraße 22<br />53115 Bonn]]></description>
+      <Point>
+        <coordinates>7.09559987512313,50.7320465773164</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="fd64755e-cf19-4ba5-9b62-f75b7b22b80e">
+      <name>Maikammer</name>
+      <description><![CDATA[Taubengasse 101<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.17871800847786,50.8196352920367</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="ed976eb8-0dd3-4d86-9317-194f93a57a0d">
+      <name>Hotel Deutsches Haus</name>
+      <description><![CDATA[<a href="http://www.deutscheshaus-bonn.de" target="_blank">Website</a><br />Kasernenstraße 19-21<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.09915033179214,50.739288706684</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b12bd5ab-05cb-4a2d-966d-58d4f79052bd">
+      <name>Commundo  Tagungshotels</name>
+      <description><![CDATA[Die Commundo Tagungshotels bieten Platz für Tagungen, Seminare, (IT-)Schulungen und Wochenendurlauber<br />Telefon: +49222418877590<br /><a href="http://www.commundo-tagungshotels.de/bad-honnef/bad-honnef.html" target="_blank">Website</a><br />Limbicher Weg 55<br />53604 ]]></description>
+      <Point>
+        <coordinates>7.23836997688358,50.6293400167486</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="820e1f0f-87ac-406b-9fd0-1fb873cf3e90">
+      <name>Hotel/Gasthaus Zur Krone</name>
+      <description><![CDATA[Kronenstraße 17<br />53347 Alfter]]></description>
+      <Point>
+        <coordinates>7.01118119394106,50.7380063906373</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a868e9fd-fbb3-4545-8246-bb698737f9d3">
+      <name>Hotel Zur Erholung</name>
+      <Point>
+        <coordinates>7.11641415492235,50.7330680627907</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="2d2c07b2-5a6d-4c1f-8781-939bc828f330">
+      <name>Hotel Oelberg garni</name>
+      <Point>
+        <coordinates>7.2699673186872,50.706515506797</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="5d2e7b09-0cbc-412a-995a-cbb92e65b05a">
+      <name>Weidenbrück</name>
+      <description><![CDATA[<a href="www.hotel-weidenbrueck.de" target="_blank">Website</a><br />Nachtigallenweg 27<br />53913 Heimerzheim]]></description>
+      <Point>
+        <coordinates>6.91820698472449,50.7157112467788</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1e5dfcf7-cf18-4378-93d5-e0c943a77e41">
+      <name>Kommende Ramersdorf (Schloßhotel)</name>
+      <description><![CDATA[Telefon: +49228440734<br />Telefax: +49228444400<br /><a href="mailto:info@schlosshotel-kommende.de">info@schlosshotel-kommende.de</a><br /><a href="http://www.schlosshotel-kommende-ramersdorf.de/" target="_blank">Website</a><br />Oberkasseler Straße 10<br />53227 Bonn]]></description>
+      <Point>
+        <coordinates>7.16040679668938,50.7254629073261</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="055c3f24-a98c-44f5-be0f-b81b616aa0ee">
+      <name>dbb forum siebengebirge</name>
+      <Point>
+        <coordinates>7.23763699529431,50.6914222227833</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="498827db-a9ce-4800-a440-038f12293323">
+      <name>Hotel Mozart</name>
+      <description><![CDATA[Telefon: 0228 4100140<br /><a href="http://www.hotel-mozart-bonn.com" target="_blank">Website</a><br />Mozartstraße 1<br />53115 Bonn]]></description>
+      <Point>
+        <coordinates>7.09062388244139,50.7325031806994</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="af368290-9f56-40f7-a20c-d53f19880ddb">
+      <name>Hilton Bonn</name>
+      <description><![CDATA[Betreiber: Hilton Worldwide<br />Telefon: +49-228-72690<br /><a href="http://www.placeshilton.com/bonn" target="_blank">Website</a><br />Berliner Freiheit 2<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.10621563221948,50.7381338798358</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a333cb11-0462-4ed3-9653-80ed4da9f75a">
+      <name>Friesdorfer Hof</name>
+      <description><![CDATA[<a href="http://www.friesdorfer.de/" target="_blank">Website</a><br />Bernkasteler Straße 46<br />53175 Bonn]]></description>
+      <Point>
+        <coordinates>7.13012289531565,50.6971897942714</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1e9fdecc-9313-4fe0-b020-7d900690acd3">
+      <name>Kaiserhof</name>
+      <description><![CDATA[Moltkestraße 64<br />53173 Bonn]]></description>
+      <Point>
+        <coordinates>7.15832792911185,50.6839188928558</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="4d804500-9a51-4821-8821-9cd1054a8dbb">
+      <name>acora Hotel und Wohnen Haus 3</name>
+      <description><![CDATA[Westpreußenstraße 24<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.05035586303604,50.749876732875</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="06ff0005-0dee-4223-be29-6d688e7a943f">
+      <name>Stadt Hennef</name>
+      <description><![CDATA[Telefon: +49 2242 92130<br />Telefax: +49 2242 921340<br /><a href="mailto:rezeption@hotel-hennef.de">rezeption@hotel-hennef.de</a><br /><a href="http://www.hotel-hennef.de" target="_blank">Website</a><br />Wehrstraße 46<br />53773 Hennef (Sieg)]]></description>
+      <Point>
+        <coordinates>7.2710434688578,50.7739772903769</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="0a8802a8-f28a-41e3-b8ba-74148c09f9ac">
+      <name>Hotel Kaiserhof</name>
+      <Point>
+        <coordinates>7.20654976305797,50.800457113404</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="488c1c77-0dfe-4b63-87d6-efd719e35871">
+      <name>Saga</name>
+      <description><![CDATA[Telefon: +49 2241 74743<br /><a href="http://www.pinte-saga.de/" target="_blank">Website</a><br />Frankfurter Straße 166<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.18295804483195,50.8125746387219</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="fa75f937-7351-4b9a-9b8f-f30d4167d717">
+      <name>Bristol</name>
+      <Point>
+        <coordinates>7.09975507966459,50.7301373050363</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="3c7a232d-1409-471a-9cb5-ff50060edd31">
+      <name>Hotel Wenzel</name>
+      <description><![CDATA[Hauptstraße 457<br />53639 Königswinter]]></description>
+      <Point>
+        <coordinates>7.1949133461936,50.673055693859</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="f931ddab-6d36-4c94-8159-dff7308e1980">
+      <name>V Hotel</name>
+      <description><![CDATA[Betreiber: V-Hotel GmbH<br /><a href="mailto:rezeption@v-hotel.de">rezeption@v-hotel.de</a><br /><a href="http://www.v-hotel.de" target="_blank">Website</a><br />Haager Weg 44<br />53127 Bonn]]></description>
+      <Point>
+        <coordinates>7.09200108844741,50.6986600779665</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="1dc05d50-f0f4-4d2e-9603-998397246ec5">
+      <name>Hotel Garni Kluth</name>
+      <description><![CDATA[Rochusstraße 221<br />53123 Bonn]]></description>
+      <Point>
+        <coordinates>7.04717578530589,50.7141988710072</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="20108d66-b702-4e54-b0cc-5ad87d03d205">
+      <name>Am Kamin</name>
+      <Point>
+        <coordinates>6.94963329859883,50.6264940157476</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="eb3336d1-6eac-40e1-88a3-5820ed16016e">
+      <name>Kranz Parkhotel</name>
+      <description><![CDATA[Telefon: +49 2241 547-0<br /><a href="www.kranzparkhotel.de" target="_blank">Website</a><br />Mühlenstraße 32<br />53721 Siegburg]]></description>
+      <Point>
+        <coordinates>7.2091339466358,50.7942641880742</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="07975ae4-034d-4e27-9b49-e5c4e3d63611">
+      <name>Haus Humboldtstein</name>
+      <Point>
+        <coordinates>7.20517695764078,50.6346037784601</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="5c222382-9f4a-495f-8f84-e0797db02d11">
+      <name>Aigner</name>
+      <description><![CDATA[<a href="http://www.hotel-aigner.de/" target="_blank">Website</a><br />Dorotheenstraße 12<br />53111 Bonn]]></description>
+      <Point>
+        <coordinates>7.09490435477022,50.7389036607916</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="bc01e93d-1329-4bef-9743-2305d23741de">
+      <name>Altes Brauhaus</name>
+      <description><![CDATA[<a href="http://www.altesbrauhaus.net" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.194867172788,50.6721042657742</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a17460b7-98a9-4e2b-97eb-94a4cdb953b9">
+      <name>Benecke</name>
+      <Point>
+        <coordinates>7.20808049230211,50.630017599789</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="81db9e68-dea6-42df-97ca-5e3c67fd60b2">
+      <name>Weinhaus Hoff</name>
+      <description><![CDATA[Löwenburgstraße 35<br />53604 Bad Honnef]]></description>
+      <Point>
+        <coordinates>7.21385091036118,50.659821870974</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="63aa29e7-b2e0-4fc7-9295-de07cb51b838">
+      <name>Königshof</name>
+      <Point>
+        <coordinates>7.10818139601325,50.7335360975584</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="949a67ad-5b7f-4972-862c-7f7f934983cb">
+      <name>GZ Hotel</name>
+      <description><![CDATA[Telefon: +49-2241-2503990<br /><a href="http://gz-hotel.de/" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>7.19998622243455,50.791187463426</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8e1d3f72-8658-4e87-8367-a08dd5331566">
+      <name>Galerie Design Hotel</name>
+      <Point>
+        <coordinates>7.07816805939619,50.7504465147175</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="642f3393-9cab-4686-8f04-fb648e002eac">
+      <name>Clostermannshof</name>
+      <Point>
+        <coordinates>7.06666714419217,50.8191230292392</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="c3bb8142-f737-4b82-8498-e5b877a75c1f">
+      <name>Hotel zur Post</name>
+      <Point>
+        <coordinates>7.14676391645938,50.7277436862102</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="7754f908-4b9c-4737-9efe-eedc3d0787e7">
+      <name>Zum wilden Schwein</name>
+      <description><![CDATA[Telefon: 0228 74875-0<br /><a href="http://www.hzws.de/" target="_blank">Website</a><br />Rochusstraße 235<br />53123 Bonn]]></description>
+      <Point>
+        <coordinates>7.0459770395651,50.7137198953711</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="adeb1b03-fcd2-4b02-8f68-1104d4967cba">
+      <name>Holiday Inn Express</name>
+      <description><![CDATA[Echternacher Straße 4<br />53842 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.11245547788573,50.8190402736195</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="d6278a27-e383-4916-9ff1-b125490f9928">
+      <name>Regina</name>
+      <description><![CDATA[Hippolytusstraße 23-25<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.15728215387548,50.8140340821534</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="44629bd5-ce0a-4ad5-9e1a-bb0b25d03a2f">
+      <name>acora Hotel und Wohnen Haus 6</name>
+      <description><![CDATA[Westpreußenstraße 30<br />53119 Bonn]]></description>
+      <Point>
+        <coordinates>7.05080556207796,50.7500980921359</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="8987015f-c3f0-4e81-8527-862a5a999d8e">
+      <name>Haus Drachenloch</name>
+      <Point>
+        <coordinates>7.20931935891044,50.6611114023411</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="504a8687-71ea-44f5-a28f-716260a04c33">
+      <name>Insel Hotel</name>
+      <Point>
+        <coordinates>7.1540046969755,50.6834382825681</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a7097688-0e68-4729-b3e3-65f96687e801">
+      <name>Derag Hotel Kanzler</name>
+      <description><![CDATA[Telefon: +492283692442<br />Telefax: +492283692414<br />Adenauerallee 148<br />53113 Bonn]]></description>
+      <Point>
+        <coordinates>7.11280633741167,50.7227202995286</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6a81e16a-376a-411b-978b-c56d464fec97">
+      <name>Hotel Johnel</name>
+      <description><![CDATA[Telefon: +49 2242 969830<br />Telefax: +49 2242 9698322<br /><a href="mailto:hoteljohnel@t-online.de">hoteljohnel@t-online.de</a><br /><a href="http://www.hoteljohnel.de/" target="_blank">Website</a><br />Frankfurter Straße 152<br />]]></description>
+      <Point>
+        <coordinates>7.277256976021,50.7775219688443</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="71f032b4-6458-4d25-b6db-eb774ad226e9">
+      <name>Zum Dorfbrunnen</name>
+      <Point>
+        <coordinates>6.95098418512309,50.7631286635836</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="b68e2e87-c678-4d19-948a-e707b837ab81">
+      <name>Euro Park Hotel Hennef</name>
+      <description><![CDATA[Telefon: +49 2242 8760<br />Telefax: +49 2242 876199<br /><a href="mailto:info@euro-park-hotel.de">info@euro-park-hotel.de</a><br /><a href="http://www.euro-park-hotel.de/" target="_blank">Website</a><br />Reutherstraße 1a-c<br />53773 Hennef (Sieg)]]></description>
+      <Point>
+        <coordinates>7.25733464871699,50.7814617845139</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="fed2ac94-4e48-437e-9ac2-f91f9510927c">
+      <name>Hotel Augustiner Hof</name>
+      <description><![CDATA[Telefon: +49 2241 9288-0<br />Telefax: +49 2241 21304<br /><a href="mailto:hotel@augustinerhof.de">hotel@augustinerhof.de</a><br /><a href="www.augustinerhof.de" target="_blank">Website</a><br />Uhlandstraße 8<br />53757 Sankt Augustin]]></description>
+      <Point>
+        <coordinates>7.1845302618345,50.7712635789915</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="6a609530-a42a-4a78-bc8a-663cd65c656d">
+      <name>Klosterstuben</name>
+      <description><![CDATA[Betreiber: Simic<br />Telefon: +49 2254 830789<br />Telefax: +49 2254 830786<br /><a href="mailto:info@hotel-klosterstuben.com">info@hotel-klosterstuben.com</a><br /><a href="www.hotel-klosterstuben.com" target="_blank">Website</a>]]></description>
+      <Point>
+        <coordinates>6.91324656845199,50.715350047531</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="f506bb3c-c70d-4f81-bb6b-ea862318866b">
+      <name>Hotel Kronprinz</name>
+      <description><![CDATA[Telefon: 02241/9849-0<br />Telefax: 02241/9849-99<br /><a href="mailto:info@kronprinzhotel.de">info@kronprinzhotel.de</a><br /><a href="www.daskronprinz.de" target="_blank">Website</a><br />Poststraße 87<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.15260352793532,50.8140405263056</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="157a1891-48c3-4334-8246-17251a186fcd">
+      <name>Schmerbroicher Hof</name>
+      <description><![CDATA[Betreiber: Elfriede Schmitt<br />Telefon: 02241 / 34 88-0<br />Telefax: 02241 / 34 88 34<br /><a href="mailto:Schmerbroicher-hof@t-online.de">Schmerbroicher-hof@t-online.de</a><br /><a href="http://www.schmerbroicher-hof.de" target="_blank">Website</a><br />Pleistalstraße 90<br />53757 Sankt Augustin]]></description>
+      <Point>
+        <coordinates>7.21553668882336,50.7627354609906</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="108a3dc4-2d32-4ed7-9301-fa1c44838971">
+      <name>Seminaris Bad Honnef</name>
+      <description><![CDATA[Betreiber: Seminaris Hotel- und Kongressstätten Betriebsgesellschaft m.b.H.<br />Telefon: +49-2224-7710<br /><a href="http://www.seminaris.de/hotels/seminaris-hotel-bad-honnef.html" target="_blank">Website</a><br />Alexander-von-Humboldt-Straße 20<br />53604 Bad Honnef]]></description>
+      <Point>
+        <coordinates>7.22060095559748,50.6466881584105</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark id="a166fe61-5e9c-4e68-8856-2f4baffbda8b">
+      <name>Central Hotel</name>
+      <description><![CDATA[Kölner Straße 96<br />53840 Troisdorf]]></description>
+      <Point>
+        <coordinates>7.15408158213909,50.8158860190418</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

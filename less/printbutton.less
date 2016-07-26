@@ -1,0 +1,12 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+
+@g4u-printbutton-icon: url("../images/icons/print2.svg");
+@g4u-printbutton-blinking-icon: url("../images/icons/print-animation.svg");
+
+.g4u-desktop {
+  .g4u-printbutton.g4u-control-mainbutton {
+    .buttonSquaredWithIcon(@g4u-printbutton-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+  }
+}

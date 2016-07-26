@@ -1,0 +1,18 @@
+@import "./lengths";
+@import "./colors";
+@import "./misc";
+
+.g4u-desktop {
+  .g4u-mouseposition {
+    .g4u-mouse-position-colors;
+    .g4u-desktop-text-padding;
+    position: absolute;
+    font-weight: bold;
+
+    height: @g4u-desktop-button-size;
+    min-width: @g4u-desktop-button-size;
+    border-radius: @g4u-desktop-large-border-radius;
+
+    white-space: nowrap;
+  }
+}

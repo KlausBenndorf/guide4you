@@ -1,0 +1,49 @@
+@import "~lessConfig";
+
+@g4u-em-factor: 0.76;
+
+@g4u-tiny: 1px; // As tiny as possible
+
+// desktop
+
+@g4u-desktop-offset: round(4 * @g4u-desktop-huge-fontsize / 16);
+@g4u-desktop-padding: round(3 * @g4u-desktop-huge-fontsize / 16);
+@g4u-desktop-border-width: round(2 * @g4u-desktop-huge-fontsize / 16);
+@g4u-desktop-ruler-linewidth: round(1 * @g4u-desktop-huge-fontsize / 16);
+
+@g4u-desktop-tiny-fontsize: round(8 * @g4u-desktop-huge-fontsize / 16);
+@g4u-desktop-small-fontsize: round(10 * @g4u-desktop-huge-fontsize / 16);
+@g4u-desktop-normal-fontsize: round(12 * @g4u-desktop-huge-fontsize / 16);
+@g4u-desktop-big-fontsize: round(14 * @g4u-desktop-huge-fontsize / 16);
+
+@g4u-desktop-normal-lineheight: round(15 * @g4u-desktop-huge-fontsize / 16);
+
+@g4u-desktop-small-border-radius: round(1.4 * @g4u-desktop-padding);
+@g4u-desktop-large-border-radius: 2 * @g4u-desktop-padding;
+
+@g4u-desktop-button-size: @g4u-desktop-huge-fontsize + 2 * @g4u-desktop-padding; // icons shall have not occupy the whole button
+
+@g4u-desktop-em: round(@g4u-em-factor * @g4u-desktop-huge-fontsize);
+
+.desktop-sizes(@g4u-desktop-em);
+
+// mobile
+
+@g4u-mobile-offset: round(4 * @g4u-mobile-huge-fontsize / 16);
+@g4u-mobile-padding:  round(3 * @g4u-mobile-huge-fontsize / 16);
+@g4u-mobile-border-width: round(2 * @g4u-mobile-huge-fontsize / 16);
+@g4u-mobile-ruler-linewidth: round(1 * @g4u-mobile-huge-fontsize / 16);
+
+@g4u-mobile-tiny-fontsize: round(8 * @g4u-mobile-huge-fontsize / 16);
+@g4u-mobile-small-fontsize: round(10 * @g4u-mobile-huge-fontsize / 16);
+@g4u-mobile-normal-fontsize: round(12 * @g4u-mobile-huge-fontsize / 16);
+@g4u-mobile-big-fontsize: round(14 * @g4u-mobile-huge-fontsize / 16);
+
+@g4u-mobile-normal-lineheight: round(15 * @g4u-mobile-huge-fontsize / 16);
+
+@g4u-mobile-small-border-radius: round(1.4 * @g4u-mobile-padding);
+@g4u-mobile-large-border-radius: 2 * @g4u-mobile-padding;
+
+@g4u-mobile-button-size: @g4u-mobile-huge-fontsize + 4 * @g4u-mobile-padding; // icons shall have not occupy the whole button
+
+@g4u-mobile-em: round(@g4u-em-factor * @g4u-mobile-huge-fontsize);

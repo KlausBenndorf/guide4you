@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="100%" height="100%" viewBox="0 0 2100 3150">
+<style type="text/css">
+    <![CDATA[
+    polygon {
+        fill: {{{svgColor}}};
+        stroke: {{{svgColor}}};
+        stroke-width: 80;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill-opacity: 0.9;
+        stroke-opacity: 1;
+    }
+    ]]>
+    </style>
+<polygon points="470,150 470,2300 120,2300 620,3000 1120,2300, 770,2300 770,150" />
+<polygon transform="translate(850) rotate(180,620,1575)" points="470,150 470,2300 120,2300 620,3000 1120,2300, 770,2300 770,150"/>
+</svg>

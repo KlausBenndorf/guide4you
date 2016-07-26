@@ -1,0 +1,36 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+@g4u-distance-icon: url("../images/icons/ruler.svg");
+@g4u-area-icon: url("../images/icons/area.svg");
+
+.g4u-desktop {
+  .g4u-distance-measurement {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-distance-icon; @g4u-desktop-button-size; @g4u-desktop-button-size);
+    }
+
+    .g4u-distance-measurement-value {
+      font-weight: bold;
+
+      > span {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .g4u-area-measurement {
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-area-icon; @g4u-desktop-button-size; @g4u-desktop-button-size);
+    }
+
+    .g4u-area-measurement-value {
+      font-weight: bold;
+
+      > span {
+        font-weight: bold;
+      }
+    }
+  }
+}

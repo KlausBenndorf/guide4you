@@ -1,0 +1,80 @@
+﻿@import "./lengths";
+@import "./colors";
+@import "./misc";
+
+.tooltip() {
+  pointer-events: none;
+
+  .g4u-tooltip-colors;
+  .g4u-content-box-sizing;
+  .g4u-desktop-text-padding;
+  left: @g4u-tooltip-offset !important;
+  top: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+  white-space: nowrap;
+  border: @g4u-tiny @g4u-medium-main-color solid;
+  border-radius: @g4u-desktop-large-border-radius;
+  line-height: @g4u-desktop-normal-lineheight;
+  width: auto;
+  z-index: 200;
+}
+
+.g4u-disable-hover() {
+  &:hover,
+  &:focus {
+    [role=tooltip] {
+      display: none;
+    }
+  }
+}
+
+.g4u-tooltip-left-below() {
+  [role=tooltip] {
+    top: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+  }
+}
+
+.g4u-tooltip-right-above() {
+  [role=tooltip] {
+    top: auto !important;
+    bottom: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+  }
+}
+
+.g4u-tooltip-left-above() {
+  [role=tooltip] {
+    top: auto !important;
+    bottom: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+    left: auto !important;
+    right: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+  }
+}
+
+.g4u-desktop {
+  .g4u-featuretooltip-container {
+    z-index: 100;
+  }
+
+  .g4u-featuretooltip {
+    .tooltip();
+  }
+
+  .tooltip-enable-hover() {
+    &:hover {
+      [role=tooltip] {
+        position: absolute;
+        display: block;
+      }
+    }
+  }
+
+  .g4u-has-tooltip {
+    [role=tooltip] {
+      .tooltip();
+      display: none;
+    }
+    .tooltip-enable-hover();
+  }
+}

@@ -1,0 +1,67 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+
+@g4u-arrowbutton-center-icon: url("../images/icons/arrow/center.svg");
+@g4u-arrowbutton-down-icon: url("../images/icons/arrow/down.svg");
+@g4u-arrowbutton-left-icon: url("../images/icons/arrow/left.svg");
+@g4u-arrowbutton-right-icon: url("../images/icons/arrow/right.svg");
+@g4u-arrowbutton-up-icon: url("../images/icons/arrow/up.svg");
+
+.g4u-desktop {
+  .g4u-arrowbuttons {
+    position: absolute;
+    width: 2 * @g4u-desktop-padding + 3 * @g4u-desktop-button-size;
+    height: 2 * @g4u-desktop-padding + 3 * @g4u-desktop-button-size;
+    border-radius: @g4u-desktop-large-border-radius;
+
+    button {
+      .g4u-symbol-colors;
+      width: @g4u-desktop-button-size;
+      height: @g4u-desktop-button-size;
+    }
+
+    .g4u-arrowbuttons-left {
+      top: @g4u-desktop-padding + 1 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 2nd button row
+      left: @g4u-desktop-padding + 0 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 1st button column
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      .buttonSquaredWithIcon(@g4u-arrowbutton-left-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      position: absolute;
+    }
+
+    .g4u-arrowbuttons-right {
+      top: @g4u-desktop-padding + 1 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 2nd button row
+      left: @g4u-desktop-padding + 2 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 3rd button column
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+      .buttonSquaredWithIcon(@g4u-arrowbutton-right-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      position: absolute;
+    }
+
+    .g4u-arrowbuttons-up {
+      top: @g4u-desktop-padding + 0 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 1st button row
+      left: @g4u-desktop-padding + 1 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 2nd button column
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      .buttonSquaredWithIcon(@g4u-arrowbutton-up-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      position: absolute;
+    }
+
+    .g4u-arrowbuttons-down {
+      top: @g4u-desktop-padding + 2 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 3rd button row
+      left: @g4u-desktop-padding + 1 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 2nd button column
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+      .buttonSquaredWithIcon(@g4u-arrowbutton-down-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      position: absolute;
+    }
+
+    .g4u-arrowbuttons-center {
+      top: @g4u-desktop-padding + 1 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 2nd button row
+      left: @g4u-desktop-padding + 1 * (@g4u-desktop-button-size + @g4u-desktop-padding); // 2nd button column
+      .buttonSquaredWithIcon(@g4u-arrowbutton-center-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      position: absolute;
+    }
+  }
+}

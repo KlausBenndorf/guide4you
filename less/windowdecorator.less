@@ -1,0 +1,31 @@
+@import "./lengths";
+@import "./colors";
+@import "./misc";
+
+.g4u-desktop {
+  .g4u-window-decorator {
+    position: relative;
+  }
+
+  .g4u-windowed-control {
+    padding: 0;
+
+    .g4u-window {
+      .g4u-content-box-sizing;
+      position: absolute;
+      top: @g4u-desktop-offset + @g4u-desktop-button-size + 3 * @g4u-desktop-padding;
+
+      .g4u-window-content {
+        &:not(input) {
+          .g4u-no-user-select;
+        }
+      }
+    }
+  }
+
+  .g4u-window-decorator {
+    .g4u-window {
+      position: absolute;
+    }
+  }
+}

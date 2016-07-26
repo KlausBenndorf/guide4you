@@ -1,0 +1,78 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+.g4u-desktop {
+  .g4u-languageswitcher-button {
+    .buttonSquared(@g4u-desktop-button-size);
+    text-align: center;
+    text-transform: uppercase;
+    [role=tooltip] {
+      text-transform: none;
+    }
+  }
+
+  .g4u-languageswitchermenu {
+    width: @g4u-desktop-button-size;
+    .g4u-dropdown {
+      width: @g4u-languageswitcher-width;
+      margin-left: @g4u-desktop-border-width;
+      margin-top: @g4u-desktop-border-width;
+    }
+
+    padding: 0;
+
+    button.g4u-languageswitchermenu-button {
+      .buttonSquared(@g4u-desktop-button-size);
+      text-align: center;
+      text-transform: uppercase;
+
+      [role=tooltip] {
+        text-transform: none;
+      }
+    }
+  }
+}
+
+.g4u-mobile {
+
+  .g4u-control-mainbutton.g4u-languageswitcher {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: @g4u-mobile-normal-fontsize;
+  }
+
+  .g4u-languageswitchermenu {
+    .g4u-control-mainbutton {
+      text-align: center;
+      text-transform: uppercase;
+      font-size: @g4u-mobile-normal-fontsize;
+    }
+    button {
+      display: none;
+    }
+
+    .g4u-dropdown {
+      display: block !important;
+    }
+
+    padding: 0;
+    margin: 0;
+
+    li {
+      cursor: default;
+      list-style: none;
+      padding: @g4u-mobile-padding;
+      background: white;
+      color: black;
+    }
+  }
+
+  .g4u-languageswitcher-button {
+    text-align: center;
+    text-transform: uppercase;
+    [role=tooltip] {
+      text-transform: none;
+    }
+  }
+}

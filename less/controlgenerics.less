@@ -1,0 +1,137 @@
+// This file contains all generic informations for button styling
+// standard styling for all buttons
+// and mixins for further specifying the type of the button
+
+.ol-control {
+  cursor: default;
+
+  button {
+    .g4u-symbol-colors;
+    white-space: nowrap;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+
+    &::-moz-focus-inner {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  a {
+    padding: 0;
+  }
+}
+
+.button(@button-size) {
+  height: @button-size;
+  position: relative; // needed for a.) the icons and  b.) the tooltips
+}
+
+.buttonSquared(@button-size) {
+  .button(@button-size);
+  width: @button-size;
+  height: @button-size;
+}
+
+.buttonSquaredWithIcon(@iconurl; @button-size; @iconsize) {
+  .buttonSquared(@button-size);
+  .buttonWithIcon(@iconurl; @button-size; @iconsize);
+}
+
+.buttonWithIcon(@iconurl; @button-size; @iconsize) {
+  .button(@button-size);
+  padding: 0;
+  color: transparent;
+
+  &:hover {
+    color: transparent;
+  }
+
+  &:focus {
+    color: transparent;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: round(0.5 * ( @button-size - @iconsize ));
+    left: round(0.5 * ( @button-size - @iconsize ));
+    width: @iconsize;
+    height: @iconsize;
+    background-image: @iconurl;
+    background-repeat: no-repeat;
+  }
+}
+
+.changeIcon(@iconurl) {
+  &:before {
+    background-image: @iconurl;
+  }
+}
+
+.changeIcon(@iconurl, @button-size, @iconsize) {
+  .changeIcon(@iconurl);
+
+  &:before {
+    top: round(0.5 * ( @button-size - @iconsize ));
+    left: round(0.5 * ( @button-size - @iconsize ));
+    width: @iconsize;
+    height: @iconsize;
+  }
+}
+
+.buttonWithIconBefore(@iconurl, @button-size, @iconsize) {
+  .button(@button-size);
+
+  &:before {
+    content: @iconurl;
+    width: @iconsize;
+    height: @iconsize;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 round((@button-size - @iconsize) / 2);
+  }
+}
+
+.buttonWithIconAfter(@iconurl, @button-size, @iconsize) {
+  .button(@button-size);
+
+  &:after {
+    content: @iconurl;
+    width: @iconsize;
+    height: @iconsize;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding: 0 round((@button-size - @iconsize) / 2);
+  }
+}
+
+.changeIconBefore(@iconurl) {
+  &:before {
+    content: @iconurl;
+  }
+}
+
+.changeIconBefore(@iconurl, @iconsize) {
+  &:before {
+    content: @iconurl;
+    width: @iconsize;
+    height: @iconsize;
+  }
+}
+
+.changeIconAfter(@iconurl) {
+  &:after {
+    content: @iconurl;
+  }
+}
+
+.changeIconAfter(@iconurl, @iconsize) {
+  &:after {
+    content: @iconurl;
+    width: @iconsize;
+    height: @iconsize;
+  }
+}

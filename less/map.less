@@ -1,0 +1,185 @@
+@import "./lengths";
+@import "./colors";
+@import "./misc";
+@import "./fonts";
+
+@import "./print";
+
+a {
+  color: @g4u-link-color;
+  background: transparent;
+}
+
+.g4u-desktop {
+  .ol-overlaycontainer-stopevent > div.ol-control {
+    // ol.controls which are direct childs of the overlay container have grey background
+    background: @g4u-control-background;
+    padding: @g4u-desktop-padding;
+  }
+
+  &.g4u-mouse-down {
+    :not(.g4u-clickable) {
+      .g4u-cursor-grabbing;
+    }
+  }
+
+  &.g4u-clickable {
+    cursor: pointer;
+  }
+
+  &.g4u-crosshair {
+    cursor: crosshair;
+  }
+
+  &.g4u-arrow {
+    cursor: default;
+  }
+
+  &.g4u-move {
+    cursor: move;
+  }
+
+  .g4u-cursor-grab();
+
+  // Some generic settings
+  * {
+    .g4u-content-box-sizing;
+    font-family: @g4u-text-fonts;
+    font-size: @g4u-desktop-normal-fontsize;
+    line-height: @g4u-desktop-normal-lineheight;
+    font-weight: 100;
+    text-decoration: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  h1, h2 {
+    font-size: @g4u-desktop-big-fontsize;
+  }
+
+  h1, h3 {
+    font-weight: 800;
+  }
+
+  h2, h4 {
+    font-weight: 600;
+  }
+
+  .ol-unselectable {
+    .g4u-no-user-select;
+  }
+
+  button {
+    cursor: pointer;
+    height: @g4u-desktop-button-size;
+    text-align: left;
+
+    &:hover {
+      .g4u-symbol-colors;
+      background: @g4u-theme-main-background;
+      cursor: pointer;
+    }
+  }
+
+  .ol-full-screen-false:after {
+    content: "\\002194";
+  }
+
+  .ol-full-screen-true:after {
+    content: "\\0000d7";
+  }
+
+  .ol-overlaycontainer-stopevent > .g4u-search-control {
+    position: absolute;
+    border-radius: @g4u-desktop-large-border-radius;
+
+    button {
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+    }
+
+    .g4u-search-control-textfield {
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+    }
+  }
+
+  .ol-unsupported {
+    display: none;
+  }
+}
+
+.g4u-mobile {
+  .ol-overlaycontainer-stopevent {
+    > :not(.g4u-mobilecontrols) {
+      display: none;
+    }
+  }
+
+  .g4u-mobilecontrols {
+    display: block;
+  }
+
+  .g4u-featuretooltip {
+    display: none;
+  }
+
+  .ol-overlaycontainer-stopevent > div.ol-control {
+    padding: 0;
+  }
+
+  [role=tooltip] {
+    display: none !important;
+  }
+
+  .ol-control {
+    background: transparent;
+    padding: 0;
+  }
+
+  * {
+    .g4u-content-box-sizing;
+    font-size: @g4u-mobile-normal-fontsize;
+    line-height: @g4u-mobile-normal-lineheight;
+    font-weight: 100;
+    text-decoration: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  h1, h2 {
+    font-size: @g4u-mobile-big-fontsize;
+  }
+
+  h1, h3 {
+    font-weight: 800;
+  }
+
+  h2, h4 {
+    font-weight: 600;
+  }
+
+  background: white;
+  font-family: sans-serif;
+  margin: 0;
+
+  [role=tooltip] {
+    display: none;
+  }
+
+  &.ol-viewport {
+    z-index: 0;
+  }
+
+  .ol-unselectable {
+    .g4u-no-user-select;
+  }
+
+  .ol-overlaycontainer-stopevent > div.ol-control {
+    background: rgba(255, 255, 255, 0);
+  }
+}

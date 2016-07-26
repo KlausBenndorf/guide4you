@@ -1,0 +1,30 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+@g4u-geolocation-icon-active: url("../images/icons/current_location/active.svg");
+@g4u-geolocation-icon-inactive: url("../images/icons/current_location/inactive.svg");
+
+.g4u-desktop {
+  .g4u-geolocation {
+    &.g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-geolocation-icon-inactive; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+
+      &.g4u-geolocation-pushed {
+        .changeIcon(@g4u-geolocation-icon-active);
+      }
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-geolocation {
+    &.g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-geolocation-icon-inactive; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+
+      &.g4u-geolocation-pushed {
+        .changeIcon(@g4u-geolocation-icon-active);
+      }
+    }
+  }
+}

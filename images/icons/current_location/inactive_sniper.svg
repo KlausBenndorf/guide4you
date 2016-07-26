@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 2000 2000">
+	<circle cx="1000" cy="1000" r="850" style="stroke:{{{svgColor}}}; stroke-width:200; fill:none;" />
+	<line x1="1000" y1="1850" x2="1000" y2="150" style="stroke:{{{svgColor}}}; stroke-width:5;" />
+	<line x1="1850" y1="1000" x2="150" y2="1000" style="stroke:{{{svgColor}}}; stroke-width:5;" />
+	<line x1="1000" y1="1875" x2="1000" y2="1325" style="stroke:{{{svgColor}}}; stroke-width:250;" />
+	<line x1="1000" y1="175" x2="1000" y2="675" style="stroke:{{{svgColor}}}; stroke-width:250;" />
+	<line x1="1875" y1="1000" x2="1325" y2="1000" style="stroke:{{{svgColor}}}; stroke-width:250;" />
+	<line x1="175" y1="1000" x2="675" y2="1000" style="stroke:{{{svgColor}}}; stroke-width:250;" />
+	<line x1="920" y1="960" x2="920" y2="1040" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line x1="840" y1="920" x2="840" y2="1080" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line x1="760" y1="880" x2="760" y2="1120" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line x1="1080" y1="960" x2="1080" y2="1040" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line x1="1160" y1="920" x2="1160" y2="1080" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line x1="1240" y1="880" x2="1240" y2="1120" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line y1="920" x1="960" y2="920" x2="1040" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line y1="840" x1="920" y2="840" x2="1080" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line y1="760" x1="880" y2="760" x2="1120" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line y1="1080" x1="960" y2="1080" x2="1040" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line y1="1160" x1="920" y2="1160" x2="1080" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+	<line y1="1240" x1="880" y2="1240" x2="1120" style="stroke:{{{svgColor}}}; stroke-width:20;" />
+</svg>
