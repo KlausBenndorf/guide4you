@@ -1,8 +1,13 @@
 {
   "name": "guide4you-module-search",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A search parser module for Guide4You.",
-  "keywords": [ "search", "map", "map client", "openlayers" ],
+  "keywords": [
+    "search",
+    "map",
+    "map client",
+    "openlayers"
+  ],
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you-module-search",
   "contributors": [
