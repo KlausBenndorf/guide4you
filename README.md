@@ -26,9 +26,9 @@ With the basic system **GUIDE4YOU** can:
 
 With additional modules it can also:
 
-* Generate links so you can share a certain view of a map. That view can include a location marker and a description of the location in question.
-* Edit GPX data
-* Search for locations using [Nominatim](https://nominatim.openstreetmap.org/)
+* [URLAPI module](https://github.com/KlausBenndorf/guide4you-module-urlapi): Generate links so you can share a certain view of a map. That view can include a location marker and a description of the location in question.
+* [Search module](https://github.com/KlausBenndorf/guide4you-module-search): Search for locations using [Nominatim](https://nominatim.openstreetmap.org/). Alternatively you can customize this module to use other engines.
+* Edit GPX data (coming soon)
 * &hellip;
 
 ## Why use GUIDE4YOU?
@@ -39,6 +39,7 @@ Compared to alternative software **GUIDE4YOU** provides a couple of interesting 
 * Support for new languages can easily be added
 * Icons are vector graphics (SVG) so they can be scaled to whatever size seems suitable
 * No separate mobile and desktop versions
+* Easily extensible
 
 ## Which browsers are supported?
 
