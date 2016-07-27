@@ -20,25 +20,25 @@
     "url": "https://github.com/KlausBenndorf/guide4you"
   },
   "dependencies": {
-    "csscolorparser": "~1.0.2",
-    "guide4you-builder": "1.0.*",
+    "csscolorparser": "1.0.2",
+    "guide4you-builder": "1.0.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
-    "iscroll": "^5.2.0",
+    "iscroll": "5.2.0",
     "jquery": "3.1.0",
     "lodash": "4.14.0",
-    "notifyjs-browser": "~0.4.2",
+    "notifyjs-browser": "0.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_3.16",
-    "proj4": "latest",
-    "strip-json-comments": "^2.0.1"
+    "proj4": "2.3.14",
+    "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
-    "concurrently": "^2.2.0",
-    "esdoc": "^0.4.7",
-    "mocha": "^2.2.5",
-    "pre-commit": "^1.1.3",
-    "selenium-webdriver": "^2.46.1",
-    "standard": "^7.0.1",
-    "wait-on": "^1.5.2"
+    "concurrently": "2.2.0",
+    "esdoc": "0.4.7",
+    "mocha": "2.5.3",
+    "pre-commit": "1.1.3",
+    "selenium-webdriver": "2.53.3",
+    "standard": "7.1.2",
+    "wait-on": "1.5.2"
   },
   "scripts": {
     "build": "g4u-build -m prod -c",
