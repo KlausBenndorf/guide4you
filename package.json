@@ -24,12 +24,12 @@
     "guide4you-builder": "1.0.*",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "^5.2.0",
-    "jquery": "2.*",
-    "lodash": "4.6.1",
+    "jquery": "3.1.0",
+    "lodash": "4.14.0",
     "notifyjs-browser": "~0.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_3.16",
     "proj4": "latest",
-    "strip-json-comments": "^1.0.1"
+    "strip-json-comments": "^2.0.1"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
