@@ -1,7 +1,7 @@
 {
   "name": "guide4you-module-urlapi",
   "version": "1.0.0",
-  "description": "A urlapi module for Guide4You.",
+  "description": "An urlapi module for Guide4You.",
   "keywords": [ "urlapi", "map", "map client", "openlayers" ],
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you-module-urlapi",
