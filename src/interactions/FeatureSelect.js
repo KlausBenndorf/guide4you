@@ -1,6 +1,9 @@
 import ol from 'openlayers'
 import sortBy from 'lodash/sortBy'
 
+// import license
+import 'file?name=licenses/lodash.txt!node_modules/lodash/LICENSE'
+
 /**
  * This interaction is a little further customized select interaction.
  * Selected features get sorted by geometry type.

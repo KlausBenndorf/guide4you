@@ -7,6 +7,9 @@ import { cssClasses } from '../globals'
 
 import IScroll from 'iscroll/build/iscroll'
 
+// import license
+import 'file?name=licenses/iScroll.txt!node_modules/iscroll/LICENSE'
+
 import '../../less/window.less'
 
 /**
