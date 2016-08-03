@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import stripJsonComments from 'strip-json-comments/strip-json-comments'
+import stripJsonComments from 'strip-json-comments'
 import Debug from './Debug'
 
 /**

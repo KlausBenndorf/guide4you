@@ -1,7 +1,7 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import stripJsonComments from 'strip-json-comments/strip-json-comments'
+import stripJsonComments from 'strip-json-comments'
 import 'file?name=licenses/strip-json-comments.[ext]!strip-json-comments/license'
 
 import MapConfigurator from './configurators/MapConfigurator'
