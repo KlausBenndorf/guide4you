@@ -409,7 +409,7 @@ export function mixin (baseClass, mixinClass) {
  * @param stringWithEntities string with encoded HTML entities
  * @returns {string}
  */
-export function decodedEntities (stringWithEntities) {
+export function decodeEntities (stringWithEntities) {
   let temp = document.createElement('p') // an paragraph element to used for decoding
   temp.innerHTML = stringWithEntities // the inner HTML be the string with encoded HTML entities
   let stringWithoutEntities = temp.textContent || temp.innerText // get text content of paragraph element

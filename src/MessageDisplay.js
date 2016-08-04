@@ -1,6 +1,6 @@
 import 'notifyjs-browser'
 import $ from 'jquery'
-import { decodedEntities } from './utilities'
+import { decodeEntities } from './utilities'
 
 /**
  * @typedef {object} MessageReducedDisplayOptions
@@ -87,7 +87,7 @@ export default class MessageDisplay {
     if (options.hasOwnProperty('className')) { msgOptions.className = options.className }
     if (options.hasOwnProperty('position')) { msgOptions.position = options.position }
 
-    this.$element_.notify(decodedEntities(message), msgOptions)
+    this.$element_.notify(decodeEntities(message), msgOptions)
 
     // HOTFIX for notifyjs issue
     $('.notifyjs-wrapper').click(() => {
