@@ -2,7 +2,7 @@ import $ from 'jquery'
 
 import Control from './Control'
 import { checkFor, even, finishAllImages } from '../utilities'
-import stripJsonComments from 'strip-json-comments/strip-json-comments'
+import stripJsonComments from 'strip-json-comments'
 import Debug from '../Debug'
 
 import '../../less/helpbutton.less'
