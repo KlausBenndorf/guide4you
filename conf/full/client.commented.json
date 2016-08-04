@@ -1,4 +1,8 @@
 {
+/*
+ * This software uses strip-json-comments so you can comment in any JSON-file.
+ */
+// Beware of breaking the JSON-syntax!
   "proxy": "{{{ajaxProxy}}}",
   "languageSettings": {
     "currentLanguage": "en",
