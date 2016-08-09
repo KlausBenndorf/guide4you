@@ -44,10 +44,11 @@
   "scripts": {
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
+    "pretest": "g4u-buildTests",
     "lint": "eslint src/",
     "pretest": "g4u-buildTests",
     "runTests": "npm run lint && wait-on -l http://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"npm run dev conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   },
   "pre-commit": [
