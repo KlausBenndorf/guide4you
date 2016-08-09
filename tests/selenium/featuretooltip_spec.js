@@ -69,8 +69,8 @@ test.describe('FeatureTooltip', function () {
     this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
-    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
-    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
+    // driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
+    // driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
 
   test.after(function () {
@@ -78,7 +78,6 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show no tooltip if there is no feature under the mouse', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(function () {
         driver.actions()
@@ -94,7 +93,6 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a point feature under the mouse and 2:' +
     ' should hide the tooltip if the mouse moves somewhere else', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -106,9 +104,8 @@ test.describe('FeatureTooltip', function () {
       driver.actions()
         .mouseMove(viewport)
         .perform()
-        .then(function () {
-          return driver.findElement(By.className('g4u-featuretooltip'))
-        }).then(featureTooltip => {
+        .then(() => {
+          let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
           assert(featureTooltip.isDisplayed()).equalTo(true)
           assert(featureTooltip.getText()).equalTo('name')
           // 2:
@@ -125,68 +122,63 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a line feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
-    this.timeout(config.mochaTimeout)
-
-    driver.get(config.testClient).then(function () {
-      waitUntilMapReady(driver).then(function () {
-        driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'name', 'description', 1000))
-          .then(function () {
-            let viewport = driver.findElement(By.className('ol-viewport'))
-            // 1:
-            driver.actions()
-              .mouseMove(viewport)
-              .perform().then(function () {
-                let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
-                assert(featureTooltip.isDisplayed()).equalTo(true)
-                assert(featureTooltip.getText()).equalTo('name')
-                // 2:
-                driver.actions()
-                  .mouseMove(viewport, { x: 0, y: 0 })
-                  .perform()
-                  .then(function () {
-                    assert(featureTooltip.isDisplayed()).equalTo(false)
-                    done()
-                  })
-              })
-          })
-      })
+    driver.get(config.testClient).then(() => {
+      return waitUntilMapReady(driver)
+    }).then(() => {
+      return driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'name', 'description', 1000))
+    }).then(() => {
+      return driver.findElement(By.className('ol-viewport'))
+    }).then(viewport => {
+      // 1:
+      driver.actions()
+        .mouseMove(viewport)
+        .perform().then(() => {
+          let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
+          assert(featureTooltip.isDisplayed()).equalTo(true)
+          assert(featureTooltip.getText()).equalTo('name')
+          // 2:
+          driver.actions()
+            .mouseMove(viewport, { x: 0, y: 0 })
+            .perform()
+            .then(() => {
+              assert(featureTooltip.isDisplayed()).equalTo(false)
+              done()
+            })
+        })
     })
   })
 
   test.it('should 1: show a tooltip with the name of the feature if there is a polygon feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
-    this.timeout(config.mochaTimeout)
-
-    driver.get(config.testClient).then(function () {
-      waitUntilMapReady(driver).then(function () {
-        driver.executeScript(stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'name', 'description', 1000))
-          .then(function () {
-            let viewport = driver.findElement(By.className('ol-viewport'))
-            let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
-            // 1:
-            driver.actions()
-              .mouseMove(viewport)
-              .perform()
-              .then(function () {
-                assert(featureTooltip.isDisplayed()).equalTo(true)
-                assert(featureTooltip.getText()).equalTo('name')
-                // 2:
-                driver.actions()
-                  .mouseMove(viewport, { x: 0, y: 0 })
-                  .perform()
-                  .then(function () {
-                    assert(featureTooltip.isDisplayed()).equalTo(false)
-                    done()
-                  })
-              })
-          })
-      })
+    driver.get(config.testClient).then(() => {
+      return waitUntilMapReady(driver)
+    }).then(() => {
+      return driver.executeScript(
+        stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'name', 'description', 1000))
+    }).then(() => {
+      return driver.findElement(By.className('ol-viewport'))
+    }).then(viewport => {
+      let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
+      // 1:
+      driver.actions()
+        .mouseMove(viewport)
+        .perform()
+        .then(() => {
+          assert(featureTooltip.isDisplayed()).equalTo(true)
+          assert(featureTooltip.getText()).equalTo('name')
+          // 2:
+          driver.actions()
+            .mouseMove(viewport, { x: 0, y: 0 })
+            .perform()
+            .then(() => {
+              assert(featureTooltip.isDisplayed()).equalTo(false)
+              done()
+            })
+        })
     })
   })
 
   test.it('should show the tooltip of a point lying under a polygon', function (done) {
-    this.timeout(config.mochaTimeout)
-
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(function () {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
@@ -196,7 +188,6 @@ test.describe('FeatureTooltip', function () {
       }).then(function () {
         let viewport = driver.findElement(By.className('ol-viewport'))
         viewport.getSize().then(function (size) {
-          // console.log(JSON.stringify(size, null, 2))
           // 1:
           driver.actions()
             .mouseMove(viewport, { x: Math.round(size.width / 2 + 15), y: Math.round(size.height / 2 + 15) })
@@ -221,8 +212,6 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show the tooltip of a line lying under a polygon', function (done) {
-    this.timeout(config.mochaTimeout)
-
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(function () {
         driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'nameLine', 'description', 1000))
