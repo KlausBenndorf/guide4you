@@ -1,6 +1,7 @@
 import webdriver from 'selenium-webdriver'
 import phantomDriver from './customPhantomDriver'
 import test from 'selenium-webdriver/testing/'
+import assert from 'selenium-webdriver/testing/assert.js'
 
 import config from './config.js'
 
@@ -23,8 +24,6 @@ test.describe('measurementButton', function () {
     this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
-    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
-    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
 
   test.after(function () {
@@ -123,18 +122,14 @@ test.describe('measurementButton', function () {
         return waitUntilMapReady(driver)
       })
       .then(function () {
-        return driver.findElement(By.css('.g4u-window-decorator.g4u-distance-measurement'))
+        return driver.findElement(By.css('.g4u-distance-measurement .g4u-control-mainbutton'))
           .click()
       })
       .then(function () {
-        return driver
-          .findElement(By.css('.g4u-window-component.g4u-distance-measurement'))
+        let visible = driver
+          .findElement(By.css('.g4u-distance-measurement .g4u-window'))
           .isDisplayed()
-      })
-      .then(function (visible) {
-        if (visible) {
-          done()
-        }
+        assert(visible, 'distance measurement window should be visible').isEqualTo(true)
         driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [6.94817, 50.94129]))
           .then(function (point1) {
             driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [6.96837, 50.94129]))
