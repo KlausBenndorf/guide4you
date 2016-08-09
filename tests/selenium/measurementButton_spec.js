@@ -1,42 +1,28 @@
 import webdriver from 'selenium-webdriver'
-import chrome from 'selenium-webdriver/chrome'
+import phantomDriver from './customPhantomDriver'
 import test from 'selenium-webdriver/testing/'
-import assert from 'selenium-webdriver/testing/assert.js'
 
 import config from './config.js'
 
+import {waitUntilMapReady, stringifyFunctionCall} from './testUtils'
+
 let By = webdriver.By
-let until = webdriver.until
 let ActionSequence = webdriver.ActionSequence
-let driver
 
-let waitUntilMapReady = function (driver) {
-  return new webdriver.promise.Promise(function (fulfill, reject) {
-    let script = 'var readyMessage = document.createElement("div");' +
-      'readyMessage.className = "map-ready";' +
-      'if (!window.map) { throw new Error("Map does not exist at document ready"); }' +
-      'window.map.asSoonAs("ready", true, function () { document.body.appendChild(readyMessage); });'
-
-    driver.executeScript(script)
-      .then(function () {
-        driver
-          .wait(until.elementLocated(By.className('map-ready')), 5000)
-          .then(function () {
-            fulfill()
-          })
-          .thenCatch(function (err) {
-            reject(err)
-          })
-      })
-  })
+function getPixelFromCoordinate (coordinate) {
+  return window.map.getPixelFromCoordinate(
+    window.ol.proj.transform(coordinate, 'EPSG:4326', window.map.getView().getProjection()))
 }
 
 test.describe('measurementButton', function () {
   // before and after ///////////////////////////////////////////////////////
 
+  let driver
+
   test.before(function () {
     this.timeout(config.mochaTimeout)
-    driver = new chrome.Driver()
+    driver = phantomDriver()
+    driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
     driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
@@ -127,7 +113,6 @@ test.describe('measurementButton', function () {
           checkButtonIsPresent(name)
           windowInitallyHidden(name)
           windowDisplaysWhenButtonIsClicked(name)
-
       })
   */
 
@@ -135,72 +120,46 @@ test.describe('measurementButton', function () {
     this.timeout(config.mochaTimeout)
     driver.get(config.testClient)
       .then(function () {
-        waitUntilMapReady(driver)
-          .then(function () {
-            driver
-              .findElement(
-                By.css('.g4u-window-decorator.g4u-distance-measurement')
-            )
-              .click()
-              .then(function () {
-                driver
-                  .findElement(
-                    By.css('.g4u-window-component.g4u-distance-measurement')
-                )
-                  .isDisplayed()
-                  .then(
-                    function (visible) {
-                      if (visible) {
-                        done()
-                      }
-                      driver.executeScript(`var coordinate = [6.94817,50.94129];` +
-                        'return window.map.getPixelFromCoordinate(ol.proj.transform(coordinate, "EPSG:4326", map.getView().getProjection()))')
-                        .then(function (point1) {
-                          driver.executeScript(`var coordinate = [6.96837,50.94129];` +
-                            'return window.map.getPixelFromCoordinate(ol.proj.transform(coordinate, "EPSG:4326", map.getView().getProjection()))')
-                            .then(function (point2) {
-                              driver
-                                .findElement(
-                                  By.id('map')
-                              )
-                                .then(function (element) {
-                                  // console.log(point1)
-                                  // console.log(point2)
-                                  new ActionSequence(driver)
-                                    .mouseMove(element, {x: point1[0], y: point1[1]})
-                                    .click()
-                                    .mouseMove(element, {x: point2[0], y: point2[1]})
-                                    .click()
-                                    .perform()
-                                    .then(function () {
-                                      driver
-                                        .findElement(
-                                          By.css('.g4u-distance-measurement-value > span')
-                                      )
-                                        .getText()
-                                        .then(function (text) {
-                                          // console.log('>' + text + '<')
-                                          done()
-                                        })
-                                    })
-                                })
-                            })
-                        })
-                    })
+        return waitUntilMapReady(driver)
+      })
+      .then(function () {
+        return driver.findElement(By.css('.g4u-window-decorator.g4u-distance-measurement'))
+          .click()
+      })
+      .then(function () {
+        return driver
+          .findElement(By.css('.g4u-window-component.g4u-distance-measurement'))
+          .isDisplayed()
+      })
+      .then(function (visible) {
+        if (visible) {
+          done()
+        }
+        driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [6.94817, 50.94129]))
+          .then(function (point1) {
+            driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [6.96837, 50.94129]))
+              .then(function (point2) {
+                return driver.findElement(By.className('ol-viewport'))
+                  .then(function (element) {
+                    // console.log(point1)
+                    // console.log(point2)
+                    return new ActionSequence(driver)
+                      .mouseMove(element, {x: point1[0], y: point1[1]})
+                      .click()
+                      .mouseMove(element, {x: point2[0], y: point2[1]})
+                      .click()
+                      .perform()
+                  })
+                  .then(function () {
+                    return driver.findElement(By.css('.g4u-distance-measurement-value > span'))
+                      .getText()
+                  })
+                  .then(function (text) {
+                    // console.log('>' + text + '<')
+                    done()
+                  })
               })
           })
       })
-  /*clickCoordinates(6.95817, 50.94129)
-  clickCoordinates(6.96837, 50.94129)
-  let positionToClick = function (lon, lat) {
-
-          let script = `var coordinate = [6.94817,50.94129];` +
-              'return window.map.getPixelFromCoordinate(ol.proj.transform(coordinate, "EPSG:4326", map.getView().getProjection()))'
-          driver.executeScript(script)
-              .then(function (result) {
-                  console.log(result)
-                  done()
-              })
-      });*/
   })
 })
