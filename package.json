@@ -2,7 +2,12 @@
   "name": "guide4you-module-urlapi",
   "version": "1.0.0",
   "description": "An urlapi module for Guide4You.",
-  "keywords": [ "urlapi", "map", "map client", "openlayers" ],
+  "keywords": [
+    "urlapi",
+    "map",
+    "map client",
+    "openlayers"
+  ],
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you-module-urlapi",
   "contributors": [
@@ -17,7 +22,7 @@
   },
   "dependencies": {
     "guide4you": "1.0.0",
-    "guide4you-builder": "1.0.1",
+    "guide4you-builder": "1.0.3",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
   },
   "devDependencies": {
