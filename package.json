@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "guide4you": "1.0.*",
-    "guide4you-builder": "1.0.*",
+    "guide4you-builder": "1.0.3",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
   },
   "devDependencies": {
