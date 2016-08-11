@@ -39,4 +39,4 @@ import 'file?name=images/doc/[name].[ext]!../../images/doc/zoom.png'
 import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
 import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
-createG4U('#map', clientConf, layerConf)
+createG4U('#mymap', clientConf, layerConf)
