@@ -182,7 +182,7 @@ export function finishAllImages ($object) {
 
     if (!image.complete) {
       imagePromises.push(new Promise(resolve => {
-        $(image).load(resolve)
+        $(image).on('load', resolve)
       }))
     }
   })
