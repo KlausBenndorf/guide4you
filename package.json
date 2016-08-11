@@ -35,6 +35,7 @@
     "concurrently": "2.2.0",
     "esdoc": "0.4.8",
     "mocha": "2.5.3",
+    "phantomjs-prebuilt": "2.1.11",
     "pre-commit": "1.1.3",
     "selenium-webdriver": "2.53.3",
     "standard": "7.1.2",
@@ -43,10 +44,10 @@
   "scripts": {
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
-    "lint": "eslint src/",
     "pretest": "g4u-buildTests",
+    "lint": "eslint src/",
     "runTests": "npm run lint && wait-on -l http://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"npm run dev conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   },
   "pre-commit": [
