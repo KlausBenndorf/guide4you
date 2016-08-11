@@ -29,7 +29,7 @@ defaults.baselayer = {
 }
 
 defaults.config = {
-  target: 'map',
+  target: '#g4u-map',
   interfaceProjection: 'EPSG:4326',
   view: {
     center: [7.086134, 50.714689], // always in interfaceProjection
