@@ -55,16 +55,17 @@ export default class ControlFactory {
     this.map_ = options.map
 
     /**
-     * @type {Positioning}
-     * @private
-     */
-    this.positioning_ = this.map_.get('controlPositioning')
-
-    /**
      * @type {Map.<string, ActiveGroup>}
      * @private
      */
     this.activeGroups_ = new Map()
+  }
+
+  /**
+   * @returns {Psoitioning}
+   */
+  getPositioning () {
+    return this.map_.get('controlPositioning')
   }
 
   /**
@@ -204,7 +205,7 @@ export default class ControlFactory {
       }
 
       if (receiver instanceof G4UMap) {
-        this.positioning_.addControl(control)
+        this.getPositioning().addControl(control)
       }
     } else if (control === undefined) {
       throw new Error('Unrecognized control type ' + controlType +

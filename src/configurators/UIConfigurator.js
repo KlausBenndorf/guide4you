@@ -24,6 +24,7 @@ import {cssClasses} from '../globals'
 import FeatureSelect from '../interactions/FeatureSelect'
 
 import {parseCSSColor} from 'csscolorparser'
+import {FunctionCallBuffer} from '../FunctionCallBuffer'
 
 /**
  * This class configures the UI of a map according to its mapconfig
@@ -166,39 +167,39 @@ export default class UIConfigurator {
    * @private
    */
   initialize_ (mapConfigCopy) {
+    //
+    // Control positioning
+    //
+
     /**
      * @type {PositioningOptions}
      */
     let positioningOptions = mapConfigCopy.positioning || {}
     positioningOptions.viewport = this.map_.getViewport()
 
-    //
-    // Control positioning
-    //
-
     this.map_.set('controlPositioning', new Positioning(positioningOptions))
 
-    let position = () => {
+    let positionCallBuffer = new FunctionCallBuffer(() => {
       return this.map_.get('controlPositioning').positionElements()
-    }
+    })
 
-    this.map_.on('ready', position)
+    this.map_.on('ready', () => positionCallBuffer.call())
 
     this.map_.asSoonAs('ready', true, () => {
-      this.map_.on('resize', position)
+      this.map_.on('resize', () => positionCallBuffer.call())
       this.map_.on('ready:ui', () => {
         if (this.map_.get('ready:ui')) {
-          position()
+          positionCallBuffer.call()
         }
       })
-      this.map_.on('change:mobile', position)
+      this.map_.on('change:mobile', () => positionCallBuffer.call())
 
       this.map_.on('ready:layers', () => {
-        position()
-        this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(position, 200))
+        positionCallBuffer.call()
+        this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(() => positionCallBuffer.call(), 200))
       })
 
-      this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(position, 200))
+      this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(() => positionCallBuffer.call(), 200))
     })
 
     //
@@ -327,6 +328,8 @@ export default class UIConfigurator {
         this.map_.removeControls()
         this.map_.controlsByName = {}
         this.map_.removeInteractions()
+
+        this.map_.get('controlPositioning').init()
 
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                           Move Class (before mobileLayout)                               //

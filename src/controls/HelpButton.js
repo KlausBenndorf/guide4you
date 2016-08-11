@@ -6,6 +6,7 @@ import stripJsonComments from 'strip-json-comments'
 import Debug from '../Debug'
 
 import '../../less/helpbutton.less'
+import {copyDeep} from '../utilitiesObject'
 
 /**
  * @typedef {g4uControlOptions} HelpButtonOptions
@@ -87,7 +88,7 @@ export default class HelpButton extends Control {
       }
 
       if (this.configControls_ && this.configControls_.onMap) {
-        visibleControls = this.configControls_.onMap
+        visibleControls = copyDeep(this.configControls_.onMap)
         recursivelyFindVisibleControls(this.configControls_, visibleControls)
       }
       for (let i = 0, ii = documentationLocalized.length; i < ii; i++) {
