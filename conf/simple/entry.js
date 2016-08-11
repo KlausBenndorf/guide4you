@@ -8,4 +8,4 @@ import 'guide4you-builder/tojson-file-loader?name=files/[name]!../../files/l10n.
 import 'file?name=files/[name].[ext]!../../files/hotelsbonn.kml'
 import 'file?name=files/[name].[ext]!../../files/restaurantsbonn.kml'
 
-createG4U('#map', clientConf, layerConf)
+createG4U('#g4u-map', clientConf, layerConf)
