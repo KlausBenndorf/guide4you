@@ -69,8 +69,8 @@ test.describe('FeatureTooltip', function () {
     this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
-    // driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
-    // driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
+    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
+    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
 
   test.after(function () {
