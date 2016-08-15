@@ -29,7 +29,6 @@ test.describe('measurementButton', function () {
   test.after(function () {
     driver.quit()
   })
-
   // functions //////////////////////////////////////////////////////////////
 
   let checkButtonIsPresent = function (name) {
