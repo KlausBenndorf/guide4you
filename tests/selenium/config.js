@@ -1,5 +1,5 @@
 ﻿export default {
-  mochaTimeout: 30000,
-  seleniumTimeout: 50000,
+  mochaTimeout: 10000,
+  seleniumTimeout: 5000,
   testClient: 'http://localhost:8080'
 }
