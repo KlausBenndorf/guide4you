@@ -29,9 +29,10 @@ export function createG4U (element, clientConfPath, layerConfPath, modules) {
       $(element).empty()
 
       // for remote analysis and debugging - not used inside of the software
-      window.map = new G4UMap(element, window.clientConfPath || clientConfPath, window.layerConfPath || layerConfPath, {
-        modules: modules
-      })
+      window.map = new G4UMap(element, window.g4uClientConfPath || clientConfPath,
+        window.g4uLayerConfPath || layerConfPath, {
+          modules: modules
+        })
 
       resolve(window.map)
     })
