@@ -491,36 +491,36 @@ export default class FeaturePopup extends ol.Object {
    */
 
   addIconSizedOffset (feature, resolution) {
-    let featureStyleFunction = feature.getStyleFunction()
+    if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
+      let featureStyleFunction = feature.getStyleFunction()
+      if (featureStyleFunction) {
+        let style = featureStyleFunction.call(feature, resolution)[ 0 ]
+        if (style) {
+          let imageStyle = style.getImage()
+          if (imageStyle instanceof ol.style.Icon) {
+            (new Promise(resolve => {
+              let img = imageStyle.getImage()
+              if (img.complete && img.src) {
+                resolve()
+              } else {
+                let $img = $(img)
+                $img.load(() => {
+                  this.getMap().render() // initiate styles with size and anchor
+                  this.getMap().once('postcompose', resolve)
+                })
+                imageStyle.load()
+              }
+            })).then(() => {
+              let iconSize = imageStyle.getSize()
 
-    if (featureStyleFunction) {
-      let style = featureStyleFunction.call(feature, resolution)[ 0 ]
-      if (style) {
-        let imageStyle = style.getImage()
-        if (imageStyle) {
-          let img = imageStyle.getImage()
+              let totalOffset = [
+                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * imageStyle.getScale(),
+                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * imageStyle.getScale()
+              ]
 
-          new Promise(resolve => {
-            if (img.complete && img.src) {
-              resolve()
-            } else {
-              let $img = $(img)
-              $img.load(() => {
-                this.getMap().render() // initiate styles with size and anchor
-                this.getMap().once('postcompose', resolve)
-              })
-              imageStyle.load()
-            }
-          }).then(() => {
-            let iconSize = imageStyle.getSize()
-
-            let totalOffset = [
-              this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * imageStyle.getScale(),
-              this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * imageStyle.getScale()
-            ]
-
-            this.overlay_.setOffset(totalOffset)
-          })
+              this.overlay_.setOffset(totalOffset)
+            })
+          }
         }
       }
     }
