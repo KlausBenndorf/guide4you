@@ -304,11 +304,6 @@ export default class Window extends ol.Object {
       // reset position to get default value
       this.$element_.css('position', '')
 
-      // storing these values
-      let position = this.$element_.css('position')
-      let top = this.$element_.css('top')
-      let left = this.$element_.css('left')
-
       // resetting all directly setted values
       this.$element_.css('top', '')
       this.$element_.css('left', '')
@@ -316,6 +311,11 @@ export default class Window extends ol.Object {
       this.$element_.css('height', '')
 
       this.get$Body().css('max-height', '')
+
+      // storing these values
+      let position = this.$element_.css('position')
+      let top = this.$element_.css('top')
+      let left = this.$element_.css('left')
 
       // position element so it can be measured
       this.$element_.css('position', 'fixed')
