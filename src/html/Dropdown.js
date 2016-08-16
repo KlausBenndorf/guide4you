@@ -52,13 +52,13 @@ export default class Dropdown extends ol.Object {
      * @type {jQuery}
      * @private
      */
-    this.$element_ = $('<ul>')
+    this.$element_ = $('<div>')
       .addClass(this.className_)
 
     /**
      * @type {jQuery}
      */
-    this.$ghostentry = $('<li tabindex="-1">')
+    this.$ghostentry = $('<button tabindex="-1">')
       .addClass(this.classNameGhostentry_)
       .text(options.ghostentry || 'no entries')
 
@@ -167,7 +167,7 @@ export default class Dropdown extends ol.Object {
    * @returns {jQuery}
    */
   addEntry (entry, handler) {
-    let $newEntry = $('<li tabindex="-1">')
+    let $newEntry = $('<button tabindex="-1">')
       .addClass(this.classNameEntry_)
       .text(entry)
 
@@ -230,7 +230,7 @@ export default class Dropdown extends ol.Object {
 
     if (length > this.$entriesArray_.length) { // adding entries and dropdown handlers
       for (i = this.$entriesArray_.length, ii = length; i < ii; i++) {
-        let $entry = $('<li tabindex="-1">')
+        let $entry = $('<button tabindex="-1">')
           .addClass(this.classNameEntry_)
           .hide()
         let index = i

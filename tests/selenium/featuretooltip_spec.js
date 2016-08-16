@@ -3,6 +3,7 @@ import phantomDriver from './customPhantomDriver'
 import test from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
 import config from './config.js'
+import until from 'selenium-webdriver/lib/until'
 
 let By = webdriver.By
 
@@ -69,8 +70,7 @@ test.describe('FeatureTooltip', function () {
     this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
-    // driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
-    // driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
+    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
   })
 
   test.after(function () {
@@ -84,7 +84,7 @@ test.describe('FeatureTooltip', function () {
           .mouseMove(driver.findElement(By.className('ol-viewport')))
           .perform()
           .then(function () {
-            assert(driver.findElement(By.className('g4u-featuretooltip')).isDisplayed()).equalTo(false)
+            assert(driver.findElement(By.className('g4u-featuretooltip'), 'Tooltip should not be visible').isDisplayed()).equalTo(false)
             done()
           })
       })
@@ -98,24 +98,24 @@ test.describe('FeatureTooltip', function () {
     }).then(() => {
       return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'name', 'description'))
     }).then(() => {
-      return driver.findElement(By.className('ol-viewport'))
-    }).then(viewport => {
+      let viewport = driver.findElement(By.className('ol-viewport'))
+      let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
       // 1:
       driver.actions()
         .mouseMove(viewport)
         .perform()
         .then(() => {
-          let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
-          assert(featureTooltip.isDisplayed()).equalTo(true)
-          assert(featureTooltip.getText()).equalTo('name')
+          driver.wait(until.elementIsVisible(featureTooltip),
+            config.seleniumTimeout, 'Tooltip should be visible in time')
+          assert(featureTooltip.getText(), 'Tooltip should show "name"').equalTo('name')
           // 2:
-          driver.actions()
+          return driver.actions()
             .mouseMove(viewport, { x: 0, y: 0 })
             .perform()
-            .then(() => {
-              assert(featureTooltip.isDisplayed()).equalTo(false)
-              done()
-            })
+        }).then(() => {
+          driver.wait(until.elementIsNotVisible(featureTooltip),
+            config.seleniumTimeout, 'Tooltip should be hidden in time')
+          done()
         })
     })
   })
@@ -127,23 +127,24 @@ test.describe('FeatureTooltip', function () {
     }).then(() => {
       return driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'name', 'description', 1000))
     }).then(() => {
-      return driver.findElement(By.className('ol-viewport'))
-    }).then(viewport => {
+      let viewport = driver.findElement(By.className('ol-viewport'))
+      let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
       // 1:
       driver.actions()
         .mouseMove(viewport)
-        .perform().then(() => {
-          let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
-          assert(featureTooltip.isDisplayed()).equalTo(true)
-          assert(featureTooltip.getText()).equalTo('name')
+        .perform()
+        .then(() => {
+          driver.wait(until.elementIsVisible(featureTooltip),
+            config.seleniumTimeout, 'Tooltip should be visible in time')
+          assert(featureTooltip.getText(), 'Tooltip should show "name"').equalTo('name')
           // 2:
-          driver.actions()
+          return driver.actions()
             .mouseMove(viewport, { x: 0, y: 0 })
             .perform()
-            .then(() => {
-              assert(featureTooltip.isDisplayed()).equalTo(false)
-              done()
-            })
+        }).then(() => {
+          driver.wait(until.elementIsNotVisible(featureTooltip),
+            config.seleniumTimeout, 'Tooltip should be hidden in time')
+          done()
         })
     })
   })
@@ -156,55 +157,56 @@ test.describe('FeatureTooltip', function () {
       return driver.executeScript(
         stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'name', 'description', 1000))
     }).then(() => {
-      return driver.findElement(By.className('ol-viewport'))
-    }).then(viewport => {
+      let viewport = driver.findElement(By.className('ol-viewport'))
       let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
       // 1:
       driver.actions()
         .mouseMove(viewport)
         .perform()
         .then(() => {
-          assert(featureTooltip.isDisplayed()).equalTo(true)
-          assert(featureTooltip.getText()).equalTo('name')
+          driver.wait(until.elementIsVisible(featureTooltip),
+            config.seleniumTimeout, 'Tooltip should be visible in time')
+          assert(featureTooltip.getText(), 'Tooltip should show "name"').equalTo('name')
           // 2:
-          driver.actions()
+          return driver.actions()
             .mouseMove(viewport, { x: 0, y: 0 })
             .perform()
-            .then(() => {
-              assert(featureTooltip.isDisplayed()).equalTo(false)
-              done()
-            })
+        }).then(() => {
+          driver.wait(until.elementIsNotVisible(featureTooltip),
+            config.seleniumTimeout, 'Tooltip should be hidden in time')
+          done()
         })
     })
   })
 
   test.it('should show the tooltip of a point lying under a polygon', function (done) {
     driver.get(config.testClient).then(function () {
-      waitUntilMapReady(driver).then(function () {
+      waitUntilMapReady(driver).then(() => {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
-      }).then(function () {
+      }).then(() => {
         return driver.executeScript(
           stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
-      }).then(function () {
+      }).then(() => {
         let viewport = driver.findElement(By.className('ol-viewport'))
-        viewport.getSize().then(function (size) {
+        let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
+        viewport.getSize().then(size => {
           // 1:
           driver.actions()
             .mouseMove(viewport, { x: Math.round(size.width / 2 + 15), y: Math.round(size.height / 2 + 15) })
             .perform()
-            .then(function () {
-              let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
-              assert(featureTooltip.isDisplayed()).equalTo(true)
-              assert(featureTooltip.getText()).equalTo('namePolygon')
+            .then(() => {
+              driver.wait(until.elementIsVisible(featureTooltip),
+                config.seleniumTimeout, 'Tooltip should be visible in time')
+              assert(featureTooltip.getText(), 'Tooltip should show "namePolygon"').equalTo('namePolygon')
               // 2:
-              driver.actions()
+              return driver.actions()
                 .mouseMove(viewport)
                 .perform()
-                .then(function () {
-                  assert(featureTooltip.isDisplayed()).equalTo(true)
-                  assert(featureTooltip.getText()).equalTo('namePoint')
-                  done()
-                })
+            }).then(() => {
+              driver.wait(until.elementTextIs(featureTooltip, 'namePoint'),
+                config.seleniumTimeout, 'Tooltip should show "namePoint"')
+              assert(featureTooltip.isDisplayed(), 'Tooltip should be visible').equalTo(true)
+              done()
             })
         })
       })
@@ -212,34 +214,34 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show the tooltip of a line lying under a polygon', function (done) {
-    driver.get(config.testClient).then(function () {
-      waitUntilMapReady(driver).then(function () {
-        driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'nameLine', 'description', 1000))
-          .then(function () {
-            driver.executeScript(
-              stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
-              .then(function () {
-                let viewport = driver.findElement(By.className('ol-viewport'))
-                viewport.getSize().then(function (size) {
-                  driver.actions()
-                    .mouseMove(viewport, { x: Math.round(size.width / 2 + 15), y: Math.round(size.height / 2 + 15) })
-                    .perform()
-                    .then(function () {
-                      let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
-                      assert(featureTooltip.isDisplayed()).equalTo(true)
-                      assert(featureTooltip.getText()).equalTo('namePolygon')
-                      driver.actions()
-                        .mouseMove(viewport)
-                        .perform()
-                        .then(function () {
-                          assert(featureTooltip.isDisplayed()).equalTo(true)
-                          assert(featureTooltip.getText()).equalTo('nameLine')
-                          done()
-                        })
-                    })
-                })
-              })
-          })
+    driver.get(config.testClient).then(() => {
+      waitUntilMapReady(driver).then(() => {
+        return driver.executeScript(
+          stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'nameLine', 'description', 1000))
+      }).then(() => {
+        return driver.executeScript(
+          stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
+      }).then(() => {
+        let viewport = driver.findElement(By.className('ol-viewport'))
+        let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
+        viewport.getSize().then(size => {
+          driver.actions()
+            .mouseMove(viewport, { x: Math.round(size.width / 2 + 15), y: Math.round(size.height / 2 + 15) })
+            .perform()
+            .then(() => {
+              driver.wait(until.elementIsVisible(featureTooltip),
+                config.seleniumTimeout, 'Tooltip should be visible in time')
+              assert(featureTooltip.getText(), 'Tooltip should show "namePolygon"').equalTo('namePolygon')
+              return driver.actions()
+                .mouseMove(viewport)
+                .perform()
+            }).then(() => {
+              driver.wait(until.elementTextIs(featureTooltip, 'nameLine'),
+                config.seleniumTimeout, 'Tooltip should show "nameLine"')
+              assert(featureTooltip.isDisplayed(), 'Tooltip should be visible').equalTo(true)
+              done()
+            })
+        })
       })
     })
   })
