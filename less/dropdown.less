@@ -9,10 +9,11 @@
     margin: 0;
     padding: 0;
     z-index: 1;
-    list-style-type: none;
     margin-top: -@g4u-tiny;
     border: @g4u-tiny solid @g4u-light-main-color;
     border-radius: @g4u-desktop-large-border-radius;
+
+    overflow: hidden;
 
     .g4u-dropdown-ghostentry {
       cursor: default;
@@ -24,9 +25,14 @@
     }
 
     .g4u-dropdown-entry {
+      width: 100%;
+
       cursor: pointer;
+      background: white;
+      color: black;
       .g4u-desktop-text-padding;
-      padding-bottom: 0.4 * @g4u-desktop-em;
+      padding-bottom: 0;
+      padding-top: 0;
 
       &:not(:last-of-type) {
       }
