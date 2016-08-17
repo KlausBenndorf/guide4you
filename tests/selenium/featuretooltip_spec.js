@@ -71,6 +71,7 @@ test.describe('FeatureTooltip', function () {
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
+    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
 
   test.after(function () {
