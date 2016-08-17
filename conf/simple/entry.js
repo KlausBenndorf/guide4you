@@ -13,4 +13,4 @@ import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 import URLAPIModule from '../../src/URLAPIModule'
 
-createG4U('#map', clientConf, layerConf, [new URLAPIModule()])
+createG4U('#g4u-map', clientConf, layerConf, [new URLAPIModule()])

@@ -372,6 +372,8 @@ export default class URLAPI {
                 marker.setPopupVisible(false)
               }
             }
+          } else {
+            Debug.warn('There is no marker configured for the map, but it was tried to set it via the urlapi.')
           }
         },
         getFromMap: () => {

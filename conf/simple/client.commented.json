@@ -39,6 +39,9 @@
     "mouseWheelZoom": true,
     "pinchZoom": true
   },
+  "marker": {
+    "style": "#defaultStyle"
+  },
   "controls": {
     "onMap": [
       "attribution",
