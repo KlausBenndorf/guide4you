@@ -1,4 +1,4 @@
-import { createG4U } from '../../src/main'
+import { createG4UInternal } from '../../src/main'
 
 import defaultClientConf from 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
 import defaultLayerConf from 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!./layers.commented.json'
@@ -40,5 +40,7 @@ import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you
 import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 window.createG4U = function (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createG4U(target, clientConf, layerConf)
+  return createG4UInternal(target, clientConf, layerConf)
 }
+
+export default window.createG4U
