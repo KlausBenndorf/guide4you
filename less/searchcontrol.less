@@ -17,7 +17,7 @@
   .g4u-search-control {
     align-items: baseline;
 
-    button {
+    .g4u-search-control-searchbutton {
       display: inline-block;
       vertical-align: top;
       .buttonSquaredWithIcon(@g4u-search-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize - 2 * @g4u-desktop-ruler-linewidth);
@@ -118,15 +118,14 @@
       padding: 0;
       margin: 0;
 
-      li {
+      button {
         cursor: default;
-        list-style: none;
         padding: @g4u-mobile-padding;
         background: white;
         color: black;
       }
 
-      li.g4u-dropdown-ghostentry {
+      button.g4u-dropdown-ghostentry {
         color: lightgrey;
       }
     }
