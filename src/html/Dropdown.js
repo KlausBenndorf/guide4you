@@ -183,7 +183,7 @@ export default class Dropdown extends ol.Object {
         this.selectedIndex_ = index
       }
     })
-    $newEntry.focus()
+    // $newEntry.focus()
 
     if (handler) {
       $newEntry.on('click', handler)
@@ -286,36 +286,44 @@ export default class Dropdown extends ol.Object {
 
   /**
    * @param {boolean} [immediately=false] if setted to true the animation is skipped
+   * @returns {Promise}
    */
   slideUp (immediately = false) {
-    let duration = 0
-    if (!immediately) {
-      duration = this.slideDuration_
-    }
-    this.$element_.slideUp({
-      duration: duration,
-      complete: () => {
-        this.$element_.addClass(cssClasses.hidden)
+    return new Promise(resolve => {
+      let duration = 0
+      if (!immediately) {
+        duration = this.slideDuration_
       }
+      this.$element_.slideUp({
+        duration: duration,
+        complete: () => {
+          this.$element_.addClass(cssClasses.hidden)
+          resolve()
+        }
+      })
     })
   }
 
   /**
    * @param {boolean} [immediately=false] if setted to true the animation is skipped
+   * @returns {Promise}
    */
   slideDown (immediately = false) {
-    if (this.$element_.children().length > 0) {
-      let duration = 0
-      if (!immediately) {
-        duration = this.slideDuration_
+    return new Promise(resolve => {
+      if (this.$element_.children().length > 0) {
+        let duration = 0
+        if (!immediately) {
+          duration = this.slideDuration_
+        }
+        this.$element_.slideDown({
+          start: () => {
+            this.$element_.removeClass(cssClasses.hidden)
+          },
+          complete: resolve,
+          duration: duration
+        })
       }
-      this.$element_.slideDown({
-        start: () => {
-          this.$element_.removeClass(cssClasses.hidden)
-        },
-        duration: duration
-      })
-    }
+    })
   }
 
   /**
