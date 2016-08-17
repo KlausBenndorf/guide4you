@@ -234,9 +234,6 @@ export default class Window extends ol.Object {
     if (oldValue !== visible) {
       if (visible) {
         this.$element_.removeClass(cssClasses.hidden)
-        if (this.scroll_) {
-          this.scroll_.refresh()
-        }
         this.updateSize(true)
         if (this.map_.get('mobile')) {
           this.map_.get('shield').setActive(true)
@@ -379,6 +376,10 @@ export default class Window extends ol.Object {
 
     if (!oldVisible || this.get$Body().children(`:not(.${cssClasses.hidden})`).length === 0) {
       this.$element_.addClass(cssClasses.hidden)
+    }
+
+    if (this.scroll_) {
+      this.scroll_.refresh()
     }
   }
 }

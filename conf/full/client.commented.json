@@ -138,6 +138,12 @@
     "helpButton": {
       "fileName": "files/helptext.commented.json"
     },
+    "infoButton": {
+      "contentURL": {
+        "de": "files/infos_de.html",
+        "en": "files/infos_en.html"
+      }
+    },
     "scaleLine": {
       "float": [
         "left",
