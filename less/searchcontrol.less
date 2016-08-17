@@ -107,7 +107,13 @@
     }
 
     .g4u-search-control-searchbutton {
-      .buttonSquaredWithIcon(@g4u-search-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+      .buttonWithIcon(@g4u-search-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+
+      width: 100%;
+
+      &:before {
+        left: auto;
+      }
 
       &:hover, &:focus {
         color: transparent;
@@ -115,10 +121,10 @@
     }
 
     .g4u-dropdown {
-      padding: 0;
-      margin: 0;
+      overflow: hidden;
 
       button {
+        margin-top: @g4u-mobile-padding;
         cursor: default;
         padding: @g4u-mobile-padding;
         background: white;
