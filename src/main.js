@@ -15,7 +15,7 @@ import G4UMap from './G4UMap'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame'
 
-export function createG4U (element, clientConfPath, layerConfPath, modules) {
+export function createG4UInternal (element, clientConfPath, layerConfPath, modules) {
   return new Promise((resolve, reject) => {
     $(document).ready(() => {
       if (!ol) {
