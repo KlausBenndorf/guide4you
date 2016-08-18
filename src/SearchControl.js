@@ -380,10 +380,10 @@ export default class SearchControl extends Control {
 
       this.dropdown_.setEntries(entries, handlers)
       this.dropdownActive_ = true
-      this.dropdown_.slideDown()
+      return this.dropdown_.slideDown()
     } else {
       this.dropdownActive_ = false
-      this.dropdown_.slideUp()
+      return this.dropdown_.slideUp()
     }
   }
 
@@ -426,7 +426,7 @@ export default class SearchControl extends Control {
    * @private
    */
   onClickDropdownEntry_ (feature) {
-    this.$textfield_.val(feature.get('dropdowntext'))
+    this.$textfield_.val($('<div>').html(feature.get('dropdowntext')).text())
     this.features_ = [feature]
     if (feature.getGeometry()) {
       this.onSearchEnd_()
@@ -437,8 +437,6 @@ export default class SearchControl extends Control {
   }
 
   onSearchEnd_ () {
-    this.updateDropdown_()
-
     if (this.features_.length > 0) {
       this.showSearchlayer_()
 
@@ -465,6 +463,8 @@ export default class SearchControl extends Control {
         searchTerm: this.getSearchValue()
       })
     }
+
+    this.updateDropdown_().then(() => this.changed())
   }
 
   /**

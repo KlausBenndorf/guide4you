@@ -21,7 +21,7 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-search"
   },
   "dependencies": {
-    "guide4you": "1.1.0",
+    "guide4you": "1.1.1",
     "guide4you-builder": "1.0.4",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
   },

@@ -125,7 +125,7 @@ export default class NominatimSearch extends Parser {
       throw new Error('Please add the option addressdetails=1 to your searchstring in the config.')
     }
 
-    featureOptions.dropdowntext = descriptionArray.join(', ')
+    featureOptions.dropdowntext = descriptionArray.join(',<br />')
     featureOptions.name = descriptionArray.shift()
 
     if (data.hasOwnProperty('extratags')) {
