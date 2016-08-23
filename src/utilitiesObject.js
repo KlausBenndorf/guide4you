@@ -15,7 +15,13 @@ import $ from 'jquery'
  * @returns {Object}
  */
 export function copy (object) {
-  return $.extend({}, object)
+  if ($.isArray(object)) {
+    return $.extend([], object)
+  } else if ($.isPlainObject(object)) {
+    return $.extend({}, object)
+  } else {
+    return object
+  }
 }
 
 /**
@@ -24,7 +30,13 @@ export function copy (object) {
  * @returns {Object}
  */
 export function copyDeep (object) {
-  return $.extend(true, {}, object)
+  if ($.isArray(object)) {
+    return $.extend(true, [], object)
+  } else if ($.isPlainObject(object)) {
+    return $.extend(true, {}, object)
+  } else {
+    return object
+  }
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////// //

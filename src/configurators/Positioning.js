@@ -59,6 +59,10 @@ export default class Positioning {
      */
     this.spacing_ = options.spacing || 10
 
+    this.init()
+  }
+
+  init () {
     /**
      * @type {HideableElement[]}
      * @private
@@ -134,7 +138,7 @@ export default class Positioning {
         }
 
         if (!parentMeta) {
-          metaElem.float = metaElem.control.getFloat()
+          metaElem.float = metaElem.control.getFloat() || ['top', 'left']
 
           if (metaElem.float === 'fixed') {
             return
