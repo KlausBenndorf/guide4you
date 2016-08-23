@@ -6,24 +6,26 @@
 
 .ol-control {
   cursor: default;
+}
 
-  button {
-    .g4u-symbol-colors;
-    white-space: nowrap;
-    display: block;
-    margin: 0;
+button.ol-control,
+.ol-control button {
+  .g4u-symbol-colors;
+  white-space: nowrap;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  &::-moz-focus-inner {
     padding: 0;
     border: none;
-
-    &::-moz-focus-inner {
-      padding: 0;
-      border: none;
-    }
   }
+}
 
-  a {
-    padding: 0;
-  }
+a.ol-control,
+.ol-control a {
+  padding: 0;
 }
 
 .button(@button-size) {

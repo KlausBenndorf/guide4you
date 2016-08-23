@@ -62,7 +62,7 @@ export default class ControlFactory {
   }
 
   /**
-   * @returns {Psoitioning}
+   * @returns {Positioning}
    */
   getPositioning () {
     return this.map_.get('controlPositioning')
