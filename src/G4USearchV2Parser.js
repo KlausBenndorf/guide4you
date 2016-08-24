@@ -1,11 +1,11 @@
 import ol from 'openlayers'
 
-import Parser from './SearchParser'
+import Parser from 'guide4you-module-search/src/SearchParser'
 
 /**
  * A Parser for the search results returned from the G4UServer using the SearchV2
  */
-export default class G4USearchV2 extends Parser {
+export class G4USearchV2 extends Parser {
   /**
    * @param {SearchParserOptions} [options]
    */
