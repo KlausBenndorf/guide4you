@@ -9,24 +9,16 @@
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
       },
       "visible": true
-    },
-    {
-      "id": 999,
-      "title": "Komplett",
-      "type": "WMS",
-      "source": {
-        "url": "http://qgis.benndorf.de/cgi-bin/qgis_mapserv.fcgi",
+    }//,
+//    {
+//      "id": 1,
+//      "title": "Cycling Map",
+//      "type": "OSM",
+//      "source": {
+//        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
 //        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-        "params": {
-          "map": "/WebGIS/maps/Komplett.qgs",
-          "FORMAT": "image/png",
-          "VERSION": "1.3.0",
-          "LAYERS": [
-            "Komplett"
-          ]
-        }
-      }
-    }
+//      }
+//    }
   ],
   "featureLayers": [
     {
@@ -35,29 +27,10 @@
       "type": "WMS",
       "source": {
         "url": "http://www.wms.nrw.de/geobasis/wms_nw_dvg",
-//        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
         "params": {
           "FORMAT": "image/png",
           "VERSION": "1.3.0"
         },
-//        "featureInfo": {
-//          "params": {
-//            "LAYERS": [
-//              "nw_dvg_bld",
-//              "nw_dvg_rbz",
-//              "nw_dvg_krs",
-//              "nw_dvg_gem",
-//              "nw_dvg_gem_gesamt",
-//              "nw_dvg_rbz_namen",
-//              "nw_dvg_krs_namen",
-//              "nw_dvg_gem_namen",
-//              "nw_dvg_gem_gesamt_namen"
-//            ],
-//            "INFO_FORMAT": "text/plain"
-//            // "text/plain", "application/vnd.ogc.gml"
-//          },
-//          "checkable": true
-//        },
         "categoryButton": true,
         "attribution": "Geobasis NRW 2016"
       },
@@ -108,23 +81,6 @@
       }
     },
     {
-      "id": 5,
-      "title": "historische Karte 1936-1945",
-      "type": "WMS",
-      "source": {
-        "url": "http://www.wms.nrw.de/geobasis/wms_nw_tk25_1936_1945",
-        "useProxy": true,
-        "params": {
-          "FORMAT": "image/png",
-          "VERSION": "1.3.0",
-          "LAYERS": [
-            "nw_tk25_1936-1945"
-          ]
-        },
-        "attribution": "Geobasis NRW 2016"
-      }
-    },
-    {
       "id": 6,
       "title": "historische Orthophotos 1988 - 1994",
       "type": "WMS",
@@ -155,40 +111,6 @@
           "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
         }
       ]
-    },
-    {
-      "id": 7,
-      "title": "historische Karte 1891 - 1912",
-      "type": "WMS",
-      "source": {
-        "url": "http://www.wms.nrw.de/geobasis/wms_nw_neuaufnahme",
-        "useProxy": true,
-        "params": {
-          "FORMAT": "image/png",
-          "VERSION": "1.3.0",
-          "LAYERS": [
-            "WMS_NW_NEUAUFNAHME"
-          ]
-        },
-        "attribution": "Geobasis NRW 2016"
-      }
-    },
-    {
-      "id": 8,
-      "title": "Fürstenthum Lippe 1881 – 1883",
-      "type": "WMS",
-      "source": {
-        "url": "http://www.wms.nrw.de/geobasis/wms_nw_lippe",
-        "useProxy": true,
-        "params": {
-          "FORMAT": "image/png",
-          "VERSION": "1.3.0",
-          "LAYERS": [
-            "WMS_NW_NEUAUFNAHME"
-          ]
-        },
-        "attribution": "Geobasis NRW 2016"
-      }
     }
   ]
 }
