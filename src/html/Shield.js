@@ -139,4 +139,12 @@ export class Shield extends ol.Object {
       elementPosition.$oldParent.children().eq(elementPosition.oldIndex - 1).after(elementPosition.$actualElement)
     }
   }
+
+  /**
+   * Returns all children in front of the shield
+   * @returns {jQuery}
+   */
+  get$ElementsInFront () {
+    return this.$element_.children()
+  }
 }

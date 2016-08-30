@@ -9,35 +9,35 @@
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
       },
       "visible": true
-    },
-    {
-      "id": 1,
-      "title": "Cycling Map",
-      "type": "OSM",
-      "source": {
-        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-      }
-    }
+    }//,
+//    {
+//      "id": 1,
+//      "title": "Cycling Map",
+//      "type": "OSM",
+//      "source": {
+//        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+//        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
+//      }
+//    }
   ],
   "featureLayers": [
-    {
-      "id": 2,
-      "title": "Hotels in Bonn",
-      "type": "KML",
-      "source": {
-        "url": "files/hotelsbonn.kml",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-      }
-    },
-    {
-      "id": 3,
-      "title": "Restaurants in Bonn",
-      "type": "KML",
-      "source": {
-        "url": "files/restaurantsbonn.kml",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-      }
-    }
+//    {
+//      "id": 2,
+//      "title": "Hotels in Bonn",
+//      "type": "KML",
+//      "source": {
+//        "url": "files/hotelsbonn.kml",
+//        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
+//      }
+//    },
+//    {
+//      "id": 3,
+//      "title": "Restaurants in Bonn",
+//      "type": "KML",
+//      "source": {
+//        "url": "files/restaurantsbonn.kml",
+//        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
+//      }
+//    }
   ]
 }

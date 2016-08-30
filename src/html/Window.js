@@ -210,7 +210,7 @@ export class Window extends ol.Object {
   setIScrollEnabled_ (scrollable) {
     if (scrollable) {
       if (!this.scroll_) {
-        this.scroll_ = new IScroll(this.$scrollWrapper_[ 0 ], {
+        this.scroll_ = new IScroll(this.$scrollWrapper_.get(0), {
           mouseWheel: true,
           scrollbars: true,
           momentum: false,

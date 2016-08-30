@@ -166,11 +166,15 @@ export class ComposedControl extends Control {
           control.set$Target(this.$container_)
         }
       }
+
+      control.on('change', () => this.changed())
     }
 
     control.on('change', e => this.dispatchEvent(e))
 
     this.controls_.push(control)
+
+    this.changed()
   }
 
   /**
@@ -185,13 +189,15 @@ export class ComposedControl extends Control {
 
     this.controls_.splice(this.controls_.indexOf(control), 1)
     this.getMap().removeControl(control)
+
+    this.changed()
   }
 
   /**
    * @param {G4UMap} map
    */
   setMap (map) {
-    if (!map) {
+    if (this.getMap()) {
       this.controls_.forEach(control => {
         this.getMap().removeControl(control)
       })
