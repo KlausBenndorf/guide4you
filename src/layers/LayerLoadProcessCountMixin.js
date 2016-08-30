@@ -1,7 +1,7 @@
 /**
  * A mixin to keep track the amount of load processes a source is currently waiting for
  */
-export default class LayerLoadProcessCountMixin {
+export class LayerLoadProcessCountMixin {
   initialize () {
     /**
      * @type {number}

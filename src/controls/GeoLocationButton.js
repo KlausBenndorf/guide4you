@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 import Control from './Control'
 import { addTooltip } from '../html/html'
-import VectorLayer from '../layers/VectorLayer'
+import {VectorLayer} from '../layers/VectorLayer'
 import MessageDisplay from '../MessageDisplay'
 import {cssClasses} from '../globals'
 
