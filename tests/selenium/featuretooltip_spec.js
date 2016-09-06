@@ -67,7 +67,6 @@ test.describe('FeatureTooltip', function () {
   let driver
 
   test.before(function () {
-    this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
@@ -79,13 +78,15 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show no tooltip if there is no feature under the mouse', function (done) {
+    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(function () {
         driver.actions()
           .mouseMove(driver.findElement(By.className('ol-viewport')))
           .perform()
           .then(function () {
-            assert(driver.findElement(By.className('g4u-featuretooltip'), 'Tooltip should not be visible').isDisplayed()).equalTo(false)
+            assert(driver.findElement(By.className('g4u-featuretooltip'),
+              'Tooltip should not be visible').isDisplayed()).equalTo(false)
             done()
           })
       })
@@ -94,6 +95,7 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a point feature under the mouse and 2:' +
     ' should hide the tooltip if the mouse moves somewhere else', function (done) {
+    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -123,6 +125,7 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a line feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
+    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -152,6 +155,7 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a polygon feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
+    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -181,10 +185,12 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show the tooltip of a point lying under a polygon', function (done) {
+    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
       }).then(() => {
+        console.log('map ready')
         return driver.executeScript(
           stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
       }).then(() => {
@@ -215,6 +221,7 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show the tooltip of a line lying under a polygon', function (done) {
+    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(
