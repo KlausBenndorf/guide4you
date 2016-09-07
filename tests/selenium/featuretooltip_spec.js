@@ -64,6 +64,7 @@ function addLayerWithPolygonAroundMapCenter (name, description, edgeLength) {
 }
 
 test.describe('FeatureTooltip', function () {
+  this.timeout(config.mochaTimeout)
   let driver
 
   test.before(function () {
@@ -78,7 +79,6 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show no tooltip if there is no feature under the mouse', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(function () {
         driver.actions()
@@ -95,7 +95,6 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a point feature under the mouse and 2:' +
     ' should hide the tooltip if the mouse moves somewhere else', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -125,7 +124,6 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a line feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -155,7 +153,6 @@ test.describe('FeatureTooltip', function () {
 
   test.it('should 1: show a tooltip with the name of the feature if there is a polygon feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
@@ -185,7 +182,6 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show the tooltip of a point lying under a polygon', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
@@ -221,7 +217,6 @@ test.describe('FeatureTooltip', function () {
   })
 
   test.it('should show the tooltip of a line lying under a polygon', function (done) {
-    this.timeout(config.mochaTimeout)
     driver.get(config.testClient).then(() => {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(
