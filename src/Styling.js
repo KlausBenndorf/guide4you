@@ -345,9 +345,6 @@ export default class Styling {
           stylePrimitive = curStyles[0]
         }
       }
-      // if (this.get('opacity')) {
-      //   stylePrimitive = thisRef.adjustColorOpacity(thisRef.cloneStyle(stylePrimitive), this.get('opacity'))
-      // }
       return [stylePrimitive]
     }
 
