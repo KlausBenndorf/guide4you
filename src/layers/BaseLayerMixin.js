@@ -1,4 +1,4 @@
-import GroupLayer from './GroupLayer'
+import {GroupLayer} from './GroupLayer'
 
 /**
  * @typedef {object} BaseLayerMixinOptions
@@ -8,7 +8,7 @@ import GroupLayer from './GroupLayer'
 /**
  * This mixin provides baselayer functionality to any layer
  */
-export default class BaseLayerMixin {
+export class BaseLayerMixin {
   /**
    * @param {BaseLayerMixinOptions} options
    */

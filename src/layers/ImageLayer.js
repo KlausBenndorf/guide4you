@@ -1,34 +1,10 @@
 import ol from 'openlayers'
 
-import LayerLoadProcessCountMixin from './LayerLoadProcessCountMixin'
-import BaseLayerMixin from './BaseLayerMixin'
+import {LayerLoadProcessCountMixin} from './LayerLoadProcessCountMixin'
+import {BaseLayerMixin} from './BaseLayerMixin'
 import { mixin } from '../utilities'
+import {ProvideMapMixin} from './ProvideMapMixin'
 
-export class ImageLayer extends mixin(ol.layer.Image, LayerLoadProcessCountMixin) {
-  /**
-   * @param {G4UMap} map
-   */
-  setMap (map) {
-    /**
-     * WORKAROUND
-     * As openlayers identifies managed layers (i.e. layers that are registered via the maps addLayer function)
-     * by the fact that the setMap method was called and we need a reference to the map in layers contained in a
-     * grouplayer, we overwrite the setMap method to still have access to the map via the normal way
-     * @type {G4UMap}
-     * @private
-     */
-    this.map__ = map
-  }
+export const ImageLayer = mixin(mixin(ol.layer.Image, ProvideMapMixin), LayerLoadProcessCountMixin)
 
-  /**
-   * @returns {G4UMap}
-   */
-  getMap () {
-    return this.map__
-  }
-}
-
-export class BaseLayerImage extends mixin(ImageLayer, BaseLayerMixin) {
-
-}
-
+export const BaseLayerImage = mixin(ImageLayer, BaseLayerMixin)

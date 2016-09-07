@@ -1,10 +1,12 @@
 import ol from 'openlayers'
+import {ProvideMapMixin} from './ProvideMapMixin'
+import {mixin} from '../utilities'
 
 /**
  * This Class is a Wrap around {ol.layer.Group} providing some extra functionality. This class is normally used for a
  * category of layers containing them.
  */
-export default class GroupLayer extends ol.layer.Group {
+export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
   /**
    * @param {object} [options={}]
    */
@@ -13,40 +15,29 @@ export default class GroupLayer extends ol.layer.Group {
 
     this.getLayers().on('add', /** ol.CollectionEvent */ e => {
       let layer = e.element
-      if (layer.setMap) {
-        layer.setMap(this.getMap())
+      if (layer.provideMap) {
+        layer.provideMap(this.getProvidedMap())
       }
     })
 
     this.getLayers().on('remove', /** ol.CollectionEvent */ e => {
       let layer = e.element
-      if (layer.setMap) {
-        layer.setMap(null)
+      if (layer.provideMap) {
+        layer.provideMap(null)
       }
     })
   }
 
   /**
-   * The setMap methods of all contained children are called recursively
+   * The provideMap methods of all contained children are called recursively
    * @param {G4UMap} map
    */
-  setMap (map) {
-    /**
-     * @type {G4UMap}
-     * @private
-     */
-    this.map_ = map
+  provideMap (map) {
+    super.provideMap(map)
 
     this.getLayers().forEach(layer => {
-      layer.setMap(map)
+      if (layer.provideMap) { layer.provideMap(map) }
     })
-  }
-
-  /**
-   * @returns {G4UMap}
-   */
-  getMap () {
-    return this.map_
   }
 
   /**

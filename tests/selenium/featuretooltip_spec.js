@@ -64,10 +64,10 @@ function addLayerWithPolygonAroundMapCenter (name, description, edgeLength) {
 }
 
 test.describe('FeatureTooltip', function () {
+  this.timeout(config.mochaTimeout)
   let driver
 
   test.before(function () {
-    this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
@@ -85,7 +85,8 @@ test.describe('FeatureTooltip', function () {
           .mouseMove(driver.findElement(By.className('ol-viewport')))
           .perform()
           .then(function () {
-            assert(driver.findElement(By.className('g4u-featuretooltip'), 'Tooltip should not be visible').isDisplayed()).equalTo(false)
+            assert(driver.findElement(By.className('g4u-featuretooltip'),
+              'Tooltip should not be visible').isDisplayed()).equalTo(false)
             done()
           })
       })
@@ -185,6 +186,7 @@ test.describe('FeatureTooltip', function () {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
       }).then(() => {
+        console.log('map ready')
         return driver.executeScript(
           stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
       }).then(() => {

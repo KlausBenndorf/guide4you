@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import GroupLayer from '../layers/GroupLayer'
+import {GroupLayer} from '../layers/GroupLayer'
 import ButtonBox from '../html/ButtonBox'
 import Control from './Control'
 import { offset } from '../utilities'
