@@ -349,10 +349,13 @@ export default class SearchControl extends Control {
       }
 
       $.ajax({
-        url: url, dataType: 'text', success: results => {
+        url: url,
+        dataType: 'text',
+        success: results => {
           this.features_ = this.parser_.parseFeatures(results).slice(0, this.amountDropdownEntries_)
           resolve()
-        }, error: () => {
+        },
+        error: () => {
           reject('Problem while trying to get search results from the Server. (SearchURL: ' + url + ')')
         }
       })
