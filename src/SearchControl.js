@@ -26,7 +26,7 @@ import '../less/searchcontrol.less'
  * @property {number} [autocompleteStart=2] count of letters after which the autocomplete starts
  * @property {number} [autocompleteDelay=300]
  * @property {number} [slideDuration=400] time it takes for the dropdown to slide down
- * @property {string} [parser] name of the parser to use. At the moment 'G4USearchV2' and 'Nominatim' are possible.
+ * @property {string} [parser] name of the parser to use. At the moment 'Nominatim' is delivered within this module.
  * @property {StyleLike} [style] of the search results
  * @property {boolean} [animated=true] affects the move to the search results.
  * @property {string} [placeholder] text to be seen in the input field if the user has made no input yet

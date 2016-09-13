@@ -18,7 +18,7 @@ module.exports = {
   },
   mustacheEvalLoader: {
     templateVars: {
-      pageTitle: 'URLAPI g4u3',
+      pageTitle: 'guide4you module search',
       ajaxProxy: 'proxy/proxy.php?csurl={url}',
       languageFile: 'files/l10n.json',
       svgColor: 'rgba(255,255,255,1)',

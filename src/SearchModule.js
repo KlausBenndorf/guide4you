@@ -42,7 +42,7 @@ export default class SearchControlModule extends Module {
   }
 
   /**
-   * Thsi method is called if the map enables userActionTracking
+   * This method is called if the map enables userActionTracking
    * @returns {undefined}
    */
   enableUserActionTracking () {
