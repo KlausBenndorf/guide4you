@@ -10,19 +10,24 @@
 @g4u-load-animation: url("../images/icons/load-animation.svg");
 
 .g4u-desktop {
-  @g4u-layerselector-indent: @g4u-desktop-normal-fontsize + 2 * @g4u-desktop-padding;
-
   .g4u-layerselector.ol-unselectable.ol-control { // TODO: remove unneccessary classes
+
+    button {
+      width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
+      padding-left: 2 * @g4u-desktop-padding;
+    }
+
     .g4u-layerselector-content {
       overflow-y: auto;
       padding: 0;
     }
 
+    // title
+
     .g4u-layerselector-titlebutton {
       margin-top: 0;
       background: @g4u-titlebutton-color;
       .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-      vertical-align: middle;
       border-top-right-radius: @g4u-desktop-small-border-radius;
       border-top-left-radius: @g4u-desktop-small-border-radius;
     }
@@ -35,40 +40,41 @@
       }
     }
 
-    button {
-      width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
+    // layers
+
+    .g4u-layerselector-menu-title {
       margin-top: @g4u-desktop-padding;
-      .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+      white-space: nowrap;
+      position: relative;
+      height: @g4u-desktop-button-size;
     }
 
-    // icons
-    .g4u-layerselector-menu-titlebutton {
-      .changeIconBefore(@g4u-layerselector-menu-expanded-icon; @g4u-desktop-normal-fontsize);
-    }
+    .g4u-layerselector-menu-collapsebutton {
+      .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+      position: absolute;
+      top: 0;
+      left: 0;
 
-    .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-titlebutton {
-        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-desktop-normal-fontsize);
-      }
-    }
-
-    // styling of active buttons
-    .g4u-layerselector-layerbutton {
       &.g4u-layerselector-menu-active {
         background: @g4u-active-normal-button-color; // k
         &:hover {
           background: @g4u-active-hover-button-color; // k
         }
       }
-    &.g4u-layer-loading {
-      &:before {
-        content: @g4u-load-animation;
-      }
-    }
     }
 
-    .g4u-layerselector-menu-active {
-      > .g4u-layerselector-menu-titlebutton {
+    .g4u-layerselector-menu-collapsed {
+      .g4u-layerselector-menu-collapsebutton {
+        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-desktop-normal-fontsize);
+      }
+    }
+
+    .g4u-layerselector-menu-titlebutton {
+      position: absolute;
+      top: 0;
+      left: @g4u-desktop-button-size;
+
+      &.g4u-layerselector-menu-active {
         background: @g4u-active-normal-button-color; // k
         &:hover {
           background: @g4u-active-hover-button-color; // k
@@ -76,25 +82,50 @@
       }
     }
 
+    .g4u-layerselector-menu-collapsed {
+      .g4u-layerselector-menu-collapsebutton {
+        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-desktop-normal-fontsize);
+      }
+    }
+
+    // styling of active buttons
+    .g4u-layerselector-layerbutton {
+      margin-top: @g4u-desktop-padding;
+      width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
+      .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+
+      &.g4u-layerselector-menu-active {
+        background: @g4u-active-normal-button-color; // k
+        &:hover {
+          background: @g4u-active-hover-button-color; // k
+        }
+      }
+      &.g4u-layer-loading {
+        &:before {
+          content: @g4u-load-animation;
+        }
+      }
+    }
+
     // indenting
     .g4u-layerselector-menu-content {
-      margin-left: @g4u-layerselector-indent;
+      margin-left: @g4u-desktop-button-size;
     }
 
     // rounding protruding edges
-    .g4u-layerselector-menu-titlebutton {
+    .g4u-layerselector-menu-title {
       border-bottom-left-radius: @g4u-desktop-small-border-radius;
     }
 
     .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-titlebutton {
+      .g4u-layerselector-menu-title {
         border-bottom-left-radius: 0;
       }
     }
 
     .g4u-layerselector-menu {
       + .g4u-layerselector-menu {
-        > .g4u-layerselector-menu-titlebutton {
+        > .g4u-layerselector-menu-title {
           border-top-left-radius: @g4u-desktop-small-border-radius;
         }
       }
@@ -106,7 +137,7 @@
 
     .g4u-layerselector-menu-collapsed {
       + .g4u-layerselector-menu {
-        > .g4u-layerselector-menu-titlebutton {
+        > .g4u-layerselector-menu-title {
           border-top-left-radius: 0;
         }
       }
@@ -119,7 +150,7 @@
 
   .g4u-layermenu-item-last {
     .g4u-layerselector-menu.g4u-layerselector-menu-collapsed.g4u-layerselector-menu-last-visible {
-      .g4u-layerselector-menu-titlebutton {
+      .g4u-layerselector-menu-title {
         border-bottom-left-radius: @g4u-desktop-small-border-radius;
         border-bottom-right-radius: @g4u-desktop-small-border-radius;
       }
@@ -129,6 +160,11 @@
 
 .g4u-mobile {
   .g4u-layerselector {
+    button {
+      width: 100%;
+      text-align: left;
+    }
+
     .g4u-layerselector-content {
       overflow-y: auto;
       overflow-x: hidden;
@@ -159,26 +195,51 @@
       padding: 0;
     }
 
-    button {
-      width: 100%;
+    .g4u-layerselector-menu-title {
       margin-top: @g4u-mobile-padding;
-      text-align: left;
-      .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+      white-space: nowrap;
+      position: relative;
+      height: @g4u-mobile-button-size;
     }
 
-    // icons
-    .g4u-layerselector-menu-titlebutton {
-      .changeIconBefore(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-normal-fontsize);
+    .g4u-layerselector-menu-collapsebutton {
+      .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      &.g4u-layerselector-menu-active {
+        background: @g4u-active-normal-button-color; // k
+        &:hover {
+          background: @g4u-active-hover-button-color; // k
+        }
+      }
     }
 
     .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-titlebutton {
+      .g4u-layerselector-menu-collapsebutton {
         .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-mobile-normal-fontsize);
+      }
+    }
+
+    .g4u-layerselector-menu-titlebutton {
+      position: absolute;
+      top: 0;
+      left: @g4u-mobile-button-size;
+      height: @g4u-mobile-button-size;
+
+      &.g4u-layerselector-menu-active {
+        background: @g4u-active-normal-button-color; // k
+        &:hover {
+          background: @g4u-active-hover-button-color; // k
+        }
       }
     }
 
     // styling of active buttons
     .g4u-layerselector-layerbutton {
+      margin-top: @g4u-mobile-padding;
+      .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
       &.g4u-layerselector-menu-active {
         background: @g4u-active-normal-button-color;
         &:hover {
@@ -198,7 +259,7 @@
 
     // indenting
     .g4u-layerselector-menu-content {
-      margin-left: 20 * @g4u-tiny;
+      margin-left: @g4u-mobile-button-size;
     }
   }
 }

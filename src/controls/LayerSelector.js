@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import ol from 'openlayers'
 
 import {GroupLayer} from '../layers/GroupLayer'
 import ButtonBox from '../html/ButtonBox'
@@ -58,16 +59,14 @@ export default class LayerSelector extends Control {
     this.collapsed_ = options.collapsed || false
 
     /**
-     * @type {string}
+     * classNames
+     * @type {object.<string, string>}
      * @private
      */
-    this.classNameMenu_ = this.className_ + '-menu'
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.classNameLayerButton_ = this.className_ + '-layerbutton'
+    this.classNames_ = {
+      menu: this.className_ + '-menu',
+      layerButton: this.className_ + '-layerbutton'
+    }
 
     /**
      * @type {ButtonBox}
@@ -100,6 +99,12 @@ export default class LayerSelector extends Control {
      * @private
      */
     this.visible_ = true
+
+    /**
+     * @type {Array}
+     * @private
+     */
+    this.listenerKeys_ = []
   }
 
   /**
@@ -132,9 +137,11 @@ export default class LayerSelector extends Control {
     this.loadProcessCount = this.loadProcessCount || {}
     if (layer.get('available')) {
       let layerSource = layer.getSource()
-      let $button = $('<button class="' + this.classNameLayerButton_ + '"></button>')
+      let $button = $('<button>')
+        .addClass(this.classNames_.layerButton)
         .html(layer.get('title'))
-      let menuFunctions = new ButtonBox({className: this.classNameMenu_})
+
+      let activeClassName = this.classNames_.menu + '-active'
 
       $button.on('click', () => {
         if (this.toggle_) {
@@ -145,55 +152,107 @@ export default class LayerSelector extends Control {
       })
 
       if (layer.getVisible()) {
-        menuFunctions.setActive($button, true)
+        $button.addClass(activeClassName)
       }
 
-      layer.on('change:visible', () => {
-        menuFunctions.setActive($button, layer.getVisible())
-        if (!layer.getVisible()) {
-          layer.resetLoadProcessCount()
-          $button.removeClass('g4u-layer-loading')
-        }
-      })
+      this.listenerKeys_.push(
+        layer.on('change:visible', () => {
+          $button.toggleClass(activeClassName, layer.getVisible())
+          if (!layer.getVisible()) {
+            layer.resetLoadProcessCount()
+            $button.removeClass('g4u-layer-loading')
+          }
+        }))
 
-      layerSource.on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], () => {
-        $button.addClass('g4u-layer-loading')
-      })
+      this.listenerKeys_.push(
+        layerSource.on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], () => {
+          $button.addClass('g4u-layer-loading')
+        }))
 
-      layerSource.on([
-        'vectorloadend', 'vectorloaderror',
-        'tileloadend', 'tileloaderror',
-        'imageloadend', 'imageloaderror'], () => {
-        if (layer.getLoadProcessCount() === 0) {
-          $button.removeClass('g4u-layer-loading')
-        }
-      })
+      this.listenerKeys_.push(
+        layerSource.on([
+          'vectorloadend', 'vectorloaderror',
+          'tileloadend', 'tileloaderror',
+          'imageloadend', 'imageloaderror'], () => {
+          if (layer.getLoadProcessCount() === 0) {
+            $button.removeClass('g4u-layer-loading')
+          }
+        }))
+
       $target.append($button)
     }
   }
 
   /**
    * builds a category button which collapses on click
-   * @param {GroupLayer} layer
+   * @param {GroupLayer} categoryLayer
    * @param {jQuery} $target
    */
-  buildCategoryButton (layer, $target) {
-    let $newTarget = $target
+  buildCategoryButton (categoryLayer, $target) {
+    let $nextTarget = $target
 
-    if (layer.get('available')) {
+    if (categoryLayer.get('available')) {
       let menu = new ButtonBox({
-        className: this.classNameMenu_,
-        title: this.getLocaliser().selectL10N(layer.get('title')),
-        collapsed: !layer.getChildrenVisible() && (layer.get('collapsed') !== false)
+        className: this.classNames_.menu,
+        title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
+        titleButton: true,
+        collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false)
+      })
+
+      let countChildren = categoryLayer.countChildren()
+      let countVisibleChildren = categoryLayer.countChildrenVisible()
+
+      let forEachChildLayer = childLayer => {
+        this.listenerKeys_.push(
+          childLayer.on(['change:visible', 'change:childVisible'], e => {
+            let changedLayer = childLayer
+            if (e.child) {
+              changedLayer = e.child
+            }
+
+            if (changedLayer.getVisible()) {
+              countVisibleChildren++
+            } else {
+              countVisibleChildren--
+            }
+
+            if (countVisibleChildren === 0) {
+              menu.setCollapseButtonActive(false)
+              menu.setTitleButtonActive(false)
+            } else if (countVisibleChildren === countChildren) {
+              menu.setCollapseButtonActive(true)
+              menu.setTitleButtonActive(true)
+            } else {
+              menu.setCollapseButtonActive(true)
+              menu.setTitleButtonActive(false)
+            }
+          }))
+      }
+
+      this.listenerKeys_.push(
+        categoryLayer.getLayers().forEach(forEachChildLayer))
+
+      this.listenerKeys_.push(
+        categoryLayer.getLayers().on('add', e => forEachChildLayer(e.element)))
+
+      menu.on('title:click', () => {
+        let visible = countVisibleChildren < countChildren
+        categoryLayer.recursiveForEach(childLayer => {
+          if (!(childLayer instanceof GroupLayer)) {
+            childLayer.setVisible(visible)
+          }
+        })
       })
 
       $target.append(menu.get$Element())
 
-      $newTarget = menu.get$Body()
+      $nextTarget = menu.get$Body()
+
+      menu.on('change:collapsed', () => this.changed())
     }
 
-    for (let layer of layer.getLayers().getArray()) {
-      this.chooseButtonBuilder(layer, $newTarget)
+    for (let childLayer of categoryLayer.getLayers().getArray()) {
+      this.chooseButtonBuilder(childLayer, $nextTarget)
     }
   }
 
@@ -214,12 +273,16 @@ export default class LayerSelector extends Control {
    * @param {G4UMap} map
    */
   setMap (map) {
+    if (this.getMap()) {
+      ol.Observable.unByKey(this.listenerKeys_)
+    }
+
     super.setMap(map)
 
     if (map) {
       this.layers_ = map.get(this.layerGroupName_).getLayers()
       if (this.layers_.getLength() >= this.minLayerAmount_) {
-        let menuFunctions = new ButtonBox({ className: this.classNameMenu_ })
+        let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
         for (let layer of this.layers_.getArray()) {
           this.chooseButtonBuilder(layer, this.menu_.get$Body())
         }
@@ -272,12 +335,8 @@ export default class LayerSelector extends Control {
 
         let newHeight = Math.max(buttonHeight * this.minVisibleButtons_, height - value)
 
-        console.log(height)
-        console.log(newHeight)
-
         if (height > newHeight) {
           $contentBox.css('max-height', newHeight)
-          console.log('setted max-height')
           return height - newHeight
         }
       }

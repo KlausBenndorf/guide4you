@@ -112,7 +112,7 @@ export default class MapConfigurator {
      */
     this.UIConfigurator_ = new UIConfigurator(map)
 
-    map.set('layerConfigurator_', this.layerConfigurator_)
+    map.set('layerConfigurator', this.layerConfigurator_)
     map.set('UIConfigurator', this.UIConfigurator_)
 
     this.configureMap()
