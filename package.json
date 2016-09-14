@@ -31,7 +31,7 @@
     "mocha": "3.0.2",
     "selenium-webdriver": "2.53.3",
     "phantomjs-prebuilt": "2.1.11",
-    "standard": "7.1.2",
+    "standard": "8.0.0",
     "wait-on": "1.5.2"
   },
   "scripts": {

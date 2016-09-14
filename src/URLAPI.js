@@ -328,9 +328,6 @@ export default class URLAPI {
         setEvent: 'ready:ui',
         setToMap: () => {
           if (isTrue('clsbtn')) {
-            let config = this.map_.get('mapConfig') || {}
-            config = config.controls || {}
-            config = config.closeWindowButton || {}
             this.map_.get('UIConfigurator').controlFactory.addControlTo(this.map_, 'closeWindowButton')
           }
         }
