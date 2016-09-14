@@ -13,11 +13,19 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
   constructor (options = {}) {
     super(options)
 
+    let listenerKeys = new WeakMap()
+
     this.getLayers().on('add', /** ol.CollectionEvent */ e => {
       let layer = e.element
       if (layer.provideMap) {
         layer.provideMap(this.getProvidedMap())
       }
+      listenerKeys.set(layer, layer.on('change:visible', () => {
+        this.dispatchEvent({
+          type: 'change:childVisible',
+          child: layer
+        })
+      }))
     })
 
     this.getLayers().on('remove', /** ol.CollectionEvent */ e => {
@@ -25,6 +33,8 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
       if (layer.provideMap) {
         layer.provideMap(null)
       }
+      ol.Observable.unByKey(listenerKeys.get(layer))
+      listenerKeys.delete(layer)
     })
   }
 
@@ -77,14 +87,28 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
    * Checks how many children are visible. Doesn't check visibility of the group layer
    * @returns {number}
    */
-  getChildrenVisible () {
+  countChildrenVisible () {
     let array = this.getLayersArray()
     let count = 0
 
     for (let i = 0, ii = array.length; i < ii; i++) {
       if (array[i] instanceof GroupLayer) {
-        count += array[i].getChildrenVisible()
+        count += array[i].countChildrenVisible()
       } else if (array[i].getVisible()) {
+        count += 1
+      }
+    }
+    return count
+  }
+
+  countChildren () {
+    let array = this.getLayersArray()
+    let count = 0
+
+    for (let i = 0, ii = array.length; i < ii; i++) {
+      if (array[i] instanceof GroupLayer) {
+        count += array[i].countChildren()
+      } else {
         count += 1
       }
     }

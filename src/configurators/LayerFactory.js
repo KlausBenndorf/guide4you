@@ -137,7 +137,7 @@ export default class LayerFactory {
 
       if (superType === SuperType.BASELAYER) {
         attributionLabel = this.map_.get('localiser').localiseUsingDictionary('Attribution baseLayerLabel')
-        optionsCopy.groupLayer = this.map_.get('layerConfigurator_').getBaseLayerGroup()
+        optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()
       } else {
         attributionLabel = optionsCopy.title
       }
