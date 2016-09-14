@@ -168,6 +168,8 @@ export default class ComposedControl extends Control {
       }
     }
 
+    control.on('change', e => this.dispatchEvent(e))
+
     this.controls_.push(control)
   }
 

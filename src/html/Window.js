@@ -53,6 +53,7 @@ export default class Window extends ol.Object {
      * @private
      */
     this.$element_ = $('<div>').addClass(this.className_)
+      .on('click', e => e.stopPropagation())
 
     /**
      * @type {jQuery}

@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 import Control from './Control'
 import { addTooltip } from '../html/html'
-import VectorLayer from '../layers/VectorLayer'
+import {VectorLayer} from '../layers/VectorLayer'
 import MessageDisplay from '../MessageDisplay'
 import {cssClasses} from '../globals'
 
@@ -90,7 +90,6 @@ export default class GeolocationButton extends Control {
         }
       } else {
         let thisRef = this
-        console.log(thisRef.getMap().get('mobile'))
         this.buttonMessageDisplay_.error(
           this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
           thisRef.getMap().get('mobile') ? {position: 'top middle'} : {}

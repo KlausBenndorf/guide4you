@@ -1,52 +1,53 @@
 import ol from 'openlayers'
+import {ProvideMapMixin} from './ProvideMapMixin'
+import {mixin} from '../utilities'
 
 /**
  * This Class is a Wrap around {ol.layer.Group} providing some extra functionality. This class is normally used for a
  * category of layers containing them.
  */
-export default class GroupLayer extends ol.layer.Group {
+export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
   /**
    * @param {object} [options={}]
    */
   constructor (options = {}) {
     super(options)
 
+    let listenerKeys = new WeakMap()
+
     this.getLayers().on('add', /** ol.CollectionEvent */ e => {
       let layer = e.element
-      if (layer.setMap) {
-        layer.setMap(this.getMap())
+      if (layer.provideMap) {
+        layer.provideMap(this.getProvidedMap())
       }
+      listenerKeys.set(layer, layer.on('change:visible', () => {
+        this.dispatchEvent({
+          type: 'change:childVisible',
+          child: layer
+        })
+      }))
     })
 
     this.getLayers().on('remove', /** ol.CollectionEvent */ e => {
       let layer = e.element
-      if (layer.setMap) {
-        layer.setMap(null)
+      if (layer.provideMap) {
+        layer.provideMap(null)
       }
+      ol.Observable.unByKey(listenerKeys.get(layer))
+      listenerKeys.delete(layer)
     })
   }
 
   /**
-   * The setMap methods of all contained children are called recursively
+   * The provideMap methods of all contained children are called recursively
    * @param {G4UMap} map
    */
-  setMap (map) {
-    /**
-     * @type {G4UMap}
-     * @private
-     */
-    this.map_ = map
+  provideMap (map) {
+    super.provideMap(map)
 
     this.getLayers().forEach(layer => {
-      layer.setMap(map)
+      if (layer.provideMap) { layer.provideMap(map) }
     })
-  }
-
-  /**
-   * @returns {G4UMap}
-   */
-  getMap () {
-    return this.map_
   }
 
   /**
@@ -86,14 +87,28 @@ export default class GroupLayer extends ol.layer.Group {
    * Checks how many children are visible. Doesn't check visibility of the group layer
    * @returns {number}
    */
-  getChildrenVisible () {
+  countChildrenVisible () {
     let array = this.getLayersArray()
     let count = 0
 
     for (let i = 0, ii = array.length; i < ii; i++) {
       if (array[i] instanceof GroupLayer) {
-        count += array[i].getChildrenVisible()
+        count += array[i].countChildrenVisible()
       } else if (array[i].getVisible()) {
+        count += 1
+      }
+    }
+    return count
+  }
+
+  countChildren () {
+    let array = this.getLayersArray()
+    let count = 0
+
+    for (let i = 0, ii = array.length; i < ii; i++) {
+      if (array[i] instanceof GroupLayer) {
+        count += array[i].countChildren()
+      } else {
         count += 1
       }
     }

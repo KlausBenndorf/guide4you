@@ -128,7 +128,8 @@ export default class Positioning {
         if (control.getCollapsible && control.getCollapsible()) {
           let width = $elem.width()
           let height = $elem.height()
-          $elem.on('click', () => {
+
+          $elem.on('click', () => { // TODO: introduce events to react to. beware of the loops.
             if ($elem.width() !== width || $elem.height() !== height) {
               this.positionElements()
               width = $elem.width()

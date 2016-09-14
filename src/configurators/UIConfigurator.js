@@ -440,7 +440,7 @@ export default class UIConfigurator {
         }
 
         this.map_.addDefaultInteraction('singleClick', new FeatureSelect({
-          condition: ol.events.condition.singleClick,
+          condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
           multi: true
         }))

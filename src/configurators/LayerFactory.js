@@ -2,9 +2,9 @@ import ol from 'openlayers'
 
 import {BaseLayerImage, ImageLayer} from '../layers/ImageLayer'
 import {EmptyBaseLayer} from '../layers/EmptyBaseLayer'
-import BaseLayerTile from '../layers/BaseLayerTile'
-import GroupLayer from '../layers/GroupLayer'
-import VectorLayer from '../layers/VectorLayer'
+import {BaseLayerTile} from '../layers/BaseLayerTile'
+import {GroupLayer} from '../layers/GroupLayer'
+import {VectorLayer} from '../layers/VectorLayer'
 import SourceServerVector from '../sources/SourceServerVector'
 import QuerySource from '../sources/QuerySource'
 import { copyDeep, take } from '../utilitiesObject'
@@ -137,7 +137,7 @@ export default class LayerFactory {
 
       if (superType === SuperType.BASELAYER) {
         attributionLabel = this.map_.get('localiser').localiseUsingDictionary('Attribution baseLayerLabel')
-        optionsCopy.groupLayer = this.map_.get('layerConfigurator_').getBaseLayerGroup()
+        optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()
       } else {
         attributionLabel = optionsCopy.title
       }

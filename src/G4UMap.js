@@ -495,7 +495,7 @@ export default class G4UMap extends ol.Map {
    * @param {GroupLayer} groupLayer
    */
   setLayerGroup (groupLayer) {
-    groupLayer.setMap(this)
+    groupLayer.provideMap(this)
     super.setLayerGroup(groupLayer)
   }
 
