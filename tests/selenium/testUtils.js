@@ -46,7 +46,7 @@ export function saveScreenshot (driver) {
   driver.takeScreenshot()
     .then(picture => {
       fs.writeFile('screenshot.png', picture, 'base64', err => {
-        console.log(err)
+        throw err
       })
     })
 }

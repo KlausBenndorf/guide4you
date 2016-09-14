@@ -186,7 +186,6 @@ test.describe('FeatureTooltip', function () {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
       }).then(() => {
-        console.log('map ready')
         return driver.executeScript(
           stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
       }).then(() => {

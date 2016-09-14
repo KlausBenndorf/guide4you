@@ -31,79 +31,79 @@ test.describe('measurementButton', function () {
   })
   // functions //////////////////////////////////////////////////////////////
 
-  let checkButtonIsPresent = function (name) {
-    test.it(`should have ${name} measurement button`, function (done) {
-      this.timeout(config.mochaTimeout)
-      driver.get(config.testClient)
-        .then(function () {
-          waitUntilMapReady(driver)
-            .then(function () {
-              driver
-                .findElement(By.css(`.g4u-window-decorator.g4u-${name}-measurement`))
-              done()
-            })
-        })
-    })
-  }
-
-  let windowInitallyHidden = function (name) {
-    test.it(`should initially hide ${name} measurement window `, function (done) {
-      this.timeout(config.mochaTimeout)
-      driver.get(config.testClient)
-        .then(function () {
-          waitUntilMapReady(driver)
-            .then(function () {
-              driver
-                .findElement(
-                  By.css(`.g4u-window-decorator.g4u-${name}-measurement`)
-              )
-                .then(function () {
-                  driver
-                    .findElement(
-                      By.css(`.g4u-window-component.g4u-${name}-measurement`)
-                  )
-                    .isDisplayed()
-                    .then(
-                      function (visible) {
-                        if (!visible) {
-                          done()
-                        }
-                      })
-                })
-            })
-        })
-    })
-  }
-
-  let windowDisplaysWhenButtonIsClicked = function (name) {
-    test.it('should display area measurement window when corresponding button is clicked', function (done) {
-      this.timeout(config.mochaTimeout)
-      driver.get(config.testClient)
-        .then(function () {
-          waitUntilMapReady(driver)
-            .then(function () {
-              driver
-                .findElement(
-                  By.css(`.g4u-window-decorator.g4u-${name}-measurement`)
-              )
-                .click()
-                .then(function () {
-                  driver
-                    .findElement(
-                      By.css(`.g4u-window-component.g4u-${name}-measurement`)
-                  )
-                    .isDisplayed()
-                    .then(
-                      function (visible) {
-                        if (visible) {
-                          done()
-                        }
-                      })
-                })
-            })
-        })
-    })
-  }
+  // let checkButtonIsPresent = function (name) {
+  //   test.it(`should have ${name} measurement button`, function (done) {
+  //     this.timeout(config.mochaTimeout)
+  //     driver.get(config.testClient)
+  //       .then(function () {
+  //         waitUntilMapReady(driver)
+  //           .then(function () {
+  //             driver
+  //               .findElement(By.css(`.g4u-window-decorator.g4u-${name}-measurement`))
+  //             done()
+  //           })
+  //       })
+  //   })
+  // }
+  //
+  // let windowInitallyHidden = function (name) {
+  //   test.it(`should initially hide ${name} measurement window `, function (done) {
+  //     this.timeout(config.mochaTimeout)
+  //     driver.get(config.testClient)
+  //       .then(function () {
+  //         waitUntilMapReady(driver)
+  //           .then(function () {
+  //             driver
+  //               .findElement(
+  //                 By.css(`.g4u-window-decorator.g4u-${name}-measurement`)
+  //             )
+  //               .then(function () {
+  //                 driver
+  //                   .findElement(
+  //                     By.css(`.g4u-window-component.g4u-${name}-measurement`)
+  //                 )
+  //                   .isDisplayed()
+  //                   .then(
+  //                     function (visible) {
+  //                       if (!visible) {
+  //                         done()
+  //                       }
+  //                     })
+  //               })
+  //           })
+  //       })
+  //   })
+  // }
+  //
+  // let windowDisplaysWhenButtonIsClicked = function (name) {
+  //   test.it('should display area measurement window when corresponding button is clicked', function (done) {
+  //     this.timeout(config.mochaTimeout)
+  //     driver.get(config.testClient)
+  //       .then(function () {
+  //         waitUntilMapReady(driver)
+  //           .then(function () {
+  //             driver
+  //               .findElement(
+  //                 By.css(`.g4u-window-decorator.g4u-${name}-measurement`)
+  //             )
+  //               .click()
+  //               .then(function () {
+  //                 driver
+  //                   .findElement(
+  //                     By.css(`.g4u-window-component.g4u-${name}-measurement`)
+  //                 )
+  //                   .isDisplayed()
+  //                   .then(
+  //                     function (visible) {
+  //                       if (visible) {
+  //                         done()
+  //                       }
+  //                     })
+  //               })
+  //           })
+  //       })
+  //   })
+  // }
 
   // perform tests //////////////////////////////////////////////////////////
   /*
