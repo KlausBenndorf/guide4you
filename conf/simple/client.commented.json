@@ -42,8 +42,6 @@
   "controls": {
     "onMap": [
       "attribution",
-      "layerMenu",
-      "scaleLine",
       "zoom",
       "mobileControls",
       "searchControl"
@@ -57,7 +55,7 @@
       "fuzzySearchURL": "http://stadtplan.siegburg.de/search/FindAll.ashx?term={searchstring}&option=2",
       "exactSearchURL": "http://stadtplan.siegburg.de/search/FindAll.ashx?term={searchstring}&option=1",
       "autocompleteURL": "http://stadtplan.siegburg.de/search/Autocomplete.ashx?term={searchstring}",
-      "proxy": "proxy/proxy.php?csurl={url}",
+      "proxy": "{{{ajaxProxy}}}",
       "parser": "G4USearchV2",
       "closePageOnSearchEnd": false,
       "style": "#defaultStyle",
@@ -66,30 +64,10 @@
       "animated": true,
       "placeholder": "Search ..."
     },
-    "layerMenu": {
-      "float": [
-        "right",
-        "top"
-      ],
-      "contains": [
-        "baseLayerSelector",
-        "featureLayerSelector"
-      ]
-    },
-    "mobileLayerMenu": {
-      "controlType": "layerMenu",
-      "collapsible": false,
-      "contains": [
-        "baseLayerSelector",
-        "featureLayerSelector"
-      ]
-    },
     "mobileControls": {
       "float": "fixed",
       "contains": [
-        "mobileLayerMenu",
-        "searchControl",
-        "infoButton"
+        "searchControl"
       ]
     },
     "scaleLine": {
@@ -111,12 +89,6 @@
       "layerGroupName": "baseLayers",
       "minLayerAmount": 2,
       "title": "Maps"
-    },
-    "featureLayerSelector": {
-      "controlType": "layerSelector",
-      "layerGroupName": "featureLayers",
-      "minLayerAmount": 1,
-      "title": "Information"
     },
     "attribution": {
       "float": [
