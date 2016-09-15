@@ -29,7 +29,9 @@ module.exports = {
       proxyFilterDomain: 'true',
       proxyAjaxDebug: 'true',
       proxyValidRequests: [
-        'www.wms.nrw.de'
+        'a.tile.openstreetmap.org',
+        'b.tile.openstreetmap.org',
+        'c.tile.openstreetmap.org'
       ]
     }
   },

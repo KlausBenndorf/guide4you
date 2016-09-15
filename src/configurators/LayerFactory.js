@@ -263,15 +263,6 @@ export class LayerFactory {
 
         optionsCopy.source = new ImageWMSSource(optionsCopy.source)
 
-        // if (optionsCopy.source.hasFeatureInfo()) {
-        //
-        //   this.map_.on('singleclick', e => {
-        //
-        //     optionsCopy.source.getFeatureInfo(e.coordinate, this.map_.getView().getResolution(), this.map_.getView().getProjection())
-        //       .then(data => console.log(data))
-        //   })
-        // }
-
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerImage(optionsCopy)
         } else if (superType === SuperType.QUERYLAYER) {
@@ -279,6 +270,13 @@ export class LayerFactory {
         } else {
           layer = new ImageLayer(optionsCopy)
         }
+
+        if (layer.getSource().hasFeatureInfo()) {
+          this.map_.asSoonAs('ready:ui', true, () => {
+            this.map_.get('showWMSFeatureInfo').addLayer(layer)
+          })
+        }
+
         break
       case LayerType.KML:
 

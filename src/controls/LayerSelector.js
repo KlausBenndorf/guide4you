@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import ol from 'openlayers'
+import flatten from 'lodash/flatten'
 
 import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
@@ -8,7 +9,7 @@ import {offset} from '../utilities'
 import {cssClasses} from '../globals'
 
 import '../../less/layerselector.less'
-import {ImageWMSSource} from '../sources/ImageWMSSource';
+import {ImageWMSSource} from '../sources/ImageWMSSource'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -270,57 +271,87 @@ export class LayerSelector extends Control {
 
   buildWMSButton (wmsLayer, $target) {
     if (wmsLayer.get('available')) {
-      let layerButtons = wmsLayer.get('layerButtons')
-      if (layerButtons) {
-        let activeLayerButtons = []
-        let getParams = () => {
-          return { LAYERS: Array.prototype.concat.apply([], activeLayerButtons.map(a => a.LAYERS)) }
+      let layerButtons = wmsLayer.get('buttons')
+
+      class ActiveButtons {
+        constructor () {
+          this.buttons_ = []
         }
 
+        isActive (button) {
+          return this.buttons_.indexOf(button) > -1
+        }
+
+        add (button) {
+          if (Array.isArray(button)) {
+            for (let b of button) {
+              this.add(b)
+            }
+          } else {
+            if (!this.isActive(button)) {
+              this.buttons_.push(button)
+            }
+          }
+        }
+
+        remove (button) {
+          if (Array.isArray(button)) {
+            for (let b of button) {
+              this.remove(b)
+            }
+          } else {
+            let index = this.buttons_.indexOf(button)
+            if (index > -1) {
+              this.buttons_.splice(index, 1)
+            }
+          }
+        }
+
+        clear () {
+          this.buttons_ = []
+        }
+
+        getFlatProp (prop) {
+          return flatten(this.buttons_.map(a => a[ prop ] || []))
+        }
+
+        count () {
+          return this.buttons_.length
+        }
+
+        toggle (button, value) {
+          if (value) {
+            this.add(button)
+          } else {
+            this.remove(button)
+          }
+        }
+      }
+
+      let activeLayerButtons = new ActiveButtons()
+      let updateLayersParam = () => {
+        wmsLayer.getSource().updateParams({ LAYERS: activeLayerButtons.getFlatProp('LAYERS') })
+      }
+
+      let featureInfoCheckable = wmsLayer.getSource().isFeatureInfoCheckable()
+      let activeQueryLayerButtons = new ActiveButtons()
+      let updateQueryLayersParam = () => {
+        let featureInfoParams
+        if (featureInfoCheckable) {
+          featureInfoParams = { QUERY_LAYERS: activeQueryLayerButtons.getFlatProp('QUERY_LAYERS') }
+        } else {
+          featureInfoParams = { QUERY_LAYERS: activeLayerButtons.getFlatProp('QUERY_LAYERS') }
+        }
+        wmsLayer.getSource().updateFeatureInfoParams(featureInfoParams)
+      }
+
+      if (layerButtons) {
         let menu = new ButtonBox({
           className: this.classNames_.menu,
           title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
           titleButton: true,
           collapsed: wmsLayer.get('collapsed') !== false
         })
-
-        // let countChildren = categoryLayer.countChildren()
-        // let countVisibleChildren = categoryLayer.countChildrenVisible()
-        //
-        // let forEachChildLayer = childLayer => {
-        //   this.listenerKeys_.push(
-        //     childLayer.on(['change:visible', 'change:childVisible'], e => {
-        //       let changedLayer = childLayer
-        //       if (e.child) {
-        //         changedLayer = e.child
-        //       }
-        //
-        //       if (changedLayer.getVisible()) {
-        //         countVisibleChildren++
-        //       } else {
-        //         countVisibleChildren--
-        //       }
-        //
-        //       if (countVisibleChildren === 0) {
-        //         menu.setCollapseButtonActive(false)
-        //         menu.setTitleButtonActive(false)
-        //       } else if (countVisibleChildren === countChildren) {
-        //         menu.setCollapseButtonActive(true)
-        //         menu.setTitleButtonActive(true)
-        //       } else {
-        //         menu.setCollapseButtonActive(true)
-        //         menu.setTitleButtonActive(false)
-        //       }
-        //     }))
-        // }
-        //
-        // this.listenerKeys_.push(
-        //   categoryLayer.getLayers().forEach(forEachChildLayer))
-        //
-        // this.listenerKeys_.push(
-        //   categoryLayer.getLayers().on('add', e => forEachChildLayer(e.element)))
-
-
 
         $target.append(menu.get$Element())
 
@@ -334,22 +365,23 @@ export class LayerSelector extends Control {
           let $button = $('<button>')
             .addClass(this.classNames_.layerButton)
             .html(this.getLocaliser().selectL10N(layerButton.title))
+          let $checkbox = $('<input type="checkbox">')
 
-          $button.on('click', () => {
-            var index = activeLayerButtons.indexOf(layerButton)
-            if (index < 0) {
-              activeLayerButtons.push(layerButton)
-              $button.addClass(activeClassName)
-            } else {
-              activeLayerButtons.splice(index, 1)
-              $button.removeClass(activeClassName)
+          let buttonActive, checkboxActive
+
+          buttonActive = active => {
+            activeLayerButtons.toggle(layerButton, active)
+            $button.toggleClass(activeClassName, active)
+
+            if (!active && featureInfoCheckable) {
+              checkboxActive(false)
             }
 
-            if (activeLayerButtons.length === 0) {
+            if (activeLayerButtons.count() === 0) {
               wmsLayer.setVisible(false)
               menu.setCollapseButtonActive(false)
               menu.setTitleButtonActive(false)
-            } else if (activeLayerButtons.length === layerButtons.length) {
+            } else if (activeLayerButtons.count() === layerButtons.length) {
               wmsLayer.setVisible(true)
               menu.setCollapseButtonActive(true)
               menu.setTitleButtonActive(true)
@@ -359,30 +391,53 @@ export class LayerSelector extends Control {
               menu.setTitleButtonActive(false)
             }
 
-            wmsLayer.getSource().updateParams(getParams())
-          })
+            updateLayersParam()
+            updateQueryLayersParam()
+          }
+
+          checkboxActive = active => {
+            activeQueryLayerButtons.toggle(layerButton, active)
+            if (active && !activeLayerButtons.isActive(layerButton)) {
+              buttonActive(true)
+            }
+
+            updateQueryLayersParam()
+            $checkbox.prop('checked', active)
+          }
+
+          $button.on('click', () => buttonActive(!activeLayerButtons.isActive(layerButton)))
+
+          if (featureInfoCheckable) {
+            $button.append($checkbox)
+            $checkbox.on('click', e => {
+              checkboxActive($checkbox.is(':checked'))
+              e.stopPropagation()
+            })
+          }
 
           $buttons = $buttons.add($button)
           menu.get$Body().append($button)
         }
 
         menu.on('title:click', () => {
-          if (activeLayerButtons.length < layerButtons.length) {
-            activeLayerButtons = activeLayerButtons.concat(layerButtons.filter(b => activeLayerButtons.indexOf(b) < 0))
-            $buttons.addClass(activeClassName)
-            wmsLayer.setVisible(true)
-            menu.setCollapseButtonActive(true)
-            menu.setTitleButtonActive(true)
+          let activateAll = activeLayerButtons.count() < layerButtons.length
+          if (activateAll) {
+            activeLayerButtons.add(layerButtons)
           } else {
-            activeLayerButtons = []
-            $buttons.removeClass(activeClassName)
-            wmsLayer.setVisible(false)
-            menu.setCollapseButtonActive(false)
-            menu.setTitleButtonActive(false)
+            activeLayerButtons.clear()
+            if (featureInfoCheckable) {
+              activeQueryLayerButtons.clear()
+              $buttons.find('input[type=checkbox]').prop('checked', false)
+            }
           }
-          wmsLayer.getSource().updateParams(getParams())
-        })
 
+          $buttons.toggleClass(activeClassName, activateAll)
+          wmsLayer.setVisible(activateAll)
+          menu.setCollapseButtonActive(activateAll)
+          menu.setTitleButtonActive(activateAll)
+
+          updateLayersParam()
+        })
       } else {
         this.buildLayerButton(wmsLayer, $target)
       }

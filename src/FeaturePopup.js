@@ -1,5 +1,6 @@
 import ol from 'openlayers'
 import $ from 'jquery'
+import flatten from 'lodash/flatten'
 
 import {Window} from './html/Window'
 import {cssClasses} from './globals'
@@ -438,7 +439,7 @@ export class FeaturePopup extends ol.Object {
       this.feature_ = feature
       this.useMutators_ = [ ...this.defaultMutators_, ...optMutators ]
       for (let layer of this.referencingVisibleLayers_) {
-        this.useMutators_ = Array.prototype.concat.apply(this.useMutators_, layer.get('mutators'))
+        this.useMutators_ = this.useMutators_.concat(flatten(layer.get('mutators')))
       }
       this.geometryChangeHandler_ = () => {
         this.overlay_.setPosition(ol.extent.getCenter(this.feature_.getGeometry().getExtent()))

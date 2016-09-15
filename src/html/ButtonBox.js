@@ -211,41 +211,6 @@ export class ButtonBox extends ol.Object {
     this.$title_.children('.' + this.classNames_.titleButton).toggleClass(this.classNames_.active, active)
   }
 
-  // /**
-  //  * Mark an element (and its parents) as active/inactive (clicked)
-  //  * @param {jQuery} $element
-  //  * @param {boolean} active
-  //  */
-  // setActive ($element, active) {
-  //   let $parent = $element.parent().parent()
-  //   if (active) {
-  //     let $collapseButton = $element.find('.' + this.classNames_.collapseButton)
-  //     let $titleButton = $element.find('.' + this.classNames_.titleButton)
-  //     if () {
-  //
-  //     }
-  //     $element.addClass(this.classNames_.active)
-  //     if ($parent.hasClass(this.className_)) { // propagate to parent if it has the same classname
-  //       this.setActive($parent, active)
-  //     }
-  //   } else {
-  //     if (!$element.children('.' + this.classNames_.body).children().hasClass(this.classNames_.active)) {
-  //       $element.removeClass(this.classNames_.active)
-  //       if ($parent.hasClass(this.className_)) { // propagate to parent if it has the same classname
-  //         this.setActive($parent, active)
-  //       }
-  //     }
-  //   }
-  // }
-
-  // /**
-  //  * @param $element
-  //  * @returns {boolean}
-  //  */
-  // getActive ($element) {
-  //   return $element.hasClass(this.classNames_.active)
-  // }
-
   /**
    * Gives the last element in the element the last visible class
    * @param $element
