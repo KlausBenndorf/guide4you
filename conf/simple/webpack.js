@@ -19,7 +19,10 @@ module.exports = {
   mustacheEvalLoader: {
     templateVars: {
       pageTitle: 'URLAPI g4u3',
-      ajaxProxy: 'proxy/proxy.php?csurl={url}',
+      ajaxProxy: {
+        'prod': 'proxy/proxy.php?csurl={url}',
+        'dev': '/proxy/{url}'
+      },
       languageFile: 'files/l10n.json',
       svgColor: 'rgba(255,255,255,1)',
       proxyAjaxFilters: 'true',
