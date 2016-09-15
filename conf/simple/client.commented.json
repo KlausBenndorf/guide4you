@@ -43,8 +43,6 @@
   "controls": {
     "onMap": [
       "attribution",
-      "layerMenu",
-      "scaleLine",
       "zoom",
       "mobileControls",
       "searchControl"
@@ -66,30 +64,10 @@
       "animated": true,
       "placeholder": "Search ..."
     },
-    "layerMenu": {
-      "float": [
-        "right",
-        "top"
-      ],
-      "contains": [
-        "baseLayerSelector",
-        "featureLayerSelector"
-      ]
-    },
-    "mobileLayerMenu": {
-      "controlType": "layerMenu",
-      "collapsible": false,
-      "contains": [
-        "baseLayerSelector",
-        "featureLayerSelector"
-      ]
-    },
     "mobileControls": {
       "float": "fixed",
       "contains": [
-        "mobileLayerMenu",
-        "searchControl",
-        "infoButton"
+        "searchControl"
       ]
     },
     "scaleLine": {
@@ -111,12 +89,6 @@
       "layerGroupName": "baseLayers",
       "minLayerAmount": 2,
       "title": "Maps"
-    },
-    "featureLayerSelector": {
-      "controlType": "layerSelector",
-      "layerGroupName": "featureLayers",
-      "minLayerAmount": 1,
-      "title": "Information"
     },
     "attribution": {
       "float": [
