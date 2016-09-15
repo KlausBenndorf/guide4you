@@ -264,6 +264,15 @@ export class LayerFactory {
 
         optionsCopy.source = new ImageWMSSource(optionsCopy.source)
 
+        // if (optionsCopy.source.hasFeatureInfo()) {
+        //
+        //   this.map_.on('singleclick', e => {
+        //
+        //     optionsCopy.source.getFeatureInfo(e.coordinate, this.map_.getView().getResolution(), this.map_.getView().getProjection())
+        //       .then(data => console.log(data))
+        //   })
+        // }
+
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerImage(optionsCopy)
         } else if (superType === SuperType.QUERYLAYER) {
