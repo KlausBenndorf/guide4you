@@ -67,8 +67,7 @@
     "mobileControls": {
       "float": "fixed",
       "contains": [
-        "searchControl",
-        "infoButton"
+        "searchControl"
       ]
     },
     "scaleLine": {
@@ -97,6 +96,28 @@
         "bottom"
       ],
       "importance": 99
+    }
+  },
+  "styleMap": {
+    "#defaultStyle": {
+      "fill": {
+        "color": "rgba( 0, 113, 188, 0.3)"
+      },
+      "stroke": {
+        "color": "rgba( 46, 49, 146, 0.8)",
+        "width": 2
+      },
+      "image": {
+        "type": "circle",
+        "radius": 7.5,
+        "fill": {
+          "color": "rgba( 0, 113, 188, 0.3)"
+        },
+        "stroke": {
+          "color": "rgba( 46, 49, 146, 0.8)",
+          "width": 2
+        }
+      }
     }
   }
 }
