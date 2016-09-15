@@ -8,6 +8,7 @@ import {offset} from '../utilities'
 import {cssClasses} from '../globals'
 
 import '../../less/layerselector.less'
+import {ImageWMSSource} from '../sources/ImageWMSSource';
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -267,6 +268,127 @@ export class LayerSelector extends Control {
     }
   }
 
+  buildWMSButton (wmsLayer, $target) {
+    if (wmsLayer.get('available')) {
+      let layerButtons = wmsLayer.get('layerButtons')
+      if (layerButtons) {
+        let activeLayerButtons = []
+        let getParams = () => {
+          return { LAYERS: Array.prototype.concat.apply([], activeLayerButtons.map(a => a.LAYERS)) }
+        }
+
+        let menu = new ButtonBox({
+          className: this.classNames_.menu,
+          title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
+          titleButton: true,
+          collapsed: wmsLayer.get('collapsed') !== false
+        })
+
+        // let countChildren = categoryLayer.countChildren()
+        // let countVisibleChildren = categoryLayer.countChildrenVisible()
+        //
+        // let forEachChildLayer = childLayer => {
+        //   this.listenerKeys_.push(
+        //     childLayer.on(['change:visible', 'change:childVisible'], e => {
+        //       let changedLayer = childLayer
+        //       if (e.child) {
+        //         changedLayer = e.child
+        //       }
+        //
+        //       if (changedLayer.getVisible()) {
+        //         countVisibleChildren++
+        //       } else {
+        //         countVisibleChildren--
+        //       }
+        //
+        //       if (countVisibleChildren === 0) {
+        //         menu.setCollapseButtonActive(false)
+        //         menu.setTitleButtonActive(false)
+        //       } else if (countVisibleChildren === countChildren) {
+        //         menu.setCollapseButtonActive(true)
+        //         menu.setTitleButtonActive(true)
+        //       } else {
+        //         menu.setCollapseButtonActive(true)
+        //         menu.setTitleButtonActive(false)
+        //       }
+        //     }))
+        // }
+        //
+        // this.listenerKeys_.push(
+        //   categoryLayer.getLayers().forEach(forEachChildLayer))
+        //
+        // this.listenerKeys_.push(
+        //   categoryLayer.getLayers().on('add', e => forEachChildLayer(e.element)))
+
+
+
+        $target.append(menu.get$Element())
+
+        menu.on('change:collapsed', () => this.changed())
+
+        let activeClassName = this.classNames_.menu + '-active'
+
+        let $buttons = $()
+
+        for (let layerButton of layerButtons) {
+          let $button = $('<button>')
+            .addClass(this.classNames_.layerButton)
+            .html(this.getLocaliser().selectL10N(layerButton.title))
+
+          $button.on('click', () => {
+            var index = activeLayerButtons.indexOf(layerButton)
+            if (index < 0) {
+              activeLayerButtons.push(layerButton)
+              $button.addClass(activeClassName)
+            } else {
+              activeLayerButtons.splice(index, 1)
+              $button.removeClass(activeClassName)
+            }
+
+            if (activeLayerButtons.length === 0) {
+              wmsLayer.setVisible(false)
+              menu.setCollapseButtonActive(false)
+              menu.setTitleButtonActive(false)
+            } else if (activeLayerButtons.length === layerButtons.length) {
+              wmsLayer.setVisible(true)
+              menu.setCollapseButtonActive(true)
+              menu.setTitleButtonActive(true)
+            } else {
+              wmsLayer.setVisible(true)
+              menu.setCollapseButtonActive(true)
+              menu.setTitleButtonActive(false)
+            }
+
+            wmsLayer.getSource().updateParams(getParams())
+          })
+
+          $buttons = $buttons.add($button)
+          menu.get$Body().append($button)
+        }
+
+        menu.on('title:click', () => {
+          if (activeLayerButtons.length < layerButtons.length) {
+            activeLayerButtons = activeLayerButtons.concat(layerButtons.filter(b => activeLayerButtons.indexOf(b) < 0))
+            $buttons.addClass(activeClassName)
+            wmsLayer.setVisible(true)
+            menu.setCollapseButtonActive(true)
+            menu.setTitleButtonActive(true)
+          } else {
+            activeLayerButtons = []
+            $buttons.removeClass(activeClassName)
+            wmsLayer.setVisible(false)
+            menu.setCollapseButtonActive(false)
+            menu.setTitleButtonActive(false)
+          }
+          wmsLayer.getSource().updateParams(getParams())
+        })
+
+      } else {
+        this.buildLayerButton(wmsLayer, $target)
+      }
+    }
+  }
+
   /**
    * This method chooses the right builder function
    * @param {ol.layer.Base} layer
@@ -275,6 +397,8 @@ export class LayerSelector extends Control {
   chooseButtonBuilder (layer, $target) {
     if (layer instanceof GroupLayer) {
       this.buildCategoryButton(layer, $target)
+    } else if (layer.getSource() instanceof ImageWMSSource) {
+      this.buildWMSButton(layer, $target)
     } else {
       this.buildLayerButton(layer, $target)
     }

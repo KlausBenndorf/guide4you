@@ -12,6 +12,7 @@ import { copyDeep, take } from '../utilitiesObject'
 import { checkFor, addProxy } from '../utilities'
 
 import {Debug} from '../Debug'
+import {ImageWMSSource} from '../sources/ImageWMSSource';
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -256,7 +257,20 @@ export class LayerFactory {
         break
       case LayerType.WMS:
 
-        optionsCopy.source = new ol.source.ImageWMS(optionsCopy.source)
+        if (optionsCopy.categoryButtons) {
+          optionsCopy.source.params.LAYERS = []
+        }
+
+        optionsCopy.source = new ImageWMSSource(optionsCopy.source)
+
+        // if (optionsCopy.source.hasFeatureInfo()) {
+        //
+        //   this.map_.on('singleclick', e => {
+        //
+        //     optionsCopy.source.getFeatureInfo(e.coordinate, this.map_.getView().getResolution(), this.map_.getView().getProjection())
+        //       .then(data => console.log(data))
+        //   })
+        // }
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerImage(optionsCopy)

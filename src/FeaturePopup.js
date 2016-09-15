@@ -422,8 +422,9 @@ export class FeaturePopup extends ol.Object {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
+   * @param {string[]} [optMutators=[]]
    */
-  setFeature (feature) {
+  setFeature (feature, optMutators = []) {
     let oldValue = this.feature_
     if (oldValue !== feature) {
       let geometry = feature.getGeometry()
@@ -435,7 +436,7 @@ export class FeaturePopup extends ol.Object {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.useMutators_ = [ ...this.defaultMutators_ ]
+      this.useMutators_ = [ ...this.defaultMutators_, ...optMutators ]
       for (let layer of this.referencingVisibleLayers_) {
         this.useMutators_ = Array.prototype.concat.apply(this.useMutators_, layer.get('mutators'))
       }
