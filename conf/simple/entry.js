@@ -6,9 +6,6 @@ import defaultLayerConf from 'guide4you-builder/mustache-eval-loader?name=conf/[
 
 import 'guide4you-builder/tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 
-import 'file?name=files/[name].[ext]!guide4you/files/hotelsbonn.kml'
-import 'file?name=files/[name].[ext]!guide4you/files/restaurantsbonn.kml'
-
 import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
 import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
