@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "csscolorparser": "1.0.2",
-    "guide4you-builder": "1.0.3",
+    "guide4you-builder": "1.0.7",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "5.2.0",
     "jquery": "3.1.0",
