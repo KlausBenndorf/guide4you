@@ -15,7 +15,7 @@
     "guide4you": "1.1.*",
     "guide4you-builder": "1.0.*",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
-    "guide4you-module-search": "1.1.*"
+    "guide4you-module-search": "1.2.*"
   },
   "devDependencies": {
     "concurrently": "2.2.0",
@@ -30,9 +30,7 @@
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
-    "pretest": "g4u-buildTests",
-    "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/simple\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "test": "npm run lint",
     "doc": "esdoc -c esdoc.json"
   }
 }
