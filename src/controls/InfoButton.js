@@ -54,7 +54,6 @@ export default class InfoPage extends Control {
     this.$content_ = $('<div>').addClass(this.classNameContent_)
 
     this.get$Element()
-      .append($('<h1>').html(this.title_))
       .append(this.$content_)
       .append($('<h2>').html(this.getLocaliser().localiseUsingDictionary('InfoPage copyrightTitle')))
       .append(this.$attributions_)
