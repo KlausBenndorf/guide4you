@@ -1,6 +1,6 @@
 import ol from 'openlayers'
 
-import Parser from './SearchParser'
+import {SearchParser} from './SearchParser'
 import Debug from 'guide4you/src/Debug'
 
 /**
@@ -8,7 +8,7 @@ import Debug from 'guide4you/src/Debug'
  * @property {L10N} localiser
  */
 
-export default class NominatimSearch extends Parser {
+export class NominatimSearchParser extends SearchParser {
   /**
    * @param {NominatimSearchOptions} options
    */

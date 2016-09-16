@@ -7,7 +7,7 @@ import { cssClasses, keyCodes } from 'guide4you/src/globals'
 import { expandTemplate, addProxy } from 'guide4you/src/utilities'
 import Control from 'guide4you/src/controls/Control'
 
-import VectorLayer from 'guide4you/src/layers/VectorLayer'
+import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
 
 import Debug from 'guide4you/src/Debug'
 
@@ -39,7 +39,7 @@ import '../less/searchcontrol.less'
  *
  * @fires 'searchEnd' with bool parameter `success`
  */
-export default class SearchControl extends Control {
+export class SearchControl extends Control {
   /**
    * @param {SearchControlOptions} options
    */
@@ -355,8 +355,9 @@ export default class SearchControl extends Control {
           this.features_ = this.parser_.parseFeatures(results).slice(0, this.amountDropdownEntries_)
           resolve()
         },
-        error: () => {
-          reject('Problem while trying to get search results from the Server. (SearchURL: ' + url + ')')
+        error: (jqXHR, textStatus) => {
+          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
+            `(SearchURL: ${url})`)
         }
       })
     })

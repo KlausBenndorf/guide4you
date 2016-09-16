@@ -1,12 +1,12 @@
 import Module from 'guide4you/src/Module'
-import SearchControl from './SearchControl'
+import {SearchControl} from './SearchControl'
 
 /**
  * @typedef {object} SearchControlModuleOptions
  * @property {object.<string, SearchParser>} parsers
  */
 
-export default class SearchControlModule extends Module {
+export class SearchModule extends Module {
   /**
    * @param {SearchControlModuleOptions} options
    */

@@ -6,7 +6,7 @@ import ol from 'openlayers'
  * @property {ol.ProjectionLike} [dataProjection='EPSG:4326']
  */
 
-export default class SearchParser {
+export class SearchParser {
   /**
    * @param {SearchParserOptions} options
    */
