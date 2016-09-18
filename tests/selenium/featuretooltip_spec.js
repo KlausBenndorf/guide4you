@@ -1,4 +1,4 @@
-﻿import webdriver from 'selenium-webdriver'
+import webdriver from 'selenium-webdriver'
 import phantomDriver from './customPhantomDriver'
 import test from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
