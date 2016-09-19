@@ -25,7 +25,7 @@
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "5.2.0",
     "jquery": "3.1.0",
-    "lodash": "4.14.1",
+    "lodash": "4.16.0",
     "notifyjs-browser": "0.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v3.18.2",
     "proj4": "2.3.14",
