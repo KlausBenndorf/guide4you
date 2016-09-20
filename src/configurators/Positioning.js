@@ -34,7 +34,7 @@ import { cssClasses } from '../globals'
  * @property {HTMLElement} viewport
  */
 
-export default class Positioning {
+export class Positioning {
   /**
    * @param {PositioningOptions} options
    */

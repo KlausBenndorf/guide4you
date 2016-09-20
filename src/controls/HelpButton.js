@@ -1,9 +1,9 @@
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 import { checkFor, even, finishAllImages } from '../utilities'
 import stripJsonComments from 'strip-json-comments'
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 import '../../less/helpbutton.less'
 import {copyDeep} from '../utilitiesObject'
@@ -17,7 +17,7 @@ import {copyDeep} from '../utilitiesObject'
 /**
  * Shows a help button. Loads an json file with the helptexts and images from the server.
  */
-export default class HelpButton extends Control {
+export class HelpButton extends Control {
   /**
    * @param {HelpButtonOptions} options
    */

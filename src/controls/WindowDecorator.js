@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
-import Control from './Control'
-import Window from '../html/Window'
+import {Control} from './Control'
+import {Window} from '../html/Window'
 import { addTooltip } from '../html/html'
 import {cssClasses} from '../globals'
 
@@ -16,7 +16,7 @@ import '../../less/windowdecorator.less'
  * This class provides an easy wrap around an control to provide a button to open the control inside of a window.
  * If the child control has a setActive method it is called upon opening and closing the window.
  */
-export default class WindowDecorator extends Control {
+export class WindowDecorator extends Control {
   /**
    * @param {WindowDecoratorOptions} options
    */

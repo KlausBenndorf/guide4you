@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import ComposedControl from './ComposedControl'
+import {ComposedControl} from './ComposedControl'
 import { cssClasses } from '../globals'
 
 /**
@@ -11,7 +11,7 @@ import { cssClasses } from '../globals'
 /**
  * This class displays only a given amount of the containing controls and arrows to switch through these
  */
-export default class ShiftableComposedControl extends ComposedControl {
+export class ShiftableComposedControl extends ComposedControl {
   /**
    * @param {ShiftableComposedControlOptions} options
    */

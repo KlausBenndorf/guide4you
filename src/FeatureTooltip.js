@@ -15,7 +15,7 @@ import '../less/tooltip.less'
 /**
  * Displays a tooltip if a feature with a name is hovered.
  */
-export default class FeatureTooltip {
+export class FeatureTooltip {
   /**
    * @param {FeatureTooltipOptions} [options={}]
    */

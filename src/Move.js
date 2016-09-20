@@ -19,7 +19,7 @@ import ol from 'openlayers'
 /**
  * Moves the map. Uses animations if desired.
  */
-export default class Move {
+export class Move {
   /**
    * @param {MoveOptions} options
    */

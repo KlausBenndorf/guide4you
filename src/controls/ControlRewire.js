@@ -2,7 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import {mixin, recursiveSelect} from '../utilities'
-import ControlLogicMixin from './ControlLogicMixin'
+import {ControlLogicMixin} from './ControlLogicMixin'
 import {cssClasses} from '../globals'
 
 import '../../less/attribution.less'

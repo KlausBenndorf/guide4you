@@ -1,7 +1,7 @@
 /**
  * This class provides different debug behaviour based on the SWITCH_DEBUG build flag
  */
-export default class Debug {
+export class Debug {
   /**
    * if in release mode all thrown errors in the callback are catched and the program is continued
    * @param {function} cb

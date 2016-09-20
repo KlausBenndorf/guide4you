@@ -1,10 +1,10 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Window from './html/Window'
+import {Window} from './html/Window'
 import {cssClasses} from './globals'
 import {finishAllImages} from './utilities'
-import Debug from './Debug'
+import {Debug} from './Debug'
 
 import '../less/featurepopup.less'
 
@@ -27,7 +27,7 @@ import '../less/featurepopup.less'
 /**
  * Displays a Popup bound to a geographical position via an ol.Overlay
  */
-export default class FeaturePopup extends ol.Object {
+export class FeaturePopup extends ol.Object {
   /**
    * @param {FeaturePopupOptions} options
    */
@@ -484,10 +484,6 @@ export default class FeaturePopup extends ol.Object {
         oldValue: oldValue,
         key: 'visible'
       })
-    }
-
-    if (visible) {
-      this.window_.updateSize()
     }
   }
 

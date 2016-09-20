@@ -4,7 +4,7 @@ import $ from 'jquery'
 import { addProxy } from '../utilities'
 import { copy } from '../utilitiesObject'
 
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 /**
  * @typedef {olx.source.VectorOptions} SourceServerVectorOptions
@@ -33,7 +33,7 @@ import Debug from '../Debug'
  *
  * This class defines a custom loader function which makes it possible to use different loading strategies.
  */
-export default class SourceServerVector extends ol.source.Vector {
+export class SourceServerVector extends ol.source.Vector {
   /**
    * @param {SourceServerVectorOptions} [options={}]
    */

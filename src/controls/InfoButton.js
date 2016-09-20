@@ -2,12 +2,12 @@ import $ from 'jquery'
 
 import { addProxy } from '../utilities'
 import { Attribution } from './ControlRewire'
-import Control from './Control'
+import {Control} from './Control'
 
 import '../../less/infobutton.less'
 
 /**
- * @typedef {g4uControlOptions} InfoPageOptions
+ * @typedef {g4uControlOptions} InfoButtonOptions
  * @property {string} contentURL url providing content to be shown
  * @property {boolean} [useProxy]
  * @property {string} [proxy]
@@ -16,9 +16,9 @@ import '../../less/infobutton.less'
 /**
  * This control opens a window with showing some specified info text
  */
-export default class InfoPage extends Control {
+export class InfoButton extends Control {
   /**
-   * @param {InfoPageOptions} options
+   * @param {InfoButtonOptions} options
    */
   constructor (options = {}) {
     options.className = options.className || 'g4u-infobutton'

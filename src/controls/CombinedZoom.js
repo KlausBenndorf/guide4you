@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import ComposedControl from './ComposedControl'
+import {ComposedControl} from './ComposedControl'
 import { Zoom, ZoomSlider } from './ControlRewire'
 import { cssClasses } from '../globals'
 import { copy } from '../utilitiesObject'
@@ -20,7 +20,7 @@ import '../../less/zoom.less'
 /**
  * This combines the two zoom controls (zoomslider and zoombuttons)
  */
-export default class CombinedZoom extends ComposedControl {
+export class CombinedZoom extends ComposedControl {
   /**
    * @param {CombinedZoomOptions} [options={}]
    */

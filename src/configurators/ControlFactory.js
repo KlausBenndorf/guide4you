@@ -2,29 +2,29 @@ import ol from 'openlayers'
 
 import { Attribution, OverviewMap, ScaleLine, MousePosition } from '../controls/ControlRewire'
 
-import ComposedControl from '../controls/ComposedControl'
-import ArrowButtons from '../controls/ArrowButtons'
-import CombinedZoom from '../controls/CombinedZoom'
-import LayerSelector from '../controls/LayerSelector'
-import GeolocationButton from '../controls/GeoLocationButton'
-import MeasurementButton from '../controls/MeasurementButton'
-import LanguageSwitcherButton from '../controls/LanguageSwitcherButton'
-import LanguageSwitcherMenu from '../controls/LanguageSwitcherMenu'
-import MobileControls from '../controls/MobileControls'
-import InfoButton from '../controls/InfoButton'
-import LinkButton from '../controls/LinkButton'
-import PrintButton from '../controls/PrintButton'
-import PrintLogo from '../controls/PrintLogo'
-import HelpButton from '../controls/HelpButton'
-import WindowDecorator from '../controls/WindowDecorator'
+import {ComposedControl} from '../controls/ComposedControl'
+import {ArrowButtons} from '../controls/ArrowButtons'
+import {CombinedZoom} from '../controls/CombinedZoom'
+import {LayerSelector} from '../controls/LayerSelector'
+import {GeolocationButton} from '../controls/GeoLocationButton'
+import {MeasurementButton} from '../controls/MeasurementButton'
+import {LanguageSwitcherButton} from '../controls/LanguageSwitcherButton'
+import {LanguageSwitcherMenu} from '../controls/LanguageSwitcherMenu'
+import {MobileControls} from '../controls/MobileControls'
+import {InfoButton} from '../controls/InfoButton'
+import {LinkButton} from '../controls/LinkButton'
+import {PrintButton} from '../controls/PrintButton'
+import {PrintLogo} from '../controls/PrintLogo'
+import {HelpButton} from '../controls/HelpButton'
+import {WindowDecorator} from '../controls/WindowDecorator'
 
 import { asObject, checkFor } from '../utilities'
 import { copyDeep } from '../utilitiesObject'
 
-import G4UMap from '../G4UMap'
+import {G4UMap} from '../G4UMap'
 
-import Debug from '../Debug'
-import ActiveGroup from '../controls/ActiveGroup'
+import {Debug} from '../Debug'
+import {ActiveGroup} from '../controls/ActiveGroup'
 
 /**
  * @typedef {Object} ControlFactoryOptions
@@ -36,7 +36,7 @@ import ActiveGroup from '../controls/ActiveGroup'
  * A Factory that takes a control config as an object and returns the correspondig control. Modules can expand the
  * functionality of this class via the createControl method
  */
-export default class ControlFactory {
+export class ControlFactory {
   /**
    * @param {ControlFactoryOptions} options
    * @public

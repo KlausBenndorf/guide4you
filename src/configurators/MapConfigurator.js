@@ -5,16 +5,16 @@ import 'file?name=licenses/PROJ4JS.txt!proj4/LICENSE.md'
 
 ol.proj.setProj4(proj4)
 
-import Styling from '../Styling'
-import LayerConfigurator from './LayerConfigurator'
-import UIConfigurator from './UIConfigurator'
+import {Styling} from '../Styling'
+import {LayerConfigurator} from './LayerConfigurator'
+import {UIConfigurator} from './UIConfigurator'
 
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
 
-import API from '../API'
+import {API} from '../API'
 
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 /**
  * @typedef {Object} MapConfig
@@ -88,7 +88,7 @@ import Debug from '../Debug'
  * configureMap initializes the map and can only be called once.
  * it delegates the configureUI and configureLayers to the {{UIConfigurator}} and {{LayerConfigurator}} classes.
  */
-export default class MapConfigurator {
+export class MapConfigurator {
   /**
    * @param {G4UMap} map
    * @public

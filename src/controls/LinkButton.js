@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 import { addTooltip } from '../html/html'
 import {cssClasses} from '../globals'
 
@@ -15,7 +15,7 @@ import '../../less/linkbutton.less'
 /**
  * provides a button which links to another page
  */
-export default class LinkButton extends Control {
+export class LinkButton extends Control {
   /**
    * @param {LinkButtonOptions} options
    */
