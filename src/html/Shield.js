@@ -13,6 +13,13 @@ import '../../less/shield.less'
  */
 
 /**
+ * @typedef {object} ElementPosition
+ * @property {jQuery} $actualElement
+ * @property {jQuery} $oldParent
+ * @property {number} oldIndex
+ */
+
+/**
  * A shield that sets itself in front of all other elements in a context if activated, hides itself if deactivated.
  * It can get another element in front of it (Attention: it gets removed from its context temporarly)
  */
@@ -59,6 +66,12 @@ export default class Shield extends ol.Object {
         }
       }
     })
+
+    /**
+     * @type {Map<jQuery, ElementPosition>}
+     * @private
+     */
+    this.elementsOnTop_ = new Map()
   }
 
   /**
@@ -90,18 +103,40 @@ export default class Shield extends ol.Object {
   }
 
   /**
-   * Gets the given element in front of the shield. The element is removed from its current context temporarily
+   * Gets the given element in front of the shield. The element is removed from its context temporarily
    * @param {jQuery} $element
    */
-  getInFront ($element) {
+  add$OnTop ($element) {
+    var $actualElement = $element
+
     let $window = $element.parents().filter('.g4u-window')
     if ($window.length > 0) {
-      $element = $window
+      $actualElement = $window
     }
-    this.$oldParent_ = $element.parent()
-    this.$element_.append($element)
-    this.once('change:active', () => {
-      this.$oldParent_.append($element)
+
+    let $oldParent = $element.parent()
+
+    this.elementsOnTop_.set($element, {
+      $actualElement,
+      $oldParent,
+      oldIndex: $oldParent.children().index($element)
     })
+
+    this.$element_.append($actualElement)
+  }
+
+  /**
+   * Returns the given element in front of the shield to the previous context
+   * @param {jQuery} $element
+   */
+  remove$OnTop ($element) {
+    let elementPosition = this.elementsOnTop_.get($element)
+    this.elementsOnTop_.remove($element)
+
+    if (elementPosition.oldIndex === 0) {
+      elementPosition.$oldParent.prepend(elementPosition.$actualElement)
+    } else {
+      elementPosition.$oldParent.children().eq(elementPosition.oldIndex - 1).after(elementPosition.$actualElement)
+    }
   }
 }

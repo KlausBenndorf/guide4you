@@ -485,10 +485,6 @@ export default class FeaturePopup extends ol.Object {
         key: 'visible'
       })
     }
-
-    if (visible) {
-      this.window_.updateSize()
-    }
   }
 
   /**
