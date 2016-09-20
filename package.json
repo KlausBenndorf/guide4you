@@ -21,7 +21,7 @@
     "guide4you": "1.1.2",
     "guide4you-builder": "1.0.6",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
-    "guide4you-module-search": "1.1.*"
+    "guide4you-module-search": "1.2.*"
   },
   "devDependencies": {
     "concurrently": "2.2.0",
