@@ -1,6 +1,6 @@
 import ol from 'openlayers'
 
-import VectorLayer from 'guide4you/src/layers/VectorLayer'
+import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
 import {filterText} from 'guide4you/src/xssprotection'
 
 /**
@@ -11,7 +11,7 @@ import {filterText} from 'guide4you/src/xssprotection'
 /**
  * Represents a single location with text on the map which can be setted via the url api.
  */
-export default class Marker {
+export class Marker {
   /**
    * @param {MarkerOptions} options
    */
@@ -102,9 +102,7 @@ export default class Marker {
       } else {
         featurePopup.setVisible(false)
       }
-    }
 
-    if (featurePopup) {
       featurePopup.update()
     }
   }

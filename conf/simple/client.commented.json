@@ -48,8 +48,12 @@
       "layerMenu",
       "scaleLine",
       "zoom",
-      "mobileControls"
+      "mobileControls",
+      "linkGeneratorButton"
     ],
+    "linkGeneratorButton": {
+      "float": [ "top", "left" ]
+    },
     "toolbox": {
       "float": [
         "top",

@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import GroupLayer from 'guide4you/src/layers/GroupLayer'
+import {GroupLayer} from 'guide4you/src/layers/GroupLayer'
 
-import Debug from 'guide4you/src/Debug'
+import {Debug} from 'guide4you/src/Debug'
 import {restoreText} from 'guide4you/src/xssprotection'
 
 /**
@@ -21,7 +21,7 @@ import {restoreText} from 'guide4you/src/xssprotection'
  * 2)   to read the map's state and generate a link that said layers to be
  *      activated, the location, etc.
  */
-export default class URLAPI {
+export class URLAPI {
   /**
    * @param {URLAPIOptions} options
    */

@@ -1,6 +1,6 @@
 export default {
-  mochaTimeout: 30000,
-  seleniumTimeout: 10000,
+  mochaTimeout: 10000,
+  seleniumTimeout: 5000,
   testClient: 'http://localhost:8080',
   testLayerIds: [ 0 ],
   testZoomBigger10: 16,

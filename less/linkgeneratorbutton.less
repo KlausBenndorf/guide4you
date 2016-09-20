@@ -5,12 +5,25 @@
 @g4u-linkgenerator-link-icon: url("../images/link.svg");
 
 .g4u-desktop {
+
+  .ol-overlaycontainer-stopevent > .g4u-linkgenerator .g4u-control-mainbutton {
+    border-radius: @g4u-desktop-small-border-radius;
+  }
+
   .g4u-linkgenerator {
+    position: absolute;
+
     .g4u-control-mainbutton {
       .buttonSquaredWithIcon(@g4u-linkgenerator-link-icon; @g4u-desktop-button-size; @g4u-desktop-button-size);
     }
 
     .g4u-window-content {
+      //padding: @g4u-desktop-padding;
+
+      .g4u-linkgenerator {
+        position: static;
+      }
+
       h3 {
         font-weight: bold;
         text-transform: uppercase;
@@ -30,7 +43,7 @@
       background-color: white;
       border: @g4u-tiny solid @g4u-darker-main-color;
       width: 30 * @g4u-desktop-em - 6 * @g4u-desktop-padding;
-      margin-left: 2 * @g4u-desktop-padding;
+      // margin-left: 2 * @g4u-desktop-padding;
       margin-bottom: 2 * @g4u-desktop-padding;
 
       &::-ms-clear {
@@ -48,8 +61,14 @@
         resize: none;
         margin-bottom: 2 * @g4u-desktop-padding;
         margin-top: 2 * @g4u-desktop-padding;
-        margin-right: 2 * @g4u-desktop-padding;
+        //margin-right: 2 * @g4u-desktop-padding;
       }
+    }
+  }
+
+  .g4u-window-content {
+    .g4u-linkgenerator {
+      position: static;
     }
   }
 }

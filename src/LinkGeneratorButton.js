@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Control from 'guide4you/src/controls/Control'
-import { cssClasses } from 'guide4you/src/globals'
-import Debug from 'guide4you/src/Debug'
+import {Control} from 'guide4you/src/controls/Control'
+import {cssClasses} from 'guide4you/src/globals'
+import {Debug} from 'guide4you/src/Debug'
 
 import '../less/linkgeneratorbutton.less'
 
@@ -17,7 +17,7 @@ import '../less/linkgeneratorbutton.less'
  * Shows a window which contains a link to the current location of the map. Optionally a marker can be positioned on the
  * map by the user and a text for this marker can be added.
  */
-export default class LinkGeneratorButton extends Control {
+export class LinkGeneratorButton extends Control {
   /**
    * @param {LinkGeneratorButtonOptions} options
    */
@@ -48,6 +48,10 @@ export default class LinkGeneratorButton extends Control {
     this.setTitle(this.getTitle() || this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton title'))
     this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton tipLabel'))
 
+    this.createHTML()
+  }
+
+  createHTML () {
     /**
      * @type {jQuery}
      * @private
@@ -106,20 +110,9 @@ export default class LinkGeneratorButton extends Control {
 
     let onCheckboxChange = () => {
       if (this.$markerCheckbox_.is(':checked')) {
-        this.drawMarkerPoint()
-          .then(() => {
-            this.marker_.setActive(true)
-            this.$setMarker_.append(this.$markerTextDiv_)
-            this.updateURL()
-            this.$linkDisplay_.focus().select()
-            this.changed()
-          })
+        this.placeMarker()
       } else {
-        this.marker_.setActive(false)
-        this.updateURL()
-        this.$linkDisplay_.focus().select()
-        this.$markerTextDiv_.detach()
-        this.changed()
+        this.hideMarker()
       }
     }
 
@@ -130,22 +123,75 @@ export default class LinkGeneratorButton extends Control {
 
     this.$markerCheckbox_.on('click', onCheckboxChange)
 
-    this.$markerTextBox_.on('input', () => {
-      let text = this.$markerTextBox_.val()
-      if (text) {
-        this.marker_.setPopupVisible(true)
-      } else {
-        this.marker_.setPopupVisible(false)
-      }
-      this.marker_.setText(text) // has to be done after setVisible
-      this.updateURL()
-    })
+    this.$markerTextBox_.on('input', () => this.updateDescription())
 
     this.get$Element()
       .append($title)
       .append(this.$setMarker_)
       .append($explanation)
       .append(this.$linkDisplay_)
+  }
+
+  placeMarker () {
+    this.enableMap()
+    this.drawMarkerPoint()
+      .then(point => {
+        this.updateMarker(point)
+        this.disableMap()
+        this.$setMarker_.append(this.$markerTextDiv_)
+        this.$linkDisplay_.focus().select()
+        this.changed()
+      })
+  }
+
+  hideMarker () {
+    this.marker_.setActive(false)
+    this.updateURL()
+    this.$linkDisplay_.focus().select()
+    this.$markerTextDiv_.detach()
+    this.changed()
+  }
+
+  updateDescription () {
+    let text = this.$markerTextBox_.val()
+    if (text) {
+      this.marker_.setPopupVisible(true)
+    } else {
+      this.marker_.setPopupVisible(false)
+    }
+    this.marker_.setText(text) // has to be done after setVisible
+    this.updateURL()
+  }
+
+  enableMap () {
+    this.shield_.setActive(false)
+    let $overlayContainers = $(this.getMap().getViewport())
+      .children('.ol-overlaycontainer-stopevent, .ol-overlaycontainer')
+    $overlayContainers.addClass(cssClasses.hidden)
+  }
+
+  disableMap () {
+    this.shield_.setActive(true)
+    let $overlayContainers = $(this.getMap().getViewport())
+      .children('.ol-overlaycontainer-stopevent, .ol-overlaycontainer')
+    $overlayContainers.removeClass(cssClasses.hidden)
+  }
+
+  updateMarker (point) {
+    this.marker_.setPosition(point)
+
+    let text = this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton markerText')
+    this.marker_.setText(text)
+    this.$markerTextBox_.val(text)
+
+    if (text) {
+      this.marker_.setPopupVisible(true)
+    } else {
+      this.marker_.setPopupVisible(false)
+    }
+
+    this.marker_.setActive(true)
+    this.updateURL()
   }
 
   /**
@@ -189,35 +235,14 @@ export default class LinkGeneratorButton extends Control {
    */
   drawMarkerPoint () {
     return new Promise(resolve => {
-      this.shield_.setActive(false)
-      let $viewport = $(this.getMap().getViewport())
-      let $overlayContainers = $viewport.children('.ol-overlaycontainer-stopevent, .ol-overlaycontainer')
-
-      $viewport.addClass(cssClasses.crosshair)
-      $overlayContainers.addClass(cssClasses.hidden)
-
       this.drawPoint_.setActive(true)
+      $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
+
       this.drawPoint_.once('drawend', (e) => {
-        this.marker_.setPosition(e.feature.getGeometry().getCoordinates())
-
-        let text = this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton markerText')
-        this.marker_.setText(text)
-        this.$markerTextBox_.val(text)
-
-        if (text) {
-          this.marker_.setPopupVisible(true, false)
-        } else {
-          this.marker_.setPopupVisible(false)
-        }
-
-        this.shield_.setActive(true)
-
-        $overlayContainers.removeClass(cssClasses.hidden)
-        $viewport.removeClass(cssClasses.crosshair)
-
         this.drawPoint_.setActive(false)
+        $(this.getMap().getViewport()).removeClass(cssClasses.crosshair)
 
-        resolve(this.drawPoint_)
+        resolve(e.feature.getGeometry().getCoordinates())
       })
     })
     .catch(Debug.defaultErrorHandler)
@@ -225,7 +250,7 @@ export default class LinkGeneratorButton extends Control {
 
   updateURL () {
     let urlApi = this.getMap().get('urlApi')
-    this.$linkDisplay_.val(urlApi.makeURL({baseURL: this.baseURL_}))
+    this.$linkDisplay_.val(urlApi.makeURL({ baseURL: this.baseURL_ }))
   }
 
   /**
@@ -251,7 +276,7 @@ export default class LinkGeneratorButton extends Control {
         }
 
         this.shield_.setActive(true)
-        this.shield_.getInFront(this.get$Element())
+        this.shield_.add$OnTop(this.get$Element())
 
         this.updateURL()
         this.$linkDisplay_.focus().select()
@@ -262,9 +287,11 @@ export default class LinkGeneratorButton extends Control {
           if (this.marker_.getText()) {
             this.$markerTextBox_.val(this.marker_.getText())
           }
+          this.marker_.setPopupVisible(true)
         }
       } else {
         this.shield_.setActive(false)
+        this.shield_.remove$OnTop(this.get$Element())
 
         this.$markerTextBox_.val('')
         this.$markerCheckbox_.prop('checked', false)

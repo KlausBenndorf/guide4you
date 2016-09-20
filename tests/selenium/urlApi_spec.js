@@ -17,10 +17,10 @@ function getMapCenter () {
 }
 
 test.describe('URLAPI', function () {
+  this.timeout(config.mochaTimeout)
   let driver
 
   test.before(function () {
-    this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
@@ -93,28 +93,26 @@ test.describe('URLAPI', function () {
 
   test.it('[marklat, marklon, marktext] should set the marker active if either marklat, marklon or marktext' +
     ' are set to something', function (done) {
-    driver.get(config.testClient + '?marktext= text ').then(() => {
-      return waitUntilMapReady(driver)
-    }).then(() => {
+    function getMarkerActive () {
       return driver.executeScript('return map.get("marker").getActive();')
-    }).then(active => {
-      return assert(active).equalTo(true)
+    }
+
+    driver.get(config.testClient + '?marktext= text ').then(
+      waitUntilMapReady(driver)
+    ).then(() => {
+      return assert(getMarkerActive()).equalTo(true)
     }).then(() => {
       // Ist das so gewollt? Sollte das nicht analog zu lat/lon nur funktionieren, wenn beide gesetzt sind?
-      return driver.get(config.testClient + '?marklon=' + config.testVisibleCoordinate[0]).then(() => {
-        return waitUntilMapReady(driver)
-      }).then(() => {
-        return driver.executeScript('return map.get("marker").getActive();')
-      }).then(active => {
-        return assert(active).equalTo(true)
+      return driver.get(config.testClient + '?marklon=' + config.testVisibleCoordinate[0]).then(
+        waitUntilMapReady(driver)
+      ).then(() => {
+        return assert(getMarkerActive()).equalTo(true)
       })
     }).then(() => {
-      return driver.get(config.testClient + '?marklat=' + config.testVisibleCoordinate[1]).then(() => {
-        return waitUntilMapReady(driver)
-      }).then(() => {
-        return driver.executeScript('return map.get("marker").getActive();')
-      }).then(active => {
-        return assert(active).equalTo(true)
+      return driver.get(config.testClient + '?marklat=' + config.testVisibleCoordinate[1]).then(
+        waitUntilMapReady(driver)
+      ).then(() => {
+        return assert(getMarkerActive()).equalTo(true)
       })
     }).then(done)
   })
@@ -133,36 +131,41 @@ test.describe('URLAPI', function () {
       })
   })
 
-  test.it('[markpop, marktext] should show a feature popup on the marker if marktext is set and markpop isn\'t set' +
-    'or set to true', function (done) {
-    driver.get(config.testClient + '?marktext= text ').then(() => {
-      return waitUntilMapReady(driver)
-    }).then(() => {
-      driver.wait(until.elementIsVisible(driver.findElement(By.className('g4u-featurepopup'))))
-    }).then(() => {
-      return driver.get(config.testClient + '?marktext= text &markpop=true').then(() => {
+  test.it('[markpop, marktext] should show a feature popup on the marker if marktext is set and markpop isn\'t set',
+    function (done) {
+      driver.get(config.testClient + '?marktext= text ').then(
+        waitUntilMapReady(driver)
+      ).then(() => {
+        driver.wait(until.elementIsVisible(driver.findElement(By.className('g4u-featurepopup'))))
+      }).then(done)
+    })
+
+  test.it('[markpop, marktext] should show a feature popup on the marker if marktext is set and markpop is set to true',
+    function (done) {
+      driver.get(config.testClient + '?marktext= text &markpop=true').then(() => {
         return waitUntilMapReady(driver)
       }).then(() => {
         driver.wait(until.elementIsVisible(driver.findElement(By.className('g4u-featurepopup'))))
-      })
-    }).then(done)
-  })
+      }).then(done)
+    })
 
-  test.it('[markpop, marktext] should not show a feature popup if marktext is not set', function (done) {
+  test.it('[markpop, marktext] should not show a feature popup if marktext is not set (1)', function (done) {
     driver.get(config.testClient + '?marklon=' + config.testVisibleCoordinate[0] + '&marklat=' +
       config.testVisibleCoordinate[1]).then(() => {
         return waitUntilMapReady(driver)
       }).then(() => {
         let featurePopup = driver.wait(until.elementLocated(By.className('g4u-featurepopup')))
         assert(featurePopup.isDisplayed()).equalTo(false)
-      }).then(() => {
-        return driver.get(config.testClient).then(() => {
-          return waitUntilMapReady(driver)
-        }).then(() => {
-          let featurePopup = driver.wait(until.elementLocated(By.className('g4u-featurepopup')))
-          assert(featurePopup.isDisplayed()).equalTo(false)
-        })
       }).then(done)
+  })
+
+  test.it('[markpop, marktext] should not show a feature popup if marktext is not set (2)', function (done) {
+    driver.get(config.testClient).then(() => {
+      return waitUntilMapReady(driver)
+    }).then(() => {
+      let featurePopup = driver.wait(until.elementLocated(By.className('g4u-featurepopup')))
+      assert(featurePopup.isDisplayed()).equalTo(false)
+    }).then(done)
   })
 
   test.it('[markpop, marktext] should not show a feature popup if marktext is set, but markpop is set to false',
@@ -217,20 +220,23 @@ test.describe('URLAPI', function () {
       })
     })
 
-  test.it('[clsbtn] should not have a close button if the parameter "clsbtn" was not set or not set to true ' +
+  test.it('[clsbtn] should not have a close button if the parameter "clsbtn" was not set to true ' +
     '(not neccessarily visible)', function (done) {
-    this.timeout(config.mochaTimeout * 2)
     driver.get(config.testClient + '?clsbtn=false').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
       return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
-    }).then(() => {
-      return driver.get(config.testClient).then(() => {
-        return waitUntilMapReady(driver)
-      }).then(() => {
-        return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
-      })
     }).then(done)
+  })
+
+  test.it('[clsbtn] should not have a close button if the parameter "clsbtn" was not set ' +
+    '(not neccessarily visible)', function (done) {
+    driver.get(config.testClient).then(() => {
+      return waitUntilMapReady(driver)
+    }).then(() => {
+      return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
+    })
+    .then(done)
   })
 
   test.it('[avalay] should have only the (base-&feature-)layers available that were setted with the "avalay"' +

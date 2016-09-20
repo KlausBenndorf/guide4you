@@ -11,7 +11,7 @@ import 'file?name=files/[name].[ext]!guide4you/files/restaurantsbonn.kml'
 import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
 import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
-import URLAPIModule from '../../src/URLAPIModule'
+import {URLAPIModule} from '../../src/URLAPIModule'
 
 window.createG4U = function (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
   return createG4UInternal(target, clientConf, layerConf, [new URLAPIModule()])
