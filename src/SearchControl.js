@@ -2,14 +2,14 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import {addTooltip} from 'guide4you/src/html/html'
-import Dropdown from 'guide4you/src/html/Dropdown'
-import { cssClasses, keyCodes } from 'guide4you/src/globals'
-import { expandTemplate, addProxy } from 'guide4you/src/utilities'
-import Control from 'guide4you/src/controls/Control'
+import {Dropdown} from 'guide4you/src/html/Dropdown'
+import {cssClasses, keyCodes} from 'guide4you/src/globals'
+import {expandTemplate, addProxy} from 'guide4you/src/utilities'
+import {Control} from 'guide4you/src/controls/Control'
 
 import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
 
-import Debug from 'guide4you/src/Debug'
+import {Debug} from 'guide4you/src/Debug'
 
 import 'polyfill!Element.prototype.placeholder'
 

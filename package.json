@@ -1,6 +1,6 @@
 {
   "name": "guide4you-module-search",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A search parser module for Guide4You.",
   "keywords": [
     "search",
@@ -21,7 +21,7 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-search"
   },
   "dependencies": {
-    "guide4you": "1.1.*",
+    "guide4you": "1.2.*",
     "guide4you-builder": "1.0.*",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
   },

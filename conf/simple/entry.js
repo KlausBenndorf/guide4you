@@ -1,4 +1,4 @@
-import { createG4UInternal } from 'guide4you/src/main'
+import {createG4UInternal} from 'guide4you/src/main'
 
 import defaultClientConf from 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
 import defaultLayerConf from 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!./layers.commented.json'

@@ -1,4 +1,4 @@
-import Module from 'guide4you/src/Module'
+import {Module} from 'guide4you/src/Module'
 import {SearchControl} from './SearchControl'
 
 /**

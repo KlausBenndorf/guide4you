@@ -1,7 +1,7 @@
 import ol from 'openlayers'
 
 import {SearchParser} from './SearchParser'
-import Debug from 'guide4you/src/Debug'
+import {Debug} from 'guide4you/src/Debug'
 
 /**
  * @typedef {SearchParserOptions} NominatimSearchOptions
