@@ -1,7 +1,7 @@
 /**
  * Base class for modules. It shows all usable methods.
  */
-export default class Module {
+export class Module {
   /**
    * @param {G4UMap} map
    */

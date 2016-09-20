@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 import { addTooltip } from '../html/html'
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 import '../../less/languageControls.less'
 
@@ -14,7 +14,7 @@ import '../../less/languageControls.less'
  * A button to switch the language that is being used.
  * Works if only two languages are configured.
  */
-export default class LanguageSwitcherButton extends Control {
+export class LanguageSwitcherButton extends Control {
   /**
    * @param {LanguageSwitcherButtonOptions} options
    */

@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 
 import '../../less/printlogo.less'
 
@@ -15,7 +15,7 @@ import '../../less/printlogo.less'
 /**
  * This is a class which provides a printLogo on the map.
  */
-export default class PrintLogo extends Control {
+export class PrintLogo extends Control {
   /**
    * @param {PrintLogoOptions} options
    */

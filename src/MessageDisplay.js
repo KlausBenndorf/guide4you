@@ -33,7 +33,7 @@ import { decodeEntities } from './utilities'
 /**
  * Displays Messages
  */
-export default class MessageDisplay {
+export class MessageDisplay {
   /**
    * @param {jQuery} $element
    * @param {MessageConstructorOptions} options

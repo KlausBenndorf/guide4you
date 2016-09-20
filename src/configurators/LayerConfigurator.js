@@ -3,13 +3,13 @@ import ol from 'openlayers'
 import {GroupLayer} from '../layers/GroupLayer'
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
-import Debug from '../Debug'
-import LayerFactory from './LayerFactory'
+import {Debug} from '../Debug'
+import {LayerFactory} from './LayerFactory'
 
 /**
  * This is part of the MapConfigurator class
  */
-export default class LayerConfigurator {
+export class LayerConfigurator {
   /**
    * @param {G4UMap} map
    * @public

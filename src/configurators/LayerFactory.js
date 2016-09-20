@@ -5,12 +5,12 @@ import {EmptyBaseLayer} from '../layers/EmptyBaseLayer'
 import {BaseLayerTile} from '../layers/BaseLayerTile'
 import {GroupLayer} from '../layers/GroupLayer'
 import {VectorLayer} from '../layers/VectorLayer'
-import SourceServerVector from '../sources/SourceServerVector'
-import QuerySource from '../sources/QuerySource'
+import {SourceServerVector} from '../sources/SourceServerVector'
+import {QuerySource} from '../sources/QuerySource'
 import { copyDeep, take } from '../utilitiesObject'
 import { checkFor, addProxy } from '../utilities'
 
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -66,7 +66,7 @@ export const LayerType = {
 /**
  * This class constructs a layer according to the given {{LayerOptions}}
  */
-export default class LayerFactory {
+export class LayerFactory {
   /**
    * @param {G4UMap} map
    */

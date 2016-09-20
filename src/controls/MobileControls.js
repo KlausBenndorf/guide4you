@@ -1,14 +1,14 @@
 import $ from 'jquery'
 
-import ShiftableComposedControl from './ShiftableComposedControl'
-import WindowDecorator from './WindowDecorator'
+import {ShiftableComposedControl} from './ShiftableComposedControl'
+import {WindowDecorator} from './WindowDecorator'
 
 import '../../less/mobilecontrols.less'
 
 /**
  * This class represents the mobile menu containing all the controls.
  */
-export default class MobileControls extends ShiftableComposedControl {
+export class MobileControls extends ShiftableComposedControl {
   /**
    * @param {ShiftableComposedControlOptions} options
    */

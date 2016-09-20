@@ -1,10 +1,10 @@
 import $ from 'jquery'
 
-import Dropdown from '../html/Dropdown'
+import {Dropdown} from '../html/Dropdown'
 import { addTooltip } from '../html/html'
-import Control from './Control'
+import {Control} from './Control'
 import { cssClasses, keyCodes } from '../globals'
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 import '../../less/languageControls.less'
 
@@ -15,7 +15,7 @@ import '../../less/languageControls.less'
 /**
  * A button to switch the language that is being used.
  */
-export default class LanguageSwitcherMenu extends Control {
+export class LanguageSwitcherMenu extends Control {
   /**
    * @param {LanguageSwitcherMenuOptions} options
    */

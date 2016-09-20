@@ -17,7 +17,7 @@ import '../../less/dropdown.less'
  * @fires 'leave:backwards' This event is raised if the dropdown is left via the up arrow or shift+tab
  * @fires 'leave:forwards' This event is raised if the dropdown is left via the down arrow or tab
  */
-export default class Dropdown extends ol.Object {
+export class Dropdown extends ol.Object {
   /**
    * @param {DropdownOptions} [options={}]
    */

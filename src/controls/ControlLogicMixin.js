@@ -5,7 +5,7 @@ import {cssClasses} from '../globals'
  * This class contains logic which should be part of any Control in the Software. Any custom controls
  * should inherit from Control which inherits from this class AND from ol.cont
  */
-export default class ControlLogicMixin {
+export class ControlLogicMixin {
   /**
    * @param {g4uControlOptions} options
    */

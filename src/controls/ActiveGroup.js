@@ -3,7 +3,7 @@
  * This specified and configured via a property 'activeGroup' in the config object of the control and
  * a matching string for all controls which should be in this group
  */
-export default class ActiveGroup {
+export class ActiveGroup {
   /**
    * @param {Control[]} controls
    */

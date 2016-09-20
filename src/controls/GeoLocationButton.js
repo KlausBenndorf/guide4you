@@ -1,10 +1,10 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 import { addTooltip } from '../html/html'
 import {VectorLayer} from '../layers/VectorLayer'
-import MessageDisplay from '../MessageDisplay'
+import {MessageDisplay} from '../MessageDisplay'
 import {cssClasses} from '../globals'
 
 import '../../less/geolocation.less'
@@ -19,7 +19,7 @@ import '../../less/geolocation.less'
 /**
  * This class provides a button to center the view on your current geoposition.
  */
-export default class GeolocationButton extends Control {
+export class GeolocationButton extends Control {
   /**
    * @param {GeolocationButtonOptions} [options={}]
    */
