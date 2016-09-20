@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import stripJsonComments from 'strip-json-comments'
-import Debug from './Debug'
+import {Debug} from './Debug'
 import { decodeEntities } from './utilities'
 
 /**
@@ -20,7 +20,7 @@ import { decodeEntities } from './utilities'
  * This class localizes texts by either selecting one from a dictionary (asynchron loaded JSON File) or choosing the
  * right string from a selection.
  */
-export default class L10N {
+export class L10N {
   /**
    * @param {L10NOptions} options
    */

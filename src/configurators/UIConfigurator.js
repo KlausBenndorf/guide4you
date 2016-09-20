@@ -1,27 +1,27 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Positioning from './Positioning'
+import {Positioning} from './Positioning'
 
-import Move from '../Move'
-import FeaturePopup from '../FeaturePopup'
-import FeatureTooltip from '../FeatureTooltip'
+import {Move} from '../Move'
+import {FeaturePopup} from '../FeaturePopup'
+import {FeatureTooltip} from '../FeatureTooltip'
 
-import Shield from '../html/Shield'
+import {Shield} from '../html/Shield'
 
-import ControlFactory from './ControlFactory'
+import {ControlFactory} from './ControlFactory'
 
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 import {copyDeep} from '../utilitiesObject'
 import {checkFor, getConfig, urlDirname, urlJoin} from '../utilities'
 
-import MeasurementButton from '../controls/MeasurementButton'
-import PrintButton from '../controls/PrintButton'
+import {MeasurementButton} from '../controls/MeasurementButton'
+import {PrintButton} from '../controls/PrintButton'
 
 import {cssClasses} from '../globals'
 
-import FeatureSelect from '../interactions/FeatureSelect'
+import {FeatureSelect} from '../interactions/FeatureSelect'
 
 import {parseCSSColor} from 'csscolorparser'
 import {FunctionCallBuffer} from '../FunctionCallBuffer'
@@ -29,7 +29,7 @@ import {FunctionCallBuffer} from '../FunctionCallBuffer'
 /**
  * This class configures the UI of a map according to its mapconfig
  */
-export default class UIConfigurator {
+export class UIConfigurator {
   /**
    * @param {G4UMap} map
    */

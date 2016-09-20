@@ -2,8 +2,8 @@ import $ from 'jquery'
 import ol from 'openlayers'
 
 import {GroupLayer} from '../layers/GroupLayer'
-import ButtonBox from '../html/ButtonBox'
-import Control from './Control'
+import {ButtonBox} from '../html/ButtonBox'
+import {Control} from './Control'
 import { offset } from '../utilities'
 import {cssClasses} from '../globals'
 
@@ -23,7 +23,7 @@ import '../../less/layerselector.less'
  * This control shows Buttons to let you select the layer you want to see on the map.
  * It supports categories and nested categories - each {GroupLayer}-Object will be interpreted as a category.
  */
-export default class LayerSelector extends Control {
+export class LayerSelector extends Control {
   /**
    * @param {LayerSelectorOptions} options
    */

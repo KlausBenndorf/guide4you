@@ -20,7 +20,7 @@ import { cssClasses } from '../globals'
  * It can also marks one or multiple element in the tree to be active (same classname is needed, too).
  * After a ButtonBox has been added all child elements the method finish should be called.
  */
-export default class ButtonBox extends ol.Object {
+export class ButtonBox extends ol.Object {
   /**
    * @param {ButtonBoxOptions} [options={}]
    */

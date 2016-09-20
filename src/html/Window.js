@@ -23,7 +23,7 @@ import '../../less/window.less'
 /**
  * A HTML Window
  */
-export default class Window extends ol.Object {
+export class Window extends ol.Object {
   /**
    * @param {WindowOptions} options
    */

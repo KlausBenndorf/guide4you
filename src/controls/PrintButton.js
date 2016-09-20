@@ -1,12 +1,12 @@
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 import { addTooltip } from '../html/html'
 import {cssClasses} from '../globals'
 
 import '../../less/printbutton.less'
 
-export default class PrintButton extends Control {
+export class PrintButton extends Control {
   /**
    * @param {g4uControlOptions} options
    */

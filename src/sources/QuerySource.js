@@ -1,4 +1,4 @@
-import SourceServerVector from './SourceServerVector'
+import {SourceServerVector} from './SourceServerVector'
 import { expandTemplate } from '../utilities'
 
 /**
@@ -9,7 +9,7 @@ import { expandTemplate } from '../utilities'
 /**
  * A source for a VectorLayer which address is controlled by the urlapi and which is not shown in the LayerSelector
  */
-export default class QuerySource extends SourceServerVector {
+export class QuerySource extends SourceServerVector {
   /**
    * @param {QuerySourceOptions} options
    */
