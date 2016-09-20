@@ -235,19 +235,19 @@ export default class Window extends ol.Object {
     if (oldValue !== visible) {
       if (visible) {
         this.$element_.removeClass(cssClasses.hidden)
-        this.updateSize(true)
         if (this.map_.get('mobile')) {
           this.map_.get('shield').setActive(true)
-          this.map_.get('shield').getInFront(this.$element_)
-        } else {
-          if (this.map_.get('shield').getActive()) {
-            this.map_.get('shield').getInFront(this.$element_)
-          } else {
-            this.getInFront()
-          }
+          this.map_.get('shield').add$OnTop(this.$element_)
+        } else if (!this.map_.get('shield').getActive()) {
+          this.getInFront()
         }
+        this.updateSize(true)
       } else {
-        this.map_.get('shield').setActive(false)
+        if (this.map_.get('mobile')) {
+          this.map_.get('shield').setActive(false)
+          this.map_.get('shield').remove$OnTop(this.$element_)
+        }
+
         this.$element_.addClass(cssClasses.hidden)
         this.$element_.css('top', '')
         this.$element_.css('left', '')
@@ -299,6 +299,11 @@ export default class Window extends ol.Object {
       let maxWidth = this.$context_.innerWidth() - 2 * margin
       let maxHeight = this.$context_.innerHeight() - 2 * margin
 
+      // storing values
+      let position = this.$element_.css('position')
+      let top = this.$element_.css('top')
+      let left = this.$element_.css('left')
+
       // reset position to get default value
       this.$element_.css('position', '')
 
@@ -309,11 +314,6 @@ export default class Window extends ol.Object {
       this.$element_.css('height', '')
 
       this.get$Body().css('max-height', '')
-
-      // storing these values
-      let position = this.$element_.css('position')
-      let top = this.$element_.css('top')
-      let left = this.$element_.css('left')
 
       // position element so it can be measured
       this.$element_.css('position', 'fixed')
@@ -345,6 +345,10 @@ export default class Window extends ol.Object {
       this.$element_.css('position', position)
 
       if (initialize && !this.fixedPosition_) {
+        // getting initial values
+        top = this.$element_.css('top')
+        left = this.$element_.css('left')
+
         // initialize_ at top middle
         let off = offset(this.$context_, this.$element_)
 
