@@ -71,7 +71,7 @@ export class GeolocationButton extends Control {
      */
     this.buttonMessageDisplay_ = new MessageDisplay(this.get$Element())
 
-    this.get$Element().on('click', () => {
+    this.get$Element().on('click touch', () => {
       if (ol.has.GEOLOCATION) {
         this.setActive(!this.getActive())
       } else {

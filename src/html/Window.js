@@ -147,6 +147,12 @@ export class Window extends ol.Object {
      */
     this.visible_ = false
     this.setVisible(options.hasOwnProperty('visible') ? options.visible : false)
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.shieldActivated_ = false
   }
 
   /**
@@ -238,14 +244,16 @@ export class Window extends ol.Object {
         if (this.map_.get('mobile')) {
           this.map_.get('shield').setActive(true)
           this.map_.get('shield').add$OnTop(this.$element_)
+          this.shieldActivated_ = true
         } else if (!this.map_.get('shield').getActive()) {
           this.getInFront()
         }
         this.updateSize(true)
       } else {
-        if (this.map_.get('mobile')) {
+        if (this.shieldActivated_) {
           this.map_.get('shield').setActive(false)
           this.map_.get('shield').remove$OnTop(this.$element_)
+          this.shieldActivated_ = false
         }
 
         this.$element_.addClass(cssClasses.hidden)

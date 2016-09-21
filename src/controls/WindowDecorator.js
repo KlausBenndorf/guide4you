@@ -108,12 +108,8 @@ export class WindowDecorator extends Control {
   setActive (active) {
     if (this.component_.setActive) {
       this.component_.setActive(active)
-    }
-  }
-
-  getActive () {
-    if (this.component_.getActive) {
-      return this.component_.getActive()
+    } else {
+      this.window_.setVisible(active)
     }
   }
 
