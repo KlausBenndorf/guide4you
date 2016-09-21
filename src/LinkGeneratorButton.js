@@ -261,17 +261,12 @@ export class LinkGeneratorButton extends Control {
     if (oldValue !== active) {
       this.active_ = active
 
-      let changeEvent = {
-        type: 'change:active',
-        oldValue: oldValue
-      }
-
       if (active === true) {
         if (this.marker_.getActive()) {
           this.resetMarker_ = {
             position: this.marker_.getPosition(),
             text: this.marker_.getText(),
-            popvis: this.marker_.getPopupVisible()
+            popVis: this.marker_.getPopupVisible()
           }
         }
 
@@ -302,7 +297,7 @@ export class LinkGeneratorButton extends Control {
 
           this.marker_.setPosition(this.resetMarker_.position)
           this.marker_.setText(this.resetMarker_.text)
-          this.marker_.setPopupVisible(this.resetMarker_.popupvis)
+          this.marker_.setPopupVisible(this.resetMarker_.popVis)
 
           delete this.resetMarker_
         } else {
@@ -310,7 +305,10 @@ export class LinkGeneratorButton extends Control {
         }
       }
 
-      this.dispatchEvent(changeEvent)
+      this.dispatchEvent({
+        type: 'change:active',
+        oldValue: oldValue
+      })
     }
   }
 
