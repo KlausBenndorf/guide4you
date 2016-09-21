@@ -16,6 +16,7 @@
 
   .g4u-search-control {
     align-items: baseline;
+    position: absolute;
 
     .g4u-search-control-searchbutton {
       display: inline-block;
@@ -28,10 +29,6 @@
         color: transparent;
         background: @g4u-medium-main-color;
       }
-    }
-
-    form {
-      position: relative;
     }
 
     .g4u-dropdown {
@@ -48,7 +45,7 @@
       width: @g4u-search-control-width;
       border: @g4u-desktop-ruler-linewidth solid @g4u-light-main-color;
       border-right: 0;
-      border-radius: inherit;
+      border-radius: 0;
       border-top-left-radius: @g4u-desktop-small-border-radius;
       border-bottom-left-radius: @g4u-desktop-small-border-radius;
 

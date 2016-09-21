@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 import {addTooltip} from 'guide4you/src/html/html'
 import {Dropdown} from 'guide4you/src/html/Dropdown'
-import {cssClasses, keyCodes} from 'guide4you/src/globals'
+import {keyCodes} from 'guide4you/src/globals'
 import {expandTemplate, addProxy} from 'guide4you/src/utilities'
 import {Control} from 'guide4you/src/controls/Control'
 
@@ -141,8 +141,6 @@ export class SearchControl extends Control {
       ? this.getLocaliser().selectL10N(options.placeholder)
       : this.getLocaliser().localiseUsingDictionary('SearchControl placeholder')
 
-    let $form = $('<form>')
-
     /**
      * @type {jQuery}
      * @private
@@ -155,9 +153,10 @@ export class SearchControl extends Control {
      * @type {jQuery}
      * @private
      */
-    this.$submitButton_ = $('<button type="submit">')
+    this.$submitButton_ = $('<button>')
       .addClass(this.classNameSearchbutton_)
       .text('S')
+      .on('click', () => this.onSubmit_())
 
     addTooltip(this.$submitButton_, this.getLocaliser().localiseUsingDictionary('SearchControl searchButton'))
 
@@ -205,13 +204,14 @@ export class SearchControl extends Control {
      */
     this.parsers_ = options.parsers
 
+    /**
+     * @type {ol.Feature}
+     * @private
+     */
+    this.selectedFeature_ = null
+
     this.$textfield_.on('input', e => {
       this.onTextInput_(e)
-    })
-
-    $form.on('submit', e => {
-      e.preventDefault()
-      this.onSubmit_()
     })
 
     // Keyevents in the whole form
@@ -220,6 +220,8 @@ export class SearchControl extends Control {
       if (e.which === keyCodes.ESCAPE) {
         this.dropdown_.slideUp()
         $(this.getMap().getViewport()).focus()
+      } else if (e.which === keyCodes.ENTER) {
+        this.onSubmit_()
       }
     })
 
@@ -245,26 +247,11 @@ export class SearchControl extends Control {
       this.$submitButton_.focus()
     })
 
-    this.dropdown_.get$Element().on('keydown', e => {
-      // focus to the input box if it is the first entry
-      if (e.which === keyCodes.ENTER) {
-        e.preventDefault(e)
-        let $selected = this.dropdown_.getSelected()
-        if ($selected) {
-          $selected.click()
-        } else {
-          this.$textfield_.val(this.dropdown_.getValue())
-          $form.submit()
-        }
-      }
-    })
-
     // Assembling Element
-    this.dropdown_.get$Element().addClass(cssClasses.hidden)
-    $form.append(this.$textfield_)
+    this.get$Element()
+      .append(this.$textfield_)
       .append(this.$submitButton_)
       .append(this.dropdown_.get$Element())
-    this.get$Element().append($form)
   }
 
   /**
@@ -289,26 +276,26 @@ export class SearchControl extends Control {
 
       // slide up the dropdown if clicked outside of the searchControl, slide it down if clicked inside
 
-      let dontSlideUp
+      let slideUp
 
       document.addEventListener('click', () => {
-        dontSlideUp = false
+        slideUp = true
       })
 
       $(map.getViewport()).find('.ol-overlaycontainer-stopevent').on('click', () => {
-        if (!dontSlideUp) {
+        if (slideUp) {
           this.dropdown_.slideUp()
         }
       })
 
       $(document).on('click', () => {
-        if (!dontSlideUp) {
+        if (slideUp) {
           this.dropdown_.slideUp()
         }
       })
 
       this.$textfield_.on('click', () => {
-        dontSlideUp = true
+        slideUp = false
         if (this.dropdownActive_) {
           this.dropdown_.slideDown()
         }
@@ -367,8 +354,7 @@ export class SearchControl extends Control {
    * @private
    */
   updateDropdown_ () {
-    let inputContainsDropdown = (this.features_.length === 1) &&
-      (this.features_[0].get('dropdowntext') === this.$textfield_.val())
+    let inputContainsDropdown = (this.features_.indexOf(this.selectedFeature_) > -1)
 
     if ((this.features_.length > 1) || !inputContainsDropdown) {
       let length = Math.min(this.amountDropdownEntries_, this.features_.length)
@@ -395,6 +381,7 @@ export class SearchControl extends Control {
    * @private
    */
   onTextInput_ () {
+    this.selectedFeature_ = null
     clearTimeout(this.autocompleteTimeout_)
     this.autocompleteTimeout_ = setTimeout(() => {
       // checking if autocomplete search should be performed and perform it
@@ -412,6 +399,7 @@ export class SearchControl extends Control {
     * @private
    */
   onSubmit_ () {
+    this.selectedFeature_ = null
     this.hideSearchlayer_()
 
     let searchstring = this.$textfield_.val()
@@ -432,6 +420,8 @@ export class SearchControl extends Control {
   onClickDropdownEntry_ (feature) {
     this.$textfield_.val($('<div>').html(feature.get('dropdowntext')).text())
     this.features_ = [feature]
+    this.selectedFeature_ = feature
+
     if (feature.getGeometry()) {
       this.onSearchEnd_()
     } else {
