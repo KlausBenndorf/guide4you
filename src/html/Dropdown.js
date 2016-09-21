@@ -11,6 +11,15 @@ import '../../less/dropdown.less'
  * @property {number} [slideDuration=400] standard slideDuration
  */
 
+$.extend($.easing, {
+  easeOutCirc: function (x, t, b, c, d) {
+    return c * Math.sqrt(1 - (t = t / d - 1) * t) + b
+  },
+  easeInCirc: function (x, t, b, c, d) {
+    return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b
+  }
+})
+
 /**
  * A HTML Dropdown select.
  * The text entries in the list can be setted and changed and given a click handler.
@@ -83,41 +92,49 @@ export class Dropdown extends ol.Object {
     // key handling
 
     this.$element_.on('keydown', e => {
-      if (e.which === keyCodes.ARROW_DOWN) {
-        e.preventDefault()
-        e.stopPropagation()
-        if (this.selectedIndex_ < this.$entriesArray_.length - 1) {
-          this.$entriesArray_[this.selectedIndex_ + 1].addClass(this.classNameSelected_)
-          this.$entriesArray_[this.selectedIndex_ + 1].focus()
-          this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
-          this.selectedIndex_ += 1
-        }
-      } else if (e.which === keyCodes.ARROW_UP) {
-        e.preventDefault()
-        e.stopPropagation()
-        if (this.selectedIndex_ > 0) {
-          this.$entriesArray_[this.selectedIndex_ - 1].addClass(this.classNameSelected_)
-          this.$entriesArray_[this.selectedIndex_ - 1].focus()
-          this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
-          this.selectedIndex_ -= 1
-        } else {
-          this.dispatchEvent({
-            type: 'leave:backwards',
-            originalEvent: e
-          })
-        }
-      } else if (e.which === keyCodes.TAB) {
-        if (!e.shiftKey) {
-          this.dispatchEvent({
-            type: 'leave:forwards',
-            originalEvent: e
-          })
-        } else {
-          this.dispatchEvent({
-            type: 'leave:backwards',
-            originalEvent: e
-          })
-        }
+      switch (e.which) {
+        case keyCodes.ARROW_DOWN:
+          e.preventDefault()
+          e.stopPropagation()
+          if (this.selectedIndex_ < this.$entriesArray_.length - 1) {
+            this.$entriesArray_[this.selectedIndex_ + 1].addClass(this.classNameSelected_)
+            this.$entriesArray_[this.selectedIndex_ + 1].focus()
+            this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+            this.selectedIndex_ += 1
+          }
+          break
+        case keyCodes.ARROW_UP:
+          e.preventDefault()
+          e.stopPropagation()
+          if (this.selectedIndex_ > 0) {
+            this.$entriesArray_[this.selectedIndex_ - 1].addClass(this.classNameSelected_)
+            this.$entriesArray_[this.selectedIndex_ - 1].focus()
+            this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+            this.selectedIndex_ -= 1
+          } else {
+            this.dispatchEvent({
+              type: 'leave:backwards',
+              originalEvent: e
+            })
+          }
+          break
+        case keyCodes.TAB:
+          if (!e.shiftKey) {
+            this.dispatchEvent({
+              type: 'leave:forwards',
+              originalEvent: e
+            })
+          } else {
+            this.dispatchEvent({
+              type: 'leave:backwards',
+              originalEvent: e
+            })
+          }
+          break
+        case keyCodes.ENTER:
+          e.stopPropagation()
+          e.preventDefault()
+          this.$entriesArray_[this.selectedIndex_].click()
       }
     })
 
@@ -130,10 +147,12 @@ export class Dropdown extends ol.Object {
     this.$element_.get(0).addEventListener('mousemove', e => {
       e.stopPropagation()
     }, false)
+
+    this.slideUp(true)
   }
 
   /**
-   * returns the selected lsit element
+   * returns the selected button element
    * @returns {jQuery|undefined}
    */
   getSelected () {
@@ -166,7 +185,7 @@ export class Dropdown extends ol.Object {
    * @param {function} handler
    * @returns {jQuery}
    */
-  addEntry (entry, handler) {
+  addEntry (entry, handler, optSelected = false) {
     let $newEntry = $('<button tabindex="-1">')
       .addClass(this.classNameEntry_)
       .text(entry)
@@ -190,6 +209,11 @@ export class Dropdown extends ol.Object {
     }
 
     this.$element_.append($newEntry)
+
+    if (optSelected) {
+      this.selectedIndex_ = index
+      $newEntry.addClass(this.classNameSelected_)
+    }
 
     return $newEntry
   }
@@ -299,7 +323,8 @@ export class Dropdown extends ol.Object {
         complete: () => {
           this.$element_.addClass(cssClasses.hidden)
           resolve()
-        }
+        },
+        easing: 'easeInCirc'
       })
     })
   }
@@ -315,10 +340,9 @@ export class Dropdown extends ol.Object {
         if (!immediately) {
           duration = this.slideDuration_
         }
+        this.$element_.removeClass(cssClasses.hidden)
         this.$element_.slideDown({
-          start: () => {
-            this.$element_.removeClass(cssClasses.hidden)
-          },
+          easing: 'easeOutCirc',
           complete: resolve,
           duration: duration
         })
