@@ -52,10 +52,6 @@ export class WindowDecorator extends Control {
       this.window_.updateSize()
       this.window_.getInFront()
     })
-
-    this.component_.on('interactionEnd', () => {
-      this.setWindowVisible(false)
-    })
   }
 
   /**
