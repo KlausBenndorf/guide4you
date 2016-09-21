@@ -381,6 +381,17 @@ export class UIConfigurator {
 
         this.controlFactory.addControls()
 
+        let deactivate = control => {
+          if (control.setActive) {
+            control.setActive(false)
+          }
+          if (control.getControls) {
+            control.getControls().forEach(deactivate)
+          }
+        }
+
+        this.map_.on('change:mobile', () => this.map_.getControls().forEach(deactivate))
+
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     Interactions                                         //
         // //////////////////////////////////////////////////////////////////////////////////////// //

@@ -207,10 +207,6 @@ export class ControlFactory {
       if (receiver instanceof G4UMap) {
         this.getPositioning().addControl(control)
       }
-
-      if (control.setActive) {
-        this.map_.on('change:mobile', () => control.setActive(false))
-      }
     } else if (control === undefined) {
       throw new Error('Unrecognized control type ' + controlType +
         ', maybe you did forget to set the property type of the control?')
