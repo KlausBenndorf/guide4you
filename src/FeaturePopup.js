@@ -414,7 +414,7 @@ export class FeaturePopup extends ol.Object {
       // apply default offset
 
       if (this.getVisible()) {
-        this.window_.updateSize()
+        setTimeout(() => this.window_.updateSize(), 0)
       }
     }
   }
@@ -485,6 +485,10 @@ export class FeaturePopup extends ol.Object {
         key: 'visible'
       })
     }
+
+    if (visible) {
+      setTimeout(() => this.window_.updateSize(), 0)
+    }
   }
 
   /**
@@ -506,8 +510,7 @@ export class FeaturePopup extends ol.Object {
               if (img.complete && img.src) {
                 resolve()
               } else {
-                let $img = $(img)
-                $img.load(() => {
+                img.addEventListener('load', () => {
                   this.getMap().render() // initiate styles with size and anchor
                   this.getMap().once('postcompose', resolve)
                 })
