@@ -52,10 +52,6 @@ export class WindowDecorator extends Control {
       this.window_.updateSize()
       this.window_.getInFront()
     })
-
-    this.component_.on('interactionEnd', () => {
-      this.setWindowVisible(false)
-    })
   }
 
   /**
@@ -106,6 +102,18 @@ export class WindowDecorator extends Control {
         })
       }
       this.get$Element().append(this.window_.get$Element())
+    }
+  }
+
+  setActive (active) {
+    if (this.component_.setActive) {
+      this.component_.setActive(active)
+    }
+  }
+
+  getActive () {
+    if (this.component_.getActive) {
+      return this.component_.getActive()
     }
   }
 

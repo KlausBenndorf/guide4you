@@ -116,7 +116,7 @@ export class Shield extends ol.Object {
 
     let $oldParent = $element.parent()
 
-    this.elementsOnTop_.set($element, {
+    this.elementsOnTop_.set($element[0], {
       $actualElement,
       $oldParent,
       oldIndex: $oldParent.children().index($element)
@@ -130,8 +130,8 @@ export class Shield extends ol.Object {
    * @param {jQuery} $element
    */
   remove$OnTop ($element) {
-    let elementPosition = this.elementsOnTop_.get($element)
-    this.elementsOnTop_.delete($element)
+    let elementPosition = this.elementsOnTop_.get($element[0])
+    this.elementsOnTop_.delete($element[0])
 
     if (elementPosition.oldIndex === 0) {
       elementPosition.$oldParent.prepend(elementPosition.$actualElement)
