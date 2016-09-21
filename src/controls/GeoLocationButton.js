@@ -71,28 +71,13 @@ export class GeolocationButton extends Control {
      */
     this.buttonMessageDisplay_ = new MessageDisplay(this.get$Element())
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.pushed_ = false
-
-    this.get$Element().on('click touch', () => {
+    this.get$Element().on('click', () => {
       if (ol.has.GEOLOCATION) {
-        if (!this.pushed_) {
-          this.showGeolocation()
-          this.pushed_ = true
-          this.get$Element().addClass(this.classNamePushed_)
-        } else {
-          this.hideGeolocation()
-          this.pushed_ = false
-          this.get$Element().removeClass(this.classNamePushed_)
-        }
+        this.setActive(!this.getActive())
       } else {
-        let thisRef = this
         this.buttonMessageDisplay_.error(
           this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
-          thisRef.getMap().get('mobile') ? {position: 'top middle'} : {}
+          this.getMap().get('mobile') ? {position: 'top middle'} : {}
         )
       }
     })
@@ -100,15 +85,18 @@ export class GeolocationButton extends Control {
     this.layer_ = null
     this.geolocation_ = new ol.Geolocation()
     this.geolocation_.on('error', () => {
-      let thisRef = this
       this.buttonMessageDisplay_.error(
         this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
-        thisRef.getMap().get('mobile') ? {position: 'top middle'} : {}
+        this.getMap().get('mobile') ? {position: 'top middle'} : {}
       )
-      this.hideGeolocation()
-      this.pushed_ = false
-      this.get$Element().removeClass(this.classNamePushed_)
+      this.setActive(false)
     })
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.active_ = false
   }
 
   /**
@@ -132,45 +120,60 @@ export class GeolocationButton extends Control {
   }
 
   /**
-   * Show the geolocation on the map as point with a circle in the size of the accuracy around
+   * @returns {boolean}
    */
-  showGeolocation () {
-    this.geolocation_.once('change:position', () => {
-      let view = this.getMap().getView()
-      let position = this.geolocation_.getPosition()
-      let source = this.layer_.getSource()
-
-      // point on the position
-      let geometry = new ol.geom.Point(position)
-      let feature = new ol.Feature({geometry: geometry})
-
-      source.addFeature(feature)
-
-      // radius around
-      let accuracy = this.geolocation_.getAccuracy()
-      if (accuracy > 0) {
-        geometry = this.geolocation_.getAccuracyGeometry()
-        if (!geometry) {
-          geometry = GeolocationButton.makeCircle_(position, view.getProjection(), accuracy)
-        }
-        feature = new ol.Feature({geometry: geometry})
-        source.addFeature(feature)
-      }
-
-      this.getMap().get('move').toExtent(geometry.getExtent(),
-        {animated: this.animated_, maxZoom: this.maxZoom_})
-
-      this.geolocation_.setTracking(false)
-    })
-
-    this.geolocation_.setTracking(true)
+  getActive () {
+    return this.active_
   }
 
   /**
-   * hides the geolocation geometries
+   * Show/Hide the geolocation on the map as point with a circle in the size of the accuracy around
+   * @param {boolean} active
    */
-  hideGeolocation () {
-    this.layer_.getSource().clear()
+  setActive (active) {
+    let oldValue = this.active_
+    if (oldValue !== active) {
+      this.get$Element().toggleClass(this.classNamePushed_, active)
+
+      if (active) {
+        this.geolocation_.once('change:position', () => {
+          let view = this.getMap().getView()
+          let position = this.geolocation_.getPosition()
+          let source = this.layer_.getSource()
+
+          // point on the position
+          let geometry = new ol.geom.Point(position)
+          let feature = new ol.Feature({geometry: geometry})
+
+          source.addFeature(feature)
+
+          // radius around
+          let accuracy = this.geolocation_.getAccuracy()
+          if (accuracy > 0) {
+            geometry = this.geolocation_.getAccuracyGeometry()
+            if (!geometry) {
+              geometry = GeolocationButton.makeCircle_(position, view.getProjection(), accuracy)
+            }
+            feature = new ol.Feature({geometry: geometry})
+            source.addFeature(feature)
+          }
+
+          this.getMap().get('move').toExtent(geometry.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
+
+          this.geolocation_.setTracking(false)
+        })
+
+        this.geolocation_.setTracking(true)
+      } else {
+        this.layer_.getSource().clear()
+      }
+
+      this.active_ = active
+      this.dispatchEvent({
+        type: 'change:active',
+        oldValue: oldValue
+      })
+    }
   }
 
   /**
