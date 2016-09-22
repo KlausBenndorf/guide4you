@@ -60,6 +60,8 @@ export class G4UMap extends ol.Map {
       view: null
     })
 
+    this.set('guide4youVersion', GUIDE4YOU_VERSION) // eslint-disable-line
+
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
      * @private
