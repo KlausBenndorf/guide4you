@@ -74,7 +74,7 @@ export class Attribution extends mixin(ol.control.Attribution, RewireMixin) {
      * @type {boolean}
      * @private
      */
-    this.showPoweredBy_ = options.showPoweredBy !== false
+    this.showPoweredBy_ = options.poweredBy !== false
     if (this.showPoweredBy_) {
       let content = (options.poweredBy === undefined)
         ? '<a href="https://github.com/KlausBenndorf/guide4you" target="_blank">Guide4You</a>'
