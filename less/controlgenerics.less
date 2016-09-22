@@ -89,13 +89,19 @@ a.ol-control,
 .buttonWithIconBefore(@iconurl, @button-size, @iconsize) {
   .button(@button-size);
 
+  padding-left: @button-size;
+
   &:before {
     content: @iconurl;
     width: @iconsize;
     height: @iconsize;
     display: inline-block;
     vertical-align: text-bottom;
-    padding: 0 round((@button-size - @iconsize) / 2);
+    position: absolute;
+    top: round(0.5 * ( @button-size - @iconsize ));
+    left: round(0.5 * ( @button-size - @iconsize ));
+    //padding-right: round((@button-size - @iconsize) / 2);
+    //padding-left: round((@button-size - @iconsize) / 2);
   }
 }
 

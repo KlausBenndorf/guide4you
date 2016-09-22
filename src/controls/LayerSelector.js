@@ -4,7 +4,7 @@ import ol from 'openlayers'
 import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
 import {Control} from './Control'
-import { offset } from '../utilities'
+import {offset} from '../utilities'
 import {cssClasses} from '../globals'
 
 import '../../less/layerselector.less'
@@ -29,7 +29,7 @@ export class LayerSelector extends Control {
    */
   constructor (options = {}) {
     options.className = options.className || 'g4u-layerselector'
-    options.element = $('<div>')[0]
+    options.element = $('<div>')[ 0 ]
     options.singleButton = false
 
     super(options)
@@ -165,7 +165,7 @@ export class LayerSelector extends Control {
         }))
 
       this.listenerKeys_.push(
-        layerSource.on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], () => {
+        layerSource.on([ 'vectorloadstart', 'tileloadstart', 'imageloadstart' ], () => {
           $button.addClass('g4u-layer-loading')
         }))
 
@@ -173,7 +173,7 @@ export class LayerSelector extends Control {
         layerSource.on([
           'vectorloadend', 'vectorloaderror',
           'tileloadend', 'tileloaderror',
-          'imageloadend', 'imageloaderror'], () => {
+          'imageloadend', 'imageloaderror' ], () => {
           if (layer.getLoadProcessCount() === 0) {
             $button.removeClass('g4u-layer-loading')
           }
@@ -192,23 +192,43 @@ export class LayerSelector extends Control {
     let $nextTarget = $target
 
     if (categoryLayer.get('available')) {
+      let activateChildren = categoryLayer.get('activateChildren') !== false
+
       let menu = new ButtonBox({
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
-        titleButton: true,
+        titleButton: activateChildren,
         collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false)
       })
 
       let countChildren = categoryLayer.countChildren()
       let countVisibleChildren = categoryLayer.countChildrenVisible()
 
+      let updateButtonActivities = () => {
+        if (countVisibleChildren === 0) {
+          menu.setCollapseButtonActive(false)
+          if (activateChildren) {
+            menu.setTitleButtonActive(false)
+          }
+        } else if (countVisibleChildren === countChildren) {
+          menu.setCollapseButtonActive(true)
+          if (activateChildren) {
+            menu.setTitleButtonActive(true)
+          }
+        } else {
+          menu.setCollapseButtonActive(true)
+          if (activateChildren) {
+            menu.setTitleButtonActive(false)
+          }
+        }
+      }
+
+      updateButtonActivities()
+
       let forEachChildLayer = childLayer => {
         this.listenerKeys_.push(
-          childLayer.on(['change:visible', 'change:childVisible'], e => {
-            let changedLayer = childLayer
-            if (e.child) {
-              changedLayer = e.child
-            }
+          childLayer.on([ 'change:visible', 'change:childVisible' ], e => {
+            let changedLayer = e.child || childLayer
 
             if (changedLayer.getVisible()) {
               countVisibleChildren++
@@ -216,16 +236,7 @@ export class LayerSelector extends Control {
               countVisibleChildren--
             }
 
-            if (countVisibleChildren === 0) {
-              menu.setCollapseButtonActive(false)
-              menu.setTitleButtonActive(false)
-            } else if (countVisibleChildren === countChildren) {
-              menu.setCollapseButtonActive(true)
-              menu.setTitleButtonActive(true)
-            } else {
-              menu.setCollapseButtonActive(true)
-              menu.setTitleButtonActive(false)
-            }
+            updateButtonActivities()
           }))
       }
 

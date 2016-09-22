@@ -230,6 +230,10 @@ export class LayerFactory {
 
             layer.setVisible(true)
 
+            if (superType === SuperType.BASELAYER) {
+              layer.set('activateChildren', false)
+            }
+
             return layer
           } else if (childrenAvailable === true) {
             // only children are shown
