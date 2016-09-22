@@ -214,6 +214,7 @@ export class MeasurementButton extends Control {
   setValue (value) {
     this.value_ = value
     this.$valueDisplay_.text('' + Math.round(value))
+    this.changed()
   }
 
   /**
