@@ -204,13 +204,31 @@ export class LayerSelector extends Control {
       let countChildren = categoryLayer.countChildren()
       let countVisibleChildren = categoryLayer.countChildrenVisible()
 
+      let updateButtonActivities = () => {
+        if (countVisibleChildren === 0) {
+          menu.setCollapseButtonActive(false)
+          if (activateChildren) {
+            menu.setTitleButtonActive(false)
+          }
+        } else if (countVisibleChildren === countChildren) {
+          menu.setCollapseButtonActive(true)
+          if (activateChildren) {
+            menu.setTitleButtonActive(true)
+          }
+        } else {
+          menu.setCollapseButtonActive(true)
+          if (activateChildren) {
+            menu.setTitleButtonActive(false)
+          }
+        }
+      }
+
+      updateButtonActivities()
+
       let forEachChildLayer = childLayer => {
         this.listenerKeys_.push(
           childLayer.on([ 'change:visible', 'change:childVisible' ], e => {
-            let changedLayer = childLayer
-            if (e.child) {
-              changedLayer = e.child
-            }
+            let changedLayer = e.child || childLayer
 
             if (changedLayer.getVisible()) {
               countVisibleChildren++
@@ -218,22 +236,7 @@ export class LayerSelector extends Control {
               countVisibleChildren--
             }
 
-            if (countVisibleChildren === 0) {
-              menu.setCollapseButtonActive(false)
-              if (activateChildren) {
-                menu.setTitleButtonActive(false)
-              }
-            } else if (countVisibleChildren === countChildren) {
-              menu.setCollapseButtonActive(true)
-              if (activateChildren) {
-                menu.setTitleButtonActive(true)
-              }
-            } else {
-              menu.setCollapseButtonActive(true)
-              if (activateChildren) {
-                menu.setTitleButtonActive(false)
-              }
-            }
+            updateButtonActivities()
           }))
       }
 
