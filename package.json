@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "A configurable web client for geo-applications. Uses OpenLayers 3. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "csscolorparser": "1.0.3",
-    "guide4you-builder": "1.0.*",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "5.2.0",
     "jquery": "3.1.0",
@@ -32,6 +31,7 @@
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
+    "guide4you-builder": "1.0.*",
     "concurrently": "2.2.0",
     "esdoc": "0.4.7",
     "mocha": "2.5.3",
