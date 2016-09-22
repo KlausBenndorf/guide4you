@@ -88,7 +88,10 @@ export class ButtonBox extends ol.Object {
        * @type {jQuery}
        * @private
        */
-      this.$title_ = null
+      this.$title_ = $('<div>')
+        .addClass(this.classNames_.title)
+
+      this.$element_.append(this.$title_)
 
       if (this.collapsible_) {
         let $collapseButton = $('<button>')
@@ -108,21 +111,20 @@ export class ButtonBox extends ol.Object {
             })
             .html(options.title)
 
-          this.$title_ = $('<div>')
+          this.$title_
             .append($collapseButton)
             .append($titleButton)
         } else {
-          this.$title_ = $collapseButton
+          $collapseButton
             .addClass(this.classNames_.titleButton)
             .html(options.title)
+          this.$title_
+            .append($collapseButton)
         }
       } else {
-        this.$title_ = $('<div>')
+        this.$title_
           .html(options.title)
       }
-
-      this.$title_.addClass(this.classNames_.title)
-      this.$element_.append(this.$title_)
     } else {
       this.collapsible_ = false
       this.collapsed_ = false
