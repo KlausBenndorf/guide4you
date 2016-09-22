@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import {Control} from './Control'
-import { checkFor, even, finishAllImages } from '../utilities'
+import { checkFor, finishAllImages } from '../utilities'
 import stripJsonComments from 'strip-json-comments'
 import {Debug} from '../Debug'
 
@@ -23,7 +23,7 @@ export class HelpButton extends Control {
    */
   constructor (options) {
     options.element = $('<div>')[ 0 ]
-    options.className = options.className || 'g4u-help'
+    options.className = options.className || 'g4u-helpbutton'
 
     super(options)
 
@@ -100,25 +100,22 @@ export class HelpButton extends Control {
 
           if (visibleControls.indexOf(id) > -1) {
             $row = $('<tr>')
-            if (even(i)) {
-              $row.addClass('g4u-documentation-altCol')
-            }
 
-            imgElements = '<td class="g4u-documentation-img"><div class="g4u-documentation-imgDiv">'
+            imgElements = `<td class="${this.className_}-img"><div class="${this.className_}-imgDiv">`
             if (imgData) {
               if ($.isArray(imgData)) {
                 for (let j = 0, jj = imgData.length; j < jj; j++) {
-                  imgData[ j ] = '<img class="g4u-documentation-docuImg" src="images/doc/' + imgData[ j ] + '">'
+                  imgData[ j ] = `<img class="${this.className_}-docuImg" src="images/doc/${imgData[ j ]}">`
                 }
                 imgElements += imgData.join(joinWith)
               } else {
-                imgElements += '<img class="g4u-documentation-docuImg" src="images/doc/' + imgData + '">'
+                imgElements += `<img class="${this.className_}-docuImg" src="images/doc/${imgData}">`
               }
             }
             imgElements += '</div></td>'
 
             $row.append(imgElements)
-            $td = $('<td>').addClass('g4u-documentation-descr')
+            $td = $('<td>').addClass(this.className_ + '-descr')
             if ($.isArray(descrData)) {
               $td.append(descrData.join('<p>'))
             } else {
