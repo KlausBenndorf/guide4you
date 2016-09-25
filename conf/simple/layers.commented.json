@@ -6,7 +6,7 @@
       "type": "OSM",
       "source": {
         "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        "attribution": "(c) OpenStreetMap contributers"
+        "attribution": "(c) OpenStreetMap contributors"
       },
       "visible": true
     },
@@ -27,7 +27,7 @@
       "type": "KML",
       "source": {
         "url": "files/hotelsbonn.kml",
-        "attribution": "(c) OpenStreetMap contributers"
+        "attribution": "(c) OpenStreetMap contributors"
       }
     },
     {
@@ -36,7 +36,7 @@
       "type": "KML",
       "source": {
         "url": "files/restaurantsbonn.kml",
-        "attribution": "(c) OpenStreetMap contributers"
+        "attribution": "(c) OpenStreetMap contributors"
       }
     }
   ]
