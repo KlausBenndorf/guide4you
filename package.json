@@ -1,6 +1,6 @@
 {
   "name": "guide4you-module-urlapi",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "An urlapi module for Guide4You.",
   "keywords": [
     "urlapi",
@@ -25,7 +25,7 @@
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
   },
   "devDependencies": {
-    "guide4you-builder": "1.0.*",
+    "guide4you-builder": "1.1.*",
     "concurrently": "2.2.0",
     "esdoc": "0.4.8",
     "mocha": "3.0.2",
