@@ -14,13 +14,17 @@ a {
   z-index: 0;
 }
 
-.g4u-desktop {
-  .ol-overlaycontainer-stopevent > div.ol-control {
-    // ol.controls which are direct childs of the overlay container have grey background
+.g4u-desktop, .g4u-mobile {
+  .ol-overlaycontainer-stopevent > * {
+    // controls which are direct childs of the overlay container have grey background
+    // and are positioned absolutly
     background: @g4u-control-background;
     padding: @g4u-desktop-padding;
+    position: absolute;
   }
+}
 
+.g4u-desktop {
   &.g4u-mouse-down {
     :not(.g4u-clickable) {
       .g4u-cursor-grabbing;
@@ -93,21 +97,6 @@ a {
 
   .ol-full-screen-true:after {
     content: "\\0000d7";
-  }
-
-  .ol-overlaycontainer-stopevent > .g4u-search-control {
-    position: absolute;
-    border-radius: @g4u-desktop-large-border-radius;
-
-    button {
-      border-top-right-radius: @g4u-desktop-small-border-radius;
-      border-bottom-right-radius: @g4u-desktop-small-border-radius;
-    }
-
-    .g4u-search-control-textfield {
-      border-top-left-radius: @g4u-desktop-small-border-radius;
-      border-bottom-left-radius: @g4u-desktop-small-border-radius;
-    }
   }
 
   .ol-unsupported {
