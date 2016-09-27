@@ -40,7 +40,7 @@
     "lint": "eslint src/ tests/",
     "pretest": "g4u-buildTests",
     "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/simple\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }
 }
