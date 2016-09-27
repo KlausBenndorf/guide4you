@@ -6,19 +6,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
-    'lib/g4u.js': [ path.join(baseDir, './conf/simple/entry.js') ]
+    'lib/g4u.js': [ path.join(baseDir, './conf/entry.js') ]
   },
   output: {
-    path: path.join(baseDir, './build/simple')
+    path: path.join(baseDir, './build')
   },
   resolve: {
     alias: {
-      'lessConfig.less': path.join(baseDir, './conf/simple/clouds.less')
+      'lessConfig.less': path.join(baseDir, './conf/clouds.less')
     }
   },
   mustacheEvalLoader: {
     templateVars: {
-      pageTitle: 'URLAPI g4u3',
+      pageTitle: 'guide4you module URLAPI',
       ajaxProxy: 'proxy/proxy.php?csurl={url}',
       languageFile: 'files/l10n.json',
       svgColor: 'rgba(255,255,255,1)',
