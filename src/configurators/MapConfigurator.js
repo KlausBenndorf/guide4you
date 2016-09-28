@@ -1,7 +1,6 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 import proj4 from 'proj4/dist/proj4'
-import 'file?name=licenses/PROJ4JS.txt!proj4/LICENSE.md'
 
 ol.proj.setProj4(proj4)
 
