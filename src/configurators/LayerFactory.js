@@ -256,7 +256,9 @@ export class LayerFactory {
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerTile(optionsCopy)
         } else {
-          this.superTypeNotSupported(layerType, superType)
+          //this.superTypeNotSupported(layerType, superType)
+          optionsCopy.groupLayer = {recursiveForEach: () =>{}}
+          layer = new BaseLayerTile(optionsCopy)
         }
         break
       case LayerType.WMS:
