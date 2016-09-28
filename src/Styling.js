@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 import { copyDeep, copy } from './utilitiesObject'
 import { checkFor } from './utilities'
-import Debug from './Debug'
+import {Debug} from './Debug'
 
 import {parseCSSColor} from 'csscolorparser'
 
@@ -60,7 +60,7 @@ function mergeStyleConfigs (configTarget, configSource) {
 /**
  * This class coordinates the styling.
  */
-export default class Styling {
+export class Styling {
   /**
    * @param {Object} [options]
    * @param {Object} [options.styleConfigMap]
@@ -344,9 +344,6 @@ export default class Styling {
           })
           stylePrimitive = curStyles[0]
         }
-      }
-      if (this.get('opacity')) {
-        stylePrimitive = thisRef.adjustColorOpacity(thisRef.cloneStyle(stylePrimitive), this.get('opacity'))
       }
       return [stylePrimitive]
     }

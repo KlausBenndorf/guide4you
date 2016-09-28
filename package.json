@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "1.0.1",
+  "version": "1.2.8",
   "description": "A configurable web client for geo-applications. Uses OpenLayers 3. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -20,32 +20,32 @@
     "url": "https://github.com/KlausBenndorf/guide4you"
   },
   "dependencies": {
-    "csscolorparser": "1.0.2",
-    "guide4you-builder": "1.0.3",
+    "csscolorparser": "1.0.3",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "5.2.0",
     "jquery": "3.1.0",
     "lodash": "4.14.1",
     "notifyjs-browser": "0.4.2",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_3.16",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v3.18.2",
     "proj4": "2.3.14",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
+    "guide4you-builder": "1.1.*",
     "concurrently": "2.2.0",
     "esdoc": "0.4.8",
-    "mocha": "2.5.3",
+    "mocha": "3.1.0",
     "phantomjs-prebuilt": "2.1.11",
     "selenium-webdriver": "2.53.3",
-    "standard": "7.1.2",
-    "wait-on": "1.5.2"
+    "standard": "8.2.0",
+    "wait-on": "1.5.3"
   },
   "scripts": {
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "pretest": "g4u-buildTests",
-    "lint": "eslint src/",
-    "runTests": "npm run lint && wait-on -l http://localhost:8080 && mocha build/tests/*",
+    "lint": "eslint src/ tests/",
+    "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
     "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }

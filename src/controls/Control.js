@@ -1,6 +1,6 @@
 import ol from 'openlayers'
 import { mixin } from '../utilities'
-import ControlLogicMixin from './ControlLogicMixin'
+import {ControlLogicMixin} from './ControlLogicMixin'
 
 /**
  * @typedef {object} g4uControlOptions
@@ -28,4 +28,4 @@ import ControlLogicMixin from './ControlLogicMixin'
  * @extends {ol.control.Control}
  */
 
-export default mixin(ol.control.Control, ControlLogicMixin)
+export const Control = mixin(ol.control.Control, ControlLogicMixin)

@@ -8,7 +8,7 @@ import { cssClasses, keyCodes } from './globals'
  * @property {StyleLike} [drawStyle='#drawStyle']
  */
 
-export default class API extends ol.Object {
+export class API extends ol.Object {
   /**
    * @param {G4UMap} map
    * @param {object} options

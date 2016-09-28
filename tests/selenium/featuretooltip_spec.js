@@ -1,4 +1,4 @@
-﻿import webdriver from 'selenium-webdriver'
+import webdriver from 'selenium-webdriver'
 import phantomDriver from './customPhantomDriver'
 import test from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
@@ -64,13 +64,14 @@ function addLayerWithPolygonAroundMapCenter (name, description, edgeLength) {
 }
 
 test.describe('FeatureTooltip', function () {
+  this.timeout(config.mochaTimeout)
   let driver
 
   test.before(function () {
-    this.timeout(config.mochaTimeout)
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
+    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
 
   test.after(function () {
@@ -84,7 +85,8 @@ test.describe('FeatureTooltip', function () {
           .mouseMove(driver.findElement(By.className('ol-viewport')))
           .perform()
           .then(function () {
-            assert(driver.findElement(By.className('g4u-featuretooltip'), 'Tooltip should not be visible').isDisplayed()).equalTo(false)
+            assert(driver.findElement(By.className('g4u-featuretooltip'),
+              'Tooltip should not be visible').isDisplayed()).equalTo(false)
             done()
           })
       })

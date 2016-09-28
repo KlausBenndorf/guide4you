@@ -1,6 +1,5 @@
 {
     "de": [
-        // #ifdef g4u.control.ArrowButtons
         {
             "id":       "arrowButtons",
             "img":      "arrowbuttons.png",
@@ -11,7 +10,6 @@
                 "Dar&uuml;ber hinaus k&ouml;nnen Sie die Karte mit den Pfeiltasten der Tastatur verschieben."
             ]
         },
-        // #endif
         {
             "id":       "zoom",
             "img":      "zoom.png",
@@ -21,7 +19,6 @@
                 "Dar&uuml;ber hinaus k&ouml;nnen Sie auf der Tastatur \"+\" zum Vergr&ouml;&szlig;ern und \"-\" zum Verkleinern verwenden."
             ]
         },
-        // #ifdef g4u.control.SearchControl
         {
             "id":       "searchcontrol",
             "img":      [
@@ -35,8 +32,6 @@
                 "Die obere Abbildung zeigt die Suche im inaktiven Zustand, die untere mit Vorschl&auml;gen."
             ]
         },
-        // #endif
-        // #ifdef g4u.control.LayerSelector
         {
             "id":       "layerSelector",
             "img":      "layerselector-de.png",
@@ -48,8 +43,6 @@
                 "Klicken Sie auf das Dreiecks&shy;symbol vor <strong>Karten</strong> oder <strong>Infos,</strong> um die entsprechenden Men&uuml;s ein- oder auszuklappen."
             ]
         },
-        // #endif
-        // #ifdef g4u.control.GeolocationButton
         {
             "id":       "geolocationButton",
             "img":      [
@@ -63,17 +56,12 @@
                 "Die linke Abbildung zeigt die Schalt&shy;f&auml;che bei deaktivierter, die rechte Abbildung bei aktivierter Positions&shy;anzeige."
             ]
         },
-        // #endif
-        // #ifdef g4u.module.Api
-        // #ifdef g4u.control.LinkGeneratorButton
         {
             "id":       "linkGeneratorButton",
             "img":      "button-link.png",
             "descr":    "Mit dieser Schalt&shy;fl&auml;che zeigen Sie einen Link (Verweis) auf die aktuell dargestellte Karten&shy;ansicht an."
 
         },
-        // #endif
-        // #endif
         {
             "id":       "printButton",
             "img":      "button-print.png",
@@ -82,21 +70,16 @@
                 "Bitte beachten Sie, dass in diesem Fall ausschlie&szlig;lich die Karte gedruckt wird, w&auml;hrend Sie mit der Druck&shy;funktion Ihres Browsers (meist Strg+P, Ctrl+P, oder Apfel+P) die vollst&auml;ndige Seite drucken."
             ]
         },
-        // #ifdef g4u.module.Api
-        // #ifdef g4u.control.LanguageSwitcherButton
         {
             "id":       "languageSwitcherButton",
             "img":      "button-lang-de.png",
             "descr":    "Mit dieser Schalt&shy;fl&auml;che schalten Sie die Sprache auf Englisch um."
         },
-        // #endif
-        // #endif
         {
             "id":       "helpButton",
             "img":      "button-documentation.png",
             "descr":    "Mit dieser Schalt&shy;fl&auml;che zeigen Sie die Onlinehilfe an."
         },
-
         {
             "id":       "infoButton",
             "img":      "button-info.png",
@@ -152,7 +135,6 @@
     ],
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     "en": [
-        // #ifdef g4u.control.ArrowButtons
         {
             "id":       "arrowButtons",
             "img":      "arrowbuttons.png",
@@ -162,7 +144,6 @@
                 "In addition you can pan the map using the keyboard's arrow keys."
             ]
         },
-        // #endif
         {
             "id":       "zoom",
             "img":      "zoom.png",
@@ -172,7 +153,6 @@
                 "You can also use the keyboard to zoom in using \"+\" and to zoom out using \"-\"."
             ]
         },
-        // #ifdef g4u.control.SearchControl
         {
             "id":       "searchcontrol",
             "img":      [
@@ -186,8 +166,6 @@
                 "The upper image shows the search in inactive state, the lower image with suggestions being displayed."
             ]
         },
-        // #endif
-        // #ifdef g4u.control.LayerSelector
         {
             "id":       "layerSelector",
             "img":      "layerselector-en.png",
@@ -199,8 +177,6 @@
                 "Click the triangle symbol in front of <strong>Maps</strong> or <strong>Information</strong> to collapse or expand the corresponding menu."
             ]
         },
-        // #endif
-        // #ifdef g4u.control.GeolocationButton
         {
             "id":       "geolocationButton",
             "img":      [
@@ -214,17 +190,12 @@
                 "The left image shows the button with position display in inactive state, the right one in active state."
             ]
         },
-        // #endif
-        // #ifdef g4u.module.Api
-        // #ifdef g4u.control.LinkGeneratorButton
         {
             "id":       "linkGeneratorButton",
             "img":      "button-link.png",
             "descr":    "Use this button to display a link to the current view of the map."
 
         },
-        // #endif
-        // #endif
         {
             "id":       "printButton",
             "img":      "button-print.png",
@@ -233,15 +204,11 @@
                 "Note that when you use this button, the print solely displays the actual map while the browser's built-in print function (usually available via Strg+P, Ctrl+P, or Apple+P) prints the whole page."
             ]
         },
-        // #ifdef g4u.module.Api
-        // #ifdef g4u.control.LanguageSwitcherButton
         {
             "id":       "languageSwitcherButton",
             "img":      "button-lang-en.png",
             "descr":    "Use this button to switch the language to German."
         },
-        // #endif
-        // #endif
         {
             "id":       "helpButton",
             "img":      "button-documentation.png",

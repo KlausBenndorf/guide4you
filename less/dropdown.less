@@ -26,13 +26,14 @@
 
     .g4u-dropdown-entry {
       width: 100%;
+      height: auto;
 
       cursor: pointer;
       background: white;
       color: black;
       .g4u-desktop-text-padding;
-      padding-bottom: 0;
-      padding-top: 0;
+      padding-top: @g4u-desktop-padding / 2;
+      padding-bottom: @g4u-desktop-padding / 2;
 
       &:not(:last-of-type) {
       }
@@ -71,5 +72,28 @@
       background: @g4u-medium-main-color;
       color: white;
     }
+  }
+}
+
+.g4u-mobile {
+  .g4u-dropdown {
+    display: block !important;
+    width: 100%;
+  }
+
+  padding: 0;
+  margin: 0;
+
+  .g4u-dropdown-entry {
+    height: auto;
+    cursor: default;
+    padding: @g4u-mobile-padding;
+    background: white;
+    color: black;
+  }
+
+  .g4u-dropdown-selected {
+    background: @g4u-medium-main-color;
+    color: white;
   }
 }

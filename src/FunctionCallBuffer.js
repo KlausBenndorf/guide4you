@@ -3,9 +3,15 @@
  */
 export class FunctionCallBuffer {
   /**
+   * @param {function} func the function whichs call should be buffered
    * @param {number} [bufferTime=0] time of the buffer. If set to 0 it evaluates as soon as the main loop is free again
    */
-  constructor (bufferTime = 0) {
+  constructor (func, bufferTime = 0) {
+    /**
+     * @type {function}
+     * @private
+     */
+    this.func_ = func
     /**
      * @type {number}
      * @private
@@ -21,12 +27,12 @@ export class FunctionCallBuffer {
   }
 
   /**
-   * @param {function} func
+   * @param {*[]} params
    */
-  call (func) {
+  call (...params) {
     clearTimeout(this.timeout_)
     this.timeout_ = setTimeout(() => {
-      func()
+      this.func_(...params)
     }, this.bufferTime_)
   }
 }

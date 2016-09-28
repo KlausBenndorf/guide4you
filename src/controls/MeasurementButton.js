@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Control from './Control'
+import {Control} from './Control'
 import { cssClasses, keyCodes } from '../globals'
-import VectorLayer from '../layers/VectorLayer'
+import {VectorLayer} from '../layers/VectorLayer'
 
 import '../../less/measurement.less'
 
@@ -19,7 +19,7 @@ import '../../less/measurement.less'
 /**
  * Enables the user to draw lines or polygons on the map and displays the length or area.
  */
-export default class MeasurementButton extends Control {
+export class MeasurementButton extends Control {
   /**
    * @param {MeasurementButtonOptions} options
    */
@@ -214,6 +214,7 @@ export default class MeasurementButton extends Control {
   setValue (value) {
     this.value_ = value
     this.$valueDisplay_.text('' + Math.round(value))
+    this.changed()
   }
 
   /**

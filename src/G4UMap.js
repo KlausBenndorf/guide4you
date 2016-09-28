@@ -4,16 +4,16 @@ import $ from 'jquery'
 import stripJsonComments from 'strip-json-comments'
 import 'file?name=licenses/strip-json-comments.[ext]!strip-json-comments/license'
 
-import MapConfigurator from './configurators/MapConfigurator'
+import {MapConfigurator} from './configurators/MapConfigurator'
 import './openlayersInjections'
-import L10N from './L10N'
+import {L10N} from './L10N'
 
 import {mergeWithDefaults} from './utilitiesObject'
 import {cssClasses} from './globals'
 
-import defaults from './defaultconfig'
+import {defaults} from './defaultconfig'
 
-import Debug from './Debug'
+import {Debug} from './Debug'
 
 import '../less/map.less'
 
@@ -39,7 +39,7 @@ import '../less/map.less'
  * @fires 'change:ready:ui'
  * @fires 'change:ready:layers'
  */
-export default class G4UMap extends ol.Map {
+export class G4UMap extends ol.Map {
   /**
    * @param {HTMLElement|jQuery|string} target element or id of an element
    * @param {MapConfig|string} configOrFileName
@@ -59,6 +59,8 @@ export default class G4UMap extends ol.Map {
       interactions: [],
       view: null
     })
+
+    this.set('guide4youVersion', GUIDE4YOU_VERSION) // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -495,7 +497,7 @@ export default class G4UMap extends ol.Map {
    * @param {GroupLayer} groupLayer
    */
   setLayerGroup (groupLayer) {
-    groupLayer.setMap(this)
+    groupLayer.provideMap(this)
     super.setLayerGroup(groupLayer)
   }
 

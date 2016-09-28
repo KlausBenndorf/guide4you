@@ -15,7 +15,7 @@ import '../less/tooltip.less'
 /**
  * Displays a tooltip if a feature with a name is hovered.
  */
-export default class FeatureTooltip {
+export class FeatureTooltip {
   /**
    * @param {FeatureTooltipOptions} [options={}]
    */
@@ -52,6 +52,10 @@ export default class FeatureTooltip {
     this.$element_.parent().addClass(this.className_ + '-container')
   }
 
+  static filter_ (feature) {
+    return !feature.get('disabled') && feature.get('name')
+  }
+
   /**
    * @param {G4UMap} map
    */
@@ -63,10 +67,9 @@ export default class FeatureTooltip {
     if (map) {
       map.addOverlay(this.overlay_)
 
-      let filter = f => f.get('name')
       let interaction = map.getDefaultInteractions('mouseMove')[0]
       interaction.on('select', e => {
-        let selected = e.selected.filter(filter)
+        let selected = e.selected.filter(FeatureTooltip.filter_)
         if (selected.length) {
           this.setFeature(selected[0])
         } else {

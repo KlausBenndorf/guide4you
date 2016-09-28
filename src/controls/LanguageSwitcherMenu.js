@@ -1,10 +1,10 @@
 import $ from 'jquery'
 
-import Dropdown from '../html/Dropdown'
+import {Dropdown} from '../html/Dropdown'
 import { addTooltip } from '../html/html'
-import Control from './Control'
+import {Control} from './Control'
 import { cssClasses, keyCodes } from '../globals'
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 import '../../less/languageControls.less'
 
@@ -15,7 +15,7 @@ import '../../less/languageControls.less'
 /**
  * A button to switch the language that is being used.
  */
-export default class LanguageSwitcherMenu extends Control {
+export class LanguageSwitcherMenu extends Control {
   /**
    * @param {LanguageSwitcherMenuOptions} options
    */
@@ -44,7 +44,6 @@ export default class LanguageSwitcherMenu extends Control {
      * @private
      */
     this.dropdown_ = new Dropdown(dropdownOptions)
-    this.dropdown_.get$Element().addClass(cssClasses.hidden)
     this.get$Element().append(this.dropdown_.get$Element())
 
     let languages = this.getLocaliser().getAvailableLanguages()
@@ -61,16 +60,23 @@ export default class LanguageSwitcherMenu extends Control {
       let iso639 = languages[i]
       this.dropdown_.addEntry(
         iso639.toUpperCase() + ' - ' + this.getLocaliser().localiseUsingDictionary(iso639),
-        this.languageSwitchHandler(iso639)
+        this.languageSwitchHandler(iso639),
+        iso639 === this.getLocaliser().getCurrentLang()
       )
     }
 
     this.get$Element().on('keydown', e => {
       if (e.which === keyCodes.ESCAPE) {
-        this.dropdown_.get$Element().addClass(cssClasses.hidden)
+        this.setActive(false)
         $(this.getMap().getViewport()).focus()
       }
     })
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.active_ = false
   }
 
   /**
@@ -80,8 +86,6 @@ export default class LanguageSwitcherMenu extends Control {
    */
   languageSwitchHandler (iso639) {
     return () => {
-      this.dropdown_.get$Element().addClass(cssClasses.hidden)
-
       this.getLocaliser().setCurrentLang(iso639)
       this.setTitle(iso639)
 
@@ -93,8 +97,6 @@ export default class LanguageSwitcherMenu extends Control {
       map.get('configurator').configureUI()
 
       map.getLayerGroup().setIdsVisibilities(visibilities)
-
-      this.dispatchEvent('interactionEnd')
     }
   }
 
@@ -102,37 +104,58 @@ export default class LanguageSwitcherMenu extends Control {
    * @param {G4UMap} map
    */
   setMap (map) {
+    if (this.getMap()) {
+      this.setActive(false)
+    }
+
+    super.setMap(map)
+
     if (map) {
-      let dontCollapse
+      this.collapse_ = true
 
       // The following does not work in 'on('click')' as it relies on useCapture; all click events will be
       // dispatched to the listener before being dispatched to any EventTarget beneath it in the DOM tree.
       document.addEventListener('click', function () {
-        dontCollapse = false
+        this.collapse_ = true
       }, true)
 
-      $(map.getViewport()).find('.ol-overlaycontainer-stopevent').on('click', () => {
-        if (!dontCollapse) {
-          this.dropdown_.get$Element().addClass(cssClasses.hidden)
-        }
-      })
-
-      $(document).on('click', () => {
-        if (!dontCollapse) {
-          this.dropdown_.get$Element().addClass(cssClasses.hidden)
-        }
-      })
+      $(map.getViewport()).find('.ol-overlaycontainer-stopevent')
+        .add(document)
+        .on('click', () => {
+          if (this.collapse_ && this.getActive()) {
+            this.setActive(false)
+          }
+        })
 
       this.get$Element().on('click', () => {
-        dontCollapse = true
-        this.dropdown_.get$Element().toggleClass(cssClasses.hidden)
+        this.collapse_ = false
+        this.setActive(!this.getActive())
       })
 
       this.$button_.text(this.getLocaliser().getCurrentLang())
 
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'))
     }
+  }
 
-    super.setMap(map)
+  getActive () {
+    return this.active_
+  }
+
+  setActive (active) {
+    let oldValue = this.active_
+    if (oldValue !== active) {
+      if (active) {
+        this.collapse_ = false
+        this.dropdown_.slideDown(this.getMap().get('mobile'))
+      } else {
+        this.dropdown_.slideUp(this.getMap().get('mobile'))
+      }
+      this.active_ = active
+      this.dispatchEvent({
+        type: 'change:active',
+        oldValue
+      })
+    }
   }
 }

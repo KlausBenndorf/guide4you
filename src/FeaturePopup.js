@@ -1,10 +1,10 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Window from './html/Window'
+import {Window} from './html/Window'
 import {cssClasses} from './globals'
 import {finishAllImages} from './utilities'
-import Debug from './Debug'
+import {Debug} from './Debug'
 
 import '../less/featurepopup.less'
 
@@ -27,7 +27,7 @@ import '../less/featurepopup.less'
 /**
  * Displays a Popup bound to a geographical position via an ol.Overlay
  */
-export default class FeaturePopup extends ol.Object {
+export class FeaturePopup extends ol.Object {
   /**
    * @param {FeaturePopupOptions} options
    */
@@ -163,6 +163,15 @@ export default class FeaturePopup extends ol.Object {
   }
 
   /**
+   * @param {ol.Feature} feature
+   * @returns {boolean}
+   * @private
+   */
+  static filter_ (feature) {
+    return !feature.get('disabled') && (feature.get('name') || feature.get('description'))
+  }
+
+  /**
    * @param {G4UMap} map
    */
   setMap (map) {
@@ -239,12 +248,10 @@ export default class FeaturePopup extends ol.Object {
 
       this.$element_.append(this.window_.get$Element())
 
-      let filter = f => f.get('name') || f.get('description')
-
       // feature click
 
       map.getDefaultInteractions('singleClick')[ 0 ].on('select', e => {
-        let selected = e.selected.filter(filter)
+        let selected = e.selected.filter(FeaturePopup.filter_)
         if (selected.length) {
           this.onFeatureClick_(selected[ 0 ])
           e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
@@ -255,8 +262,8 @@ export default class FeaturePopup extends ol.Object {
       // feature hover
 
       map.getDefaultInteractions('mouseMove')[ 0 ].on('select', e => {
-        let selected = e.selected.filter(filter)
-        let deselected = e.deselected.filter(filter)
+        let selected = e.selected.filter(FeaturePopup.filter_)
+        let deselected = e.deselected.filter(FeaturePopup.filter_)
         if (selected.length) {
           $(map.getViewport()).addClass(cssClasses.clickable)
         } else if (deselected.length) {
@@ -407,7 +414,7 @@ export default class FeaturePopup extends ol.Object {
       // apply default offset
 
       if (this.getVisible()) {
-        this.window_.updateSize()
+        setTimeout(() => this.window_.updateSize(), 0)
       }
     }
   }
@@ -480,7 +487,7 @@ export default class FeaturePopup extends ol.Object {
     }
 
     if (visible) {
-      this.window_.updateSize()
+      setTimeout(() => this.window_.updateSize(), 0)
     }
   }
 
@@ -503,8 +510,7 @@ export default class FeaturePopup extends ol.Object {
               if (img.complete && img.src) {
                 resolve()
               } else {
-                let $img = $(img)
-                $img.load(() => {
+                img.addEventListener('load', () => {
                   this.getMap().render() // initiate styles with size and anchor
                   this.getMap().once('postcompose', resolve)
                 })

@@ -1,34 +1,35 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import Positioning from './Positioning'
+import {Positioning} from './Positioning'
 
-import Move from '../Move'
-import FeaturePopup from '../FeaturePopup'
-import FeatureTooltip from '../FeatureTooltip'
+import {Move} from '../Move'
+import {FeaturePopup} from '../FeaturePopup'
+import {FeatureTooltip} from '../FeatureTooltip'
 
-import Shield from '../html/Shield'
+import {Shield} from '../html/Shield'
 
-import ControlFactory from './ControlFactory'
+import {ControlFactory} from './ControlFactory'
 
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 import {copyDeep} from '../utilitiesObject'
 import {checkFor, getConfig, urlDirname, urlJoin} from '../utilities'
 
-import MeasurementButton from '../controls/MeasurementButton'
-import PrintButton from '../controls/PrintButton'
+import {MeasurementButton} from '../controls/MeasurementButton'
+import {PrintButton} from '../controls/PrintButton'
 
 import {cssClasses} from '../globals'
 
-import FeatureSelect from '../interactions/FeatureSelect'
+import {FeatureSelect} from '../interactions/FeatureSelect'
 
 import {parseCSSColor} from 'csscolorparser'
+import {FunctionCallBuffer} from '../FunctionCallBuffer'
 
 /**
  * This class configures the UI of a map according to its mapconfig
  */
-export default class UIConfigurator {
+export class UIConfigurator {
   /**
    * @param {G4UMap} map
    */
@@ -166,39 +167,39 @@ export default class UIConfigurator {
    * @private
    */
   initialize_ (mapConfigCopy) {
+    //
+    // Control positioning
+    //
+
     /**
      * @type {PositioningOptions}
      */
     let positioningOptions = mapConfigCopy.positioning || {}
     positioningOptions.viewport = this.map_.getViewport()
 
-    //
-    // Control positioning
-    //
-
     this.map_.set('controlPositioning', new Positioning(positioningOptions))
 
-    let position = () => {
+    let positionCallBuffer = new FunctionCallBuffer(() => {
       return this.map_.get('controlPositioning').positionElements()
-    }
+    })
 
-    this.map_.on('ready', position)
+    this.map_.on('ready', () => positionCallBuffer.call())
 
     this.map_.asSoonAs('ready', true, () => {
-      this.map_.on('resize', position)
+      this.map_.on('resize', () => positionCallBuffer.call())
       this.map_.on('ready:ui', () => {
         if (this.map_.get('ready:ui')) {
-          position()
+          positionCallBuffer.call()
         }
       })
-      this.map_.on('change:mobile', position)
+      this.map_.on('change:mobile', () => positionCallBuffer.call())
 
       this.map_.on('ready:layers', () => {
-        position()
-        this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(position, 200))
+        positionCallBuffer.call()
+        this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(() => positionCallBuffer.call(), 200))
       })
 
-      this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(position, 200))
+      this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(() => positionCallBuffer.call(), 200))
     })
 
     //
@@ -328,6 +329,8 @@ export default class UIConfigurator {
         this.map_.controlsByName = {}
         this.map_.removeInteractions()
 
+        this.map_.get('controlPositioning').init()
+
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                           Move Class (before mobileLayout)                               //
         // //////////////////////////////////////////////////////////////////////////////////////// //
@@ -377,6 +380,17 @@ export default class UIConfigurator {
         }
 
         this.controlFactory.addControls()
+
+        let deactivate = control => {
+          if (control.setActive) {
+            control.setActive(false)
+          }
+          if (control.getControls) {
+            control.getControls().forEach(deactivate)
+          }
+        }
+
+        this.map_.on('change:mobile', () => this.map_.getControls().forEach(deactivate))
 
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     Interactions                                         //
@@ -437,7 +451,7 @@ export default class UIConfigurator {
         }
 
         this.map_.addDefaultInteraction('singleClick', new FeatureSelect({
-          condition: ol.events.condition.singleClick,
+          condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
           multi: true
         }))

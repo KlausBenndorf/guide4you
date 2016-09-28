@@ -4,7 +4,7 @@ import $ from 'jquery'
 import { addProxy } from '../utilities'
 import { copy } from '../utilitiesObject'
 
-import Debug from '../Debug'
+import {Debug} from '../Debug'
 
 /**
  * @typedef {olx.source.VectorOptions} SourceServerVectorOptions
@@ -33,7 +33,7 @@ import Debug from '../Debug'
  *
  * This class defines a custom loader function which makes it possible to use different loading strategies.
  */
-export default class SourceServerVector extends ol.source.Vector {
+export class SourceServerVector extends ol.source.Vector {
   /**
    * @param {SourceServerVectorOptions} [options={}]
    */
@@ -149,17 +149,16 @@ export default class SourceServerVector extends ol.source.Vector {
     }
 
     /**
-     * @type {boolean}
+     * @type {number}
      * @private
      */
-    this.refresh_ = options.hasOwnProperty('refresh') && options.refresh > 0
+    this.refresh_ = 0
 
-    if (this.refresh_) {
-      this.refreshTimeoutId_ = null
-      this.refreshing_ = true
-    } else {
-      this.refreshing_ = false
+    if (options.hasOwnProperty('refresh')) {
+      this.setRefresh(options.refresh)
     }
+
+    this.refreshTimeoutId_ = null
 
     /**
      * indicates if the source needs to be emptied
@@ -197,7 +196,7 @@ export default class SourceServerVector extends ol.source.Vector {
       url = url.replace(/\{resolution}/, resolution.toString())
     }
 
-    if (this.refresh_ && this.refreshing_) {
+    if (this.refresh_) {
       if (this.refreshTimeoutId_) {
         clearTimeout(this.refreshTimeoutId_)
       }
@@ -237,11 +236,11 @@ export default class SourceServerVector extends ol.source.Vector {
   }
 
   /**
-   * This turns refreshing on/off
-   * @param {boolean} refreshing
+   * This sets the refresh rate. A value of 0 or smaller turns refresh off.
+   * @param {number} refresh
    */
-  setRefreshing (refreshing) {
-    this.refreshing_ = refreshing
+  setRefresh (refresh) {
+    this.refresh_ = (refresh > 0) ? refresh : 0
   }
 
   /**

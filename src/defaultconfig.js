@@ -5,7 +5,7 @@
 // Element is a Keyword for the composition of config objects. Every attribute with 'Element' in its name
 // isn't copied but used as a default case for elements of an array with the same name (-Element)
 
-let defaults = {}
+export const defaults = {}
 
 defaults.baselayer = {
   title: {
@@ -91,5 +91,3 @@ defaults.config = {
     }
   }
 }
-
-export default defaults

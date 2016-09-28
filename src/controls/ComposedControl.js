@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
-import Window from '../html/Window'
-import Control from './Control'
+import {Window} from '../html/Window'
+import {Control} from './Control'
 import {cssClasses} from '../globals'
 
 import '../../less/toolbox.less'
@@ -17,7 +17,7 @@ import '../../less/layermenu.less'
  * other controls. It makes use of the composite pattern.
  */
 
-export default class ComposedControl extends Control {
+export class ComposedControl extends Control {
   /**
    * @param {ComposedControlOptions} [options={}]
    */
@@ -167,6 +167,8 @@ export default class ComposedControl extends Control {
         }
       }
     }
+
+    control.on('change', e => this.dispatchEvent(e))
 
     this.controls_.push(control)
   }

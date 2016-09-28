@@ -1,7 +1,7 @@
 /**
  * This class provides different debug behaviour based on the SWITCH_DEBUG build flag
  */
-export default class Debug {
+export class Debug {
   /**
    * if in release mode all thrown errors in the callback are catched and the program is continued
    * @param {function} cb
@@ -24,7 +24,7 @@ export default class Debug {
    */
   static info (msg) {
     if (SWITCH_DEBUG === 'DEBUG') { // eslint-disable-line
-      console.log(msg)
+      console.log(msg) // eslint-disable-line
     }
   }
 
@@ -33,7 +33,7 @@ export default class Debug {
    * @param {string} msg
    */
   static warn (msg) {
-    console.warn(msg)
+    console.warn(msg) // eslint-disable-line
   }
 
   /**
@@ -41,7 +41,7 @@ export default class Debug {
    * @param {string} msg
    */
   static error (msg) {
-    console.error(msg)
+    console.error(msg) // eslint-disable-line
   }
 
   /**

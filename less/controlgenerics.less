@@ -2,26 +2,30 @@
 // standard styling for all buttons
 // and mixins for further specifying the type of the button
 
+@import "./colors";
+
 .ol-control {
   cursor: default;
+}
 
-  button {
-    .g4u-symbol-colors;
-    white-space: nowrap;
-    display: block;
-    margin: 0;
+button.ol-control,
+.ol-control button {
+  .g4u-symbol-colors;
+  white-space: nowrap;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  &::-moz-focus-inner {
     padding: 0;
     border: none;
-
-    &::-moz-focus-inner {
-      padding: 0;
-      border: none;
-    }
   }
+}
 
-  a {
-    padding: 0;
-  }
+a.ol-control,
+.ol-control a {
+  padding: 0;
 }
 
 .button(@button-size) {
@@ -85,13 +89,19 @@
 .buttonWithIconBefore(@iconurl, @button-size, @iconsize) {
   .button(@button-size);
 
+  padding-left: @button-size;
+
   &:before {
     content: @iconurl;
     width: @iconsize;
     height: @iconsize;
     display: inline-block;
     vertical-align: text-bottom;
-    padding: 0 round((@button-size - @iconsize) / 2);
+    position: absolute;
+    top: round(0.5 * ( @button-size - @iconsize ));
+    left: round(0.5 * ( @button-size - @iconsize ));
+    //padding-right: round((@button-size - @iconsize) / 2);
+    //padding-left: round((@button-size - @iconsize) / 2);
   }
 }
 

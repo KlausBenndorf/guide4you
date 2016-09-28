@@ -5,7 +5,7 @@ import sortBy from 'lodash/sortBy'
  * This interaction is a little further customized select interaction.
  * Selected features get sorted by geometry type.
  */
-export default class FeatureSelect extends ol.interaction.Select {
+export class FeatureSelect extends ol.interaction.Select {
   /**
    * @param {object} [options={}]
    */

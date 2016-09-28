@@ -11,11 +11,11 @@ import 'file?name=images/[name].[ext]!../images/g4u-logo.png'
 window.ol = window.ol || ol
 window.$ = window.$ || $
 
-import G4UMap from './G4UMap'
+import {G4UMap} from './G4UMap'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame'
 
-export function createG4U (element, clientConfPath, layerConfPath, modules) {
+export function createG4UInternal (element, clientConfPath, layerConfPath, modules) {
   return new Promise((resolve, reject) => {
     $(document).ready(() => {
       if (!ol) {
@@ -29,10 +29,9 @@ export function createG4U (element, clientConfPath, layerConfPath, modules) {
       $(element).empty()
 
       // for remote analysis and debugging - not used inside of the software
-      window.map = new G4UMap(element, window.g4uClientConfPath || clientConfPath,
-        window.g4uLayerConfPath || layerConfPath, {
-          modules: modules
-        })
+      window.map = new G4UMap(element, clientConfPath, layerConfPath, {
+        modules: modules
+      })
 
       resolve(window.map)
     })

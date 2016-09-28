@@ -13,13 +13,13 @@ import ol from 'openlayers'
 /**
  * @typedef {olx.view.FitOptions} SingleMoveOptions
  * @property {boolean} [animated] if specified overwrites the default settings
- * @property {number[]|string} padding can be set to 'default' to use the default settings
+ * @property {number[]|string} [padding] can be set to 'default' to use the default settings
  */
 
 /**
  * Moves the map. Uses animations if desired.
  */
-export default class Move {
+export class Move {
   /**
    * @param {MoveOptions} options
    */

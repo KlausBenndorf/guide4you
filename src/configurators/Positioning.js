@@ -34,7 +34,7 @@ import { cssClasses } from '../globals'
  * @property {HTMLElement} viewport
  */
 
-export default class Positioning {
+export class Positioning {
   /**
    * @param {PositioningOptions} options
    */
@@ -59,6 +59,10 @@ export default class Positioning {
      */
     this.spacing_ = options.spacing || 10
 
+    this.init()
+  }
+
+  init () {
     /**
      * @type {HideableElement[]}
      * @private
@@ -124,7 +128,8 @@ export default class Positioning {
         if (control.getCollapsible && control.getCollapsible()) {
           let width = $elem.width()
           let height = $elem.height()
-          $elem.on('click', () => {
+
+          $elem.on('click', () => { // TODO: introduce events to react to. beware of the loops.
             if ($elem.width() !== width || $elem.height() !== height) {
               this.positionElements()
               width = $elem.width()
@@ -134,7 +139,7 @@ export default class Positioning {
         }
 
         if (!parentMeta) {
-          metaElem.float = metaElem.control.getFloat()
+          metaElem.float = metaElem.control.getFloat() || ['top', 'left']
 
           if (metaElem.float === 'fixed') {
             return

@@ -11,13 +11,22 @@ import '../../less/dropdown.less'
  * @property {number} [slideDuration=400] standard slideDuration
  */
 
+$.extend($.easing, {
+  easeOutCirc: function (x, t, b, c, d) {
+    return c * Math.sqrt(1 - (t = t / d - 1) * t) + b
+  },
+  easeInCirc: function (x, t, b, c, d) {
+    return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b
+  }
+})
+
 /**
  * A HTML Dropdown select.
  * The text entries in the list can be setted and changed and given a click handler.
  * @fires 'leave:backwards' This event is raised if the dropdown is left via the up arrow or shift+tab
  * @fires 'leave:forwards' This event is raised if the dropdown is left via the down arrow or tab
  */
-export default class Dropdown extends ol.Object {
+export class Dropdown extends ol.Object {
   /**
    * @param {DropdownOptions} [options={}]
    */
@@ -83,41 +92,49 @@ export default class Dropdown extends ol.Object {
     // key handling
 
     this.$element_.on('keydown', e => {
-      if (e.which === keyCodes.ARROW_DOWN) {
-        e.preventDefault()
-        e.stopPropagation()
-        if (this.selectedIndex_ < this.$entriesArray_.length - 1) {
-          this.$entriesArray_[this.selectedIndex_ + 1].addClass(this.classNameSelected_)
-          this.$entriesArray_[this.selectedIndex_ + 1].focus()
-          this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
-          this.selectedIndex_ += 1
-        }
-      } else if (e.which === keyCodes.ARROW_UP) {
-        e.preventDefault()
-        e.stopPropagation()
-        if (this.selectedIndex_ > 0) {
-          this.$entriesArray_[this.selectedIndex_ - 1].addClass(this.classNameSelected_)
-          this.$entriesArray_[this.selectedIndex_ - 1].focus()
-          this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
-          this.selectedIndex_ -= 1
-        } else {
-          this.dispatchEvent({
-            type: 'leave:backwards',
-            originalEvent: e
-          })
-        }
-      } else if (e.which === keyCodes.TAB) {
-        if (!e.shiftKey) {
-          this.dispatchEvent({
-            type: 'leave:forwards',
-            originalEvent: e
-          })
-        } else {
-          this.dispatchEvent({
-            type: 'leave:backwards',
-            originalEvent: e
-          })
-        }
+      switch (e.which) {
+        case keyCodes.ARROW_DOWN:
+          e.preventDefault()
+          e.stopPropagation()
+          if (this.selectedIndex_ < this.$entriesArray_.length - 1) {
+            this.$entriesArray_[this.selectedIndex_ + 1].addClass(this.classNameSelected_)
+            this.$entriesArray_[this.selectedIndex_ + 1].focus()
+            this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+            this.selectedIndex_ += 1
+          }
+          break
+        case keyCodes.ARROW_UP:
+          e.preventDefault()
+          e.stopPropagation()
+          if (this.selectedIndex_ > 0) {
+            this.$entriesArray_[this.selectedIndex_ - 1].addClass(this.classNameSelected_)
+            this.$entriesArray_[this.selectedIndex_ - 1].focus()
+            this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+            this.selectedIndex_ -= 1
+          } else {
+            this.dispatchEvent({
+              type: 'leave:backwards',
+              originalEvent: e
+            })
+          }
+          break
+        case keyCodes.TAB:
+          if (!e.shiftKey) {
+            this.dispatchEvent({
+              type: 'leave:forwards',
+              originalEvent: e
+            })
+          } else {
+            this.dispatchEvent({
+              type: 'leave:backwards',
+              originalEvent: e
+            })
+          }
+          break
+        case keyCodes.ENTER:
+          e.stopPropagation()
+          e.preventDefault()
+          this.$entriesArray_[this.selectedIndex_].click()
       }
     })
 
@@ -130,10 +147,12 @@ export default class Dropdown extends ol.Object {
     this.$element_.get(0).addEventListener('mousemove', e => {
       e.stopPropagation()
     }, false)
+
+    this.slideUp(true)
   }
 
   /**
-   * returns the selected lsit element
+   * returns the selected button element
    * @returns {jQuery|undefined}
    */
   getSelected () {
@@ -166,7 +185,7 @@ export default class Dropdown extends ol.Object {
    * @param {function} handler
    * @returns {jQuery}
    */
-  addEntry (entry, handler) {
+  addEntry (entry, handler, optSelected = false) {
     let $newEntry = $('<button tabindex="-1">')
       .addClass(this.classNameEntry_)
       .text(entry)
@@ -183,13 +202,18 @@ export default class Dropdown extends ol.Object {
         this.selectedIndex_ = index
       }
     })
-    $newEntry.focus()
+    // $newEntry.focus()
 
     if (handler) {
       $newEntry.on('click', handler)
     }
 
     this.$element_.append($newEntry)
+
+    if (optSelected) {
+      this.selectedIndex_ = index
+      $newEntry.addClass(this.classNameSelected_)
+    }
 
     return $newEntry
   }
@@ -286,36 +310,44 @@ export default class Dropdown extends ol.Object {
 
   /**
    * @param {boolean} [immediately=false] if setted to true the animation is skipped
+   * @returns {Promise}
    */
   slideUp (immediately = false) {
-    let duration = 0
-    if (!immediately) {
-      duration = this.slideDuration_
-    }
-    this.$element_.slideUp({
-      duration: duration,
-      complete: () => {
-        this.$element_.addClass(cssClasses.hidden)
+    return new Promise(resolve => {
+      let duration = 0
+      if (!immediately) {
+        duration = this.slideDuration_
       }
+      this.$element_.slideUp({
+        duration: duration,
+        complete: () => {
+          this.$element_.addClass(cssClasses.hidden)
+          resolve()
+        },
+        easing: 'easeInCirc'
+      })
     })
   }
 
   /**
    * @param {boolean} [immediately=false] if setted to true the animation is skipped
+   * @returns {Promise}
    */
   slideDown (immediately = false) {
-    if (this.$element_.children().length > 0) {
-      let duration = 0
-      if (!immediately) {
-        duration = this.slideDuration_
+    return new Promise(resolve => {
+      if (this.$element_.children().length > 0) {
+        let duration = 0
+        if (!immediately) {
+          duration = this.slideDuration_
+        }
+        this.$element_.removeClass(cssClasses.hidden)
+        this.$element_.slideDown({
+          easing: 'easeOutCirc',
+          complete: resolve,
+          duration: duration
+        })
       }
-      this.$element_.slideDown({
-        start: () => {
-          this.$element_.removeClass(cssClasses.hidden)
-        },
-        duration: duration
-      })
-    }
+    })
   }
 
   /**

@@ -2,7 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import { merge } from '../utilitiesObject'
-import Control from './Control'
+import {Control} from './Control'
 import {addTooltip} from '../html/html'
 
 import '../../less/arrowbuttons.less'
@@ -26,7 +26,7 @@ import '../../less/arrowbuttons.less'
  * The Options are passed as an Object (e.g. ``{ initCenter : map.getView().getCenter(),
  *      initZoom : map.getView().getZoom() }``.
  */
-export default class ArrowButtons extends Control {
+export class ArrowButtons extends Control {
   /**
    * @param {ArrowButtonOptions} [options={}]
    */
