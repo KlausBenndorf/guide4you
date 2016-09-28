@@ -14,7 +14,7 @@
       "source": {
         "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         "attribution": {
-          "en": "(c) OpenStreetMap contributers",
+          "en": "(c) OpenStreetMap contributors",
           "de": "(c) OpenStreetMap Mitwirkende"
         }
       },
@@ -47,7 +47,7 @@
       "source": {
         "url": "files/hotelsbonn.kml",
         "attribution": {
-          "en": "(c) OpenStreetMap contributers",
+          "en": "(c) OpenStreetMap contributors",
           "de": "(c) OpenStreetMap Mitwirkende"
         }
       },
@@ -63,7 +63,7 @@
       "source": {
         "url": "files/restaurantsbonn.kml",
         "attribution": {
-          "en": "(c) OpenStreetMap contributers",
+          "en": "(c) OpenStreetMap contributors",
           "de": "(c) OpenStreetMap Mitwirkende"
         }
       },
