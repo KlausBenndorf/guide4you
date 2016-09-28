@@ -27,7 +27,7 @@
     "lodash": "4.14.1",
     "notifyjs-browser": "0.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v3.18.2",
-    "proj4": "2.3.14",
+    "proj4": "2.3.15",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
