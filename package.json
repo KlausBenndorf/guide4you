@@ -32,7 +32,7 @@
     "selenium-webdriver": "2.53.3",
     "phantomjs-prebuilt": "2.1.11",
     "standard": "8.2.0",
-    "wait-on": "1.5.2"
+    "wait-on": "1.5.3"
   },
   "scripts": {
     "build": "g4u-build -m prod -c",
