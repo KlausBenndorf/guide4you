@@ -55,6 +55,13 @@ export class WindowDecorator extends Control {
   }
 
   /**
+   * @returns {Control}
+   */
+  getComponent () {
+    return this.component_
+  }
+
+  /**
    * @param {G4UMap} map
    */
   setMap (map) {
