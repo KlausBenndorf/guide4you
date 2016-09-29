@@ -23,22 +23,22 @@
     "csscolorparser": "1.0.3",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "5.2.0",
-    "jquery": "3.1.0",
-    "lodash": "4.14.1",
+    "jquery": "3.1.1",
+    "lodash": "4.16.2",
     "notifyjs-browser": "0.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v3.18.2",
-    "proj4": "2.3.14",
+    "proj4": "2.3.15",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
     "guide4you-builder": "1.1.*",
     "concurrently": "2.2.0",
-    "esdoc": "0.4.7",
-    "mocha": "2.5.3",
-    "phantomjs-prebuilt": "2.1.11",
+    "esdoc": "0.4.8",
+    "mocha": "3.1.0",
+    "phantomjs-prebuilt": "2.1.12",
     "selenium-webdriver": "2.53.3",
-    "standard": "8.1.0",
-    "wait-on": "1.5.2"
+    "standard": "8.2.0",
+    "wait-on": "1.5.3"
   },
   "scripts": {
     "build": "g4u-build -m prod -c",
