@@ -11,7 +11,8 @@ export const keyCodes = {
   TAB: 9,
   ARROW_DOWN: 40,
   ARROW_UP: 38,
-  ENTER: 13
+  ENTER: 13,
+  SHIFT: 16
 }
 
 /**
