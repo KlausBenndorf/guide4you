@@ -280,7 +280,7 @@ export class SearchControl extends Control {
 
       document.addEventListener('click', () => {
         slideUp = true
-      })
+      }, true)
 
       $(map.getViewport()).find('.ol-overlaycontainer-stopevent').on('click', () => {
         if (slideUp) {
