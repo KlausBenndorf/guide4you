@@ -106,6 +106,10 @@ export class LanguageSwitcherMenu extends Control {
   setMap (map) {
     if (this.getMap()) {
       this.setActive(false)
+
+      $(this.getMap().getViewport()).find('.ol-overlaycontainer-stopevent')
+        .add(document)
+        .off('click', this.deactivateListener_)
     }
 
     super.setMap(map)
@@ -119,13 +123,15 @@ export class LanguageSwitcherMenu extends Control {
         this.collapse_ = true
       }, true)
 
+      this.deactivateListener_ = () => {
+        if (this.collapse_ && this.getActive()) {
+          this.setActive(false)
+        }
+      }
+
       $(map.getViewport()).find('.ol-overlaycontainer-stopevent')
         .add(document)
-        .on('click', () => {
-          if (this.collapse_ && this.getActive()) {
-            this.setActive(false)
-          }
-        })
+        .on('click', this.deactivateListener_)
 
       this.get$Element().on('click', () => {
         this.collapse_ = false

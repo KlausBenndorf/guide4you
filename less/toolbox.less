@@ -2,28 +2,11 @@
 
 .g4u-desktop {
   .g4u-toolbox {
-    //.g4u-toolbox-item:not(.g4u-toolbox-item-first) {
-    //  .g4u-search-control-textfield {
-    //    border-top-left-radius: 0;
-    //    border-bottom-left-radius: 0;
-    //  }
-    //}
-    //
-    //.g4u-toolbox-item:not(.g4u-toolbox-item-last) {
-    //  button {
-    //    border-top-right-radius: 0;
-    //    border-bottom-right-radius: 0;
-    //  }
-    //}
-
-    position: absolute;
     height: @g4u-desktop-button-size;
-    //padding: 0;
-    //border: @g4u-desktop-padding @g4u-control-background solid;
     border-radius: @g4u-desktop-large-border-radius;
-    //overflow: hidden;
+
     .g4u-toolbox-item {
-      width: @g4u-desktop-button-size;
+      min-width: @g4u-desktop-button-size;
       display: inline-block;
       padding-left: @g4u-desktop-padding;
       vertical-align: text-top;

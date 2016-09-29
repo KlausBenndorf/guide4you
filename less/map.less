@@ -2,7 +2,6 @@
 @import "./colors";
 @import "./misc";
 @import "./fonts";
-
 @import "./print";
 
 a {
@@ -14,17 +13,21 @@ a {
   z-index: 0;
 }
 
-.g4u-desktop {
-  .ol-overlaycontainer-stopevent > div.ol-control {
-    // ol.controls which are direct childs of the overlay container have grey background
-    background: @g4u-control-background;
-    padding: @g4u-desktop-padding;
-  }
+.ol-overlaycontainer-stopevent > * {
+  position: absolute;
+}
 
+.g4u-desktop {
   &.g4u-mouse-down {
     :not(.g4u-clickable) {
       .g4u-cursor-grabbing;
     }
+  }
+
+  .ol-overlaycontainer-stopevent > div.ol-control {
+    // controls which are direct childs of the overlay container have grey background
+    background: @g4u-control-background;
+    padding: @g4u-desktop-padding;
   }
 
   &.g4u-clickable {
@@ -93,21 +96,6 @@ a {
 
   .ol-full-screen-true:after {
     content: "\\0000d7";
-  }
-
-  .ol-overlaycontainer-stopevent > .g4u-search-control {
-    position: absolute;
-    border-radius: @g4u-desktop-large-border-radius;
-
-    button {
-      border-top-right-radius: @g4u-desktop-small-border-radius;
-      border-bottom-right-radius: @g4u-desktop-small-border-radius;
-    }
-
-    .g4u-search-control-textfield {
-      border-top-left-radius: @g4u-desktop-small-border-radius;
-      border-bottom-left-radius: @g4u-desktop-small-border-radius;
-    }
   }
 
   .ol-unsupported {
