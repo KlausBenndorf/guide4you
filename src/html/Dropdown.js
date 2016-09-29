@@ -69,7 +69,7 @@ export class Dropdown extends ol.Object {
      */
     this.$ghostentry = $('<button tabindex="-1">')
       .addClass(this.classNameGhostentry_)
-      .text(options.ghostentry || 'no entries')
+      .html(options.ghostentry || 'no entries')
 
     /**
      * @type {number}
@@ -167,7 +167,7 @@ export class Dropdown extends ol.Object {
    */
   getValue () {
     if (this.selectedIndex_ >= 0) {
-      return this.$entriesArray_[this.selectedIndex_].text()
+      return this.$entriesArray_[this.selectedIndex_].html()
     }
   }
 
@@ -188,7 +188,7 @@ export class Dropdown extends ol.Object {
   addEntry (entry, handler, optSelected = false) {
     let $newEntry = $('<button tabindex="-1">')
       .addClass(this.classNameEntry_)
-      .text(entry)
+      .html(entry)
 
     let index = this.$entriesArray_.length
     this.$entriesArray_[index] = $newEntry

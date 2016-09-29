@@ -100,7 +100,7 @@ export class ArrowButtons extends Control {
 
       let $button = $('<button>')
         .addClass(this.className_ + '-' + direction)
-        .text(this.labels_[direction])
+        .html(this.labels_[direction])
 
       addTooltip($button, description[direction])
 

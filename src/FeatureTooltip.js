@@ -97,7 +97,7 @@ export class FeatureTooltip {
    */
   setFeature (feature) {
     if (feature) {
-      this.$element_.text(feature.get('name'))
+      this.$element_.html(feature.get('name'))
       let geometry = feature.getGeometry()
       let coord = ol.extent.getCenter(geometry.getExtent())
       this.overlay_.setPosition(coord)

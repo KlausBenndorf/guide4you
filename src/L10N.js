@@ -2,7 +2,6 @@ import $ from 'jquery'
 
 import stripJsonComments from 'strip-json-comments'
 import {Debug} from './Debug'
-import { decodeEntities } from './utilities'
 
 /**
  * @typedef {Object.<string, string>|string} Localizable
@@ -105,9 +104,9 @@ export class L10N {
         return data
       } else { // an object is available
         if (this.currentLang_ in data) { // current language available
-          return decodeEntities(data[this.currentLang_])
+          return data[this.currentLang_]
         } else if (this.defaultLang_ in data) { // default language as a last resort
-          return decodeEntities(data[this.defaultLang_])
+          return data[this.defaultLang_]
         } else {
           Debug.error('Unable to obtain localization')
         }

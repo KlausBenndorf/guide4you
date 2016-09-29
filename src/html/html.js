@@ -50,5 +50,6 @@ export function getInFront ($element, $context) {
 export function addTooltip ($element, text) {
   $element
     .addClass(cssClasses.hasTooltip)
-    .append($('<span role="tooltip">').text(text))
+    .append($('<span role="tooltip">')
+      .html(text))
 }
