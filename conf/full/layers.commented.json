@@ -49,9 +49,9 @@
     }
 
   ],
-  "fixedFeatureLayers": [
+  "featureLayers": [
     {
-      "id": "ff1",
+      "id": "f0",
       "title": {
         "en": "Roads and Labels for Hydda",
         "de": "Straßen und Beschriftungen für Hydda"
@@ -61,10 +61,8 @@
         "url": "https://{a-c}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png",
         "attribution": "Tiles courtesy of <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
       },
-      "visible": true
-    }
-  ],
-  "featureLayers": [
+      "visible": false
+    },
     {
       "id": "f1",
       "title": {
