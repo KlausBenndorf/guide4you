@@ -31,7 +31,7 @@
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
-    "guide4you-builder": "1.1.*",
+    "guide4you-builder": "1.1.3",
     "concurrently": "2.2.0",
     "esdoc": "0.4.8",
     "mocha": "3.1.0",
