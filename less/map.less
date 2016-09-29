@@ -2,7 +2,6 @@
 @import "./colors";
 @import "./misc";
 @import "./fonts";
-
 @import "./print";
 
 a {
@@ -14,14 +13,8 @@ a {
   z-index: 0;
 }
 
-.g4u-desktop, .g4u-mobile {
-  .ol-overlaycontainer-stopevent > * {
-    // controls which are direct childs of the overlay container have grey background
-    // and are positioned absolutly
-    background: @g4u-control-background;
-    padding: @g4u-desktop-padding;
-    position: absolute;
-  }
+.ol-overlaycontainer-stopevent > * {
+  position: absolute;
 }
 
 .g4u-desktop {
@@ -29,6 +22,12 @@ a {
     :not(.g4u-clickable) {
       .g4u-cursor-grabbing;
     }
+  }
+
+  .ol-overlaycontainer-stopevent > div.ol-control {
+    // controls which are direct childs of the overlay container have grey background
+    background: @g4u-control-background;
+    padding: @g4u-desktop-padding;
   }
 
   &.g4u-clickable {
