@@ -3,6 +3,7 @@ import ol from 'openlayers'
 import {BaseLayerImage, ImageLayer} from '../layers/ImageLayer'
 import {EmptyBaseLayer} from '../layers/EmptyBaseLayer'
 import {BaseLayerTile} from '../layers/BaseLayerTile'
+import {LayerTile} from '../layers/LayerTile'
 import {GroupLayer} from '../layers/GroupLayer'
 import {VectorLayer} from '../layers/VectorLayer'
 import {SourceServerVector} from '../sources/SourceServerVector'
@@ -256,7 +257,7 @@ export class LayerFactory {
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerTile(optionsCopy)
         } else {
-          this.superTypeNotSupported(layerType, superType)
+          layer = new LayerTile(optionsCopy)
         }
         break
       case LayerType.WMS:
