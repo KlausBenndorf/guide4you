@@ -34,9 +34,35 @@
           "de": "(c) OpenCycleMap und OpenStreetMap Mitwirkende"
         }
       }
+    },
+    {
+      "id": "b3",
+      "title": {
+        "en": "OSM in Hydda Style",
+        "de": "OSM im Hydda-Stil"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "https://{a-c}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png",
+        "attribution": "Tiles courtesy of <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+      }
     }
+
   ],
   "featureLayers": [
+    {
+      "id": "f0",
+      "title": {
+        "en": "Roads and Labels for Hydda",
+        "de": "Straßen und Beschriftungen für Hydda"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "https://{a-c}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png",
+        "attribution": "Tiles courtesy of <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+      },
+      "visible": false
+    },
     {
       "id": "f1",
       "title": {
