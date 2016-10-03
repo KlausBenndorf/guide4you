@@ -35,6 +35,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'html/client.html',
+      favicon: 'images/g4u-logo.png',
       inject: 'head',
       title: 'Full g4u3'
     })
