@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "guide4you-builder": "1.1.*",
-    "concurrently": "2.2.0",
+    "concurrently": "3.1.0",
     "esdoc": "0.4.8",
     "mocha": "3.1.0",
     "selenium-webdriver": "2.53.3",
