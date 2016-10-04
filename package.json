@@ -33,6 +33,8 @@
     "wait-on": "1.5.2"
   },
   "scripts": {
+    "linkRepos": "g4u-link guide4you guide4you-module-search",
+    "unlinkRepos": "g4u-unlink guide4you guide4you-module-search" ,
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
