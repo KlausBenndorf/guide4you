@@ -6,6 +6,7 @@ import {cssClasses} from 'guide4you/src/globals'
 import {Debug} from 'guide4you/src/Debug'
 
 import '../less/linkgeneratorbutton.less'
+import {filterText, restoreText} from 'guide4you/src/xssprotection'
 
 /**
  * @typedef {g4uControlOptions} LinkGeneratorButtonOptions
@@ -153,7 +154,7 @@ export class LinkGeneratorButton extends Control {
   }
 
   updateDescription () {
-    let text = this.$markerTextBox_.val()
+    let text = filterText(this.$markerTextBox_.val())
     if (text) {
       this.marker_.setPopupVisible(true)
     } else {
@@ -182,7 +183,7 @@ export class LinkGeneratorButton extends Control {
 
     let text = this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton markerText')
     this.marker_.setText(text)
-    this.$markerTextBox_.val(text)
+    this.$markerTextBox_.val(restoreText(text))
 
     if (text) {
       this.marker_.setPopupVisible(true)
@@ -280,7 +281,7 @@ export class LinkGeneratorButton extends Control {
           this.$markerCheckbox_.prop('checked', true)
           this.$setMarker_.append(this.$markerTextDiv_)
           if (this.marker_.getText()) {
-            this.$markerTextBox_.val(this.marker_.getText())
+            this.$markerTextBox_.val(restoreText(this.marker_.getText()))
           }
           this.marker_.setPopupVisible(true)
         }

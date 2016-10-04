@@ -1,7 +1,6 @@
 import ol from 'openlayers'
 
 import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
-import {filterText} from 'guide4you/src/xssprotection'
 
 /**
  * @typedef {object} MarkerOptions
@@ -161,6 +160,6 @@ export class Marker {
    * @param {string} text
    */
   setText (text) {
-    this.feature_.set('description', filterText(text))
+    this.feature_.set('description', text)
   }
 }

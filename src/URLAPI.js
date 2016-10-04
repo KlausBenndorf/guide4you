@@ -4,7 +4,7 @@ import $ from 'jquery'
 import {GroupLayer} from 'guide4you/src/layers/GroupLayer'
 
 import {Debug} from 'guide4you/src/Debug'
-import {restoreText} from 'guide4you/src/xssprotection'
+import {restoreText, filterText} from 'guide4you/src/xssprotection'
 
 /**
  * @typedef {object} URLAPIOptions
@@ -50,7 +50,7 @@ export class URLAPI {
 
     let isSet = key => (this.queryValues.hasOwnProperty(key))
 
-    const getVal = key => this.queryValues[ key ]
+    const getVal = key => filterText(this.queryValues[key])
 
     const isExcluded = key => (this.excluded_.indexOf(key) > -1)
 
