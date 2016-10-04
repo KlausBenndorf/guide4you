@@ -1,8 +1,9 @@
 'use strict'
 
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 let path = require('path')
 let baseDir = process.cwd()
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -18,7 +19,6 @@ module.exports = {
   },
   mustacheEvalLoader: {
     templateVars: {
-      pageTitle: 'Simple g4u3',
       ajaxProxy: 'proxy/proxy.php?csurl={url}',
       languageFile: 'files/l10n.json',
       svgColor: 'rgba(255,255,255,1)',
@@ -35,7 +35,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'html/client.html',
-      inject: 'head'
+      inject: 'head',
+      favicon: 'images/g4u-logo.png',
+      title: 'Simple g4u3'
     })
   ]
 }
