@@ -114,7 +114,7 @@ export class Shield extends ol.Object {
       $actualElement = $window
     }
 
-    let $oldParent = $element.parent()
+    let $oldParent = $actualElement.parent()
 
     this.elementsOnTop_.set($element[0], {
       $actualElement,
