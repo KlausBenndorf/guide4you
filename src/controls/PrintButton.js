@@ -17,7 +17,7 @@ export class PrintButton extends Control {
     super(options)
 
     this.get$Element().addClass(this.className_)
-      .addClass(cssClasses.mainButton).text(this.getLocaliser().localiseUsingDictionary('PrintButton title'))
+      .addClass(cssClasses.mainButton).html(this.getLocaliser().localiseUsingDictionary('PrintButton title'))
 
     addTooltip(this.get$Element(), this.getLocaliser().localiseUsingDictionary('PrintButton tipLabel'))
 

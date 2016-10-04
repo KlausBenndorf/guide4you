@@ -61,7 +61,7 @@ export class GeolocationButton extends Control {
     this.get$Element()
       .addClass(this.className_)
       .addClass(cssClasses.mainButton)
-      .text(this.getTitle())
+      .html(this.getTitle())
 
     addTooltip(this.get$Element(), this.getTipLabel())
 

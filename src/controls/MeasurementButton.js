@@ -81,7 +81,7 @@ export class MeasurementButton extends Control {
      * @type {jQuery}
      * @private
      */
-    this.$valueDisplay_ = $('<span>').text('0')
+    this.$valueDisplay_ = $('<span>').html('0')
 
     /**
      * @type {jQuery}
@@ -213,7 +213,7 @@ export class MeasurementButton extends Control {
    */
   setValue (value) {
     this.value_ = value
-    this.$valueDisplay_.text('' + Math.round(value))
+    this.$valueDisplay_.html('' + Math.round(value))
     this.changed()
   }
 

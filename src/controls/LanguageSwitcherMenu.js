@@ -138,7 +138,7 @@ export class LanguageSwitcherMenu extends Control {
         this.setActive(!this.getActive())
       })
 
-      this.$button_.text(this.getLocaliser().getCurrentLang())
+      this.$button_.html(this.getLocaliser().getCurrentLang())
 
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'))
     }

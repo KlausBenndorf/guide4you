@@ -38,7 +38,7 @@ export class LinkButton extends Control {
     this.get$Element().attr('href', this.url_).addClass(this.className_)
     let $button = $('<button>')
       .addClass(cssClasses.mainButton)
-      .text(this.getTitle())
+      .html(this.getTitle())
 
     addTooltip($button, this.getTipLabel())
 

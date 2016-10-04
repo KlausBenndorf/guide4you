@@ -45,7 +45,9 @@ export class WindowDecorator extends Control {
     this.component_ = options.component
     this.component_.get$Element().addClass('g4u-window-component')
 
-    this.$button_.addClass(cssClasses.hasTooltip).text(this.component_.getTitle())
+    this.$button_
+      .addClass(cssClasses.hasTooltip)
+      .html(this.component_.getTitle())
     addTooltip(this.$button_, this.component_.getTipLabel())
 
     this.component_.on('change', () => {

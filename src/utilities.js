@@ -405,14 +405,10 @@ export function mixin (baseClass, mixinClass) {
 }
 
 /**
- * Takes a string with HTML entities and replaces the entities by the characters they stand for.
+ * Takes a string with HTML and returns the containing resulting text.
  * @param stringWithEntities string with encoded HTML entities
  * @returns {string}
  */
-export function decodeEntities (stringWithEntities) {
-  let temp = document.createElement('p') // an paragraph element to used for decoding
-  temp.innerHTML = stringWithEntities // the inner HTML be the string with encoded HTML entities
-  let stringWithoutEntities = temp.textContent || temp.innerText // get text content of paragraph element
-  temp = null // discard paragraph element
-  return stringWithoutEntities
+export function html2Text (stringWithHTML) {
+  return $('<p>').html(stringWithHTML).text()
 }

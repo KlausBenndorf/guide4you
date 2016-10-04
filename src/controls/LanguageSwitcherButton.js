@@ -64,7 +64,7 @@ export class LanguageSwitcherButton extends Control {
    */
   setMap (map) {
     if (map) {
-      this.$button_.text(this.getLocaliser().getCurrentLang())
+      this.$button_.html(this.getLocaliser().getCurrentLang())
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherButton tipLabel'))
     }
 
