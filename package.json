@@ -35,6 +35,8 @@
     "wait-on": "1.5.3"
   },
   "scripts": {
+    "linkRepos": "g4u-link guide4you",
+    "unlinkRepos": "g4u-unlink guide4you",
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
