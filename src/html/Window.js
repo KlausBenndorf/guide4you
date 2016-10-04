@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import { offset } from '../utilities'
-import { getInFront } from './html'
-import { cssClasses } from '../globals'
+import {offset} from '../utilities'
+import {getInFront} from './html'
+import {cssClasses} from '../globals'
 
 import IScroll from 'iscroll/build/iscroll'
 
@@ -85,6 +85,7 @@ export class Window extends ol.Object {
         .append(this.$scrollWrapper_.append(this.$body_)
         )
       )
+      .addClass(cssClasses.hidden)
 
     if (options.hasOwnProperty('id')) {
       this.$element_.attr('id', options.id)
@@ -117,21 +118,23 @@ export class Window extends ol.Object {
     this.$context_ = $(this.map_.getTarget())
     let initialDraggable = this.draggable_
 
-    this.map_.on('resize', () => this.updateSize(true))
+    this.map_.asSoonAs('ready', true, () => {
+      this.map_.on('resize', () => this.updateSize(true))
 
-    let onChangeMobile = () => {
-      if (this.map_.get('mobile')) {
-        this.draggable_ = false
-        this.setIScrollEnabled_(true)
-      } else {
-        this.draggable_ = initialDraggable
-        this.setIScrollEnabled_(false)
+      let onChangeMobile = () => {
+        if (this.map_.get('mobile')) {
+          this.draggable_ = false
+          this.setIScrollEnabled_(true)
+        } else {
+          this.draggable_ = initialDraggable
+          this.setIScrollEnabled_(false)
+        }
+        this.updateSize()
       }
-      this.updateSize()
-    }
 
-    onChangeMobile()
-    this.map_.on('change:mobile', onChangeMobile)
+      onChangeMobile()
+      this.map_.on('change:mobile', onChangeMobile)
+    })
 
     this.makeWindowDraggable_()
 
@@ -207,7 +210,7 @@ export class Window extends ol.Object {
   setIScrollEnabled_ (scrollable) {
     if (scrollable) {
       if (!this.scroll_) {
-        this.scroll_ = new IScroll(this.$scrollWrapper_[0], {
+        this.scroll_ = new IScroll(this.$scrollWrapper_[ 0 ], {
           mouseWheel: true,
           scrollbars: true,
           momentum: false,
@@ -248,7 +251,6 @@ export class Window extends ol.Object {
         } else if (!this.map_.get('shield').getActive()) {
           this.getInFront()
         }
-        this.updateSize(true)
       } else {
         if (this.shieldActivated_) {
           this.map_.get('shield').setActive(false)
@@ -261,6 +263,7 @@ export class Window extends ol.Object {
         this.$element_.css('left', '')
       }
       this.visible_ = visible
+      this.updateSize(true)
       this.dispatchEvent({ type: 'change:visible', oldValue: oldValue, newValue: visible })
     }
   }
@@ -294,105 +297,101 @@ export class Window extends ol.Object {
   updateSize (initialize = false) {
     let margin = 0
 
-    let oldVisible = !this.$element_.hasClass(cssClasses.hidden)
+    if (this.getVisible()) {
+      if (!this.map_.get('mobile')) {
+        // desktop
+        margin = 50
 
-    if (!oldVisible) {
-      this.$element_.removeClass(cssClasses.hidden)
-    }
+        let maxWidth = this.$context_.innerWidth() - 2 * margin
+        let maxHeight = this.$context_.innerHeight() - 2 * margin
 
-    if (!this.map_.get('mobile')) {
-      // desktop
-      margin = 50
+        // storing values
+        let position = this.$element_.css('position')
+        let top = this.$element_.css('top')
+        let left = this.$element_.css('left')
 
-      let maxWidth = this.$context_.innerWidth() - 2 * margin
-      let maxHeight = this.$context_.innerHeight() - 2 * margin
+        // reset position to get default value
+        this.$element_.css('position', '')
 
-      // storing values
-      let position = this.$element_.css('position')
-      let top = this.$element_.css('top')
-      let left = this.$element_.css('left')
+        // resetting all directly setted values
+        this.$element_.css('top', '')
+        this.$element_.css('left', '')
+        this.$element_.css('width', '')
+        this.$element_.css('height', '')
 
-      // reset position to get default value
-      this.$element_.css('position', '')
+        this.get$Body().css('max-height', '')
 
-      // resetting all directly setted values
-      this.$element_.css('top', '')
-      this.$element_.css('left', '')
-      this.$element_.css('width', '')
-      this.$element_.css('height', '')
+        // position element so it can be measured
+        this.$element_.css('position', 'fixed')
+        this.$element_.css('top', '0px')
+        this.$element_.css('left', '0px')
 
-      this.get$Body().css('max-height', '')
+        // clearing fixed size and height
 
-      // position element so it can be measured
-      this.$element_.css('position', 'fixed')
-      this.$element_.css('top', '0px')
-      this.$element_.css('left', '0px')
+        this.$element_.css('width', 'auto')
+        this.$element_.css('height', 'auto')
 
-      // clearing fixed size and height
+        // calculate width & height
 
-      this.$element_.css('width', 'auto')
-      this.$element_.css('height', 'auto')
+        let calcWidth = this.$element_.outerWidth()
+        let calcHeight = this.$element_.outerHeight()
 
-      // calculate width & height
+        let width = Math.min(calcWidth, maxWidth)
+        let height = Math.min(calcHeight, maxHeight)
 
-      let calcWidth = this.$element_.outerWidth()
-      let calcHeight = this.$element_.outerHeight()
+        this.$element_.css('width', width)
+        this.$element_.css('height', height)
 
-      let width = Math.min(calcWidth, maxWidth)
-      let height = Math.min(calcHeight, maxHeight)
+        // setting max-height for the scroll bar
+        // i assume here there is no margin and no padding on the parent element
+        let padding = parseInt(this.get$Body().css('padding-top').split('px')[ 0 ]) +
+          parseInt(this.get$Body().css('padding-bottom').split('px')[ 0 ])
+        this.get$Body().css('max-height', this.get$Element().innerHeight() - this.$button_.outerHeight() - padding)
 
-      this.$element_.css('width', width)
-      this.$element_.css('height', height)
+        this.$element_.css('position', position)
 
-      // setting max-height for the scroll bar
-      // i assume here there is no margin and no padding on the parent element
-      let padding = parseInt(this.get$Body().css('padding-top').split('px')[ 0 ]) +
-        parseInt(this.get$Body().css('padding-bottom').split('px')[ 0 ])
-      this.get$Body().css('max-height', this.get$Element().innerHeight() - this.$button_.outerHeight() - padding)
+        if (initialize && !this.fixedPosition_) {
+          // getting initial values
+          top = this.$element_.css('top')
+          left = this.$element_.css('left')
 
-      this.$element_.css('position', position)
+          // initialize_ at top middle
+          let off = offset(this.$context_, this.$element_)
 
-      if (initialize && !this.fixedPosition_) {
-        // getting initial values
-        top = this.$element_.css('top')
-        left = this.$element_.css('left')
+          let sideDist = (this.$context_.width() - width) / 2
+          let topDist = margin
 
-        // initialize_ at top middle
-        let off = offset(this.$context_, this.$element_)
+          let topPixel = (top === 'auto') ? 0 : parseInt(top)
+          let leftPixel = (left === 'auto') ? 0 : parseInt(left)
 
-        let sideDist = (this.$context_.width() - width) / 2
-        let topDist = margin
-
-        let topPixel = (top === 'auto') ? 0 : parseInt(top)
-        let leftPixel = (left === 'auto') ? 0 : parseInt(left)
-
-        this.$element_.css('top', topPixel + off.top + topDist)
-        this.$element_.css('left', leftPixel + off.left + sideDist)
+          this.$element_.css('top', topPixel + off.top + topDist)
+          this.$element_.css('left', leftPixel + off.left + sideDist)
+        } else {
+          // move back to old position
+          this.$element_.css('top', top)
+          this.$element_.css('left', left)
+        }
       } else {
-        // move back to old position
-        this.$element_.css('top', top)
-        this.$element_.css('left', left)
+        // mobile
+        margin = 10
+
+        let maxWidth = this.$context_.innerWidth() - 2 * margin
+        let maxHeight = this.$context_.innerHeight() - 2 * margin
+
+        this.get$Body().css('max-height', '')
+        this.$element_.css('width', maxWidth)
+        this.$element_.css('height', maxHeight)
+        this.$element_.css('left', margin)
+        this.$element_.css('top', margin)
       }
-    } else {
-      // mobile
-      margin = 10
 
-      let maxWidth = this.$context_.innerWidth() - 2 * margin
-      let maxHeight = this.$context_.innerHeight() - 2 * margin
+      if (this.get$Body().children(`:not(.${cssClasses.hidden})`).length === 0) {
+        this.$element_.addClass(cssClasses.hidden)
+      }
 
-      this.get$Body().css('max-height', '')
-      this.$element_.css('width', maxWidth)
-      this.$element_.css('height', maxHeight)
-      this.$element_.css('left', margin)
-      this.$element_.css('top', margin)
-    }
-
-    if (!oldVisible || this.get$Body().children(`:not(.${cssClasses.hidden})`).length === 0) {
-      this.$element_.addClass(cssClasses.hidden)
-    }
-
-    if (this.scroll_) {
-      this.scroll_.refresh()
+      if (this.scroll_) {
+        this.scroll_.refresh()
+      }
     }
   }
 }
