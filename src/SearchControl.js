@@ -370,10 +370,10 @@ export class SearchControl extends Control {
 
       this.dropdown_.setEntries(entries, handlers)
       this.dropdownActive_ = true
-      return this.dropdown_.slideDown()
+      return this.dropdown_.slideDown().then(() => this.changed())
     } else {
       this.dropdownActive_ = false
-      return this.dropdown_.slideUp()
+      return this.dropdown_.slideUp().then(() => this.changed())
     }
   }
 
