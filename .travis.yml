@@ -4,6 +4,7 @@ node_js:
 cache:
   directories:
     - travis_phantomjs
+    - node_modules
 before_install:
   # Upgrade PhantomJS to v2.1.1
   - "export PHANTOMJS_VERSION=2.1.1"
