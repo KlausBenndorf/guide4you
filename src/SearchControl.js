@@ -33,7 +33,14 @@ import '../less/searchcontrol.less'
  * @property {string} [ghostentry] text to be seen in the dropdown if the autocomplete or search didn't find
  *  any matching entries
  * @property {object.<string,SearchParser>} parsers
+ * @property {string} [deactivateMobileSearch='exactResult']  other possible values are 'never' and 'anyResult'
  */
+
+const DeactivateMobileSearch = {
+  NEVER: 'never',
+  ANY: 'anyResult',
+  EXACT: 'exactResult'
+}
 
 /**
  *
@@ -135,7 +142,11 @@ export class SearchControl extends Control {
      * @type {boolean}
      * @private
      */
-    this.animated_ = (options.hasOwnProperty('animated')) ? options.animated : false
+    this.animated_ = options.hasOwnProperty('animated') ? options.animated : false
+
+    this.deactivateMobileSearch_ = options.hasOwnProperty('deactivateMobileSearch')
+      ? options.deactivateMobileSearch
+      : DeactivateMobileSearch.EXACT
 
     let placeholder = (options.hasOwnProperty('placeholder'))
       ? this.getLocaliser().selectL10N(options.placeholder)
@@ -210,6 +221,12 @@ export class SearchControl extends Control {
      */
     this.selectedFeature_ = null
 
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.active_ = false
+
     this.$textfield_.on('input', e => {
       this.onTextInput_(e)
     })
@@ -279,26 +296,24 @@ export class SearchControl extends Control {
       let slideUp
 
       document.addEventListener('click', () => {
-        slideUp = true
+        if (!this.getMap().get('mobile')) {
+          slideUp = true
+        } else {
+          slideUp = false
+        }
       }, true)
 
-      $(map.getViewport()).find('.ol-overlaycontainer-stopevent').on('click', () => {
-        if (slideUp) {
-          this.dropdown_.slideUp()
-        }
-      })
-
-      $(document).on('click', () => {
-        if (slideUp) {
-          this.dropdown_.slideUp()
-        }
-      })
+      $(map.getViewport()).find('.ol-overlaycontainer-stopevent')
+        .add(document)
+        .on('click', () => {
+          if (slideUp) {
+            this.setActive(false)
+          }
+        })
 
       this.$textfield_.on('click', () => {
         slideUp = false
-        if (this.dropdownActive_) {
-          this.dropdown_.slideDown()
-        }
+        this.setActive(true)
       })
 
       this.searchlayerBottom_ = new VectorLayer({
@@ -318,6 +333,35 @@ export class SearchControl extends Control {
       map.get('styling').styleLayer(this.searchlayerTop_, this.style_)
     }
     super.setMap(map)
+  }
+
+  /**
+   * @param {boolean} active
+   */
+  setActive (active) {
+    let oldValue = this.active_
+    if (oldValue !== active) {
+      if (active) {
+        if (this.dropdownActive_) {
+          this.dropdown_.slideDown()
+        }
+        setTimeout(() => this.$textfield_.focus(), 0)
+      } else {
+        if (this.dropdownActive_) {
+          this.dropdown_.slideUp()
+        }
+      }
+
+      this.active_ = active
+      this.dispatchEvent({
+        type: 'change:active',
+        oldValue
+      })
+    }
+  }
+
+  getActive () {
+    return this.active_
   }
 
   /**
@@ -434,14 +478,27 @@ export class SearchControl extends Control {
     if (this.features_.length > 0) {
       this.showSearchlayer_()
 
-      if (this.features_.length === 1 && !this.getMap().get('mobile')) {
-        let featurePopup = this.getMap().get('featurePopup')
-        featurePopup.setFeature(this.features_[0])
-        featurePopup.setVisible(true, false)
-        featurePopup.update(false)
-        featurePopup.centerMapOnPopup()
+      if (this.features_.length === 1) {
+        // exact search result
+        if (!this.getMap().get('mobile')) {
+          let featurePopup = this.getMap().get('featurePopup')
+          featurePopup.setFeature(this.features_[0])
+          featurePopup.setVisible(true, false)
+          featurePopup.update(false)
+          featurePopup.centerMapOnPopup()
+        } else {
+          if (this.deactivateMobileSearch_ === DeactivateMobileSearch.EXACT) {
+            this.centerOnSearchlayer_()
+            this.setActive(false)
+          }
+        }
       } else {
         this.centerOnSearchlayer_()
+      }
+
+      if (this.getMap().get('mobile') && this.deactivateMobileSearch_ === DeactivateMobileSearch.ANY) {
+        this.centerOnSearchlayer_()
+        this.setActive(false)
       }
 
       this.dispatchEvent({
@@ -473,13 +530,6 @@ export class SearchControl extends Control {
    */
   getSearchValue () {
     return encodeURIComponent(this.$textfield_.val())
-  }
-
-  focus () {
-    this.$textfield_.focus()
-    if (this.dropdownActive_) {
-      this.dropdown_.slideDown()
-    }
   }
 
   /**
