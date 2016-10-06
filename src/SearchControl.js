@@ -329,7 +329,7 @@ export class SearchControl extends Control {
    */
   getSearchResults_ (searchURL, searchTerm) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(searchURL, 'searchstring', encodeURIComponent(searchTerm)) // !
+      let url = expandTemplate(searchURL, 'searchstring', searchTerm) // !
 
       if (this.useProxy_) {
         url = addProxy(url, this.proxy_ || this.getMap().get('proxy'))
@@ -385,7 +385,7 @@ export class SearchControl extends Control {
     clearTimeout(this.autocompleteTimeout_)
     this.autocompleteTimeout_ = setTimeout(() => {
       // checking if autocomplete search should be performed and perform it
-      let searchtext = this.$textfield_.val()
+      let searchtext = encodeURIComponent(this.$textfield_.val())
       if (this.autocompleteURL_ && (searchtext.length >= this.autocompleteStart_)) {
         this.getSearchResults_(this.autocompleteURL_, searchtext)
           .then(() => this.updateDropdown_())
@@ -402,9 +402,9 @@ export class SearchControl extends Control {
     this.selectedFeature_ = null
     this.hideSearchlayer_()
 
-    let searchstring = this.$textfield_.val()
+    let searchstring = encodeURIComponent(this.$textfield_.val())
     if (searchstring !== '') {
-      this.getSearchResults_(this.fuzzySearchURL_, this.$textfield_.val())
+      this.getSearchResults_(this.fuzzySearchURL_, searchstring)
         .then(() => this.onSearchEnd_())
     } else {
       this.features_ = []
@@ -418,14 +418,14 @@ export class SearchControl extends Control {
    * @private
    */
   onClickDropdownEntry_ (feature) {
-    this.$textfield_.val($('<div>').html(feature.get('dropdowntext')).text())
+    this.$textfield_.val(feature.get('dropdowntext'))
     this.features_ = [feature]
     this.selectedFeature_ = feature
 
     if (feature.getGeometry()) {
       this.onSearchEnd_()
     } else {
-      this.getSearchResults_(this.exactSearchURL_, feature.get('searchtext'))
+      this.getSearchResults_(this.exactSearchURL_, encodeURIComponent(feature.get('searchtext')))
         .then(() => this.onSearchEnd_())
     }
   }
@@ -472,7 +472,7 @@ export class SearchControl extends Control {
    * @returns {string}
    */
   getSearchValue () {
-    return this.$textfield_.val()
+    return encodeURIComponent(this.$textfield_.val())
   }
 
   focus () {
