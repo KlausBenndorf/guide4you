@@ -11,7 +11,11 @@ import {G4UMap} from './G4UMap'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame'
 
-export function createG4UInternal (element, clientConfPath, layerConfPath, modules) {
+export function createG4UInternal (element, clientConfPath, layerConfPath, options) {
+  if (Array.isArray(options)) { // backwards compatibility
+    options = { modules: options }
+  }
+
   return new Promise((resolve, reject) => {
     $(document).ready(() => {
       if (!ol) {
@@ -25,9 +29,7 @@ export function createG4UInternal (element, clientConfPath, layerConfPath, modul
       $(element).empty()
 
       // for remote analysis and debugging - not used inside of the software
-      window.map = new G4UMap(element, clientConfPath, layerConfPath, {
-        modules: modules
-      })
+      window.map = new G4UMap(element, clientConfPath, layerConfPath, options)
 
       resolve(window.map)
     })

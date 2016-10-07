@@ -17,6 +17,7 @@ import '../less/featurepopup.less'
  * @property {number[]} [iconSizedOffset=[0,0]]
  * @property {boolean} [centerOnPopup=false]
  * @property {boolean} [animated]
+ * @property {string[]} [mutators] default mutators to use
  */
 
 /**
