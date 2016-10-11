@@ -28,7 +28,7 @@
     "guide4you-builder": "1.1.*",
     "concurrently": "3.1.0",
     "esdoc": "0.4.8",
-    "mocha": "3.1.0",
+    "mocha": "3.1.2",
     "selenium-webdriver": "2.53.3",
     "phantomjs-prebuilt": "2.1.13",
     "standard": "8.3.0",
