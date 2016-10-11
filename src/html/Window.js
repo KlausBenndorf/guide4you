@@ -216,7 +216,7 @@ export class Window extends ol.Object {
           momentum: false,
           interactiveScrollbars: true,
           // bounce: true,
-          // click: true,
+          click: true,
           keyBindings: true
         })
       }
