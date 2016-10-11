@@ -14,8 +14,8 @@
       "source": {
         "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         "attribution": {
-          "en": "(c) OpenStreetMap contributors",
-          "de": "(c) OpenStreetMap Mitwirkende"
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
       },
       "visible": true
@@ -30,8 +30,8 @@
       "source": {
         "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
         "attribution": {
-          "en": "(c) OpenCycleMap and OpenStreetMap contributors",
-          "de": "(c) OpenCycleMap und OpenStreetMap Mitwirkende"
+          "en": "&copy; <a href=\"http://www.thunderforest.com/ target=\"blank\">Thunderforest</a>&mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.thunderforest.com/ target=\"blank\">Thunderforest</a>&mdash; Kartendaten <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
       }
     },
@@ -44,7 +44,10 @@
       "type": "OSM",
       "source": {
         "url": "https://{a-c}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png",
-        "attribution": "Tiles courtesy of <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+        "attribution": {
+          "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
+        }
       }
     }
 
@@ -59,7 +62,10 @@
       "type": "OSM",
       "source": {
         "url": "https://{a-c}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png",
-        "attribution": "Tiles courtesy of <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"
+        "attribution": {
+          "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
+        }
       },
       "visible": false
     },
@@ -73,8 +79,8 @@
       "source": {
         "url": "files/hotelsbonn.kml",
         "attribution": {
-          "en": "(c) OpenStreetMap contributors",
-          "de": "(c) OpenStreetMap Mitwirkende"
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
       },
       "style": "#defaultStyle"
@@ -89,8 +95,8 @@
       "source": {
         "url": "files/restaurantsbonn.kml",
         "attribution": {
-          "en": "(c) OpenStreetMap contributors",
-          "de": "(c) OpenStreetMap Mitwirkende"
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
       },
       "style": "#defaultStyle"
