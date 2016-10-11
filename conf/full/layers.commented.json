@@ -30,8 +30,8 @@
       "source": {
         "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
         "attribution": {
-          "en": "&copy; <a href=\"http://www.thunderforest.com/ target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
-          "de": "&copy; <a href=\"http://www.thunderforest.com/ target=\"blank\">Thunderforest</a> &mdash; Kartendaten <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+          "en": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Kartendaten <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
       }
     },
