@@ -1,3 +1,4 @@
+import '../less/notify.less'
 import 'notifyjs-browser'
 import $ from 'jquery'
 import { html2Text } from './utilities'
@@ -38,6 +39,7 @@ export class MessageDisplay {
    * @param {jQuery} $element
    * @param {MessageConstructorOptions} options
    */
+
   constructor ($element, options = {}) {
     if ($element) {
       /**
@@ -45,6 +47,44 @@ export class MessageDisplay {
        * @private
        */
       this.$element_ = $element
+
+      if (! $.notify.getStyle("benndorf")) {
+        $.notify.addStyle("benndorf", {
+          html: '<div>' +
+          '<div class="text" data-notify-text />' +
+          '</div>' +
+          '</div>',
+          classes: {
+            error: {
+              'color': '#fafafa !important',
+              'background-color': '#F71919',
+              'border': '1px solid #FF0026'
+            },
+            success: {
+              'background-color': '#32CD32',
+              'border': '1px solid #4DB149'
+            },
+            info: {
+              'color': '#fafafa !important',
+              'background-color': '#1E90FF',
+              'border': '1px solid #1E90FF'
+            },
+            warn: {
+              'background-color': '#FAFA47',
+              'border': '1px solid #EEEE45'
+            },
+            black: {
+              'color': '#fafafa !important',
+              'background-color': '#333',
+              'border': '1px solid #000'
+            },
+            white: {
+              'background-color': '#f1f1f1',
+              'border': '1px solid #ddd'
+            }
+          }
+        })
+      }
     } else {
       throw new Error('MessageDisplay needs an object to be associated to!')
     }
@@ -72,7 +112,7 @@ export class MessageDisplay {
     if (!options.hasOwnProperty('hideDuration')) { this.defaults_.hideDuration = 200 }
     if (!options.hasOwnProperty('showAnimation')) { this.defaults_.showAnimation = 'slideDown' }
     if (!options.hasOwnProperty('showDuration')) { this.defaults_.showDuration = 400 }
-    if (!options.hasOwnProperty('style')) { this.defaults_.style = 'bootstrap' }
+    if (!options.hasOwnProperty('style')) { this.defaults_.style = 'benndorf' }
   }
 
   /**

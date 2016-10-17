@@ -85,7 +85,7 @@ export class GeolocationButton extends Control {
     this.layer_ = null
     this.geolocation_ = new ol.Geolocation()
     this.geolocation_.on('error', () => {
-      this.buttonMessageDisplay_.error(
+      this.buttonMessageDisplay_.success(
         this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
         this.getMap().get('mobile') ? {position: 'top middle'} : {}
       )
