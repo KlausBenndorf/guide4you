@@ -48,8 +48,8 @@ export class MessageDisplay {
        */
       this.$element_ = $element
 
-      if (! $.notify.getStyle("benndorf")) {
-        $.notify.addStyle("benndorf", {
+      if (!$.notify.getStyle('benndorf')) {
+        $.notify.addStyle('benndorf', {
           html: '<div>' +
           '<div class="text" data-notify-text />' +
           '</div>' +
