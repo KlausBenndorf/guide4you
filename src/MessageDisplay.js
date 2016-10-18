@@ -56,31 +56,24 @@ export class MessageDisplay {
           '</div>',
           classes: {
             error: {
-              'color': '#fafafa !important',
-              'background-color': '#F71919',
-              'border': '1px solid #FF0026'
+              'color': '#b94a48',
+              'background-color': '#f2dede',
+              'border-color': '#b94a48'
             },
             success: {
-              'background-color': '#32CD32',
-              'border': '1px solid #4DB149'
+              "color": "#468847",
+              "background-color": "#dff0d8",
+              'border-color': '#468847'
             },
             info: {
-              'color': '#fafafa !important',
-              'background-color': '#1E90FF',
-              'border': '1px solid #1E90FF'
+              "color": "#3a87ad",
+              "background-color": "#d9edf7",
+              'border-color': '#3a87ad'
             },
             warn: {
-              'background-color': '#FAFA47',
-              'border': '1px solid #EEEE45'
-            },
-            black: {
-              'color': '#fafafa !important',
-              'background-color': '#333',
-              'border': '1px solid #000'
-            },
-            white: {
-              'background-color': '#f1f1f1',
-              'border': '1px solid #ddd'
+              'color': '#c09853',
+              'background-color': '#fcf8e3',
+              'border-color': '#c09853'
             }
           }
         })
