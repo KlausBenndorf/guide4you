@@ -53,54 +53,73 @@ export class LinkGeneratorButton extends Control {
   }
 
   createHTML () {
+    let $element = this.get$Element()
+
+    // title
+
+    $element.append($('<h3>')
+      .html(this.getTipLabel()))
+
+    // set marker checkbox
+
     /**
      * @type {jQuery}
      * @private
      */
     this.$markerCheckbox_ = $('<input type="checkbox">')
+
+    let $checkboxLabel = $('<label>')
       .addClass(this.className_ + '-setmarker-checkbox')
-
-    /**
-     * @type {jQuery}
-     * @private
-     */
-    this.$markerTextBox_ = $('<textarea>')
-
-    /**
-     * @type {jQuery}
-     * @private
-     */
-    this.$markerTextDiv_ = $('<div>')
-      .addClass(this.className_ + '-setmarker-textbox')
-      .html(this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton setMarkerTextBoxText'))
-      .append('<br>')
-      .append(this.$markerTextBox_)
-
-    let $title = $('<h3>')
-      .html(this.getTipLabel())
-
-    let $setMarkerText = $('<span>')
-      .addClass(this.className_ + '-setmarker-text')
       .html(this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton setMarkerText'))
+      .prepend(this.$markerCheckbox_)
+
+    $element.append($checkboxLabel)
+
+    this.$markerCheckbox_.on('click', () => {
+      if (this.$markerCheckbox_.is(':checked')) {
+        this.placeMarker()
+      } else {
+        this.hideMarker()
+      }
+    })
+
+    // marker description text area
 
     /**
      * @type {jQuery}
      * @private
      */
-    this.$setMarker_ = $('<div>')
-      .append(this.$markerCheckbox_)
-      .append($setMarkerText)
+    this.$markerDescriptionTextArea_ = $('<textarea>')
 
-    let $explanation = $('<div>')
-      .append(this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton hint'))
+    this.$markerDescriptionTextArea_.on('input', () => this.updateDescription())
+
+    /**
+     * @type {jQuery}
+     * @private
+     */
+    this.$markerDescription_ = $('<label>')
+      .addClass(this.className_ + '-setmarker-textbox')
+      .addClass(cssClasses.hidden)
+      .html(this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton setMarkerTextBoxText'))
+      .append(this.$markerDescriptionTextArea_)
+
+    $element.append(this.$markerDescription_)
+
+    // link display
 
     /**
      * @type {jQuery}
      * @private
      */
     this.$linkDisplay_ = $('<input type="text">')
-      .addClass(this.className_ + '-input')
       .prop('readonly', true)
+
+    $element.append(
+      $('<label>')
+        .addClass(this.className_ + '-input')
+        .html(this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton hint'))
+        .append(this.$linkDisplay_)
+    )
 
     this.$linkDisplay_.on('mousedown click', e => {
       if (e.which === 1) {
@@ -108,29 +127,6 @@ export class LinkGeneratorButton extends Control {
       }
       this.$linkDisplay_.focus().select()
     })
-
-    let onCheckboxChange = () => {
-      if (this.$markerCheckbox_.is(':checked')) {
-        this.placeMarker()
-      } else {
-        this.hideMarker()
-      }
-    }
-
-    $setMarkerText.on('click', e => {
-      this.$markerCheckbox_.prop('checked', !this.$markerCheckbox_.prop('checked'))
-      onCheckboxChange(e)
-    })
-
-    this.$markerCheckbox_.on('click', onCheckboxChange)
-
-    this.$markerTextBox_.on('input', () => this.updateDescription())
-
-    this.get$Element()
-      .append($title)
-      .append(this.$setMarker_)
-      .append($explanation)
-      .append(this.$linkDisplay_)
   }
 
   placeMarker () {
@@ -139,7 +135,7 @@ export class LinkGeneratorButton extends Control {
       .then(point => {
         this.updateMarker(point)
         this.disableMap()
-        this.$setMarker_.append(this.$markerTextDiv_)
+        this.$markerDescription_.removeClass(cssClasses.hidden)
         this.$linkDisplay_.focus().select()
         this.changed()
       })
@@ -149,12 +145,12 @@ export class LinkGeneratorButton extends Control {
     this.marker_.setActive(false)
     this.updateURL()
     this.$linkDisplay_.focus().select()
-    this.$markerTextDiv_.detach()
+    this.$markerDescription_.addClass(cssClasses.hidden)
     this.changed()
   }
 
   updateDescription () {
-    let text = filterText(this.$markerTextBox_.val())
+    let text = filterText(this.$markerDescriptionTextArea_.val())
     if (text) {
       this.marker_.setPopupVisible(true)
     } else {
@@ -183,7 +179,7 @@ export class LinkGeneratorButton extends Control {
 
     let text = this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton markerText')
     this.marker_.setText(text)
-    this.$markerTextBox_.val(restoreText(text))
+    this.$markerDescriptionTextArea_.val(restoreText(text))
 
     if (text) {
       this.marker_.setPopupVisible(true)
@@ -279,9 +275,9 @@ export class LinkGeneratorButton extends Control {
 
         if (this.marker_.getActive()) {
           this.$markerCheckbox_.prop('checked', true)
-          this.$setMarker_.append(this.$markerTextDiv_)
+          this.$markerDescription_.removeClass(cssClasses.hidden)
           if (this.marker_.getText()) {
-            this.$markerTextBox_.val(restoreText(this.marker_.getText()))
+            this.$markerDescriptionTextArea_.val(restoreText(this.marker_.getText()))
           }
           this.marker_.setPopupVisible(true)
         }
@@ -289,9 +285,9 @@ export class LinkGeneratorButton extends Control {
         this.shield_.setActive(false)
         this.shield_.remove$OnTop(this.get$Element())
 
-        this.$markerTextBox_.val('')
+        this.$markerDescriptionTextArea_.val('')
         this.$markerCheckbox_.prop('checked', false)
-        this.$markerTextDiv_.detach()
+        this.$markerDescription_.addClass(cssClasses.hidden)
 
         if (this.resetMarker_) {
           this.marker_.setActive(true)

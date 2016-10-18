@@ -14,48 +14,59 @@
       .buttonSquaredWithIcon(@g4u-linkgenerator-link-icon; @g4u-desktop-button-size; @g4u-desktop-button-size);
     }
 
-    .g4u-window-content {
-      .g4u-linkgenerator {
-        position: static;
+    &.g4u-window-component {
+      position: static;
+      width: 30 * @g4u-desktop-em;
+
+      > * {
+        padding: 0;
+        margin-top: 0;
+        margin-left: 2 * @g4u-desktop-padding;
+        margin-right: 2 * @g4u-desktop-padding;
+        margin-bottom: 2 * @g4u-desktop-padding;
       }
 
       h3 {
         font-weight: bold;
         text-transform: uppercase;
-        padding-left: 2 * @g4u-desktop-padding;
-        padding-right: 2 * @g4u-desktop-padding;
+        margin-top: 2 * @g4u-desktop-padding;
+        margin-bottom: 4 * @g4u-desktop-padding;
       }
 
-      > div {
-        padding-left: 2 * @g4u-desktop-padding;
-        padding-right: 2 * @g4u-desktop-padding;
-        margin-bottom: 2 * @g4u-desktop-padding;
+      label {
+        display: block;
       }
     }
 
-    .g4u-linkgenerator-input {
-      margin-top: round(0.5 * @g4u-desktop-em);
+    .g4u-linkgenerator-setmarker-checkbox {
+      //vertical-align: middle;
+      input {
+        margin-right: 2 * @g4u-desktop-padding;
+        vertical-align: middle;
+      }
+    }
+
+    .g4u-linkgenerator-input input {
+      box-sizing: border-box;
       background-color: white;
       border: @g4u-tiny solid @g4u-darker-main-color;
-      width: 30 * @g4u-desktop-em - 6 * @g4u-desktop-padding;
-      margin-bottom: 2 * @g4u-desktop-padding;
+      width: 30 * @g4u-desktop-em - 4 * @g4u-desktop-padding;
+      padding-left: 2 * @g4u-desktop-padding;
 
+      margin-top: @g4u-desktop-padding;
       &::-ms-clear {
         display: none;
       }
     }
 
-    .g4u-linkgenerator-setmarker-textbox {
+    .g4u-linkgenerator-setmarker-textbox textarea {
+      box-sizing: border-box;
+      height: @g4u-desktop-huge-fontsize * 2;
+      border: @g4u-tiny solid @g4u-darker-main-color;
+      width: 30 * @g4u-desktop-em - 4 * @g4u-desktop-padding;
+      padding: 0;
+      resize: none;
       margin-top: @g4u-desktop-padding;
-
-      textarea {
-        width: 98%;
-        height: @g4u-desktop-huge-fontsize * 2;
-        border: @g4u-tiny solid black;
-        resize: none;
-        margin-bottom: 2 * @g4u-desktop-padding;
-        margin-top: 2 * @g4u-desktop-padding;
-      }
     }
   }
 
