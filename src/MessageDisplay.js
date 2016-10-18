@@ -61,13 +61,13 @@ export class MessageDisplay {
               'border-color': '#b94a48'
             },
             success: {
-              "color": "#468847",
-              "background-color": "#dff0d8",
+              'color': '#468847',
+              'background-color': '#dff0d8',
               'border-color': '#468847'
             },
             info: {
-              "color": "#3a87ad",
-              "background-color": "#d9edf7",
+              'color': '#3a87a',
+              'background-color': '#d9edf7',
               'border-color': '#3a87ad'
             },
             warn: {
