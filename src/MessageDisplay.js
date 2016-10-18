@@ -1,3 +1,4 @@
+import '../less/notify.less'
 import 'notifyjs-browser'
 import $ from 'jquery'
 import { html2Text } from './utilities'
@@ -38,6 +39,7 @@ export class MessageDisplay {
    * @param {jQuery} $element
    * @param {MessageConstructorOptions} options
    */
+
   constructor ($element, options = {}) {
     if ($element) {
       /**
@@ -45,6 +47,37 @@ export class MessageDisplay {
        * @private
        */
       this.$element_ = $element
+
+      if (!$.notify.getStyle('benndorf')) {
+        $.notify.addStyle('benndorf', {
+          html: '<div>' +
+          '<div class="text" data-notify-text />' +
+          '</div>' +
+          '</div>',
+          classes: {
+            error: {
+              'color': '#b94a48',
+              'background-color': '#f2dede',
+              'border-color': '#b94a48'
+            },
+            success: {
+              'color': '#468847',
+              'background-color': '#dff0d8',
+              'border-color': '#468847'
+            },
+            info: {
+              'color': '#3a87a',
+              'background-color': '#d9edf7',
+              'border-color': '#3a87ad'
+            },
+            warn: {
+              'color': '#c09853',
+              'background-color': '#fcf8e3',
+              'border-color': '#c09853'
+            }
+          }
+        })
+      }
     } else {
       throw new Error('MessageDisplay needs an object to be associated to!')
     }
@@ -72,7 +105,7 @@ export class MessageDisplay {
     if (!options.hasOwnProperty('hideDuration')) { this.defaults_.hideDuration = 200 }
     if (!options.hasOwnProperty('showAnimation')) { this.defaults_.showAnimation = 'slideDown' }
     if (!options.hasOwnProperty('showDuration')) { this.defaults_.showDuration = 400 }
-    if (!options.hasOwnProperty('style')) { this.defaults_.style = 'bootstrap' }
+    if (!options.hasOwnProperty('style')) { this.defaults_.style = 'benndorf' }
   }
 
   /**
