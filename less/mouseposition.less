@@ -4,12 +4,14 @@
 
 .g4u-desktop {
   .g4u-mouseposition {
-    .g4u-mouse-position-colors;
     .g4u-desktop-text-padding;
-    font-weight: bold;
+    .g4u-symbol-colors;
 
-    height: @g4u-desktop-button-size;
+    height: @g4u-desktop-button-size - 2 * @g4u-desktop-padding;
+    line-height: @g4u-desktop-button-size - 2 * @g4u-desktop-padding; // vertically aligns text in the middle
+
     min-width: @g4u-desktop-button-size;
+    border: @g4u-desktop-padding solid fade(@g4u-control-background, 100%); // HACK: a transparent color would appear in the main color
     border-radius: @g4u-desktop-large-border-radius;
 
     white-space: nowrap;

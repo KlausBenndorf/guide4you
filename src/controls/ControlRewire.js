@@ -205,16 +205,23 @@ export class MousePosition extends mixin(ol.control.MousePosition, RewireMixin) 
   constructor (options = {}) {
     options.className = (options.hasOwnProperty('className')) ? options.className : 'g4u-mouseposition'
 
-    options.coordinateFormat = coordinate => {
-      return coordinate.map(c => {
-        let lead = c.toString().match(/^[^.]*/.length)[ 0 ]
-        if (lead.length >= 8) {
-          return lead
-        } else {
-          return c.toFixed(7 - lead.length)
-        }
-      })
+    let truncateToString = (x, length) => {
+      let lead = x.toString().match(/^[^.]*/)[ 0 ]
+      if (lead.length >= length) {
+        return lead
+      } else {
+        return x.toFixed(length - lead.length)
+      }
     }
+
+    let digits = options.digits || 8
+
+    options.coordinateFormat = c => {
+      return `${truncateToString(c[0], digits)}, ${truncateToString(c[1], digits)}`
+    }
+
+    let dashs = '&ndash;' + '.' + '&ndash;'.repeat(digits - 1)
+    options.undefinedHTML = `${dashs}, ${dashs}`
 
     super(options)
   }
