@@ -78,6 +78,7 @@ export class ControlFactory {
   createControl (controlType, options) {
     switch (controlType) {
       case 'mousePosition':
+        options.projection = options.projection || this.map_.get('interfaceProjection')
         return new MousePosition(options)
       case 'attribution':
         return new Attribution(options)
