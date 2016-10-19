@@ -398,9 +398,12 @@ export class SearchControl extends Control {
    * @private
    */
   updateDropdown_ () {
-    let inputContainsDropdown = (this.features_.indexOf(this.selectedFeature_) > -1)
+    let inputContainsDropdown = (this.features_.length === 1) && (this.features_[0] === this.selectedFeature_)
 
-    if ((this.features_.length > 1) || !inputContainsDropdown) {
+    if (inputContainsDropdown || (this.features_.length === 0)) {
+      this.dropdownActive_ = false
+      return this.dropdown_.slideUp().then(() => this.changed())
+    } else {
       let length = Math.min(this.amountDropdownEntries_, this.features_.length)
       let entries = []
       let handlers = []
@@ -415,9 +418,6 @@ export class SearchControl extends Control {
       this.dropdown_.setEntries(entries, handlers)
       this.dropdownActive_ = true
       return this.dropdown_.slideDown().then(() => this.changed())
-    } else {
-      this.dropdownActive_ = false
-      return this.dropdown_.slideUp().then(() => this.changed())
     }
   }
 
