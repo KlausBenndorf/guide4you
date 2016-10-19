@@ -52,13 +52,28 @@ export class Move {
      * @type {boolean}
      * @private
      */
-    this.animations_ = (options.animations === undefined) ? true : options.animations
+    this.animations_ = options.hasOwnProperty('animations') ? options.animations : true
 
     /**
      * @type {boolean}
      * @private
      */
     this.bouncing_ = options.bouncing !== false
+  }
+
+  /**
+   * Turns animations on or off
+   * @param {boolean} animations
+   */
+  setAnimations (animations) {
+    this.animations_ = animations
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  getAnimations () {
+    return this.animations_
   }
 
   /**
