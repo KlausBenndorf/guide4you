@@ -232,8 +232,8 @@ export class UIConfigurator {
             this.map_.set('mobile', true)
 
             if (mobileLayout.hasOwnProperty('animations')) {
-              oldAnimations = this.map_.get('move').animations
-              this.map_.get('move').animations = mobileLayout.animations
+              oldAnimations = this.map_.get('move').getAnimations()
+              this.map_.get('move').setAnimations(mobileLayout.animations)
             }
 
             if (mobileLayout.hasOwnProperty('scaleIcons')) {
@@ -247,7 +247,7 @@ export class UIConfigurator {
             this.map_.set('mobile', false)
 
             if (oldAnimations) {
-              this.map_.get('move').animations = oldAnimations
+              this.map_.get('move').setAnimations(oldAnimations)
             }
             if (oldScaleIcons) {
               this.map_.set('scaleIcons', oldScaleIcons)
