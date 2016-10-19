@@ -136,30 +136,16 @@ export class GeolocationButton extends Control {
       this.get$Element().toggleClass(this.classNamePushed_, active)
 
       if (active) {
-        this.geolocation_.once('change:position', () => {
-          let view = this.getMap().getView()
+        let source = this.layer_.getSource()
+
+        // change:accuracyGeometry comes always after change:position
+        this.geolocation_.once('change:accuracyGeometry', () => {
           let position = this.geolocation_.getPosition()
-          let source = this.layer_.getSource()
+          source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
 
-          // point on the position
-          let geometry = new ol.geom.Point(position)
-          let feature = new ol.Feature({geometry: geometry})
-
-          source.addFeature(feature)
-
-          // radius around
-          let accuracy = this.geolocation_.getAccuracy()
-          if (accuracy > 0) {
-            geometry = this.geolocation_.getAccuracyGeometry()
-            if (!geometry) {
-              geometry = GeolocationButton.makeCircle_(position, view.getProjection(), accuracy)
-            }
-            feature = new ol.Feature({geometry: geometry})
-            source.addFeature(feature)
-          }
-
-          this.getMap().get('move').toExtent(geometry.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
-
+          let circle = this.geolocation_.getAccuracyGeometry()
+          source.addFeature(new ol.Feature({ geometry: circle }))
+          this.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
           this.geolocation_.setTracking(false)
         })
 
