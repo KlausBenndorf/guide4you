@@ -519,11 +519,17 @@ export class UIConfigurator {
         }
 
         let showWMSFeatureInfo = this.map_.get('showWMSFeatureInfo')
-        if (!showWMSFeatureInfo) {
-          showWMSFeatureInfo = new ShowWMSFeatureInfo()
-          this.map_.set('showWMSFeatureInfo', showWMSFeatureInfo)
+        if (showWMSFeatureInfo) {
+          showWMSFeatureInfo.setMap(null)
         }
-        showWMSFeatureInfo.setMap(this.map_)
+        curConfig = getConfig(mapConfigCopy, 'showWMSFeatureInfo')
+        if (curConfig) {
+          showWMSFeatureInfo = new ShowWMSFeatureInfo(curConfig)
+          showWMSFeatureInfo.setMap(this.map_)
+          this.map_.set('showWMSFeatureInfo', showWMSFeatureInfo)
+        } else {
+          this.map_.set('showWMSFeatureInfo', undefined)
+        }
 
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     UserExit (2/2)                                       //
