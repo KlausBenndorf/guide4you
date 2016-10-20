@@ -1,9 +1,20 @@
 import ol from 'openlayers'
 import $ from 'jquery'
+import {VectorLayer} from './layers/VectorLayer';
+
+/**
+ * @typedef {Object} ShowWMSFeatureInfoOptions
+ * @property {StyleLike} [style='#defaultStyle']
+ * @property {String} [seperator='<br>']
+ */
 
 export class ShowWMSFeatureInfo {
-  constructor () {
-    this.separator_ = '<br>'
+  /**
+   * @param {ShowWMSFeatureInfoOptions} [options={}]
+   */
+  constructor (options = {}) {
+    this.separator_ = options.hasOwnProperty('seperator') ? options.seperator : '<br>'
+    this.style_ = options.style || '#defaultStyle'
   }
 
   setMap (map) {
@@ -12,6 +23,12 @@ export class ShowWMSFeatureInfo {
     }
     this.map_ = map
     if (map) {
+      this.utilitySource_ = new ol.source.Vector()
+      map.addLayer(new VectorLayer({
+        visible: true,
+        source: this.utilitySource_
+      }))
+
       this.layers_ = []
 
       let featurePopup = map.get('featurePopup')
@@ -19,19 +36,21 @@ export class ShowWMSFeatureInfo {
 
       this.listenerKey_ = map.on('singleclick', e => {
         if ($(e.originalEvent.target).is('.ol-viewport > canvas')) {
-          let feature = new ol.Feature({
-            geometry: new ol.geom.Point(e.coordinate)
-          })
-
+          this.utilitySource_.clear()
+          let feature
           for (let layer of this.layers_) {
             if (layer.getVisible()) {
               layer.getSource().getFeatureInfo(e.coordinate, map.getView().getResolution(), projection)
                 .then(data => {
                   if (data !== '') {
-                    if (!feature.get('description')) {
+                    if (!feature) {
+                      feature = new ol.Feature({
+                        geometry: new ol.geom.Point(e.coordinate),
+                        description: data
+                      })
+                      this.utilitySource_.addFeature(feature)
                       featurePopup.setFeature(feature)
                       featurePopup.setVisible(true)
-                      feature.set('description', data)
                     } else {
                       feature.set('description', feature.get('description') + this.separator_ + data)
                     }

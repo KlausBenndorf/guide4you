@@ -273,7 +273,9 @@ export class LayerFactory {
 
         if (layer.getSource().hasFeatureInfo()) {
           this.map_.asSoonAs('ready:ui', true, () => {
-            this.map_.get('showWMSFeatureInfo').addLayer(layer)
+            if (this.map_.get('showWMSFeatureInfo')) {
+              this.map_.get('showWMSFeatureInfo').addLayer(layer)
+            }
           })
         }
 

@@ -32,6 +32,9 @@
       20
     ]
   },
+  "showWMSFeatureInfo": {
+    "style": "#defaultStyle"
+  },
   "interactions": {
     "doubleClickZoom": true,
     "dragPan": true,
