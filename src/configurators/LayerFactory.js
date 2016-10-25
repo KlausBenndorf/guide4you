@@ -290,7 +290,7 @@ export class LayerFactory {
         } else if (superType === SuperType.QUERYLAYER) {
           this.superTypeNotSupported(layerType, superType)
         } else {
-          layer = new ImageLayer(optionsCopy)
+          layer = new LayerTile(optionsCopy)
         }
 
         break
