@@ -24,6 +24,7 @@ export const LayerType = {
   CATEGORY: 'Category',
   KML: 'KML',
   WMS: 'WMS',
+  TILEWMS: 'TileWMS',
   OSM: 'OSM',
   INTERN: 'Intern',
   EMPTY: 'Empty'
@@ -277,6 +278,19 @@ export class LayerFactory {
               this.map_.get('showWMSFeatureInfo').addLayer(layer)
             }
           })
+        }
+
+        break
+      case LayerType.TILEWMS:
+
+        optionsCopy.source = new ol.source.TileWMS(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseLayerTile(optionsCopy)
+        } else if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          layer = new ImageLayer(optionsCopy)
         }
 
         break
