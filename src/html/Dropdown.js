@@ -11,6 +11,12 @@ import '../../less/dropdown.less'
  * @property {number} [slideDuration=400] standard slideDuration
  */
 
+/**
+ * @typedef {Object} Entry
+ * @property {jQuery} $element
+ * @property {*} value
+ */
+
 $.extend($.easing, {
   easeOutCirc: function (x, t, b, c, d) {
     return c * Math.sqrt(1 - (t = t / d - 1) * t) + b
@@ -40,22 +46,14 @@ export class Dropdown extends ol.Object {
     this.className_ = options.className || 'g4u-dropdown'
 
     /**
-     * @type {string}
+     * @type {Object.<string, string>}
      * @private
      */
-    this.classNameEntry_ = this.className_ + '-entry'
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.classNameSelected_ = this.className_ + '-selected'
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.classNameGhostentry_ = this.className_ + '-ghostentry'
+    this.classNames_ = {
+      entry: this.className_ + '-entry',
+      selected: this.className_ + '-selected',
+      ghost: this.className_ + '-ghostentry'
+    }
 
     /**
      * @type {jQuery}
@@ -68,7 +66,7 @@ export class Dropdown extends ol.Object {
      * @type {jQuery}
      */
     this.$ghostentry = $('<button tabindex="-1">')
-      .addClass(this.classNameGhostentry_)
+      .addClass(this.classNames_.ghost)
       .html(options.ghostentry || 'no entries')
 
     /**
@@ -78,10 +76,10 @@ export class Dropdown extends ol.Object {
     this.slideDuration_ = options.slideDuration || 400
 
     /**
-     * @type {jQuery[]}
+     * @type {Entry[]}
      * @private
      */
-    this.$entriesArray_ = []
+    this.entriesArray_ = []
 
     /**
      * @type {number}
@@ -91,15 +89,44 @@ export class Dropdown extends ol.Object {
 
     // key handling
 
+    this.setUpKeyboardHandling_()
+
+    this.$element_.on('focus', () => {
+      if (this.selectedIndex_ >= 0) {
+        this.entriesArray_[this.selectedIndex_].$element.focus()
+      }
+    })
+
+    this.$element_.get(0).addEventListener('mousemove', e => {
+      e.stopPropagation()
+    }, false)
+
+    this.slideUp(true)
+  }
+
+  /**
+   * returns the value of the selected list element
+   * @returns {*}
+   */
+  getValue () {
+    if (this.selectedIndex_ >= 0) {
+      return this.entriesArray_[this.selectedIndex_].value
+    }
+  }
+
+  /**
+   * @private
+   */
+  setUpKeyboardHandling_ () {
     this.$element_.on('keydown', e => {
       switch (e.which) {
         case keyCodes.ARROW_DOWN:
           e.preventDefault()
           e.stopPropagation()
-          if (this.selectedIndex_ < this.$entriesArray_.length - 1) {
-            this.$entriesArray_[this.selectedIndex_ + 1].addClass(this.classNameSelected_)
-            this.$entriesArray_[this.selectedIndex_ + 1].focus()
-            this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+          if (this.selectedIndex_ < this.entriesArray_.length - 1) {
+            this.entriesArray_[this.selectedIndex_ + 1].$element.addClass(this.classNames_.selected)
+            this.entriesArray_[this.selectedIndex_ + 1].$element.focus()
+            this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
             this.selectedIndex_ += 1
           }
           break
@@ -107,9 +134,9 @@ export class Dropdown extends ol.Object {
           e.preventDefault()
           e.stopPropagation()
           if (this.selectedIndex_ > 0) {
-            this.$entriesArray_[this.selectedIndex_ - 1].addClass(this.classNameSelected_)
-            this.$entriesArray_[this.selectedIndex_ - 1].focus()
-            this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+            this.entriesArray_[this.selectedIndex_ - 1].$element.addClass(this.classNames_.selected)
+            this.entriesArray_[this.selectedIndex_ - 1].$element.focus()
+            this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
             this.selectedIndex_ -= 1
           } else {
             this.dispatchEvent({
@@ -134,41 +161,9 @@ export class Dropdown extends ol.Object {
         case keyCodes.ENTER:
           e.stopPropagation()
           e.preventDefault()
-          this.$entriesArray_[this.selectedIndex_].click()
+          this.entriesArray_[this.selectedIndex_].$element.click()
       }
     })
-
-    this.$element_.on('focus', () => {
-      if (this.selectedIndex_ >= 0) {
-        this.$entriesArray_[this.selectedIndex_].focus()
-      }
-    })
-
-    this.$element_.get(0).addEventListener('mousemove', e => {
-      e.stopPropagation()
-    }, false)
-
-    this.slideUp(true)
-  }
-
-  /**
-   * returns the selected button element
-   * @returns {jQuery|undefined}
-   */
-  getSelected () {
-    if (this.selectedIndex_ >= 0) {
-      return this.$entriesArray_[this.selectedIndex_]
-    }
-  }
-
-  /**
-   * returns the text of the selected list element
-   * @returns {string|undefined}
-   */
-  getValue () {
-    if (this.selectedIndex_ >= 0) {
-      return this.$entriesArray_[this.selectedIndex_].html()
-    }
   }
 
   /**
@@ -180,63 +175,51 @@ export class Dropdown extends ol.Object {
   }
 
   /**
-   * Adds an entry to the end of the dropdown list
-   * @param {string} entry
-   * @param {function} handler
-   * @returns {jQuery}
+   * Returns the amount of dropdown entries
+   * @returns {Number}
    */
-  addEntry (entry, handler, optSelected = false) {
-    let $newEntry = $('<button tabindex="-1">')
-      .addClass(this.classNameEntry_)
-      .html(entry)
-
-    let index = this.$entriesArray_.length
-    this.$entriesArray_[index] = $newEntry
-
-    $newEntry.on('click', () => {
-      if (!$newEntry.hasClass(this.classNameSelected_)) {
-        $newEntry.addClass(this.classNameSelected_)
-        if (this.selectedIndex_ >= 0) {
-          this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
-        }
-        this.selectedIndex_ = index
-      }
-    })
-    // $newEntry.focus()
-
-    if (handler) {
-      $newEntry.on('click', handler)
-    }
-
-    this.$element_.append($newEntry)
-
-    if (optSelected) {
-      this.selectedIndex_ = index
-      $newEntry.addClass(this.classNameSelected_)
-    }
-
-    return $newEntry
+  getLength () {
+    return this.entriesArray_.length
   }
 
   /**
-   * This function takes an array of entries (strings) and an array of the same length with handlers.
-   * The length of the dropdown is set to the length of the arrays (they have to have the same length).
-   * All entries are inserted and the handlers are applied to the entries.
-   * @param {jQuery[]} entries
-   * @param {function[]} clickHandlers
+   * Adds an entry to the end of the dropdown list
+   * @param {*} value
+   * @param {string} [text=value]
+   * @param {boolean} [optSelected=false]
    */
-  setEntries (entries, clickHandlers) {
-    if (entries.length === clickHandlers.length) {
-      this.setLength(entries.length)
+  addEntry (value, text, optSelected = false) {
+    text = text || value
 
-      for (let i = 0, ii = entries.length; i < ii; i++) {
-        this.$entriesArray_[i].html(entries[i]).off('click').on('click', clickHandlers[i])
-      }
+    let index = this.getLength()
+    this.setLength(index + 1)
 
-      this.selectedIndex_ = -1
-    } else {
-      throw new Error('there are not the same amount of entries and clickHandlers.')
+    let entry = this.entriesArray_[index]
+    entry.$element.html(text)
+    entry.value = value
+
+    if (optSelected) {
+      entry.$element.addClass(this.classNames_.selected)
+      this.selectedIndex_ = index
     }
+  }
+
+  /**
+   * This function takes an array of entries (strings).
+   * The length of the dropdown is set to the length of the arrays (they have to have the same length).
+   * @param {*[]} values
+   * @param {string[]} [texts=values]
+   */
+  setEntries (values, texts) {
+    texts = texts || values
+    this.setLength(values.length)
+
+    for (let i = 0, ii = values.length; i < ii; i++) {
+      this.entriesArray_[i].$element.html(texts[i])
+      this.entriesArray_[i].value = values[i]
+    }
+
+    this.selectedIndex_ = -1
   }
 
   /**
@@ -247,41 +230,43 @@ export class Dropdown extends ol.Object {
   setLength (length) {
     let i, ii
 
-    if (this.$entriesArray_.length === 0) { // removing ghost entry
+    if (this.entriesArray_.length === 0) { // removing ghost entry
       this.$element_.empty()
-      this.$entriesArray_ = []
     }
 
-    if (length > this.$entriesArray_.length) { // adding entries and dropdown handlers
-      for (i = this.$entriesArray_.length, ii = length; i < ii; i++) {
+    if (length > this.entriesArray_.length) { // adding entries and dropdown handlers
+      for (i = this.entriesArray_.length, ii = length; i < ii; i++) {
         let $entry = $('<button tabindex="-1">')
-          .addClass(this.classNameEntry_)
+          .addClass(this.classNames_.entry)
           .hide()
         let index = i
 
         $entry.on('click', () => {
-          if (!$entry.hasClass(this.classNameSelected_)) {
-            $entry.addClass(this.classNameSelected_)
+          if (!$entry.hasClass(this.classNames_.selected)) {
+            $entry.addClass(this.classNames_.selected)
             if (this.selectedIndex_ >= 0) {
-              this.$entriesArray_[this.selectedIndex_].removeClass(this.classNameSelected_)
+              this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
             }
             this.selectedIndex_ = index
+            this.dispatchEvent('select')
           }
         })
         $entry.focus()
 
         this.$element_.append($entry)
 
-        this.$entriesArray_.push($entry)
+        this.entriesArray_.push({
+          $element: $entry
+        })
 
         $entry.slideDown({ duration: this.slideDuration_ })
       }
-    } else if (length < this.$entriesArray_.length) { // removing entries
-      for (i = this.$entriesArray_.length - 1, ii = length; i >= ii; i--) {
-        this.$entriesArray_[i].slideUp({
+    } else if (length < this.entriesArray_.length) { // removing entries
+      for (i = this.entriesArray_.length - 1, ii = length; i >= ii; i--) {
+        this.entriesArray_[i].$element.slideUp({
           duration: this.slideDuration_,
           complete: () => {
-            this.$entriesArray_.pop()
+            this.entriesArray_.pop()
             this.$element_.children().last().remove()
           }
         })
@@ -299,12 +284,12 @@ export class Dropdown extends ol.Object {
   }
 
   focus () {
-    if (this.$entriesArray_.length >= 0) {
+    if (this.entriesArray_.length >= 0) {
       if (this.selectedIndex_ < 0) {
         this.selectedIndex_ = 0
-        this.$entriesArray_[0].addClass(this.classNameSelected_)
+        this.entriesArray_[0].$element.addClass(this.classNames_.selected)
       }
-      this.$entriesArray_[this.selectedIndex_].focus()
+      this.entriesArray_[this.selectedIndex_].$element.focus()
     }
   }
 
@@ -356,7 +341,7 @@ export class Dropdown extends ol.Object {
   clear () {
     this.slideUp()
     this.$element_.empty()
-    this.$entriesArray_ = []
+    this.entriesArray_ = []
     this.selectedIndex_ = -1
   }
 
@@ -365,6 +350,6 @@ export class Dropdown extends ol.Object {
    * @returns {boolean}
    */
   isSelectable () {
-    return (this.$entriesArray_.length > 0)
+    return (this.entriesArray_.length > 0)
   }
 }
