@@ -4,7 +4,7 @@ import $ from 'jquery'
 import {addTooltip} from 'guide4you/src/html/html'
 import {Dropdown} from 'guide4you/src/html/Dropdown'
 import {keyCodes} from 'guide4you/src/globals'
-import {expandTemplate, addProxy} from 'guide4you/src/utilities'
+import {expandTemplate, addProxy, html2Text} from 'guide4you/src/utilities'
 import {Control} from 'guide4you/src/controls/Control'
 
 import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
@@ -181,6 +181,8 @@ export class SearchControl extends Control {
         : this.getLocaliser().localiseUsingDictionary('SearchControl noSearchResults'),
       slideDuration: slideDuration
     })
+
+    this.dropdown_.on('select', () => this.onDropdownSelect_())
 
     /**
      * the searchresults are stored as features, even if they don't have coordinates
@@ -405,19 +407,29 @@ export class SearchControl extends Control {
       return this.dropdown_.slideUp().then(() => this.changed())
     } else {
       let length = Math.min(this.amountDropdownEntries_, this.features_.length)
-      let entries = []
-      let handlers = []
+      let features = this.features_.slice(0, length)
+      let texts = features.map(f => f.get('dropdowntext'))
 
-      for (let feature of this.features_.slice(0, length)) {
-        entries.push(feature.get('dropdowntext'))
-        handlers.push(() => {
-          this.onClickDropdownEntry_(feature)
-        })
-      }
-
-      this.dropdown_.setEntries(entries, handlers)
+      this.dropdown_.setEntries(features, texts)
       this.dropdownActive_ = true
       return this.dropdown_.slideDown().then(() => this.changed())
+    }
+  }
+
+  /**
+   * @private
+   */
+  onDropdownSelect_ () {
+    let feature = this.dropdown_.getValue()
+    this.$textfield_.val(html2Text(feature.get('dropdowntext')))
+    this.features_ = [feature]
+    this.selectedFeature_ = feature
+
+    if (feature.getGeometry()) {
+      this.onSearchEnd_()
+    } else {
+      this.getSearchResults_(this.exactSearchURL_, encodeURIComponent(feature.get('searchtext')))
+        .then(() => this.onSearchEnd_())
     }
   }
 
@@ -443,34 +455,22 @@ export class SearchControl extends Control {
     * @private
    */
   onSubmit_ () {
-    this.selectedFeature_ = null
-    this.hideSearchlayer_()
+    let searchstring = this.$textfield_.val()
 
-    let searchstring = encodeURIComponent(this.$textfield_.val())
-    if (searchstring !== '') {
-      this.getSearchResults_(this.fuzzySearchURL_, searchstring)
-        .then(() => this.onSearchEnd_())
-    } else {
-      this.features_ = []
+    if (!this.selectedFeature_ ||
+        searchstring !== html2Text(this.selectedFeature_.get('dropdowntext'))) {
+      searchstring = encodeURIComponent(searchstring)
+      this.selectedFeature_ = null
       this.hideSearchlayer_()
-      this.updateDropdown_()
-    }
-  }
 
-  /**
-   * @param {ol.Feature} feature
-   * @private
-   */
-  onClickDropdownEntry_ (feature) {
-    this.$textfield_.val(feature.get('dropdowntext'))
-    this.features_ = [feature]
-    this.selectedFeature_ = feature
-
-    if (feature.getGeometry()) {
-      this.onSearchEnd_()
-    } else {
-      this.getSearchResults_(this.exactSearchURL_, encodeURIComponent(feature.get('searchtext')))
-        .then(() => this.onSearchEnd_())
+      if (searchstring !== '') {
+        this.getSearchResults_(this.fuzzySearchURL_, searchstring)
+          .then(() => this.onSearchEnd_())
+      } else {
+        this.features_ = []
+        this.hideSearchlayer_()
+        this.updateDropdown_()
+      }
     }
   }
 
