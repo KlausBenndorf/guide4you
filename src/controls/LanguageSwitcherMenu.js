@@ -7,6 +7,8 @@ import { cssClasses, keyCodes } from '../globals'
 import {Debug} from '../Debug'
 
 import '../../less/languageControls.less'
+import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
+import {mixin} from '../utilities'
 
 /**
  * @typedef {g4uControlOptions} LanguageSwitcherMenuOptions
@@ -15,7 +17,7 @@ import '../../less/languageControls.less'
 /**
  * A button to switch the language that is being used.
  */
-export class LanguageSwitcherMenu extends Control {
+export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin) {
   /**
    * @param {LanguageSwitcherMenuOptions} options
    */
@@ -56,14 +58,10 @@ export class LanguageSwitcherMenu extends Control {
       Debug.info('What about using languageSwitcherButton in place of languageSwitcherMenu?')
     }
 
-    for (let i = 0, ii = languages.length; i < ii; i++) {
-      let iso639 = languages[i]
-      this.dropdown_.addEntry(
-        iso639.toUpperCase() + ' - ' + this.getLocaliser().localiseUsingDictionary(iso639),
-        this.languageSwitchHandler(iso639),
-        iso639 === this.getLocaliser().getCurrentLang()
-      )
-    }
+    this.dropdown_.setEntries(languages,
+      languages.map(l => `${l.toUpperCase()} - ${this.getLocaliser().localiseUsingDictionary(l)}`))
+
+    this.dropdown_.on('select', () => this.switchLanguage_(this.dropdown_.getValue()))
 
     this.get$Element().on('keydown', e => {
       if (e.which === keyCodes.ESCAPE) {
@@ -82,22 +80,19 @@ export class LanguageSwitcherMenu extends Control {
   /**
    * Creates a handler to switch to the specified language
    * @param {string} iso639
-   * @returns {function}
    */
-  languageSwitchHandler (iso639) {
-    return () => {
-      this.getLocaliser().setCurrentLang(iso639)
-      this.setTitle(iso639)
+  switchLanguage_ (iso639) {
+    this.getLocaliser().setCurrentLang(iso639)
+    this.setTitle(iso639)
 
-      let map = this.getMap()
+    let map = this.getMap()
 
-      let visibilities = map.getLayerGroup().getIdsVisibilities()
+    let visibilities = map.getLayerGroup().getIdsVisibilities()
 
-      map.get('configurator').configureLayers()
-      map.get('configurator').configureUI()
+    map.get('configurator').configureLayers()
+    map.get('configurator').configureUI()
 
-      map.getLayerGroup().setIdsVisibilities(visibilities)
-    }
+    map.getLayerGroup().setIdsVisibilities(visibilities)
   }
 
   /**
@@ -105,11 +100,9 @@ export class LanguageSwitcherMenu extends Control {
    */
   setMap (map) {
     if (this.getMap()) {
-      this.setActive(false)
+      this.detachAllListeners()
 
-      $(this.getMap().getViewport()).find('.ol-overlaycontainer-stopevent')
-        .add(document)
-        .off('click', this.deactivateListener_)
+      this.setActive(false)
     }
 
     super.setMap(map)
@@ -119,7 +112,7 @@ export class LanguageSwitcherMenu extends Control {
 
       // The following does not work in 'on('click')' as it relies on useCapture; all click events will be
       // dispatched to the listener before being dispatched to any EventTarget beneath it in the DOM tree.
-      document.addEventListener('click', function () {
+      this.listenAt(document).on('click', function () {
         this.collapse_ = true
       }, true)
 
@@ -129,11 +122,12 @@ export class LanguageSwitcherMenu extends Control {
         }
       }
 
-      $(map.getViewport()).find('.ol-overlaycontainer-stopevent')
-        .add(document)
-        .on('click', this.deactivateListener_)
+      this.listenAt([
+        $(this.getMap().getViewport()).find('.ol-overlaycontainer-stopevent'),
+        document
+      ]).on('click', this.deactivateListener_)
 
-      this.get$Element().on('click', () => {
+      this.listenAt(this.get$Element()).on('click', () => {
         this.collapse_ = false
         this.setActive(!this.getActive())
       })

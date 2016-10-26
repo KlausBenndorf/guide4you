@@ -404,11 +404,13 @@ export function mixin (baseClass, mixinClass) {
   return m
 }
 
+let $p = $('<p>')
+
 /**
  * Takes a string with HTML and returns the containing resulting text.
- * @param stringWithEntities string with encoded HTML entities
+ * @param stringWithHTML string with encoded HTML entities
  * @returns {string}
  */
 export function html2Text (stringWithHTML) {
-  return $('<p>').html(stringWithHTML).text()
+  return $p.html(stringWithHTML).text()
 }
