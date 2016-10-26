@@ -1,7 +1,8 @@
 import ol from 'openlayers'
 
-import { Attribution, OverviewMap, ScaleLine, MousePosition } from '../controls/ControlRewire'
+import { OverviewMap, ScaleLine, MousePosition } from '../controls/ControlRewire'
 
+import {Attribution} from '../controls/Attribution'
 import {ComposedControl} from '../controls/ComposedControl'
 import {ArrowButtons} from '../controls/ArrowButtons'
 import {CombinedZoom} from '../controls/CombinedZoom'

@@ -32,5 +32,6 @@ export const cssClasses = {
   active: 'g4u-active',
   mainButton: 'g4u-control-mainbutton',
   hasTooltip: 'g4u-has-tooltip',
-  upperCase: 'g4u-uppercase'
+  upperCase: 'g4u-uppercase',
+  collapsed: 'g4u-collapsed'
 }

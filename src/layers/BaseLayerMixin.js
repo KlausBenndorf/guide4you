@@ -21,6 +21,8 @@ export class BaseLayerMixin {
 
     this.on('change:available', this.onChangeAvailable.bind(this))
     this.on('change:visible', this.onChangeVisible.bind(this))
+
+    this.isBaseLayer = true
   }
 
   /**

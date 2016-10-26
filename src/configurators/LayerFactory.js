@@ -137,14 +137,11 @@ export class LayerFactory {
       let attributionLabel
 
       if (superType === SuperType.BASELAYER) {
-        attributionLabel = this.map_.get('localiser').localiseUsingDictionary('Attribution baseLayerLabel')
         optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()
-      } else {
-        attributionLabel = optionsCopy.title
       }
 
       if (optionsCopy.source) {
-        this.configureLayerSourceAttribution_(optionsCopy.source, attributionLabel)
+        this.configureLayerSourceAttribution_(optionsCopy.source)
 
         if (optionsCopy.type !== LayerType.INTERN) {
           // the url of the source
@@ -381,15 +378,14 @@ export class LayerFactory {
 
   /**
    * @param {SourceConfig} sourceConfig
-   * @param {Localizable} label
    * @returns {SourceConfig}
    * @private
    */
-  configureLayerSourceAttribution_ (sourceConfig, label) {
+  configureLayerSourceAttribution_ (sourceConfig) {
     if (checkFor(sourceConfig, 'attribution')) {
       sourceConfig.attributions = [
         new ol.Attribution({
-          html: `${label}: ${this.map_.get('localiser').selectL10N(sourceConfig.attribution)}`
+          html: this.map_.get('localiser').selectL10N(sourceConfig.attribution)
         })
       ]
     }
