@@ -62,10 +62,8 @@ export class ListenerOrganizerMixin {
           for (let TypeListener of [DOMListener, JQueryListener, OLListener]) {
             if (TypeListener.usable(element)) {
               this.organizedListeners_.push(new TypeListener(element, event, listener, useCapture))
-              return
             }
           }
-          throw new Error('No usable listener type!')
         }
       }
     }

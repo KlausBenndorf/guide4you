@@ -116,16 +116,14 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
         this.collapse_ = true
       }, true)
 
-      this.deactivateListener_ = () => {
-        if (this.collapse_ && this.getActive()) {
-          this.setActive(false)
-        }
-      }
-
       this.listenAt([
         $(this.getMap().getViewport()).find('.ol-overlaycontainer-stopevent'),
         document
-      ]).on('click', this.deactivateListener_)
+      ]).on('click', () => {
+        if (this.collapse_ && this.getActive()) {
+          this.setActive(false)
+        }
+      })
 
       this.listenAt(this.get$Element()).on('click', () => {
         this.collapse_ = false
