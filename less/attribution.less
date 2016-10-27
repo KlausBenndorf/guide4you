@@ -10,17 +10,10 @@
 .g4u-desktop {
   .g4u-attribution {
     cursor: default;
-    height: @g4u-desktop-button-size; // button to the left
-    min-width: @g4u-desktop-button-size; // button to the left
     margin: 0;
+    padding: 0;
     border-radius: @g4u-desktop-large-border-radius;
     white-space: nowrap;
-
-    button {
-      &:hover {
-        background: fade(@g4u-dark-main-color, 90%);
-      }
-    }
 
     a {
       color: darken(@g4u-theme-main-foreground, 15%);
@@ -31,53 +24,41 @@
     }
 
     button {
+      vertical-align: top;
       .buttonSquaredWithIcon(@g4u-attribution-collapse-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-      background: fade(@g4u-dark-main-color, 80%);
-      bottom: @g4u-desktop-padding;
-      left: @g4u-desktop-padding; // button to the left
-      position: absolute; // button to the left
       display: inline;
-      border-top-left-radius: @g4u-desktop-small-border-radius; // button to the left
-      border-bottom-left-radius: @g4u-desktop-small-border-radius; // button to the left
-    }
-
-    img {
-      display: none;
+      background: fade(@g4u-dark-main-color, 80%);
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      &:hover {
+        background: fade(@g4u-dark-main-color, 90%);
+      }
     }
 
     ul {
       .g4u-symbol-colors;
-      margin: 0;
-      margin-left: @g4u-desktop-button-size;
-      position: relative; // button to the left
-      bottom: 0;
-      height: @g4u-desktop-button-size; // button to the left
-      display: inline-block; // button to the left
+      vertical-align: top;
+      display: inline-block;
+      height: @g4u-desktop-button-size;
       padding: 0;
+      margin: 0;
       border-top-right-radius: @g4u-desktop-small-border-radius;
       border-bottom-right-radius: @g4u-desktop-small-border-radius;
 
       li {
         border-left: @g4u-tiny solid;
-        display: inline-block; // button to the left
-        margin-top: round(0.5 * (@g4u-desktop-button-size - @g4u-desktop-normal-lineheight)); // button to the left
+        display: inline-block;
+        margin-top: round(0.5 * (@g4u-desktop-button-size - @g4u-desktop-normal-lineheight));
         list-style: none;
         padding: 0 round(0.5 * @g4u-desktop-em);
 
         &:first-of-type {
-          display: none;
-        }
-
-        &:nth-of-type(-n+2) {
           border-left: none;
-        }
-
-        &:last-of-type {
         }
       }
     }
 
-    &.ol-collapsed {
+    &.g4u-collapsed {
       padding-left: @g4u-desktop-padding;
 
       ul {

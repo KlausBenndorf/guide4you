@@ -34,7 +34,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
         type: 'change:collapsed',
         oldValue
       })
-      this.$list_.toggleClass(cssClasses.collapsed, collapsed)
+      this.get$Element().toggleClass(cssClasses.collapsed, collapsed)
     }
   }
 
