@@ -85,7 +85,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
       if (layerTitles.length === 1) {
         text = layerTitles[0]
       } else {
-        text = layerTitles.slice(0, -1).join(', ') + ' & ' + layerTitles[layerTitles.length-1]
+        text = layerTitles.slice(0, -1).join(', ') + ' & ' + layerTitles[layerTitles.length - 1]
       }
       text += ': ' + attribution
       this.$list_.append($('<li>').html(text))
@@ -156,7 +156,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
   setMap (map) {
     if (this.getMap()) {
-      this.detachAll()
+      this.detachAllListeners()
     }
 
     super.setMap(map)

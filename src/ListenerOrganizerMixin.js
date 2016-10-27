@@ -41,7 +41,7 @@ class OLListener {
   }
 
   detach () {
-    ol.Object.unByKey(this.key_)
+    ol.Observable.unByKey(this.key_)
   }
 
   static usable (element) {

@@ -133,9 +133,6 @@ export class LayerFactory {
       // the title/name of the layer
       this.configureLayerTitle_(optionsCopy)
 
-      // the copyright information of the source
-      let attributionLabel
-
       if (superType === SuperType.BASELAYER) {
         optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()
       }
