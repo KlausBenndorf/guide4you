@@ -41,7 +41,7 @@ class OLListener {
   }
 
   detach () {
-    ol.Object.unByKey(this.key_)
+    ol.Observable.unByKey(this.key_)
   }
 
   static usable (element) {
@@ -56,7 +56,7 @@ export class ListenerOrganizerMixin {
 
   listenAt (elements) {
     elements = Array.isArray(elements) ? elements : [elements]
-    return {
+    let on = {
       on: (event, listener, useCapture) => {
         for (let element of elements) {
           for (let TypeListener of [DOMListener, JQueryListener, OLListener]) {
@@ -65,7 +65,15 @@ export class ListenerOrganizerMixin {
             }
           }
         }
+        return on
       }
+    }
+    return on
+  }
+
+  detachFrom (element) {
+    for (let listener of this.organizedListeners_.filter(l => l.element === element)) {
+      listener.detach()
     }
   }
 

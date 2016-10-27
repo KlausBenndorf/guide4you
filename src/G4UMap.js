@@ -336,19 +336,19 @@ export class G4UMap extends ol.Map {
   removeInteraction (interaction) {
     let index
 
-    for (let interactions of this.defaultInteractions_.entries()) {
+    this.defaultInteractions_.forEach(interactions => {
       index = interactions.indexOf(interaction)
       if (index > -1) {
         interactions.splice(index, 1)
       }
-    }
+    })
 
-    for (let interactions of this.supersedingInteractions_.entries()) {
+    this.supersedingInteractions_.forEach(interactions => {
       index = interactions.indexOf(interaction)
       if (index > -1) {
         interactions.splice(index, 1)
       }
-    }
+    })
 
     super.removeInteraction(interaction)
   }

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import { addProxy } from '../utilities'
-import { Attribution } from './ControlRewire'
+import { Attribution } from './Attribution'
 import {Control} from './Control'
 
 import '../../less/infobutton.less'

@@ -112,7 +112,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
 
       // The following does not work in 'on('click')' as it relies on useCapture; all click events will be
       // dispatched to the listener before being dispatched to any EventTarget beneath it in the DOM tree.
-      this.listenAt(document).on('click', function () {
+      this.listenAt(document).on('click', () => {
         this.collapse_ = true
       }, true)
 
