@@ -18,6 +18,7 @@ import {PrintButton} from '../controls/PrintButton'
 import {PrintLogo} from '../controls/PrintLogo'
 import {HelpButton} from '../controls/HelpButton'
 import {WindowDecorator} from '../controls/WindowDecorator'
+import {AccessHiddenControls} from '../controls/AccessHiddenControls'
 
 import { asObject, checkFor } from '../utilities'
 import { copyDeep } from '../utilitiesObject'
@@ -78,6 +79,10 @@ export class ControlFactory {
    */
   createControl (controlType, options) {
     switch (controlType) {
+      case 'accessHidden':
+        return new WindowDecorator({
+          component: new AccessHiddenControls(options)
+        })
       case 'mousePosition':
         options.projection = options.projection || this.map_.get('interfaceProjection')
         return new MousePosition(options)

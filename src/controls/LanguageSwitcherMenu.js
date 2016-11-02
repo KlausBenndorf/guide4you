@@ -39,13 +39,11 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
       .addClass(cssClasses.mainButton)
     this.get$Element().append(this.$button_)
 
-    let dropdownOptions = {'className': 'g4u-dropdown'}
-
     /**
      * @type {Dropdown}
      * @private
      */
-    this.dropdown_ = new Dropdown(dropdownOptions)
+    this.dropdown_ = new Dropdown()
     this.get$Element().append(this.dropdown_.get$Element())
 
     let languages = this.getLocaliser().getAvailableLanguages()

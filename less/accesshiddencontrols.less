@@ -1,0 +1,28 @@
+@import "./lengths";
+@import "./colors";
+@import "./controlgenerics";
+
+@g4u-access-hidden-control-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/threelines.svg");
+
+.g4u-desktop {
+  .g4u-access-hidden-control {
+    &.g4u-disabled {
+      .g4u-control-mainbutton {
+        background-color: grey;
+        &:hover {
+          background-color: grey;
+        }
+      }
+      pointer-events: none;
+    }
+
+    .g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-access-hidden-control-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+    }
+
+    .g4u-access-hidden-control {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

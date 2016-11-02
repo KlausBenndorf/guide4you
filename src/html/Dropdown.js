@@ -185,7 +185,7 @@ export class Dropdown extends ol.Object {
   /**
    * Adds an entry to the end of the dropdown list
    * @param {*} value
-   * @param {string} [text=value]
+   * @param {string|jQuery} [text=value] a string will be interpreted as html and a jQuery object will be appended
    * @param {boolean} [optSelected=false]
    */
   addEntry (value, text, optSelected = false) {
@@ -195,7 +195,11 @@ export class Dropdown extends ol.Object {
     this.setLength(index + 1)
 
     let entry = this.entriesArray_[index]
-    entry.$element.html(text)
+    if (text instanceof $) {
+      entry.$element.append(text)
+    } else {
+      entry.$element.html(text)
+    }
     entry.value = value
 
     if (optSelected) {

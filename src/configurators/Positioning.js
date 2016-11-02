@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import ol from 'openlayers'
 
 import { cssClasses } from '../globals'
 
@@ -34,11 +35,12 @@ import { cssClasses } from '../globals'
  * @property {HTMLElement} viewport
  */
 
-export class Positioning {
+export class Positioning extends ol.Observable {
   /**
    * @param {PositioningOptions} options
    */
   constructor (options) {
+    super()
     /**
      * @type {jQuery|HTMLElement}
      * @private
@@ -96,6 +98,12 @@ export class Positioning {
         }
       }
     }
+
+    /**
+     * @type {Control[]}
+     * @private
+     */
+    this.tempDetaches_ = []
 
     /**
      * This number tracks the order in which controls are added
@@ -201,6 +209,13 @@ export class Positioning {
         }
       }
     }
+  }
+
+  /**
+   * @returns {Control[]}
+   */
+  getHiddenControls () {
+    return this.tempDetaches_
   }
 
   /**
@@ -348,6 +363,8 @@ export class Positioning {
    * (Re-)Position the controls on the map
    */
   positionElements () {
+    this.dispatchEvent('before:positioning')
+
     let width = this.$viewport_.innerWidth()
     let height = this.$viewport_.innerHeight()
 
@@ -441,6 +458,8 @@ export class Positioning {
 
         processSides.delete('left')
       }
+
+      this.dispatchEvent('after:positioning')
     }
 
     // positioning
@@ -631,5 +650,6 @@ export class Positioning {
     let leastImportant = findLeastImportant(elems)
     leastImportant.visible = false
     leastImportant.control.get$Element().addClass(cssClasses.hidden)
+    this.tempDetaches_.push(leastImportant.control)
   }
 }

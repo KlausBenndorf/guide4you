@@ -3,6 +3,7 @@ import $ from 'jquery'
 
 import { cssClasses, keyCodes } from '../globals'
 import { getInFront } from './html'
+import { TempDetach } from './TempDetach'
 
 import '../../less/shield.less'
 
@@ -10,13 +11,6 @@ import '../../less/shield.less'
  * @typedef {object} ShieldOptions
  * @property {G4UMap} map
  * @property {string} [className='g4u-shield']
- */
-
-/**
- * @typedef {object} ElementPosition
- * @property {jQuery} $actualElement
- * @property {jQuery} $oldParent
- * @property {number} oldIndex
  */
 
 /**
@@ -68,7 +62,7 @@ export class Shield extends ol.Object {
     })
 
     /**
-     * @type {Map<jQuery, ElementPosition>}
+     * @type {Map<HTMLElement, TempDetach>}
      * @private
      */
     this.elementsOnTop_ = new Map()
@@ -114,13 +108,7 @@ export class Shield extends ol.Object {
       $actualElement = $window
     }
 
-    let $oldParent = $actualElement.parent()
-
-    this.elementsOnTop_.set($element[0], {
-      $actualElement,
-      $oldParent,
-      oldIndex: $oldParent.children().index($element)
-    })
+    this.elementsOnTop_.set($element[0], new TempDetach($actualElement))
 
     this.$element_.append($actualElement)
   }
@@ -130,13 +118,9 @@ export class Shield extends ol.Object {
    * @param {jQuery} $element
    */
   remove$OnTop ($element) {
-    let elementPosition = this.elementsOnTop_.get($element[0])
+    let tempDetach = this.elementsOnTop_.get($element[0])
     this.elementsOnTop_.delete($element[0])
 
-    if (elementPosition.oldIndex === 0) {
-      elementPosition.$oldParent.prepend(elementPosition.$actualElement)
-    } else {
-      elementPosition.$oldParent.children().eq(elementPosition.oldIndex - 1).after(elementPosition.$actualElement)
-    }
+    tempDetach.restore()
   }
 }

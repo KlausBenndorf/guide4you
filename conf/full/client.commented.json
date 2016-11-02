@@ -87,6 +87,7 @@
     ],
     "toolbox": {
       "contains": [
+        "accessHidden",
         "linkButton",
         "geolocationButton",
         "distanceMeasurementButton",
@@ -110,6 +111,9 @@
         "languageSwitcherMenu",
         "infoButton"
       ]
+    },
+    "accessHidden": {
+      "importance": 50
     },
     "layerMenu": {
       "float": [
