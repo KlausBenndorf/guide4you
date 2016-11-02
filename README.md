@@ -50,9 +50,19 @@ All modern browsers including
 * Edge and Internet Explorer 10+
 * Safari
 
-## How to build GUIDE4YOU?
+## How to install and build GUIDE4YOU?
 
-First install all dependecies using
+Install guide4you from npm or clone the repository
+
+```
+npm install guide4you
+```
+or
+```
+git clone https://github.com/KlausBenndorf/guide4you.git
+```
+
+Then switch into the `guide4you` directory and install all dependecies using
 
 ```
 npm install
