@@ -48,6 +48,7 @@ export class ShowWMSFeatureInfo {
                         geometry: new ol.geom.Point(e.coordinate),
                         description: data
                       })
+                      map.get('styling').styleFeature(feature, this.style_)
                       this.utilitySource_.addFeature(feature)
                       featurePopup.setFeature(feature)
                       featurePopup.setVisible(true)
