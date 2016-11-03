@@ -46,8 +46,16 @@
       "scaleLine",
       "zoom",
       "mobileControls",
-      "searchControl"
+      "searchControl",
+      "helpButton"
     ],
+    "helpButton": {
+      "float": [
+        "top",
+        "left"
+      ],
+      "fileName": "files/helptext.json"
+    },
     "searchControl": {
       "float": [
         "top",
