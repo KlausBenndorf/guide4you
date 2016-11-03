@@ -52,6 +52,9 @@ export class ShowWMSFeatureInfo {
                       this.utilitySource_.addFeature(feature)
                       featurePopup.setFeature(feature)
                       featurePopup.setVisible(true)
+                      featurePopup.once('change:visible', () => {
+                        this.utilitySource_.clear()
+                      })
                     } else {
                       feature.set('description', feature.get('description') + this.separator_ + data)
                     }
