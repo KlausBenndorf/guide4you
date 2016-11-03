@@ -36,7 +36,7 @@
     "esdoc": "0.4.8",
     "mocha": "3.1.2",
     "phantomjs-prebuilt": "2.1.13",
-    "selenium-webdriver": "2.53.3",
+    "selenium-webdriver": "3.0.0",
     "standard": "8.4.0",
     "wait-on": "1.5.3"
   },
