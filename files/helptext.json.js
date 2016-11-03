@@ -113,8 +113,7 @@ module.exports = {
         "Dieses Element zeigt die Quellen&shy;angabe des Karten&shy;materials an. Durch Klicken auf das Info&shy;symbol klappen Sie die Quellen&shy;angabe aus, durch Klicken auf das Dreiecks&shy;symbols klappen Sie sie ein.",
         "Die obere Abbildung zeigt die Quellen&shy;angabe in ausgeklapptem, die untere in eingeklapptem Zustand."
       ]
-    },
-    null
+    }
   ],
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   "en": [
@@ -228,7 +227,6 @@ module.exports = {
         "This element shows the attribution information of the current map. By clicking the triangle symbol you collapse the attribution, by clicking the info symbol you expand it.",
         "The upper image shows the attribution in expanded state, the lower image in collapsed state."
       ]
-    },
-    null
+    }
   ]
 }
