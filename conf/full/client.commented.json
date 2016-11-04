@@ -136,7 +136,7 @@
       ]
     },
     "helpButton": {
-      "fileName": "files/helptext.commented.json"
+      "fileName": "files/helptext.json"
     },
     "infoButton": {
       "contentURL": {
