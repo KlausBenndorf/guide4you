@@ -252,7 +252,7 @@ export class FeaturePopup extends ol.Object {
 
       // feature click
 
-      map.getDefaultInteractions('singleClick')[ 0 ].on('select', e => {
+      map.getDefaultInteractions('singleclick')[ 0 ].on('select', e => {
         let selected = e.selected.filter(FeaturePopup.filter_)
         if (selected.length) {
           this.onFeatureClick_(selected[ 0 ])
@@ -263,7 +263,7 @@ export class FeaturePopup extends ol.Object {
 
       // feature hover
 
-      map.getDefaultInteractions('mouseMove')[ 0 ].on('select', e => {
+      map.getDefaultInteractions('pointermove')[ 0 ].on('select', e => {
         let selected = e.selected.filter(FeaturePopup.filter_)
         let deselected = e.deselected.filter(FeaturePopup.filter_)
         if (selected.length) {

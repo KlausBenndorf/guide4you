@@ -1,6 +1,7 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 import {VectorLayer} from './layers/VectorLayer';
+import {MapEventInteraction} from './interactions/MapEventInteraction';
 
 /**
  * @typedef {Object} ShowWMSFeatureInfoOptions
@@ -34,36 +35,38 @@ export class ShowWMSFeatureInfo {
       let featurePopup = map.get('featurePopup')
       let projection = map.getView().getProjection()
 
-      this.listenerKey_ = map.on('singleclick', e => {
-        if ($(e.originalEvent.target).is('.ol-viewport > canvas')) {
-          this.utilitySource_.clear()
-          let feature
-          for (let layer of this.layers_) {
-            if (layer.getVisible()) {
-              layer.getSource().getFeatureInfo(e.coordinate, map.getView().getResolution(), projection)
-                .then(data => {
-                  if (data !== '') {
-                    if (!feature) {
-                      feature = new ol.Feature({
-                        geometry: new ol.geom.Point(e.coordinate),
-                        description: data
-                      })
-                      map.get('styling').styleFeature(feature, this.style_)
-                      this.utilitySource_.addFeature(feature)
-                      featurePopup.setFeature(feature)
-                      featurePopup.setVisible(true)
-                      featurePopup.once('change:visible', () => {
-                        this.utilitySource_.clear()
-                      })
-                    } else {
-                      feature.set('description', feature.get('description') + this.separator_ + data)
-                    }
+      let interaction = new MapEventInteraction({ type: 'singleclick' })
+      interaction.on('mapevent', e => {
+        let mapEvent = e.mapEvent
+        this.utilitySource_.clear()
+        let feature
+        for (let layer of this.layers_) {
+          if (layer.getVisible()) {
+            layer.getSource().getFeatureInfo(mapEvent.coordinate, map.getView().getResolution(), projection)
+              .then(data => {
+                if (data !== '') {
+                  if (!feature) {
+                    feature = new ol.Feature({
+                      geometry: new ol.geom.Point(mapEvent.coordinate),
+                      description: data
+                    })
+                    map.get('styling').styleFeature(feature, this.style_)
+                    this.utilitySource_.addFeature(feature)
+                    featurePopup.setFeature(feature)
+                    featurePopup.setVisible(true)
+                    featurePopup.once('change:visible', () => {
+                      this.utilitySource_.clear()
+                    })
+                  } else {
+                    feature.set('description', feature.get('description') + this.separator_ + data)
                   }
-                })
-            }
+                }
+              })
           }
         }
       })
+
+      map.addDefaultInteraction('singleclick', interaction)
     }
   }
 

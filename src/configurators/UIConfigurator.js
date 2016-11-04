@@ -399,7 +399,7 @@ export class UIConfigurator {
 
         if (checkFor(mapConfigCopy, 'interactions')) {
           if (checkFor(mapConfigCopy.interactions, 'doubleClickZoom')) {
-            this.map_.addDefaultInteraction('doubleClick', new ol.interaction.DoubleClickZoom())
+            this.map_.addDefaultInteraction('dblclick', new ol.interaction.DoubleClickZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'dragPan')) {
@@ -451,7 +451,7 @@ export class UIConfigurator {
           }
         }
 
-        this.map_.addDefaultInteraction('singleClick', new FeatureSelect({
+        this.map_.addDefaultInteraction('singleclick', new FeatureSelect({
           condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
           multi: true
@@ -462,7 +462,7 @@ export class UIConfigurator {
           style: null,
           multi: true
         })
-        this.map_.addDefaultInteraction('mouseMove', moveInteraction)
+        this.map_.addDefaultInteraction('pointermove', moveInteraction)
 
         let $viewport = $(this.map_.getViewport())
 

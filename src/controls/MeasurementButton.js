@@ -160,7 +160,7 @@ export class MeasurementButton extends Control {
 
       this.drawInteraction_.setActive(false)
 
-      map.addSupersedingInteraction('singleClick doubleClick mouseMove', this.drawInteraction_)
+      map.addSupersedingInteraction('singleclick dblclick pointermove', this.drawInteraction_)
 
       let curFeature = null
 

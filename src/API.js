@@ -109,7 +109,7 @@ export class API extends ol.Object {
         style: style
       })
 
-      this.map_.addSupersedingInteraction('singleClick doubleClick mouseMove', this.featureManipulationInteraction_)
+      this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_)
 
       $(this.map_.getViewport()).addClass(cssClasses.crosshair)
 
@@ -140,7 +140,7 @@ export class API extends ol.Object {
     return new Promise((resolve) => {
       this.featureManipulationInteraction_ = new ol.interaction.Select()
 
-      this.map_.addSupersedingInteraction('singleClick', this.featureManipulationInteraction_)
+      this.map_.addSupersedingInteraction('singleclick', this.featureManipulationInteraction_)
 
       $(this.map_.getViewport()).addClass(cssClasses.arrow)
 
@@ -181,7 +181,7 @@ export class API extends ol.Object {
 
     this.featureManipulationInteraction_ = new ol.interaction.Modify(options)
 
-    this.map_.addSupersedingInteraction('singleClick doubleClick mouseMove', this.featureManipulationInteraction_)
+    this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_)
 
     $(this.map_.getViewport()).addClass(cssClasses.crosshair)
   }
