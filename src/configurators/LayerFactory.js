@@ -283,6 +283,11 @@ export class LayerFactory {
         break
       case LayerType.TILEWMS:
 
+        if (optionsCopy.source.tileSize) {
+          optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
+          delete optionsCopy.source.tileSize
+        }
+
         optionsCopy.source = new ol.source.TileWMS(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
