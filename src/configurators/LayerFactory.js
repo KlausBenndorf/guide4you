@@ -12,7 +12,7 @@ import { copyDeep, take } from '../utilitiesObject'
 import { checkFor, addProxy } from '../utilities'
 
 import {Debug} from '../Debug'
-import {ImageWMSSource} from '../sources/ImageWMSSource';
+import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -288,7 +288,7 @@ export class LayerFactory {
           delete optionsCopy.source.tileSize
         }
 
-        optionsCopy.source = new ol.source.TileWMS(optionsCopy.source)
+        optionsCopy.source = new TileWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerTile(optionsCopy)
@@ -296,6 +296,14 @@ export class LayerFactory {
           this.superTypeNotSupported(layerType, superType)
         } else {
           layer = new LayerTile(optionsCopy)
+        }
+
+        if (layer.getSource().hasFeatureInfo()) {
+          this.map_.asSoonAs('ready:ui', true, () => {
+            if (this.map_.get('showWMSFeatureInfo')) {
+              this.map_.get('showWMSFeatureInfo').addLayer(layer)
+            }
+          })
         }
 
         break

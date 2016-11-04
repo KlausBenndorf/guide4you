@@ -1,10 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
-import {copyDeep} from '../utilitiesObject'
+import {mixin} from '../utilities'
 
-export class ImageWMSSource extends ol.source.ImageWMS {
-  constructor (options) {
-    super(options)
+export class WMSFeatureInfoMixin {
+  initialize (options) {
     this.featureInfo_ = options.featureInfo !== undefined
     if (this.featureInfo_) {
       this.featureInfoParams_ = options.featureInfo.params
@@ -40,3 +39,7 @@ export class ImageWMSSource extends ol.source.ImageWMS {
     })
   }
 }
+
+export const ImageWMSSource = mixin(ol.source.ImageWMS, WMSFeatureInfoMixin)
+
+export const TileWMSSource = mixin(ol.source.TileWMS, WMSFeatureInfoMixin)
