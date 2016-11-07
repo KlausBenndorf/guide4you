@@ -1,9 +1,8 @@
 // As the webpack loader's exec method is broken we need to do plain ES5 here
 
 module.exports = {
-  "de": [
-    {
-      "id": "arrowButtons",
+  "de": {
+    "arrowButtons": {
       "img": "arrowbuttons.png",
       "descr": [
         "Mit diesem Element verschieben Sie die Karte in Richtung der Spitze des jeweiligen Drei&shy;ecks.",
@@ -12,8 +11,7 @@ module.exports = {
         "Dar&uuml;ber hinaus k&ouml;nnen Sie die Karte mit den Pfeiltasten der Tastatur verschieben."
       ]
     },
-    {
-      "id": "zoom",
+    "zoom": {
       "img": "zoom.png",
       "descr": [
         "Mit diesem Element &auml;ndern Sie den Ma&szlig;&shy;stab der Karte. Klicken Sie auf \"+\" zum Vergr&ouml;&szlig;ern und auf \"-\" zum Verkleinern.",
@@ -21,8 +19,7 @@ module.exports = {
         "Dar&uuml;ber hinaus k&ouml;nnen Sie auf der Tastatur \"+\" zum Vergr&ouml;&szlig;ern und \"-\" zum Verkleinern verwenden."
       ]
     },
-    {
-      "id": "layerSelector",
+    "layerSelector": {
       "img": "layerselector-de.png",
       "descr": [
         "Mit diesem Element w&auml;hlen Sie die das anzuzeigende Kartenmaterial aus.",
@@ -32,8 +29,7 @@ module.exports = {
         "Klicken Sie auf das Dreiecks&shy;symbol vor <strong>Karten</strong> oder <strong>Infos,</strong> um die entsprechenden Men&uuml;s ein- oder auszuklappen."
       ]
     },
-    {
-      "id": "geolocationButton",
+    "geolocationButton": {
       "img": [
         "button-geolocation-inactive.png",
         "button-geolocation-active.png"
@@ -45,47 +41,40 @@ module.exports = {
         "Die linke Abbildung zeigt die Schalt&shy;f&auml;che bei deaktivierter, die rechte Abbildung bei aktivierter Positions&shy;anzeige."
       ]
     },
-    {
-      "id": "printButton",
+    "printButton": {
       "img": "button-print.png",
       "descr": [
         "Mit dieser Schalt&shy;fl&auml;che drucken Sie die aktuell dargestellte Karten&shy;ansicht aus.",
         "Bitte beachten Sie, dass in diesem Fall ausschlie&szlig;lich die Karte gedruckt wird, w&auml;hrend Sie mit der Druck&shy;funktion Ihres Browsers (meist Strg+P, Ctrl+P, oder Apfel+P) die vollst&auml;ndige Seite drucken."
       ]
     },
-    {
-      "id": "languageSwitcherButton",
+    "languageSwitcherButton": {
       "img": "button-lang-de.png",
       "descr": "Mit dieser Schalt&shy;fl&auml;che schalten Sie die Sprache auf Englisch um."
     },
-    {
-      "id": "helpButton",
+    "helpButton": {
       "img": "button-documentation.png",
       "descr": "Mit dieser Schalt&shy;fl&auml;che zeigen Sie die Onlinehilfe an."
     },
-    {
-      "id": "infoButton",
+    "infoButton": {
       "img": "button-info.png",
       "descr": "Mit dieser Schalt&shy;fl&auml;che zeigen Sie eine Infoseite an."
     },
-    {
-      "id": "distanceMeasurementButton",
+    "distanceMeasurementButton": {
       "img": "button-line.png",
       "descr": [
         "Mit dieser Schalt&shy;fl&auml;che messen Sie Entfernungen.",
         "Entfernungen werden durch Zeichnen eine Linienzugs gemessen. Durch einen Klick fügen Sie dem Linienzug einen Punkt hinzu, mit einem Doppelklick setzen Sie seinen letzten Punkt."
       ]
     },
-    {
-      "id": "areaMeasurementButton",
+    "areaMeasurementButton": {
       "img": "button-area.png",
       "descr": [
         "Mit dieser Schalt&shy;fl&auml;che messen Sie Fl&auml;chen.",
         "Fl&auml;chen werden durch Zeichnen eines Polygons gemessen. Durch einen Klick fügen Sie dem Polygon einen Punkt hinzu, mit einem Doppelklick setzen Sie seinen letzten Punkt."
       ]
     },
-    {
-      "id": "overviewMap",
+    "overviewMap": {
       "img": [
         "overviewmap.png",
         "overviewmap-collapsed.png"
@@ -97,13 +86,11 @@ module.exports = {
         "Die obere Abbildung zeigt die &Uuml;bersichts&shy;karte in ausgeklapptem Zustand, die untere in eingeklapptem Zustand."
       ]
     },
-    {
-      "id": "scaleLine",
+    "scaleLine": {
       "img": "scaleline.png",
       "descr": "Dieses Element zeigt den Ma&szlig;&shy;stab der Karte an."
     },
-    {
-      "id": "attribution",
+    "attribution": {
       "img": [
         "attribution-expanded-de.png",
         "attribution-collapsed.png"
@@ -114,11 +101,10 @@ module.exports = {
         "Die obere Abbildung zeigt die Quellen&shy;angabe in ausgeklapptem, die untere in eingeklapptem Zustand."
       ]
     }
-  ],
+  },
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  "en": [
-    {
-      "id": "arrowButtons",
+  "en": {
+    "arrowButtons": {
       "img": "arrowbuttons.png",
       "descr": [
         "Use this button to move the map in the direction indicated by the tip of the triangle you click. Use the central button to return to the map's initial position.",
@@ -126,8 +112,7 @@ module.exports = {
         "In addition you can pan the map using the keyboard's arrow keys."
       ]
     },
-    {
-      "id": "zoom",
+    "zoom": {
       "img": "zoom.png",
       "descr": [
         "Use this element to change the map scale. Click \"+\" to zoom in and \"-\" to zoom out.",
@@ -135,8 +120,7 @@ module.exports = {
         "You can also use the keyboard to zoom in using \"+\" and to zoom out using \"-\"."
       ]
     },
-    {
-      "id": "layerSelector",
+    "layerSelector": {
       "img": "layerselector-en.png",
       "descr": [
         "Use this element to select the map to be displayed.",
@@ -146,8 +130,7 @@ module.exports = {
         "Click the triangle symbol in front of <strong>Maps</strong> or <strong>Information</strong> to collapse or expand the corresponding menu."
       ]
     },
-    {
-      "id": "geolocationButton",
+    "geolocationButton": {
       "img": [
         "button-geolocation-inactive.png",
         "button-geolocation-active.png"
@@ -159,47 +142,40 @@ module.exports = {
         "The left image shows the button with position display in inactive state, the right one in active state."
       ]
     },
-    {
-      "id": "printButton",
+    "printButton": {
       "img": "button-print.png",
       "descr": [
         "Use this button to print the current view of the map.",
         "Note that when you use this button, the print solely displays the actual map while the browser's built-in print function (usually available via Strg+P, Ctrl+P, or Apple+P) prints the whole page."
       ]
     },
-    {
-      "id": "languageSwitcherButton",
+    "languageSwitcherButton": {
       "img": "button-lang-en.png",
       "descr": "Use this button to switch the language to German."
     },
-    {
-      "id": "helpButton",
+    "helpButton": {
       "img": "button-documentation.png",
       "descr": "Use this button to display the online documentation you are currently reading."
     },
-    {
-      "id": "infoButton",
+    "infoButton": {
       "img": "button-info.png",
       "descr": "Use this button to display an info page."
     },
-    {
-      "id": "distanceMeasurementButton",
+    "distanceMeasurementButton": {
       "img": "button-line.png",
       "descr": [
         "Use this button to measure distances.",
         "You measure distances by drawing a chain of straight lines. A click adds a point to this chain, a double click marks its final point."
       ]
     },
-    {
-      "id": "areaMeasurementButton",
+    "areaMeasurementButton": {
       "img": "button-area.png",
       "descr": [
         "Use this button to measure areas.",
         "You measure areas by drawing a polygon. A click adds a point to this polygon, a double click marks its final point."
       ]
     },
-    {
-      "id": "overviewMap",
+    "overviewMap": {
       "img": [
         "overviewmap.png",
         "overviewmap-collapsed.png"
@@ -211,13 +187,11 @@ module.exports = {
         "The upper image shows the overview map in expanded state, the lower image in collapsed state."
       ]
     },
-    {
-      "id": "scaleLine",
+    "scaleLine": {
       "img": "scaleline.png",
       "descr": "This element displays the map scale."
     },
-    {
-      "id": "attribution",
+    "attribution": {
       "img": [
         "attribution-expanded-en.png",
         "attribution-collapsed.png"
@@ -228,5 +202,5 @@ module.exports = {
         "The upper image shows the attribution in expanded state, the lower image in collapsed state."
       ]
     }
-  ]
+  }
 }

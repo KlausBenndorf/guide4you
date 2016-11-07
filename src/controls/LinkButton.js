@@ -36,6 +36,9 @@ export class LinkButton extends Control {
     this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary('LinkButton tipLabel'))
 
     this.get$Element().attr('href', this.url_).addClass(this.className_)
+    if (options.hasOwnProperty('target')){
+      this.get$Element().attr('target', options.target)
+    }
     let $button = $('<button>')
       .addClass(cssClasses.mainButton)
       .html(this.getTitle())
