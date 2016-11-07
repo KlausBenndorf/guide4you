@@ -3,9 +3,8 @@
 var merge = require('lodash/merge')
 
 module.exports = merge(require('guide4you/files/helptext.json.js'), {
-  "de": [
-    {
-      "id": "searchControl",
+  "de": {
+    "searchControl": {
       "img": [
         "search-inactive-de.png",
         "search-active.png"
@@ -17,11 +16,10 @@ module.exports = merge(require('guide4you/files/helptext.json.js'), {
         "Die obere Abbildung zeigt die Suche im inaktiven Zustand, die untere mit Vorschl&auml;gen."
       ]
     }
-  ],
+  },
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  "en": [
-    {
-      "id": "searchControl",
+  "en": {
+    "searchControl": {
       "img": [
         "search-inactive-en.png",
         "search-active.png"
@@ -33,5 +31,5 @@ module.exports = merge(require('guide4you/files/helptext.json.js'), {
         "The upper image shows the search in inactive state, the lower image with suggestions being displayed."
       ]
     }
-  ]
+  }
 })
