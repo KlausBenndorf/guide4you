@@ -61,6 +61,10 @@ export class ShowWMSFeatureInfo {
                     feature.set('description', feature.get('description') + this.separator_ + data)
                   }
                 }
+                layer.once('change:visible', () => {
+                  featurePopup.setVisible(false)
+                  this.utilitySource_.clear()
+                })
               })
           }
         }
