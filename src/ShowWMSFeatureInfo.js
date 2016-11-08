@@ -61,10 +61,17 @@ export class ShowWMSFeatureInfo {
                     feature.set('description', feature.get('description') + this.separator_ + data)
                   }
                 }
-                layer.once('change:visible', () => {
+                layer.on('change:visible', () => {
                   featurePopup.setVisible(false)
-                  this.utilitySource_.clear()
                 })
+                for (let control of map.getControls().getArray()) {
+                  if (control.getControlName() === 'areaMeasurementButton')
+                  {
+                    control.once('measurement:activate', () => {
+                      featurePopup.setVisible(false)
+                    })
+                  }
+                }
               })
           }
         }

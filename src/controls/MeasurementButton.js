@@ -248,6 +248,7 @@ export class MeasurementButton extends Control {
       this.layer_.setVisible(active)
 
       if (active) {
+        this.dispatchEvent('measurement:activate')
         $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
 
         this.clear()
