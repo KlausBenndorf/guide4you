@@ -2,6 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import {VectorLayer} from './layers/VectorLayer';
 import {MapEventInteraction} from './interactions/MapEventInteraction';
+import {finishAllImages} from './utilities'
 
 /**
  * @typedef {Object} ShowWMSFeatureInfoOptions
@@ -16,12 +17,34 @@ export class ShowWMSFeatureInfo {
   constructor (options = {}) {
     this.separator_ = options.hasOwnProperty('seperator') ? options.seperator : '<br>'
     this.style_ = options.style || '#defaultStyle'
+
+    this.animated_ = (options.hasOwnProperty('animated')) ? options.animated : false
+    this.centerOnPopup_ = (options.hasOwnProperty('centerOnPopup')) ? options.centerOnPopup : true
+    this.centerIfNoData_ = (options.hasOwnProperty('centerOnPopup')) ? options.centerIfNoData : false
+
+    this.centerOnPopupInitial_ = this.centerOnPopup_
+
   }
 
   setMap (map) {
+
+    let onMapChangeMobile = () => {
+      if (map.get('mobile')) {
+        this.centerOnPopup_ = false
+      } else {
+        this.centerOnPopup_ = this.centerOnPopupInitial_
+      }
+    }
+
+    let centerMapOnPopup = (featurePopup) => {
+      this.getMap().get('move').toPoint(featurePopup.getCenter(), { animated: this.animated_ })
+    }
+
     if (this.getMap()) {
+      this.getMap().un('change:mobile', onMapChangeMobile)
       ol.Observable.unByKey(this.listenerKey_)
     }
+
     this.map_ = map
     if (map) {
       this.utilitySource_ = new ol.source.Vector()
@@ -54,6 +77,11 @@ export class ShowWMSFeatureInfo {
                     this.utilitySource_.addFeature(feature)
                     featurePopup.setFeature(feature)
                     featurePopup.setVisible(true)
+                    if (this.centerOnPopup_) {
+                      if (this.centerIfNoData_ || $($.parseXML(data)).find('object').length) {
+                        centerMapOnPopup(featurePopup)
+                      }
+                    }
                     featurePopup.once('change:visible', () => {
                       this.utilitySource_.clear()
                     })
@@ -78,6 +106,9 @@ export class ShowWMSFeatureInfo {
       })
 
       map.addDefaultInteraction('singleclick', interaction)
+
+      onMapChangeMobile()
+      map.on('change:mobile', onMapChangeMobile)
     }
   }
 
