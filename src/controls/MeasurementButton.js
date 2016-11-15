@@ -12,8 +12,8 @@ import '../../less/measurement.less'
  * @property {StyleLike} [style='#defaultStyle']
  * @property {string} type geometry type ('LineString', 'Polygon')
  * @property {number} [dimension=1] 1 for lines, 2 for polygons
- * @property {string} [atDrawEnd=''] if set to 'newMeasurement' the control will start a new measurement after
- *    completing a measurement
+ * @property {string} [atDrawEnd] if set to 'newMeasurement' the control will start a new measurement after
+ *    completing a measurement. if set to 'closeWindow' the window will be closed.
  */
 
 /**
@@ -60,10 +60,10 @@ export class MeasurementButton extends Control {
     )
 
     /**
-     * @type {string}
+     * @type {string|undefined}
      * @private
      */
-    this.atDrawEnd_ = options.atDrawEnd || ''
+    this.atDrawEnd_ = options.atDrawEnd
 
     /**
      * @type {boolean}
@@ -189,8 +189,14 @@ export class MeasurementButton extends Control {
       })
 
       this.drawInteraction_.on('drawend', () => {
-        if (this.atDrawEnd_ !== 'newMeasurement') {
-          this.setActive(false)
+        switch (this.atDrawEnd_) {
+          case 'newMeasurement':
+            break
+          case 'closeWindow':
+            this.setActive(false)
+            break
+          default:
+            this.drawInteraction_.setActive(false)
         }
       })
     } else {
@@ -248,7 +254,7 @@ export class MeasurementButton extends Control {
       this.layer_.setVisible(active)
 
       if (active) {
-        this.dispatchEvent('measurement:activate')
+        this.getMap().get('featurePopup').setVisible(false)
         $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
 
         this.clear()

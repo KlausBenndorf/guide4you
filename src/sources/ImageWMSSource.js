@@ -8,7 +8,12 @@ export class WMSFeatureInfoMixin {
     if (this.featureInfo_) {
       this.featureInfoParams_ = options.featureInfo.params
       this.featureInfoCheckable_ = options.featureInfo.checkable
+      this.featureInfoMutators_ = options.featureInfo.mutators
     }
+  }
+
+  getFeatureInfoMutators () {
+    return this.featureInfoMutators_
   }
 
   hasFeatureInfo () {

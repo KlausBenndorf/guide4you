@@ -139,6 +139,8 @@ export class Dropdown extends ol.Object {
             this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
             this.selectedIndex_ -= 1
           } else {
+            this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
+            this.selectedIndex_ = -1
             this.dispatchEvent({
               type: 'leave:backwards',
               originalEvent: e
