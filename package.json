@@ -24,13 +24,13 @@
   },
   "devDependencies": {
     "guide4you-builder": "1.1.*",
-    "concurrently": "2.2.0",
+    "concurrently": "3.1.0",
     "esdoc": "0.4.8",
-    "mocha": "3.0.2",
+    "mocha": "3.1.2",
+    "phantomjs-prebuilt": "2.1.13",
     "selenium-webdriver": "2.53.3",
-    "phantomjs-prebuilt": "2.1.11",
-    "standard": "8.0.0",
-    "wait-on": "1.5.2"
+    "standard": "8.4.0",
+    "wait-on": "1.5.3"
   },
   "scripts": {
     "linkRepos": "g4u-link guide4you guide4you-module-search",
