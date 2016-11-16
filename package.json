@@ -32,7 +32,7 @@
     "selenium-webdriver": "2.53.3",
     "phantomjs-prebuilt": "2.1.13",
     "standard": "8.4.0",
-    "wait-on": "1.5.3"
+    "wait-on": "2.0.1"
   },
   "scripts": {
     "linkRepos": "g4u-link guide4you",
