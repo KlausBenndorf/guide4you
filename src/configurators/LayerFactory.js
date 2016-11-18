@@ -21,7 +21,7 @@ export const SuperType = {
 
 export const LayerType = {
   CATEGORY: 'Category',
-  GeoJSON: 'GeoJSON',
+  GEOJSON: 'GeoJSON',
   KML: 'KML',
   WMS: 'WMS',
   OSM: 'OSM',
@@ -267,7 +267,7 @@ export class LayerFactory {
           layer = new ImageLayer(optionsCopy)
         }
         break
-      case LayerType.GeoJSON:
+      case LayerType.GEOJSON:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(optionsCopy.style || '#defaultStyle')
 
