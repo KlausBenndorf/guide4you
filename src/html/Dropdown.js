@@ -92,7 +92,7 @@ export class Dropdown extends ol.Object {
     this.setUpKeyboardHandling_()
 
     this.$element_.on('focus', () => {
-      if (this.selectedIndex_ >= 0) {
+      if (this.selectedIndex_ > -1) {
         this.entriesArray_[this.selectedIndex_].$element.focus()
       }
     })
@@ -163,7 +163,7 @@ export class Dropdown extends ol.Object {
         case keyCodes.ENTER:
           e.stopPropagation()
           e.preventDefault()
-          this.entriesArray_[this.selectedIndex_].$element.click()
+          this.select$Entry_(this.entriesArray_[this.selectedIndex_].$element)
       }
     })
   }
@@ -220,8 +220,17 @@ export class Dropdown extends ol.Object {
       this.entriesArray_[i].$element.html(texts[i])
       this.entriesArray_[i].value = values[i]
     }
+  }
 
-    this.selectedIndex_ = -1
+  select$Entry_ ($entry) {
+    if (!$entry.hasClass(this.classNames_.selected)) {
+      $entry.addClass(this.classNames_.selected)
+      if (this.selectedIndex_ > -1) {
+        this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
+      }
+    }
+    this.selectedIndex_ = this.entriesArray_.findIndex(el => el.$element === $entry)
+    this.dispatchEvent('select')
   }
 
   /**
@@ -230,6 +239,11 @@ export class Dropdown extends ol.Object {
    * @param {number} length
    */
   setLength (length) {
+    if (this.selectedIndex_ > -1) {
+      this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
+      this.selectedIndex_ = -1
+    }
+
     let i, ii
 
     if (this.entriesArray_.length === 0) { // removing ghost entry
@@ -241,18 +255,8 @@ export class Dropdown extends ol.Object {
         let $entry = $('<button tabindex="-1">')
           .addClass(this.classNames_.entry)
           .hide()
-        let index = i
 
-        $entry.on('click', () => {
-          if (!$entry.hasClass(this.classNames_.selected)) {
-            $entry.addClass(this.classNames_.selected)
-            if (this.selectedIndex_ >= 0) {
-              this.entriesArray_[this.selectedIndex_].$element.removeClass(this.classNames_.selected)
-            }
-            this.selectedIndex_ = index
-            this.dispatchEvent('select')
-          }
-        })
+        $entry.on('click', () => this.select$Entry_($entry))
         $entry.focus()
 
         this.$element_.append($entry)
