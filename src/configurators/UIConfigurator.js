@@ -25,7 +25,7 @@ import {FeatureSelect} from '../interactions/FeatureSelect'
 
 import {parseCSSColor} from 'csscolorparser'
 import {FunctionCallBuffer} from '../FunctionCallBuffer'
-import {ShowWMSFeatureInfo} from '../ShowWMSFeatureInfo';
+import {ShowWMSFeatureInfo} from '../ShowWMSFeatureInfo'
 
 /**
  * This class configures the UI of a map according to its mapconfig
@@ -503,19 +503,6 @@ export class UIConfigurator {
           this.map_.set('featureTooltip', featureTooltip)
         } else {
           this.map_.set('featureTooltip', undefined)
-        }
-
-        let showWMSFeatureInfo = this.map_.get('showWMSFeatureInfo')
-        if (showWMSFeatureInfo) {
-          showWMSFeatureInfo.setMap(null)
-        }
-        curConfig = getConfig(mapConfigCopy, 'showWMSFeatureInfo')
-        if (curConfig) {
-          showWMSFeatureInfo = new ShowWMSFeatureInfo(curConfig)
-          showWMSFeatureInfo.setMap(this.map_)
-          this.map_.set('showWMSFeatureInfo', showWMSFeatureInfo)
-        } else {
-          this.map_.set('showWMSFeatureInfo', undefined)
         }
 
         let showWMSFeatureInfo = this.map_.get('showWMSFeatureInfo')
