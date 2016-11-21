@@ -19,16 +19,17 @@ module.exports = {
   },
   mustacheEvalLoader: {
     templateVars: {
-      ajaxProxy: 'proxy/proxy.php?csurl={url}',
+      ajaxProxy: {
+        prod: 'proxy/proxy.php?csurl={url}',
+        dev: '/proxy/{url}'
+      },
       languageFile: 'files/l10n.json',
       svgColor: 'rgba(255,255,255,1)',
       proxyAjaxFilters: 'true',
       proxyFilterDomain: 'true',
       proxyAjaxDebug: 'true',
       proxyValidRequests: [
-        'a.tile.openstreetmap.org',
-        'b.tile.openstreetmap.org',
-        'c.tile.openstreetmap.org'
+        'www.wms.nrw.de'
       ]
     }
   },

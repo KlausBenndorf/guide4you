@@ -12,6 +12,7 @@ import { copyDeep, take } from '../utilitiesObject'
 import { checkFor, addProxy } from '../utilities'
 
 import {Debug} from '../Debug'
+import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -23,6 +24,7 @@ export const LayerType = {
   CATEGORY: 'Category',
   KML: 'KML',
   WMS: 'WMS',
+  TILEWMS: 'TileWMS',
   OSM: 'OSM',
   INTERN: 'Intern',
   EMPTY: 'Empty'
@@ -256,7 +258,11 @@ export class LayerFactory {
         break
       case LayerType.WMS:
 
-        optionsCopy.source = new ol.source.ImageWMS(optionsCopy.source)
+        if (optionsCopy.categoryButtons) {
+          optionsCopy.source.params.LAYERS = []
+        }
+
+        optionsCopy.source = new ImageWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseLayerImage(optionsCopy)
@@ -265,6 +271,41 @@ export class LayerFactory {
         } else {
           layer = new ImageLayer(optionsCopy)
         }
+
+        if (layer.getSource().hasFeatureInfo()) {
+          this.map_.asSoonAs('ready:ui', true, () => {
+            if (this.map_.get('showWMSFeatureInfo')) {
+              this.map_.get('showWMSFeatureInfo').addLayer(layer)
+            }
+          })
+        }
+
+        break
+      case LayerType.TILEWMS:
+
+        if (optionsCopy.source.tileSize) {
+          optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
+          delete optionsCopy.source.tileSize
+        }
+
+        optionsCopy.source = new TileWMSSource(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseLayerTile(optionsCopy)
+        } else if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          layer = new LayerTile(optionsCopy)
+        }
+
+        if (layer.getSource().hasFeatureInfo()) {
+          this.map_.asSoonAs('ready:ui', true, () => {
+            if (this.map_.get('showWMSFeatureInfo')) {
+              this.map_.get('showWMSFeatureInfo').addLayer(layer)
+            }
+          })
+        }
+
         break
       case LayerType.KML:
 

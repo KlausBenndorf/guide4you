@@ -25,6 +25,7 @@ import {FeatureSelect} from '../interactions/FeatureSelect'
 
 import {parseCSSColor} from 'csscolorparser'
 import {FunctionCallBuffer} from '../FunctionCallBuffer'
+import {ShowWMSFeatureInfo} from '../ShowWMSFeatureInfo'
 
 /**
  * This class configures the UI of a map according to its mapconfig
@@ -398,7 +399,7 @@ export class UIConfigurator {
 
         if (checkFor(mapConfigCopy, 'interactions')) {
           if (checkFor(mapConfigCopy.interactions, 'doubleClickZoom')) {
-            this.map_.addDefaultInteraction('doubleClick', new ol.interaction.DoubleClickZoom())
+            this.map_.addDefaultInteraction('dblclick', new ol.interaction.DoubleClickZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'dragPan')) {
@@ -450,7 +451,7 @@ export class UIConfigurator {
           }
         }
 
-        this.map_.addDefaultInteraction('singleClick', new FeatureSelect({
+        this.map_.addDefaultInteraction('singleclick', new FeatureSelect({
           condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
           multi: true
@@ -461,7 +462,7 @@ export class UIConfigurator {
           style: null,
           multi: true
         })
-        this.map_.addDefaultInteraction('mouseMove', moveInteraction)
+        this.map_.addDefaultInteraction('pointermove', moveInteraction)
 
         let $viewport = $(this.map_.getViewport())
 
@@ -479,37 +480,42 @@ export class UIConfigurator {
         // //////////////////////////////////////////////////////////////////////////////////////// //
 
         let featurePopup = this.map_.get('featurePopup')
-
         if (featurePopup) {
           featurePopup.setMap(null)
         }
-
         curConfig = getConfig(mapConfigCopy, 'featurePopup')
-
         if (curConfig) {
           featurePopup = new FeaturePopup(curConfig)
           featurePopup.setMap(this.map_)
-
           this.map_.set('featurePopup', featurePopup)
         } else {
           this.map_.set('featurePopup', undefined)
         }
 
         let featureTooltip = this.map_.get('featureTooltip')
-
         if (featureTooltip) {
           featureTooltip.setMap(null)
         }
-
         curConfig = getConfig(mapConfigCopy, 'featureTooltip')
-
         if (curConfig) {
           featureTooltip = new FeatureTooltip(curConfig)
           featureTooltip.setMap(this.map_)
-
           this.map_.set('featureTooltip', featureTooltip)
         } else {
           this.map_.set('featureTooltip', undefined)
+        }
+
+        let showWMSFeatureInfo = this.map_.get('showWMSFeatureInfo')
+        if (showWMSFeatureInfo) {
+          showWMSFeatureInfo.setMap(null)
+        }
+        curConfig = getConfig(mapConfigCopy, 'showWMSFeatureInfo')
+        if (curConfig) {
+          showWMSFeatureInfo = new ShowWMSFeatureInfo(curConfig)
+          showWMSFeatureInfo.setMap(this.map_)
+          this.map_.set('showWMSFeatureInfo', showWMSFeatureInfo)
+        } else {
+          this.map_.set('showWMSFeatureInfo', undefined)
         }
 
         // //////////////////////////////////////////////////////////////////////////////////////// //

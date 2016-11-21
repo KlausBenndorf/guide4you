@@ -1,4 +1,5 @@
 {
+  "proxy": "{{{ajaxProxy}}}",
   "languageSettings": {
     "languageFile": "{{{languageFile}}}"
   },
@@ -30,6 +31,9 @@
       10,
       20
     ]
+  },
+  "showWMSFeatureInfo": {
+    "style": "#defaultStyle"
   },
   "interactions": {
     "doubleClickZoom": true,

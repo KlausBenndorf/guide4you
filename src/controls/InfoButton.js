@@ -11,6 +11,7 @@ import '../../less/infobutton.less'
  * @property {string} contentURL url providing content to be shown
  * @property {boolean} [useProxy]
  * @property {string} [proxy]
+ * @property {boolean} [attribution=true]
  */
 
 /**
@@ -45,18 +46,16 @@ export class InfoButton extends Control {
      * @type {jQuery}
      * @private
      */
-    this.$attributions_ = $('<div>')
-
-    /**
-     * @type {jQuery}
-     * @private
-     */
     this.$content_ = $('<div>').addClass(this.classNameContent_)
 
     this.get$Element()
       .append(this.$content_)
-      .append($('<h2>').html(this.getLocaliser().localiseUsingDictionary('InfoPage copyrightTitle')))
-      .append(this.$attributions_)
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.attribution_ = options.attribution !== false
 
     /**
      * @type {string}
@@ -76,7 +75,17 @@ export class InfoButton extends Control {
      */
     this.proxy_ = options.proxy
 
-    if (options.attributions || !options.hasOwnProperty('attributions')) {
+    if (this.attribution_) {
+      /**
+       * @type {jQuery}
+       * @private
+       */
+      this.$attributions_ = $('<div>')
+
+      this.get$Element()
+        .append($('<h2>').html(this.getLocaliser().localiseUsingDictionary('InfoPage copyrightTitle')))
+        .append(this.$attributions_)
+
       /**
        * @type {Attribution}
        * @private
@@ -108,11 +117,11 @@ export class InfoButton extends Control {
   setMap (map) {
     let oldMap = this.getMap()
 
-    if (oldMap) {
+    if (oldMap && this.attribution_) {
       oldMap.removeControl(this.attributionControl_)
     }
 
-    if (map) {
+    if (map && this.attribution_) {
       map.addControl(this.attributionControl_)
     }
 
