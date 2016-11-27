@@ -31,7 +31,8 @@ module.exports = {
       proxyValidRequests: [
         'a.tile.openstreetmap.org',
         'b.tile.openstreetmap.org',
-        'c.tile.openstreetmap.org'
+        'c.tile.openstreetmap.org',
+        'stadtplan.bonn.de'
       ]
     }
   },
