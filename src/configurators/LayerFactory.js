@@ -22,6 +22,7 @@ export const SuperType = {
 
 export const LayerType = {
   CATEGORY: 'Category',
+  GEOJSON: 'GeoJSON',
   KML: 'KML',
   WMS: 'WMS',
   TILEWMS: 'TileWMS',
@@ -306,6 +307,19 @@ export class LayerFactory {
           })
         }
 
+        break
+      case LayerType.GEOJSON:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(optionsCopy.style || '#defaultStyle')
+
+        optionsCopy.source.type = 'GeoJSON'
+
+        if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.source = new QuerySource(optionsCopy.source)
+        } else {
+          optionsCopy.source = new SourceServerVector(optionsCopy.source)
+        }
+        layer = new VectorLayer(optionsCopy)
         break
       case LayerType.KML:
 
