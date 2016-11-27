@@ -67,7 +67,7 @@ export class FeatureTooltip {
     if (map) {
       map.addOverlay(this.overlay_)
 
-      let interaction = map.getDefaultInteractions('mouseMove')[0]
+      let interaction = map.getDefaultInteractions('pointermove')[0]
       interaction.on('select', e => {
         let selected = e.selected.filter(FeatureTooltip.filter_)
         if (selected.length) {

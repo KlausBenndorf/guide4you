@@ -1,5 +1,6 @@
 import ol from 'openlayers'
 import $ from 'jquery'
+import flatten from 'lodash/flatten'
 
 import {Window} from './html/Window'
 import {cssClasses} from './globals'
@@ -15,7 +16,8 @@ import '../less/featurepopup.less'
  * @property {ol.OverlayPositioning} [positioning='center-center']
  * @property {number[]} [iconSizedOffset=[0,0]]
  * @property {boolean} [centerOnPopup=false]
- * @property {boolean} [animated]
+ * @property {boolean} [animated=true]
+ * @property {string[]} [mutators] default mutators to use
  */
 
 /**
@@ -86,19 +88,19 @@ export class FeaturePopup extends ol.Object {
      * @type {number[]}
      * @private
      */
-    this.pixelOffset_ = (options.hasOwnProperty('offset')) ? options.offset : [ 0, 0 ]
+    this.pixelOffset_ = options.hasOwnProperty('offset') ? options.offset : [ 0, 0 ]
 
     /**
      * @type {number[]}
      * @private
      */
-    this.iconSizedOffset_ = (options.hasOwnProperty('iconSizedOffset')) ? options.iconSizedOffset : [ 0, 0 ]
+    this.iconSizedOffset_ = options.hasOwnProperty('iconSizedOffset') ? options.iconSizedOffset : [ 0, 0 ]
 
     /**
      * @type {boolean}
      * @private
      */
-    this.centerOnPopup_ = (options.hasOwnProperty('centerOnPopup')) ? options.centerOnPopup : true
+    this.centerOnPopup_ = options.hasOwnProperty('centerOnPopup') ? options.centerOnPopup : true
 
     /**
      * @type {boolean}
@@ -110,7 +112,7 @@ export class FeaturePopup extends ol.Object {
      * @type {boolean}
      * @private
      */
-    this.animated_ = (options.hasOwnProperty('animated')) ? options.animated : false
+    this.animated_ = options.hasOwnProperty('animated') ? options.animated : true
 
     /**
      * @type {jQuery}
@@ -125,7 +127,7 @@ export class FeaturePopup extends ol.Object {
     this.overlay_ = new ol.Overlay({
       element: this.$element_.get(0),
       offset: this.pixelOffset_,
-      positioning: (options.hasOwnProperty('positioning')) ? options.positioning : 'center-center',
+      positioning: options.hasOwnProperty('positioning') ? options.positioning : 'center-center',
       stopEvent: false
     })
 
@@ -165,9 +167,8 @@ export class FeaturePopup extends ol.Object {
   /**
    * @param {ol.Feature} feature
    * @returns {boolean}
-   * @private
    */
-  static filter_ (feature) {
+  static canDisplay (feature) {
     return !feature.get('disabled') && (feature.get('name') || feature.get('description'))
   }
 
@@ -250,8 +251,8 @@ export class FeaturePopup extends ol.Object {
 
       // feature click
 
-      map.getDefaultInteractions('singleClick')[ 0 ].on('select', e => {
-        let selected = e.selected.filter(FeaturePopup.filter_)
+      map.getDefaultInteractions('singleclick')[ 0 ].on('select', e => {
+        let selected = e.selected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
           this.onFeatureClick_(selected[ 0 ])
           e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
@@ -261,9 +262,9 @@ export class FeaturePopup extends ol.Object {
 
       // feature hover
 
-      map.getDefaultInteractions('mouseMove')[ 0 ].on('select', e => {
-        let selected = e.selected.filter(FeaturePopup.filter_)
-        let deselected = e.deselected.filter(FeaturePopup.filter_)
+      map.getDefaultInteractions('pointermove')[ 0 ].on('select', e => {
+        let selected = e.selected.filter(FeaturePopup.canDisplay)
+        let deselected = e.deselected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
           $(map.getViewport()).addClass(cssClasses.clickable)
         } else if (deselected.length) {
@@ -422,8 +423,9 @@ export class FeaturePopup extends ol.Object {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
+   * @param {string[]} [optMutators=[]]
    */
-  setFeature (feature) {
+  setFeature (feature, optMutators = []) {
     let oldValue = this.feature_
     if (oldValue !== feature) {
       let geometry = feature.getGeometry()
@@ -435,9 +437,9 @@ export class FeaturePopup extends ol.Object {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.useMutators_ = [ ...this.defaultMutators_ ]
+      this.useMutators_ = [ ...this.defaultMutators_, ...optMutators ]
       for (let layer of this.referencingVisibleLayers_) {
-        this.useMutators_ = Array.prototype.concat.apply(this.useMutators_, layer.get('mutators'))
+        this.useMutators_ = this.useMutators_.concat(flatten(layer.get('mutators')))
       }
       this.geometryChangeHandler_ = () => {
         this.overlay_.setPosition(ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
@@ -535,10 +537,12 @@ export class FeaturePopup extends ol.Object {
   /**
    * Centers the map on the popup after all images have been loaded
    */
-  centerMapOnPopup () {
+  centerMapOnPopup (animated) {
+    animated = animated === undefined ? this.animated_ : animated
+
     const _centerMap = () => {
       this.window_.updateSize()
-      this.getMap().get('move').toPoint(this.getCenter(), { animated: this.animated_ })
+      this.getMap().get('move').toPoint(this.getCenter(), { animated })
     }
 
     finishAllImages(this.window_.get$Body()).then(() => {

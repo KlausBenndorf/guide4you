@@ -20,6 +20,7 @@ import '../less/map.less'
  * @typedef {object} G4UMapOptions
  * @property {Module[]} [modules=[]]
  * @property {L10N} [localiser]
+ * @property {object.<string, Mutator>} [mutators]
  */
 
 /**
@@ -89,6 +90,17 @@ export class G4UMap extends ol.Map {
 
     if (options.modules) {
       this.addModules(options.modules)
+    }
+
+    // registering mutators
+
+    if (options.mutators) {
+      this.on('change:featurePopup', () => {
+        let featurePopup = this.get('featurePopup')
+        for (let name of Object.keys(options.mutators)) {
+          featurePopup.registerMutator(name, options.mutators[name])
+        }
+      })
     }
 
     // Setting the target of the map
@@ -271,30 +283,30 @@ export class G4UMap extends ol.Map {
 
       return asyncLanguageFilePromise
     })
-    .then(() => {
-      // //////////////////////////////////////////////////////////////////////////////////////// //
-      //                                    Configurator                                          //
-      // //////////////////////////////////////////////////////////////////////////////////////// //
+      .then(() => {
+        // //////////////////////////////////////////////////////////////////////////////////////// //
+        //                                    Configurator                                          //
+        // //////////////////////////////////////////////////////////////////////////////////////// //
 
-      this.set('configurator', new MapConfigurator(this))
+        this.set('configurator', new MapConfigurator(this))
 
-      this.dispatchEvent('afterConfiguring')
-
-      if (this.get('ready:ui') && this.get('ready:layers')) {
-        this.set('ready', true)
-      }
-
-      this.on([ 'change:ready:ui', 'change:ready:layers' ], /** ol.ObjectEvent */ e => {
-        if (!this.get(e.key)) {
-          this.set('ready', false)
-        }
+        this.dispatchEvent('afterConfiguring')
 
         if (this.get('ready:ui') && this.get('ready:layers')) {
           this.set('ready', true)
         }
+
+        this.on([ 'change:ready:ui', 'change:ready:layers' ], /** ol.ObjectEvent */ e => {
+          if (!this.get(e.key)) {
+            this.set('ready', false)
+          }
+
+          if (this.get('ready:ui') && this.get('ready:layers')) {
+            this.set('ready', true)
+          }
+        })
       })
-    })
-    .catch(Debug.defaultErrorHandler)
+      .catch(Debug.defaultErrorHandler)
   }
 
   /**

@@ -9,35 +9,108 @@
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
       },
       "visible": true
-    },
-    {
-      "id": 1,
-      "title": "Cycling Map",
-      "type": "OSM",
-      "source": {
-        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-      }
-    }
+    }//,
+//    {
+//      "id": 1,
+//      "title": "Cycling Map",
+//      "type": "OSM",
+//      "source": {
+//        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+//        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
+//      }
+//    }
   ],
   "featureLayers": [
     {
-      "id": 2,
-      "title": "Hotels in Bonn",
-      "type": "KML",
+      "id": 3,
+      "title": "Verwaltungsgrenzen NRW",
+      "type": "WMS",
       "source": {
-        "url": "files/hotelsbonn.kml",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
+        "url": "http://www.wms.nrw.de/geobasis/wms_nw_dvg",
+        "params": {
+          "FORMAT": "image/png",
+          "VERSION": "1.3.0"
+        },
+        "categoryButton": true,
+        "attribution": "Geobasis NRW 2016"
+      },
+      "buttons": [
+        {
+          "title": "Landesgrenzen",
+          "LAYERS": ["nw_dvg_bld"]
+        },
+        {
+          "title": "Regierungsbezirke",
+          "LAYERS": ["nw_dvg_rbz", "nw_dvg_rbz_namen"]
+        },
+        {
+          "title": "Kreise",
+          "LAYERS": ["nw_dvg_krs", "nw_dvg_krs_namen"]
+        },
+        {
+          "title": "Gemeinden",
+          "LAYERS": ["nw_dvg_gem", "nw_dvg_gem_namen"]
+        },
+        {
+          "title": "Gemeinden Gesamt",
+          "LAYERS": ["nw_dvg_gem_gesamt", "nw_dvg_gem_gesamt_namen"]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Freizeitkatasters NRW",
+      "type": "WMS",
+      "source": {
+        "url": "http://www.wms.nrw.de/geobasis/wms_nw_fzk",
+        "useProxy": true,
+        "params": {
+          "FORMAT": "image/png",
+          "VERSION": "1.3.0",
+          "LAYERS": [
+            "nw_fzk"
+          ]
+        },
+//        "featureInfo": {
+//          "params": {
+//            "FORMAT": "text/html"
+//            // "text/plain", "application/vnd.ogc.gml"
+//          }
+//        },
+        "attribution": "Geobasis NRW 2016"
       }
     },
     {
-      "id": 3,
-      "title": "Restaurants in Bonn",
-      "type": "KML",
+      "id": 6,
+      "title": "historische Orthophotos 1988 - 1994",
+      "type": "WMS",
       "source": {
-        "url": "files/restaurantsbonn.kml",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-      }
+        "url": "http://www.wms.nrw.de/geobasis/wms_nw_histortho_1988-1994",
+        "useProxy": true,
+        "params": {
+          "FORMAT": "image/png",
+          "VERSION": "1.3.0"
+        },
+        "featureInfo": {
+          "params": {
+            "INFO_FORMAT": "text/plain"
+          },
+          "checkable": true
+        },
+        "attribution": "Geobasis NRW 2016"
+      },
+      "buttons": [
+        {
+          "title": "test",
+          "LAYERS": [ "nw_histortho_1988-1994" ],
+          "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
+        },
+        {
+          "title": "test2",
+          "LAYERS": [ "nw_histortho_1988-1994" ],
+          "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
+        }
+      ]
     }
   ]
 }

@@ -34,13 +34,13 @@ export class Move {
      * @type {number}
      * @private
      */
-    this.pixelPadding_ = options.pixelPadding || 50
+    this.pixelPadding_ = options.meterMinSize !== undefined ? 50 : options.pixelPadding
 
     /**
      * @type {number}
      * @private
      */
-    this.meterMinSize_ = options.meterMinSize || 500
+    this.meterMinSize_ = options.meterMinSize !== undefined ? options.meterMinSize : 500
 
     /**
      * @type {number}
@@ -52,7 +52,7 @@ export class Move {
      * @type {boolean}
      * @private
      */
-    this.animations_ = options.hasOwnProperty('animations') ? options.animations : true
+    this.animations_ = options.animations !== undefined ? options.animations : true
 
     /**
      * @type {boolean}
@@ -98,12 +98,10 @@ export class Move {
    */
   toExtent (extent, options = {}) {
     let newExtent = extent
-
     if (this.meterMinSize_) {
       newExtent = this.bufferUpToMinSize_(extent)
     }
-
-    if (this.animations_ && options.animated) {
+    if (options.animated === undefined ? this.animations_ : options.animated) {
       this.animationZoomToExtent_(newExtent, options)
     } else {
       this.fit_(newExtent, options)

@@ -52,11 +52,11 @@ export class HelpButton extends Control {
   createContent_ () {
     let languageSettings = this.getMap().get('localiser')
 
-    let documentationArrays = JSON.parse(stripJsonComments(this.contentData_))
+    let documentationObject = JSON.parse(stripJsonComments(this.contentData_))
 
-    if (checkFor(documentationArrays, languageSettings.getCurrentLang())) {
+    if (checkFor(documentationObject, languageSettings.getCurrentLang())) {
       this.language = languageSettings.getCurrentLang()
-    } else if (checkFor(documentationArrays, languageSettings.getDefaultLang())) {
+    } else if (checkFor(documentationObject, languageSettings.getDefaultLang())) {
       this.language = languageSettings.getDefaultLang()
     } else {
       this.language = 'de'
@@ -64,7 +64,7 @@ export class HelpButton extends Control {
 
     let makeDocumentationTable = (documentation, language) => {
       let $table = $('<table>').addClass(this.className_ + '-table')
-      let documentationLocalized = documentationArrays[ language ]
+      let documentationLocalized = documentationObject[ language ]
       let id
       let imgData
       let descrData
@@ -91,12 +91,11 @@ export class HelpButton extends Control {
         visibleControls = copyDeep(this.configControls_.onMap)
         recursivelyFindVisibleControls(this.configControls_, visibleControls)
       }
-      for (let i = 0, ii = documentationLocalized.length; i < ii; i++) {
-        if (documentationLocalized[ i ]) {
-          id = documentationLocalized[ i ].id
-          imgData = documentationLocalized[ i ].img
-          descrData = documentationLocalized[ i ].descr || ''
-          joinWith = documentationLocalized[ i ].joinWith || ''
+      for (id in documentationLocalized) {
+        if (documentationLocalized.hasOwnProperty(id) && documentationLocalized[ id ]) {
+          imgData = documentationLocalized[ id ].img
+          descrData = documentationLocalized[ id ].descr || ''
+          joinWith = documentationLocalized[ id ].joinWith || ''
 
           if (visibleControls.indexOf(id) > -1) {
             $row = $('<tr>')
@@ -129,7 +128,7 @@ export class HelpButton extends Control {
       return $table
     }
 
-    this.get$Element().append(makeDocumentationTable(documentationArrays, this.language))
+    this.get$Element().append(makeDocumentationTable(documentationObject, this.language))
   }
 
   /**
