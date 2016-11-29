@@ -1,7 +1,5 @@
 import ol from 'openlayers'
 
-import { OverviewMap, ScaleLine, MousePosition } from '../controls/ControlRewire'
-
 import {Attribution} from '../controls/Attribution'
 import {ComposedControl} from '../controls/ComposedControl'
 import {ArrowButtons} from '../controls/ArrowButtons'
@@ -26,6 +24,9 @@ import {G4UMap} from '../G4UMap'
 
 import {Debug} from '../Debug'
 import {ActiveGroup} from '../controls/ActiveGroup'
+import {MousePosition} from '../controls/MousePosition'
+import {ScaleLine} from '../controls/ScaleLine'
+import {OverviewMap} from '../controls/OverviewMap'
 
 /**
  * @typedef {Object} ControlFactoryOptions
