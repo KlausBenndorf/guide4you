@@ -6,6 +6,8 @@ import {mixin} from '../utilities'
 import {cssClasses} from '../globals'
 import {addTooltip} from '../html/html'
 
+import '../../less/attribution.less'
+
 export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   constructor (options) {
     options.className = options.className || 'g4u-attribution'

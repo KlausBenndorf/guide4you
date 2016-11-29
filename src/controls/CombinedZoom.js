@@ -1,11 +1,13 @@
+import ol from 'openlayers'
 import $ from 'jquery'
 
 import {ComposedControl} from './ComposedControl'
-import { Zoom, ZoomSlider } from './ControlRewire'
 import { cssClasses } from '../globals'
 import { copy } from '../utilitiesObject'
 
 import '../../less/zoom.less'
+import {mixin} from '../utilities'
+import {RewireMixin} from './RewireMixin'
 
 /**
  * @typedef {ComposedControlOptions} CombinedZoomOptions
@@ -124,5 +126,58 @@ export class CombinedZoom extends ComposedControl {
     } else {
       this.get$Container().append($zoomSlider)
     }
+  }
+}
+
+/**
+ * @typedef {g4uControlOptions} ZoomOptions
+ * @property {Localizable} [zoomInTipLabel]
+ * @property {Localizable} [zoomOutTipLabel]
+ */
+
+/**
+ * @extends Control
+ */
+export class Zoom extends mixin(ol.control.Zoom, RewireMixin) {
+  /**
+   * @param {g4uControlOptions} [options={}]
+   */
+  constructor (options = {}) {
+    options.className = (options.hasOwnProperty('className')) ? options.className : 'g4u-zoom'
+
+    options.zoomInTipLabel = (options.hasOwnProperty('zoomInTipLabel'))
+      ? options.localiser.selectL10N(options.zoomInTipLabel)
+      : options.localiser.localiseUsingDictionary('Zoom zoomInTipLabel')
+
+    options.zoomOutTipLabel = (options.hasOwnProperty('zoomOutTipLabel'))
+      ? options.localiser.selectL10N(options.zoomOutTipLabel)
+      : options.localiser.localiseUsingDictionary('Zoom zoomOutTipLabel')
+
+    super(options)
+  }
+}
+
+/**
+ * @extends Control
+ */
+export class ZoomSlider extends mixin(ol.control.ZoomSlider, RewireMixin) {
+  /**
+   * @param {g4uControlOptions} [options={}]
+   */
+  constructor (options = {}) {
+    options.className = (options.hasOwnProperty('className')) ? options.className : 'g4u-zoomslider'
+
+    super(options)
+  }
+
+  rewire () {
+    super.rewire()
+
+    this.get$Element().on('mousedown', function () {
+      $(this).addClass(cssClasses.mousedown)
+    })
+    this.get$Element().on('mouseup', function () {
+      $(this).removeClass(cssClasses.mousedown)
+    })
   }
 }
