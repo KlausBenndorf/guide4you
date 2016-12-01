@@ -381,8 +381,11 @@ export class Window extends ol.Object {
         this.get$Body().css('max-height', '')
         this.$element_.css('width', maxWidth)
         this.$element_.css('height', maxHeight)
-        this.$element_.css('left', margin)
-        this.$element_.css('top', margin)
+
+        let contextOff = this.$context_.offset()
+
+        this.$element_.css('left', margin + contextOff.left)
+        this.$element_.css('top', margin + contextOff.top)
       }
 
       if (this.get$Body().children(`:not(.${cssClasses.hidden})`).length === 0) {
