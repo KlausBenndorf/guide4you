@@ -1,13 +1,20 @@
 @import "./lengths";
 
-.g4u-print-logo {
+
+.g4u-logo {
   top: @g4u-desktop-offset;
   left: @g4u-desktop-offset;
   display: none;
 }
 
 @media print {
-  .g4u-print-logo {
+  .g4u-logo.g4u-logo-print {
+    display: inline-block;
+  }
+}
+
+@media screen {
+  .g4u-logo.g4u-logo-screen {
     display: inline-block;
   }
 }

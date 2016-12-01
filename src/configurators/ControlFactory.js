@@ -13,7 +13,7 @@ import {MobileControls} from '../controls/MobileControls'
 import {InfoButton} from '../controls/InfoButton'
 import {LinkButton} from '../controls/LinkButton'
 import {PrintButton} from '../controls/PrintButton'
-import {PrintLogo} from '../controls/PrintLogo'
+import {Logo} from '../controls/Logo'
 import {HelpButton} from '../controls/HelpButton'
 import {WindowDecorator} from '../controls/WindowDecorator'
 
@@ -88,8 +88,8 @@ export class ControlFactory {
         return new CombinedZoom(options)
       case 'scaleLine':
         return new ScaleLine(options)
-      case 'printLogo':
-        return new PrintLogo(options)
+      case 'logo':
+        return new Logo(options)
       case 'linkButton':
         return new LinkButton(options)
       case 'mobileControls':

@@ -2,25 +2,26 @@ import $ from 'jquery'
 
 import {Control} from './Control'
 
-import '../../less/printlogo.less'
+import '../../less/logo.less'
 
 /**
- * @typedef {g4uControlOptions} PrintLogoOptions
+ * @typedef {g4uControlOptions} LogoOptions
  * @property {string} [src='images/g4u-logo.png'] path to the image
  * @property {number} [width]
  * @property {number} [height]
  * @property {number} [opacity]
+ * @property {string} [mode='both'] possible values: print, screen, both
  */
 
 /**
- * This is a class which provides a printLogo on the map.
+ * This is a class which provides a logo on the map.
  */
-export class PrintLogo extends Control {
+export class Logo extends Control {
   /**
-   * @param {PrintLogoOptions} options
+   * @param {LogoOptions} options
    */
   constructor (options = {}) {
-    options.className = options.className || 'g4u-print-logo'
+    options.className = options.className || 'g4u-logo'
     options.element = $('<img>').get(0)
     options.singleButton = false
 
@@ -35,8 +36,19 @@ export class PrintLogo extends Control {
       : 'images/g4u-logo.png'
 
     this.get$Element()
+      .on('load', () => this.changed)
       .prop('src', this.logo_)
       .addClass(this.className_)
+
+    if (options.mode === 'both' || options.mode === 'screen') {
+      this.get$Element()
+        .addClass(this.className_ + '-screen')
+    }
+
+    if (options.mode === 'both' || options.mode === 'print') {
+      this.get$Element()
+        .addClass(this.className_ + '-print')
+    }
 
     if (options.width) {
       this.get$Element().width(options.width)
