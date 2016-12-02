@@ -4,6 +4,7 @@ import $ from 'jquery'
 import { cssClasses } from './globals'
 
 import '../less/tooltip.less'
+import {html2Text} from './utilities'
 
 /**
  * @typedef {object} FeatureTooltipOptions
@@ -97,7 +98,7 @@ export class FeatureTooltip {
    */
   setFeature (feature) {
     if (feature) {
-      this.$element_.html(feature.get('name'))
+      this.$element_.html(html2Text(feature.get('name')))
       let geometry = feature.getGeometry()
       let coord = ol.extent.getCenter(geometry.getExtent())
       this.overlay_.setPosition(coord)

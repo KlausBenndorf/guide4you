@@ -43,6 +43,7 @@ export const LayerType = {
  * @property {Boolean} availableMobile overwrites available in mobile mode
  * @property {Boolean} visible
  * @property {Boolean} alwaysVisible overwrites visible, available and mobileAvailable
+ * @property {StyleLike} [style]
  */
 
 /**
@@ -314,6 +315,8 @@ export class LayerFactory {
 
         optionsCopy.source.type = 'GeoJSON'
 
+        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')
+
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.source = new QuerySource(optionsCopy.source)
         } else {
@@ -328,6 +331,8 @@ export class LayerFactory {
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(optionsCopy.style || '#defaultStyle')
 
         optionsCopy.source.type = 'KML'
+
+        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')
 
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.source = new QuerySource(optionsCopy.source)

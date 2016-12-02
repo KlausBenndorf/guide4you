@@ -186,8 +186,7 @@ export class SourceServerVector extends ol.source.Vector {
     let url = this.urlTemplate_
 
     if (this.loadingStrategy_ === 'BBOX') {
-      let bboxProjection = this.bboxProjection_ || this.getMap().get('interfaceProjection')
-      let transformedExtent = ol.proj.transformExtent(extent, projection, bboxProjection)
+      let transformedExtent = ol.proj.transformExtent(extent, projection, this.bboxProjection_)
 
       url = url.replace(/\{bboxleft}/, transformedExtent[0].toString())
       url = url.replace(/\{bboxbottom}/, transformedExtent[1].toString())

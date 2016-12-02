@@ -190,7 +190,9 @@
       "style": "#defaultStyle"
     },
     "printLogo": {
-      "src": "images/g4u-logo.png"
+      "controlType": "logo",
+      "src": "images/g4u-logo.png",
+      "mode": "print"
     },
     "distanceMeasurementButton": {
       "atDrawEnd": "newMeasurement",
