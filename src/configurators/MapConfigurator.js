@@ -177,7 +177,7 @@ export class MapConfigurator {
       this.map_.set('styling', new Styling())
     }
 
-    this.map_.set('scaleIcons', (mapConfigCopy.hasOwnProperty('scaleIcons')) ? mapConfigCopy.scaleIcons : undefined)
+    this.map_.set('scaleIcons', (mapConfigCopy.hasOwnProperty('scaleIcons')) ? mapConfigCopy.scaleIcons : 1)
     this.map_.get('styling').setGlobalIconScale(this.map_.get('scaleIcons'))
 
     // //////////////////////////////////////////////////////////////////////////////////////// //

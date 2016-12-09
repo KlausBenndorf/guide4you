@@ -150,7 +150,7 @@ export class Styling {
    * @returns {number}
    */
   getGlobalIconScale () {
-    return this.globalIconScale_
+    return this.globalIconScale_ || 1
   }
 
   /**
@@ -329,7 +329,7 @@ export class Styling {
         stylePrimitive = style
       }
 
-      // what happens if the styleFunction returns the ol default style (worst case scenario)?
+      // what happens if the styleFunction returns the ol default style?
       if (fStyle) {
         let curStyles = fStyle.call(this, resolution)
         if (curStyles && curStyles.length > 0) {
