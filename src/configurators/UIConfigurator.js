@@ -287,11 +287,11 @@ export class UIConfigurator {
     // Icon Scaling
     //
 
-    this.map_.on('change:scaleIcons', () => {
+    this.map_.on('change:scaleIcons', e => {
       this.map_.get('styling').forEachStyle((style) => {
         let image = style.getImage()
         if (image) {
-          image.setScale(this.map_.get('scaleIcons'))
+          image.setScale((image.getScale() || 1) / e.oldValue * this.map_.get('scaleIcons'))
         }
       })
 
