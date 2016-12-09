@@ -13,7 +13,7 @@ export class WMSFeatureInfoMixin {
   }
 
   getFeatureInfoMutators () {
-    return this.featureInfoMutators_
+    return this.featureInfoMutators_ || []
   }
 
   hasFeatureInfo () {
