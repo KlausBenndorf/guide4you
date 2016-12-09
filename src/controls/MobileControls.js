@@ -16,7 +16,7 @@ export class MobileControls extends ShiftableComposedControl {
     options.className = options.className || 'g4u-mobilecontrols'
     options.element = $('<div>').get(0)
     options.containerClassName = options.className + '-container'
-    options.visibleControls = options.visibleControls || 5
+    options.visibleControls = options.visibleControls || 6
 
     super(options)
   }
