@@ -105,7 +105,7 @@
 
     button.g4u-window-button-close {
       position: relative;
-      .buttonWithIcon(@g4u-window-close; @g4u-mobile-button-size; @g4u-mobile-button-size);
+      .buttonWithIcon(@g4u-window-close; (@g4u-mobile-huge-fontsize + @g4u-mobile-button-size) / 2; (@g4u-mobile-huge-fontsize + @g4u-mobile-button-size) / 2);
 
       &:before { // overwrites
         left: auto;
@@ -114,7 +114,7 @@
       }
 
       width: 100%;
-      height: @g4u-mobile-button-size + 2 * @g4u-mobile-padding + @g4u-tiny; // @g4u-tiny for IE
+      height: @g4u-mobile-button-size + @g4u-tiny; // @g4u-tiny for IE
       .g4u-symbol-colors;
       padding: 0;
       display: block;
@@ -168,7 +168,7 @@
 
     .g4u-window-inner-position {
       top: 0;
-      bottom: @g4u-mobile-button-size + 2 * @g4u-mobile-padding;
+      bottom: @g4u-mobile-button-size;
       left: 0;
       right: 0;
       height: auto;
