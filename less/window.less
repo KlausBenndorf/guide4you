@@ -105,12 +105,12 @@
 
     button.g4u-window-button-close {
       position: relative;
-      .buttonWithIcon(@g4u-window-close; (@g4u-mobile-huge-fontsize + @g4u-mobile-button-size) / 2; (@g4u-mobile-huge-fontsize + @g4u-mobile-button-size) / 2);
+      .buttonWithIcon(@g4u-window-close; @g4u-mobile-button-size - @g4u-mobile-padding; @g4u-mobile-button-size - @g4u-mobile-padding);
 
       &:before { // overwrites
         left: auto;
-        top: @g4u-mobile-padding + @g4u-tiny; // @g4u-tiny for IE
-        right: @g4u-mobile-padding;
+        top: @g4u-mobile-padding / 2 + @g4u-tiny; // @g4u-tiny for IE
+        right: @g4u-mobile-padding / 2;
       }
 
       width: 100%;

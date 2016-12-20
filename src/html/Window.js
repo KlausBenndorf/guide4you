@@ -217,7 +217,10 @@ export class Window extends ol.Object {
           interactiveScrollbars: true,
           // bounce: true,
           click: true,
-          keyBindings: true
+          keyBindings: true,
+          disablePointer: true,
+          disableTouch: false,
+          disableMouse: false
         })
       }
     } else {

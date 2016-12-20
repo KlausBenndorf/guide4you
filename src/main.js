@@ -23,6 +23,7 @@ export function createG4UInternal (element, clientConfPath, layerConfPath, optio
       }
 
       if (!ol.has.CANVAS) {
+        $('.g4u-browser-support-message').show()
         reject('Browser does not support Canvas.')
       }
 

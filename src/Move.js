@@ -87,7 +87,9 @@ export class Move {
       center: point,
       resolution: this.map_.getView().getResolution()
     })
-    let extent = tmpView.calculateExtent(this.map_.getSize())
+    let extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 1))
+
+    options.padding = [0, 0, 0, 0] // no padding around this extent
 
     this.toExtent(extent, options)
   }
@@ -140,11 +142,10 @@ export class Move {
       options.padding = [this.pixelPadding_, this.pixelPadding_, this.pixelPadding_, this.pixelPadding_]
     }
 
-    options.constrainResolution = false
+    // options.constrainResolution = false
 
     // using fit's padding option
-    let geometry = new ol.geom.MultiPoint([[extent[0], extent[1]], [extent[2], extent[3]]])
-    this.map_.getView().fit(geometry, this.map_.getSize(), options)
+    this.map_.getView().fit(ol.geom.Polygon.fromExtent(extent), this.map_.getSize(), options)
   }
 
   /**
