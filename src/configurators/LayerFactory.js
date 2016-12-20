@@ -483,6 +483,8 @@ export class LayerFactory {
   configureLayerSourceURL_ (sourceConfig) {
     sourceConfig.url = this.map_.get('localiser').selectL10N(sourceConfig.url)
 
+    sourceConfig.originalUrl = sourceConfig.url
+
     sourceConfig.crossOrigin = null // this strangely enables crossOrigin requests
 
     let useProxy = (sourceConfig.useProxy === true || (sourceConfig.useProxy === undefined && !!sourceConfig.proxy))
