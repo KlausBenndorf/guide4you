@@ -219,6 +219,9 @@ export class UIConfigurator {
        * @type {MobileLayoutOptions}
        */
       let mobileLayout = this.map_.get('mobileLayout')
+      let featurePopup = this.map_.get('featurePopup')
+      let wmsFeatureInfo = this.map_.get('showWMSFeatureInfo')
+
       if (mobileLayout && mobileLayout.mediaQueries && window.matchMedia) {
         let match = false
         mobileLayout.mediaQueries.forEach((query) => {
@@ -241,6 +244,18 @@ export class UIConfigurator {
               oldScaleIcons = this.map_.get('scaleIcons')
               this.map_.set('scaleIcons', mobileLayout.scaleIcons)
             }
+
+            let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
+
+            if (featurePopup && featurePopup.getVisible()) {
+              featurePopup.setVisible(false)
+              setTimeout(() => {
+                featurePopup.setVisible(true)
+                if (restoreWmsFeatureInfoPoint) {
+                  wmsFeatureInfo.setPointVisible(true)
+                }
+              }, 0)
+            }
           } else {
             $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
             $(this.map_.getTarget()).children().removeClass(cssClasses.mobile)
@@ -252,6 +267,18 @@ export class UIConfigurator {
             }
             if (oldScaleIcons) {
               this.map_.set('scaleIcons', oldScaleIcons)
+            }
+
+            let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
+
+            if (featurePopup && featurePopup.getVisible()) {
+              featurePopup.setVisible(false)
+              setTimeout(() => {
+                featurePopup.setVisible(true)
+                if (restoreWmsFeatureInfoPoint) {
+                  wmsFeatureInfo.setPointVisible(true)
+                }
+              }, 0)
             }
           }
         }

@@ -9,7 +9,6 @@ import {offset} from '../utilities'
 import {cssClasses} from '../globals'
 
 import '../../less/layerselector.less'
-import {ImageWMSSource} from '../sources/ImageWMSSource'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -146,7 +145,6 @@ export class LayerSelector extends Control {
       let activeClassName = this.classNames_.menu + '-active'
 
       $button.on('click', e => {
-        console.log(e)
         if (this.toggle_) {
           layer.setVisible(!layer.getVisible())
         } else {
