@@ -145,7 +145,8 @@ export class LayerSelector extends Control {
 
       let activeClassName = this.classNames_.menu + '-active'
 
-      $button.on('click', () => {
+      $button.on('click', e => {
+        console.log(e)
         if (this.toggle_) {
           layer.setVisible(!layer.getVisible())
         } else {
@@ -452,7 +453,7 @@ export class LayerSelector extends Control {
   chooseButtonBuilder (layer, $target) {
     if (layer instanceof GroupLayer) {
       this.buildCategoryButton(layer, $target)
-    } else if (layer.getSource() instanceof ImageWMSSource) {
+    } else if (layer.getSource().isFeatureInfoCheckable) {
       this.buildWMSButton(layer, $target)
     } else {
       this.buildLayerButton(layer, $target)

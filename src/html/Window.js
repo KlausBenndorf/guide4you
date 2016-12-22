@@ -219,8 +219,9 @@ export class Window extends ol.Object {
           click: true,
           keyBindings: true,
           disablePointer: true,
-          disableTouch: false,
-          disableMouse: false
+          disableTouch: true,
+          disableMouse: false,
+          eventPassthrough: false
         })
       }
     } else {
