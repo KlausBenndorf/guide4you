@@ -46,10 +46,11 @@ export class ShowWMSFeatureInfo {
     this.map_ = map
     if (map) {
       this.utilitySource_ = new ol.source.Vector()
-      map.addLayer(new VectorLayer({
-        visible: true,
+      this.utilityLayer_ = new VectorLayer({
+        visible: false,
         source: this.utilitySource_
-      }))
+      })
+      map.addLayer(this.utilityLayer_)
 
       this.layers_ = []
 
@@ -68,6 +69,7 @@ export class ShowWMSFeatureInfo {
                 .then(data => {
                   if (data !== '') {
                     if (!feature) {
+                      this.utilitySource_.clear()
                       feature = new ol.Feature({
                         geometry: new ol.geom.Point(coordinate),
                         description: data
@@ -77,12 +79,11 @@ export class ShowWMSFeatureInfo {
                       featurePopup.setFeature(feature,
                         [ ...this.mutators_, ...layer.getSource().getFeatureInfoMutators() ])
                       featurePopup.setVisible(true)
+                      this.setPointVisible(true)
                       if (this.centerOnPopup_) {
                         featurePopup.centerMapOnPopup(this.animated_)
                       }
-                      featurePopup.once('change:visible', () => {
-                        this.utilitySource_.clear()
-                      })
+                      featurePopup.once('change:visible', () => this.setPointVisible(false))
                     } else {
                       feature.set('description', feature.get('description') + this.separator_ + data)
                     }
@@ -101,6 +102,14 @@ export class ShowWMSFeatureInfo {
       onMapChangeMobile()
       map.on('change:mobile', onMapChangeMobile)
     }
+  }
+
+  getPointVisible () {
+    return this.utilityLayer_.getVisible()
+  }
+
+  setPointVisible (visible) {
+    this.utilityLayer_.setVisible(visible)
   }
 
   getMap () {

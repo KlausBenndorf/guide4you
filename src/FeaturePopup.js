@@ -473,10 +473,10 @@ export class FeaturePopup extends ol.Object {
     if (oldValue !== visible) {
       if (visible === true && this.getFeature()) {
         this.$element_.removeClass(cssClasses.hidden)
-
         this.window_.setVisible(true)
       } else {
         this.$element_.addClass(cssClasses.hidden)
+        this.window_.setVisible(false)
       }
 
       this.visible_ = visible
