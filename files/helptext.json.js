@@ -60,6 +60,10 @@ module.exports = {
       "img": "button-info.png",
       "descr": "Mit dieser Schalt&shy;fl&auml;che zeigen Sie eine Infoseite an."
     },
+    "linkButton": {
+      "img": "button-home.png",
+      "descr": "Mit dieser Schalt&shy;fl&auml;che zeigen Sie die Startseite an."
+    },
     "distanceMeasurementButton": {
       "img": "button-line.png",
       "descr": [
@@ -160,6 +164,10 @@ module.exports = {
     "infoButton": {
       "img": "button-info.png",
       "descr": "Use this button to display an info page."
+    },
+    "linkButton": {
+      "img": "button-home.png",
+      "descr": "Use this button to display the home page."
     },
     "distanceMeasurementButton": {
       "img": "button-line.png",
