@@ -175,7 +175,7 @@ export class MeasurementButton extends Control {
           let geometry = curFeature.getGeometry().clone()
           geometry.applyTransform(this.measurementTransform_)
           if (this.dimension_ === 1) {
-            this.setValue(geometry.count())
+            this.setValue(geometry.getLength())
           } else if (this.dimension_ === 2) {
             this.setValue(geometry.getArea())
           }
