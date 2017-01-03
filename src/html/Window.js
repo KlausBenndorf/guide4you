@@ -228,6 +228,7 @@ export class Window extends ol.Object {
       if (this.scroll_) {
         this.scroll_.scrollTo(0, 0, 0)
         this.scroll_.destroy()
+        this.$body_.removeAttr('style')
       }
       this.scroll_ = null
     }
