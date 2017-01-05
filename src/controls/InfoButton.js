@@ -148,6 +148,7 @@ export class InfoButton extends Control {
           $.get(url, (data) => {
             this.$content_.html(data)
             this.dispatchEvent(changeEvent)
+            this.loaded_ = true
           })
         } else {
           this.dispatchEvent(changeEvent)
