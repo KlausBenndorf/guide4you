@@ -211,7 +211,7 @@ export class Dropdown extends ol.Object {
   /**
    * This function takes an array of entries (strings).
    * The length of the dropdown is set to the length of the arrays (they have to have the same length).
-   * @param {*[]} values
+   * @param {any[]} values
    * @param {string[]} [texts=values]
    */
   setEntries (values, texts) {

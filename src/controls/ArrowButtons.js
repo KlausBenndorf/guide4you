@@ -76,7 +76,7 @@ export class ArrowButtons extends Control {
     this.directions_ = ['center', 'left', 'up', 'right', 'down']
 
     /**
-     * @type {{left: number[], up: number[], right: number[], down: *[]}}
+     * @type {{left: number[], up: number[], right: number[], down: number[]}}
      * @private
      */
     this.vectors_ = {left: [-1, 0], up: [0, 1], right: [1, 0], down: [0, -1]}
