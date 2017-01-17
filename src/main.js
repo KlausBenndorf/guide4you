@@ -6,6 +6,7 @@ import 'file?name=images/[name].[ext]!../images/g4u-logo.png'
 // for remote analysis and debugging - not used inside of the software
 window.ol = window.ol || ol
 window.$ = window.$ || $
+window.jQuery = window.jQuery || $
 
 import {G4UMap} from './G4UMap'
 
