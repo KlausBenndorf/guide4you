@@ -31,10 +31,10 @@
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
+    "guide4you-builder": "1.1.*",
     "concurrently": "3.1.0",
     "esdoc": "0.4.8",
-    "guide4you-builder": "1.1.*",
-    "mocha": "3.1.2",
+    "mocha": "3.2.0",
     "phantomjs-prebuilt": "2.1.13",
     "selenium-webdriver": "3.0.1",
     "standard": "8.6.0",
