@@ -17,7 +17,6 @@
 @g4u-theme-light-background: @g4u-light-main-color;
 @g4u-theme-dark-background: @g4u-dark-main-color;
 @g4u-theme-medium-background: @g4u-active-normal-button-color;
-@g4u-theme-main-foreground: white;
 
 @g4u-theme-tooltip-background: white;
 @g4u-theme-tooltip-foreground: black;
@@ -40,22 +39,22 @@
 
 .g4u-layer-button-colors() {
     background: @g4u-theme-main-background;
-    color: @g4u-theme-main-foreground;
+    color: @g4u-text-color;
 }
 
 .g4u-theme-main-colors() {
-    color: @g4u-theme-main-foreground;
+    color: @g4u-text-color;
     background: @g4u-theme-main-background;
 }
 
 .g4u-attribution-colors() {
-    color: @g4u-theme-main-foreground;
+    color: @g4u-text-color;
     background: fade(@g4u-theme-main-background, @g4u-rather-opaque);
 }
 
 .g4u-baselayerswitcher-button-colors() {
     background: fade(@g4u-theme-main-background, @g4u-not-so-opaque);
-    color: @g4u-theme-main-foreground;
+    color: @g4u-text-color;
 }
 
 .g4u-featurepopup-colors() {
@@ -67,7 +66,7 @@
     .g4u-layer-button-colors();
 }
 .g4u-symbol-colors() {
-    color: @g4u-theme-main-foreground;
+    color: @g4u-text-color;
     background: fade(@g4u-theme-main-background, @g4u-not-so-opaque);
 }
 
