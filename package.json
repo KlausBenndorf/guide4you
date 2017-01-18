@@ -35,7 +35,7 @@
     "esdoc": "0.4.8",
     "guide4you-builder": "1.1.*",
     "mocha": "3.2.0",
-    "phantomjs-prebuilt": "2.1.13",
+    "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.0.1",
     "standard": "8.6.0",
     "wait-on": "2.0.1"
