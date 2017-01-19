@@ -21,7 +21,7 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-urlapi"
   },
   "dependencies": {
-    "guide4you": "1.2.*",
+    "guide4you": "1.3.0",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
   },
   "devDependencies": {
