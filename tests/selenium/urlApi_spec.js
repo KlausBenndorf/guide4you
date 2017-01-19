@@ -225,7 +225,9 @@ test.describe('URLAPI', function () {
     driver.get(config.testClient + '?clsbtn=false').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
-      return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
+      // return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
+      return assert(driver.findElements(By.className('g4u-close-window-button')).then(found => !!found.length))
+        .equalTo(false)
     }).then(done)
   })
 
@@ -234,7 +236,9 @@ test.describe('URLAPI', function () {
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
-      return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
+      // return assert(driver.isElementPresent(By.className('g4u-close-window-button'))).equalTo(false)
+      return assert(driver.findElements(By.className('g4u-close-window-button')).then(found => !!found.length))
+        .equalTo(false)
     })
     .then(done)
   })
@@ -349,7 +353,8 @@ test.describe('URLAPI', function () {
   //     waitUntilMapReady(driver).then(function () {
   //       driver.executeScript('return map.get("configFileName");').then(function (configFileName) {
   //         assert(configFileName).equalTo(config.testMiniMapConfigFile)
-  //         assert(driver.isElementPresent(By.className('g4u-layerselector'))).equalTo(false)
+  //         //assert(driver.isElementPresent(By.className('g4u-layerselector'))).equalTo(false)
+  //         assert(driver.findElements(By.className('g4u-layerselector')).then(found => !!found.length)).equalTo(false)
   //         done()
   //       })
   //     })
