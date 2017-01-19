@@ -25,10 +25,11 @@ import '../less/searchcontrol.less'
  * @property {number} [amountDropdownEntries=4] number of entries shown in the dropdown
  * @property {number} [autocompleteStart=2] count of letters after which the autocomplete starts
  * @property {number} [autocompleteDelay=300]
+ * @property {string} [projectionOfServer=interfaceProjection]
  * @property {number} [slideDuration=400] time it takes for the dropdown to slide down
  * @property {string} [parser] name of the parser to use. At the moment 'Nominatim' is delivered within this module.
  * @property {StyleLike} [style] of the search results
- * @property {boolean} [animated=true] affects the move to the search results.
+ * @property {boolean} [animated] affects the move to the search results.
  * @property {string} [placeholder] text to be seen in the input field if the user has made no input yet
  * @property {string} [ghostentry] text to be seen in the dropdown if the autocomplete or search didn't find
  *  any matching entries
@@ -61,7 +62,7 @@ export class SearchControl extends Control {
      * @type {boolean}
      * @private
      */
-    this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
+    this.useProxy_ = options.useProxy || (options.hasOwnProperty('useProxy') && options.proxy)
 
     /**
      * @type {string}
@@ -142,11 +143,21 @@ export class SearchControl extends Control {
      * @type {boolean}
      * @private
      */
-    this.animated_ = options.hasOwnProperty('animated') ? options.animated : false
+    this.animated_ = options.animated
 
+    /**
+     * @type {string}
+     * @private
+     */
     this.deactivateMobileSearch_ = options.hasOwnProperty('deactivateMobileSearch')
       ? options.deactivateMobileSearch
       : DeactivateMobileSearch.EXACT
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.projectionOfServer_ = options.projectionOfServer
 
     let placeholder = (options.hasOwnProperty('placeholder'))
       ? this.getLocaliser().selectL10N(options.placeholder)
@@ -290,6 +301,7 @@ export class SearchControl extends Control {
 
       this.parser_ = new this.parsers_[this.parserType_]({
         featureProjection: map.getView().getProjection(),
+        dataProjection: this.projectionOfServer_ || map.get('interfaceProjection'),
         localiser: this.getLocaliser()
       })
 
@@ -400,7 +412,8 @@ export class SearchControl extends Control {
    * @private
    */
   updateDropdown_ () {
-    let inputContainsDropdown = (this.features_.length === 1) && (this.features_[0] === this.selectedFeature_)
+    let inputContainsDropdown = this.selectedFeature_ && (this.features_.length === 1) &&
+      (this.features_[0].get('dropdowntext') === this.selectedFeature_.get('dropdowntext'))
 
     if (inputContainsDropdown || (this.features_.length === 0)) {
       this.dropdownActive_ = false
