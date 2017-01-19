@@ -26,12 +26,13 @@
     "jquery": "3.1.1",
     "lodash": "4.17.4",
     "notifyjs-browser": "0.4.2",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v3.18.2",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v3.19.1",
     "proj4": "2.3.15",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
     "concurrently": "3.1.0",
+    "core-js": "^2.4.1",
     "esdoc": "0.5.1",
     "guide4you-builder": "1.1.*",
     "mocha": "3.2.0",
