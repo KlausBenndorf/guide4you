@@ -7,7 +7,7 @@ import $ from 'jquery'
 
 import 'polyfill!Object.defineProperty'
 import 'polyfill!Object.getOwnPropertyNames'
-import 'core-js/library/fn/object/get-own-property-descriptor'
+import 'polyfill!Object.getOwnPropertyDescriptor'
 import 'polyfill!Object.getPrototypeOf'
 
 import {Debug} from './Debug'
