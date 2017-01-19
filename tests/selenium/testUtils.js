@@ -35,7 +35,7 @@ export function waitUntilMapReady (driver) {
     driver.executeScript(stringifyFunctionCall(addReadyElement)).then(function () {
       driver.wait(until.elementLocated(By.id('map-ready')), 5000).then(function () {
         fulfill()
-      }).thenCatch(function (err) {
+      }).catch(function (err) {
         reject(err)
       })
     })

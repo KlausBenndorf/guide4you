@@ -35,3 +35,6 @@ npm-debug.log*
 
 # Ignore test logs
 test.log
+
+#local copy of tiles (for testing)
+tiles-local/*
