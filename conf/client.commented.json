@@ -49,8 +49,16 @@
       "scaleLine",
       "zoom",
       "mobileControls",
-      "linkGeneratorButton"
+      "linkGeneratorButton",
+      "helpButton"
     ],
+    "helpButton": {
+      "float": [
+        "top",
+        "left"
+      ],
+      "fileName": "files/helptext.json"
+    },
     "linkGeneratorButton": {
       "float": [ "top", "left" ]
     },
