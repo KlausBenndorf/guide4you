@@ -6,6 +6,7 @@
   "baseLayers": [
     {
       "id": "b1",
+      "zIndex": 2,
       "title": {
         "en": "Roads",
         "de": "Stra&szlig;en"
@@ -22,6 +23,7 @@
     },
     {
       "id": "b2",
+      "zIndex": 2,
       "title": {
         "en": "Cycling Map",
         "de": "Radkarte"
@@ -36,7 +38,7 @@
       }
     },
     {
-      "id": "b3",
+      "id": "b4",
       "title": {
         "en": "OSM in Hydda Style",
         "de": "OSM im Hydda-Stil"
@@ -55,6 +57,7 @@
   "featureLayers": [
     {
       "id": "f0",
+      "zIndex": 1,
       "title": {
         "en": "Roads and Labels for Hydda",
         "de": "Straßen und Beschriftungen für Hydda"
@@ -71,6 +74,7 @@
     },
     {
       "id": "f1",
+      "zIndex": 3,
       "title": {
         "en": "Hotels in Bonn",
         "de": "Hotels in Bonn"
@@ -87,6 +91,7 @@
     },
     {
       "id": "f2",
+      "zIndex": 3,
       "title": {
         "en": "Restaurants in Bonn",
         "de": "Restaurants in Bonn"
@@ -103,6 +108,7 @@
     },
     {
       "id": "f3",
+      "zIndex": 3,
       "title": {
         "de": "Bonn: Ortsteile",
         "en": "Bonn: Neighbourhoods"
@@ -117,6 +123,7 @@
     },
     {
       "id": "f4",
+      "zIndex": 3,
       "title": {
         "de": "Bonn: Sirenenstandorte",
         "en": "Bonn: Siren locations"
