@@ -1,5 +1,7 @@
 # ![Guide4You](images/g4u-logo.png) guide4you
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/KlausBenndorf/guide4you.svg)](https://greenkeeper.io/)
+
 [![NPM](https://nodei.co/npm/guide4you.png?mini=true)](https://npmjs.org/package/guide4you)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Continuous Integration](https://travis-ci.org/KlausBenndorf/guide4you.svg?branch=master)](https://travis-ci.org/KlausBenndorf/guide4you)
