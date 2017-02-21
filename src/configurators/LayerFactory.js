@@ -544,7 +544,7 @@ export class LayerFactory {
     }
 
     if (id) {
-      feature.setId(featureConfCopy.id)
+      feature.setId(id)
     }
 
     return feature
