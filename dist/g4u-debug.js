@@ -123,6 +123,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SourceServerVector = __webpack_require__(169);
 
+	// exports
+
 	var createMap = exports.createMap = function createMap(element) {
 	  var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'node_modules/guide4you/dist/conf/client.commented.json';
 	  var layerConfig = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'node_modules/guide4you/dist/conf/layers.commented.json';
@@ -6997,6 +6999,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      optionsCopy.source.projection = this.mapProjection;
 	    }
 
+	    if (optionsCopy.source) {
+	      optionsCopy.source.localiser = this.map_.get('localiser');
+	    }
+
 	    var layer = void 0;
 
 	    var _ret = function () {
@@ -7767,6 +7773,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *    the interfaceProjection
 	 * @property {boolean} [cache=] true, false for dataType 'script' and 'jsonp'
 	 * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)
+	 * @property {L10N} localiser
 	 */
 
 	/**
@@ -7837,11 +7844,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /**
-	     * @type {Boolean}
+	     * @type {L10N}
 	     * @private
 	     */
 	    var _this = (0, _possibleConstructorReturn3.default)(this, _ol$source$Vector.call(this, parentOptions));
 
+	    _this.localiser_ = options.localiser;
+
+	    /**
+	     * @type {Boolean}
+	     * @private
+	     */
 	    _this.useProxy_ = _this.useProxy_ = options.useProxy || !options.hasOwnProperty('useProxy') && options.proxy;
 
 	    /**
@@ -7987,7 +8000,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _Debug.Debug.error('Getting Feature resource failed with url ' + url);
 	        _this2.dispatchEvent('vectorloaderror');
 	      },
-	      cache: this.cache_
+	      cache: this.cache_,
+	      headers: this.localiser_ ? {
+	        'Accept-Language': this.localiser_.getCurrentLang()
+	      } : {}
 	    });
 	  };
 
@@ -25864,6 +25880,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
+	 * @typedef {object} APIMapInteraction
+	 * @proeprty {function} cancel ends the interaction. The result promise will not resolve.
+	 * @property {function} end ends the interaction properly. The result promise will resolve if possible.
+	 * @property {Promise} result a promise that represents the value of the interaction.
+	 */
+
+	// NOTE:
+	// Access to a source factory would be nice
+
+	/**
 	 * @typedef {object} APIOptions
 	 * @property {StyleLike} [drawStyle='#drawStyle']
 	 */
@@ -25952,8 +25978,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * draw a feature
 	   * @param {object} [options={}]
 	   * @param {StyleLike} [options.style]
-	   * @param {string} [options.type='Point']
-	   * @returns {Promise<ol.Feature>}
+	   * @param {string} [options.type='Point'] possible values are: 'Point', 'LineString', 'Polygon', 'MultiPoint',
+	   *  'MultiLineString', 'MultiPolygon' or 'Circle'
+	   * @returns {APIMapInteraction}
 	   */
 
 
@@ -25968,30 +25995,39 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.featureManipulationActive_ = true;
 
-	    return new _promise2.default(function (resolve) {
-	      var collection = new _openlayers2.default.Collection();
+	    var collection = new _openlayers2.default.Collection();
 
-	      var styleConf = options.style || _this2.drawStyle_ || {};
+	    var styleConf = options.style || this.drawStyle_ || {};
 
-	      var style = _this2.map_.get('styling').getStyle(styleConf);
+	    var style = this.map_.get('styling').getStyle(styleConf);
 
-	      _this2.map_.get('styling').styleCollection(collection, style);
+	    this.map_.get('styling').styleCollection(collection, style);
 
-	      _this2.featureManipulationInteraction_ = new _openlayers2.default.interaction.Draw({
-	        features: collection,
-	        type: options.type || 'Point',
-	        style: style
-	      });
-
-	      _this2.map_.addSupersedingInteraction('singleclick dblclick pointermove', _this2.featureManipulationInteraction_);
-
-	      (0, _jquery2.default)(_this2.map_.getViewport()).addClass(_globals.cssClasses.crosshair);
-
-	      _this2.featureManipulationInteraction_.on('drawend', function (e) {
-	        resolve(e.feature);
-	        _this2.endFeatureManipulationInternal_();
-	      });
+	    this.featureManipulationInteraction_ = new _openlayers2.default.interaction.Draw({
+	      features: collection,
+	      type: options.type || 'Point',
+	      style: style
 	    });
+
+	    this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_);
+
+	    (0, _jquery2.default)(this.map_.getViewport()).addClass(_globals.cssClasses.crosshair);
+
+	    return {
+	      cancel: function cancel() {
+	        _this2.endFeatureManipulationInternal_();
+	      },
+	      end: function end() {
+	        _this2.featureManipulationInteraction_.finishDrawing();
+	        _this2.endFeatureManipulationInternal_();
+	      },
+	      result: new _promise2.default(function (resolve) {
+	        _this2.featureManipulationInteraction_.on('drawend', function (e) {
+	          resolve(e.feature);
+	          _this2.endFeatureManipulationInternal_();
+	        });
+	      })
+	    };
 	  };
 
 	  API.prototype.onKeyDown_ = function onKeyDown_(e) {
@@ -26002,7 +26038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * Select a feature with a single click
-	   * @returns {Promise<ol.Feature>}
+	   * @returns {APIMapInteraction}
 	   */
 
 
@@ -26015,40 +26051,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.featureManipulationActive_ = true;
 
-	    return new _promise2.default(function (resolve) {
-	      _this3.featureManipulationInteraction_ = new _openlayers2.default.interaction.Select();
+	    this.featureManipulationInteraction_ = new _openlayers2.default.interaction.Select();
 
-	      _this3.map_.addSupersedingInteraction('singleclick', _this3.featureManipulationInteraction_);
+	    this.map_.addSupersedingInteraction('singleclick', this.featureManipulationInteraction_);
 
-	      (0, _jquery2.default)(_this3.map_.getViewport()).addClass(_globals.cssClasses.arrow);
+	    (0, _jquery2.default)(this.map_.getViewport()).addClass(_globals.cssClasses.arrow);
 
-	      _this3.featureManipulationInteraction_.getFeatures().on('add', /** ol.CollectionEvent */function (e) {
-	        resolve(e.element);
+	    return {
+	      cancel: function cancel() {
 	        _this3.endFeatureManipulationInternal_();
-	      });
-	    });
+	      },
+	      end: function end() {
+	        _this3.endFeatureManipulationInternal_();
+	      },
+	      result: new _promise2.default(function (resolve) {
+	        _this3.featureManipulationInteraction_.getFeatures().on('add', /** ol.CollectionEvent */function (e) {
+	          resolve(e.element);
+	          _this3.endFeatureManipulationInternal_();
+	        });
+	      })
+	    };
 	  };
 
 	  /**
-	   * Modify a given Feature
+	   * Modify a given Feature. The end function needs to be called to indicate that a modifying process is completed.
 	   * @param {ol.Collection<ol.Feature>|ol.Feature[]|ol.Feature} feature
 	   * @param {Object} options
 	   * @param {StyleLike} [options.style]
+	   * @returns {APIMapInteraction}
 	   */
 
 
 	  API.prototype.modifyFeature = function modifyFeature(feature) {
+	    var _this4 = this;
+
 	    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-	    var features = void 0;
-
-	    if (feature instanceof _openlayers2.default.Collection) {
-	      features = feature;
-	    } else if (feature instanceof Array) {
-	      features = new _openlayers2.default.Collection(feature);
-	    } else {
-	      features = new _openlayers2.default.Collection([feature]);
-	    }
+	    options.features = new _openlayers2.default.Collection([feature]);
 
 	    if (this.featureManipulationActive_) {
 	      this.endFeatureManipulationInternal_(false);
@@ -26056,7 +26095,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.featureManipulationActive_ = true;
 
-	    options.features = features;
 	    if (options.style) {
 	      options.style = this.map_.get('styling').getStyle(options.style);
 	    }
@@ -26066,6 +26104,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_);
 
 	    (0, _jquery2.default)(this.map_.getViewport()).addClass(_globals.cssClasses.crosshair);
+
+	    var ended = false;
+
+	    return {
+	      cancel: function cancel() {
+	        _this4.endFeatureManipulationInternal_();
+	      },
+	      end: function end() {
+	        ended = true;
+	        _this4.endFeatureManipulationInternal_();
+	      },
+	      result: new _promise2.default(function (resolve) {
+	        _this4.featureManipulationInteraction_.on('modifyend', function () {
+	          if (ended) {
+	            resolve(feature);
+	          }
+	        });
+
+	        _this4.featureManipulationInteraction_.once('change:active', function () {
+	          if (ended) {
+	            resolve(feature);
+	          }
+	        });
+	      })
+	    };
 	  };
 
 	  /**
@@ -26110,14 +26173,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  API.prototype.loadLayerFromServer = function loadLayerFromServer(layerOptions) {
-	    var _this4 = this;
+	    var _this5 = this;
 
 	    layerOptions = layerOptions || {};
 	    layerOptions.visible = true;
 	    layerOptions.source = layerOptions.source || {};
 
 	    var promise = new _promise2.default(function (resolve, reject) {
-	      var layer = _this4.addFeatureLayer(layerOptions);
+	      var layer = _this5.addFeatureLayer(layerOptions);
 	      var source = layer.getSource();
 	      var loadEndHandler = function loadEndHandler() {
 	        source.un('vectorloadend', loadErrorHandler);

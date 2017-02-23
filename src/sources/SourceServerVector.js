@@ -21,6 +21,7 @@ import {Debug} from '../Debug'
  *    the interfaceProjection
  * @property {boolean} [cache=] true, false for dataType 'script' and 'jsonp'
  * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)
+ * @property {L10N} localiser
  */
 
 /**
@@ -87,6 +88,12 @@ export class SourceServerVector extends ol.source.Vector {
     }
 
     super(parentOptions)
+
+    /**
+     * @type {L10N}
+     * @private
+     */
+    this.localiser_ = options.localiser
 
     /**
      * @type {Boolean}
@@ -230,7 +237,10 @@ export class SourceServerVector extends ol.source.Vector {
         Debug.error(`Getting Feature resource failed with url ${url}`)
         this.dispatchEvent('vectorloaderror')
       },
-      cache: this.cache_
+      cache: this.cache_,
+      headers: this.localiser_ ? {
+        'Accept-Language': this.localiser_.getCurrentLang()
+      } : {}
     })
   }
 
