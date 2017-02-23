@@ -140,6 +140,7 @@ export class LayerSelector extends Control {
       let layerSource = layer.getSource()
       let $button = $('<button>')
         .addClass(this.classNames_.layerButton)
+        .attr('id', layer.get('id'))
         .html(layer.get('title'))
 
       let activeClassName = this.classNames_.menu + '-active'
@@ -199,7 +200,8 @@ export class LayerSelector extends Control {
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
         titleButton: activateChildren,
-        collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false)
+        collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false),
+        id: categoryLayer.get('id')
       })
 
       let countChildren = categoryLayer.countChildren()
@@ -349,7 +351,8 @@ export class LayerSelector extends Control {
           className: this.classNames_.menu,
           title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
           titleButton: true,
-          collapsed: wmsLayer.get('collapsed') !== false
+          collapsed: wmsLayer.get('collapsed') !== false,
+          id: wmsLayer.get('id')
         })
 
         $target.append(menu.get$Element())
