@@ -10,6 +10,10 @@
 
   .ol-overlaycontainer-stopevent > .g4u-window-decorator {
     position: absolute;
+    border-radius: @g4u-desktop-large-border-radius;
+    & > .g4u-control-mainbutton {
+      border-radius: @g4u-desktop-small-border-radius;
+    }
   }
 
   .g4u-windowed-control {
@@ -31,6 +35,15 @@
   .g4u-window-decorator {
     .g4u-window {
       position: absolute;
+    }
+  }
+}
+
+.g4u-mobile {
+  .ol-overlaycontainer-stopevent > .g4u-window-decorator {
+    border-radius: @g4u-mobile-large-border-radius;
+    & > .g4u-control-mainbutton {
+      border-radius: @g4u-mobile-small-border-radius;
     }
   }
 }

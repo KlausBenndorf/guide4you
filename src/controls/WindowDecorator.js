@@ -135,4 +135,11 @@ export class WindowDecorator extends Control {
   getWindowVisible () {
     return this.window_.getVisible()
   }
+
+  /**
+   * @returns {Float}
+   */
+  getFloat() {
+    return this.component_.getFloat();
+  }
 }
