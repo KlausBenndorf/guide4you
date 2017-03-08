@@ -109,7 +109,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.source = exports.createMap = undefined;
+	exports.G4UMap = exports.source = exports.createMap = undefined;
 
 	__webpack_require__(10);
 
@@ -123,6 +123,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _SourceServerVector = __webpack_require__(169);
 
+	var _G4UMap = __webpack_require__(81);
+
 	// exports
 
 	var createMap = exports.createMap = function createMap(element) {
@@ -135,6 +137,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var source = exports.source = {
 	  ServerVector: _SourceServerVector.SourceServerVector
 	};
+
+	var G4UMap = exports.G4UMap = _G4UMap.G4UMap;
 
 /***/ },
 /* 10 */

@@ -7,6 +7,7 @@ import 'file-loader?name=conf/[name].[ext]!./layers.commented.json'
 
 import 'guide4you-builder/tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 import {SourceServerVector} from '../../src/sources/SourceServerVector'
+import {G4UMap as G4UMapImport} from '../../src/G4UMap'
 
 // exports
 
@@ -18,3 +19,5 @@ export const createMap = function (element, config = 'node_modules/guide4you/dis
 export const source = {
   ServerVector: SourceServerVector
 }
+
+export const G4UMap = G4UMapImport
