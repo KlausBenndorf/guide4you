@@ -13,6 +13,7 @@
   .g4u-layerselector.ol-unselectable.ol-control { // TODO: remove unneccessary classes
 
     button {
+      box-sizing: border-box;
       width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
       padding-left: 2 * @g4u-desktop-padding;
     }
@@ -94,6 +95,8 @@
       .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
       height: auto; // hotfix
       min-height: @g4u-desktop-button-size; // hotfix
+      padding-top: @g4u-desktop-padding; // hotfix
+      padding-bottom: @g4u-desktop-padding; // hotfix
       margin-top: @g4u-desktop-padding;
       width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
       padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
@@ -166,6 +169,7 @@
 .g4u-mobile {
   .g4u-layerselector {
     button {
+      box-sizing: border-box;
       width: 100%;
       text-align: left;
       padding-left: 2 * @g4u-desktop-padding;
@@ -242,6 +246,8 @@
       .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
       height: auto; // hotfix
       min-height: @g4u-mobile-button-size; // hotfix
+      padding-top: @g4u-desktop-padding; // hotfix
+      padding-bottom: @g4u-desktop-padding; // hotfix
       &.g4u-layerselector-menu-active {
         background: @g4u-active-normal-button-color;
       }
