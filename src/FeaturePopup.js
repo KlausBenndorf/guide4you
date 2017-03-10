@@ -412,6 +412,8 @@ export class FeaturePopup extends ol.Object {
         this.addIconSizedOffset(this.getFeature(), resolution)
       }
 
+      this.window_.get$Element().attr('data-layer-0', this.referencingVisibleLayers_[0].get('id'))
+
       // apply default offset
 
       if (this.getVisible()) {
