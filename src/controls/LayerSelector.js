@@ -5,10 +5,12 @@ import flatten from 'lodash/flatten'
 import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
 import {Control} from './Control'
-import {offset} from '../utilities'
+import {offset, mixin} from '../utilities'
 import {cssClasses} from '../globals'
 
 import '../../less/layerselector.less'
+import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
+import {FunctionCallBuffer} from '../FunctionCallBuffer'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -24,7 +26,7 @@ import '../../less/layerselector.less'
  * This control shows Buttons to let you select the layer you want to see on the map.
  * It supports categories and nested categories - each {GroupLayer}-Object will be interpreted as a category.
  */
-export class LayerSelector extends Control {
+export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   /**
    * @param {LayerSelectorOptions} options
    */
@@ -83,6 +85,20 @@ export class LayerSelector extends Control {
 
     this.get$Element().append(this.menu_.get$Element())
 
+    let scrolled
+
+    this.listenAt(this.menu_.get$Body()[0])
+      .on('click', () => {
+        scrolled = this.menu_.get$Body().scrollTop()
+      }, true)
+
+    let applyScrolling = new FunctionCallBuffer(() => {
+      this.menu_.get$Body().scrollTop(scrolled)
+    }, 200)
+
+    this.listenAt(this.menu_.get$Body()[0])
+      .on('click', () => applyScrolling.call(), false)
+
     /**
      * @type {boolean}
      * @private
@@ -100,12 +116,6 @@ export class LayerSelector extends Control {
      * @private
      */
     this.visible_ = true
-
-    /**
-     * @type {Array}
-     * @private
-     */
-    this.listenerKeys_ = []
   }
 
   /**
@@ -145,7 +155,7 @@ export class LayerSelector extends Control {
 
       let activeClassName = this.classNames_.menu + '-active'
 
-      $button.on('click', e => {
+      this.listenAt($button).on('click', () => {
         if (this.toggle_) {
           layer.setVisible(!layer.getVisible())
         } else {
@@ -157,29 +167,26 @@ export class LayerSelector extends Control {
         $button.addClass(activeClassName)
       }
 
-      this.listenerKeys_.push(
-        layer.on('change:visible', () => {
-          $button.toggleClass(activeClassName, layer.getVisible())
-          if (!layer.getVisible()) {
-            layer.resetLoadProcessCount()
-            $button.removeClass('g4u-layer-loading')
-          }
-        }))
+      this.listenAt(layer).on('change:visible', () => {
+        $button.toggleClass(activeClassName, layer.getVisible())
+        if (!layer.getVisible()) {
+          layer.resetLoadProcessCount()
+          $button.removeClass('g4u-layer-loading')
+        }
+      })
 
-      this.listenerKeys_.push(
-        layerSource.on([ 'vectorloadstart', 'tileloadstart', 'imageloadstart' ], () => {
-          $button.addClass('g4u-layer-loading')
-        }))
+      this.listenAt(layerSource).on([ 'vectorloadstart', 'tileloadstart', 'imageloadstart' ], () => {
+        $button.addClass('g4u-layer-loading')
+      })
 
-      this.listenerKeys_.push(
-        layerSource.on([
-          'vectorloadend', 'vectorloaderror',
-          'tileloadend', 'tileloaderror',
-          'imageloadend', 'imageloaderror' ], () => {
-          if (layer.getLoadProcessCount() === 0) {
-            $button.removeClass('g4u-layer-loading')
-          }
-        }))
+      this.listenAt(layerSource).on([
+        'vectorloadend', 'vectorloaderror',
+        'tileloadend', 'tileloaderror',
+        'imageloadend', 'imageloaderror' ], () => {
+        if (layer.getLoadProcessCount() === 0) {
+          $button.removeClass('g4u-layer-loading')
+        }
+      })
 
       $target.append($button)
     }
@@ -229,8 +236,8 @@ export class LayerSelector extends Control {
       updateButtonActivities()
 
       let forEachChildLayer = childLayer => {
-        this.listenerKeys_.push(
-          childLayer.on([ 'change:visible', 'change:childVisible' ], e => {
+        this.listenAt(childLayer)
+          .on([ 'change:visible', 'change:childVisible' ], e => {
             let changedLayer = e.child || childLayer
 
             if (changedLayer.getVisible()) {
@@ -240,29 +247,30 @@ export class LayerSelector extends Control {
             }
 
             updateButtonActivities()
-          }))
+          })
       }
 
-      this.listenerKeys_.push(
-        categoryLayer.getLayers().forEach(forEachChildLayer))
+      categoryLayer.getLayers().forEach(forEachChildLayer)
 
-      this.listenerKeys_.push(
-        categoryLayer.getLayers().on('add', e => forEachChildLayer(e.element)))
+      this.listenAt(categoryLayer.getLayers())
+        .on('add', e => forEachChildLayer(e.element))
 
-      menu.on('title:click', () => {
-        let visible = countVisibleChildren < countChildren
-        categoryLayer.recursiveForEach(childLayer => {
-          if (!(childLayer instanceof GroupLayer)) {
-            childLayer.setVisible(visible)
-          }
+      this.listenAt(menu)
+        .on('title:click', () => {
+          let visible = countVisibleChildren < countChildren
+          categoryLayer.recursiveForEach(childLayer => {
+            if (!(childLayer instanceof GroupLayer)) {
+              childLayer.setVisible(visible)
+            }
+          })
         })
-      })
 
       $target.append(menu.get$Element())
 
       $nextTarget = menu.get$Body()
 
-      menu.on('change:collapsed', () => this.changed())
+      this.listenAt(menu)
+        .on('change:collapsed', () => this.changed())
     }
 
     for (let childLayer of categoryLayer.getLayers().getArray()) {
@@ -357,7 +365,8 @@ export class LayerSelector extends Control {
 
         $target.append(menu.get$Element())
 
-        menu.on('change:collapsed', () => this.changed())
+        this.listenAt(menu)
+          .on('change:collapsed', () => this.changed())
 
         let activeClassName = this.classNames_.menu + '-active'
 
@@ -407,11 +416,12 @@ export class LayerSelector extends Control {
             $checkbox.prop('checked', active)
           }
 
-          $button.on('click', () => buttonActive(!activeLayerButtons.isActive(layerButton)))
+          this.listenAt($button)
+            .on('click', () => buttonActive(!activeLayerButtons.isActive(layerButton)))
 
           if (featureInfoCheckable) {
             $button.append($checkbox)
-            $checkbox.on('click', e => {
+            this.listenAt($checkbox).on('click', e => {
               checkboxActive($checkbox.is(':checked'))
               e.stopPropagation()
             })
@@ -421,7 +431,7 @@ export class LayerSelector extends Control {
           menu.get$Body().append($button)
         }
 
-        menu.on('title:click', () => {
+        this.listenAt(menu).on('title:click', () => {
           let activateAll = activeLayerButtons.count() < layerButtons.length
           if (activateAll) {
             activeLayerButtons.add(layerButtons)
@@ -466,7 +476,7 @@ export class LayerSelector extends Control {
    */
   setMap (map) {
     if (this.getMap()) {
-      ol.Observable.unByKey(this.listenerKeys_)
+      this.detachAllListeners()
     }
 
     super.setMap(map)
