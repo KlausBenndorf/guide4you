@@ -279,6 +279,15 @@ export class G4UMap extends ol.Map {
         this.set('localiser', options.localiser)
       }
 
+      this.get('localiser').on('change:language', () => {
+        let visibilities = this.getLayerGroup().getIdsVisibilities()
+
+        this.get('configurator').configureLayers()
+        this.get('configurator').configureUI()
+
+        this.getLayerGroup().setIdsVisibilities(visibilities)
+      })
+
       this.dispatchEvent('afterConfigLoad')
 
       return asyncLanguageFilePromise

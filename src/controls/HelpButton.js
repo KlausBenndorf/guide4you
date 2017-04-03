@@ -50,20 +50,23 @@ export class HelpButton extends Control {
   }
 
   createContent_ () {
-    let languageSettings = this.getMap().get('localiser')
+    let localiser = this.getMap().get('localiser')
 
     let documentationObject = JSON.parse(stripJsonComments(this.contentData_))
 
-    if (checkFor(documentationObject, languageSettings.getCurrentLang())) {
-      this.language = languageSettings.getCurrentLang()
-    } else if (checkFor(documentationObject, languageSettings.getDefaultLang())) {
-      this.language = languageSettings.getDefaultLang()
+    if (checkFor(documentationObject, localiser.getCurrentLang())) {
+      this.language = localiser.getCurrentLang()
+    } else if (checkFor(documentationObject, localiser.getDefaultLang())) {
+      this.language = localiser.getDefaultLang()
     } else {
       this.language = 'de'
     }
 
     let makeDocumentationTable = (documentation, language) => {
       let $table = $('<table>').addClass(this.className_ + '-table')
+      if (localiser.isRtl()) {
+        $table.prop('dir', 'rtl')
+      }
       let documentationLocalized = documentationObject[ language ]
       let id
       let imgData

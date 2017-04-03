@@ -61,7 +61,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
     this.dropdown_.setEntries(languages,
       languages.map(l => `${l.toUpperCase()} - ${this.getLocaliser().localiseUsingDictionary(l)}`))
 
-    this.dropdown_.on('select', () => this.switchLanguage_(this.dropdown_.getValue()))
+    this.dropdown_.on('select', () => this.getLocaliser().setCurrentLang((this.dropdown_.getValue())))
 
     this.get$Element().on('keydown', e => {
       if (e.which === keyCodes.ESCAPE) {
@@ -75,24 +75,6 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
      * @private
      */
     this.active_ = false
-  }
-
-  /**
-   * Creates a handler to switch to the specified language
-   * @param {string} iso639
-   */
-  switchLanguage_ (iso639) {
-    this.getLocaliser().setCurrentLang(iso639)
-    this.setTitle(iso639)
-
-    let map = this.getMap()
-
-    let visibilities = map.getLayerGroup().getIdsVisibilities()
-
-    map.get('configurator').configureLayers()
-    map.get('configurator').configureUI()
-
-    map.getLayerGroup().setIdsVisibilities(visibilities)
   }
 
   /**

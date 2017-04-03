@@ -1,3 +1,4 @@
+import ol from 'openlayers'
 import $ from 'jquery'
 
 import stripJsonComments from 'strip-json-comments'
@@ -19,11 +20,13 @@ import {Debug} from './Debug'
  * This class localizes texts by either selecting one from a dictionary (asynchron loaded JSON File) or choosing the
  * right string from a selection.
  */
-export class L10N {
+export class L10N extends ol.Observable {
   /**
    * @param {L10NOptions} options
    */
   constructor (options = {}) {
+    super()
+
     /**
      * @type {string}
      * @private
@@ -134,6 +137,7 @@ export class L10N {
    */
   setCurrentLang (lang) {
     this.currentLang_ = lang
+    this.dispatchEvent('change:language', lang)
   }
 
   /**
@@ -146,5 +150,12 @@ export class L10N {
 
   getDefaultLang () {
     return this.defaultLang_
+  }
+
+  /**
+   * @returns {bool}
+   */
+  isRtl () {
+    return this.dictionary[this.currentLang_].rtl || false
   }
 }
