@@ -31,5 +31,19 @@ module.exports = merge(require('guide4you/files/helptext.json.js'), {
         "The upper image shows the search in inactive state, the lower image with suggestions being displayed."
       ]
     }
+  },
+  "ar": {
+    "searchControl": {
+      "img": [
+        "search-inactive-ar.png",
+        "search-active.png"
+      ],
+      "joinWith": "<br>&nbsp;<br>",
+      "descr": [
+        "استخدم هذا العنصر للبحث عن العناوين والأماكن وما شابه ذلك",
+        "اكتب عبارة بحث في حقل البحث. اختر من بين الاقتراحات باستخدام الماوس أو أزرار الأسهم أو أدخل عبارة البحث بالكامل. قم بتنفيذ البحث عن طريق الضغط على زر إنتر أو النقر فوق رمز العدسة المكبرة.",
+        "تظهر الصورة العليا البحث في حالة غير نشطة، الصورة السفلى مع الاقتراحات التي يتم عرضها."
+        ]
+    }
   }
 })
