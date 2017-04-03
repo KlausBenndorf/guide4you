@@ -32,6 +32,7 @@ import '../less/searchcontrol.less'
  * @property {boolean} [animated] affects the move to the search results.
  * @property {string} [placeholder] text to be seen in the input field if the user has made no input yet
  * @property {string} [ghostentry] text to be seen in the dropdown if the autocomplete or search didn't find
+ * @property {string} [getByIdsURL] should contain a {id<separator>}-placeholder
  *  any matching entries
  * @property {object.<string,SearchParser>} parsers
  * @property {string} [deactivateMobileSearch='exactResult']  other possible values are 'never' and 'anyResult'
@@ -57,6 +58,10 @@ export class SearchControl extends Control {
     options.singleButton = false
 
     super(options)
+
+    if (this.getLocaliser().isRtl()) {
+      this.get$Element().prop('dir', 'rtl')
+    }
 
     /**
      * @type {boolean}
@@ -282,6 +287,12 @@ export class SearchControl extends Control {
       .append(this.$textfield_)
       .append(this.$submitButton_)
       .append(this.dropdown_.get$Element())
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.getByIdsURL_ = options.getByIdsURL;
   }
 
   /**
@@ -310,7 +321,7 @@ export class SearchControl extends Control {
       let slideUp
 
       document.addEventListener('click', () => {
-        if (!this.getMap().get('mobile')) {
+        if (!map.get('mobile')) {
           slideUp = true
         } else {
           slideUp = false
@@ -596,5 +607,9 @@ export class SearchControl extends Control {
         this.getMap().get('move').toExtent(extent, { animated: this.animated_, padding: 'default' })
       }
     }
+  }
+
+  getFeatures() {
+    return this.features_;
   }
 }

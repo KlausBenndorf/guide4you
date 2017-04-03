@@ -52,9 +52,10 @@ export class NominatimSearchParser extends SearchParser {
     }
 
     let featureOptions = {}
+    let id;
 
     if (data.hasOwnProperty('place_id')) {
-      featureOptions.id = data.place_id
+      id = data.place_id
     }
 
     if (data.hasOwnProperty('display_name')) {
@@ -174,6 +175,10 @@ export class NominatimSearchParser extends SearchParser {
 
     if (data.hasOwnProperty('icon')) {
       feature.set('iconStyle', data.icon)
+    }
+
+    if (id) {
+      feature.setId(id)
     }
 
     return feature
