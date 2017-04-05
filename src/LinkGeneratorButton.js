@@ -55,6 +55,12 @@ export class LinkGeneratorButton extends Control {
   createHTML () {
     let $element = this.get$Element()
 
+    // rtl
+
+    if (this.getLocaliser().isRtl()) {
+      $element.prop('dir', 'rtl')
+    }
+
     // title
 
     $element.append($('<h3>')

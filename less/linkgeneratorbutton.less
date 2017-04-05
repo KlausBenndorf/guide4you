@@ -46,6 +46,11 @@
       }
     }
 
+    &[dir=rtl] .g4u-linkgenerator-setmarker-checkbox input {
+      margin-right: 0;
+      margin-left: 2 * @g4u-desktop-padding;
+    }
+
     .g4u-linkgenerator-input input {
       box-sizing: border-box;
       background-color: white;
@@ -57,6 +62,11 @@
       &::-ms-clear {
         display: none;
       }
+    }
+
+    &[dir=rtl] .g4u-linkgenerator-input input {
+      padding-left: 0;
+      padding-right: 2 * @g4u-desktop-padding;
     }
 
     .g4u-linkgenerator-setmarker-textbox textarea {
