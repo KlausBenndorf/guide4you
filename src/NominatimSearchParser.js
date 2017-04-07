@@ -52,7 +52,7 @@ export class NominatimSearchParser extends SearchParser {
     }
 
     let featureOptions = {}
-    let id;
+    let id
 
     if (data.hasOwnProperty('place_id')) {
       id = data.place_id

@@ -292,7 +292,7 @@ export class SearchControl extends Control {
      * @type {string}
      * @private
      */
-    this.getByIdsURL_ = options.getByIdsURL;
+    this.getByIdsURL_ = options.getByIdsURL
   }
 
   /**
@@ -609,7 +609,7 @@ export class SearchControl extends Control {
     }
   }
 
-  getFeatures() {
-    return this.features_;
+  getFeatures () {
+    return this.features_
   }
 }
