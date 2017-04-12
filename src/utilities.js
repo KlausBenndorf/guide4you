@@ -405,6 +405,26 @@ export function mixin (baseClass, mixinClass) {
   return m
 }
 
+/**
+ * This returns a mixin as a normal class.
+ * @param mixinClass
+ * @returns {class}
+ */
+export function mixinAsClass (mixinClass) {
+  let initialize = mixinClass.prototype.initialize
+
+  let m = class extends mixinClass {
+    constructor (options) {
+      super(options)
+      if (initialize) {
+        initialize.call(this, options)
+      }
+    }
+  }
+
+  return m
+}
+
 let $p = $('<p>')
 
 /**

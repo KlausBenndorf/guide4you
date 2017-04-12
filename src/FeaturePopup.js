@@ -421,6 +421,8 @@ export class FeaturePopup extends ol.Object {
       if (this.getVisible()) {
         setTimeout(() => this.window_.updateSize(), 0)
       }
+
+      this.dispatchEvent('update:content')
     }
   }
 

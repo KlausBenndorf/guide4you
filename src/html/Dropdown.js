@@ -117,6 +117,15 @@ export class Dropdown extends ol.Object {
   }
 
   /**
+   * returns the text of the current selected list element
+   */
+  getText () {
+    if (this.selectedIndex_ >= 0) {
+      return this.entriesArray_[this.selectedIndex_].text
+    }
+  }
+
+  /**
    * @private
    */
   setUpKeyboardHandling_ () {
@@ -199,6 +208,7 @@ export class Dropdown extends ol.Object {
     this.setLength(index + 1)
 
     let entry = this.entriesArray_[index]
+    entry.text = text
     entry.$element.html(text)
     entry.value = value
 
@@ -219,6 +229,7 @@ export class Dropdown extends ol.Object {
     this.setLength(values.length)
 
     for (let i = 0, ii = values.length; i < ii; i++) {
+      this.entriesArray_[i].text = texts[i]
       this.entriesArray_[i].$element.html(texts[i])
       this.entriesArray_[i].value = values[i]
     }
