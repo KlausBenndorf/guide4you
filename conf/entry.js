@@ -37,11 +37,11 @@ import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you
 import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 import {SearchModule} from '../src/SearchModule'
-import {NominatimSearchParser} from '../src/NominatimSearchParser'
+import {NominatimSearchConnector} from '../src/NominatimSearchConnector'
 
 window.createG4U = function (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
   return createG4UInternal('#g4u-map', clientConf, layerConf, [
-    new SearchModule({ parsers: { nominatim: NominatimSearchParser }})
+    new SearchModule({ connectors: { nominatim: NominatimSearchConnector }})
   ])
 }
 

@@ -1,9 +1,10 @@
 import {Module} from 'guide4you/src/Module'
+import {Debug} from 'guide4you/src/Debug'
 import {SearchControl} from './SearchControl'
 
 /**
  * @typedef {object} SearchControlModuleOptions
- * @property {object.<string, SearchParser>} parsers
+ * @property {object.<string, SearchConnector>} connectors
  */
 
 export class SearchModule extends Module {
@@ -18,10 +19,22 @@ export class SearchModule extends Module {
      */
     this.searchControls_ = []
     /**
-     * @type {Object.<string, SearchParser>}
+     * @type {Object.<string, SearchConnector>}
      * @private
      */
-    this.searchParsers_ = options.parsers
+    this.searchConnectors_ = options.connectors
+  }
+
+  /**
+   * @param {SearchConnectorOptions} type
+   * @returns {SearchConnector}
+   */
+  getConnector (options) {
+    if (!this.searchConnectors_.hasOwnProperty(options.type)) {
+      Debug.error('No valid connector for searchControl specified! (Option "connector.type", current value: ' +
+        options.type + ')')
+    }
+    return new this.searchConnectors_[options.type](options)
   }
 
   /**
@@ -34,8 +47,7 @@ export class SearchModule extends Module {
   createControl (controlType, options, receiver) {
     switch (controlType) {
       case 'searchControl':
-        options.parsers = this.searchParsers_
-        let control = new SearchControl(options)
+        let control = new SearchControl(this, options)
         this.searchControls_.push(control)
         return control
     }

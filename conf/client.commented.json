@@ -61,10 +61,11 @@
         "top",
         "left"
       ],
-      "useProxy": true,
-      "fuzzySearchURL": "http://nominatim.openstreetmap.org/search?format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=-13,33,38,73&bounded=1&extratags=1&namedetails=1",
-      "exactSearchURL": "http://nominatim.openstreetmap.org/search?format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=-13,33,38,73&bounded=1&extratags=1&namedetails=1",
-      "parser": "nominatim",
+      "connector": {
+        "type": "nominatim",
+        "serviceUrl": "http://nominatim.openstreetmap.org/search?",
+        "useProxy": true
+      },
       "closePageOnSearchEnd": false,
       "style": "#defaultStyle",
       "projectionOfServer": "EPSG:4326",

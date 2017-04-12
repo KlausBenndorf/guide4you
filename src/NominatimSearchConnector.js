@@ -1,30 +1,52 @@
 import ol from 'openlayers'
+import $ from 'jquery'
+import {zip} from 'lodash/zip'
 
-import {SearchParser} from './SearchParser'
 import {Debug} from 'guide4you/src/Debug'
+import {SearchConnector} from './SearchConnector'
+import {expandTemplate} from 'guide4you/src/utilities'
 
-/**
- * @typedef {SearchParserOptions} NominatimSearchOptions
- * @property {L10N} localiser
- */
+export class NominatimSearchConnector extends SearchConnector {
 
-export class NominatimSearchParser extends SearchParser {
-  /**
-   * @param {NominatimSearchOptions} options
-   */
-  constructor (options) {
-    super(options)
+  setMap (map) {
+    super.setMap(map)
 
-    /**
-     * @type {L10N}
-     * @private
-     */
-    this.localiser_ = options.localiser
+    if (map) {
+      let extent = map.getView().calculateExtent(map.getSize())
+
+      let extentString = ol.proj.transformExtent(extent, this.featureProjection, 'EPSG:4326').join(',')
+
+      this.url_ = this.serviceUrl +
+        'format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=' + extentString +
+        '&bounded=1&extratags=1&namedetails=1'
+    }
+  }
+
+  getAutoComplete (text) {
+    return new Promise(resolve => resolve([[], []]))
+  }
+
+  getSearchResult (searchTerm) {
+    return new Promise((resolve, reject) => {
+      let url = expandTemplate(this.url_, 'searchstring', searchTerm) // !
+
+      $.ajax({
+        url: this.proxifyUrl(url),
+        dataType: 'json',
+        success: results => {
+          resolve(zip(...results.map(r => this.readFeature_(r))))
+        },
+        error: (jqXHR, textStatus) => {
+          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
+            `(SearchURL: ${url})`)
+        }
+      })
+    })
   }
 
   /**
    * @param {object} data
-   * @returns {ol.Feature}
+   * @returns {[string, ol.Feature]}
    * @protected
    */
   readFeature_ (data) {
@@ -126,7 +148,7 @@ export class NominatimSearchParser extends SearchParser {
       throw new Error('Please add the option addressdetails=1 to your searchstring in the config.')
     }
 
-    featureOptions.dropdowntext = descriptionArray.join(',<br />')
+    let dropdowntext = descriptionArray.join(',<br />')
     featureOptions.name = descriptionArray.shift()
 
     if (data.hasOwnProperty('extratags')) {
@@ -181,6 +203,6 @@ export class NominatimSearchParser extends SearchParser {
       feature.setId(id)
     }
 
-    return feature
+    return [dropdowntext, feature]
   }
 }
