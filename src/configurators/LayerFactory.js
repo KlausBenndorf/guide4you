@@ -211,10 +211,11 @@ export class LayerFactory {
 
         this.addLayers(layer, layerConfigs, superType, skipIdCheck)
 
-        // availability
+        // availability & parent ref
         let childrenAvailable = false
-        layer.getLayers().forEach(layer => {
-          childrenAvailable = childrenAvailable || layer.get('available')
+        layer.getLayers().forEach(childLayer => {
+          childLayer.set('category', layer)
+          childrenAvailable = childrenAvailable || childLayer.get('available')
         })
 
         let childrenCount = layer.getLayers().getLength()

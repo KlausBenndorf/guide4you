@@ -349,6 +349,13 @@ export class FeaturePopup extends ol.Object {
   }
 
   /**
+   * @returns {Array|VectorLayer[]}
+   */
+  getLayers () {
+    return this.referencingVisibleLayers_
+  }
+
+  /**
    * register a text mutator with a name. Which mutator is finally used can be adjusted via the config files.
    * @param {string} name
    * @param {Mutator} mutator
