@@ -83,7 +83,17 @@ export class GeolocationButton extends Control {
     })
 
     this.layer_ = null
-    this.geolocation_ = new ol.Geolocation()
+    let geolocationOptions = {}
+    if (options.hasOwnProperty('tracking')) {
+      geolocationOptions.tracking = options.tracking;
+    }
+    if (options.hasOwnProperty('trackingOptions')) {
+      geolocationOptions.trackingOptions = options.trackingOptions;
+    }
+    if (options.hasOwnProperty('projection')) {
+      geolocationOptions.projection = options.projection;
+    }
+    this.geolocation_ = new ol.Geolocation(geolocationOptions)
     this.geolocation_.on('error', () => {
       this.buttonMessageDisplay_.error(
         this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
