@@ -22,6 +22,10 @@ a {
 }
 
 .g4u-desktop {
+  .g4u-main-button, button {
+    border-radius: @g4u-desktop-small-border-radius;
+  }
+
   &.g4u-mouse-down {
     :not(.g4u-clickable) {
       .g4u-cursor-grabbing;
@@ -32,6 +36,7 @@ a {
     // controls which are direct childs of the overlay container have grey background
     background: @g4u-control-background;
     padding: @g4u-desktop-padding;
+    border-radius: @g4u-desktop-large-border-radius;
   }
 
   &.g4u-clickable {

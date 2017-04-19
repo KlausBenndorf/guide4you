@@ -169,7 +169,8 @@ export class FeaturePopup extends ol.Object {
    * @returns {boolean}
    */
   static canDisplay (feature) {
-    return !feature.get('disabled') && (feature.get('name') || feature.get('description'))
+    return !feature.get('disabled') && (feature.get('name') ||
+      (feature.get('description') && $(feature.get('description')).text().match(/\S/)))
   }
 
   /**
@@ -391,9 +392,7 @@ export class FeaturePopup extends ol.Object {
           this.$description_.html(description)
         }
 
-        if (this.getVisible() && this.window_ && this.window_.updateSize) {
-          this.window_.updateSize()
-        }
+        this.updateSize()
       }
 
       this.$name_.empty()
@@ -430,6 +429,12 @@ export class FeaturePopup extends ol.Object {
       }
 
       this.dispatchEvent('update:content')
+    }
+  }
+
+  updateSize () {
+    if (this.getVisible() && this.window_ && this.window_.updateSize) {
+      this.window_.updateSize()
     }
   }
 

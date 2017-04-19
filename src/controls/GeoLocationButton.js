@@ -120,7 +120,8 @@ export class GeolocationButton extends Control {
       let layerOptions = {source: new ol.source.Vector({projection: projection}), visible: true}
       this.layer_ = new VectorLayer(layerOptions)
 
-      map.get('styling').styleLayer(this.layer_, this.style_)
+      this.layer_.setStyle(map.get('styling').getStyle(this.style_))
+      map.get('styling').manageLayer(this.layer_)
       map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are
     } else {
       this.getMap().getLayers().remove(this.layer_)

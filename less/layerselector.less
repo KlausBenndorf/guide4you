@@ -16,6 +16,7 @@
       box-sizing: border-box;
       width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
       padding-left: 2 * @g4u-desktop-padding;
+      border-radius: 0;
     }
 
     .g4u-layerselector-content {
@@ -212,6 +213,7 @@
       height: @g4u-mobile-button-size;
     }
 
+    // seperate buttons
     .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton) {
       .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
       position: absolute;
@@ -223,13 +225,7 @@
       }
     }
 
-    .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-collapsebutton {
-        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-mobile-normal-fontsize);
-      }
-    }
-
-    .g4u-layerselector-menu-titlebutton {
+    .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton) {
       position: absolute;
       top: 0;
       left: @g4u-mobile-button-size;
@@ -240,6 +236,37 @@
       }
     }
 
+    //combined buttons
+
+    .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton {
+      .buttonWithIconBefore(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+      padding-left: @g4u-mobile-button-size + 2 * @g4u-mobile-padding;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: @g4u-mobile-button-size;
+
+      &.g4u-layerselector-menu-active {
+        background: @g4u-active-normal-button-color; // k
+      }
+    }
+
+    //// apply to both kinds
+    //.g4u-layerselector-menu-collapsebutton,
+    //.g4u-layerselector-menu-titlebutton {
+    //  &.g4u-layerselector-menu-active {
+    //    background: @g4u-active-normal-button-color; // k
+    //    &:hover {
+    //      background: @g4u-active-hover-button-color; // k
+    //    }
+    //  }
+    //}
+
+    .g4u-layerselector-menu-collapsed {
+      .g4u-layerselector-menu-collapsebutton {
+        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-mobile-normal-fontsize);
+      }
+    }
     // styling of active buttons
     .g4u-layerselector-layerbutton {
       margin-top: @g4u-mobile-padding;

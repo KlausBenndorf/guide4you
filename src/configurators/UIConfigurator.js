@@ -210,6 +210,8 @@ export class UIConfigurator {
     this.map_.set('mobile', false)
     $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
 
+    this.map_.set('scaleIcons', mapConfigCopy.scaleIcons)
+
     let lastMatch
     let oldScaleIcons
     let oldAnimations
@@ -243,6 +245,12 @@ export class UIConfigurator {
             if (mobileLayout.hasOwnProperty('scaleIcons')) {
               oldScaleIcons = this.map_.get('scaleIcons')
               this.map_.set('scaleIcons', mobileLayout.scaleIcons)
+              this.map_.get('styling').setGlobalIconScale(mobileLayout.scaleIcons)
+              this.map_.getLayerGroup().recursiveForEach(l => {
+                if (l.getVisible()) {
+                  l.changed()
+                }
+              })
             }
 
             let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
@@ -267,6 +275,12 @@ export class UIConfigurator {
             }
             if (oldScaleIcons) {
               this.map_.set('scaleIcons', oldScaleIcons)
+              this.map_.get('styling').setGlobalIconScale(oldScaleIcons)
+              this.map_.getLayerGroup().recursiveForEach(l => {
+                if (l.getVisible()) {
+                  l.changed()
+                }
+              })
             }
 
             let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
@@ -309,23 +323,6 @@ export class UIConfigurator {
     this.map_.on('change:responsive', onChangeResponsive)
 
     this.map_.on('ready:ui', onChangeResponsive)
-
-    //
-    // Icon Scaling
-    //
-
-    this.map_.on('change:scaleIcons', e => {
-      this.map_.get('styling').forEachStyle((style) => {
-        let image = style.getImage()
-        if (image) {
-          image.setScale((image.getScale() || 1) / e.oldValue * this.map_.get('scaleIcons'))
-        }
-      })
-
-      this.map_.getLayerGroup().recursiveForEach((layer) => {
-        layer.changed()
-      })
-    })
 
     this.initialized_ = true
   }

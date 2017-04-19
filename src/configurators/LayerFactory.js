@@ -51,6 +51,7 @@ export const LayerType = {
  * @public
  * @typedef {Object} SourceConfig
  * @property {Localizable} [attribution]
+ * @property {boolean} [localised=false]
  * @property {ol.Attribution[]} [attributions] will be setted automatically.
  * @property {null} [crossOrigin] will be setted automatically.
  * @property {string} loadingStrategy
@@ -165,8 +166,9 @@ export class LayerFactory {
         layer.forEach(forEachLayer)
       } else {
         // styling
-        if (style) {
-          this.map_.get('styling').styleLayer(layer, style)
+        if (layer.setStyle) {
+          layer.setStyle(this.map_.get('styling').getStyle(style))
+          this.map_.get('styling').manageLayer(layer)
         }
 
         forEachLayer(layer)
@@ -201,6 +203,11 @@ export class LayerFactory {
     }
 
     let layer
+    let localised = false
+    if (optionsCopy.source) {
+      optionsCopy.source.localiser = this.map_.get('localiser')
+      localised = optionsCopy.source.localised
+    }
 
     switch (layerType) {
       case LayerType.CATEGORY:
@@ -318,6 +325,8 @@ export class LayerFactory {
 
         optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')
 
+        optionsCopy.source.styling = this.map_.get('styling')
+
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.source = new QuerySource(optionsCopy.source)
         } else {
@@ -334,6 +343,8 @@ export class LayerFactory {
         optionsCopy.source.type = 'KML'
 
         optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')
+
+        optionsCopy.source.styling = this.map_.get('styling')
 
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.source = new QuerySource(optionsCopy.source)
@@ -383,6 +394,11 @@ export class LayerFactory {
       }
     } else if (superType === SuperType.QUERYLAYER) {
       this.map_.get('urlApi').addApiLayer(layer, optionsCopy.apiKey)
+    }
+
+    // if layer is being localised, refresh on language change
+    if (localised) {
+      this.map_.get('localiser').on('change:language', () => layer.getSource().refresh())
     }
 
     return layer
