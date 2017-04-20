@@ -7,7 +7,6 @@ module.exports = merge(require('guide4you/files/helptext.json.js'), {
     'linkGeneratorButton': {
       'img': ['button-link.png'],
       'descr': ['Mit dieser Schalt&shy;fl&auml;che zeigen Sie einen Link (Verweis) auf die aktuell dargestellte Karten&shy;ansicht an.']
-        'Karten&shy;ansicht an.'
     }
   },
   // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
