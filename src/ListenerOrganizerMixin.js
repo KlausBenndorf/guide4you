@@ -1,4 +1,5 @@
 import ol from 'openlayers'
+import $ from 'jquery'
 
 class DOMListener {
   constructor (element, event, listener, useCapture) {
@@ -14,7 +15,7 @@ class DOMListener {
   }
 
   static usable (element) {
-    return element instanceof HTMLElement
+    return element instanceof HTMLElement // eslint-disable-line
   }
 }
 
@@ -31,7 +32,7 @@ class JQueryListener {
   }
 
   static usable (element) {
-    return element instanceof jQuery
+    return element instanceof $
   }
 }
 

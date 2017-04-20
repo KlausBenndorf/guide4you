@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import ol from 'openlayers'
 import flatten from 'lodash/flatten'
 
 import {GroupLayer} from '../layers/GroupLayer'

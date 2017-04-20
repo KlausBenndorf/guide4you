@@ -241,7 +241,7 @@ export class SourceServerVector extends ol.source.Vector {
         Debug.error(`Getting Feature resource failed with url ${url}`)
         this.dispatchEvent('vectorloaderror')
       },
-      cache: this.cache_ || this.localised_,
+      cache: this.cache_ && !this.localised_,
       headers: this.localiser_ ? {
         'Accept-Language': this.localiser_.getCurrentLang()
       } : {}

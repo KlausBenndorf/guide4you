@@ -85,13 +85,13 @@ export class GeolocationButton extends Control {
     this.layer_ = null
     let geolocationOptions = {}
     if (options.hasOwnProperty('tracking')) {
-      geolocationOptions.tracking = options.tracking;
+      geolocationOptions.tracking = options.tracking
     }
     if (options.hasOwnProperty('trackingOptions')) {
-      geolocationOptions.trackingOptions = options.trackingOptions;
+      geolocationOptions.trackingOptions = options.trackingOptions
     }
     if (options.hasOwnProperty('projection')) {
-      geolocationOptions.projection = options.projection;
+      geolocationOptions.projection = options.projection
     }
     this.geolocation_ = new ol.Geolocation(geolocationOptions)
     this.geolocation_.on('error', () => {

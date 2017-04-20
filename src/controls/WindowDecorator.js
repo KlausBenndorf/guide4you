@@ -139,7 +139,7 @@ export class WindowDecorator extends Control {
   /**
    * @returns {Float}
    */
-  getFloat() {
-    return this.component_.getFloat();
+  getFloat () {
+    return this.component_.getFloat()
   }
 }
