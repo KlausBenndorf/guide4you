@@ -299,11 +299,12 @@ export class SearchControl extends Control {
       dropdownTexts.length === 1 && this.dropdown_.getText() === html2Text(dropdownTexts[0])
 
     if (dropdownContainsOnlyInput || dropdownTexts.length === 0) {
+      this.dropdown_.setLength(0)
       this.dropdownActive_ = false
       return this.dropdown_.slideUp().then(() => this.changed())
     } else {
       let length = Math.min(this.amountDropdownEntries_, dropdownTexts.length)
-      this.dropdown_.setEntries(data.slice(length), dropdownTexts.slice(length))
+      this.dropdown_.setEntries(data.slice(0, length), dropdownTexts.slice(0, length))
       this.dropdownActive_ = true
       return this.dropdown_.slideDown().then(() => this.changed())
     }
@@ -316,6 +317,8 @@ export class SearchControl extends Control {
     let dropdownData = this.dropdown_.getValue()
 
     this.$textfield_.val(html2Text(this.dropdown_.getText()))
+
+    this.updateDropdown_([], [])
 
     if (dropdownData instanceof ol.Feature) {
       this.onSearchEnd_([dropdownData])

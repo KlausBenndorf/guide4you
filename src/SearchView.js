@@ -55,7 +55,8 @@ export class SearchView {
         })
       })
       map.getLayers().insertAt(1, this.searchlayerBottom_)
-      map.get('styling').styleLayer(this.searchlayerBottom_, this.style_)
+      this.searchlayerBottom_.setStyle(map.get('styling').getStyle(this.style_))
+      map.get('styling').manageLayer(this.searchlayerBottom_)
 
       this.searchlayerTop_ = new VectorLayer({
         source: new ol.source.Vector({
@@ -63,7 +64,8 @@ export class SearchView {
         })
       })
       map.addLayer(this.searchlayerTop_)
-      map.get('styling').styleLayer(this.searchlayerTop_, this.style_)
+      this.searchlayerTop_.setStyle(map.get('styling').getStyle(this.style_))
+      map.get('styling').manageLayer(this.searchlayerTop_)
     }
   }
 

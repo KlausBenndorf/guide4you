@@ -98,7 +98,12 @@
     }
 
     .g4u-dropdown {
-      width: @g4u-search-control-width;
+      min-width: @g4u-search-control-width;
+      max-width: 2 * @g4u-search-control-width;
+
+      .g4u-dropdown-entry {
+        white-space: pre-line;
+      }
     }
 
     &:not([dir='rtl']) .g4u-search-control-textfield {
