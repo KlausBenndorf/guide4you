@@ -62,7 +62,8 @@ export class Marker {
 
       map.addLayer(this.vectorLayer_)
 
-      map.get('styling').styleLayer(this.vectorLayer_, this.style_)
+      this.vectorLayer_.setStyle(map.get('styling').getStyle(this.style_))
+      map.get('styling').manageLayer(this.vectorLayer_)
 
       if (map.get('featurePopup')) {
         let featurePopup = map.get('featurePopup')
