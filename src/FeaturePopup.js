@@ -373,6 +373,12 @@ export class FeaturePopup extends ol.Object {
       const feature = this.getFeature()
 
       const updateContent = () => {
+        if (this.getMap().get('localiser').isRtl()) {
+          this.window_.get$Body().prop('dir', 'rtl')
+        } else {
+          this.window_.get$Body().prop('dir', undefined)
+        }
+
         let name = feature.get('name')
         let description = feature.get('description')
 

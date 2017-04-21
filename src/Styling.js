@@ -382,10 +382,8 @@ export class Styling {
     if (!image) {
       return style
     }
-    console.log(image.getScale())
-    // // let origScale = clone.getImage().getScale() || 1
-    // // HACK, why is scale 0.5?
-    // image.setScale(this.globalIconScale_)
+    let origScale = clone.getImage().getScale() || 1
+    image.setScale(origScale * this.globalIconScale_)
     return clone
   }
 
