@@ -55,6 +55,16 @@
           border-left: none;
         }
       }
+
+      &[dir=rtl] {
+        li:first-of-type {
+          border-left: @g4u-tiny solid;
+        }
+
+        li:last-of-type {
+          border-left: none;
+        }
+      }
     }
 
     &.g4u-collapsed {

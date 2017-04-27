@@ -172,7 +172,7 @@ module.exports = {
     'de': 'Gemessene Strecke: ',
     'en': 'Measured distance: ',
     'pl': 'Zmierzona odleg&lstrok;o&sacute;&cacute;: ',
-    'ar': 'المسافة المقاسة'
+    'ar': 'المسافة المقاسة: '
   },
   'MeasurementButton dim1 tipLabel': {
     'de': 'Distanzmesser',

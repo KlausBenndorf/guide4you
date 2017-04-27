@@ -139,6 +139,13 @@ export class InfoButton extends Control {
         type: 'change:active',
         oldValue: oldValue
       }
+      if (active) {
+        if (this.getMap().get('localiser').isRtl()) {
+          this.get$Element().prop('dir', 'rtl')
+        } else {
+          this.get$Element().prop('dir', undefined)
+        }
+      }
       if (!this.loaded_) {
         if (this.contentURL_) {
           let url = this.getLocaliser().selectL10N(this.contentURL_)

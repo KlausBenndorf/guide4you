@@ -137,6 +137,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         .attr('id', layer.get('id'))
         .html(layer.get('title'))
 
+      if (this.getMap().get('localiser').isRtl()) {
+        $button.prop('dir', 'rtl')
+      }
+
       let activeClassName = this.classNames_.menu + '-active'
 
       this.listenAt($button).on('click', () => {
@@ -190,6 +194,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       let menu = new ButtonBox({
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
+        rtl: this.getMap().get('localiser').isRtl(),
         titleButton: activateChildren,
         collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false),
         id: categoryLayer.get('id')
