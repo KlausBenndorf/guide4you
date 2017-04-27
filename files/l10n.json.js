@@ -47,7 +47,7 @@ module.exports = merge(require('guide4you/files/l10n.json.js'), {
     'ar': 'إدخال نص'
   },
   'LinkGeneratorButton tipLabel': {
-    'de': 'Link to current view',
+    'de': 'Link zur aktuellen Ansicht',
     'en': 'Link to current view',
     'pl': 'Link do bie&zdot;&aogon;cego widoku',
     'ar': 'رابط إلى العرض الحالي'
