@@ -128,7 +128,7 @@ export class SearchControl extends Control {
      * @type {jQuery}
      * @private
      */
-    this.$textfield_ = $('<input autocomplete="off" type="text">')
+    this.$textfield_ = $('<input autocomplete="off" type="search">')
       .prop('placeholder', placeholder)
       .addClass(this.classNameTextfield_)
 
@@ -334,6 +334,8 @@ export class SearchControl extends Control {
    * @private
    */
   onTextInput_ () {
+    this.searchView_.hideSearchResults()
+
     clearTimeout(this.autocompleteTimeout_)
     this.autocompleteTimeout_ = setTimeout(() => {
       // checking if autocomplete search should be performed and perform it
