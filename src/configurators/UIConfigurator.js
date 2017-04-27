@@ -478,13 +478,15 @@ export class UIConfigurator {
         this.map_.addDefaultInteraction('singleclick', new FeatureSelect({
           condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
-          multi: true
+          multi: true,
+          hitTolerance: 5
         }))
 
         let moveInteraction = new FeatureSelect({
           condition: e => ol.events.condition.pointerMove(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
-          multi: true
+          multi: true,
+          hitTolerance: 5
         })
         this.map_.addDefaultInteraction('pointermove', moveInteraction)
 

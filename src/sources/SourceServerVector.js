@@ -1,7 +1,7 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import { addProxy } from '../utilities'
+import { addParamToURL, addProxy } from '../utilities'
 import { copy } from '../utilitiesObject'
 
 import {Debug} from '../Debug'
@@ -214,6 +214,10 @@ export class SourceServerVector extends ol.source.Vector {
         this.doClear_ = true // clears the source
         this.loader(extent, resolution, projection) // calls the loader recursively
       }, this.refresh_)
+    }
+
+    if (!this.cache_ || this.localised_) {
+      addParamToURL(url, Math.random().toString(36).substring(7))
     }
 
     $.ajax({

@@ -6,7 +6,8 @@ import stripJsonComments from 'strip-json-comments'
 import {Debug} from '../Debug'
 
 import '../../less/helpbutton.less'
-import {copyDeep} from '../utilitiesObject'
+
+import 'polyfill!Array.prototype.includes'
 
 /**
  * @typedef {g4uControlOptions} HelpButtonOptions
@@ -77,22 +78,28 @@ export class HelpButton extends Control {
       let $td
       let visibleControls = []
 
-      function recursivelyFindVisibleControls (controls, arr) {
-        for (let i = 0, ii = arr.length; i < ii; i++) {
-          if (controls[arr[ i ]] && controls[arr[ i ]].contains) {
-            for (let j = 0, jj = controls[arr[ i ]].contains.length; j < jj; j++) {
-              if (visibleControls.indexOf(controls[arr[ i ]].contains[ j ]) === -1) {
-                visibleControls.push(controls[arr[ i ]].contains[ j ])
+      if (this.configControls_ && this.configControls_.hasOwnProperty('onMap')) {
+        let findContainedControls = controlNamesArr => {
+          visibleControls = visibleControls.concat(controlNamesArr.map(name => {
+            return this.configControls_.hasOwnProperty(name) && this.configControls_[name].hasOwnProperty('controlType')
+              ? this.configControls_[name].controlType : name
+          }))
+
+          for (let controlName of controlNamesArr) {
+            if (this.configControls_.hasOwnProperty(controlName)) {
+              if (this.configControls_[controlName].hasOwnProperty('contains')) {
+                findContainedControls(this.configControls_[controlName].contains)
               }
             }
-            recursivelyFindVisibleControls(controls, controls[arr[ i ]].contains)
           }
         }
-      }
 
-      if (this.configControls_ && this.configControls_.onMap) {
-        visibleControls = copyDeep(this.configControls_.onMap)
-        recursivelyFindVisibleControls(this.configControls_, visibleControls)
+        if (!this.getMap().get('mobile')) {
+          findContainedControls(this.configControls_.onMap.filter(c => c !== 'mobileControls'))
+        } else if (this.configControls_.hasOwnProperty('mobileControls') &&
+            this.configControls_.mobileControls.hasOwnProperty('contains')) {
+          findContainedControls(this.configControls_.mobileControls.contains)
+        }
       }
       for (id in documentationLocalized) {
         if (documentationLocalized.hasOwnProperty(id) && documentationLocalized[ id ]) {
@@ -100,7 +107,7 @@ export class HelpButton extends Control {
           descrData = documentationLocalized[ id ].descr || ''
           joinWith = documentationLocalized[ id ].joinWith || ''
 
-          if (visibleControls.indexOf(id) > -1) {
+          if (visibleControls.includes(id)) {
             $row = $('<tr>')
 
             imgElements = `<td class="${this.className_}-img"><div class="${this.className_}-imgDiv">`

@@ -255,7 +255,7 @@ export class FeaturePopup extends ol.Object {
       map.getDefaultInteractions('singleclick')[ 0 ].on('select', e => {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
-          this.onFeatureClick_(selected[ 0 ])
+          this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
           e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
           e.target.changed()
         }
@@ -303,9 +303,10 @@ export class FeaturePopup extends ol.Object {
 
   /**
    * @param {ol.Feature} feature
+   * @param {ol.Coordinate} coordinate
    * @private
    */
-  onFeatureClick_ (feature) {
+  onFeatureClick_ (feature, coordinate = null) {
     this.referencingVisibleLayers_ = []
 
     this.getMap().getLayerGroup().recursiveForEach(layer => {
@@ -316,7 +317,7 @@ export class FeaturePopup extends ol.Object {
       }
     })
 
-    this.setFeature(feature)
+    this.setFeature(feature, coordinate)
     this.setVisible(true)
 
     if (this.centerOnPopup_) {
@@ -447,16 +448,16 @@ export class FeaturePopup extends ol.Object {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
+   * @param {ol.Coordinate} coordinate
    * @param {string[]} [optMutators=[]]
    */
-  setFeature (feature, optMutators = []) {
+  setFeature (feature, coordinate = null, optMutators = []) {
     let oldValue = this.feature_
+    if (feature) {
+      this.overlay_.setPosition(coordinate || ol.extent.getCenter(feature.getGeometry().getExtent()))
+    }
+
     if (oldValue !== feature) {
-      let geometry = feature.getGeometry()
-      let coord = ol.extent.getCenter(geometry.getExtent())
-
-      this.overlay_.setPosition(coord)
-
       if (this.feature_) {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
@@ -466,7 +467,7 @@ export class FeaturePopup extends ol.Object {
         this.useMutators_ = this.useMutators_.concat(flatten(layer.get('mutators')))
       }
       this.geometryChangeHandler_ = () => {
-        this.overlay_.setPosition(ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
+        this.overlay_.setPosition(coordinate || ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
         if (this.getVisible()) {
           this.update()
         }

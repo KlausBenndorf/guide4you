@@ -107,7 +107,7 @@ export class Shield extends ol.Object {
    * @param {jQuery} $element
    */
   add$OnTop ($element) {
-    var $actualElement = $element
+    let $actualElement = $element
 
     let $window = $element.parents().filter('.g4u-window')
     if ($window.length > 0) {
@@ -123,6 +123,10 @@ export class Shield extends ol.Object {
     })
 
     this.$element_.append($actualElement)
+
+    for (let className of Array.from($oldParent[0].classList)) {
+      this.$element_.addClass(className)
+    }
   }
 
   /**
@@ -130,13 +134,17 @@ export class Shield extends ol.Object {
    * @param {jQuery} $element
    */
   remove$OnTop ($element) {
-    let elementPosition = this.elementsOnTop_.get($element[0])
+    let {$actualElement, $oldParent, oldIndex} = this.elementsOnTop_.get($element[0])
     this.elementsOnTop_.delete($element[0])
 
-    if (elementPosition.oldIndex === 0) {
-      elementPosition.$oldParent.prepend(elementPosition.$actualElement)
+    if (oldIndex === 0) {
+      $oldParent.prepend($actualElement)
     } else {
-      elementPosition.$oldParent.children().eq(elementPosition.oldIndex - 1).after(elementPosition.$actualElement)
+      $oldParent.children().eq(oldIndex - 1).after($actualElement)
+    }
+
+    for (let className of Array.from($oldParent[0].classList)) {
+      this.$element_.removeClass(className)
     }
   }
 

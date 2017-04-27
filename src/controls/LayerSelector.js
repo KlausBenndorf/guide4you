@@ -9,7 +9,6 @@ import {cssClasses} from '../globals'
 
 import '../../less/layerselector.less'
 import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
-import {FunctionCallBuffer} from '../FunctionCallBuffer'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -83,20 +82,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     })
 
     this.get$Element().append(this.menu_.get$Element())
-
-    let scrolled
-
-    this.listenAt(this.menu_.get$Body()[0])
-      .on('click', () => {
-        scrolled = this.menu_.get$Body().scrollTop()
-      }, true)
-
-    let applyScrolling = new FunctionCallBuffer(() => {
-      this.menu_.get$Body().scrollTop(scrolled)
-    }, 200)
-
-    this.listenAt(this.menu_.get$Body()[0])
-      .on('click', () => applyScrolling.call(), false)
 
     /**
      * @type {boolean}
@@ -544,6 +529,18 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     }
 
     return 0
+  }
+
+  beforePositioning () {
+    this.scrolled_ = this.menu_.get$Body().scrollTop()
+  }
+
+  /**
+   * used by positioning
+   * @param {{scroll: number}} state
+   */
+  afterPositioning () {
+    this.menu_.get$Body().scrollTop(this.scrolled_)
   }
 
   /**

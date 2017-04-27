@@ -144,6 +144,7 @@
     padding: @g4u-mobile-padding;
 
     .g4u-window-scroll-wrap {
+      //height: ~"calc(100% - @{g4u-mobile-button-size} - @{g4u-mobile-padding})";
       height: 100%;
       width: 100%;
       padding: 0;
@@ -166,8 +167,8 @@
     }
 
     .g4u-window-inner-position {
-      top: 0;
-      bottom: @g4u-mobile-button-size;
+      top: @g4u-mobile-padding;
+      bottom: @g4u-mobile-button-size + @g4u-mobile-padding;
       left: 0;
       right: 0;
       height: auto;
@@ -176,7 +177,6 @@
       padding: 0;
       overflow: hidden;
     }
-
 
     button.g4u-window-button-close {
       position: absolute;
