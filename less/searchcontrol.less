@@ -150,7 +150,6 @@
       vertical-align: top;
       width: 100%;
       height: @g4u-mobile-button-size - 2 * @g4u-tiny;
-      padding: 0 0 0 @g4u-mobile-padding;
       font-size: @g4u-mobile-huge-fontsize;
       border: @g4u-tiny solid @g4u-light-main-color;
       background: white;
@@ -164,6 +163,14 @@
       &:focus {
         border-color: @g4u-medium-main-color;
       }
+    }
+
+    &:not([dir='rtl']) .g4u-search-control-textfield {
+      padding: 0 0 0 @g4u-mobile-padding;
+    }
+
+    &[dir='rtl'] .g4u-search-control-textfield {
+      padding: 0 @g4u-mobile-padding 0 0;
     }
 
     .g4u-search-control-searchbutton {
