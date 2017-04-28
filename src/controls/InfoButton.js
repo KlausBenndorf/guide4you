@@ -67,7 +67,7 @@ export class InfoButton extends Control {
      * @type {boolean}
      * @private
      */
-    this.useProxy_ = this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
+    this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
 
     /**
      * @type {string|undefined}

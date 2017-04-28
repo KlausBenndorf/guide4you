@@ -251,7 +251,7 @@ export class Window extends ol.Object {
         this.$element_.removeClass(cssClasses.hidden)
         if (this.map_.get('mobile')) {
           this.map_.get('shield').setActive(true)
-          this.map_.get('shield').add$OnTop(this.$element_)
+          this.map_.get('shield').add$OnTop(this.$element_, false)
           this.shieldActivated_ = true
         } else if (!this.map_.get('shield').getActive()) {
           this.getInFront()

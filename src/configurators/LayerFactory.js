@@ -38,7 +38,7 @@ export const LayerType = {
  * @property {string} type the LayerType
  * @property {string|number} id unique in the whole config
  * @property {string} title
- * @property {SourceConfig} source
+ * @property {SourceConfig|ol.source.Source} source
  * @property {Boolean} available
  * @property {Boolean} availableMobile overwrites available in mobile mode
  * @property {Boolean} visible
@@ -253,7 +253,8 @@ export class LayerFactory {
         if (superType === SuperType.BASELAYER) {
           layer = new EmptyBaseLayer(optionsCopy)
         } else {
-          this.superTypeNotSupported(layerType, superType)
+          optionsCopy.source = new ol.source.Vector()
+          layer = new VectorLayer(optionsCopy)
         }
         break
       case LayerType.OSM:

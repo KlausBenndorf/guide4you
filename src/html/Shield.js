@@ -105,13 +105,16 @@ export class Shield extends ol.Object {
   /**
    * Gets the given element in front of the shield. The element is removed from its context temporarily
    * @param {jQuery} $element
+   * @param {boolean} [findParentWindow=true]
    */
-  add$OnTop ($element) {
+  add$OnTop ($element, findParentWindow = true) {
     let $actualElement = $element
 
-    let $window = $element.parents().filter('.g4u-window')
-    if ($window.length > 0) {
-      $actualElement = $window
+    if (findParentWindow) {
+      let $window = $element.parents().filter('.g4u-window')
+      if ($window.length > 0) {
+        $actualElement = $window
+      }
     }
 
     let $oldParent = $actualElement.parent()
@@ -123,6 +126,7 @@ export class Shield extends ol.Object {
     })
 
     this.$element_.append($actualElement)
+    getInFront($actualElement, this.$element_)
 
     for (let className of Array.from($oldParent[0].classList)) {
       this.$element_.addClass(className)
@@ -135,7 +139,6 @@ export class Shield extends ol.Object {
    */
   remove$OnTop ($element) {
     let {$actualElement, $oldParent, oldIndex} = this.elementsOnTop_.get($element[0])
-    this.elementsOnTop_.delete($element[0])
 
     if (oldIndex === 0) {
       $oldParent.prepend($actualElement)
@@ -146,6 +149,8 @@ export class Shield extends ol.Object {
     for (let className of Array.from($oldParent[0].classList)) {
       this.$element_.removeClass(className)
     }
+
+    this.elementsOnTop_.delete($element[0])
   }
 
   /**

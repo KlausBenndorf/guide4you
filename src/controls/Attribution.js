@@ -65,15 +65,19 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     if (this.showPoweredBy_) {
       let content = (options.poweredBy === undefined)
         ? '<a href="https://github.com/KlausBenndorf/guide4you" target="_blank">Guide4You</a>'
-        : options.poweredBy
+        : this.getLocaliser().selectL10N(options.poweredBy)
+
+      if (!Array.isArray(content)) {
+        content = [content]
+      }
 
       /**
        * @type {jQuery}
        * @private
        */
-      this.$poweredBy_ = $('<li>')
-        .append(content)
-        .addClass(this.className_ + '-poweredby')
+      this.$poweredBy_ = content.map(c => $('<li>')
+        .append(c)
+        .addClass(this.className_ + '-poweredby'))
     }
   }
 

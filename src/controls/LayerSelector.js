@@ -4,8 +4,9 @@ import flatten from 'lodash/flatten'
 import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
 import {Control} from './Control'
-import {offset, mixin} from '../utilities'
+import { offset, mixin, addProxy } from '../utilities'
 import {cssClasses} from '../globals'
+import {Window} from '../html/Window'
 
 import '../../less/layerselector.less'
 import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
@@ -123,6 +124,62 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.menu_.setCollapsed(collapsed)
   }
 
+  addWindowToButton ($button, layer) {
+    let windowConfig = layer.get('window')
+
+    let window = new Window({
+      map: this.getMap()
+    })
+
+    if (!this.$windowContainer_) {
+      this.$windowContainer_ = $('<span>')
+      this.get$Element().append(this.$windowContainer_)
+    }
+
+    this.$windowContainer_.append(window.get$Element())
+
+    window.get$Element().attr('data-layer-0', layer.get('id'))
+
+    let content
+
+    let useProxy = (windowConfig.useProxy || (!windowConfig.hasOwnProperty('useProxy') && windowConfig.proxy))
+
+    let proxy = windowConfig.proxy
+
+    let showWindow = () => {
+      if (this.getMap().get('localiser').isRtl()) {
+        window.get$Body().prop('dir', 'rtl')
+      } else {
+        window.get$Body().prop('dir', undefined)
+      }
+      window.get$Body().html(content)
+      window.setVisible(true)
+    }
+
+    let hideWindow = () => {
+      window.setVisible(false)
+    }
+
+    this.listenAt($button).on('click', () => {
+      if (layer.getVisible()) {
+        if (!content) {
+          let url = this.getLocaliser().selectL10N(windowConfig.url)
+          if (useProxy) {
+            url = addProxy(url, proxy || this.getMap().get('proxy'))
+          }
+          $.get(url, data => {
+            content = data
+            showWindow()
+          })
+        } else {
+          showWindow()
+        }
+      } else {
+        hideWindow()
+      }
+    })
+  }
+
   /**
    * this method builds a button for a layer. It toggles visibility if you click on it
    * @param {ol.layer.Base} layer
@@ -162,6 +219,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           $button.removeClass('g4u-layer-loading')
         }
       })
+
+      if (layer.get('window')) {
+        this.addWindowToButton($button, layer)
+      }
 
       this.listenAt(layerSource).on([ 'vectorloadstart', 'tileloadstart', 'imageloadstart' ], () => {
         $button.addClass('g4u-layer-loading')

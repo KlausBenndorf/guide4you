@@ -255,6 +255,11 @@ export class MeasurementButton extends Control {
       this.layer_.setVisible(active)
 
       if (active) {
+        if (this.getMap().get('localiser').isRtl()) {
+          this.get$Element().prop('dir', 'rtl')
+        } else {
+          this.get$Element().prop('dir', undefined)
+        }
         this.getMap().get('featurePopup').setVisible(false)
         $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
 
