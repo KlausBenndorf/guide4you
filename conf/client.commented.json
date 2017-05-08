@@ -74,7 +74,6 @@
     "mobileControls": {
       "float": "fixed",
       "contains": [
-        "linkGeneratorButton",
         "mobileLayerMenu",
         "infoButton"
       ]
