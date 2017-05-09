@@ -20,6 +20,11 @@ import '../../less/shield.less'
  */
 
 /**
+ * @typedef {object} OnTopOptions
+ * @property {boolean} [findParentWindow=false]
+ */
+
+/**
  * A shield that sets itself in front of all other elements in a context if activated, hides itself if deactivated.
  * It can get another element in front of it (Attention: it gets removed from its context temporarly)
  */
@@ -105,12 +110,12 @@ export class Shield extends ol.Object {
   /**
    * Gets the given element in front of the shield. The element is removed from its context temporarily
    * @param {jQuery} $element
-   * @param {boolean} [findParentWindow=true]
+   * @param {OnTopOptions} [options]
    */
-  add$OnTop ($element, findParentWindow = true) {
+  add$OnTop ($element, options = {}) {
     let $actualElement = $element
 
-    if (findParentWindow) {
+    if (!options.hasOwnProperty('findParentWindow') || options.findParentWindow) {
       let $window = $element.parents().filter('.g4u-window')
       if ($window.length > 0) {
         $actualElement = $window
@@ -136,9 +141,12 @@ export class Shield extends ol.Object {
   /**
    * Returns the given element in front of the shield to the previous context
    * @param {jQuery} $element
+   * @returns {Promise}
    */
   remove$OnTop ($element) {
-    let {$actualElement, $oldParent, oldIndex} = this.elementsOnTop_.get($element[0])
+    let element = $element[0]
+
+    let {$actualElement, $oldParent, oldIndex} = this.elementsOnTop_.get(element)
 
     if (oldIndex === 0) {
       $oldParent.prepend($actualElement)
@@ -150,7 +158,7 @@ export class Shield extends ol.Object {
       this.$element_.removeClass(className)
     }
 
-    this.elementsOnTop_.delete($element[0])
+    this.elementsOnTop_.delete(element)
   }
 
   /**

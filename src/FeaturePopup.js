@@ -131,8 +131,6 @@ export class FeaturePopup extends ol.Object {
       stopEvent: false
     })
 
-    this.overlay_.setOffset(this.pixelOffset_)
-
     /**
      * @type {Map.<string,function>}
      * @private
@@ -547,8 +545,8 @@ export class FeaturePopup extends ol.Object {
               let iconSize = imageStyle.getSize()
 
               let totalOffset = [
-                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * imageStyle.getScale(),
-                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * imageStyle.getScale()
+                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * (imageStyle.getScale() || 1),
+                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * (imageStyle.getScale() || 1)
               ]
 
               this.overlay_.setOffset(totalOffset)

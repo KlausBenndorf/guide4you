@@ -125,6 +125,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
   setActive (active) {
     let oldValue = this.active_
     if (oldValue !== active) {
+      this.dropdown_.setActivated(this.getLocaliser().getCurrentLang())
       if (active) {
         this.collapse_ = false
         this.dropdown_.slideDown(this.getMap().get('mobile'))

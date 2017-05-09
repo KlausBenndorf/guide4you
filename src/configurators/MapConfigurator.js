@@ -80,6 +80,7 @@ import {Debug} from '../Debug'
  *    the ol-viewport and adding the g4u-mobile class
  * @property {number} [scaleIcons=1] a value to scale all icons by
  * @property {boolean} [animations=true] if animations should be disabled
+ * @property {number} [hitTolerance]
  */
 
 /**

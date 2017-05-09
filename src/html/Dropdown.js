@@ -218,6 +218,10 @@ export class Dropdown extends ol.Object {
     }
   }
 
+  setActivated (value, active) {
+    this.entriesArray_.find(o => o.value === value).$element.toggleClass(cssClasses.active, active)
+  }
+
   /**
    * This function takes an array of entries (strings).
    * The length of the dropdown is set to the length of the arrays (they have to have the same length).

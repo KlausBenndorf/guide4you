@@ -27,6 +27,8 @@ import {parseCSSColor} from 'csscolorparser'
 import {FunctionCallBuffer} from '../FunctionCallBuffer'
 import {ShowWMSFeatureInfo} from '../ShowWMSFeatureInfo'
 
+import {History} from '../html/History'
+
 /**
  * This class configures the UI of a map according to its mapconfig
  */
@@ -215,6 +217,7 @@ export class UIConfigurator {
     let lastMatch
     let oldScaleIcons
     let oldAnimations
+    let oldHitTolerance
 
     let checkMobileLayoutQuery = () => {
       /**
@@ -264,16 +267,21 @@ export class UIConfigurator {
                 }
               }, 0)
             }
+
+            if (mobileLayout.hasOwnProperty('hitTolerance')) {
+              oldHitTolerance = this.map_.get('hitTolerance')
+              this.map_.set('hitTolerance', mobileLayout.hitTolerance)
+            }
           } else {
             $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
             $(this.map_.getTarget()).children().removeClass(cssClasses.mobile)
 
             this.map_.set('mobile', false)
 
-            if (oldAnimations) {
+            if (mobileLayout.hasOwnProperty('animations')) {
               this.map_.get('move').setAnimations(oldAnimations)
             }
-            if (oldScaleIcons) {
+            if (mobileLayout.hasOwnProperty('scaleIcons')) {
               this.map_.set('scaleIcons', oldScaleIcons)
               this.map_.get('styling').setGlobalIconScale(oldScaleIcons)
               this.map_.getLayerGroup().recursiveForEach(l => {
@@ -293,6 +301,10 @@ export class UIConfigurator {
                   wmsFeatureInfo.setPointVisible(true)
                 }
               }, 0)
+            }
+
+            if (mobileLayout.hasOwnProperty('hitTolerance')) {
+              this.map_.set('hitTolerance', oldHitTolerance)
             }
           }
         }
@@ -478,15 +490,13 @@ export class UIConfigurator {
         this.map_.addDefaultInteraction('singleclick', new FeatureSelect({
           condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
-          multi: true,
-          hitTolerance: 5
+          multi: true
         }))
 
         let moveInteraction = new FeatureSelect({
           condition: e => ol.events.condition.pointerMove(e) && $(e.originalEvent.target).is('canvas'),
           style: null,
-          multi: true,
-          hitTolerance: 5
+          multi: true
         })
         this.map_.addDefaultInteraction('pointermove', moveInteraction)
 
@@ -500,6 +510,21 @@ export class UIConfigurator {
             }
           }
         })
+
+        // hitTolerance
+        let updateHitTolerance = () => {
+          let hitTolerance = this.map_.get('hitTolerance')
+          for (let interaction of this.map_.getInteractions().getArray()) {
+            if (interaction.setHitTolerance) {
+              interaction.setHitTolerance(hitTolerance)
+            }
+          }
+        }
+
+        this.map_.set('hitTolerance', mapConfigCopy.hitTolerance || 0)
+
+        updateHitTolerance()
+        this.map_.on('change:hitTolerance', updateHitTolerance)
 
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     Feature Popups                                       //
@@ -543,6 +568,12 @@ export class UIConfigurator {
         } else {
           this.map_.set('showWMSFeatureInfo', undefined)
         }
+
+        // //////////////////////////////////////////////////////////////////////////////////////// //
+        //                                    Custom History                                        //
+        // //////////////////////////////////////////////////////////////////////////////////////// //
+
+        this.map_.set('history', new History())
 
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     UserExit (2/2)                                       //

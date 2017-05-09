@@ -244,25 +244,32 @@ export class Window extends ol.Object {
   /**
    * @param {boolean} visible
    */
-  setVisible (visible) {
+  setVisible (visible, popHistory = true) {
     let oldValue = this.visible_
     if (oldValue !== visible) {
       if (visible) {
         this.$element_.removeClass(cssClasses.hidden)
         if (this.map_.get('mobile')) {
           this.map_.get('shield').setActive(true)
-          this.map_.get('shield').add$OnTop(this.$element_, false)
+          this.map_.get('shield').add$OnTop(this.$element_, {
+            findParentWindow: false
+          })
           this.shieldActivated_ = true
+          this.map_.get('history')
+            .push(() => this.setVisible(false, false))
         } else if (!this.map_.get('shield').getActive()) {
           this.getInFront()
         }
       } else {
         if (this.shieldActivated_) {
-          this.map_.get('shield').setActive(false)
-          this.map_.get('shield').remove$OnTop(this.$element_)
-          this.shieldActivated_ = false
+          if (popHistory) {
+            this.map_.get('history').pop()
+          } else {
+            this.map_.get('shield').setActive(false)
+            this.map_.get('shield').remove$OnTop(this.$element_)
+            this.shieldActivated_ = false
+          }
         }
-
         this.$element_.addClass(cssClasses.hidden)
         this.$element_.css('top', '')
         this.$element_.css('left', '')
