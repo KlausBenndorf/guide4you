@@ -135,19 +135,20 @@ test.describe('FeatureTooltip', function () {
       driver.actions()
         .mouseMove(viewport)
         .perform()
-        .then(() => {
+        .then(
           driver.wait(until.elementIsVisible(featureTooltip),
-            config.seleniumTimeout, 'Tooltip should be visible in time')
+            config.seleniumTimeout / 3, 'Tooltip should be visible in time'))
+        .then(() => {
           assert(featureTooltip.getText(), 'Tooltip should show "name"').equalTo('name')
           // 2:
           return driver.actions()
             .mouseMove(viewport, { x: 0, y: 0 })
             .perform()
-        }).then(() => {
-          driver.wait(until.elementIsNotVisible(featureTooltip),
-            config.seleniumTimeout, 'Tooltip should be hidden in time')
-          done()
         })
+        .then(
+          driver.wait(until.elementIsNotVisible(featureTooltip),
+            config.seleniumTimeout / 3, 'Tooltip should be hidden in time'))
+        .then(done)
     })
   })
 
@@ -165,19 +166,20 @@ test.describe('FeatureTooltip', function () {
       driver.actions()
         .mouseMove(viewport)
         .perform()
-        .then(() => {
+        .then(
           driver.wait(until.elementIsVisible(featureTooltip),
-            config.seleniumTimeout, 'Tooltip should be visible in time')
+            config.seleniumTimeout / 3, 'Tooltip should be visible in time'))
+        .then(() => {
           assert(featureTooltip.getText(), 'Tooltip should show "name"').equalTo('name')
           // 2:
           return driver.actions()
             .mouseMove(viewport, { x: 0, y: 0 })
             .perform()
-        }).then(() => {
-          driver.wait(until.elementIsNotVisible(featureTooltip),
-            config.seleniumTimeout, 'Tooltip should be hidden in time')
-          done()
         })
+        .then(
+          driver.wait(until.elementIsNotVisible(featureTooltip),
+            config.seleniumTimeout / 3, 'Tooltip should be hidden in time'))
+        .then(done)
     })
   })
 
@@ -198,7 +200,7 @@ test.describe('FeatureTooltip', function () {
             .perform()
             .then(() => {
               driver.wait(until.elementIsVisible(featureTooltip),
-                config.seleniumTimeout, 'Tooltip should be visible in time')
+                config.seleniumTimeout / 3, 'Tooltip should be visible in time')
               assert(featureTooltip.getText(), 'Tooltip should show "namePolygon"').equalTo('namePolygon')
               // 2:
               return driver.actions()
@@ -206,7 +208,7 @@ test.describe('FeatureTooltip', function () {
                 .perform()
             }).then(() => {
               driver.wait(until.elementTextIs(featureTooltip, 'namePoint'),
-                config.seleniumTimeout, 'Tooltip should show "namePoint"')
+                config.seleniumTimeout / 3, 'Tooltip should show "namePoint"')
               assert(featureTooltip.isDisplayed(), 'Tooltip should be visible').equalTo(true)
               done()
             })
@@ -230,16 +232,19 @@ test.describe('FeatureTooltip', function () {
           driver.actions()
             .mouseMove(viewport, { x: Math.round(size.width / 2 + 15), y: Math.round(size.height / 2 + 15) })
             .perform()
-            .then(() => {
+            .then(
               driver.wait(until.elementIsVisible(featureTooltip),
-                config.seleniumTimeout, 'Tooltip should be visible in time')
+                config.seleniumTimeout / 3, 'Tooltip should be visible in time'))
+            .then(() => {
               assert(featureTooltip.getText(), 'Tooltip should show "namePolygon"').equalTo('namePolygon')
               return driver.actions()
                 .mouseMove(viewport)
                 .perform()
-            }).then(() => {
+            })
+            .then(
               driver.wait(until.elementTextIs(featureTooltip, 'nameLine'),
-                config.seleniumTimeout, 'Tooltip should show "nameLine"')
+                config.seleniumTimeout / 3, 'Tooltip should show "nameLine"'))
+            .then(() => {
               assert(featureTooltip.isDisplayed(), 'Tooltip should be visible').equalTo(true)
               done()
             })
