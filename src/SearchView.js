@@ -84,7 +84,7 @@ export class SearchView {
       )
 
       if (!ol.extent.isEmpty(extent)) {
-        this.getMap().get('move').toExtent(extent, { animated: this.animated_, padding: 'default' })
+        this.getMap().get('move').toExtent(extent, { animated: this.animated_ })
       }
     }
   }
@@ -97,18 +97,6 @@ export class SearchView {
    * @param {ol.Feature[]} features
    */
   showSearchResults (features) {
-    if (features.length === 1 && !this.getMap().get('mobile')) {
-      // exact search result
-      let featurePopup = this.getMap().get('featurePopup')
-      featurePopup.setFeature(features[0])
-      featurePopup.setVisible(true, false)
-      featurePopup.update(false)
-      featurePopup.centerMapOnPopup()
-    } else {
-      // fuzzy search result
-      this.centerOnSearchlayer()
-    }
-
     let sourceBottom = this.searchlayerBottom_.getSource()
     sourceBottom.clear()
 

@@ -7,6 +7,11 @@ import {SearchConnector} from './SearchConnector'
 import {expandTemplate} from 'guide4you/src/utilities'
 
 export class NominatimSearchConnector extends SearchConnector {
+  constructor (options) {
+    super(options)
+
+    this.dataProjection = 'EPSG:4326'
+  }
 
   setMap (map) {
     super.setMap(map)
@@ -14,9 +19,9 @@ export class NominatimSearchConnector extends SearchConnector {
     if (map) {
       let extent = map.getView().calculateExtent(map.getSize())
 
-      let extentString = ol.proj.transformExtent(extent, this.featureProjection, 'EPSG:4326').join(',')
+      let extentString = ol.proj.transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
 
-      this.url_ = this.serviceUrl +
+      this.url_ = this.serviceURL +
         'format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=' + extentString +
         '&bounded=1&extratags=1&namedetails=1'
     }
@@ -177,17 +182,17 @@ export class NominatimSearchConnector extends SearchConnector {
       for (let i = 0, ii = data.polygonpoints.length; i < ii; i++) {
         polygonpoints.push([parseFloat(data.polygonpoints[i][0]), parseFloat(data.polygonpoints[i][1])])
       }
-      if (this.featureProjection_) {
-        ol.proj.transform(polygonpoints, this.dataProjection_, this.featureProjection_)
+      if (this.featureProjection) {
+        ol.proj.transform(polygonpoints, this.dataProjection, this.featureProjection)
       }
 
       featureOptions.geometry = new ol.geom.Polygon(polygonpoints)
     } else if ((data.hasOwnProperty('lon')) && (data.hasOwnProperty('lat'))) {
       let point = [parseFloat(data.lon), parseFloat(data.lat)]
 
-      if (this.featureProjection_) {
+      if (this.featureProjection) {
         let coords = [parseFloat(data.lon), parseFloat(data.lat)]
-        point = ol.proj.transform(coords, this.dataProjection_, this.featureProjection_)
+        point = ol.proj.transform(coords, this.dataProjection, this.featureProjection)
       }
 
       featureOptions.geometry = new ol.geom.Point(point)

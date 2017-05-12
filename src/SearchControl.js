@@ -377,11 +377,20 @@ export class SearchControl extends Control {
     if (features.length > 0) {
       this.searchView_.showSearchResults(features)
 
-      if (this.getMap().get('mobile')) {
-        let isExact = features.length === 1
+      let isExact = features.length === 1
+
+      if (!this.getMap().get('mobile') && isExact) {
+        // exact search result desktop
+        let featurePopup = this.getMap().get('featurePopup')
+        featurePopup.setFeature(features[0])
+        featurePopup.setVisible(true, false)
+        featurePopup.update(false)
+        featurePopup.centerMapOnPopup()
+      } else {
+        this.searchView_.centerOnSearchlayer()
+
         if ((isExact && this.deactivateMobileSearch_ === DeactivateMobileSearch.EXACT) ||
-            this.deactivateMobileSearch_ === DeactivateMobileSearch.ANY) {
-          this.searchView_.centerOnSearchlayer()
+          this.deactivateMobileSearch_ === DeactivateMobileSearch.ANY) {
           this.setActive(false)
         }
       }

@@ -63,12 +63,11 @@
       ],
       "connector": {
         "type": "nominatim",
-        "serviceUrl": "http://nominatim.openstreetmap.org/search?",
+        "serviceURL": "http://nominatim.openstreetmap.org/search?",
         "useProxy": true
       },
       "closePageOnSearchEnd": false,
       "style": "#defaultStyle",
-      "projectionOfServer": "EPSG:4326",
       "amountDropdownEntries": 6,
       "animated": true,
       "placeholder": "Search ..."

@@ -3,7 +3,7 @@ import {addProxy} from 'guide4you/src/utilities'
 /**
  * @typedef {Object} SearchConnectorOptions
  * @property {string} type
- * @property {string} serviceUrl
+ * @property {string} serviceURL
  * @property {string} proxy
  * @property {boolean} useProxy
  * @property {L10N} localiser
@@ -17,7 +17,7 @@ export class SearchConnector {
      * @type {string}
      * @protected
      */
-    this.serviceUrl = options.serviceUrl
+    this.serviceURL = options.serviceURL
 
     /**
      * @type {boolean}
@@ -36,6 +36,13 @@ export class SearchConnector {
      * @protected
      */
     this.localiser = options.localiser
+  }
+
+  static flipTuples(tuples) {
+    if (tuples.length) {
+      return zip(...tuples)
+    }
+    return [[], []]
   }
 
   proxifyUrl (url) {
