@@ -60,11 +60,11 @@
         "top",
         "left"
       ],
-      "useProxy": true,
-      "fuzzySearchURL": "http://mapper.benndorf.de/g4u3Suche/findall.ashx?option=2&term={searchstring}",
-      "exactSearchURL": "http://mapper.benndorf.de/g4u3Suche/findall.ashx?option=1&term={searchstring}",
-      "autocompleteURL": "http://mapper.benndorf.de/g4u3Suche/Autocomplete.ashx?term={searchstring}",
-      "parser": "G4USearchV2",
+      "connector": {
+        "type": "G4USearchV2",
+        "useProxy": true,
+        "serviceUrl": "http://mapper.benndorf.de/g4u3Suche/"
+      },
       "closePageOnSearchEnd": false,
       "style": "#defaultStyle",
       "projectionOfServer": "EPSG:4326",

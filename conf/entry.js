@@ -18,11 +18,11 @@ import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you
 import 'file?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 import {SearchModule} from 'guide4you-module-search/src/SearchModule'
-import {G4USearchV2} from '../src/G4USearchV2Parser'
+import {G4USearchV2Connector} from '../src/G4USearchV2Connector'
 
 window.createG4U = function (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
   return createG4UInternal('#g4u-map', clientConf, layerConf, [
-    new SearchModule({ parsers: { G4USearchV2 }})
+    new SearchModule({ connectors: { G4USearchV2: G4USearchV2Connector }})
   ])
 }
 
