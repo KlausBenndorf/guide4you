@@ -1,3 +1,5 @@
+import zip from 'lodash/zip'
+
 import {addProxy} from 'guide4you/src/utilities'
 
 /**
