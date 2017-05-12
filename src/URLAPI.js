@@ -50,11 +50,13 @@ export class URLAPI {
 
     let isSet = key => (this.queryValues.hasOwnProperty(key))
 
-    const getVal = key => filterText(this.queryValues[key])
+    const getSanitizedVal = key => filterText(this.queryValues[key])
+
+    const getInjectUnsafeVal = key => this.queryValues[key]
 
     const isExcluded = key => (this.excluded_.indexOf(key) > -1)
 
-    const isTrue = key => (isSet(key) && !!JSON.parse(getVal(key)))
+    const isTrue = key => (isSet(key) && !!JSON.parse(getSanitizedVal(key)))
 
     const getArray = key => this.queryValues[ key ].split(',')
 
@@ -88,8 +90,8 @@ export class URLAPI {
         setEvent: 'afterConfiguring',
         setToMap: () => {
           if (isSet('x') && isSet('y')) {
-            let x = parseFloat(getVal('x'))
-            let y = parseFloat(getVal('y'))
+            let x = parseFloat(getSanitizedVal('x'))
+            let y = parseFloat(getSanitizedVal('y'))
 
             if (!isNaN(x) && !isNaN(y)) {
               let view = this.map_.getView()
@@ -98,9 +100,9 @@ export class URLAPI {
                 ol.proj.transform([ x, y ], this.map_.get('interfaceProjection'), view.getProjection())
               ))
             }
-          } else if (isSet('lon') && isSet('lat') && Math.abs(parseFloat(getVal('lat'))) < 90) {
-            let lon = parseFloat(getVal('lon'))
-            let lat = parseFloat(getVal('lat'))
+          } else if (isSet('lon') && isSet('lat') && Math.abs(parseFloat(getSanitizedVal('lat'))) < 90) {
+            let lon = parseFloat(getSanitizedVal('lon'))
+            let lat = parseFloat(getSanitizedVal('lat'))
 
             if (!isNaN(lon) && !isNaN(lat)) {
               let view = this.map_.getView()
@@ -133,7 +135,7 @@ export class URLAPI {
         setEvent: 'afterConfiguring',
         setToMap: () => {
           if (isSet('rot')) {
-            this.map_.getView().setRotation(Math.PI * getVal('rot') / 180)
+            this.map_.getView().setRotation(Math.PI * getSanitizedVal('rot') / 180)
           }
         },
         getFromMap: () => {
@@ -150,7 +152,7 @@ export class URLAPI {
         setEvent: 'afterConfiguring',
         setToMap: () => {
           if (isSet('zoom')) {
-            this.map_.getView().setZoom(parseFloat(getVal('zoom')))
+            this.map_.getView().setZoom(parseFloat(getSanitizedVal('zoom')))
           }
         },
         getFromMap: () => {
@@ -269,7 +271,7 @@ export class URLAPI {
         setEvent: 'ready',
         setToMap: () => {
           if (isSet('responsive')) {
-            this.map_.set('responsive', JSON.parse(getVal('responsive')))
+            this.map_.set('responsive', JSON.parse(getSanitizedVal('responsive')))
           }
         },
         getFromMap: () => {
@@ -284,7 +286,11 @@ export class URLAPI {
         setEvent: 'beforeConfigLoad',
         setToMap: () => {
           if (isSet('conf')) {
-            this.map_.set('configFileName', getVal('conf'))
+            let val = getInjectUnsafeVal('layconf').trim()
+            if (val.match(/^(?:[a-z]+:)?\/\//i)) {
+              throw new Error('The provided conf parameter is absolute. Only relative paths are allowed.')
+            }
+            this.map_.set('configFileName', val)
           }
         },
         getFromMap: () => {
@@ -299,7 +305,11 @@ export class URLAPI {
         setEvent: 'beforeConfigLoad',
         setToMap: () => {
           if (isSet('layconf')) {
-            this.map_.set('layerConfigFileName', getVal('layconf'))
+            let val = getInjectUnsafeVal('layconf').trim()
+            if (val.match(/^(?:[a-z]+:)?\/\//i)) {
+              throw new Error('The provided layconf parameter is absolute. Only relative paths are allowed.')
+            }
+            this.map_.set('layerConfigFileName', val)
           }
         },
         getFromMap: () => {
@@ -314,7 +324,7 @@ export class URLAPI {
         setEvent: 'afterConfigLoad',
         setToMap: () => {
           if (isSet('lang')) {
-            this.map_.get('localiser').setCurrentLang(getVal('lang'))
+            this.map_.get('localiser').setCurrentLang(getSanitizedVal('lang'))
           }
         },
         getFromMap: () => {
@@ -344,10 +354,10 @@ export class URLAPI {
           let coords, fromProjection
           if (marker) {
             if (isSet('markx') && isSet('marky')) {
-              coords = [ parseFloat(getVal('markx')), parseFloat(getVal('marky')) ]
+              coords = [ parseFloat(getSanitizedVal('markx')), parseFloat(getSanitizedVal('marky')) ]
               fromProjection = this.map_.get('interfaceProjection')
             } else if (isSet('marklat') && isSet('marklon')) {
-              coords = [ parseFloat(getVal('marklon')), parseFloat(getVal('marklat')) ]
+              coords = [ parseFloat(getSanitizedVal('marklon')), parseFloat(getSanitizedVal('marklat')) ]
               fromProjection = 'EPSG:4326'
             } else {
               coords = this.map_.getView().getCenter()
@@ -361,7 +371,7 @@ export class URLAPI {
 
             if (isSet('marktext')) {
               marker.setActive(true)
-              marker.setText(getVal('marktext'))
+              marker.setText(getSanitizedVal('marktext'))
 
               if (isTrue('markpop') || !isSet('markpop')) {
                 marker.setPopupVisible(true)
@@ -404,7 +414,7 @@ export class URLAPI {
           if (isSet('search')) {
             let search = this.map_.getControlsByName('searchControl')[ 0 ]
             if (search) {
-              search.setSearchValue(getVal('search'))
+              search.setSearchValue(getSanitizedVal('search'))
             }
           }
         }
