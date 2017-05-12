@@ -131,14 +131,18 @@ export class Styling {
         style = style.call(this, resolution)
       }
       if (!style) {
-        return _this.scaleStyle(_this.getStyle('#defaultStyle'))
+        style = _this.getStyle('#defaultStyle')
       }
       if ($.isArray(style)) {
-        return style.map(s => _this.scaleStyle(s))
+        return style.map(s => _this.adjustStyle(this, s))
       } else {
-        return _this.scaleStyle(style)
+        return _this.adjustStyle(this, style)
       }
     }
+
+    this.nullStyle_ = new ol.style.Style({
+      image: null
+    })
   }
 
   /**
@@ -264,12 +268,42 @@ export class Styling {
   }
 
   /**
+   * converts ol.StyleFunction to ol.FeatureStyleFunction
+   * @param {ol.style.StyleFunction} styleFunction
+   * @returns {ol.FeatureStyleFunction}
+   */
+  convertStyleFunction (styleFunction) {
+    return function (resolution) { return styleFunction(this, resolution) }
+  }
+
+  adjustStyle (feature, style) {
+    if (!feature.get('hidden')) {
+      let clone = style.clone()
+      this.scaleStyle(clone)
+      if (feature.get('opacity') !== undefined) {
+        this.changeColorOpacity(clone, feature.get('opacity'))
+      }
+      return clone
+    } else {
+      return this.nullStyle_
+    }
+  }
+
+  scaleStyle (style) {
+    let image = style.getImage()
+    if (image) {
+      let origScale = style.getImage().getScale() || 1
+      image.setScale(origScale * this.globalIconScale_)
+    }
+  }
+
+  /**
    * adjust the styles opacity by a given value
    * @param {ol.style.Style} style
    * @param {number} opacity between 0 and 1
    * @returns {ol.style.Style}
    */
-  adjustColorOpacity (style, opacity) {
+  changeColorOpacity (style, opacity) {
     let adjustColor = (style, opacity) => {
       let color = style.getColor()
       if (color !== null) {
@@ -303,88 +337,6 @@ export class Styling {
         adjustColor(style.getText().getStroke(), opacity)
       }
     }
-
-    return style
-  }
-
-  /**
-   * converts ol.StyleFunction to ol.FeatureStyleFunction
-   * @param {ol.style.StyleFunction} styleFunction
-   * @returns {ol.FeatureStyleFunction}
-   */
-  convertStyleFunction (styleFunction) {
-    return function (resolution) { return styleFunction(this, resolution) }
-  }
-
-  // /**
-  //  * style a layer
-  //  * @param {VectorLayer} layer
-  //  * @param {StyleLike} styleData
-  //  */
-  // styleLayer (layer, styleData) {
-  //   let style
-  //   if (styleData) {
-  //     style = this.getStyle(styleData)
-  //   } else {
-  //     style = this.getStyle('#defaultStyle')
-  //   }
-  //
-  //   if ($.isFunction(style)) {
-  //     style = this.convertStyleFunction(style)
-  //   }
-  //
-  //   layer.getSource().getFeatures().forEach(feature => {
-  //     this.styleFeature(feature, style)
-  //   })
-  //
-  //   layer.getSource().on('addfeature', e => {
-  //     this.styleFeature(e.feature, style)
-  //   })
-  //
-  //   layer.setStyle((feature, resolution) => {
-  //     if (feature.getStyleFunction() !== undefined) {
-  //       return feature.getStyleFunction().call(feature, resolution)
-  //     } else {
-  //       return feature.getStyle()
-  //     }
-  //   })
-  // }
-  //
-  // /**
-  //  * style a collection
-  //  * @param {ol.Collection} collection
-  //  * @param {StyleLike} styleData
-  //  */
-  // styleCollection (collection, styleData) {
-  //   let style
-  //   if (styleData) {
-  //     style = this.getStyle(styleData)
-  //   } else {
-  //     style = this.getStyle('#defaultStyle')
-  //   }
-  //
-  //   if ($.isFunction(style)) {
-  //     style = this.convertStyleFunction(style)
-  //   }
-  //
-  //   collection.forEach(feature => {
-  //     this.styleFeature(feature, style)
-  //   })
-  //
-  //   collection.on('add', /** ol.CollectionEvent */ e => {
-  //     this.styleFeature(e.element, style)
-  //   })
-  // }
-
-  scaleStyle (style) {
-    let clone = style.clone()
-    let image = clone.getImage()
-    if (!image) {
-      return style
-    }
-    let origScale = clone.getImage().getScale() || 1
-    image.setScale(origScale * this.globalIconScale_)
-    return clone
   }
 
   manageFeature (feature) {
@@ -407,12 +359,12 @@ export class Styling {
           style = style.call(feature, resolution)
         }
         if (!style) {
-          return this.scaleStyle(this.getStyle('#defaultStyle'))
+          style = this.getStyle('#defaultStyle')
         }
         if ($.isArray(style)) {
-          return style.map(s => this.scaleStyle(s))
+          return style.map(s => this.adjustStyle(feature, s))
         } else {
-          return this.scaleStyle(style)
+          return this.adjustStyle(feature, style)
         }
       })
     }
