@@ -134,9 +134,9 @@ export class Styling {
         style = _this.getStyle('#defaultStyle')
       }
       if ($.isArray(style)) {
-        return style.map(s => _this.adjustStyle(this, s))
+        return style.map(s => _this.adjustStyle_(this, s))
       } else {
-        return _this.adjustStyle(this, style)
+        return _this.adjustStyle_(this, style)
       }
     }
 
@@ -374,9 +374,9 @@ export class Styling {
           style = this.getStyle('#defaultStyle')
         }
         if ($.isArray(style)) {
-          return style.map(s => this.adjustStyle(feature, s))
+          return style.map(s => this.adjustStyle_(feature, s))
         } else {
-          return this.adjustStyle(feature, style)
+          return this.adjustStyle_(feature, style)
         }
       })
     }
