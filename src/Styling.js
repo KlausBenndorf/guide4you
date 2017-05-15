@@ -276,12 +276,19 @@ export class Styling {
     return function (resolution) { return styleFunction(this, resolution) }
   }
 
-  adjustStyle (feature, style) {
+  /**
+   * This internal method is called to adjust each style to current global and feature settings
+   * @param feature
+   * @param style
+   * @returns {ol.style.Style}
+   * @private
+   */
+  adjustStyle_ (feature, style) {
     if (!feature.get('hidden')) {
       let clone = style.clone()
-      this.scaleStyle(clone)
+      this.scaleStyle_(clone)
       if (feature.get('opacity') !== undefined) {
-        this.changeColorOpacity(clone, feature.get('opacity'))
+        this.changeColorOpacity_(clone, feature.get('opacity'))
       }
       return clone
     } else {
@@ -289,7 +296,12 @@ export class Styling {
     }
   }
 
-  scaleStyle (style) {
+  /**
+   * This method adjusts the scale of a style
+   * @param style
+   * @private
+   */
+  scaleStyle_ (style) {
     let image = style.getImage()
     if (image) {
       let origScale = style.getImage().getScale() || 1
@@ -303,7 +315,7 @@ export class Styling {
    * @param {number} opacity between 0 and 1
    * @returns {ol.style.Style}
    */
-  changeColorOpacity (style, opacity) {
+  changeColorOpacity_ (style, opacity) {
     let adjustColor = (style, opacity) => {
       let color = style.getColor()
       if (color !== null) {
@@ -377,14 +389,4 @@ export class Styling {
       this.manageFeature(e.feature)
     })
   }
-  //
-  // /**
-  //  * style a feature
-  //  * @param {ol.Feature} feature
-  //  * @param {StyleLike} styleData
-  //  */
-  // styleFeature (feature, styleData) {
-  //   feature.setStyle(this.getStyle(styleData))
-  //   this.manageFeature(feature)
-  // }
 }

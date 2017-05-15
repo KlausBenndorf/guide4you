@@ -33,7 +33,9 @@ export function createG4UInternal (element, clientConfPath, layerConfPath, optio
       // for remote analysis and debugging - not used inside of the software
       window.map = new G4UMap(element, clientConfPath, layerConfPath, options)
 
-      resolve(window.map)
+      window.map.asSoonAs('ready', true, () => {
+        resolve(window.map)
+      })
     })
   })
 }

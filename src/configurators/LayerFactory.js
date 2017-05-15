@@ -22,6 +22,7 @@ export const SuperType = {
 
 export const LayerType = {
   CATEGORY: 'Category',
+  SILENTGROUP: 'SilentGroup',
   GEOJSON: 'GeoJSON',
   KML: 'KML',
   WMS: 'WMS',
@@ -203,6 +204,7 @@ export class LayerFactory {
     }
 
     let layer
+    let layerConfigs
     let localised = false
     if (optionsCopy.source) {
       optionsCopy.source.localiser = this.map_.get('localiser')
@@ -210,9 +212,21 @@ export class LayerFactory {
     }
 
     switch (layerType) {
+      case LayerType.SILENTGROUP:
+
+        layerConfigs = take(optionsCopy, 'layers')
+
+        layer = new ol.layer.Group(optionsCopy)
+
+        this.addLayers(layer, layerConfigs, superType, true)
+
+        layer.getLayers().forEach(childLayer => {
+          childLayer.setVisible(true)
+        })
+        break
       case LayerType.CATEGORY:
 
-        let layerConfigs = take(optionsCopy, 'layers')
+        layerConfigs = take(optionsCopy, 'layers')
 
         layer = new GroupLayer(optionsCopy)
 
