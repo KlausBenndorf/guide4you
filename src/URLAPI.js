@@ -1,10 +1,20 @@
-import ol from 'openlayers'
 import $ from 'jquery'
 
-import {GroupLayer} from 'guide4you/src/layers/GroupLayer'
-
 import {Debug} from 'guide4you/src/Debug'
-import {restoreText, filterText} from 'guide4you/src/xssprotection'
+import { Query } from './Query'
+
+import { centerParam } from './handling/center'
+import { rotationParam } from './handling/rotation'
+import { zoomParam } from './handling/zoom'
+import { availableLayersParam } from './handling/availableLayers'
+import { visibleLayersParam } from './handling/visibleLayers'
+import { responsivenessParam } from './handling/responsiveness'
+import { configurationFileParam } from './handling/configurationFile'
+import { layerConfigurationFileParam } from './handling/layerConfigurationFile'
+import { languageParam } from './handling/language'
+import { closeButtonParam } from './handling/closeButton'
+import { markerParam } from './handling/marker'
+import { searchParam } from './handling/search'
 
 /**
  * @typedef {object} URLAPIOptions
@@ -33,34 +43,6 @@ export class URLAPI {
     this.map_ = options.map
 
     /**
-     * parameters to exclude
-     * @type {Array}
-     * @private
-     */
-    this.excluded_ = options.excluded || []
-
-    /**
-     * All parsed values as key value pairs.
-     * @type {object.<string,string>}
-     * @private
-     */
-    this.queryValues = {}
-
-    // some helper functions to be used in the parameter definitions
-
-    let isSet = key => (this.queryValues.hasOwnProperty(key))
-
-    const getSanitizedVal = key => filterText(this.queryValues[key])
-
-    const getInjectUnsafeVal = key => this.queryValues[key]
-
-    const isExcluded = key => (this.excluded_.indexOf(key) > -1)
-
-    const isTrue = key => (isSet(key) && !!JSON.parse(getSanitizedVal(key)))
-
-    const getArray = key => this.queryValues[ key ].split(',')
-
-    /**
      * In this object all initial values are stored. This is needed to create only the needed Parameters for an URL.
      * All getters are called once after the map is ready for the first time to fill this.
      * @type {object}
@@ -84,342 +66,18 @@ export class URLAPI {
      * @private
      */
     this.parameters_ = [
-      {
-        // Center
-        keys: [ 'lon', 'lat', 'x', 'y' ],
-        setEvent: 'afterConfiguring',
-        setToMap: () => {
-          if (isSet('x') && isSet('y')) {
-            let x = parseFloat(getSanitizedVal('x'))
-            let y = parseFloat(getSanitizedVal('y'))
-
-            if (!isNaN(x) && !isNaN(y)) {
-              let view = this.map_.getView()
-
-              view.setCenter(view.constrainCenter(
-                ol.proj.transform([ x, y ], this.map_.get('interfaceProjection'), view.getProjection())
-              ))
-            }
-          } else if (isSet('lon') && isSet('lat') && Math.abs(parseFloat(getSanitizedVal('lat'))) < 90) {
-            let lon = parseFloat(getSanitizedVal('lon'))
-            let lat = parseFloat(getSanitizedVal('lat'))
-
-            if (!isNaN(lon) && !isNaN(lat)) {
-              let view = this.map_.getView()
-
-              view.setCenter(view.constrainCenter(
-                ol.proj.transform([ lon, lat ], 'EPSG:4326', view.getProjection())
-              ))
-            }
-          }
-        },
-        getFromMap: () => {
-          let view = this.map_.getView()
-          let coordinate = ol.proj.transform(
-            view.getCenter(),
-            view.getProjection(),
-            this.map_.get('interfaceProjection')
-          )
-
-          if (!isExcluded('center')) {
-            return {
-              x: coordinate[ 0 ].toFixed(5),
-              y: coordinate[ 1 ].toFixed(5)
-            }
-          }
-        }
-      },
-      // Rotation
-      {
-        keys: [ 'rot' ],
-        setEvent: 'afterConfiguring',
-        setToMap: () => {
-          if (isSet('rot')) {
-            this.map_.getView().setRotation(Math.PI * getSanitizedVal('rot') / 180)
-          }
-        },
-        getFromMap: () => {
-          if (!isExcluded('rot')) {
-            return {
-              rot: 180 * this.map_.getView().getRotation() / Math.PI
-            }
-          }
-        }
-      },
-      // Zoom
-      {
-        keys: [ 'zoom' ],
-        setEvent: 'afterConfiguring',
-        setToMap: () => {
-          if (isSet('zoom')) {
-            this.map_.getView().setZoom(parseFloat(getSanitizedVal('zoom')))
-          }
-        },
-        getFromMap: () => {
-          if (!isExcluded('zoom')) {
-            return {
-              zoom: this.map_.getView().getZoom()
-            }
-          }
-        }
-      },
-      // Available Layers
-      {
-        keys: [ 'avalay' ],
-        setEvent: 'afterConfiguring',
-        setToMap: () => {
-          if (isSet('avalay')) {
-            let layerIds = getArray('avalay')
-
-            if (layerIds.length > 0) {
-              let visibleBaseLayer
-              let countAvailable = 0
-
-              this.map_.get('baseLayers').recursiveForEach(layer => {
-                if (!visibleBaseLayer && layer.getVisible()) {
-                  visibleBaseLayer = layer
-                }
-                let available = layerIds.indexOf(layer.get('id').toString()) > -1
-                layer.set('available', available)
-                if (available) {
-                  countAvailable++
-                }
-              })
-
-              // make at least one baselayer visible
-              if (countAvailable === 0) {
-                visibleBaseLayer.set('available', true)
-                visibleBaseLayer.setVisible(true)
-              }
-
-              this.map_.get('featureLayers').recursiveForEach(layer => {
-                layer.set('available', layerIds.indexOf(layer.get('id').toString()) > -1)
-              })
-            }
-
-            this.map_.get('configurator').configureUI()
-          }
-        },
-        getFromMap: () => {
-          let layerIds = []
-
-          function forEachLayer (layer) {
-            if (layer.get('available')) {
-              layerIds.push(layer.get('id'))
-            }
-          }
-
-          this.map_.get('baseLayers').recursiveForEach(forEachLayer)
-          this.map_.get('featureLayers').recursiveForEach(forEachLayer)
-
-          return {
-            avalay: layerIds.join(',')
-          }
-        }
-      },
-      // Visible Layers
-      {
-        keys: [ 'vislay' ],
-        setEvent: 'afterConfiguring',
-        setToMap: () => {
-          if (isSet('vislay')) {
-            let layerIds = getArray('vislay')
-
-            let baseLayers = this.map_.get('baseLayers')
-
-            if (baseLayers) {
-              baseLayers.recursiveForEach(layer => {
-                if (!(layer instanceof GroupLayer)) {
-                  layer.setVisible(layerIds.indexOf(layer.get('id').toString()) > -1)
-                }
-              })
-            }
-
-            let featureLayers = this.map_.get('featureLayers')
-
-            if (featureLayers) {
-              featureLayers.recursiveForEach(layer => {
-                if (!(layer instanceof GroupLayer)) {
-                  layer.setVisible(layerIds.indexOf(layer.get('id').toString()) > -1)
-                }
-              })
-            }
-          }
-        },
-        getFromMap: () => {
-          if (!isExcluded('vislay')) {
-            let layerIds = []
-
-            const forEachLayer = layer => {
-              if (layer.getVisible()) {
-                layerIds.push(layer.get('id'))
-              }
-            }
-
-            this.map_.get('baseLayers').recursiveForEach(forEachLayer)
-            this.map_.get('featureLayers').recursiveForEach(forEachLayer)
-
-            return {
-              vislay: layerIds.join(',')
-            }
-          }
-        }
-      },
-      // Responsive
-      {
-        keys: [ 'responsive' ],
-        setEvent: 'ready',
-        setToMap: () => {
-          if (isSet('responsive')) {
-            this.map_.set('responsive', JSON.parse(getSanitizedVal('responsive')))
-          }
-        },
-        getFromMap: () => {
-          return {
-            responsive: this.map_.get('responsive')
-          }
-        }
-      },
-      // conf
-      {
-        keys: [ 'conf' ],
-        setEvent: 'beforeConfigLoad',
-        setToMap: () => {
-          if (isSet('conf')) {
-            let val = getInjectUnsafeVal('layconf').trim()
-            if (val.match(/^(?:[a-z]+:)?\/\//i)) {
-              throw new Error('The provided conf parameter is absolute. Only relative paths are allowed.')
-            }
-            this.map_.set('configFileName', val)
-          }
-        },
-        getFromMap: () => {
-          return {
-            conf: this.map_.get('configFileName')
-          }
-        }
-      },
-      // layconf
-      {
-        keys: [ 'layconf' ],
-        setEvent: 'beforeConfigLoad',
-        setToMap: () => {
-          if (isSet('layconf')) {
-            let val = getInjectUnsafeVal('layconf').trim()
-            if (val.match(/^(?:[a-z]+:)?\/\//i)) {
-              throw new Error('The provided layconf parameter is absolute. Only relative paths are allowed.')
-            }
-            this.map_.set('layerConfigFileName', val)
-          }
-        },
-        getFromMap: () => {
-          return {
-            layconf: this.map_.get('layerConfigFileName')
-          }
-        }
-      },
-      // lang
-      {
-        keys: [ 'lang' ],
-        setEvent: 'afterConfigLoad',
-        setToMap: () => {
-          if (isSet('lang')) {
-            this.map_.get('localiser').setCurrentLang(getSanitizedVal('lang'))
-          }
-        },
-        getFromMap: () => {
-          return {
-            'lang': this.map_.get('localiser').getCurrentLang()
-          }
-        }
-      },
-      {
-        keys: [ 'clsbtn' ],
-        setEvent: 'ready:ui',
-        setToMap: () => {
-          if (isTrue('clsbtn')) {
-            this.map_.get('UIConfigurator').controlFactory.addControlTo(this.map_, 'closeWindowButton')
-          }
-        }
-        // get is not supported (closeButton does only work if the map was opened programmatically, it makes no sense to
-        // duplicate it to a linked page)
-      },
-      // Marker
-      {
-        keys: [ 'marklat', 'marklon', 'markx', 'marky', 'marktext', 'markpop' ],
-        setEvent: 'ready',
-        setToMap: () => {
-          let marker = this.map_.get('marker')
-
-          let coords, fromProjection
-          if (marker) {
-            if (isSet('markx') && isSet('marky')) {
-              coords = [ parseFloat(getSanitizedVal('markx')), parseFloat(getSanitizedVal('marky')) ]
-              fromProjection = this.map_.get('interfaceProjection')
-            } else if (isSet('marklat') && isSet('marklon')) {
-              coords = [ parseFloat(getSanitizedVal('marklon')), parseFloat(getSanitizedVal('marklat')) ]
-              fromProjection = 'EPSG:4326'
-            } else {
-              coords = this.map_.getView().getCenter()
-              fromProjection = this.map_.getView().getProjection()
-            }
-            marker.setPosition(ol.proj.transform(coords, fromProjection, this.map_.get('mapProjection')))
-
-            if (isSet('marklat') || isSet('marklon') || isSet('markx') || isSet('marky')) {
-              marker.setActive(true)
-            }
-
-            if (isSet('marktext')) {
-              marker.setActive(true)
-              marker.setText(getSanitizedVal('marktext'))
-
-              if (isTrue('markpop') || !isSet('markpop')) {
-                marker.setPopupVisible(true)
-              } else {
-                marker.setPopupVisible(false)
-              }
-            }
-          } else {
-            Debug.warn('There is no marker configured for the map, but it was tried to set it via the urlapi.')
-          }
-        },
-        getFromMap: () => {
-          let marker = this.map_.get('marker')
-
-          if (marker && marker.getActive() && !isExcluded('marker')) {
-            let result = {}
-
-            let xy = ol.proj.transform(
-              marker.getPosition(), this.map_.get('mapProjection'), this.map_.get('interfaceProjection'))
-            let text = restoreText(marker.getText())
-            let popvis = marker.getPopupVisible()
-
-            result.markx = xy[ 0 ].toFixed(5)
-            result.marky = xy[ 1 ].toFixed(5)
-
-            if (text) {
-              result.marktext = text
-              result.markpop = popvis // maybe don't set if not needed?
-            }
-
-            return result
-          }
-        }
-      },
-      // search
-      {
-        keys: [ 'search' ],
-        setEvent: 'ready',
-        setToMap: () => {
-          if (isSet('search')) {
-            let search = this.map_.getControlsByName('searchControl')[ 0 ]
-            if (search) {
-              search.setSearchValue(getSanitizedVal('search'))
-            }
-          }
-        }
-        // get??
-      }
+      centerParam,
+      rotationParam,
+      zoomParam,
+      availableLayersParam,
+      visibleLayersParam,
+      responsivenessParam,
+      configurationFileParam,
+      layerConfigurationFileParam,
+      languageParam,
+      closeButtonParam,
+      markerParam,
+      searchParam
     ]
 
     if (options.hasOwnProperty('moduleParameters') &&
@@ -450,10 +108,10 @@ export class URLAPI {
         this.map_.once(parameterConf.setEvent, () => {
           // read out initial value
           if (parameterConf.hasOwnProperty('getFromMap')) {
-            $.extend(this.initialValues_, parameterConf.getFromMap(this))
+            $.extend(this.initialValues_, parameterConf.getFromMap(this.map_, this.query_))
           }
           // set value
-          parameterConf.setToMap(this)
+          parameterConf.setToMap(this.map_, this.query_)
         })
       }
 
@@ -463,32 +121,7 @@ export class URLAPI {
       }
     }
 
-    let keyValuePair
-    let queryString = window.location.search
-
-    if (queryString !== '') { // Nothing to be done if search string is absent
-      // Remove initial '?', split search at '&', result is supposed to be 'key=value' list
-      let assignmentList = queryString.substring(1).split('&')
-
-      // iterated over all assignmentList elements
-      for (let i = 0; i < assignmentList.length; i += 1) {
-        // Skip elements without '='
-        if (assignmentList[ i ].indexOf('=') > -1) {
-          // Split assignment at '='
-          keyValuePair = assignmentList[ i ].split('=')
-
-          // Use URL-decoded 1st (2nd) element of assignment as key (value)
-          // Decoding takes place this late in code as premature URI-decoding may interfere with parsing
-          const key = decodeURIComponent(keyValuePair[ 0 ]).trim().toLowerCase()
-          const value = decodeURIComponent(keyValuePair[ 1 ]).trim()
-
-          // Skip unsupported keys
-          if (this.parameterKeys_.indexOf(key) > -1) {
-            this.queryValues[ key ] = value // store key and value
-          }
-        }
-      }
-    }
+    this.query_ = new Query(this.parameterKeys_, options.excluded || [])
   }
 
   /**
@@ -577,7 +210,7 @@ export class URLAPI {
     }
 
     for (let getter of this.parameterGetters_) {
-      let keyValuePairs = getter.call(this)
+      let keyValuePairs = getter(this.map_, this.query_)
       if (keyValuePairs) {
         for (let key in keyValuePairs) {
           if (keyValuePairs.hasOwnProperty(key) && keyValuePairs[ key ] !== undefined) {
