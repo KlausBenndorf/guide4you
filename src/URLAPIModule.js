@@ -20,7 +20,11 @@ export class URLAPIModule extends Module {
 
   constructor (options) {
     super(options)
-    this.moduleParameters_ = options.moduleParameters || []
+    if (options && options.hasOwnProperty('moduleParameters')) {
+      this.moduleParameters_ = options.moduleParameters
+    } else {
+      this.moduleParameters_ = []
+    }
   }
   /**
    * @param {G4UMap} map
