@@ -38,7 +38,18 @@ import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 import { URLAPIModule } from '../../src/URLAPIModule'
 
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal(target, clientConf, layerConf, [new URLAPIModule()])
+  return createMapInternal(target, clientConf, layerConf, [new URLAPIModule(
+    /* {
+       moduleParameters': [
+        {
+          'keys': [ 'lorem', 'ipsum', 'dolor', 'sit', 'amet' ],
+          'setEvent': 'afterConfiguring',
+          'setToMap': (that) => { },
+          'getFromMap': (that) => { }
+        }
+      ]
+    } */
+  )])
 }
 
 export * from 'guide4you/src/exports'

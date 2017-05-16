@@ -422,6 +422,11 @@ export class URLAPI {
       }
     ]
 
+    if (options.hasOwnProperty('moduleParameters') &&
+      Array.isArray(options.moduleParameters) && options.moduleParameters.length) {
+      this.parameters_ = this.parameters_.concat(options.moduleParameters)
+    }
+
     /**
      * All used keys by all parameters
      * @type {string[]}
@@ -445,10 +450,10 @@ export class URLAPI {
         this.map_.once(parameterConf.setEvent, () => {
           // read out initial value
           if (parameterConf.hasOwnProperty('getFromMap')) {
-            $.extend(this.initialValues_, parameterConf.getFromMap())
+            $.extend(this.initialValues_, parameterConf.getFromMap(this))
           }
           // set value
-          parameterConf.setToMap()
+          parameterConf.setToMap(this)
         })
       }
 
