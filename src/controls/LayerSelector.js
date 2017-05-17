@@ -224,17 +224,12 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         this.addWindowToButton($button, layer)
       }
 
-      this.listenAt(layerSource).on([ 'vectorloadstart', 'tileloadstart', 'imageloadstart' ], () => {
+      this.listenAt(layer).on('loadcountstart', () => {
         $button.addClass('g4u-layer-loading')
       })
 
-      this.listenAt(layerSource).on([
-        'vectorloadend', 'vectorloaderror',
-        'tileloadend', 'tileloaderror',
-        'imageloadend', 'imageloaderror' ], () => {
-        if (layer.getLoadProcessCount() === 0) {
-          $button.removeClass('g4u-layer-loading')
-        }
+      this.listenAt(layer).on('loadcountend', () => {
+        $button.removeClass('g4u-layer-loading')
       })
 
       $target.append($button)

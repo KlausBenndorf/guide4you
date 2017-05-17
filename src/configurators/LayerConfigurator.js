@@ -188,6 +188,44 @@ export class LayerConfigurator {
       layers.getLayers().push(queryLayers)
     }
 
+    // //////////////////////////////////////////////////////////////////////////////////////////
+    //                                   All layers loaded                                     //
+    // //////////////////////////////////////////////////////////////////////////////////////////
+
+    let loadingLayers = []
+    let allLayersLoadedTimeout
+
+    let forEachLayer = (layer) => {
+      if (layer.getLayers) {
+        layer.getLayers().on('add', e => {
+          forEachLayer(e.element)
+        })
+        layer.getLayers().forEach(forEachLayer)
+      }
+      if (layer.isLoading) {
+        if (layer.isLoading()) {
+          loadingLayers.push(layer)
+        }
+      }
+      layer.on('loadcountstart', () => {
+        loadingLayers.push(layer)
+        clearTimeout(allLayersLoadedTimeout)
+      })
+      layer.on('loadcountend', () => {
+        loadingLayers.splice(loadingLayers.indexOf(layer), 1)
+        if (loadingLayers.length === 0) {
+          allLayersLoadedTimeout = setTimeout(() => {
+            this.map_.once('postrender', () => {
+              this.map_.dispatchEvent('alllayersloaded')
+            })
+            this.map_.render()
+          }, 40)
+        }
+      })
+    }
+
+    forEachLayer(this.map_.getLayerGroup())
+
     this.map_.set('ready:layers', true)
   }
 
