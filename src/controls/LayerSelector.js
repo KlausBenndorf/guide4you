@@ -186,9 +186,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    * @param {jQuery} $target
    */
   buildLayerButton (layer, $target) {
-    this.loadProcessCount = this.loadProcessCount || {}
     if (layer.get('available')) {
-      let layerSource = layer.getSource()
       let $button = $('<button>')
         .addClass(this.classNames_.layerButton)
         .attr('id', layer.get('id'))
@@ -215,7 +213,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       this.listenAt(layer).on('change:visible', () => {
         $button.toggleClass(activeClassName, layer.getVisible())
         if (!layer.getVisible()) {
-          layer.resetLoadProcessCount()
           $button.removeClass('g4u-layer-loading')
         }
       })

@@ -193,6 +193,7 @@ export class LayerConfigurator {
     // //////////////////////////////////////////////////////////////////////////////////////////
 
     let loadingLayers = []
+    let isLoading = false
     let allLayersLoadedTimeout
 
     let forEachLayer = (layer) => {
@@ -204,10 +205,18 @@ export class LayerConfigurator {
       }
       if (layer.isLoading) {
         if (layer.isLoading()) {
+          if (!isLoading) {
+            this.map_.dispatchEvent('layersloadstart')
+            isLoading = true
+          }
           loadingLayers.push(layer)
         }
       }
       layer.on('loadcountstart', () => {
+        if (!isLoading) {
+          this.map_.dispatchEvent('layersloadstart')
+          isLoading = true
+        }
         loadingLayers.push(layer)
         clearTimeout(allLayersLoadedTimeout)
       })
@@ -216,7 +225,8 @@ export class LayerConfigurator {
         if (loadingLayers.length === 0) {
           allLayersLoadedTimeout = setTimeout(() => {
             this.map_.once('postrender', () => {
-              this.map_.dispatchEvent('alllayersloaded')
+              this.map_.dispatchEvent('layersloadend')
+              isLoading = false
             })
             this.map_.render()
           }, 40)
