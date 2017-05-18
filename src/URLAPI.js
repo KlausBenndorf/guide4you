@@ -3,18 +3,19 @@ import $ from 'jquery'
 import {Debug} from 'guide4you/src/Debug'
 import { Query } from './Query'
 
-import { centerParam } from './handling/center'
-import { rotationParam } from './handling/rotation'
-import { zoomParam } from './handling/zoom'
 import { availableLayersParam } from './handling/availableLayers'
-import { visibleLayersParam } from './handling/visibleLayers'
-import { responsivenessParam } from './handling/responsiveness'
-import { configurationFileParam } from './handling/configurationFile'
-import { layerConfigurationFileParam } from './handling/layerConfigurationFile'
-import { languageParam } from './handling/language'
+import { centerParam } from './handling/center'
 import { closeButtonParam } from './handling/closeButton'
+import { configurationFileParam } from './handling/configurationFile'
+import { fitRectangleParam } from './handling/fitRectangle'
+import { languageParam } from './handling/language'
+import { layerConfigurationFileParam } from './handling/layerConfigurationFile'
 import { markerParam } from './handling/marker'
+import { responsivenessParam } from './handling/responsiveness'
+import { rotationParam } from './handling/rotation'
 import { searchParam } from './handling/search'
+import { visibleLayersParam } from './handling/visibleLayers'
+import { zoomParam } from './handling/zoom'
 
 /**
  * @typedef {object} URLAPIOptions
@@ -66,18 +67,19 @@ export class URLAPI {
      * @private
      */
     this.parameters_ = [
-      centerParam,
-      rotationParam,
-      zoomParam,
       availableLayersParam,
-      visibleLayersParam,
-      responsivenessParam,
-      configurationFileParam,
-      layerConfigurationFileParam,
-      languageParam,
+      centerParam,
       closeButtonParam,
+      configurationFileParam,
+      fitRectangleParam,
+      languageParam,
+      layerConfigurationFileParam,
       markerParam,
-      searchParam
+      responsivenessParam,
+      rotationParam,
+      searchParam,
+      visibleLayersParam,
+      zoomParam
     ]
 
     if (options.hasOwnProperty('moduleParameters') &&

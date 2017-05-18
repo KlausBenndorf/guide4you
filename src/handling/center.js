@@ -1,18 +1,22 @@
 import ol from 'openlayers'
 
 export const centerParam = {
-  keys: ['lon', 'lat', 'x', 'y'],
+  keys: ['lon', 'lat', 'x', 'y', 'srid'],
   setEvent: 'afterConfiguring',
   setToMap: (map, query) => {
     if (query.isSet('x') && query.isSet('y')) {
       let x = parseFloat(query.getSanitizedVal('x'))
       let y = parseFloat(query.getSanitizedVal('y'))
+      let srId = map.get('interfaceProjection')
+      if (query.isSet('srid')) {
+        srId = query.getSanitizedVal('srid')
+      }
 
       if (!isNaN(x) && !isNaN(y)) {
         let view = map.getView()
 
         view.setCenter(view.constrainCenter(
-          ol.proj.transform([x, y], map.get('interfaceProjection'), view.getProjection())
+          ol.proj.transform([x, y], srId, view.getProjection())
         ))
       }
     } else if (query.isSet('lon') && query.isSet('lat') && Math.abs(parseFloat(query.getSanitizedVal('lat'))) < 90) {
@@ -39,7 +43,8 @@ export const centerParam = {
     if (!query.isExcluded('center')) {
       return {
         x: coordinate[0].toFixed(5),
-        y: coordinate[1].toFixed(5)
+        y: coordinate[1].toFixed(5),
+        srid: map.get('interfaceProjection')
       }
     }
   }

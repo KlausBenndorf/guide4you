@@ -3,7 +3,7 @@ import {Debug} from 'guide4you/src/Debug'
 import {restoreText} from 'guide4you/src/xssprotection'
 
 export const markerParam = {
-  keys: [ 'marklat', 'marklon', 'markx', 'marky', 'marktext', 'markpop' ],
+  keys: [ 'marklat', 'marklon', 'markx', 'marky', 'marktext', 'markpop', 'srid' ],
   setEvent: 'ready',
   setToMap: (map, query) => {
     let marker = map.get('marker')
@@ -12,7 +12,7 @@ export const markerParam = {
     if (marker) {
       if (query.isSet('markx') && query.isSet('marky')) {
         coords = [ parseFloat(query.getSanitizedVal('markx')), parseFloat(query.getSanitizedVal('marky')) ]
-        fromProjection = map.get('interfaceProjection')
+        fromProjection = query.isSet('srid') ? query.getSanitizedVal('srid') : map.get('interfaceProjection')
       } else if (query.isSet('marklat') && query.isSet('marklon')) {
         coords = [ parseFloat(query.getSanitizedVal('marklon')), parseFloat(query.getSanitizedVal('marklat')) ]
         fromProjection = 'EPSG:4326'
@@ -44,7 +44,9 @@ export const markerParam = {
     let marker = map.get('marker')
 
     if (marker && marker.getActive() && !query.isExcluded('marker')) {
-      let result = {}
+      let result = {
+        srid: map.get('interfaceProjection')
+      }
 
       let xy = ol.proj.transform(
         marker.getPosition(), map.get('mapProjection'), map.get('interfaceProjection'))
