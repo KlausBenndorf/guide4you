@@ -149,6 +149,12 @@ export class API extends ol.Object {
     )
   }
 
+  setVisibleBaseLayer (id) {
+    this.map_.get('baseLayers').recursiveForEach((layer) => {
+      layer.setVisible(layer.get('id') === id)
+    })
+  }
+
   onKeyDown_ (e) {
     if (this.featureManipulationActive_ && e.which === keyCodes.ESCAPE) {
       this.endFeatureManipulationInternal_()
