@@ -120,6 +120,35 @@ export class API extends ol.Object {
     })
   }
 
+  fitRectangle (coordinates, opt = {}) {
+    if (!opt.hasOwnProperty('srId')) {
+      opt.srId = 'EPSG:4326'
+    }
+    if (!opt.hasOwnProperty('constrainResolution')) {
+      opt.constrainResolution = false
+    }
+    if (!opt.hasOwnProperty('padding')) {
+      opt.padding = [0, 0, 0, 0]
+    }
+    this.map_.getView().fit(
+      ol.extent.boundingExtent(
+        [
+          ol.proj.transform(
+            [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
+            opt.srId,
+            this.map_.get('mapProjection').getCode()
+          ),
+          ol.proj.transform(
+            [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
+            opt.srId,
+            this.map_.get('mapProjection').getCode()
+          )
+        ]
+      ),
+      opt
+    )
+  }
+
   onKeyDown_ (e) {
     if (this.featureManipulationActive_ && e.which === keyCodes.ESCAPE) {
       this.endFeatureManipulationInternal_()
