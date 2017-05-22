@@ -18,9 +18,9 @@
     "Simon Seyock <simonseyock@gmail.com>"
   ],
   "dependencies": {
-    "guide4you": "1.2.*",
+    "guide4you": "1.3.*",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
-    "guide4you-module-search": "1.2.*"
+    "guide4you-module-search": "1.3.*"
   },
   "devDependencies": {
     "guide4you-builder": "1.1.*",
