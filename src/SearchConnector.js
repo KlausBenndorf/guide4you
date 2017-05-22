@@ -40,7 +40,7 @@ export class SearchConnector {
     this.localiser = options.localiser
   }
 
-  static flipTuples(tuples) {
+  static flipTuples (tuples) {
     if (tuples.length) {
       return zip(...tuples)
     }
