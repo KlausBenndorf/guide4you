@@ -1,5 +1,4 @@
 import ol from 'openlayers'
-import zip from 'lodash/zip'
 
 import {Debug} from 'guide4you/src/Debug'
 import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
@@ -17,13 +16,6 @@ export class G4USearchV2Connector extends SearchConnector {
     this.dataProjection = 'EPSG:4326'
 
     this.wktParser_ = new ol.format.WKT()
-  }
-
-  static flipTuples(tuples) {
-    if (tuples.length) {
-      return zip(...tuples)
-    }
-    return [[], []]
   }
 
   getAutoComplete (text) {

@@ -1,5 +1,4 @@
 import ol from 'openlayers'
-import zip from 'lodash/zip'
 
 import {Debug} from 'guide4you/src/Debug'
 import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
@@ -17,17 +16,16 @@ export class G4UServerSearchConnector extends SearchConnector {
     this.format_ = new ol.format.KML({showPointNames: false})
   }
 
-
-
-  getAutoComplete(text) {
+  getAutoComplete(searchTerm) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.autocompleteUrl_, 'searchstring', text)
+      let url = expandTemplate(this.fuzzyUrl_, 'searchstring', searchTerm)
 
       $.ajax({
         url: this.proxifyUrl(url),
-        dataType: 'json',
+        dataType: 'text',
         success: results => {
-          resolve(SearchConnector.flipTuples(results.map(r => [r.name, r])))
+          let features = this.format_.readFeatures(results, { dataProjection: 'EPSG:4326', featureProjection: this.featureProjection })
+          resolve(SearchConnector.flipTuples(features.map(f => [f.get('extra'), f])))
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
@@ -38,6 +36,24 @@ export class G4UServerSearchConnector extends SearchConnector {
         }
       })
     })
+    // return new Promise((resolve, reject) => {
+    //   let url = expandTemplate(this.autocompleteUrl_, 'searchstring', searchTerm)
+    //
+    //   $.ajax({
+    //     url: this.proxifyUrl(url),
+    //     dataType: 'json',
+    //     success: results => {
+    //       resolve(SearchConnector.flipTuples(results.map(r => [r.name, r])))
+    //     },
+    //     error: (jqXHR, textStatus) => {
+    //       reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
+    //         `(SearchURL: ${url})`)
+    //     },
+    //     headers: {
+    //       'Accept-Language': this.localiser.getCurrentLang()
+    //     }
+    //   })
+    // })
   }
 
   getSearchResult(searchTerm) {
@@ -49,7 +65,7 @@ export class G4UServerSearchConnector extends SearchConnector {
         dataType: 'text',
         success: results => {
           let features = this.format_.readFeatures(results, { dataProjection: 'EPSG:4326', featureProjection: this.featureProjection })
-          resolve(G4UServerSearchConnector.flipTuples(features.map(f => [f.get('extra'), f])))
+          resolve(SearchConnector.flipTuples(features.map(f => [f.get('extra'), f])))
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
