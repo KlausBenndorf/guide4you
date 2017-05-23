@@ -15,7 +15,11 @@ export const fitRectangleParam = {
       }
 
       if (!isNaN(x0) && !isNaN(y0) && !isNaN(x1) && !isNaN(y1)) {
-        map.get('api').fitRectangle([[x0, y0], [x1, y1]], {'srId': srId})
+        if (ol.proj.get(srId)) {
+          map.get('api').fitRectangle([[x0, y0], [x1, y1]], {'srId': srId})
+        } else {
+          console.error(`Unknown Projection '${srId}'`)
+        }
       }
     }
   },

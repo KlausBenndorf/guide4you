@@ -14,10 +14,13 @@ export const centerParam = {
 
       if (!isNaN(x) && !isNaN(y)) {
         let view = map.getView()
-
-        view.setCenter(view.constrainCenter(
-          ol.proj.transform([x, y], srId, view.getProjection())
-        ))
+        if (ol.proj.get(srId)) {
+          view.setCenter(view.constrainCenter(
+            ol.proj.transform([x, y], srId, view.getProjection())
+          ))
+        } else {
+          console.error(`Unknown Projection '${srId}'`)
+        }
       }
     } else if (query.isSet('lon') && query.isSet('lat') && Math.abs(parseFloat(query.getSanitizedVal('lat'))) < 90) {
       let lon = parseFloat(query.getSanitizedVal('lon'))
