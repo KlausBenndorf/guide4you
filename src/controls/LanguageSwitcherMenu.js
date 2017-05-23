@@ -12,6 +12,7 @@ import {mixin} from '../utilities'
 
 /**
  * @typedef {g4uControlOptions} LanguageSwitcherMenuOptions
+ * @property {boolean} [showLongLanguage=false]
  */
 
 /**
@@ -28,6 +29,8 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
 
     super(options)
 
+    this.showLongLanguage_ = options.showLongLanguage || false
+
     this.setTitle(this.getLocaliser().getCurrentLang())
 
     /**
@@ -37,6 +40,11 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
     this.$button_ = $('<button>')
       .addClass(this.className_ + '-button')
       .addClass(cssClasses.mainButton)
+
+    if (this.showLongLanguage_) {
+      this.$button_.addClass(this.className_ + '-lang-long')
+    }
+
     this.get$Element().append(this.$button_)
 
     let dropdownOptions = {'className': 'g4u-dropdown'}
@@ -112,7 +120,12 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
         this.setActive(!this.getActive())
       })
 
-      this.$button_.html(this.getLocaliser().getCurrentLang())
+      let curLang = this.getLocaliser().getCurrentLang()
+      if (!this.showLongLanguage_) {
+        this.$button_.html(curLang.toUpperCase())
+      } else {
+        this.$button_.html(curLang.toUpperCase() + ' - ' + this.getLocaliser().localiseUsingDictionary(curLang))
+      }
 
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'))
     }

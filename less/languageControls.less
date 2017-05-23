@@ -13,7 +13,7 @@
   }
 
   .g4u-languageswitchermenu {
-    width: @g4u-desktop-button-size;
+    //width: @g4u-desktop-button-size;
     .g4u-dropdown {
       width: @g4u-languageswitcher-width;
       margin-left: @g4u-desktop-border-width;
@@ -23,12 +23,14 @@
     padding: 0;
 
     button.g4u-languageswitchermenu-button {
-      .buttonSquared(@g4u-desktop-button-size);
-      text-align: center;
-      text-transform: uppercase;
-
-      [role=tooltip] {
-        text-transform: none;
+      &:not(.g4u-languageswitchermenu-lang-long) {
+        .buttonSquared(@g4u-desktop-button-size);
+        text-align: center;
+      }
+      &.g4u-languageswitchermenu-lang-long {
+        .button(@g4u-desktop-button-size);
+        padding-left: @g4u-desktop-padding;
+        padding-right: @g4u-desktop-padding;
       }
     }
   }

@@ -87,7 +87,7 @@ export class Move {
       center: point,
       resolution: this.map_.getView().getResolution()
     })
-    let extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 1))
+    let extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 2))
 
     options.padding = [0, 0, 0, 0] // no padding around this extent
 
