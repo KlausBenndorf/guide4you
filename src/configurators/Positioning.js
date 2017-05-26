@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import uniq from 'lodash/uniq'
 
 import { cssClasses } from '../globals'
 
@@ -281,7 +282,7 @@ export class Positioning {
     if (c) {
       arr.push(c)
     }
-    return $.unique(arr)
+    return uniq(arr)
   }
 
   /**
