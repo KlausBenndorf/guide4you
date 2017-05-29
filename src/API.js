@@ -130,23 +130,27 @@ export class API extends ol.Object {
     if (!opt.hasOwnProperty('padding')) {
       opt.padding = [0, 0, 0, 0]
     }
-    this.map_.getView().fit(
-      ol.extent.boundingExtent(
-        [
-          ol.proj.transform(
-            [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
-            opt.srId,
-            this.map_.get('mapProjection').getCode()
-          ),
-          ol.proj.transform(
-            [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
-            opt.srId,
-            this.map_.get('mapProjection').getCode()
-          )
-        ]
-      ),
-      opt
-    )
+    if (ol.proj.get(opt.srId)) {
+      this.map_.getView().fit(
+        ol.extent.boundingExtent(
+          [
+            ol.proj.transform(
+              [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
+              opt.srId,
+              this.map_.get('mapProjection').getCode()
+            ),
+            ol.proj.transform(
+              [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
+              opt.srId,
+              this.map_.get('mapProjection').getCode()
+            )
+          ]
+        ),
+        opt
+      )
+    } else {
+      console.error(`Unknown Projection '${opt.srId}'`)
+    }
   }
 
   setVisibleBaseLayer (id) {
