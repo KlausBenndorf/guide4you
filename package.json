@@ -41,12 +41,16 @@
     "wait-on": "2.0.1"
   },
   "scripts": {
+    "dist": "g4u-build -m dist -c conf/dist",
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "pretest": "g4u-buildTests",
     "lint": "eslint src/ tests/",
     "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
     "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
-    "doc": "esdoc -c esdoc.json"
-  }
+    "doc": "esdoc -c esdoc.json",
+    "typing": "jsdoc -t node_modules/tsd-jsdoc -r conf/dist/entry.js src/ -d dist/"
+  },
+  "main": "./dist/g4u.js",
+  "types": "./dist/g4u.d.ts"
 }

@@ -14,7 +14,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'lessConfig.less': path.join(baseDir, './conf/simple/clouds.less')
+      'lessConfig.less': path.join(baseDir, './conf/clouds.less')
     }
   },
   mustacheEvalLoader: {

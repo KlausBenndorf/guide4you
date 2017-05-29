@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+    <defs>
+        <style type="text/css"><![CDATA[
+            circle {
+                fill: rgba(255,255,255,1);
+                stroke: none;
+            }
+            #animation > g > circle {
+                animation-name: fade;
+                animation-duration: 1.6s;
+                animation-iteration-count: infinite;
+                opacity: 0;
+            }
+            #animation > g:nth-child(1) > circle {
+                animation-delay: 0s;
+            }
+            #animation > g:nth-child(2) > circle {
+                animation-delay: 0.2s;
+            }
+            #animation > g:nth-child(3) > circle {
+                animation-delay: 0.4s;
+            }
+            #animation > g:nth-child(4) > circle {
+                animation-delay: 0.6s;
+            }
+            #animation > g:nth-child(5) > circle {
+                animation-delay: 0.8s;
+            }
+            #animation > g:nth-child(6) > circle {
+                animation-delay: 1.0s;
+            }
+            #animation > g:nth-child(7) > circle {
+                animation-delay: 1.2s;
+            }
+            #animation > g:nth-child(8) > circle {
+                animation-delay: 1.4s;
+            }
+            #ie9-compatibility > g > circle {
+                animation-name: hide-immediately;
+                animation-duration: 86400s;
+                animation-delay: 0;
+                animation-iteration-count: infinite;
+            }
+            #ie9-compatibility > g:nth-child(1) > circle {
+                opacity: 0.714;
+            }
+            #ie9-compatibility > g:nth-child(2) > circle {
+                opacity: 0.857;
+            }
+            #ie9-compatibility > g:nth-child(3) > circle {
+                opacity: 1;
+            }
+            #ie9-compatibility > g:nth-child(4) > circle {
+                opacity: 0;
+            }
+            #ie9-compatibility > g:nth-child(5) > circle {
+                opacity: 0.143;
+            }
+            #ie9-compatibility > g:nth-child(6) > circle {
+                opacity: 0.286;
+            }
+            #ie9-compatibility > g:nth-child(7) > circle {
+                opacity: 0.429;
+            }
+            #ie9-compatibility > g:nth-child(8) > circle {
+                opacity: 0.571;
+            }
+            @keyframes fade {
+                0% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+            }
+            @keyframes hide-immediately {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+        ]]></style>
+    </defs>
+    <g id="ie9-compatibility">
+        <g transform="translate(20,20)">
+            <circle cx="0" cy="0" r="18"/>
+        </g>
+        <g transform="translate(60,20)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(100,20)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(100,60)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(100,100)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(60,100)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(20,100)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(20,60)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+    </g>
+    <g id="animation">
+        <g transform="translate(20,20)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(60,20)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(100,20)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(100,60)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(100,100)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(60,100)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(20,100)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+        <g transform="translate(20,60)">
+            <circle cx="0" cy="0" r="18" />
+        </g>
+    </g>
+</svg>
+<!--
+Copyright © 2015 Fa. KLAUS BENNDORF
+-->

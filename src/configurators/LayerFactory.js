@@ -203,6 +203,10 @@ export class LayerFactory {
       optionsCopy.source.projection = this.mapProjection
     }
 
+    if (optionsCopy.source) {
+      optionsCopy.source.localiser = this.map_.get('localiser')
+    }
+
     let layer
     let layerConfigs
     let localised = false
