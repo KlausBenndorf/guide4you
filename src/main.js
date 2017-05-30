@@ -1,9 +1,10 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import 'file?name=images/[name].[ext]!../images/g4u-logo.png'
+import 'file-loader?name=images/[name].[ext]!../images/g4u-logo.png'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame'
+
 window.jQuery = window.jQuery || $
 
 import {G4UMap} from './G4UMap'
@@ -19,7 +20,7 @@ export function createG4UInternal (element, clientConfPath, layerConfPath, optio
       if (!$) {
         reject('jQuery not available.')
       } else {
-        let v = $().jquery.split('.');
+        let v = $().jquery.split('.')
         if (+v[0] < 2 && +v[1] < 9) {
           Debug.error('You are using an outdated version of jQuery. Please use version 1.9 or higher.')
         }

@@ -2,7 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import { cssClasses, keyCodes } from '../globals'
 
-import 'polyfill!Array.prototype.findIndex'
+import 'polyfill!Array.prototype.findIndex,Promise'
 
 import '../../less/dropdown.less'
 

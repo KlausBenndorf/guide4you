@@ -5,7 +5,7 @@ import { cssClasses, keyCodes } from './globals'
 
 /**
  * @typedef {object} APIMapInteraction
- * @proeprty {function} cancel ends the interaction. The result promise will not resolve.
+ * @property {function} cancel ends the interaction. The result promise will not resolve.
  * @property {function} end ends the interaction properly. The result promise will resolve if possible.
  * @property {Promise} result a promise that represents the value of the interaction.
  */
