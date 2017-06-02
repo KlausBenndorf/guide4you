@@ -1,13 +1,15 @@
 'use strict'
 
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const mustacheEvalLoader = require('guide4you-builder/mustache-eval-loader')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 
 let path = require('path')
 let baseDir = process.cwd()
 
 mustacheEvalLoader.setTemplateVars({
   svgColor: 'rgba(255,255,255,1)',
-  languageFile: 'node_modules/guide4you/dist/files/l10n.json'
+  languageFile: './files/l10n.json'
 })
 
 module.exports = {
@@ -21,5 +23,20 @@ module.exports = {
     alias: {
       'lessConfig': path.join(baseDir, './conf/clouds.less')
     }
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'html/client.html',
+      inject: 'head',
+      favicon: 'images/g4u-logo.png',
+      title: 'g4u test'
+    }),
+    new HtmlWebpackIncludeAssetsPlugin({
+      assets: [
+        '../node_modules/jquery/dist/jquery.min.js',
+        '../node_modules/openlayers/dist/ol.js'
+      ],
+      append: false
+    })
+  ]
 }

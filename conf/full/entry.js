@@ -36,8 +36,6 @@ import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/zoom.png'
 import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
-window.createG4U = function (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
+export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
   return createG4UInternal(target, clientConf, layerConf)
 }
-
-export default window.createG4U

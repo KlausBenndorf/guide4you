@@ -33,7 +33,8 @@
   "devDependencies": {
     "concurrently": "3.1.0",
     "esdoc": "1.0.0-alpha.3",
-    "guide4you-builder": "~2.0.3",
+    "guide4you-builder": "~2.0.4",
+    "http-server": "^0.10.0",
     "mocha": "3.4.2",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.4.0",
@@ -44,13 +45,14 @@
     "dist": "g4u-build -m dist -c conf/dist",
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
-    "pretest": "g4u-buildTests",
     "lint": "eslint src/ tests/",
-    "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf/full\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
+    "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
+    "test": "npm run lint && npm run buildTests && concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json",
     "typing": "jsdoc -t node_modules/tsd-jsdoc -r conf/dist/entry.js src/ -d dist/"
   },
   "main": "./dist/g4u.js",
+  "module": "./config/dist/entry.js",
   "types": "./dist/g4u.d.ts"
 }

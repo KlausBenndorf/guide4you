@@ -606,7 +606,7 @@ export class UIConfigurator {
                 map.dispatchEvent({
                   type: 'userActionTracking',
                   action: 'featureLayerChange',
-                  valule: layer.get('title')
+                  value: layer.get('title')
                 })
               }
             })

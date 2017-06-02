@@ -8,8 +8,6 @@ import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
 import 'file-loader?name=files/[name].[ext]!../../files/restaurantsbonn.kml'
 
-window.createG4U = function (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
+export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
   return createG4UInternal(target, clientConf, layerConf)
 }
-
-export default window.createG4U

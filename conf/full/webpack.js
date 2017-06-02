@@ -46,13 +46,13 @@ module.exports = {
       title: 'Full g4u3'
     }),
     new CopyWebpackPlugin([
-      { from: 'node_modules/jquery/dist/jquery.min.js', to: 'lib/jquery.min.js' },
-      { from: 'node_modules/openlayers/dist/ol.js', to: 'lib/ol.js' }
+      { from: 'node_modules/jquery/dist/jquery.min.js', to: 'js/jquery.min.js' },
+      { from: 'node_modules/openlayers/dist/ol.js', to: 'js/ol.js' }
     ]),
     new HtmlWebpackIncludeAssetsPlugin({
       assets: [
-        'lib/jquery.min.js',
-        'lib/ol.js'
+        'js/jquery.min.js',
+        'js/ol.js'
       ],
       append: false
     })

@@ -31,7 +31,7 @@ import '../less/map.less'
  * Custom properties accessible via method .get('propertyName')
  *
  * @fires 'resize'
- * @fires 'userActionTracking' only if build flag userActionTracking is set
+ * @fires 'userActionTracking'
  * @fires 'beforeConfigLoad'
  * @fires 'afterConfigLoad'
  * @fires 'afterConfiguring'
