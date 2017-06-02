@@ -606,7 +606,7 @@ export class UIConfigurator {
                 map.dispatchEvent({
                   type: 'userActionTracking',
                   action: 'featureLayerChange',
-                  valule: layer.get('title')
+                  value: layer.get('title')
                 })
               }
             })
@@ -618,7 +618,7 @@ export class UIConfigurator {
                 map.dispatchEvent({
                   type: 'userActionTracking',
                   action: 'popupOpen',
-                  value: this.getFeature()
+                  value: this.getFeature().get('name')
                 })
               }
             })
