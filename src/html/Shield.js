@@ -1,8 +1,6 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import 'polyfill!Map'
-
 import { cssClasses, keyCodes } from '../globals'
 import { getInFront } from './html'
 

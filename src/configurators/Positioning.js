@@ -321,7 +321,7 @@ export class Positioning {
       elems.delete(elem)
     }
 
-    for (let elem of Array.from(elems)) { // Array.from is hack for polyfill.io incompatibility with ie
+    for (let elem of elems) {
       forEach(elem)
     }
   }
@@ -350,7 +350,7 @@ export class Positioning {
       elems.delete(elem)
     }
 
-    for (let elem of Array.from(elems)) { // Array.from is hack for polyfill.io incompatibility with ie
+    for (let elem of elems) {
       forEach(elem)
     }
   }

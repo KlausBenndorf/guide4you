@@ -7,7 +7,7 @@
   "languageSettings": {
     "currentLanguage": "en",
     "defaultLanguage": "en",
-    "availableLanguages": ["en", "de", "pl"],
+    "availableLanguages": ["en", "de", "pl", "ar"],
     "languageFile": "{{{languageFile}}}"
   },
   "mapProjection": "EPSG:3857",
@@ -165,7 +165,8 @@
       "title": {
         "de": "Karten",
         "en": "Maps",
-        "pl": "Mapy"
+        "pl": "Mapy",
+        "ar": "خرائط"
       }
     },
     "featureLayerSelector": {
@@ -174,7 +175,8 @@
       "minLayerAmount": 1,
       "title": {
         "de": "Infos",
-        "en": "Information"
+        "en": "Information",
+        "ar": "معلومات"
       }
     },
     "attribution": {

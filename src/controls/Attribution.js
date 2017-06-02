@@ -1,7 +1,5 @@
 import $ from 'jquery'
 
-import 'polyfill!Map'
-
 import {Control} from './Control'
 import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
 import {mixin} from '../utilities'

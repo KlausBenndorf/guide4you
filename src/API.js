@@ -2,6 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import { cssClasses, keyCodes } from './globals'
+import { Debug } from './Debug'
 
 /**
  * @typedef {object} APIMapInteraction
@@ -169,7 +170,7 @@ export class API extends ol.Object {
         opt
       )
     } else {
-      console.error(`Unknown Projection '${opt.srId}'`)
+      Debug.error(`Unknown Projection '${opt.srId}'`)
     }
   }
 

@@ -269,7 +269,7 @@ export function showInteractionActivity (map) {
  * @returns {string}
  */
 export function urlDirname (url) {
-  return url.replace(/\/([^\/]*)(\?.*)?$/, '/')
+  return url.replace(/\/([^/]*)(\?.*)?$/, '/')
 }
 
 /**
@@ -295,7 +295,7 @@ export function urlJoin (urlRoot, urlExt) {
   let normPathRoot = urlDirname(urlNormalize(urlRoot))
   let normPathExt = urlNormalize(urlExt)
 
-  let lastPart = /[^\/]+\/$/
+  let lastPart = /[^/]+\/$/
   let leadingDoubleDots = /^\.\.\//
 
   while (normPathRoot.match(lastPart) && normPathExt.match(leadingDoubleDots)) {
