@@ -87,7 +87,7 @@ export class Move {
       center: point,
       resolution: this.map_.getView().getResolution()
     })
-    let extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 1))
+    let extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 2))
 
     options.padding = [0, 0, 0, 0] // no padding around this extent
 
@@ -160,57 +160,25 @@ export class Move {
     let size = map.getSize()
 
     let startExtent = view.calculateExtent(size)
-    let startPoint = view.getCenter()
 
-    let startResolution = view.getResolution()
     let moveExtent = ol.extent.extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
-    let duration = ol.extent.intersects(startExtent, endExtent) ? this.animationDuration_ / 2 : this.animationDuration_
 
     if (this.bouncing_ && !ol.extent.intersects(startExtent, endExtent)) {
-      let pan1 = ol.animation.pan({
-        duration: duration,
-        source: startPoint
-      })
-
-      let zoom1 = ol.animation.zoom({
-        duration: duration,
-        resolution: startResolution,
-        easing: ol.easing.easeOut
-      })
-
-      map.beforeRender(pan1, zoom1)
-      this.fit_(moveExtent, options)
-
-      window.setTimeout(() => {
-        let pan2 = ol.animation.pan({
-          duration: duration,
-          source: view.getCenter() // ,
-        })
-
-        let zoom2 = ol.animation.zoom({
-          duration: duration,
-          resolution: view.getResolution(),
-          easing: ol.easing.easeIn
-        })
-
-        map.beforeRender(pan2, zoom2)
-
-        this.fit_(endExtent, options)
-      }, duration)
+      let moveOptions = Object.assign({
+        duration: this.animationDuration_ / 2
+      }, options)
+      view.fit(moveExtent, moveOptions)
+      setTimeout(() => {
+        let endOptions = Object.assign({
+          duration: this.animationDuration_ / 2
+        }, options)
+        view.fit(endExtent, endOptions)
+      }, this.animationDuration_ / 2)
     } else {
-      let pan = ol.animation.pan({
-        duration: duration,
-        source: startPoint
-      })
-
-      let zoom = ol.animation.zoom({
-        duration: duration,
-        resolution: startResolution
-      })
-
-      map.beforeRender(pan, zoom)
-
-      this.fit_(endExtent, options)
+      let endOptions = Object.assign({
+        duration: this.animationDuration_ / 2
+      }, options)
+      view.fit(endExtent, endOptions)
     }
   }
 

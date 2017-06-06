@@ -27,6 +27,8 @@ import {parseCSSColor} from 'csscolorparser'
 import {FunctionCallBuffer} from '../FunctionCallBuffer'
 import {ShowWMSFeatureInfo} from '../ShowWMSFeatureInfo'
 
+import {History} from '../html/History'
+
 /**
  * This class configures the UI of a map according to its mapconfig
  */
@@ -210,9 +212,12 @@ export class UIConfigurator {
     this.map_.set('mobile', false)
     $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
 
+    this.map_.set('scaleIcons', mapConfigCopy.scaleIcons)
+
     let lastMatch
     let oldScaleIcons
     let oldAnimations
+    let oldHitTolerance
 
     let checkMobileLayoutQuery = () => {
       /**
@@ -243,6 +248,12 @@ export class UIConfigurator {
             if (mobileLayout.hasOwnProperty('scaleIcons')) {
               oldScaleIcons = this.map_.get('scaleIcons')
               this.map_.set('scaleIcons', mobileLayout.scaleIcons)
+              this.map_.get('styling').setGlobalIconScale(mobileLayout.scaleIcons)
+              this.map_.getLayerGroup().recursiveForEach(l => {
+                if (l.getVisible()) {
+                  l.changed()
+                }
+              })
             }
 
             let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
@@ -255,6 +266,11 @@ export class UIConfigurator {
                   wmsFeatureInfo.setPointVisible(true)
                 }
               }, 0)
+            }
+
+            if (mobileLayout.hasOwnProperty('hitTolerance')) {
+              oldHitTolerance = this.map_.get('hitTolerance')
+              this.map_.set('hitTolerance', mobileLayout.hitTolerance)
             }
           } else {
             $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
@@ -262,11 +278,17 @@ export class UIConfigurator {
 
             this.map_.set('mobile', false)
 
-            if (oldAnimations) {
+            if (mobileLayout.hasOwnProperty('animations')) {
               this.map_.get('move').setAnimations(oldAnimations)
             }
-            if (oldScaleIcons) {
+            if (mobileLayout.hasOwnProperty('scaleIcons')) {
               this.map_.set('scaleIcons', oldScaleIcons)
+              this.map_.get('styling').setGlobalIconScale(oldScaleIcons)
+              this.map_.getLayerGroup().recursiveForEach(l => {
+                if (l.getVisible()) {
+                  l.changed()
+                }
+              })
             }
 
             let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
@@ -279,6 +301,10 @@ export class UIConfigurator {
                   wmsFeatureInfo.setPointVisible(true)
                 }
               }, 0)
+            }
+
+            if (mobileLayout.hasOwnProperty('hitTolerance')) {
+              this.map_.set('hitTolerance', oldHitTolerance)
             }
           }
         }
@@ -309,23 +335,6 @@ export class UIConfigurator {
     this.map_.on('change:responsive', onChangeResponsive)
 
     this.map_.on('ready:ui', onChangeResponsive)
-
-    //
-    // Icon Scaling
-    //
-
-    this.map_.on('change:scaleIcons', e => {
-      this.map_.get('styling').forEachStyle((style) => {
-        let image = style.getImage()
-        if (image) {
-          image.setScale((image.getScale() || 1) / e.oldValue * this.map_.get('scaleIcons'))
-        }
-      })
-
-      this.map_.getLayerGroup().recursiveForEach((layer) => {
-        layer.changed()
-      })
-    })
 
     this.initialized_ = true
   }
@@ -502,6 +511,21 @@ export class UIConfigurator {
           }
         })
 
+        // hitTolerance
+        let updateHitTolerance = () => {
+          let hitTolerance = this.map_.get('hitTolerance')
+          for (let interaction of this.map_.getInteractions().getArray()) {
+            if (interaction.setHitTolerance) {
+              interaction.setHitTolerance(hitTolerance)
+            }
+          }
+        }
+
+        this.map_.set('hitTolerance', mapConfigCopy.hitTolerance || 0)
+
+        updateHitTolerance()
+        this.map_.on('change:hitTolerance', updateHitTolerance)
+
         // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     Feature Popups                                       //
         // //////////////////////////////////////////////////////////////////////////////////////// //
@@ -546,6 +570,12 @@ export class UIConfigurator {
         }
 
         // //////////////////////////////////////////////////////////////////////////////////////// //
+        //                                    Custom History                                        //
+        // //////////////////////////////////////////////////////////////////////////////////////// //
+
+        this.map_.set('history', new History())
+
+        // //////////////////////////////////////////////////////////////////////////////////////// //
         //                                     UserExit (2/2)                                       //
         // //////////////////////////////////////////////////////////////////////////////////////// //
         if (this.map_.get('userActionTracking')) {
@@ -576,7 +606,7 @@ export class UIConfigurator {
                 map.dispatchEvent({
                   type: 'userActionTracking',
                   action: 'featureLayerChange',
-                  valule: layer.get('title')
+                  value: layer.get('title')
                 })
               }
             })
@@ -588,7 +618,7 @@ export class UIConfigurator {
                 map.dispatchEvent({
                   type: 'userActionTracking',
                   action: 'popupOpen',
-                  value: this.getFeature()
+                  value: this.getFeature().get('name')
                 })
               }
             })

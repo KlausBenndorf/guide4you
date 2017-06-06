@@ -8,7 +8,7 @@
     background: @g4u-control-background;
     margin: 0;
     padding: 0;
-    z-index: 1;
+    z-index: 1000;
     margin-top: -@g4u-tiny;
     border: @g4u-tiny solid @g4u-light-main-color;
     border-radius: @g4u-desktop-large-border-radius;
@@ -25,6 +25,7 @@
     }
 
     .g4u-dropdown-entry {
+      box-sizing: border-box;
       width: 100%;
       height: auto;
 
@@ -53,6 +54,11 @@
         color: white;
       }
     }
+
+    .g4u-active {
+      background: lighten(@g4u-medium-main-color, 10%);
+      color: white;
+    }
   }
 
   .g4u-dropdown-selected {
@@ -79,12 +85,18 @@
   .g4u-dropdown {
     display: block !important;
     width: 100%;
+
+    .g4u-active {
+      background: lighten(@g4u-medium-main-color, 10%);
+      color: white;
+    }
   }
 
   padding: 0;
   margin: 0;
 
   .g4u-dropdown-entry {
+    box-sizing: border-box;
     height: auto;
     cursor: default;
     padding: @g4u-mobile-padding;

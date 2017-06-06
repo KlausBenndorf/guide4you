@@ -1,14 +1,15 @@
 import $ from 'jquery'
-import ol from 'openlayers'
 import flatten from 'lodash/flatten'
 
 import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
 import {Control} from './Control'
-import {offset} from '../utilities'
+import { offset, mixin, addProxy } from '../utilities'
 import {cssClasses} from '../globals'
+import {Window} from '../html/Window'
 
 import '../../less/layerselector.less'
+import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -24,7 +25,7 @@ import '../../less/layerselector.less'
  * This control shows Buttons to let you select the layer you want to see on the map.
  * It supports categories and nested categories - each {GroupLayer}-Object will be interpreted as a category.
  */
-export class LayerSelector extends Control {
+export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   /**
    * @param {LayerSelectorOptions} options
    */
@@ -100,12 +101,6 @@ export class LayerSelector extends Control {
      * @private
      */
     this.visible_ = true
-
-    /**
-     * @type {Array}
-     * @private
-     */
-    this.listenerKeys_ = []
   }
 
   /**
@@ -129,22 +124,81 @@ export class LayerSelector extends Control {
     this.menu_.setCollapsed(collapsed)
   }
 
+  addWindowToButton ($button, layer) {
+    let windowConfig = layer.get('window')
+
+    let window = new Window({
+      map: this.getMap()
+    })
+
+    if (!this.$windowContainer_) {
+      this.$windowContainer_ = $('<span>')
+      this.get$Element().append(this.$windowContainer_)
+    }
+
+    this.$windowContainer_.append(window.get$Element())
+
+    window.get$Element().attr('data-layer-0', layer.get('id'))
+
+    let content
+
+    let useProxy = (windowConfig.useProxy || (!windowConfig.hasOwnProperty('useProxy') && windowConfig.proxy))
+
+    let proxy = windowConfig.proxy
+
+    let showWindow = () => {
+      if (this.getMap().get('localiser').isRtl()) {
+        window.get$Body().prop('dir', 'rtl')
+      } else {
+        window.get$Body().prop('dir', undefined)
+      }
+      window.get$Body().html(content)
+      window.setVisible(true)
+    }
+
+    let hideWindow = () => {
+      window.setVisible(false)
+    }
+
+    this.listenAt($button).on('click', () => {
+      if (layer.getVisible()) {
+        if (!content) {
+          let url = this.getLocaliser().selectL10N(windowConfig.url)
+          if (useProxy) {
+            url = addProxy(url, proxy || this.getMap().get('proxy'))
+          }
+          $.get(url, data => {
+            content = data
+            showWindow()
+          })
+        } else {
+          showWindow()
+        }
+      } else {
+        hideWindow()
+      }
+    })
+  }
+
   /**
    * this method builds a button for a layer. It toggles visibility if you click on it
    * @param {ol.layer.Base} layer
    * @param {jQuery} $target
    */
   buildLayerButton (layer, $target) {
-    this.loadProcessCount = this.loadProcessCount || {}
     if (layer.get('available')) {
-      let layerSource = layer.getSource()
       let $button = $('<button>')
         .addClass(this.classNames_.layerButton)
+        .attr('id', layer.get('id'))
         .html(layer.get('title'))
+
+      if (this.getMap().get('localiser').isRtl()) {
+        $button.prop('dir', 'rtl')
+      }
 
       let activeClassName = this.classNames_.menu + '-active'
 
-      $button.on('click', e => {
+      this.listenAt($button).on('click', () => {
         if (this.toggle_) {
           layer.setVisible(!layer.getVisible())
         } else {
@@ -156,29 +210,24 @@ export class LayerSelector extends Control {
         $button.addClass(activeClassName)
       }
 
-      this.listenerKeys_.push(
-        layer.on('change:visible', () => {
-          $button.toggleClass(activeClassName, layer.getVisible())
-          if (!layer.getVisible()) {
-            layer.resetLoadProcessCount()
-            $button.removeClass('g4u-layer-loading')
-          }
-        }))
+      this.listenAt(layer).on('change:visible', () => {
+        $button.toggleClass(activeClassName, layer.getVisible())
+        if (!layer.getVisible()) {
+          $button.removeClass('g4u-layer-loading')
+        }
+      })
 
-      this.listenerKeys_.push(
-        layerSource.on([ 'vectorloadstart', 'tileloadstart', 'imageloadstart' ], () => {
-          $button.addClass('g4u-layer-loading')
-        }))
+      if (layer.get('window')) {
+        this.addWindowToButton($button, layer)
+      }
 
-      this.listenerKeys_.push(
-        layerSource.on([
-          'vectorloadend', 'vectorloaderror',
-          'tileloadend', 'tileloaderror',
-          'imageloadend', 'imageloaderror' ], () => {
-          if (layer.getLoadProcessCount() === 0) {
-            $button.removeClass('g4u-layer-loading')
-          }
-        }))
+      this.listenAt(layer).on('loadcountstart', () => {
+        $button.addClass('g4u-layer-loading')
+      })
+
+      this.listenAt(layer).on('loadcountend', () => {
+        $button.removeClass('g4u-layer-loading')
+      })
 
       $target.append($button)
     }
@@ -198,8 +247,10 @@ export class LayerSelector extends Control {
       let menu = new ButtonBox({
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
+        rtl: this.getMap().get('localiser').isRtl(),
         titleButton: activateChildren,
-        collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false)
+        collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false),
+        id: categoryLayer.get('id')
       })
 
       let countChildren = categoryLayer.countChildren()
@@ -227,8 +278,8 @@ export class LayerSelector extends Control {
       updateButtonActivities()
 
       let forEachChildLayer = childLayer => {
-        this.listenerKeys_.push(
-          childLayer.on([ 'change:visible', 'change:childVisible' ], e => {
+        this.listenAt(childLayer)
+          .on([ 'change:visible', 'change:childVisible' ], e => {
             let changedLayer = e.child || childLayer
 
             if (changedLayer.getVisible()) {
@@ -238,29 +289,30 @@ export class LayerSelector extends Control {
             }
 
             updateButtonActivities()
-          }))
+          })
       }
 
-      this.listenerKeys_.push(
-        categoryLayer.getLayers().forEach(forEachChildLayer))
+      categoryLayer.getLayers().forEach(forEachChildLayer)
 
-      this.listenerKeys_.push(
-        categoryLayer.getLayers().on('add', e => forEachChildLayer(e.element)))
+      this.listenAt(categoryLayer.getLayers())
+        .on('add', e => forEachChildLayer(e.element))
 
-      menu.on('title:click', () => {
-        let visible = countVisibleChildren < countChildren
-        categoryLayer.recursiveForEach(childLayer => {
-          if (!(childLayer instanceof GroupLayer)) {
-            childLayer.setVisible(visible)
-          }
+      this.listenAt(menu)
+        .on('title:click', () => {
+          let visible = countVisibleChildren < countChildren
+          categoryLayer.recursiveForEach(childLayer => {
+            if (!(childLayer instanceof GroupLayer)) {
+              childLayer.setVisible(visible)
+            }
+          })
         })
-      })
 
       $target.append(menu.get$Element())
 
       $nextTarget = menu.get$Body()
 
-      menu.on('change:collapsed', () => this.changed())
+      this.listenAt(menu)
+        .on('change:collapsed', () => this.changed())
     }
 
     for (let childLayer of categoryLayer.getLayers().getArray()) {
@@ -349,12 +401,14 @@ export class LayerSelector extends Control {
           className: this.classNames_.menu,
           title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
           titleButton: true,
-          collapsed: wmsLayer.get('collapsed') !== false
+          collapsed: wmsLayer.get('collapsed') !== false,
+          id: wmsLayer.get('id')
         })
 
         $target.append(menu.get$Element())
 
-        menu.on('change:collapsed', () => this.changed())
+        this.listenAt(menu)
+          .on('change:collapsed', () => this.changed())
 
         let activeClassName = this.classNames_.menu + '-active'
 
@@ -404,11 +458,12 @@ export class LayerSelector extends Control {
             $checkbox.prop('checked', active)
           }
 
-          $button.on('click', () => buttonActive(!activeLayerButtons.isActive(layerButton)))
+          this.listenAt($button)
+            .on('click', () => buttonActive(!activeLayerButtons.isActive(layerButton)))
 
           if (featureInfoCheckable) {
             $button.append($checkbox)
-            $checkbox.on('click', e => {
+            this.listenAt($checkbox).on('click', e => {
               checkboxActive($checkbox.is(':checked'))
               e.stopPropagation()
             })
@@ -418,7 +473,7 @@ export class LayerSelector extends Control {
           menu.get$Body().append($button)
         }
 
-        menu.on('title:click', () => {
+        this.listenAt(menu).on('title:click', () => {
           let activateAll = activeLayerButtons.count() < layerButtons.length
           if (activateAll) {
             activeLayerButtons.add(layerButtons)
@@ -463,7 +518,7 @@ export class LayerSelector extends Control {
    */
   setMap (map) {
     if (this.getMap()) {
-      ol.Observable.unByKey(this.listenerKeys_)
+      this.detachAllListeners()
     }
 
     super.setMap(map)
@@ -532,6 +587,18 @@ export class LayerSelector extends Control {
     }
 
     return 0
+  }
+
+  beforePositioning () {
+    this.scrolled_ = this.menu_.get$Body().scrollTop()
+  }
+
+  /**
+   * used by positioning
+   * @param {{scroll: number}} state
+   */
+  afterPositioning () {
+    this.menu_.get$Body().scrollTop(this.scrolled_)
   }
 
   /**

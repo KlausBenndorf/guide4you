@@ -42,20 +42,8 @@ export class LanguageSwitcherButton extends Control {
     }
 
     this.$button_.on('click', () => {
-      let availableLanguages = this.getLocaliser().getAvailableLanguages()
-      let sourceLanguage = availableLanguages[0]
-      let targetLanguage = availableLanguages[1] || availableLanguages[0]
+      let targetLanguage = languages[1 - languages.indexOf(this.getLocaliser().getCurrentLang())]
       this.getLocaliser().setCurrentLang(targetLanguage)
-
-      let map = this.getMap()
-      let visibilities = map.getLayerGroup().getIdsVisibilities()
-
-      map.get('configurator').configureLayers()
-      map.get('configurator').configureUI()
-
-      map.getLayerGroup().setIdsVisibilities(visibilities)
-
-      this.getLocaliser().setAvailableLanguages([targetLanguage, sourceLanguage])
     })
   }
 

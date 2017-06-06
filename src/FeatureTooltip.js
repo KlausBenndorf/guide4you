@@ -72,7 +72,7 @@ export class FeatureTooltip {
       interaction.on('select', e => {
         let selected = e.selected.filter(FeatureTooltip.filter_)
         if (selected.length) {
-          this.setFeature(selected[0])
+          this.setFeature(selected[0], e.mapBrowserEvent.coordinate)
         } else {
           this.setFeature(null)
         }
@@ -96,12 +96,14 @@ export class FeatureTooltip {
   /**
    * @param {?ol.Feature} feature
    */
-  setFeature (feature) {
+  setFeature (feature, coordinate = null) {
     if (feature) {
       this.$element_.html(html2Text(feature.get('name')))
-      let geometry = feature.getGeometry()
-      let coord = ol.extent.getCenter(geometry.getExtent())
-      this.overlay_.setPosition(coord)
+      if (!coordinate) {
+        let geometry = feature.getGeometry()
+        coordinate = ol.extent.getCenter(geometry.getExtent())
+      }
+      this.overlay_.setPosition(coordinate)
       this.$element_.removeClass(cssClasses.hidden)
     } else {
       this.$element_.addClass(cssClasses.hidden)

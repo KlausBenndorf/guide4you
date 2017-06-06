@@ -3,6 +3,11 @@
  */
 export class LayerLoadProcessCountMixin {
   initialize () {
+    this.debounceLoadComplete_ = 40
+
+    let loadCompleteTimeout
+    this.isLoading_ = false
+
     /**
      * @type {number}
      * @private
@@ -11,6 +16,11 @@ export class LayerLoadProcessCountMixin {
 
     this.getSource().on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], () => {
       this.loadProcessCount_ += 1
+      if (!this.isLoading_) {
+        this.dispatchEvent('loadcountstart')
+        this.isLoading_ = true
+      }
+      clearTimeout(loadCompleteTimeout)
     })
 
     this.getSource().on([
@@ -18,20 +28,16 @@ export class LayerLoadProcessCountMixin {
       'tileloadend', 'tileloaderror',
       'imageloadend', 'imageloaderror'], () => {
       this.loadProcessCount_ -= 1
+      if (this.loadProcessCount_ === 0) {
+        loadCompleteTimeout = setTimeout(() => {
+          this.dispatchEvent('loadcountend')
+          this.isLoading_ = false
+        }, this.debounceLoadComplete_)
+      }
     })
   }
 
-  /**
-   * @returns {number}
-   */
-  getLoadProcessCount () {
-    return this.loadProcessCount_
-  }
-
-  /**
-   * Resets load process count to 0
-   */
-  resetLoadProcessCount () {
-    this.loadProcessCount_ = 0
+  isLoading () {
+    return this.isLoading_
   }
 }

@@ -22,6 +22,7 @@ export const SuperType = {
 
 export const LayerType = {
   CATEGORY: 'Category',
+  SILENTGROUP: 'SilentGroup',
   GEOJSON: 'GeoJSON',
   KML: 'KML',
   WMS: 'WMS',
@@ -38,7 +39,7 @@ export const LayerType = {
  * @property {string} type the LayerType
  * @property {string|number} id unique in the whole config
  * @property {string} title
- * @property {SourceConfig} source
+ * @property {SourceConfig|ol.source.Source} source
  * @property {Boolean} available
  * @property {Boolean} availableMobile overwrites available in mobile mode
  * @property {Boolean} visible
@@ -51,6 +52,7 @@ export const LayerType = {
  * @public
  * @typedef {Object} SourceConfig
  * @property {Localizable} [attribution]
+ * @property {boolean} [localised=false]
  * @property {ol.Attribution[]} [attributions] will be setted automatically.
  * @property {null} [crossOrigin] will be setted automatically.
  * @property {string} loadingStrategy
@@ -165,8 +167,9 @@ export class LayerFactory {
         layer.forEach(forEachLayer)
       } else {
         // styling
-        if (style) {
-          this.map_.get('styling').styleLayer(layer, style)
+        if (layer.setStyle) {
+          layer.setStyle(this.map_.get('styling').getStyle(style))
+          this.map_.get('styling').manageLayer(layer)
         }
 
         forEachLayer(layer)
@@ -200,21 +203,44 @@ export class LayerFactory {
       optionsCopy.source.projection = this.mapProjection
     }
 
+    if (optionsCopy.source) {
+      optionsCopy.source.localiser = this.map_.get('localiser')
+    }
+
     let layer
+    let layerConfigs
+    let localised = false
+    if (optionsCopy.source) {
+      optionsCopy.source.localiser = this.map_.get('localiser')
+      localised = optionsCopy.source.localised
+    }
 
     switch (layerType) {
+      case LayerType.SILENTGROUP:
+
+        layerConfigs = take(optionsCopy, 'layers')
+
+        layer = new ol.layer.Group(optionsCopy)
+
+        this.addLayers(layer, layerConfigs, superType, true)
+
+        layer.getLayers().forEach(childLayer => {
+          childLayer.setVisible(true)
+        })
+        break
       case LayerType.CATEGORY:
 
-        let layerConfigs = take(optionsCopy, 'layers')
+        layerConfigs = take(optionsCopy, 'layers')
 
         layer = new GroupLayer(optionsCopy)
 
         this.addLayers(layer, layerConfigs, superType, skipIdCheck)
 
-        // availability
+        // availability & parent ref
         let childrenAvailable = false
-        layer.getLayers().forEach(layer => {
-          childrenAvailable = childrenAvailable || layer.get('available')
+        layer.getLayers().forEach(childLayer => {
+          childLayer.set('category', layer)
+          childrenAvailable = childrenAvailable || childLayer.get('available')
         })
 
         let childrenCount = layer.getLayers().getLength()
@@ -245,7 +271,8 @@ export class LayerFactory {
         if (superType === SuperType.BASELAYER) {
           layer = new EmptyBaseLayer(optionsCopy)
         } else {
-          this.superTypeNotSupported(layerType, superType)
+          optionsCopy.source = new ol.source.Vector()
+          layer = new VectorLayer(optionsCopy)
         }
         break
       case LayerType.OSM:
@@ -317,6 +344,8 @@ export class LayerFactory {
 
         optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')
 
+        optionsCopy.source.styling = this.map_.get('styling')
+
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.source = new QuerySource(optionsCopy.source)
         } else {
@@ -333,6 +362,8 @@ export class LayerFactory {
         optionsCopy.source.type = 'KML'
 
         optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')
+
+        optionsCopy.source.styling = this.map_.get('styling')
 
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.source = new QuerySource(optionsCopy.source)
@@ -382,6 +413,11 @@ export class LayerFactory {
       }
     } else if (superType === SuperType.QUERYLAYER) {
       this.map_.get('urlApi').addApiLayer(layer, optionsCopy.apiKey)
+    }
+
+    // if layer is being localised, refresh on language change
+    if (localised) {
+      this.map_.get('localiser').on('change:language', () => layer.getSource().refresh())
     }
 
     return layer

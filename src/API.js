@@ -2,6 +2,17 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import { cssClasses, keyCodes } from './globals'
+import { Debug } from './Debug'
+
+/**
+ * @typedef {object} APIMapInteraction
+ * @property {function} cancel ends the interaction. The result promise will not resolve.
+ * @property {function} end ends the interaction properly. The result promise will resolve if possible.
+ * @property {Promise} result a promise that represents the value of the interaction.
+ */
+
+// NOTE:
+// Access to a source factory would be nice
 
 /**
  * @typedef {object} APIOptions
@@ -84,8 +95,9 @@ export class API extends ol.Object {
    * draw a feature
    * @param {object} [options={}]
    * @param {StyleLike} [options.style]
-   * @param {string} [options.type='Point']
-   * @returns {Promise<ol.Feature>}
+   * @param {string} [options.type='Point'] possible values are: 'Point', 'LineString', 'Polygon', 'MultiPoint',
+   *  'MultiLineString', 'MultiPolygon' or 'Circle'
+   * @returns {APIMapInteraction}
    */
   drawFeature (options = {}) {
     if (this.featureManipulationActive_) {
@@ -94,29 +106,77 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    return new Promise((resolve) => {
-      let collection = new ol.Collection()
+    let collection = new ol.Collection()
 
-      let styleConf = (options.style || this.drawStyle_) || {}
+    let styleConf = (options.style || this.drawStyle_) || {}
 
-      let style = this.map_.get('styling').getStyle(styleConf)
+    let style = this.map_.get('styling').getStyle(styleConf)
 
-      this.map_.get('styling').styleCollection(collection, style)
+    this.map_.get('styling').styleCollection(collection, style)
 
-      this.featureManipulationInteraction_ = new ol.interaction.Draw({
-        features: collection,
-        type: options.type || 'Point',
-        style: style
-      })
+    this.featureManipulationInteraction_ = new ol.interaction.Draw({
+      features: collection,
+      type: options.type || 'Point',
+      style: style
+    })
 
-      this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_)
+    this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_)
 
-      $(this.map_.getViewport()).addClass(cssClasses.crosshair)
+    $(this.map_.getViewport()).addClass(cssClasses.crosshair)
 
-      this.featureManipulationInteraction_.on('drawend', e => {
-        resolve(e.feature)
+    return {
+      cancel: () => {
         this.endFeatureManipulationInternal_()
+      },
+      end: () => {
+        this.featureManipulationInteraction_.finishDrawing()
+        this.endFeatureManipulationInternal_()
+      },
+      result: new Promise(resolve => {
+        this.featureManipulationInteraction_.on('drawend', e => {
+          resolve(e.feature)
+          this.endFeatureManipulationInternal_()
+        })
       })
+    }
+  }
+
+  fitRectangle (coordinates, opt = {}) {
+    if (!opt.hasOwnProperty('srId')) {
+      opt.srId = 'EPSG:4326'
+    }
+    if (!opt.hasOwnProperty('constrainResolution')) {
+      opt.constrainResolution = false
+    }
+    if (!opt.hasOwnProperty('padding')) {
+      opt.padding = [0, 0, 0, 0]
+    }
+    if (ol.proj.get(opt.srId)) {
+      this.map_.getView().fit(
+        ol.extent.boundingExtent(
+          [
+            ol.proj.transform(
+              [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
+              opt.srId,
+              this.map_.get('mapProjection').getCode()
+            ),
+            ol.proj.transform(
+              [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
+              opt.srId,
+              this.map_.get('mapProjection').getCode()
+            )
+          ]
+        ),
+        opt
+      )
+    } else {
+      Debug.error(`Unknown Projection '${opt.srId}'`)
+    }
+  }
+
+  setVisibleBaseLayer (id) {
+    this.map_.get('baseLayers').recursiveForEach((layer) => {
+      layer.setVisible(layer.get('id') === id)
     })
   }
 
@@ -128,7 +188,7 @@ export class API extends ol.Object {
 
   /**
    * Select a feature with a single click
-   * @returns {Promise<ol.Feature>}
+   * @returns {APIMapInteraction}
    */
   selectFeature () {
     if (this.featureManipulationActive_) {
@@ -137,36 +197,37 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    return new Promise((resolve) => {
-      this.featureManipulationInteraction_ = new ol.interaction.Select()
+    this.featureManipulationInteraction_ = new ol.interaction.Select()
 
-      this.map_.addSupersedingInteraction('singleclick', this.featureManipulationInteraction_)
+    this.map_.addSupersedingInteraction('singleclick', this.featureManipulationInteraction_)
 
-      $(this.map_.getViewport()).addClass(cssClasses.arrow)
+    $(this.map_.getViewport()).addClass(cssClasses.arrow)
 
-      this.featureManipulationInteraction_.getFeatures().on('add', /** ol.CollectionEvent */ e => {
-        resolve(e.element)
+    return {
+      cancel: () => {
         this.endFeatureManipulationInternal_()
+      },
+      end: () => {
+        this.endFeatureManipulationInternal_()
+      },
+      result: new Promise((resolve) => {
+        this.featureManipulationInteraction_.getFeatures().on('add', /** ol.CollectionEvent */ e => {
+          resolve(e.element)
+          this.endFeatureManipulationInternal_()
+        })
       })
-    })
+    }
   }
 
   /**
-   * Modify a given Feature
+   * Modify a given Feature. The end function needs to be called to indicate that a modifying process is completed.
    * @param {ol.Collection<ol.Feature>|ol.Feature[]|ol.Feature} feature
    * @param {Object} options
    * @param {StyleLike} [options.style]
+   * @returns {APIMapInteraction}
    */
   modifyFeature (feature, options = {}) {
-    let features
-
-    if (feature instanceof ol.Collection) {
-      features = feature
-    } else if (feature instanceof Array) {
-      features = new ol.Collection(feature)
-    } else {
-      features = new ol.Collection([feature])
-    }
+    options.features = new ol.Collection([feature])
 
     if (this.featureManipulationActive_) {
       this.endFeatureManipulationInternal_(false)
@@ -174,7 +235,6 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    options.features = features
     if (options.style) {
       options.style = this.map_.get('styling').getStyle(options.style)
     }
@@ -184,6 +244,31 @@ export class API extends ol.Object {
     this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_)
 
     $(this.map_.getViewport()).addClass(cssClasses.crosshair)
+
+    let ended = false
+
+    return {
+      cancel: () => {
+        this.endFeatureManipulationInternal_()
+      },
+      end: () => {
+        ended = true
+        this.endFeatureManipulationInternal_()
+      },
+      result: new Promise(resolve => {
+        this.featureManipulationInteraction_.on('modifyend', () => {
+          if (ended) {
+            resolve(feature)
+          }
+        })
+
+        this.featureManipulationInteraction_.once('change:active', () => {
+          if (ended) {
+            resolve(feature)
+          }
+        })
+      })
+    }
   }
 
   /**

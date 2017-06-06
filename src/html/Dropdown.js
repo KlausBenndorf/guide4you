@@ -2,7 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import { cssClasses, keyCodes } from '../globals'
 
-import 'polyfill!Array.prototype.findIndex'
+import 'polyfill!Array.prototype.findIndex,Array.prototype.find'
 
 import '../../less/dropdown.less'
 
@@ -117,6 +117,15 @@ export class Dropdown extends ol.Object {
   }
 
   /**
+   * returns the text of the current selected list element
+   */
+  getText () {
+    if (this.selectedIndex_ >= 0) {
+      return this.entriesArray_[this.selectedIndex_].text
+    }
+  }
+
+  /**
    * @private
    */
   setUpKeyboardHandling_ () {
@@ -199,6 +208,7 @@ export class Dropdown extends ol.Object {
     this.setLength(index + 1)
 
     let entry = this.entriesArray_[index]
+    entry.text = text
     entry.$element.html(text)
     entry.value = value
 
@@ -208,10 +218,14 @@ export class Dropdown extends ol.Object {
     }
   }
 
+  setActivated (value, active) {
+    this.entriesArray_.find(o => o.value === value).$element.toggleClass(cssClasses.active, active)
+  }
+
   /**
    * This function takes an array of entries (strings).
    * The length of the dropdown is set to the length of the arrays (they have to have the same length).
-   * @param {*[]} values
+   * @param {any[]} values
    * @param {string[]} [texts=values]
    */
   setEntries (values, texts) {
@@ -219,6 +233,7 @@ export class Dropdown extends ol.Object {
     this.setLength(values.length)
 
     for (let i = 0, ii = values.length; i < ii; i++) {
+      this.entriesArray_[i].text = texts[i]
       this.entriesArray_[i].$element.html(texts[i])
       this.entriesArray_[i].value = values[i]
     }

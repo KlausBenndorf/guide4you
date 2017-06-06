@@ -21,8 +21,8 @@
     }
 
     .g4u-zoom-in {
-      border-top-left-radius: @g4u-desktop-small-border-radius;
-      border-top-right-radius: @g4u-desktop-small-border-radius;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
       .buttonSquaredWithIcon(@g4u-zoom-in-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
       &:hover {
         [role=tooltip] {
@@ -32,8 +32,8 @@
     }
 
     .g4u-zoom-out {
-      border-bottom-left-radius: @g4u-desktop-small-border-radius;
-      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
       .buttonSquaredWithIcon(@g4u-zoom-out-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
       margin-top: @g4u-desktop-padding;
       &:hover {

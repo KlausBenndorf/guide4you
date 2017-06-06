@@ -65,15 +65,19 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     if (this.showPoweredBy_) {
       let content = (options.poweredBy === undefined)
         ? '<a href="https://github.com/KlausBenndorf/guide4you" target="_blank">Guide4You</a>'
-        : options.poweredBy
+        : this.getLocaliser().selectL10N(options.poweredBy)
+
+      if (!Array.isArray(content)) {
+        content = [content]
+      }
 
       /**
        * @type {jQuery}
        * @private
        */
-      this.$poweredBy_ = $('<li>')
-        .append(content)
-        .addClass(this.className_ + '-poweredby')
+      this.$poweredBy_ = content.map(c => $('<li>')
+        .append(c)
+        .addClass(this.className_ + '-poweredby'))
     }
   }
 
@@ -156,6 +160,14 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     }
   }
 
+  updateRtl () {
+    if (this.getMap().get('localiser').isRtl()) {
+      this.$list_.prop('dir', 'rtl')
+    } else {
+      this.$list_.prop('dir', undefined)
+    }
+  }
+
   setMap (map) {
     if (this.getMap()) {
       this.detachAllListeners()
@@ -166,6 +178,10 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     if (map) {
       this.forEachLayer(map.getLayerGroup())
       this.updateList()
+      this.updateRtl()
+      this.listenAt(map.get('localiser')).on('change:language', () => {
+        this.updateRtl()
+      })
     }
   }
 }
