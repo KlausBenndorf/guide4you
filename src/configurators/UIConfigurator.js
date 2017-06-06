@@ -618,7 +618,7 @@ export class UIConfigurator {
                 map.dispatchEvent({
                   type: 'userActionTracking',
                   action: 'popupOpen',
-                  value: this.getFeature()
+                  value: this.getFeature().get('name')
                 })
               }
             })

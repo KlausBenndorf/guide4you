@@ -127,7 +127,7 @@ export class Shield extends ol.Object {
     this.elementsOnTop_.set($element[0], {
       $actualElement,
       $oldParent,
-      oldIndex: $oldParent.children().index($element)
+      oldIndex: $oldParent.children().index($actualElement)
     })
 
     this.$element_.append($actualElement)
