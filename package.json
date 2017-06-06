@@ -27,19 +27,19 @@
     "lodash": "4.17.4",
     "notifyjs-browser": "0.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
-    "proj4": "2.3.17",
+    "proj4": "^2.4.3",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
-    "concurrently": "3.1.0",
+    "concurrently": "^3.4.0",
     "esdoc": "1.0.0-alpha.3",
-    "guide4you-builder": "~2.0.4",
+    "guide4you-builder": "~2.0.6",
     "http-server": "^0.10.0",
     "mocha": "3.4.2",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.4.0",
     "standard": "10.0.2",
-    "wait-on": "2.0.1"
+    "wait-on": "^2.0.2"
   },
   "scripts": {
     "dist": "g4u-build -m dist -c conf/dist",
