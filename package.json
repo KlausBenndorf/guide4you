@@ -20,29 +20,37 @@
     "type": "git",
     "url": "https://github.com/KlausBenndorf/guide4you-module-urlapi"
   },
-  "dependencies": {
-    "guide4you": "1.3.*",
-    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0"
+  "peerDependencies": {
+    "guide4you": "2.0.*",
+    "jquery": "3.2.1",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0"
   },
   "devDependencies": {
-    "guide4you-builder": "1.1.*",
-    "concurrently": "3.1.0",
+    "content-deduplication-plugin": "git+https://github.com/simonseyock/content-deduplication-plugin.git",
+    "guide4you": "2.0.*",
+    "jquery": "3.2.1",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
+    "guide4you-builder": "2.0.*",
+    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
+    "http-server": "^0.10.0",
+    "concurrently": "^3.4.0",
     "esdoc": "0.5.2",
-    "mocha": "3.2.0",
-    "selenium-webdriver": "3.0.1",
+    "mocha": "3.4.2",
+    "selenium-webdriver": "3.4.0",
     "phantomjs-prebuilt": "2.1.14",
-    "standard": "8.6.0",
-    "wait-on": "2.0.1"
+    "standard": "10.0.2",
+    "wait-on": "2.0.2"
   },
   "scripts": {
+    "dist": "g4u-build -m dist -c conf/dist",
     "linkRepos": "g4u-link guide4you",
     "unlinkRepos": "g4u-unlink guide4you",
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
-    "pretest": "g4u-buildTests",
-    "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
+    "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
+    "test": "npm run lint && npm run buildTests && concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }
 }

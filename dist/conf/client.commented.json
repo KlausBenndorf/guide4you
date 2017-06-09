@@ -1,0 +1,156 @@
+{
+  "languageSettings": {
+    "languageFile": "./files/l10n.json"
+  },
+  "view": {
+    "center": [7.099227905273438, 50.73069673104681],
+    "zoom": 13
+  },
+  "mobileLayout": {
+    "mediaQueries": [
+      "(max-width: 736px)"
+    ],
+    "scaleIcons": 1.4,
+    "animations": false
+  },
+  "featurePopup": {
+    "offset": [
+      0,
+      -20
+    ],
+    "positioning": "bottom-center",
+    "iconSizedOffset": [
+      0,
+      -1
+    ]
+  },
+  "featureTooltip": {
+    "positioning": "top-left",
+    "offset": [
+      10,
+      20
+    ]
+  },
+  "interactions": {
+    "doubleClickZoom": true,
+    "dragPan": true,
+    "keyboardPan": true,
+    "keyboardZoom": true,
+    "mouseWheelZoom": true,
+    "pinchZoom": true
+  },
+  "marker": {
+    "style": "#defaultStyle"
+  },
+  "controls": {
+    "onMap": [
+      "attribution",
+      "layerMenu",
+      "scaleLine",
+      "zoom",
+      "mobileControls",
+      "linkGeneratorButton",
+      "helpButton"
+    ],
+    "helpButton": {
+      "float": [
+        "top",
+        "left"
+      ],
+      "fileName": "files/helptext.json"
+    },
+    "linkGeneratorButton": {
+      "float": [ "top", "left" ]
+    },
+    "toolbox": {
+      "float": [
+        "top",
+        "left"
+      ],
+      "contains": [
+        "linkGeneratorButton"
+      ]
+    },
+    "mobileControls": {
+      "float": "fixed",
+      "contains": [
+        "linkGeneratorButton",
+        "mobileLayerMenu",
+        "infoButton"
+      ]
+    },
+    "scaleLine": {
+      "float": [
+        "right",
+        "bottom"
+      ]
+    },
+    "layerMenu": {
+      "float": [
+        "right",
+        "top"
+      ],
+      "contains": [
+        "baseLayerSelector",
+        "featureLayerSelector"
+      ]
+    },
+    "mobileLayerMenu": {
+      "controlType": "layerMenu",
+      "collapsible": false,
+      "contains": [
+        "baseLayerSelector",
+        "featureLayerSelector"
+      ]
+    },
+    "zoom": {
+      "slider": false,
+      "buttons": true,
+      "float": [
+        "left",
+        "top"
+      ]
+    },
+    "baseLayerSelector": {
+      "controlType": "layerSelector",
+      "layerGroupName": "baseLayers",
+      "minLayerAmount": 2,
+      "title": "Maps"
+    },
+    "featureLayerSelector": {
+      "controlType": "layerSelector",
+      "layerGroupName": "featureLayers",
+      "minLayerAmount": 1,
+      "title": "Information"
+    },
+    "attribution": {
+      "float": [
+        "left",
+        "bottom"
+      ],
+      "importance": 99
+    }
+  },
+  "styleMap": {
+    "#defaultStyle": {
+      "fill": {
+        "color": "rgba( 0, 113, 188, 0.3)"
+      },
+      "stroke": {
+        "color": "rgba( 46, 49, 146, 0.8)",
+        "width": 2
+      },
+      "image": {
+        "type": "circle",
+        "radius": 7.5,
+        "fill": {
+          "color": "rgba( 0, 113, 188, 0.3)"
+        },
+        "stroke": {
+          "color": "rgba( 46, 49, 146, 0.8)",
+          "width": 2
+        }
+      }
+    }
+  }
+}
