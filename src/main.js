@@ -1,6 +1,5 @@
 import ol from 'openlayers'
 import $ from 'jquery'
-import 'babel-polyfill'
 
 import 'file-loader?name=images/[name].[ext]!../images/g4u-logo.png'
 
@@ -11,7 +10,7 @@ window.jQuery = window.jQuery || $
 import {G4UMap} from './G4UMap'
 import {Debug} from './Debug'
 
-export function createG4UInternal (element, clientConfPath, layerConfPath, options) {
+export function createMapInternal (element, clientConfPath, layerConfPath, options) {
   if (Array.isArray(options)) { // backwards compatibility
     options = { modules: options }
   }

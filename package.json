@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -19,18 +19,22 @@
     "type": "git",
     "url": "https://github.com/KlausBenndorf/guide4you"
   },
+  "peerDependencies": {
+    "jquery": "3.2.1",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0"
+  },
   "dependencies": {
     "csscolorparser": "1.0.3",
-    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "iscroll": "5.2.0",
-    "jquery": "3.2.1",
     "lodash": "4.17.4",
     "notifyjs-browser": "0.4.2",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
     "proj4": "^2.4.3",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
+    "jquery": "3.2.1",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
+    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "concurrently": "^3.4.0",
     "esdoc": "1.0.0-alpha.3",
     "guide4you-builder": "~2.0.6",

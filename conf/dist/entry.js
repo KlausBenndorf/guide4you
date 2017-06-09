@@ -1,23 +1,17 @@
 import 'file-loader?name=[name].[ext]!./g4u.d.ts'
 
-import { createG4UInternal } from '../../src/main'
+import {createMapInternal} from '../../src/main'
 
-import 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!../full/client.commented.json'
+import 'mustache-eval-loader?name=conf/[name].[ext]!../full/client.commented.json'
 import 'file-loader?name=conf/[name].[ext]!./layers.commented.json'
 
-import 'guide4you-builder/tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
-import {SourceServerVector} from '../../src/sources/SourceServerVector'
-import {G4UMap as G4UMapImport} from '../../src/G4UMap'
+import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 
 // exports
 
-export function createMap (element, config = './conf/client.commented.json',
-  layerConfig = './conf/layers.commented.json') {
-  return createG4UInternal(element, config, layerConfig)
+export function createMap (target, clientConf = './conf/client.commented.json',
+                           layerConf = './conf/layers.commented.json') {
+  return createMapInternal(target, clientConf, layerConf)
 }
 
-export const source = {
-  ServerVector: SourceServerVector
-}
-
-export const G4UMap = G4UMapImport
+export * from '../../src/exports'

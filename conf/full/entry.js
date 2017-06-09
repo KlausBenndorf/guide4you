@@ -1,13 +1,13 @@
-import { createG4UInternal } from '../../src/main'
+import {createMapInternal} from '../../src/main'
 
-import defaultClientConf from 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
-import defaultLayerConf from 'guide4you-builder/mustache-eval-loader?name=conf/[name].[ext]!./layers.commented.json'
+import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
+import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!./layers.commented.json'
 
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
 import 'file-loader?name=files/[name].[ext]!../../files/restaurantsbonn.kml'
 
-import 'guide4you-builder/tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
-import 'guide4you-builder/tojson-file-loader?name=files/[name]!../../files/helptext.json.js'
+import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
+import 'tojson-file-loader?name=files/[name]!../../files/helptext.json.js'
 import 'file-loader?name=files/[name].[ext]!../../files/infos_de.html'
 import 'file-loader?name=files/[name].[ext]!../../files/infos_en.html'
 
@@ -33,9 +33,11 @@ import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/overviewmap-co
 import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/scaleline.png'
 import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/zoom.png'
 
-import 'guide4you-builder/mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
+import 'mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createG4UInternal(target, clientConf, layerConf)
+  return createMapInternal(target, clientConf, layerConf)
 }
+
+export * from '../../src/exports'
