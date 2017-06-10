@@ -26,7 +26,6 @@
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0"
   },
   "devDependencies": {
-    "content-deduplication-plugin": "git+https://github.com/simonseyock/content-deduplication-plugin.git",
     "guide4you": "2.0.*",
     "jquery": "3.2.1",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
