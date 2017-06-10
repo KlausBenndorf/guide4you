@@ -40,14 +40,15 @@
     "wait-on": "2.0.2"
   },
   "scripts": {
+    "dist": "g4u-build -m dist -c conf/dist",
     "linkRepos": "g4u-link guide4you",
     "unlinkRepos": "g4u-unlink guide4you",
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
-    "pretest": "g4u-buildTests",
-    "runTests": "npm run lint && wait-on -l http-get://localhost:8080 && mocha build/tests/*",
-    "test": "concurrently --kill-others --success first \"g4u-build -m dev -c conf\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
+    "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
+    "test": "npm run lint && npm run buildTests && concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"npm run runTests\" && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }
 }

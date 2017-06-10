@@ -1,5 +1,5 @@
 import webdriver from 'selenium-webdriver'
-import phantomDriver from 'guide4you/tests/selenium/customPhantomDriver'
+import phantomDriver from 'guide4you/tests/customPhantomDriver'
 import test from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert'
 import until from 'selenium-webdriver/lib/until'
@@ -7,7 +7,7 @@ import until from 'selenium-webdriver/lib/until'
 import config from './config.js'
 let By = webdriver.By
 
-import {waitUntilMapReady} from 'guide4you/tests/selenium/testUtils'
+import {waitUntilMapReady} from 'guide4you/tests/testUtils'
 
 test.describe('Search', function () {
   let driver
