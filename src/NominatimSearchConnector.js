@@ -1,6 +1,5 @@
 import ol from 'openlayers'
 import $ from 'jquery'
-import zip from 'lodash/zip'
 
 import {Debug} from 'guide4you/src/Debug'
 import {SearchConnector} from './SearchConnector'

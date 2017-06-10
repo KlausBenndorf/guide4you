@@ -1,6 +1,5 @@
-import zip from 'lodash/zip'
-
 import {addProxy} from 'guide4you/src/utilities'
+import zip from 'lodash/zip'
 
 /**
  * @typedef {Object} SearchConnectorOptions
