@@ -1,7 +1,6 @@
 {
-  "proxy": "{{{ajaxProxy}}}",
   "languageSettings": {
-    "languageFile": "{{{languageFile}}}"
+    "languageFile": "./files/l10n.json"
   },
   "view": {
     "center": [7.099227905273438, 50.73069673104681],

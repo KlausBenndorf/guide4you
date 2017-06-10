@@ -1,6 +1,6 @@
 import ol from 'openlayers'
 import $ from 'jquery'
-import {zip} from 'lodash/zip'
+import zip from 'lodash/zip'
 
 import {Debug} from 'guide4you/src/Debug'
 import {SearchConnector} from './SearchConnector'
@@ -39,7 +39,7 @@ export class NominatimSearchConnector extends SearchConnector {
         url: this.proxifyUrl(url),
         dataType: 'json',
         success: results => {
-          resolve(zip(...results.map(r => this.readFeature_(r))))
+          resolve(SearchConnector.flipTuples(results.map(r => this.readFeature_(r))))
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
@@ -55,8 +55,6 @@ export class NominatimSearchConnector extends SearchConnector {
    * @protected
    */
   readFeature_ (data) {
-    Debug.info(data)
-
     // creates Features which may have the following data fields:
     // id
     // name
@@ -90,7 +88,7 @@ export class NominatimSearchConnector extends SearchConnector {
     }
 
     if (data.hasOwnProperty('namedetails')) {
-      let curLang = this.localiser_.getCurrentLang()
+      let curLang = this.localiser.getCurrentLang()
       if (data.namedetails.hasOwnProperty('name:' + curLang)) {
         pushDescriptionArray(data.namedetails['name:' + curLang])
       } else if (data.namedetails.hasOwnProperty('name')) {
@@ -158,7 +156,7 @@ export class NominatimSearchConnector extends SearchConnector {
 
     if (data.hasOwnProperty('extratags')) {
       if (data.extratags.hasOwnProperty('website')) {
-        let linkText = this.localiser_.localiseUsingDictionary('Nominatim website')
+        let linkText = this.localiser.localiseUsingDictionary('Nominatim website')
         let url = data.extratags.website
         if (url.slice(0, 7) !== 'http://') {
           url = 'http://' + url
@@ -167,7 +165,7 @@ export class NominatimSearchConnector extends SearchConnector {
       }
       if (data.extratags.hasOwnProperty('wikipedia')) {
         let comps = data.extratags.wikipedia.split(':')
-        let linkText = this.localiser_.localiseUsingDictionary('Nominatim wikipedia')
+        let linkText = this.localiser.localiseUsingDictionary('Nominatim wikipedia')
         let url = `http://${comps[0]}.wikipedia.org/wiki/${comps[1]}`
         pushDescriptionArray(`<a href="${url}" target="_blank">${linkText}</a>`)
       }
