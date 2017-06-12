@@ -24,8 +24,9 @@ export class G4USearchV2Connector extends SearchConnector {
 
       $.ajax({
         url: this.proxifyUrl(url),
-        dataType: 'json',
-        success: results => {
+        dataType: 'text',
+        success: text => {
+          let results = this.parseFeatures(text)
           resolve(SearchConnector.flipTuples(results.map(r => [r.name, r.name])))
         },
         error: (jqXHR, textStatus) => {
@@ -42,9 +43,10 @@ export class G4USearchV2Connector extends SearchConnector {
 
       $.ajax({
         url: this.proxifyUrl(url),
-        dataType: 'json',
-        success: results => {
-          let features = this.readFeatures_(results)
+        dataType: 'text',
+        success: text => {
+          let results = this.parseFeatures(text)
+          let features = results.map(r => this.readFeature_(r))
           resolve(SearchConnector.flipTuples(features.map(f => [f.get('name'), f])))
         },
         error: (jqXHR, textStatus) => {
@@ -64,9 +66,10 @@ export class G4USearchV2Connector extends SearchConnector {
 
       $.ajax({
         url: this.proxifyUrl(url),
-        dataType: 'json',
-        success: results => {
-          resolve(this.readFeatures_(results[0]))
+        dataType: 'text',
+        success: text => {
+          let results = this.parseFeatures(text)
+          resolve(this.readFeature_(results[0]))
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
@@ -122,14 +125,10 @@ export class G4USearchV2Connector extends SearchConnector {
    * @returns {ol.Feature[]}
    */
   parseFeatures (text) {
-    // calling the parent's parseFeatures method with adjusted text
-    // G4USearchV2Parser Search sometimes returns jsonp, this function just strip the () and
-    // furthermore uses " instead of '
-
     if (text[0] === '(') {
-      return super.parseFeatures(text.substr(1, text.length - 2).replace(/"/g, '\\"').replace(/'/g, '"'))
+      return JSON.parse(text.substr(1, text.length - 2).replace(/"/g, '\\"').replace(/'/g, '"'))
     } else {
-      return super.parseFeatures(text)
+      return JSON.parse(text)
     }
   }
 
