@@ -1,8 +1,8 @@
 import ol from 'openlayers'
+import $ from 'jquery'
 
-import {Debug} from 'guide4you/src/Debug'
 import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
-import {expandTemplate, addProxy, html2Text} from 'guide4you/src/utilities'
+import {expandTemplate} from 'guide4you/src/utilities'
 
 export class G4USearchV2Connector extends SearchConnector {
 
@@ -18,9 +18,9 @@ export class G4USearchV2Connector extends SearchConnector {
     this.wktParser_ = new ol.format.WKT()
   }
 
-  getAutoComplete (text) {
+  getAutoComplete (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.autocompleteUrl_, 'searchstring', text)
+      let url = expandTemplate(this.autocompleteUrl_, 'searchstring', input)
 
       $.ajax({
         url: this.proxifyUrl(url),
@@ -36,9 +36,9 @@ export class G4USearchV2Connector extends SearchConnector {
     })
   }
 
-  getSearchResult(searchTerm) {
+  getSearchResult (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.fuzzyUrl_, 'searchstring', searchTerm)
+      let url = expandTemplate(this.fuzzyUrl_, 'searchstring', input)
 
       $.ajax({
         url: this.proxifyUrl(url),
@@ -58,9 +58,9 @@ export class G4USearchV2Connector extends SearchConnector {
     })
   }
 
-  getByHandle(handle) {
+  getByHandle (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.byHandleUrl_, 'searchstring', searchTerm)
+      let url = expandTemplate(this.byHandleUrl_, 'searchstring', input)
 
       $.ajax({
         url: this.proxifyUrl(url),
