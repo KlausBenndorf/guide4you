@@ -421,7 +421,7 @@ export class SearchControl extends Control {
   /**
    * @returns {SearchView}
    */
-  getSearchView() {
+  getSearchView () {
     return this.searchView_
   }
 }

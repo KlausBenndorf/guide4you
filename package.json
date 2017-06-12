@@ -46,6 +46,7 @@
     "unlinkRepos": "g4u-unlink guide4you",
     "build": "g4u-build -m prod -c",
     "dev": "g4u-build -m dev -c",
+    "prepublishOnly": "npm test",
     "lint": "eslint src/ tests/",
     "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
     "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
