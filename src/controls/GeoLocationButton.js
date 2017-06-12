@@ -150,13 +150,23 @@ export class GeolocationButton extends Control {
       if (active) {
         let source = this.layer_.getSource()
 
-        this.geolocation_.once([ 'change:accuracyGeometry' ], () => {
-          source.clear()
-          let position = this.geolocation_.getPosition()
+        source.clear()
+        let position = this.geolocation_.getPosition()
+        if (position) {
           source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
 
           let circle = this.geolocation_.getAccuracyGeometry()
-          source.addFeature(new ol.Feature({ geometry: circle }))
+          source.addFeature(new ol.Feature({geometry: circle}))
+          this.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
+        }
+
+        this.geolocation_.once([ 'change' ], () => {
+          source.clear()
+          position = this.geolocation_.getPosition()
+          source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
+
+          let circle = this.geolocation_.getAccuracyGeometry()
+          source.addFeature(new ol.Feature({geometry: circle}))
           this.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
         })
 
