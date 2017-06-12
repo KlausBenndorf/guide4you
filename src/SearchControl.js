@@ -417,4 +417,11 @@ export class SearchControl extends Control {
   getSearchValue () {
     return encodeURIComponent(this.$textfield_.val())
   }
+
+  /**
+   * @returns {SearchView}
+   */
+  getSearchView() {
+    return this.searchView_
+  }
 }

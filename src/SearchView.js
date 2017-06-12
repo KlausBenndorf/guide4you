@@ -90,7 +90,9 @@ export class SearchView {
   }
 
   getFeatures () {
-    return this.features_
+    return this.searchlayerBottom_.getSource().getFeatures().concat(
+      this.searchlayerTop_.getSource().getFeatures()
+    )
   }
 
   /**
