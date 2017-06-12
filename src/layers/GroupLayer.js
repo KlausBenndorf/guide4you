@@ -206,16 +206,32 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
   }
 
   /**
+   * Find layer with callback
+   * @param {Function} cb
+   */
+  findLayer (cb) {
+    for (let layer of this.getLayersArray()) {
+      if (cb(layer)) {
+        return layer
+      } else if (layer.findLayer) {
+        let res = layer.findLayer(cb)
+        if (res) {
+          return res
+        }
+      }
+    }
+  }
+
+  /**
    * Get layer by id
    * @param {string|number} id
    */
   getLayerById (id) {
-    let layers = this.getLayers()
-    for (let i = 0; i < layers.getLength(); i++) {
-      if (layers.item(i).get('id') === id) {
-        return layers.item(i)
-      } else if (layers.item(i).getLayerById) {
-        let res = layers.item(i).getLayerById(id)
+    for (let layer of this.getLayersArray()) {
+      if (layer.get('id') === id) {
+        return layer
+      } else if (layer.getLayerById) {
+        let res = layer.getLayerById(id)
         if (res) {
           return res
         }

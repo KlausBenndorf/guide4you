@@ -7,7 +7,7 @@ export class WMSFeatureInfoMixin {
   initialize (options) {
     this.featureInfo_ = options.featureInfo !== undefined
     if (this.featureInfo_) {
-      this.featureInfoParams_ = options.featureInfo.params
+      this.featureInfoParams_ = options.featureInfo.params || {}
       this.featureInfoCheckable_ = options.featureInfo.checkable
       this.featureInfoMutators_ = options.featureInfo.mutators
       this.featureInfoProxy_ = options.featureInfo.proxy
