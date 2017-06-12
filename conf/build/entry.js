@@ -1,7 +1,7 @@
 import { createMapInternal } from 'guide4you/src/main'
 import { registerModule } from 'guide4you/src/moduleRegistration'
 
-import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
+import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!../client.commented.json'
 import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.json'
 
 import 'tojson-file-loader?name=files/[name]!files/helptext.json.js'
