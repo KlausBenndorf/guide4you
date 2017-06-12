@@ -144,7 +144,8 @@ export class MeasurementButton extends Control {
         source: this.source_
       })
 
-      map.get('styling').styleLayer(this.layer_, this.style_)
+      this.layer_.setStyle(map.get('styling').getStyle(this.style_))
+      map.get('styling').manageLayer(this.layer_)
 
       map.getLayers().insertAt(1, this.layer_) // at 0 the baselayers are
 
@@ -254,6 +255,11 @@ export class MeasurementButton extends Control {
       this.layer_.setVisible(active)
 
       if (active) {
+        if (this.getMap().get('localiser').isRtl()) {
+          this.get$Element().prop('dir', 'rtl')
+        } else {
+          this.get$Element().prop('dir', undefined)
+        }
         this.getMap().get('featurePopup').setVisible(false)
         $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
 

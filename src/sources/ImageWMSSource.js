@@ -1,5 +1,6 @@
 import ol from 'openlayers'
 import $ from 'jquery'
+
 import {mixin, addProxy} from '../utilities'
 
 export class WMSFeatureInfoMixin {

@@ -9,6 +9,7 @@ import { cssClasses } from '../globals'
  * @property {HTMLElement|jQuery} [content] the content of the body of the button box
  * @property {boolean} [collapsible]
  * @property {boolean} [collapsed]
+ * @property {boolean} [rtl]
  * @property {boolean} [titleButton=false] displays an extra button with a title firing an 'title:click' event
  * @property {string} [title] the title appearing on the button
  */
@@ -111,6 +112,10 @@ export class ButtonBox extends ol.Object {
             })
             .html(options.title)
 
+          if (options.rtl) {
+            $titleButton.prop('dir', 'rtl')
+          }
+
           this.$title_
             .append($collapseButton)
             .append($titleButton)
@@ -118,12 +123,21 @@ export class ButtonBox extends ol.Object {
           $collapseButton
             .addClass(this.classNames_.titleButton)
             .html(options.title)
+
+          if (options.rtl) {
+            $collapseButton.prop('dir', 'rtl')
+          }
+
           this.$title_
             .append($collapseButton)
         }
       } else {
         this.$title_
           .html(options.title)
+
+        if (options.rtl) {
+          this.$title_.prop('dir', 'rtl')
+        }
       }
     } else {
       this.collapsible_ = false

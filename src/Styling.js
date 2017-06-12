@@ -117,22 +117,32 @@ export class Styling {
     if (options.globalIconScale) {
       this.setGlobalIconScale(options.globalIconScale)
     }
-  }
 
-  /**
-   * @param {ol.style.Style} style
-   */
-  saveStyle (style) {
-    this.allStyles_.add(style)
-    style.saved = true
-  }
+    let _this = this
 
-  /**
-   * Runs a callback on each saved style
-   * @param cb
-   */
-  forEachStyle (cb) {
-    this.allStyles_.forEach(cb)
+    /**
+     * @param resolution
+     * @returns {*}
+     * @private
+     */
+    this.managingFeatureStyle_ = function (resolution) {
+      let style = this.get('managedStyle')
+      if ($.isFunction(style)) {
+        style = style.call(this, resolution)
+      }
+      if (!style) {
+        style = _this.getStyle('#defaultStyle')
+      }
+      if ($.isArray(style)) {
+        return style.map(s => _this.adjustStyle_(this, s))
+      } else {
+        return _this.adjustStyle_(this, style)
+      }
+    }
+
+    this.nullStyle_ = new ol.style.Style({
+      image: null
+    })
   }
 
   /**
@@ -205,8 +215,6 @@ export class Styling {
 
     let style = new ol.style.Style(styleOptions)
 
-    this.saveStyle(style)
-
     return style
   }
 
@@ -260,12 +268,54 @@ export class Styling {
   }
 
   /**
+   * converts ol.StyleFunction to ol.FeatureStyleFunction
+   * @param {ol.style.StyleFunction} styleFunction
+   * @returns {ol.FeatureStyleFunction}
+   */
+  convertStyleFunction (styleFunction) {
+    return function (resolution) { return styleFunction(this, resolution) }
+  }
+
+  /**
+   * This internal method is called to adjust each style to current global and feature settings
+   * @param feature
+   * @param style
+   * @returns {ol.style.Style}
+   * @private
+   */
+  adjustStyle_ (feature, style) {
+    if (!feature.get('hidden')) {
+      let clone = style.clone()
+      this.scaleStyle_(clone)
+      if (feature.get('opacity') !== undefined) {
+        this.changeColorOpacity_(clone, feature.get('opacity'))
+      }
+      return clone
+    } else {
+      return this.nullStyle_
+    }
+  }
+
+  /**
+   * This method adjusts the scale of a style
+   * @param style
+   * @private
+   */
+  scaleStyle_ (style) {
+    let image = style.getImage()
+    if (image) {
+      let origScale = style.getImage().getScale() || 1
+      image.setScale(origScale * this.globalIconScale_)
+    }
+  }
+
+  /**
    * adjust the styles opacity by a given value
    * @param {ol.style.Style} style
    * @param {number} opacity between 0 and 1
    * @returns {ol.style.Style}
    */
-  adjustColorOpacity (style, opacity) {
+  changeColorOpacity_ (style, opacity) {
     let adjustColor = (style, opacity) => {
       let color = style.getColor()
       if (color !== null) {
@@ -299,245 +349,44 @@ export class Styling {
         adjustColor(style.getText().getStroke(), opacity)
       }
     }
-
-    return style
   }
 
-  /**
-   * style a feature
-   * @param {ol.Feature} feature
-   * @param {StyleLike} styleData
-   */
-  styleFeature (feature, styleData) {
-    let style
-    if (styleData) {
-      style = this.getStyle(styleData)
-    } else {
-      style = this.getStyle('#defaultStyle')
+  manageFeature (feature) {
+    let style = feature.getStyle()
+    if (style && !feature.get('managedStyle')) {
+      feature.set('managedStyle', style)
+      feature.setStyle(this.managingFeatureStyle_)
     }
+  }
 
-    let fStyle = feature.getStyleFunction()
+  manageLayer (layer) {
+    let style = layer.getStyle()
 
-    let thisRef = this // needed
+    if (style && !layer.get('managedStyle')) {
+      layer.set('managedStyle', layer.getStyle())
 
-    let styleFunction = function (resolution) {
-      let stylePrimitive
-
-      if ($.isFunction(style)) {
-        stylePrimitive = style.call(this, resolution)[0]
-      } else {
-        stylePrimitive = style
-      }
-
-      // what happens if the styleFunction returns the ol default style?
-      if (fStyle) {
-        let curStyles = fStyle.call(this, resolution)
-        if (curStyles && curStyles.length > 0) {
-          curStyles.forEach(function (curStyle) {
-            // adjust icon Scale
-            if (curStyle.getImage()) {
-              curStyle.getImage().setScale(stylePrimitive.getImage().getScale())
-            }
-            if (!curStyle.saved) {
-              thisRef.saveStyle(curStyle)
-            }
-          })
-          stylePrimitive = curStyles[0]
+      layer.setStyle((feature, resolution) => {
+        let style = layer.get('managedStyle')
+        if ($.isFunction(style)) {
+          style = style.call(feature, resolution)
         }
-      }
-      return [stylePrimitive]
-    }
-
-    if (fStyle !== styleFunction) { // this does not seem to work, the function gets applied multiple times somehow.
-      feature.setStyle(styleFunction)
-    }
-  }
-
-  /**
-   * converts ol.StyleFunction to ol.FeatureStyleFunction
-   * @param {ol.style.StyleFunction} styleFunction
-   * @returns {ol.FeatureStyleFunction}
-   */
-  convertStyleFunction (styleFunction) {
-    return function (resolution) { return styleFunction(this, resolution) }
-  }
-
-  /**
-   * style a layer
-   * @param {VectorLayer} layer
-   * @param {StyleLike} styleData
-   */
-  styleLayer (layer, styleData) {
-    let style
-    if (styleData) {
-      style = this.getStyle(styleData)
-    } else {
-      style = this.getStyle('#defaultStyle')
-    }
-
-    if ($.isFunction(style)) {
-      style = this.convertStyleFunction(style)
+        if (!style) {
+          style = this.getStyle('#defaultStyle')
+        }
+        if ($.isArray(style)) {
+          return style.map(s => this.adjustStyle_(feature, s))
+        } else {
+          return this.adjustStyle_(feature, style)
+        }
+      })
     }
 
     layer.getSource().getFeatures().forEach(feature => {
-      this.styleFeature(feature, style)
+      this.manageFeature(feature)
     })
 
     layer.getSource().on('addfeature', e => {
-      this.styleFeature(e.feature, style)
-    })
-
-    layer.setStyle((feature, resolution) => {
-      if (feature.getStyleFunction() !== undefined) {
-        return feature.getStyleFunction().call(feature, resolution)
-      } else {
-        return feature.getStyle()
-      }
-    })
-  }
-
-  /**
-   * style a collection
-   * @param {ol.Collection} collection
-   * @param {StyleLike} styleData
-   */
-  styleCollection (collection, styleData) {
-    let style
-    if (styleData) {
-      style = this.getStyle(styleData)
-    } else {
-      style = this.getStyle('#defaultStyle')
-    }
-
-    if ($.isFunction(style)) {
-      style = this.convertStyleFunction(style)
-    }
-
-    collection.forEach(feature => {
-      this.styleFeature(feature, style)
-    })
-
-    collection.on('add', /** ol.CollectionEvent */ e => {
-      this.styleFeature(e.element, style)
-    })
-  }
-
-  /**
-   * @param {ol.style.Fill} fill
-   * @returns {ol.style.Fill}
-   */
-  cloneFill (fill) {
-    if (fill) {
-      return new ol.style.Fill({
-        color: fill.getColor()
-      })
-    }
-  }
-
-  /**
-   * @param {ol.style.Stroke} stroke
-   * @returns {ol.style.Stroke}
-   */
-  cloneStroke (stroke) {
-    if (stroke) {
-      return new ol.style.Stroke({
-        color: stroke.getColor(),
-        lineCap: stroke.getLineCap(),
-        lineJoin: stroke.getLineJoin(),
-        lineDash: stroke.getLineDash(),
-        miterLimit: stroke.getMiterLimit(),
-        width: stroke.getWidth()
-      })
-    }
-  }
-
-  /**
-   * @param {ol.style.Style} style
-   * @returns {ol.style.Style}
-   */
-  cloneStyle (style) {
-    let image
-    if (style.getImage()) {
-      if (style.getImage() instanceof ol.style.Icon) {
-        image = new ol.style.Icon({
-          anchor: style.getImage().getAnchor(),
-          anchorOrigin: style.getImage().getOrigin(),
-          anchorXUnits: 'pixels',
-          anchorYUnits: 'pixels',
-          img: style.getImage().getImage(),
-          imgSize: [style.getImage().getImage().width, style.getImage().getImage().height],
-          size: style.getImage().getSize(),
-          opacity: style.getImage().getOpacity(),
-          scale: style.getImage().getScale(),
-          snapToPixel: style.getImage().getSnapToPixel(),
-          rotation: style.getImage().getRotation(),
-          rotateWithView: style.getImage().getRotateWithView()
-        })
-
-        image.setRotation(style.getImage().getRotation())
-      } else if (style.getImage() instanceof ol.style.Circle) {
-        image = new ol.style.Circle({
-          fill: this.cloneFill(style.getImage().getFill()),
-          radius: style.getImage().getRadius(),
-          snapToPixel: style.getImage().getSnapToPixel(),
-          stroke: this.cloneStroke(style.getImage().getStroke())
-        })
-
-        image.setOpacity(style.getImage().getOpacity())
-        image.setRotation(style.getImage().getRotation())
-        image.setScale(style.getImage().getScale())
-      } else if (style.getImage() instanceof ol.style.RegularShape) {
-        let radius, radius1, radius2
-
-        if (style.getImage().getRadius2()) {
-          radius1 = style.getImage().getRadius()
-          radius2 = style.getImage().getRadius2()
-        } else {
-          radius = style.getImage().getRadius()
-        }
-
-        image = new ol.style.RegularShape({
-          fill: this.cloneFill(style.getImage().getFill()),
-          points: style.getImage().getPoints(),
-          radius: radius,
-          radius1: radius1,
-          radius2: radius2,
-          angle: style.getImage().getAngle(),
-          snapToPixel: style.getImage().getSnapToPixel(),
-          stroke: this.cloneStroke(style.getImage().getStroke()),
-          rotation: style.getImage().getRotation(),
-          rotateWithView: style.getImage().getRotateWithView()
-        })
-
-        image.setOpacity(style.getImage().getOpacity())
-        image.setRotation(style.getImage().getRotation())
-        image.setScale(style.getImage().getScale())
-      }
-    }
-
-    let text
-    if (style.getText()) {
-      text = new ol.style.Text({
-        font: style.getText().getFont(),
-        offsetX: style.getText().getOffsetX(),
-        offsetY: style.getText().getOffsetY(),
-        scale: style.getText().getScale(),
-        rotation: style.getText().getRotation(),
-        text: style.getText().getText(),
-        textAlign: style.getText().getTextAlign(),
-        textBaseline: style.getText().getTextBaseline(),
-        fill: this.cloneFill(style.getText().getFill()),
-        stroke: this.cloneStroke(style.getText().getStroke())
-      })
-    }
-
-    return new ol.style.Style({
-      geometry: style.getGeometry(),
-      fill: this.cloneFill(style.getFill()),
-      image: image,
-      stroke: this.cloneStroke(style.getStroke()),
-      text: text,
-      zIndex: style.getZIndex()
+      this.manageFeature(e.feature)
     })
   }
 }

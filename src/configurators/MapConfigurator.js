@@ -80,6 +80,7 @@ import {Debug} from '../Debug'
  *    the ol-viewport and adding the g4u-mobile class
  * @property {number} [scaleIcons=1] a value to scale all icons by
  * @property {boolean} [animations=true] if animations should be disabled
+ * @property {number} [hitTolerance]
  */
 
 /**
@@ -239,7 +240,9 @@ export class MapConfigurator {
 
     // setting the extent overwrites any settings about zoom and start coordinates
     if (!oldView && checkFor(mapConfigCopy.view, 'fit')) {
-      view.fit(ol.proj.transformExtent(mapConfigCopy.view.fit, interfaceProjection, mapProjection), this.map_.getSize())
+      view.fit(ol.proj.transformExtent(mapConfigCopy.view.fit, interfaceProjection, mapProjection), {
+        size: this.map_.getSize()
+      })
     }
 
     // //////////////////////////////////////////////////////////////////////////////////////// //

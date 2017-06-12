@@ -12,6 +12,7 @@ import {mixin} from '../utilities'
 
 /**
  * @typedef {g4uControlOptions} LanguageSwitcherMenuOptions
+ * @property {boolean} [showLongLanguage=false]
  */
 
 /**
@@ -28,6 +29,8 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
 
     super(options)
 
+    this.showLongLanguage_ = options.showLongLanguage || false
+
     this.setTitle(this.getLocaliser().getCurrentLang())
 
     /**
@@ -37,6 +40,11 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
     this.$button_ = $('<button>')
       .addClass(this.className_ + '-button')
       .addClass(cssClasses.mainButton)
+
+    if (this.showLongLanguage_) {
+      this.$button_.addClass(this.className_ + '-lang-long')
+    }
+
     this.get$Element().append(this.$button_)
 
     let dropdownOptions = {'className': 'g4u-dropdown'}
@@ -61,7 +69,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
     this.dropdown_.setEntries(languages,
       languages.map(l => `${l.toUpperCase()} - ${this.getLocaliser().localiseUsingDictionary(l)}`))
 
-    this.dropdown_.on('select', () => this.switchLanguage_(this.dropdown_.getValue()))
+    this.dropdown_.on('select', () => this.getLocaliser().setCurrentLang((this.dropdown_.getValue())))
 
     this.get$Element().on('keydown', e => {
       if (e.which === keyCodes.ESCAPE) {
@@ -75,24 +83,6 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
      * @private
      */
     this.active_ = false
-  }
-
-  /**
-   * Creates a handler to switch to the specified language
-   * @param {string} iso639
-   */
-  switchLanguage_ (iso639) {
-    this.getLocaliser().setCurrentLang(iso639)
-    this.setTitle(iso639)
-
-    let map = this.getMap()
-
-    let visibilities = map.getLayerGroup().getIdsVisibilities()
-
-    map.get('configurator').configureLayers()
-    map.get('configurator').configureUI()
-
-    map.getLayerGroup().setIdsVisibilities(visibilities)
   }
 
   /**
@@ -130,7 +120,12 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
         this.setActive(!this.getActive())
       })
 
-      this.$button_.html(this.getLocaliser().getCurrentLang())
+      let curLang = this.getLocaliser().getCurrentLang()
+      if (!this.showLongLanguage_) {
+        this.$button_.html(curLang.toUpperCase())
+      } else {
+        this.$button_.html(curLang.toUpperCase() + ' - ' + this.getLocaliser().localiseUsingDictionary(curLang))
+      }
 
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'))
     }
@@ -143,6 +138,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
   setActive (active) {
     let oldValue = this.active_
     if (oldValue !== active) {
+      this.dropdown_.setActivated(this.getLocaliser().getCurrentLang())
       if (active) {
         this.collapse_ = false
         this.dropdown_.slideDown(this.getMap().get('mobile'))

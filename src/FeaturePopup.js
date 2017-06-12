@@ -131,8 +131,6 @@ export class FeaturePopup extends ol.Object {
       stopEvent: false
     })
 
-    this.overlay_.setOffset(this.pixelOffset_)
-
     /**
      * @type {Map.<string,function>}
      * @private
@@ -169,7 +167,8 @@ export class FeaturePopup extends ol.Object {
    * @returns {boolean}
    */
   static canDisplay (feature) {
-    return !feature.get('disabled') && (feature.get('name') || feature.get('description'))
+    return !feature.get('disabled') && (feature.get('name') ||
+      (feature.get('description') && $(feature.get('description')).text().match(/\S/)))
   }
 
   /**
@@ -254,7 +253,7 @@ export class FeaturePopup extends ol.Object {
       map.getDefaultInteractions('singleclick')[ 0 ].on('select', e => {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
-          this.onFeatureClick_(selected[ 0 ])
+          this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
           e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
           e.target.changed()
         }
@@ -302,9 +301,10 @@ export class FeaturePopup extends ol.Object {
 
   /**
    * @param {ol.Feature} feature
+   * @param {ol.Coordinate} coordinate
    * @private
    */
-  onFeatureClick_ (feature) {
+  onFeatureClick_ (feature, coordinate = null) {
     this.referencingVisibleLayers_ = []
 
     this.getMap().getLayerGroup().recursiveForEach(layer => {
@@ -315,7 +315,7 @@ export class FeaturePopup extends ol.Object {
       }
     })
 
-    this.setFeature(feature)
+    this.setFeature(feature, coordinate)
     this.setVisible(true)
 
     if (this.centerOnPopup_) {
@@ -349,6 +349,13 @@ export class FeaturePopup extends ol.Object {
   }
 
   /**
+   * @returns {Array|VectorLayer[]}
+   */
+  getLayers () {
+    return this.referencingVisibleLayers_
+  }
+
+  /**
    * register a text mutator with a name. Which mutator is finally used can be adjusted via the config files.
    * @param {string} name
    * @param {Mutator} mutator
@@ -365,6 +372,12 @@ export class FeaturePopup extends ol.Object {
       const feature = this.getFeature()
 
       const updateContent = () => {
+        if (this.getMap().get('localiser').isRtl()) {
+          this.window_.get$Body().prop('dir', 'rtl')
+        } else {
+          this.window_.get$Body().prop('dir', undefined)
+        }
+
         let name = feature.get('name')
         let description = feature.get('description')
 
@@ -384,9 +397,7 @@ export class FeaturePopup extends ol.Object {
           this.$description_.html(description)
         }
 
-        if (this.getVisible() && this.window_ && this.window_.updateSize) {
-          this.window_.updateSize()
-        }
+        this.updateSize()
       }
 
       this.$name_.empty()
@@ -412,27 +423,39 @@ export class FeaturePopup extends ol.Object {
         this.addIconSizedOffset(this.getFeature(), resolution)
       }
 
+      if (this.referencingVisibleLayers_.length) {
+        this.window_.get$Element().attr('data-layer-0', this.referencingVisibleLayers_[0].get('id'))
+      }
+
       // apply default offset
 
       if (this.getVisible()) {
         setTimeout(() => this.window_.updateSize(), 0)
       }
+
+      this.dispatchEvent('update:content')
+    }
+  }
+
+  updateSize () {
+    if (this.getVisible() && this.window_ && this.window_.updateSize) {
+      this.window_.updateSize()
     }
   }
 
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
+   * @param {ol.Coordinate} coordinate
    * @param {string[]} [optMutators=[]]
    */
-  setFeature (feature, optMutators = []) {
+  setFeature (feature, coordinate = null, optMutators = []) {
     let oldValue = this.feature_
+    if (feature) {
+      this.overlay_.setPosition(coordinate || ol.extent.getCenter(feature.getGeometry().getExtent()))
+    }
+
     if (oldValue !== feature) {
-      let geometry = feature.getGeometry()
-      let coord = ol.extent.getCenter(geometry.getExtent())
-
-      this.overlay_.setPosition(coord)
-
       if (this.feature_) {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
@@ -442,7 +465,7 @@ export class FeaturePopup extends ol.Object {
         this.useMutators_ = this.useMutators_.concat(flatten(layer.get('mutators')))
       }
       this.geometryChangeHandler_ = () => {
-        this.overlay_.setPosition(ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
+        this.overlay_.setPosition(coordinate || ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
         if (this.getVisible()) {
           this.update()
         }
@@ -522,8 +545,8 @@ export class FeaturePopup extends ol.Object {
               let iconSize = imageStyle.getSize()
 
               let totalOffset = [
-                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * imageStyle.getScale(),
-                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * imageStyle.getScale()
+                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * (imageStyle.getScale() || 1),
+                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * (imageStyle.getScale() || 1)
               ]
 
               this.overlay_.setOffset(totalOffset)

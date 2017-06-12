@@ -4,15 +4,14 @@
 @import "./tooltip";
 @import "./misc";
 
-@g4u-attribution-collapse-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/expand-outline-left.svg");
-@g4u-attribution-info-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/info.svg");
+@g4u-attribution-collapse-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/expand-outline-left.svg");
+@g4u-attribution-info-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/info.svg");
 
 .g4u-desktop {
   .g4u-attribution {
     cursor: default;
     margin: 0;
     padding: 0;
-    border-radius: @g4u-desktop-large-border-radius;
     white-space: nowrap;
 
     a {
@@ -28,8 +27,8 @@
       .buttonSquaredWithIcon(@g4u-attribution-collapse-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
       display: inline;
       background: fade(@g4u-dark-main-color, 80%);
-      border-top-left-radius: @g4u-desktop-small-border-radius;
-      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       &:hover {
         background: fade(@g4u-dark-main-color, 90%);
       }
@@ -42,8 +41,8 @@
       height: @g4u-desktop-button-size;
       padding: 0;
       margin: 0;
-      border-top-right-radius: @g4u-desktop-small-border-radius;
-      border-bottom-right-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius; // button to the left
+      border-bottom-right-radius: @g4u-desktop-small-border-radius; // button to the left
 
       li {
         border-left: @g4u-tiny solid;
@@ -53,6 +52,16 @@
         padding: 0 round(0.5 * @g4u-desktop-em);
 
         &:first-of-type {
+          border-left: none;
+        }
+      }
+
+      &[dir=rtl] {
+        li:first-of-type {
+          border-left: @g4u-tiny solid;
+        }
+
+        li:last-of-type {
           border-left: none;
         }
       }

@@ -67,7 +67,7 @@ export class InfoButton extends Control {
      * @type {boolean}
      * @private
      */
-    this.useProxy_ = this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
+    this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
 
     /**
      * @type {string|undefined}
@@ -138,6 +138,13 @@ export class InfoButton extends Control {
       let changeEvent = {
         type: 'change:active',
         oldValue: oldValue
+      }
+      if (active) {
+        if (this.getMap().get('localiser').isRtl()) {
+          this.get$Element().prop('dir', 'rtl')
+        } else {
+          this.get$Element().prop('dir', undefined)
+        }
       }
       if (!this.loaded_) {
         if (this.contentURL_) {

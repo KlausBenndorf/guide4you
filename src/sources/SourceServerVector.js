@@ -1,7 +1,7 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import { addProxy } from '../utilities'
+import { addParamToURL, addProxy } from '../utilities'
 import { copy } from '../utilitiesObject'
 
 import {Debug} from '../Debug'
@@ -21,6 +21,9 @@ import {Debug} from '../Debug'
  *    the interfaceProjection
  * @property {boolean} [cache=] true, false for dataType 'script' and 'jsonp'
  * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)
+ * @property {L10N} localiser
+ * @property {boolean} localised
+ * @property {Styling} styling
  */
 
 /**
@@ -87,6 +90,14 @@ export class SourceServerVector extends ol.source.Vector {
     }
 
     super(parentOptions)
+
+    /**
+     * @type {L10N}
+     * @private
+     */
+    this.localiser_ = options.localiser
+
+    this.localised_ = options.localised || false
 
     /**
      * @type {Boolean}
@@ -205,6 +216,10 @@ export class SourceServerVector extends ol.source.Vector {
       }, this.refresh_)
     }
 
+    if (!this.cache_ || this.localised_) {
+      addParamToURL(url, Math.random().toString(36).substring(7))
+    }
+
     $.ajax({
       url: url,
       dataType: this.dataType_,
@@ -230,7 +245,10 @@ export class SourceServerVector extends ol.source.Vector {
         Debug.error(`Getting Feature resource failed with url ${url}`)
         this.dispatchEvent('vectorloaderror')
       },
-      cache: this.cache_
+      cache: this.cache_ && !this.localised_,
+      headers: this.localiser_ ? {
+        'Accept-Language': this.localiser_.getCurrentLang()
+      } : {}
     })
   }
 

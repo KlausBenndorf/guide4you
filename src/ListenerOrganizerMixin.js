@@ -1,4 +1,5 @@
 import ol from 'openlayers'
+import $ from 'jquery'
 
 class DOMListener {
   constructor (element, event, listener, useCapture) {
@@ -14,7 +15,7 @@ class DOMListener {
   }
 
   static usable (element) {
-    return element.addEventListener
+    return element instanceof HTMLElement // eslint-disable-line
   }
 }
 
@@ -31,7 +32,7 @@ class JQueryListener {
   }
 
   static usable (element) {
-    return element.on && element.off
+    return element instanceof $
   }
 }
 
@@ -45,7 +46,7 @@ class OLListener {
   }
 
   static usable (element) {
-    return element.on && element.un
+    return element instanceof ol.Observable
   }
 }
 
@@ -74,6 +75,7 @@ export class ListenerOrganizerMixin {
   detachFrom (element) {
     for (let listener of this.organizedListeners_.filter(l => l.element === element)) {
       listener.detach()
+      this.organizedListeners_.splice(this.organizedListeners_.indexOf(listener), 1)
     }
   }
 

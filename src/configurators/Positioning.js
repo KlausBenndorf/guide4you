@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import uniq from 'lodash/uniq'
 
 import { cssClasses } from '../globals'
 
@@ -13,6 +14,7 @@ import { cssClasses } from '../globals'
  * @typedef {Object} HideableElement
  * @property {Control} control
  * @property {Boolean} visible
+ * @property {Object} state
  * @property {number} importance
  * @property {number} order
  * @property {Float} [float] first and second direction or special value 'fixed'
@@ -280,20 +282,24 @@ export class Positioning {
     if (c) {
       arr.push(c)
     }
-    return $.unique(arr)
+    return uniq(arr)
   }
 
   /**
    * Initializes all elements
    * @private
    */
-  initElements_ () {
+  beforePositioning_ () {
     let elems = new Set(this.all_)
 
     /**
      * @param {PositionedElement} elem
      */
     let forEach = elem => {
+      if (elem.control.beforePositioning) {
+        elem.control.beforePositioning()
+      }
+
       if (elem.hideableChildren) {
         for (let child of elem.hideableChildren) {
           forEach(child)
@@ -310,6 +316,35 @@ export class Positioning {
           elem.control.release('width')
         }
         elem.size = this.measureExpandedElement_(elem)
+      }
+
+      elems.delete(elem)
+    }
+
+    for (let elem of elems) {
+      forEach(elem)
+    }
+  }
+
+  /**
+   * called after positioning
+   * @private
+   */
+  afterPositioning_ () {
+    let elems = new Set(this.all_)
+
+    /**
+     * @param {PositionedElement} elem
+     */
+    let forEach = elem => {
+      if (elem.control.afterPositioning) {
+        elem.control.afterPositioning()
+      }
+
+      if (elem.hideableChildren) {
+        for (let child of elem.hideableChildren) {
+          forEach(child)
+        }
       }
 
       elems.delete(elem)
@@ -351,7 +386,7 @@ export class Positioning {
     let width = this.$viewport_.innerWidth()
     let height = this.$viewport_.innerHeight()
 
-    this.initElements_()
+    this.beforePositioning_()
 
     let changed
 
@@ -451,6 +486,11 @@ export class Positioning {
         let xLength = this.padding_
         let yLength = this.padding_
         let $elem = corner.control.get$Element()
+
+        if (corner.control.setPositionedState) {
+          corner.control.setPositionedState(corner.state)
+        }
+
         $elem.removeClass(cssClasses.hidden).css({[x]: xLength, [y]: yLength})
 
         xLength += $elem.outerWidth() + this.spacing_
@@ -476,6 +516,9 @@ export class Positioning {
         for (let elem of $.grep(this.corners_[x][y][xDirection], el => el.visible && el !== corner)) {
           $elem = elem.control.get$Element()
           $elem.css({[x]: xLength, [y]: this.padding_})
+          if (elem.control.setPositionedState) {
+            elem.control.setPositionedState(elem.state)
+          }
           xLength += $elem.outerWidth() + this.spacing_
         }
 
@@ -483,6 +526,9 @@ export class Positioning {
         for (let elem of $.grep(this.corners_[x][y][yDirection], el => el.visible && el !== corner)) {
           $elem = elem.control.get$Element()
           $elem.css({[x]: this.padding_, [y]: yLength})
+          if (elem.control.setPositionedState) {
+            elem.control.setPositionedState(elem.state)
+          }
           yLength += $elem.outerHeight() + this.spacing_
         }
       }
@@ -495,6 +541,8 @@ export class Positioning {
     positionCorner('right', 'bottom')
 
     positionCorner('left', 'bottom')
+
+    this.afterPositioning_()
   }
 
   /**

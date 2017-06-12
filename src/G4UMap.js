@@ -31,7 +31,7 @@ import '../less/map.less'
  * Custom properties accessible via method .get('propertyName')
  *
  * @fires 'resize'
- * @fires 'userActionTracking' only if build flag userActionTracking is set
+ * @fires 'userActionTracking'
  * @fires 'beforeConfigLoad'
  * @fires 'afterConfigLoad'
  * @fires 'afterConfiguring'
@@ -278,6 +278,17 @@ export class G4UMap extends ol.Map {
       } else {
         this.set('localiser', options.localiser)
       }
+
+      this.asSoonAs('ready', true, () => {
+        this.get('localiser').on('change:language', () => {
+          let visibilities = this.getLayerGroup().getIdsVisibilities()
+
+          this.get('configurator').configureLayers()
+          this.get('configurator').configureUI()
+
+          this.getLayerGroup().setIdsVisibilities(visibilities)
+        })
+      })
 
       this.dispatchEvent('afterConfigLoad')
 

@@ -83,7 +83,18 @@ export class GeolocationButton extends Control {
     })
 
     this.layer_ = null
-    this.geolocation_ = new ol.Geolocation()
+    let geolocationOptions = {}
+    if (options.hasOwnProperty('tracking')) {
+      geolocationOptions.tracking = options.tracking
+    }
+    if (options.hasOwnProperty('trackingOptions')) {
+      geolocationOptions.trackingOptions = options.trackingOptions
+    }
+    if (options.hasOwnProperty('projection')) {
+      geolocationOptions.projection = options.projection
+    }
+    this.followLocation_ = options.followLocation || false
+    this.geolocation_ = new ol.Geolocation(geolocationOptions)
     this.geolocation_.on('error', () => {
       this.buttonMessageDisplay_.error(
         this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
@@ -110,7 +121,8 @@ export class GeolocationButton extends Control {
       let layerOptions = {source: new ol.source.Vector({projection: projection}), visible: true}
       this.layer_ = new VectorLayer(layerOptions)
 
-      map.get('styling').styleLayer(this.layer_, this.style_)
+      this.layer_.setStyle(map.get('styling').getStyle(this.style_))
+      map.get('styling').manageLayer(this.layer_)
       map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are
     } else {
       this.getMap().getLayers().remove(this.layer_)
@@ -138,19 +150,36 @@ export class GeolocationButton extends Control {
       if (active) {
         let source = this.layer_.getSource()
 
-        // change:accuracyGeometry comes always after change:position
-        this.geolocation_.once('change:accuracyGeometry', () => {
+        this.geolocation_.once([ 'change:accuracyGeometry' ], () => {
+          source.clear()
           let position = this.geolocation_.getPosition()
           source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
 
           let circle = this.geolocation_.getAccuracyGeometry()
           source.addFeature(new ol.Feature({ geometry: circle }))
           this.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
-          this.geolocation_.setTracking(false)
         })
 
-        this.geolocation_.setTracking(true)
+        this.changeHandler_ = () => {
+          source.clear()
+          let position = this.geolocation_.getPosition()
+          source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
+
+          let circle = this.geolocation_.getAccuracyGeometry()
+          source.addFeature(new ol.Feature({ geometry: circle }))
+          if (this.animated_) {
+            let pan = ol.animation.pan({source: this.getMap().getView().getCenter()})
+            this.getMap().beforeRender(pan)
+          }
+          this.getMap().getView().setCenter(position)
+        }
+        if (this.followLocation_) {
+          this.geolocation_.on(['change:accuracy', 'change:accuracyGeometry', 'change:position'], this.changeHandler_)
+        }
       } else {
+        if (this.followLocation_) {
+          this.geolocation_.un(['change:accuracy', 'change:accuracyGeometry', 'change:position'], this.changeHandler_)
+        }
         this.layer_.getSource().clear()
       }
 

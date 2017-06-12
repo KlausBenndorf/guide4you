@@ -27,7 +27,7 @@ export class FunctionCallBuffer {
   }
 
   /**
-   * @param {*[]} params
+   * @param {any[]} params
    */
   call (...params) {
     clearTimeout(this.timeout_)

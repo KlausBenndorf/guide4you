@@ -269,7 +269,7 @@ export function showInteractionActivity (map) {
  * @returns {string}
  */
 export function urlDirname (url) {
-  return url.replace(/\/([^\/]*)(\?.*)?$/, '/')
+  return url.replace(/\/([^/]*)(\?.*)?$/, '/')
 }
 
 /**
@@ -295,7 +295,7 @@ export function urlJoin (urlRoot, urlExt) {
   let normPathRoot = urlDirname(urlNormalize(urlRoot))
   let normPathExt = urlNormalize(urlExt)
 
-  let lastPart = /[^\/]+\/$/
+  let lastPart = /[^/]+\/$/
   let leadingDoubleDots = /^\.\.\//
 
   while (normPathRoot.match(lastPart) && normPathExt.match(leadingDoubleDots)) {
@@ -399,6 +399,26 @@ export function mixin (baseClass, mixinClass) {
         throw new Error('mixins should not overwrite methods')
       }
       Object.defineProperty(m.prototype, name, propsAndDescriptions[name])
+    }
+  }
+
+  return m
+}
+
+/**
+ * This returns a mixin as a normal class.
+ * @param mixinClass
+ * @returns {class}
+ */
+export function mixinAsClass (mixinClass) {
+  let initialize = mixinClass.prototype.initialize
+
+  let m = class extends mixinClass {
+    constructor (options) {
+      super(options)
+      if (initialize) {
+        initialize.call(this, options)
+      }
     }
   }
 

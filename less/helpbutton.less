@@ -2,7 +2,7 @@
 @import "./controlgenerics";
 @import "./colors";
 
-@g4u-help-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/help.svg");
+@g4u-help-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/help.svg");
 
 .g4u-desktop {
   .g4u-helpbutton {
@@ -17,7 +17,7 @@
       border-collapse: collapse;
 
       tr:nth-child(even) {
-        background: fade(@g4u-lighter-main-color, @g4u-semitransparent);
+        background: fade(@g4u-theme-medium-background, @g4u-semitransparent);
       }
 
       th {
@@ -28,6 +28,63 @@
       td {
         vertical-align: top;
         padding: 1em;
+
+        p:last-of-type {
+          margin-bottom: 0;
+        }
+
+        &.g4u-helpbutton-img {
+          text-align: center;
+        }
+
+        .g4u-helpbutton-imgDiv {
+          background: #8dc56c;
+          width: 100%;
+          border: @g4u-tiny solid black;
+          padding: 1em 0;
+        }
+
+        img {
+          vertical-align: top;
+        }
+      }
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-helpbutton {
+    padding: 0;
+
+    button.g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-help-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize + 12);
+    }
+
+    .g4u-helpbutton-table {
+      border-spacing: 0;
+      border-collapse: collapse;
+
+      box-sizing: border-box;
+
+      tr:nth-child(even) {
+        background: fade(@g4u-theme-medium-background, @g4u-semitransparent);
+      }
+
+      th {
+        vertical-align: top;
+        padding: 1em;
+      }
+
+      tr {
+        position: relative;
+      }
+
+      td {
+        vertical-align: top;
+        padding: 1em;
+
+        display: inline-block;
+        width: ~"calc(100% - 2em)";
 
         p:last-of-type {
           margin-bottom: 0;

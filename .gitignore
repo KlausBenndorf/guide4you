@@ -16,11 +16,6 @@ Thumbs.db
 # files in node_modules can always be obtained using npm
 /node_modules
 
-# tests are precisely that
-/tests/*
-!/tests/selenium
-!/tests/unit-tests
-
 # brackets files are to be strictly local
 .brackets.json*
 

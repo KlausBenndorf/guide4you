@@ -264,4 +264,20 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
       }
     })
   }
+
+  /**
+   * Checks if the group contains the layer
+   * @param {ol.layer.Layer} layer
+   * @returns {boolean}
+   */
+  containsLayer (layer) {
+    return this.getLayers().getArray().some(subLayer => {
+      if (subLayer === layer) {
+        return true
+      }
+      if (subLayer.containsLayer) {
+        return subLayer.containsLayer(layer)
+      }
+    })
+  }
 }

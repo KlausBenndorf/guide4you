@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 4 100 104">
+	<defs>
+		<pattern id="diagonalHatch" patternUnits="userSpaceOnUse" x="0" y="0" width="105" height="105">
+			<g style="fill:none; stroke:rgba(255,255,255,1); stroke-width:3;">
+				<path d="M0 90 l15,15" />
+				<path d="M0 75 l30,30" />
+				<path d="M0 60 l45,45" />
+				<path d="M0 45 l60,60" />
+				<path d="M0 30 l75,75" />
+				<path d="M0 15 l90,90" />
+				<path d="M0 0 l105,105" />
+				<path d="M15 0 l90,90" />
+				<path d="M30 0 l75,75" />
+				<path d="M45 0 l60,60" />
+				<path d="M60 0 l45,45" />
+				<path d="M75 0 l30,30" />
+				<path d="M90 0 l15,15" />
+			</g>
+		</pattern>
+	</defs>
+	<path d="M36.019,18.573l16.673,34.111l31.327-14.111L69.812,87.709l-34.793,1.864l-23-41L36.019,18.573Z" style="stroke:rgba(255,255,255,1); fill:url(#diagonalHatch); stroke-width:8;" />
+</svg>

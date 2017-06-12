@@ -2,151 +2,160 @@
 @import "./colors";
 @import "./controlgenerics";
 
-@g4u-layerselector-menu-collapsed-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/plusminus-plus.svg");
-@g4u-layerselector-menu-expanded-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/plusminus-minus.svg");
-@g4u-layerselector-group-collapsed-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/expand-outline-down.svg");
-@g4u-layerselector-group-expanded-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/expand-outline-right.svg");
-@g4u-whitespace-icon: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/plusminus-nothing.svg");
-@g4u-load-animation: url("~guide4you-builder/mustache-eval-loader?name=images/[name].[ext]!../images/icons/load-animation.svg");
+@g4u-layerselector-menu-collapsed-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/plusminus-plus.svg");
+@g4u-layerselector-menu-expanded-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/plusminus-minus.svg");
+@g4u-layerselector-group-collapsed-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/expand-outline-down.svg");
+@g4u-layerselector-group-expanded-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/expand-outline-right.svg");
+@g4u-whitespace-icon: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/plusminus-nothing.svg");
+@g4u-load-animation: url("~mustache-eval-loader?name=images/[name].[ext]!../images/icons/load-animation.svg");
 
 .g4u-desktop {
-  .g4u-layerselector.ol-unselectable.ol-control { // TODO: remove unneccessary classes
+  .g4u-layerselector.ol-unselectable.ol-control {
+    .g4u-layerselector {
+      // TODO: remove unneccessary classes
 
-    button {
-      width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
-      padding-left: 2 * @g4u-desktop-padding;
-    }
+      button {
+        box-sizing: border-box;
+        width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
+        padding-left: 2 * @g4u-desktop-padding;
+        border-radius: 0;
+      }
 
-    .g4u-layerselector-content {
-      overflow-y: auto;
-      padding: 0;
-    }
+      .g4u-layerselector-content {
+        overflow-y: auto;
+        padding: 0;
+      }
 
-    // title
+      // title
 
-    .g4u-layerselector-titlebutton {
-      .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-      padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
-      margin-top: 0;
-      background: @g4u-titlebutton-color;
-      border-top-right-radius: @g4u-desktop-small-border-radius;
-      border-top-left-radius: @g4u-desktop-small-border-radius;
-    }
-
-    .g4u-layerselector-collapsed {
       .g4u-layerselector-titlebutton {
-        .changeIconBefore(@g4u-layerselector-group-expanded-icon);
-        border-bottom-right-radius: @g4u-desktop-small-border-radius;
+        .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+        padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+        margin-top: 0;
+        background: @g4u-titlebutton-color;
+        border-top-right-radius: @g4u-desktop-small-border-radius;
+        border-top-left-radius: @g4u-desktop-small-border-radius;
+      }
+
+      .g4u-layerselector-collapsed {
+        .g4u-layerselector-titlebutton {
+          .changeIconBefore(@g4u-layerselector-group-expanded-icon);
+          border-bottom-right-radius: @g4u-desktop-small-border-radius;
+          border-bottom-left-radius: @g4u-desktop-small-border-radius;
+        }
+      }
+
+      // layers
+
+      .g4u-layerselector-menu-title {
+        margin-top: @g4u-desktop-padding;
+        white-space: nowrap;
+        position: relative;
+        height: @g4u-desktop-button-size;
+      }
+
+      // seperate collapse and title button
+      .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton) {
+        .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton) {
+        position: absolute;
+        top: 0;
+        left: @g4u-desktop-button-size;
+      }
+
+      // combined buttons
+      .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton {
+        .buttonWithIconBefore(@g4u-layerselector-menu-expanded-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+        padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      // apply to both kinds
+      .g4u-layerselector-menu-collapsebutton,
+      .g4u-layerselector-menu-titlebutton {
+        &.g4u-layerselector-menu-active {
+          background: @g4u-active-normal-button-color; // k
+          &:hover {
+            background: @g4u-active-hover-button-color; // k
+          }
+        }
+      }
+
+      .g4u-layerselector-menu-collapsed {
+        .g4u-layerselector-menu-collapsebutton {
+          .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-desktop-normal-fontsize);
+        }
+      }
+
+      .g4u-layerselector-layerbutton {
+        .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+        height: auto; // hotfix
+        min-height: @g4u-desktop-button-size; // hotfix
+        padding-top: @g4u-desktop-padding; // hotfix
+        padding-bottom: @g4u-desktop-padding; // hotfix
+        margin-top: @g4u-desktop-padding;
+        width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
+        padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+
+        // styling of active buttons
+        &.g4u-layerselector-menu-active {
+          background: @g4u-active-normal-button-color; // k
+          &:hover {
+            background: @g4u-active-hover-button-color; // k
+          }
+        }
+        &.g4u-layer-loading {
+          &:before {
+            content: @g4u-load-animation;
+          }
+        }
+      }
+
+      // indenting
+      .g4u-layerselector-menu-content {
+        margin-left: @g4u-desktop-button-size;
+      }
+
+      // rounding protruding edges
+      .g4u-layerselector-menu-title {
         border-bottom-left-radius: @g4u-desktop-small-border-radius;
       }
-    }
 
-    // layers
-
-    .g4u-layerselector-menu-title {
-      margin-top: @g4u-desktop-padding;
-      white-space: nowrap;
-      position: relative;
-      height: @g4u-desktop-button-size;
-    }
-
-    // seperate collapse and title button
-    .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton) {
-      .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton) {
-      position: absolute;
-      top: 0;
-      left: @g4u-desktop-button-size;
-    }
-
-    // combined buttons
-    .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton {
-      .buttonWithIconBefore(@g4u-layerselector-menu-expanded-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-      padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    // apply to both kinds
-    .g4u-layerselector-menu-collapsebutton,
-    .g4u-layerselector-menu-titlebutton {
-      &.g4u-layerselector-menu-active {
-        background: @g4u-active-normal-button-color; // k
-        &:hover {
-          background: @g4u-active-hover-button-color; // k
+      .g4u-layerselector-menu-collapsed {
+        .g4u-layerselector-menu-title {
+          border-bottom-left-radius: 0;
         }
       }
-    }
 
-    .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-collapsebutton {
-        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-desktop-normal-fontsize);
-      }
-    }
-
-    .g4u-layerselector-layerbutton {
-      .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-      margin-top: @g4u-desktop-padding;
-      width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
-      padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
-
-      // styling of active buttons
-      &.g4u-layerselector-menu-active {
-        background: @g4u-active-normal-button-color; // k
-        &:hover {
-          background: @g4u-active-hover-button-color; // k
+      .g4u-layerselector-menu {
+        + .g4u-layerselector-menu {
+          > .g4u-layerselector-menu-title {
+            border-top-left-radius: @g4u-desktop-small-border-radius;
+          }
         }
-      }
-      &.g4u-layer-loading {
-        &:before {
-          content: @g4u-load-animation;
-        }
-      }
-    }
 
-    // indenting
-    .g4u-layerselector-menu-content {
-      margin-left: @g4u-desktop-button-size;
-    }
-
-    // rounding protruding edges
-    .g4u-layerselector-menu-title {
-      border-bottom-left-radius: @g4u-desktop-small-border-radius;
-    }
-
-    .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-title {
-        border-bottom-left-radius: 0;
-      }
-    }
-
-    .g4u-layerselector-menu {
-      + .g4u-layerselector-menu {
-        > .g4u-layerselector-menu-title {
+        + .g4u-layerselector-layerbutton {
           border-top-left-radius: @g4u-desktop-small-border-radius;
         }
       }
 
-      + .g4u-layerselector-layerbutton {
-        border-top-left-radius: @g4u-desktop-small-border-radius;
-      }
-    }
+      .g4u-layerselector-menu-collapsed {
+        + .g4u-layerselector-menu {
+          > .g4u-layerselector-menu-title {
+            border-top-left-radius: 0;
+          }
+        }
 
-    .g4u-layerselector-menu-collapsed {
-      + .g4u-layerselector-menu {
-        > .g4u-layerselector-menu-title {
+        + .g4u-layerselector-layerbutton {
           border-top-left-radius: 0;
         }
-      }
-
-      + .g4u-layerselector-layerbutton {
-        border-top-left-radius: 0;
       }
     }
   }
@@ -163,95 +172,128 @@
 
 .g4u-mobile {
   .g4u-layerselector {
-    button {
-      width: 100%;
-      text-align: left;
-      padding-left: 2 * @g4u-desktop-padding;
-    }
+    .g4u-layerselector {
+      button {
+        box-sizing: border-box;
+        width: 100%;
+        text-align: left;
+        padding-left: 2 * @g4u-desktop-padding;
+      }
 
-    .g4u-layerselector-content {
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
+      .g4u-layerselector-content {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
 
-    .g4u-layerselector-titlebutton {
-      margin-top: 0;
-      background: @g4u-titlebutton-color;
-      .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
-      vertical-align: middle;
-    }
-
-    &.g4u-layerselector-collapsed {
       .g4u-layerselector-titlebutton {
-        .changeIconBefore(@g4u-layerselector-group-expanded-icon);
+        margin-top: 0;
+        background: @g4u-titlebutton-color;
+        .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+        vertical-align: middle;
       }
-    }
 
-    .g4u-layermenu-item-collapsed + .g4u-layermenu-item {
-      border-top: 2 * @g4u-tiny solid black;
-    }
-
-    .g4u-layermenu-item + .g4u-layermenu-item-collapsed {
-      border-bottom: 2 * @g4u-tiny solid black;
-    }
-
-    .g4u-layerselector-content {
-      padding: 0;
-    }
-
-    .g4u-layerselector-menu-title {
-      margin-top: @g4u-mobile-padding;
-      white-space: nowrap;
-      position: relative;
-      height: @g4u-mobile-button-size;
-    }
-
-    .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton) {
-      .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      &.g4u-layerselector-menu-active {
-        background: @g4u-active-normal-button-color; // k
+      &.g4u-layerselector-collapsed {
+        .g4u-layerselector-titlebutton {
+          .changeIconBefore(@g4u-layerselector-group-expanded-icon);
+        }
       }
-    }
 
-    .g4u-layerselector-menu-collapsed {
-      .g4u-layerselector-menu-collapsebutton {
-        .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-mobile-normal-fontsize);
+      .g4u-layermenu-item-collapsed + .g4u-layermenu-item {
+        border-top: 2 * @g4u-tiny solid black;
       }
-    }
 
-    .g4u-layerselector-menu-titlebutton {
-      position: absolute;
-      top: 0;
-      left: @g4u-mobile-button-size;
-      height: @g4u-mobile-button-size;
-
-      &.g4u-layerselector-menu-active {
-        background: @g4u-active-normal-button-color; // k
+      .g4u-layermenu-item + .g4u-layermenu-item-collapsed {
+        border-bottom: 2 * @g4u-tiny solid black;
       }
-    }
 
-    // styling of active buttons
-    .g4u-layerselector-layerbutton {
-      margin-top: @g4u-mobile-padding;
-      .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
-      &.g4u-layerselector-menu-active {
-        background: @g4u-active-normal-button-color;
+      .g4u-layerselector-content {
+        padding: 0;
       }
-    }
 
-    .g4u-layerselector-menu-active {
-      > .g4u-layerselector-menu-titlebutton {
-        background: @g4u-active-normal-button-color;
+      .g4u-layerselector-menu-title {
+        margin-top: @g4u-mobile-padding;
+        white-space: nowrap;
+        position: relative;
+        height: @g4u-mobile-button-size;
       }
-    }
 
-    // indenting
-    .g4u-layerselector-menu-content {
-      margin-left: @g4u-mobile-button-size;
+      // seperate buttons
+      .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton) {
+        .buttonSquaredWithIcon(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        &.g4u-layerselector-menu-active {
+          background: @g4u-active-normal-button-color; // k
+        }
+      }
+
+      .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton) {
+        position: absolute;
+        top: 0;
+        left: @g4u-mobile-button-size;
+        height: @g4u-mobile-button-size;
+
+        &.g4u-layerselector-menu-active {
+          background: @g4u-active-normal-button-color; // k
+        }
+      }
+
+      //combined buttons
+
+      .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton {
+        .buttonWithIconBefore(@g4u-layerselector-menu-expanded-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+        padding-left: @g4u-mobile-button-size + 2 * @g4u-mobile-padding;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: @g4u-mobile-button-size;
+
+        &.g4u-layerselector-menu-active {
+          background: @g4u-active-normal-button-color; // k
+        }
+      }
+
+      //// apply to both kinds
+      //.g4u-layerselector-menu-collapsebutton,
+      //.g4u-layerselector-menu-titlebutton {
+      //  &.g4u-layerselector-menu-active {
+      //    background: @g4u-active-normal-button-color; // k
+      //    &:hover {
+      //      background: @g4u-active-hover-button-color; // k
+      //    }
+      //  }
+      //}
+
+      .g4u-layerselector-menu-collapsed {
+        .g4u-layerselector-menu-collapsebutton {
+          .changeIconBefore(@g4u-layerselector-menu-collapsed-icon; @g4u-mobile-normal-fontsize);
+        }
+      }
+      // styling of active buttons
+      .g4u-layerselector-layerbutton {
+        margin-top: @g4u-mobile-padding;
+        .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+        height: auto; // hotfix
+        min-height: @g4u-mobile-button-size; // hotfix
+        padding-top: @g4u-desktop-padding; // hotfix
+        padding-bottom: @g4u-desktop-padding; // hotfix
+        &.g4u-layerselector-menu-active {
+          background: @g4u-active-normal-button-color;
+        }
+      }
+
+      .g4u-layerselector-menu-active {
+        > .g4u-layerselector-menu-titlebutton {
+          background: @g4u-active-normal-button-color;
+        }
+      }
+
+      // indenting
+      .g4u-layerselector-menu-content {
+        margin-left: @g4u-mobile-button-size;
+      }
     }
   }
 }
