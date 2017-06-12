@@ -154,17 +154,19 @@ export class ArrowButtons extends Control {
 
       let oldPosition = view.getCenter()
 
+      // adding the delta to the actual center
+
+      let constrainedCenter = view.constrainCenter([oldPosition[0] + delta[0], oldPosition[1] + delta[1]])
+
       if (this.animated_) {
         // creating a pan-animation
-        let pan = ol.animation.pan({
-          duration: this.animationDuration_,
-          source: oldPosition
+        view.animate({
+          center: constrainedCenter,
+          duration: this.animationDuration_
         })
-        map.beforeRender(pan)
+      } else {
+        view.setCenter(constrainedCenter)
       }
-
-      // adding the delta to the actual center
-      view.setCenter(view.constrainCenter([oldPosition[0] + delta[0], oldPosition[1] + delta[1]]))
     }
     $(map.getViewport()).focus()
   }
