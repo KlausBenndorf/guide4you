@@ -1,6 +1,6 @@
 /*!
  * guide4you-module-search
- * Version: 2.0.2 (built Mon Jun 12 2017)
+ * Version: 2.0.3 (built Mon Jun 12 2017)
  * Klaus Benndorf, License: MIT (https://spdx.org/licenses/MIT.html)
  * Homepage: https://github.com/KlausBenndorf/guide4you-module-search
  *
