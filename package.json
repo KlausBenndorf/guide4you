@@ -48,6 +48,7 @@
   "scripts": {
     "dist": "g4u-build -m dist -c conf/dist",
     "build": "g4u-build -m prod -c",
+    "debugBuild": "g4u-build -d -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
     "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
