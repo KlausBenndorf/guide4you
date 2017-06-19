@@ -191,13 +191,11 @@
       "animated": true,
       "style": "#defaultStyle",
       "followLocation": true,
-      "tracking": true,
       "trackingOptions": {
         "enableHighAccuracy": true,
         "timeout": 20000,
-        "maximumAge": 1000
+        "maximumAge": 5000
       }
-
     },
     "printLogo": {
       "controlType": "logo",
