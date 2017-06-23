@@ -3369,6 +3369,47 @@ var GroupLayer = exports.GroupLayer = function (_mixin) {
     }
 
     /**
+     * Find layer with callback
+     * @param {Function} cb
+     */
+
+  }, {
+    key: 'findLayer',
+    value: function findLayer(cb) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = this.getLayersArray()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var layer = _step.value;
+
+          if (cb(layer)) {
+            return layer;
+          } else if (layer.findLayer) {
+            var res = layer.findLayer(cb);
+            if (res) {
+              return res;
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    }
+
+    /**
      * Get layer by id
      * @param {string|number} id
      */
@@ -3376,14 +3417,34 @@ var GroupLayer = exports.GroupLayer = function (_mixin) {
   }, {
     key: 'getLayerById',
     value: function getLayerById(id) {
-      var layers = this.getLayers();
-      for (var i = 0; i < layers.getLength(); i++) {
-        if (layers.item(i).get('id') === id) {
-          return layers.item(i);
-        } else if (layers.item(i).getLayerById) {
-          var res = layers.item(i).getLayerById(id);
-          if (res) {
-            return res;
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = this.getLayersArray()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var layer = _step2.value;
+
+          if (layer.get('id') === id) {
+            return layer;
+          } else if (layer.getLayerById) {
+            var res = layer.getLayerById(id);
+            if (res) {
+              return res;
+            }
+          }
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
           }
         }
       }
@@ -4230,7 +4291,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.0.1'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.0.2'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -5857,7 +5918,7 @@ var SourceServerVector = exports.SourceServerVector = function (_ol$source$Vecto
       }
 
       if (!this.cache_ || this.localised_) {
-        (0, _utilities.addParamToURL)(url, Math.random().toString(36).substring(7));
+        url = (0, _utilities.addParamToURL)(url, Math.random().toString(36).substring(7));
       }
 
       _jquery2.default.ajax({
@@ -5887,7 +5948,6 @@ var SourceServerVector = exports.SourceServerVector = function (_ol$source$Vecto
           _Debug.Debug.error('Getting Feature resource failed with url ' + url);
           _this2.dispatchEvent('vectorloaderror');
         },
-        cache: this.cache_ && !this.localised_,
         headers: this.localiser_ ? {
           'Accept-Language': this.localiser_.getCurrentLang()
         } : {}
@@ -17106,17 +17166,19 @@ var ArrowButtons = exports.ArrowButtons = function (_Control) {
 
         var oldPosition = view.getCenter();
 
+        // adding the delta to the actual center
+
+        var constrainedCenter = view.constrainCenter([oldPosition[0] + delta[0], oldPosition[1] + delta[1]]);
+
         if (this.animated_) {
           // creating a pan-animation
-          var pan = _openlayers2.default.animation.pan({
-            duration: this.animationDuration_,
-            source: oldPosition
+          view.animate({
+            center: constrainedCenter,
+            duration: this.animationDuration_
           });
-          map.beforeRender(pan);
+        } else {
+          view.setCenter(constrainedCenter);
         }
-
-        // adding the delta to the actual center
-        view.setCenter(view.constrainCenter([oldPosition[0] + delta[0], oldPosition[1] + delta[1]]));
       }
       (0, _jquery2.default)(map.getViewport()).focus();
     }
@@ -17491,10 +17553,7 @@ var GeolocationButton = exports.GeolocationButton = function (_Control) {
     });
 
     _this.layer_ = null;
-    var geolocationOptions = {};
-    if (options.hasOwnProperty('tracking')) {
-      geolocationOptions.tracking = options.tracking;
-    }
+    var geolocationOptions = { tracking: false };
     if (options.hasOwnProperty('trackingOptions')) {
       geolocationOptions.trackingOptions = options.trackingOptions;
     }
@@ -17537,7 +17596,6 @@ var GeolocationButton = exports.GeolocationButton = function (_Control) {
       } else {
         this.getMap().getLayers().remove(this.layer_);
       }
-
       _get(GeolocationButton.prototype.__proto__ || Object.getPrototypeOf(GeolocationButton.prototype), 'setMap', this).call(this, map);
     }
 
@@ -17561,44 +17619,51 @@ var GeolocationButton = exports.GeolocationButton = function (_Control) {
     value: function setActive(active) {
       var _this2 = this;
 
+      var that = this;
+      var changeHandler_ = function changeHandler_(options) {
+        var source = that.layer_.getSource();
+        source.clear();
+        var position = that.geolocation_.getPosition();
+        source.addFeature(new _openlayers2.default.Feature({ geometry: new _openlayers2.default.geom.Point(position) }));
+
+        var circle = that.geolocation_.getAccuracyGeometry();
+        source.addFeature(new _openlayers2.default.Feature({ geometry: circle }));
+        if (options.hasOwnProperty('initialRun') && options.initialRun) {
+          that.getMap().get('move').toExtent(circle.getExtent(), { animated: _this2.animated_, maxZoom: that.maxZoom_ });
+        } else {
+          if (that.animated_) {
+            that.getMap().getView().animate({ 'center': position });
+          } else {
+            that.getMap().getView().setCenter(position);
+          }
+        }
+        if (options.hasOwnProperty('stopTracking')) {
+          that.geolocation_.setTracking(!options.stopTracking);
+        }
+      };
       var oldValue = this.active_;
       if (oldValue !== active) {
         this.get$Element().toggleClass(this.classNamePushed_, active);
-
         if (active) {
-          var source = this.layer_.getSource();
-
-          this.geolocation_.once(['change:accuracyGeometry'], function () {
-            source.clear();
-            var position = _this2.geolocation_.getPosition();
-            source.addFeature(new _openlayers2.default.Feature({ geometry: new _openlayers2.default.geom.Point(position) }));
-
-            var circle = _this2.geolocation_.getAccuracyGeometry();
-            source.addFeature(new _openlayers2.default.Feature({ geometry: circle }));
-            _this2.getMap().get('move').toExtent(circle.getExtent(), { animated: _this2.animated_, maxZoom: _this2.maxZoom_ });
-          });
-
-          this.changeHandler_ = function () {
-            source.clear();
-            var position = _this2.geolocation_.getPosition();
-            source.addFeature(new _openlayers2.default.Feature({ geometry: new _openlayers2.default.geom.Point(position) }));
-
-            var circle = _this2.geolocation_.getAccuracyGeometry();
-            source.addFeature(new _openlayers2.default.Feature({ geometry: circle }));
-            if (_this2.animated_) {
-              var pan = _openlayers2.default.animation.pan({ source: _this2.getMap().getView().getCenter() });
-              _this2.getMap().beforeRender(pan);
+          this.geolocation_.setTracking(true);
+          var position = this.geolocation_.getPosition();
+          if (position) {
+            changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true });
+            if (this.followLocation_) {
+              this.geolocation_.on('change', changeHandler_);
             }
-            _this2.getMap().getView().setCenter(position);
-          };
-          if (this.followLocation_) {
-            this.geolocation_.on(['change:accuracy', 'change:accuracyGeometry', 'change:position'], this.changeHandler_);
+          } else {
+            this.geolocation_.once('change', function () {
+              changeHandler_({ 'stopTracking': !_this2.followLocation_, 'initialRun': true });
+              if (_this2.followLocation_) {
+                _this2.geolocation_.on('change', changeHandler_);
+              }
+            });
           }
         } else {
-          if (this.followLocation_) {
-            this.geolocation_.un(['change:accuracy', 'change:accuracyGeometry', 'change:position'], this.changeHandler_);
-          }
           this.layer_.getSource().clear();
+          this.geolocation_.un('change', changeHandler_);
+          this.geolocation_.setTracking(false);
         }
 
         this.active_ = active;
@@ -21593,7 +21658,7 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
     value: function initialize(options) {
       this.featureInfo_ = options.featureInfo !== undefined;
       if (this.featureInfo_) {
-        this.featureInfoParams_ = options.featureInfo.params;
+        this.featureInfoParams_ = options.featureInfo.params || {};
         this.featureInfoCheckable_ = options.featureInfo.checkable;
         this.featureInfoMutators_ = options.featureInfo.mutators;
         this.featureInfoProxy_ = options.featureInfo.proxy;
