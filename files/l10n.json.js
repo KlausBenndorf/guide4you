@@ -277,17 +277,17 @@ module.exports = {
   // ///////////////////////////////////////////////////////////////////////////
 
   'ar': {
-    'ar': 'عربي',
+    '*': 'عربي',
     'rtl': true
   },
   'de': {
-    'de': 'Deutsch'
+    '*': 'Deutsch'
   },
   'en': {
-    'en': 'English'
+    '*': 'English'
   },
   'pl': {
-    'pl': 'Polski'
+    '*': 'Polski'
   }
   // 'es': 'Espa&ntilde;ol',
   // 'fr': 'Fran&ccdil;ais',
