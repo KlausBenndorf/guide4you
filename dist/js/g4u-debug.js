@@ -4291,7 +4291,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.0.2'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.0.4'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -11974,8 +11974,9 @@ var L10N = exports.L10N = function (_ol$Observable) {
      * 1. If there is no data, an 'Unable to obtain localization' error is thrown.
      * 2. If data is a string, that string is returned.
      * 3. If language is given and present in data, the string value for langage is returned.
-     * 4. As a last resort the default language is tried. If it does, that value is returned.
-     * 5. If still no string was found at this point, an 'Unable to obtain localization' error is thrown.
+     * 4. If the default language is given and present in data, that value is returned.
+     * 5. If the special tag '*' is present in data, that value is returned.
+     * 6. If still no string was found at this point, an 'Unable to obtain localization' error is thrown.
      * @property {Localizable} data
      * @returns {string} a (presumably localised) string
      */
@@ -11989,12 +11990,14 @@ var L10N = exports.L10N = function (_ol$Observable) {
           return data;
         } else {
           // an object is available
-          if (this.currentLang_ in data) {
+          if (data.hasOwnProperty(this.currentLang_)) {
             // current language available
             return data[this.currentLang_];
-          } else if (this.defaultLang_ in data) {
+          } else if (data.hasOwnProperty(this.defaultLang_)) {
             // default language as a last resort
             return data[this.defaultLang_];
+          } else if (data.hasOwnProperty('*')) {
+            return data['*'];
           } else {
             _Debug.Debug.error('Unable to obtain localization');
           }
