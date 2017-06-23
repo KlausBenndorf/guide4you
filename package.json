@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -51,6 +51,7 @@
     "debugBuild": "g4u-build -d -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
+    "version": "npm run test && git add -A && git commit --amend --no-edit",
     "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
     "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
     "test": "npm run lint && npm run buildTests && concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"npm run runTests\" && echo \"Tests completed successfully\"",
