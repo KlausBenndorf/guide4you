@@ -1,7 +1,8 @@
 import { createMapInternal } from 'guide4you/src/main'
+import { registerModule } from 'guide4you/src/moduleRegistration'
 
 import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
-import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!guide4you/conf/layers.commented.json'
+import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!guide4you/conf/simple/layers.commented.json'
 
 import 'tojson-file-loader?name=files/[name]!files/helptext.json.js'
 
@@ -37,19 +38,21 @@ import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 import { URLAPIModule } from 'src/URLAPIModule'
 
+registerModule(new URLAPIModule(
+  /* {
+   moduleParameters': [
+   {
+   'keys': [ 'lorem', 'ipsum', 'dolor', 'sit', 'amet' ],
+   'setEvent': 'afterConfiguring',
+   'setToMap': (that) => { },
+   'getFromMap': (that) => { }
+   }
+   ]
+   } */
+))
+
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal(target, clientConf, layerConf, [new URLAPIModule(
-    /* {
-       moduleParameters': [
-        {
-          'keys': [ 'lorem', 'ipsum', 'dolor', 'sit', 'amet' ],
-          'setEvent': 'afterConfiguring',
-          'setToMap': (that) => { },
-          'getFromMap': (that) => { }
-        }
-      ]
-    } */
-  )])
+  return createMapInternal(target, clientConf, layerConf)
 }
 
 export * from 'guide4you/src/exports'

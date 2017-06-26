@@ -7,6 +7,13 @@
     "center": [7.099227905273438, 50.73069673104681],
     "zoom": 13
   },
+  "additionalProjections": [
+    {
+      "code": "EPSG:25832",
+      "definition": "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+    }
+  ],
+  "measurementProjection": "EPSG:25832",
   "mobileLayout": {
     "mediaQueries": [
       "(max-width: 736px)"
@@ -51,6 +58,7 @@
       "zoom",
       "mobileControls",
       "linkGeneratorButton",
+      "distanceMeasurementButton", // this one is only needed for tests
       "helpButton"
     ],
     "helpButton": {

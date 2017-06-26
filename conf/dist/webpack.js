@@ -31,6 +31,7 @@ module.exports = {
       favicon: 'node_modules/guide4you/images/g4u-logo.png',
       title: 'g4u test'
     }),
+
     new HtmlWebpackIncludeAssetsPlugin({
       assets: [
         '../node_modules/jquery/dist/jquery.min.js',
