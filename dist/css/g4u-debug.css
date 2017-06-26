@@ -108,23 +108,23 @@ a.ol-control,
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  min-width: 58px;
+  min-width: 44px;
   background: white;
   padding: 0;
   margin: 0;
-  border-radius: 12px;
-  border: 4px #0071bc solid;
+  border-radius: 10px;
+  border: 3px #0071bc solid;
   overflow: hidden;
 }
 .g4u-mobile .g4u-window .g4u-window-scroll-wrap {
   overflow-y: auto;
 }
 .g4u-mobile .g4u-window button.g4u-window-button-close {
-  height: 52px;
+  height: 39px;
   position: relative;
   color: transparent;
   width: 100%;
-  height: 59px;
+  height: 45px;
   color: white;
   background: rgba(0, 113, 188, 0.7);
   padding: 0;
@@ -145,15 +145,15 @@ a.ol-control,
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 52px;
-  height: 52px;
+  width: 39px;
+  height: 39px;
   background-image: url(../images/close.svg);
   background-repeat: no-repeat;
 }
 .g4u-mobile .g4u-window button.g4u-window-button-close:before {
   left: auto;
-  top: 4px;
-  right: 3px;
+  top: 3.5px;
+  right: 2.5px;
 }
 .g4u-mobile .g4u-window button.g4u-window-button-close::-moz-focus-inner {
   padding: 0;
@@ -161,7 +161,7 @@ a.ol-control,
 }
 .g4u-mobile .g4u-window .g4u-window-content {
   background: white;
-  padding: 6px;
+  padding: 5px;
 }
 .g4u-mobile .g4u-window .g4u-window-content:not(input, textarea) {
   -webkit-touch-callout: none;
@@ -174,7 +174,7 @@ a.ol-control,
 }
 .g4u-mobile .g4u-window {
   position: fixed !important;
-  padding: 6px;
+  padding: 5px;
 }
 .g4u-mobile .g4u-window .g4u-window-scroll-wrap {
   height: 100%;
@@ -198,8 +198,8 @@ a.ol-control,
   text-size-adjust: none;
 }
 .g4u-mobile .g4u-window .g4u-window-inner-position {
-  top: 6px;
-  bottom: 64px;
+  top: 5px;
+  bottom: 49px;
   left: 0;
   right: 0;
   height: auto;
@@ -221,7 +221,7 @@ a.ol-control,
   width: auto;
   position: absolute;
   left: 0;
-  right: 6px;
+  right: 5px;
   /* Prevent elements to be highlighted on tap */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   /* Put the scroller into the HW Compositing layer right from the start */
@@ -550,8 +550,8 @@ a.ol-control,
   overflow: hidden;
 }
 .g4u-mobile .g4u-layermenu .g4u-control-mainbutton {
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -565,25 +565,25 @@ a.ol-control,
 .g4u-mobile .g4u-layermenu .g4u-control-mainbutton:before {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 34px;
-  height: 34px;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
   background-image: url(../images/layers.svg);
   background-repeat: no-repeat;
 }
 .g4u-mobile .g4u-window-content .g4u-layermenu {
-  border-radius: 12px;
-  margin-bottom: 6px;
+  border-radius: 10px;
+  margin-bottom: 5px;
 }
 .g4u-mobile .g4u-window-content .g4u-layermenu .g4u-layermenu-item {
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 0;
   overflow: hidden;
   display: block;
 }
 .g4u-mobile .g4u-window-content .g4u-layermenu .g4u-layermenu-item:not(:last-of-type) {
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .ol-control {
   cursor: default;
@@ -1087,20 +1087,20 @@ a.ol-control,
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-titlebutton {
   margin-top: 0;
   background: #2e3192;
-  height: 58px;
+  height: 44px;
   position: relative;
-  padding-left: 58px;
+  padding-left: 44px;
   vertical-align: middle;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-titlebutton:before {
   content: url(../images/expand-outline-down.svg);
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
   display: inline-block;
   vertical-align: text-bottom;
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 13px;
+  left: 13px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector.g4u-layerselector-collapsed .g4u-layerselector-titlebutton:before {
   content: url(../images/expand-outline-right.svg);
@@ -1115,14 +1115,14 @@ a.ol-control,
   padding: 0;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-title {
-  margin-top: 6px;
+  margin-top: 5px;
   white-space: nowrap;
   position: relative;
-  height: 58px;
+  height: 44px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton) {
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -1139,10 +1139,10 @@ a.ol-control,
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-collapsebutton:not(.g4u-layerselector-menu-titlebutton):before {
   content: "";
   position: absolute;
-  top: 16px;
-  left: 16px;
-  width: 26px;
-  height: 26px;
+  top: 13px;
+  left: 13px;
+  width: 18px;
+  height: 18px;
   background-image: url(../images/plusminus-minus.svg);
   background-repeat: no-repeat;
 }
@@ -1152,58 +1152,58 @@ a.ol-control,
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton) {
   position: absolute;
   top: 0;
-  left: 58px;
-  height: 58px;
+  left: 44px;
+  height: 44px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton).g4u-layerselector-menu-active {
   background: #29abe2;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton {
   position: relative;
-  padding-left: 58px;
-  padding-left: 70px;
+  padding-left: 44px;
+  padding-left: 54px;
   position: absolute;
   top: 0;
   left: 0;
-  height: 58px;
+  height: 44px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton:before {
   content: url(../images/plusminus-minus.svg);
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
   display: inline-block;
   vertical-align: text-bottom;
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 13px;
+  left: 13px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-collapsebutton.g4u-layerselector-menu-titlebutton.g4u-layerselector-menu-active {
   background: #29abe2;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-collapsed .g4u-layerselector-menu-collapsebutton:before {
   content: url(../images/plusminus-plus.svg);
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-layerbutton {
-  margin-top: 6px;
-  height: 58px;
+  margin-top: 5px;
+  height: 44px;
   position: relative;
-  padding-left: 58px;
+  padding-left: 44px;
   height: auto;
-  min-height: 58px;
+  min-height: 44px;
   padding-top: 3px;
   padding-bottom: 3px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-layerbutton:before {
   content: url(../images/plusminus-nothing.svg);
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
   display: inline-block;
   vertical-align: text-bottom;
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 13px;
+  left: 13px;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-layerbutton.g4u-layerselector-menu-active {
   background: #29abe2;
@@ -1212,7 +1212,7 @@ a.ol-control,
   background: #29abe2;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-menu-content {
-  margin-left: 58px;
+  margin-left: 44px;
 }
 .notifyjs-benndorf-base {
   position: relative;
@@ -1275,8 +1275,8 @@ a.ol-control,
   background-image: url(../images/geolocation-active.svg);
 }
 .g4u-mobile .g4u-geolocation.g4u-control-mainbutton {
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -1290,10 +1290,10 @@ a.ol-control,
 .g4u-mobile .g4u-geolocation.g4u-control-mainbutton:before {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 34px;
-  height: 34px;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
   background-image: url(../images/geolocation-inactive.svg);
   background-repeat: no-repeat;
 }
@@ -1435,12 +1435,12 @@ a.ol-control,
 .g4u-mobile .g4u-control-mainbutton.g4u-languageswitcher {
   text-align: center;
   text-transform: uppercase;
-  font-size: 26px;
+  font-size: 18px;
 }
 .g4u-mobile .g4u-languageswitchermenu .g4u-control-mainbutton {
   text-align: center;
   text-transform: uppercase;
-  font-size: 26px;
+  font-size: 18px;
   display: none;
 }
 .g4u-mobile .g4u-languageswitcher-button {
@@ -1531,7 +1531,7 @@ a.ol-control,
   box-sizing: border-box;
   height: auto;
   cursor: default;
-  padding: 6px;
+  padding: 5px;
   background: white;
   color: black;
 }
@@ -1576,10 +1576,10 @@ a.ol-control,
   position: absolute;
 }
 .g4u-mobile .ol-overlaycontainer-stopevent > .g4u-window-decorator {
-  border-radius: 12px;
+  border-radius: 10px;
 }
 .g4u-mobile .ol-overlaycontainer-stopevent > .g4u-window-decorator > .g4u-control-mainbutton {
-  border-radius: 8px;
+  border-radius: 7px;
 }
 .ol-control {
   cursor: default;
@@ -1607,7 +1607,7 @@ a.ol-control,
   display: none;
 }
 .g4u-mobile .g4u-mobilecontrols {
-  bottom: 12px;
+  bottom: 10px;
   width: 100%;
   pointer-events: none;
 }
@@ -1615,28 +1615,28 @@ a.ol-control,
   margin-left: auto;
   margin-right: auto;
   display: table;
-  padding: 6px;
+  padding: 5px;
   background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
+  border-radius: 10px;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-container {
   display: inline-block;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-container .g4u-mobilecontrols-item-first .g4u-control-mainbutton {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-container .g4u-mobilecontrols-item-last .g4u-control-mainbutton {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-item {
   pointer-events: auto;
-  margin-left: 6px;
+  margin-left: 5px;
   padding: 0;
   display: inline-block;
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-item.g4u-mobilecontrols-item-first {
   margin-left: 0;
@@ -1645,13 +1645,13 @@ a.ol-control,
   top: -1px;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-move-left {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
   vertical-align: text-top;
   background-color: #0071bc;
   display: inline-block;
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -1666,21 +1666,21 @@ a.ol-control,
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-move-left:before {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 34px;
-  height: 34px;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
   background-image: url(../images/arrow-left.svg);
   background-repeat: no-repeat;
 }
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-move-right {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
   vertical-align: text-top;
   background-color: #0071bc;
   display: inline-block;
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -1694,10 +1694,10 @@ a.ol-control,
 .g4u-mobile .g4u-mobilecontrols .g4u-mobilecontrols-shift .g4u-mobilecontrols-move-right:before {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 34px;
-  height: 34px;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
   background-image: url(../images/arrow-right.svg);
   background-repeat: no-repeat;
 }
@@ -1706,8 +1706,8 @@ a.ol-control,
   background-color: #0071bc;
   padding: 0;
   display: inline-block;
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
 }
 .ol-control {
   cursor: default;
@@ -1764,8 +1764,8 @@ a.ol-control,
   background-repeat: no-repeat;
 }
 .g4u-mobile .g4u-infobutton .g4u-control-mainbutton {
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -1779,10 +1779,10 @@ a.ol-control,
 .g4u-mobile .g4u-infobutton .g4u-control-mainbutton:before {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 34px;
-  height: 34px;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
   background-image: url(../images/info.svg);
   background-repeat: no-repeat;
 }
@@ -1790,18 +1790,18 @@ a.ol-control,
   margin-top: 0;
   background: white;
   color: black;
-  padding: 6px;
+  padding: 5px;
 }
 .g4u-mobile .g4u-window-content .g4u-infobutton p {
-  margin-top: 6px;
+  margin-top: 5px;
   margin-bottom: 0;
 }
 .g4u-mobile .g4u-window-content .g4u-infobutton h3 {
   margin-top: 0;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .g4u-mobile .g4u-window-content .g4u-infobutton h4 {
-  margin-top: 6px;
+  margin-top: 5px;
 }
 .ol-control {
   cursor: default;
@@ -1849,8 +1849,8 @@ a.ol-control,
   background-repeat: no-repeat;
 }
 .g4u-mobile .g4u-link-button .g4u-control-mainbutton {
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -1864,10 +1864,10 @@ a.ol-control,
 .g4u-mobile .g4u-link-button .g4u-control-mainbutton:before {
   content: "";
   position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 34px;
-  height: 34px;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
   background-image: url(../images/home.svg);
   background-repeat: no-repeat;
 }
@@ -2013,8 +2013,8 @@ a.ol-control,
   padding: 0;
 }
 .g4u-mobile .g4u-helpbutton button.g4u-control-mainbutton {
-  width: 58px;
-  height: 58px;
+  width: 44px;
+  height: 44px;
   position: relative;
   padding: 0;
   color: transparent;
@@ -2028,10 +2028,10 @@ a.ol-control,
 .g4u-mobile .g4u-helpbutton button.g4u-control-mainbutton:before {
   content: "";
   position: absolute;
-  top: 6px;
-  left: 6px;
-  width: 46px;
-  height: 46px;
+  top: 4px;
+  left: 4px;
+  width: 36px;
+  height: 36px;
   background-image: url(../images/help.svg);
   background-repeat: no-repeat;
 }
@@ -2078,6 +2078,14 @@ a.ol-control,
   padding: 2px 6px;
   color: white;
   background: rgba(0, 113, 188, 0.7);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
   height: 16px;
   line-height: 16px;
   min-width: 22px;
@@ -2446,8 +2454,8 @@ a {
   box-sizing: content-box;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
-  font-size: 26px;
-  line-height: 32px;
+  font-size: 18px;
+  line-height: 23px;
   font-weight: 100;
   text-decoration: none;
 }
@@ -2456,7 +2464,7 @@ a {
 }
 .g4u-mobile h1,
 .g4u-mobile h2 {
-  font-size: 30px;
+  font-size: 21px;
 }
 .g4u-mobile h1,
 .g4u-mobile h3 {
@@ -2601,23 +2609,23 @@ a.ol-control,
   margin-left: auto;
   margin-right: auto;
   display: table;
-  height: 58px;
-  width: 298px;
+  height: 44px;
+  width: 228px;
   border: 2px solid #22246b;
-  border-radius: 8px;
+  border-radius: 7px;
   color: white;
   background: #2e3192;
   padding: 0;
-  padding-left: 18px;
-  font-size: 21px;
+  padding-left: 15px;
+  font-size: 15px;
 }
 .g4u-mobile .g4u-close-window-button button:after {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 10px;
+  right: 10px;
   content: url(../images/close.svg);
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
   display: inline-block;
   vertical-align: middle;
 }
