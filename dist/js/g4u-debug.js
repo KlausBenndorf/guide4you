@@ -4292,7 +4292,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.0.5'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.1.0'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
