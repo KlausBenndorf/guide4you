@@ -15,10 +15,10 @@ import {defaults} from './defaultconfig'
 import {Debug} from './Debug'
 
 import '../less/map.less'
+import { getRegisteredModules } from './moduleRegistration'
 
 /**
  * @typedef {object} G4UMapOptions
- * @property {Module[]} [modules=[]]
  * @property {L10N} [localiser]
  * @property {object.<string, Mutator>} [mutators]
  */
@@ -80,6 +80,8 @@ export class G4UMap extends ol.Map {
      */
     this.modules_ = []
 
+    this.addModules(getRegisteredModules())
+
     this.set('ready', false)
 
     this.on([ 'change:ready', 'change:ready:ui', 'change:ready:layers' ], /** ol.ObjectEvent */ e => {
@@ -87,10 +89,6 @@ export class G4UMap extends ol.Map {
         this.dispatchEvent(e.key)
       }
     })
-
-    if (options.modules) {
-      this.addModules(options.modules)
-    }
 
     // registering mutators
 
