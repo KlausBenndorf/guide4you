@@ -5,7 +5,6 @@ export class LayerLoadProcessCountMixin {
   initialize () {
     this.debounceLoadComplete_ = 40
 
-    let loadCompleteTimeout
     this.isLoading_ = false
 
     /**
@@ -13,6 +12,16 @@ export class LayerLoadProcessCountMixin {
      * @private
      */
     this.loadProcessCount_ = 0
+
+    if (this.getSource()) {
+      this.registerCounters_()
+    }
+
+    this.on('change:source', () => this.registerCounters_())
+  }
+
+  registerCounters_ () {
+    let loadCompleteTimeout
 
     this.getSource().on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], () => {
       this.loadProcessCount_ += 1

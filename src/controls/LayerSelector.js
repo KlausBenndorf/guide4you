@@ -506,7 +506,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   chooseButtonBuilder (layer, $target) {
     if (layer instanceof GroupLayer) {
       this.buildCategoryButton(layer, $target)
-    } else if (layer.getSource().isFeatureInfoCheckable) {
+    } else if (layer.getSource() && layer.getSource().isFeatureInfoCheckable) {
       this.buildWMSButton(layer, $target)
     } else {
       this.buildLayerButton(layer, $target)
