@@ -151,7 +151,7 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
    * @returns {number[]}
    */
   getIds () {
-    let ids = [this.get('id')]
+    let ids = this.get('id') !== undefined ? [this.get('id')] : []
 
     let array = this.getLayersArray()
 
