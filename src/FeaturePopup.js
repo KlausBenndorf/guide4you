@@ -2,9 +2,10 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
 
+import {ListenerOrganizerMixin} from './ListenerOrganizerMixin'
 import {Window} from './html/Window'
 import {cssClasses} from './globals'
-import {finishAllImages} from './utilities'
+import { finishAllImages, mixin } from './utilities'
 import {Debug} from './Debug'
 
 import '../less/featurepopup.less'
@@ -29,7 +30,7 @@ import '../less/featurepopup.less'
 /**
  * Displays a Popup bound to a geographical position via an ol.Overlay
  */
-export class FeaturePopup extends ol.Object {
+export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * @param {FeaturePopupOptions} options
    */
@@ -175,64 +176,9 @@ export class FeaturePopup extends ol.Object {
    * @param {G4UMap} map
    */
   setMap (map) {
-    let popup = this
-
-    let sourceOnFeatureRemove = function (e) {
-      if (e.feature === popup.getFeature()) {
-        let source = this
-        popup.referencingVisibleLayers_.forEach(function (layer) {
-          if (layer.getSource() === source) {
-            popup.removeReferencingLayer_(layer)
-          }
-        })
-      }
-    }
-
-    let layerOnChangeVisible = function () {
-      if (this.getVisible() === false) {
-        if (this.getSource().getFeatures().indexOf(popup.getFeature()) > -1) {
-          popup.removeReferencingLayer_(this)
-        }
-      } else {
-        if (this.getSource().getFeatures().indexOf(popup.getFeature()) > -1) {
-          popup.referencingVisibleLayers_.push(this)
-        }
-      }
-    }
-
-    let onForEachLayer = (layer) => {
-      if (layer.getSource && layer.getSource().getFeatures) {
-        layer.getSource().on('removefeature', sourceOnFeatureRemove)
-        layer.on('change:visible', layerOnChangeVisible)
-      }
-    }
-
-    let unForEachLayer = (layer) => {
-      if (layer.getSource && layer.getSource().getFeatures) {
-        layer.getSource().un('removefeature', sourceOnFeatureRemove)
-        layer.un('change:visible', layerOnChangeVisible)
-      }
-    }
-
-    let onLayerAdd = (e) => {
-      onForEachLayer(e.element)
-    }
-
-    let onMapChangeMobile = () => {
-      if (map.get('mobile')) {
-        this.centerOnPopup_ = false
-      } else {
-        this.centerOnPopup_ = this.centerOnPopupInitial_
-      }
-    }
-
     if (this.getMap()) {
-      this.getMap().removeInteraction(this.featureClick_)
-      this.getMap().getLayerGroup().recursiveForEach(unForEachLayer)
-      this.getMap().getLayerGroup().un('add', onLayerAdd)
-      this.getMap().removeInteraction(this.featureHover_)
+      this.detachAllListeners()
       this.getMap().removeOverlay(this.overlay_)
-      this.getMap().un('change:mobile', onMapChangeMobile)
     }
 
     if (map) {
@@ -240,7 +186,7 @@ export class FeaturePopup extends ol.Object {
 
       this.window_.get$Body().append(this.$name_).append(this.$description_)
 
-      this.window_.on('change:visible', () => {
+      this.listenAt(this.window_).on('change:visible', () => {
         if (!this.window_.getVisible()) {
           this.setVisible(false) // notifying the featurepopup about the closing of the window
         }
@@ -250,7 +196,7 @@ export class FeaturePopup extends ol.Object {
 
       // feature click
 
-      map.getDefaultInteractions('singleclick')[ 0 ].on('select', e => {
+      this.listenAt(map.getDefaultInteractions('singleclick')[ 0 ]).on('select', e => {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
           this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
@@ -261,7 +207,7 @@ export class FeaturePopup extends ol.Object {
 
       // feature hover
 
-      map.getDefaultInteractions('pointermove')[ 0 ].on('select', e => {
+      this.listenAt(map.getDefaultInteractions('pointermove')[ 0 ]).on('select', e => {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         let deselected = e.deselected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
@@ -273,8 +219,65 @@ export class FeaturePopup extends ol.Object {
 
       // hiding feature Popup if the layer gets hidden or the feature gets removed
 
-      map.getLayerGroup().recursiveForEach(onForEachLayer)
-      map.getLayerGroup().getLayers().on('add', onLayerAdd)
+      let forEachSource = (layer, source) => {
+        if (source.getFeatures) {
+          this.listenAt(source).on('removefeature', e => {
+            if (e.feature === this.getFeature()) {
+              this.referencingVisibleLayers_.forEach(function (layer) {
+                if (layer.getSource() === source) {
+                  this.removeReferencingLayer_(layer)
+                }
+              })
+            }
+          })
+        }
+      }
+
+      let forEachLayer = layer => {
+        if (layer.getSource) {
+          let source = layer.getSource()
+
+          if (source) {
+            forEachSource(layer, source)
+          }
+
+          this.listenAt(layer).on('change:source', e => {
+            this.detachFrom(e.oldValue)
+            forEachSource(layer, layer.getSource())
+          })
+
+          this.listenAt(layer).on('change:visible', () => {
+            let source = layer.getSource()
+            if (source && source.getFeatures) {
+              if (layer.getVisible() === false) {
+                if (source.getFeatures().indexOf(this.getFeature()) > -1) {
+                  this.removeReferencingLayer_(layer)
+                }
+              } else {
+                if (source.getFeatures().indexOf(this.getFeature()) > -1) {
+                  this.referencingVisibleLayers_.push(layer)
+                }
+              }
+            }
+          })
+        }
+
+        if (layer.getLayers) {
+          layer.getLayers().forEach(forEachLayer)
+          this.listenAt(layer.getLayers())
+            .on('add', e => {
+              forEachLayer(e.element)
+            })
+            .on('remove', e => {
+              if (e.element.getSource && e.element.getSource()) {
+                this.detachFrom(e.element.getSource())
+              }
+              this.detachFrom(e.element)
+            })
+        }
+      }
+
+      forEachLayer(map.getLayerGroup())
 
       map.addOverlay(this.overlay_)
 
@@ -286,8 +289,16 @@ export class FeaturePopup extends ol.Object {
         e.preventDefault()
       })
 
+      let onMapChangeMobile = () => {
+        if (map.get('mobile')) {
+          this.centerOnPopup_ = false
+        } else {
+          this.centerOnPopup_ = this.centerOnPopupInitial_
+        }
+      }
+
       onMapChangeMobile()
-      map.on('change:mobile', onMapChangeMobile)
+      this.listenAt(map).on('change:mobile', onMapChangeMobile)
 
       // limiting size
 

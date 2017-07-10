@@ -1,10 +1,10 @@
 import $ from 'jquery'
 
-import {Control} from './Control'
-import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
-import {mixin} from '../utilities'
-import {cssClasses} from '../globals'
-import {addTooltip} from '../html/html'
+import { Control } from './Control'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
+import { mixin } from '../utilities'
+import { cssClasses } from '../globals'
+import { addTooltip } from '../html/html'
 
 import '../../less/attribution.less'
 
@@ -114,47 +114,61 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
       if (layer.getVisible()) {
         this.addLayer(layer)
       }
-      layer.on('change:visible', () => {
-        if (layer.getVisible()) {
-          this.addLayer(layer)
-        } else {
-          this.removeLayer(layer)
-        }
-        this.updateList()
-      })
+      this.listenAt(layer)
+        .on('change:visible', () => {
+          if (layer.getVisible()) {
+            this.addLayer(layer)
+          } else {
+            this.removeLayer(layer)
+          }
+          this.updateList()
+        })
+        .on('change:source', () => {
+          if (layer.getVisible()) {
+            this.removeLayer(layer)
+            this.addLayer(layer)
+            this.updateList()
+          }
+        })
     }
   }
 
   addLayer (layer) {
-    let attributions = layer.getSource().getAttributions()
-    let label = layer.isBaseLayer
-      ? this.getLocaliser().localiseUsingDictionary('Attribution baseLayerLabel')
-      : layer.get('title')
-    if (attributions) {
-      for (let attribution of attributions) {
-        attribution = attribution.getHTML()
-        var layerTitles = this.visibleAttributions_.get(attribution)
-        if (!layerTitles) {
-          layerTitles = []
-          this.visibleAttributions_.set(attribution, layerTitles)
+    if (layer.getSource && layer.getSource()) {
+      let attributions = layer.getSource().getAttributions()
+      let label = layer.isBaseLayer
+        ? this.getLocaliser().localiseUsingDictionary('Attribution baseLayerLabel')
+        : layer.get('title')
+      if (attributions) {
+        for (let attribution of attributions) {
+          attribution = attribution.getHTML()
+          let layerTitles = this.visibleAttributions_.get(attribution)
+          if (!layerTitles) {
+            layerTitles = []
+            this.visibleAttributions_.set(attribution, layerTitles)
+          }
+          layerTitles.push(label)
         }
-        layerTitles.push(label)
       }
     }
   }
 
   removeLayer (layer) {
-    let attributions = layer.getSource().getAttributions()
-    let label = layer.isBaseLayer
-      ? this.getLocaliser().localiseUsingDictionary('Attribution baseLayerLabel')
-      : layer.get('title')
-    if (attributions) {
-      for (let attribution of attributions) {
-        attribution = attribution.getHTML()
-        var layerTitles = this.visibleAttributions_.get(attribution)
-        layerTitles.splice(layerTitles.indexOf(label), 1)
-        if (layerTitles.length === 0) {
-          this.visibleAttributions_.delete(attribution)
+    if (layer.getSource && layer.getSource()) {
+      let attributions = layer.getSource().getAttributions()
+      let label = layer.isBaseLayer
+        ? this.getLocaliser().localiseUsingDictionary('Attribution baseLayerLabel')
+        : layer.get('title')
+      if (attributions) {
+        for (let attribution of attributions) {
+          attribution = attribution.getHTML()
+          let layerTitles = this.visibleAttributions_.get(attribution)
+          if (layerTitles) {
+            layerTitles.splice(layerTitles.indexOf(label), 1)
+            if (layerTitles.length === 0) {
+              this.visibleAttributions_.delete(attribution)
+            }
+          }
         }
       }
     }

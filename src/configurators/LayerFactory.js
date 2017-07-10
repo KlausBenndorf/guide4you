@@ -1,15 +1,16 @@
 import ol from 'openlayers'
+import $ from 'jquery'
 
 import {BaseLayerImage, ImageLayer} from '../layers/ImageLayer'
 import {EmptyBaseLayer} from '../layers/EmptyBaseLayer'
-import {BaseLayerTile} from '../layers/BaseLayerTile'
-import {LayerTile} from '../layers/LayerTile'
+import {BaseTileLayer} from '../layers/BaseTileLayer'
+import {TileLayer} from '../layers/TileLayer'
 import {GroupLayer} from '../layers/GroupLayer'
 import {VectorLayer} from '../layers/VectorLayer'
 import {SourceServerVector} from '../sources/SourceServerVector'
 import {QuerySource} from '../sources/QuerySource'
-import { copyDeep, take } from '../utilitiesObject'
-import { checkFor, addProxy } from '../utilities'
+import { copyDeep, mergeDeep, take } from '../utilitiesObject'
+import { checkFor, addProxy, addParamToURL } from '../utilities'
 
 import {Debug} from '../Debug'
 import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
@@ -27,6 +28,7 @@ export const LayerType = {
   KML: 'KML',
   WMS: 'WMS',
   TILEWMS: 'TileWMS',
+  WMTS: 'WMTS',
   OSM: 'OSM',
   INTERN: 'Intern',
   EMPTY: 'Empty'
@@ -280,9 +282,9 @@ export class LayerFactory {
         optionsCopy.source = new ol.source.OSM(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
-          layer = new BaseLayerTile(optionsCopy)
+          layer = new BaseTileLayer(optionsCopy)
         } else {
-          layer = new LayerTile(optionsCopy)
+          layer = new TileLayer(optionsCopy)
         }
         break
       case LayerType.WMS:
@@ -320,11 +322,11 @@ export class LayerFactory {
         optionsCopy.source = new TileWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
-          layer = new BaseLayerTile(optionsCopy)
+          layer = new BaseTileLayer(optionsCopy)
         } else if (superType === SuperType.QUERYLAYER) {
           this.superTypeNotSupported(layerType, superType)
         } else {
-          layer = new LayerTile(optionsCopy)
+          layer = new TileLayer(optionsCopy)
         }
 
         if (layer.getSource().hasFeatureInfo()) {
@@ -334,6 +336,18 @@ export class LayerFactory {
             }
           })
         }
+
+        break
+      case LayerType.WMTS:
+        let sourceOptions = take(optionsCopy, 'source')
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+
+        this.setWMTSSourceFromCapabilities(layer, sourceOptions)
 
         break
       case LayerType.GEOJSON:
@@ -584,5 +598,21 @@ export class LayerFactory {
     }
 
     return feature
+  }
+
+  setWMTSSourceFromCapabilities (layer, sourceOptions) {
+    let url = addParamToURL(sourceOptions.url, 'Service=WMTS')
+    url = addParamToURL(url, 'Request=GetCapabilities')
+    $.ajax({
+      url,
+      dataType: 'text xml',
+      crossDomain: true,
+      success: data => {
+        let wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
+        let capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
+        sourceOptions = mergeDeep(sourceOptions, capOptions)
+        layer.setSource(new ol.source.WMTS(sourceOptions))
+      }
+    })
   }
 }
