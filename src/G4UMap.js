@@ -109,12 +109,6 @@ export class G4UMap extends ol.Map {
       this.setTarget($(target).get(0))
     }
 
-    $(this.getTarget()).on('contextmenu', (e) => {
-      if (!$(e.target).is('input[type=text]') && !$(e.target).is('textarea')) {
-        e.preventDefault()
-      }
-    })
-
     // set the display mode to desktop initially to render overviewmpa correctly
     $(this.getTarget()).children().addClass(cssClasses.desktop)
 
