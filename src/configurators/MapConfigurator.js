@@ -18,6 +18,7 @@ import {Debug} from '../Debug'
 /**
  * @typedef {Object} MapConfig
  * @property {Boolean} [userActionTracking]
+ * @property {boolean} [enableContextMenu=false] enables the contextMenu outside of textinput fields
  * @property {g4uViewOptions} view
  * @property {string} [interfaceProjection='EPSG:4326']
  * @property {string} [mapProjection] will be infered from map data if not set
@@ -155,6 +156,14 @@ export class MapConfigurator {
      * @type {MapConfig}
      */
     let mapConfigCopy = copyDeep(this.map_.get('mapConfig'))
+
+    if (!mapConfigCopy.enableContextMenu) {
+      $(this.map_.getTarget()).on('contextmenu', e => {
+        if (!$(e.target).is('input[type=text]') && !$(e.target).is('textarea')) {
+          e.preventDefault()
+        }
+      })
+    }
 
     this.map_.set('userActionTracking', mapConfigCopy.userActionTracking)
 

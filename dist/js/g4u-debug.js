@@ -3308,7 +3308,7 @@ var GroupLayer = exports.GroupLayer = function (_mixin) {
   }, {
     key: 'getIds',
     value: function getIds() {
-      var ids = [this.get('id')];
+      var ids = this.get('id') !== undefined ? [this.get('id')] : [];
 
       var array = this.getLayersArray();
 
@@ -4292,7 +4292,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.1.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.1.1'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -4361,12 +4361,6 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
     } else {
       _this.setTarget((0, _jquery2.default)(target).get(0));
     }
-
-    (0, _jquery2.default)(_this.getTarget()).on('contextmenu', function (e) {
-      if (!(0, _jquery2.default)(e.target).is('input[type=text]') && !(0, _jquery2.default)(e.target).is('textarea')) {
-        e.preventDefault();
-      }
-    });
 
     // set the display mode to desktop initially to render overviewmpa correctly
     (0, _jquery2.default)(_this.getTarget()).children().addClass(_globals.cssClasses.desktop);
@@ -14684,6 +14678,7 @@ _openlayers2.default.proj.setProj4(_proj2.default);
 /**
  * @typedef {Object} MapConfig
  * @property {Boolean} [userActionTracking]
+ * @property {boolean} [enableContextMenu=false] enables the contextMenu outside of textinput fields
  * @property {g4uViewOptions} view
  * @property {string} [interfaceProjection='EPSG:4326']
  * @property {string} [mapProjection] will be infered from map data if not set
@@ -14834,6 +14829,14 @@ var MapConfigurator = exports.MapConfigurator = function () {
        * @type {MapConfig}
        */
       var mapConfigCopy = (0, _utilitiesObject.copyDeep)(this.map_.get('mapConfig'));
+
+      if (!mapConfigCopy.enableContextMenu) {
+        (0, _jquery2.default)(this.map_.getTarget()).on('contextmenu', function (e) {
+          if (!(0, _jquery2.default)(e.target).is('input[type=text]') && !(0, _jquery2.default)(e.target).is('textarea')) {
+            e.preventDefault();
+          }
+        });
+      }
 
       this.map_.set('userActionTracking', mapConfigCopy.userActionTracking);
 
