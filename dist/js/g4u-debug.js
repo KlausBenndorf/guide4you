@@ -22854,79 +22854,96 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Query = undefined;
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _xssprotection = __webpack_require__(95);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Query = exports.Query = function Query(possibleKeys, excluded) {
-  var _this = this;
+var Query = exports.Query = function () {
+  function Query(possibleKeys, excluded) {
+    _classCallCheck(this, Query);
 
-  _classCallCheck(this, Query);
+    /**
+     * All parsed values as key value pairs.
+     * @type {object.<string,string>}
+     * @private
+     */
+    this.queryValues_ = {};
+    this.parameterKeys_ = possibleKeys;
 
-  /**
-   * All parsed values as key value pairs.
-   * @type {object.<string,string>}
-   * @private
-   */
-  this.queryValues_ = {};
-  this.parameterKeys_ = possibleKeys;
+    this.excluded_ = excluded;
 
-  this.excluded_ = excluded;
+    // some helper functions to be used in the parameter definitions
 
-  // some helper functions to be used in the parameter definitions
+    var keyValuePair = void 0;
+    var queryString = window.location.search;
 
-  this.isSet = function (key) {
-    return _this.queryValues_.hasOwnProperty(key);
-  };
+    if (queryString !== '') {
+      // Nothing to be done if search string is absent
+      // Remove initial '?', split search at '&', result is supposed to be 'key=value' list
+      var assignmentList = queryString.substring(1).split('&');
 
-  this.getSanitizedVal = function (key) {
-    return (0, _xssprotection.filterText)(_this.queryValues_[key]);
-  };
+      // iterated over all assignmentList elements
+      for (var i = 0; i < assignmentList.length; i += 1) {
+        // Skip elements without '='
+        if (assignmentList[i].indexOf('=') > -1) {
+          // Split assignment at '='
+          keyValuePair = assignmentList[i].split('=');
 
-  this.getInjectUnsafeVal = function (key) {
-    return _this.queryValues_[key];
-  };
+          // Use URL-decoded 1st (2nd) element of assignment as key (value)
+          // Decoding takes place this late in code as premature URI-decoding may interfere with parsing
+          var key = decodeURIComponent(keyValuePair[0]).trim().toLowerCase();
+          var value = decodeURIComponent(keyValuePair[1]).trim();
 
-  this.isExcluded = function (key) {
-    return _this.excluded_.indexOf(key) > -1;
-  };
-
-  this.isTrue = function (key) {
-    return _this.isSet(key) && !!JSON.parse(_this.getSanitizedVal(key));
-  };
-
-  this.getArray = function (key) {
-    return _this.queryValues_[key].split(',');
-  };
-
-  var keyValuePair = void 0;
-  var queryString = window.location.search;
-
-  if (queryString !== '') {
-    // Nothing to be done if search string is absent
-    // Remove initial '?', split search at '&', result is supposed to be 'key=value' list
-    var assignmentList = queryString.substring(1).split('&');
-
-    // iterated over all assignmentList elements
-    for (var i = 0; i < assignmentList.length; i += 1) {
-      // Skip elements without '='
-      if (assignmentList[i].indexOf('=') > -1) {
-        // Split assignment at '='
-        keyValuePair = assignmentList[i].split('=');
-
-        // Use URL-decoded 1st (2nd) element of assignment as key (value)
-        // Decoding takes place this late in code as premature URI-decoding may interfere with parsing
-        var key = decodeURIComponent(keyValuePair[0]).trim().toLowerCase();
-        var value = decodeURIComponent(keyValuePair[1]).trim();
-
-        // Skip unsupported keys
-        if (this.parameterKeys_.indexOf(key) > -1) {
-          this.queryValues_[key] = value; // store key and value
+          // Skip unsupported keys
+          if (this.parameterKeys_.indexOf(key) > -1) {
+            this.queryValues_[key] = value; // store key and value
+          }
         }
       }
     }
   }
-};
+
+  _createClass(Query, [{
+    key: 'isSet',
+    value: function isSet(key) {
+      return this.queryValues_.hasOwnProperty(key);
+    }
+  }, {
+    key: 'getSanitizedVal',
+    value: function getSanitizedVal(key) {
+      return (0, _xssprotection.filterText)(this.queryValues_[key]);
+    }
+  }, {
+    key: 'getInjectUnsafeVal',
+    value: function getInjectUnsafeVal(key) {
+      return this.queryValues_[key];
+    }
+  }, {
+    key: 'isExcluded',
+    value: function isExcluded(key) {
+      return this.excluded_.indexOf(key) > -1;
+    }
+  }, {
+    key: 'isTrue',
+    value: function isTrue(key) {
+      return this.isSet(key) && !!JSON.parse(this.getSanitizedVal(key));
+    }
+  }, {
+    key: 'getArray',
+    value: function getArray(key) {
+      return this.queryValues_[key].split(',');
+    }
+  }, {
+    key: 'addValue',
+    value: function addValue(key, value) {
+      this.queryValues_[key] = value;
+    }
+  }]);
+
+  return Query;
+}();
 
 /***/ }),
 /* 244 */
@@ -23124,8 +23141,7 @@ var URLAPI = exports.URLAPI = function () {
         var match = queryString.match(new RegExp(key + '=(.*?)(&|$)', 'i'));
         if (match) {
           var value = match[1];
-          _Debug.Debug.info(value);
-          this.queryValues[key] = value.split(',');
+          this.query_.addValue(key, value);
         }
 
         // get
@@ -23139,8 +23155,8 @@ var URLAPI = exports.URLAPI = function () {
         this.initialValues_[key] = get()[key];
 
         // set
-        if (this.queryValues.hasOwnProperty(key)) {
-          layer.getSource().setQueryValues(this.queryValues[key]);
+        if (this.query_.isSet(key)) {
+          layer.getSource().setQueryValues(this.query_.getArray(key));
           layer.setVisible(true);
         }
       }
@@ -23155,7 +23171,7 @@ var URLAPI = exports.URLAPI = function () {
   }, {
     key: 'get',
     value: function get(key) {
-      return this.queryValues[key];
+      return this.query_.get(key);
     }
 
     /**
