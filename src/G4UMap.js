@@ -78,9 +78,9 @@ export class G4UMap extends ol.Map {
      * @type {Module[]}
      * @private
      */
-    this.modules_ = []
+    options.modules_ = options.modules || []
 
-    this.addModules(getRegisteredModules())
+    this.addModules(options.modules)
 
     this.set('ready', false)
 
