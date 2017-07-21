@@ -1,4 +1,5 @@
-import {createMapInternal} from 'guide4you/src/main'
+import { createMapInternal } from 'guide4you/src/main'
+import { registerModule } from 'guide4you/src/moduleRegistration'
 
 import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
 import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!guide4you/conf/simple/layers.commented.json'
@@ -39,10 +40,10 @@ import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 import {SearchModule} from 'src/SearchModule'
 import {NominatimSearchConnector} from 'src/NominatimSearchConnector'
 
+registerModule(new SearchModule({ connectors: { nominatim: NominatimSearchConnector } }));
+
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal('#g4u-map', clientConf, layerConf, [
-    new SearchModule({ connectors: { nominatim: NominatimSearchConnector } })
-  ])
+  return createMapInternal('#g4u-map', clientConf, layerConf)
 }
 
 export * from 'guide4you/src/exports'
