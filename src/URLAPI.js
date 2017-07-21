@@ -141,8 +141,7 @@ export class URLAPI {
       let match = queryString.match(new RegExp(key + '=(.*?)(&|$)', 'i'))
       if (match) {
         let value = match[ 1 ]
-        Debug.info(value)
-        this.queryValues[ key ] = value.split(',')
+        this.query_.addValue(key, value)
       }
 
       // get
@@ -156,8 +155,8 @@ export class URLAPI {
       this.initialValues_[ key ] = get()[ key ]
 
       // set
-      if (this.queryValues.hasOwnProperty(key)) {
-        layer.getSource().setQueryValues(this.queryValues[ key ])
+      if (this.query_.isSet(key)) {
+        layer.getSource().setQueryValues(this.query_.getArray(key))
         layer.setVisible(true)
       }
     }
@@ -169,7 +168,7 @@ export class URLAPI {
    * @returns {string}
    */
   get (key) {
-    return this.queryValues[ key ]
+    return this.query_.get(key)
   }
 
   /**
