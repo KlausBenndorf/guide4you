@@ -3,9 +3,9 @@ import $ from 'jquery'
 
 import { copyDeep, copy } from './utilitiesObject'
 import { checkFor } from './utilities'
-import {Debug} from './Debug'
+import { Debug } from './Debug'
 
-import {parseCSSColor} from 'csscolorparser'
+import { parseCSSColor } from 'csscolorparser'
 
 /**
  * @typedef {string|StyleObject|ol.style.Style} StyleLike
@@ -65,6 +65,7 @@ export class Styling {
    * @param {Object} [options]
    * @param {Object} [options.styleConfigMap]
    * @param {number} [options.globalIconScale]
+   * @param {boolean} [options.manageStyles=true]
    */
   constructor (options = {}) {
     /**
@@ -143,6 +144,8 @@ export class Styling {
     this.nullStyle_ = new ol.style.Style({
       image: null
     })
+
+    this.manageStyles_ = options.manageStyles !== false
   }
 
   /**
@@ -213,9 +216,7 @@ export class Styling {
       }
     }
 
-    let style = new ol.style.Style(styleOptions)
-
-    return style
+    return new ol.style.Style(styleOptions)
   }
 
   getConfigFromStyle (style) {
@@ -352,51 +353,57 @@ export class Styling {
   }
 
   manageFeature (feature) {
-    let style = feature.getStyle()
-    if (style && !feature.get('managedStyle')) {
-      feature.set('managedStyle', style)
-      feature.setStyle(this.managingFeatureStyle_)
+    if (this.manageStyles_) {
+      let style = feature.getStyle()
+      if (style && !feature.get('managedStyle')) {
+        feature.set('managedStyle', style)
+        feature.setStyle(this.managingFeatureStyle_)
+      }
     }
   }
 
   manageFeatureCollection (collection) {
-    collection.forEach(feature => {
-      this.manageFeature(feature)
-    })
+    if (this.manageStyles_) {
+      collection.forEach(feature => {
+        this.manageFeature(feature)
+      })
 
-    collection.on('add', e => {
-      this.manageFeature(e.element)
-    })
+      collection.on('add', e => {
+        this.manageFeature(e.element)
+      })
+    }
   }
 
   manageLayer (layer) {
-    let style = layer.getStyle()
+    if (this.manageStyles_) {
+      let style = layer.getStyle()
 
-    if (style && !layer.get('managedStyle')) {
-      layer.set('managedStyle', layer.getStyle())
+      if (style && !layer.get('managedStyle')) {
+        layer.set('managedStyle', layer.getStyle())
 
-      layer.setStyle((feature, resolution) => {
-        let style = layer.get('managedStyle')
-        if ($.isFunction(style)) {
-          style = style.call(feature, resolution)
-        }
-        if (!style) {
-          style = this.getStyle('#defaultStyle')
-        }
-        if ($.isArray(style)) {
-          return style.map(s => this.adjustStyle_(feature, s))
-        } else {
-          return this.adjustStyle_(feature, style)
-        }
+        layer.setStyle((feature, resolution) => {
+          let style = layer.get('managedStyle')
+          if ($.isFunction(style)) {
+            style = style.call(feature, resolution)
+          }
+          if (!style) {
+            style = this.getStyle('#defaultStyle')
+          }
+          if ($.isArray(style)) {
+            return style.map(s => this.adjustStyle_(feature, s))
+          } else {
+            return this.adjustStyle_(feature, style)
+          }
+        })
+      }
+
+      layer.getSource().getFeatures().forEach(feature => {
+        this.manageFeature(feature)
+      })
+
+      layer.getSource().on('addfeature', e => {
+        this.manageFeature(e.feature)
       })
     }
-
-    layer.getSource().getFeatures().forEach(feature => {
-      this.manageFeature(feature)
-    })
-
-    layer.getSource().on('addfeature', e => {
-      this.manageFeature(e.feature)
-    })
   }
 }
