@@ -306,7 +306,7 @@ export class Styling {
     let image = style.getImage()
     if (image) {
       let origScale = style.getImage().getScale() || 1
-      image.setScale(origScale * this.globalIconScale_)
+      image.setScale(origScale * this.getGlobalIconScale())
     }
   }
 
