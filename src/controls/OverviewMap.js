@@ -1,5 +1,6 @@
 import ol from 'openlayers'
 import {RewireMixin} from './RewireMixin'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import {mixin} from '../utilities'
 
 import '../../less/overviewmap.less'
@@ -12,7 +13,7 @@ import '../../less/overviewmap.less'
 /**
  * @extends Control
  */
-export class OverviewMap extends mixin(ol.control.OverviewMap, RewireMixin) {
+export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin), ListenerOrganizerMixin) {
   /**
    * @param {OverviewMapOptions} [options={}]
    */
@@ -29,6 +30,9 @@ export class OverviewMap extends mixin(ol.control.OverviewMap, RewireMixin) {
   }
 
   setMap (map) {
+    if (this.getMap()) {
+      this.detachAllListeners()
+    }
     super.setMap(map)
     if (map) {
       let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
@@ -37,7 +41,7 @@ export class OverviewMap extends mixin(ol.control.OverviewMap, RewireMixin) {
 
       let dontClick = false
 
-      $overviewmap.on('click', e => {
+      this.listenAt($overviewmap).on('click', e => {
         if (!dontClick) {
           map.getView().setCenter(this.getOverviewMap().getEventCoordinate(e))
         }
@@ -45,16 +49,16 @@ export class OverviewMap extends mixin(ol.control.OverviewMap, RewireMixin) {
 
       let mouseDown = false
 
-      $overviewmap.on('mousedown', () => {
+      this.listenAt($overviewmap).on('mousedown', () => {
         dontClick = false
         mouseDown = true
       })
 
-      $overviewmap.on('mouseup', e => {
+      this.listenAt($overviewmap).on('mouseup', e => {
         mouseDown = false
       })
 
-      $overviewmap.on('mousemove', e => {
+      this.listenAt($overviewmap).on('mousemove', e => {
         if (mouseDown) {
           map.getView().setCenter(this.getOverviewMap().getEventCoordinate(e))
         }
@@ -64,6 +68,9 @@ export class OverviewMap extends mixin(ol.control.OverviewMap, RewireMixin) {
         mouseDown = false
         dontClick = true
       })
+
+      let $button = this.get$Element().find('button')
+      this.listenAt($button).on('click', () => this.dispatchEvent('change:size'))
     }
   }
 }

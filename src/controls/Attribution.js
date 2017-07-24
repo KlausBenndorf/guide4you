@@ -28,7 +28,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     this.setCollapsed(options.collapsed === true)
   }
 
-  setCollapsed (collapsed) {
+  setCollapsed (collapsed, silent) {
     let oldValue = this.collapsed_
     if (oldValue !== collapsed) {
       this.collapsed_ = collapsed
@@ -36,6 +36,9 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
         type: 'change:collapsed',
         oldValue
       })
+      if (!silent) {
+        this.dispatchEvent('change:size')
+      }
       this.get$Element().toggleClass(cssClasses.collapsed, collapsed)
     }
   }
@@ -96,6 +99,9 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
       text += ': ' + attribution
       this.$list_.append($('<li>').html(text))
     })
+    if (!this.getCollapsed()) {
+      this.dispatchEvent('change:size')
+    }
   }
 
   forEachLayer (layer) {
