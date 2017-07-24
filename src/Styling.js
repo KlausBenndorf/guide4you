@@ -359,6 +359,16 @@ export class Styling {
     }
   }
 
+  manageFeatureCollection (collection) {
+    collection.forEach(feature => {
+      this.manageFeature(feature)
+    })
+
+    collection.on('add', e => {
+      this.manageFeature(e.element)
+    })
+  }
+
   manageLayer (layer) {
     let style = layer.getStyle()
 

@@ -49,8 +49,20 @@
           "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
         }
       }
+    },
+    {
+      "id": "b4",
+      "title": "Luftbilder WMTS",
+      "type": "WMTS",
+      "source": {
+        "url": "http://www.wmts.nrw.de/geobasis/wmts_nw_dop20",
+        "useProxy": true,
+        "config": {
+          "layer": "nw_dop20"
+        },
+        "attribution": "asdaasd"
+      }
     }
-
   ],
   "featureLayers": [
     {
