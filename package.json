@@ -41,7 +41,7 @@
     "http-server": "^0.10.0",
     "mocha": "3.4.2",
     "phantomjs-prebuilt": "2.1.14",
-    "selenium-webdriver": "3.4.0",
+    "selenium-webdriver": "3.5.0",
     "standard": "10.0.2",
     "wait-on": "^2.0.2"
   },
