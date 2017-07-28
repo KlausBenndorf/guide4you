@@ -31,7 +31,9 @@ export const LayerType = {
   WMTS: 'WMTS',
   OSM: 'OSM',
   INTERN: 'Intern',
-  EMPTY: 'Empty'
+  EMPTY: 'Empty',
+  XYZ: 'XYZ',
+  BING: 'Bing'
 }
 
 /**
@@ -225,7 +227,6 @@ export class LayerFactory {
         })
         break
       case LayerType.CATEGORY:
-
         layerConfigs = take(optionsCopy, 'layers')
 
         layer = new GroupLayer(optionsCopy)
@@ -271,8 +272,16 @@ export class LayerFactory {
           layer = new VectorLayer(optionsCopy)
         }
         break
-      case LayerType.OSM:
+      case LayerType.XYZ:
+        optionsCopy.source = new ol.source.XYZ(optionsCopy.source)
 
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.OSM:
         optionsCopy.source = new ol.source.OSM(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -281,8 +290,16 @@ export class LayerFactory {
           layer = new TileLayer(optionsCopy)
         }
         break
-      case LayerType.WMS:
+      case LayerType.BING:
+        optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
 
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.WMS:
         if (optionsCopy.categoryButtons) {
           optionsCopy.source.params.LAYERS = []
         }
@@ -307,7 +324,6 @@ export class LayerFactory {
 
         break
       case LayerType.TILEWMS:
-
         if (optionsCopy.source.tileSize) {
           optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
           delete optionsCopy.source.tileSize
@@ -362,7 +378,6 @@ export class LayerFactory {
         layer = new VectorLayer(optionsCopy)
         break
       case LayerType.KML:
-
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
 
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
