@@ -14,6 +14,7 @@ import { checkFor, addProxy, addParamToURL } from '../utilities'
 
 import {Debug} from '../Debug'
 import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
+import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -218,7 +219,11 @@ export class LayerFactory {
 
         layerConfigs = take(optionsCopy, 'layers')
 
-        layer = new ol.layer.Group(optionsCopy)
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseSilentGroupLayer(optionsCopy)
+        } else {
+          layer = new SilentGroupLayer(optionsCopy)
+        }
 
         this.addLayers(layer, layerConfigs, superType, true)
 

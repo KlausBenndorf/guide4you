@@ -111,6 +111,12 @@ export class GeolocationButton extends Control {
    * @param {G4UMap} map
    */
   setMap (map) {
+    if (this.getMap()) {
+      this.getMap().getLayers().remove(this.layer_)
+    }
+
+    super.setMap(map)
+
     if (map) {
       let projection = map.getView().getProjection()
       this.geolocation_.setProjection(projection)
@@ -121,10 +127,7 @@ export class GeolocationButton extends Control {
       this.layer_.setStyle(map.get('styling').getStyle(this.style_))
       map.get('styling').manageLayer(this.layer_)
       map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are
-    } else {
-      this.getMap().getLayers().remove(this.layer_)
     }
-    super.setMap(map)
   }
 
   /**
