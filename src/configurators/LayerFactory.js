@@ -157,8 +157,6 @@ export class LayerFactory {
       // visibility
       this.configureLayerVisibility_(optionsCopy)
 
-      let style = take(optionsCopy, 'style')
-
       layer = this.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
 
       let forEachLayer = layer => {
@@ -168,12 +166,6 @@ export class LayerFactory {
       if (layer instanceof ol.Collection) {
         layer.forEach(forEachLayer)
       } else {
-        // styling
-        if (layer.setStyle) {
-          layer.setStyle(this.map_.get('styling').getStyle(style))
-          this.map_.get('styling').manageLayer(layer)
-        }
-
         forEachLayer(layer)
       }
     }
@@ -216,6 +208,8 @@ export class LayerFactory {
       optionsCopy.source.localiser = this.map_.get('localiser')
       localised = optionsCopy.source.localised
     }
+
+    let style = take(optionsCopy, 'style')
 
     switch (layerType) {
       case LayerType.SILENTGROUP:
@@ -352,7 +346,7 @@ export class LayerFactory {
         break
       case LayerType.GEOJSON:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
-        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(optionsCopy.style || '#defaultStyle')
+        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
 
         optionsCopy.source.type = 'GeoJSON'
 
@@ -371,7 +365,7 @@ export class LayerFactory {
 
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
 
-        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(optionsCopy.style || '#defaultStyle')
+        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
 
         optionsCopy.source.type = 'KML'
 
@@ -413,6 +407,12 @@ export class LayerFactory {
 
     if (!layer) {
       throw new Error(`layer with type '${optionsCopy.type}' could not be created.`)
+    }
+
+    // styling
+    if (layer.setStyle) {
+      layer.setStyle(this.map_.get('styling').getStyle(style))
+      this.map_.get('styling').manageLayer(layer)
     }
 
     // if layer is a baselayer, check for mapProjection

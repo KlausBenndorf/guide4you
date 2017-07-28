@@ -223,9 +223,9 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         if (source.getFeatures) {
           this.listenAt(source).on('removefeature', e => {
             if (e.feature === this.getFeature()) {
-              this.referencingVisibleLayers_.forEach(function (layer) {
-                if (layer.getSource() === source) {
-                  this.removeReferencingLayer_(layer)
+              this.referencingVisibleLayers_.forEach(rLay => {
+                if (rLay.getSource() === source) {
+                  this.removeReferencingLayer_(rLay)
                 }
               })
             }
@@ -284,7 +284,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       this.$element_.parent().addClass(this.className_ + '-container')
 
       // disable scrolling of body and zooming into map while in the feature popup
-      this.window_.get$Element().on('mousewheel wheel DOMMouseScroll', function (e) {
+      this.window_.get$Element().on('mousewheel wheel DOMMouseScroll', e => {
         e.stopPropagation()
         e.preventDefault()
       })

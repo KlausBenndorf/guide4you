@@ -112,7 +112,7 @@ export class API extends ol.Object {
 
     let style = this.map_.get('styling').getStyle(styleConf)
 
-    this.map_.get('styling').styleCollection(collection, style)
+    this.map_.get('styling').manageFeatureCollection(collection)
 
     this.featureManipulationInteraction_ = new ol.interaction.Draw({
       features: collection,

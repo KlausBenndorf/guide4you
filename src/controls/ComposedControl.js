@@ -171,6 +171,7 @@ export class ComposedControl extends Control {
     }
 
     control.on('change', e => this.dispatchEvent(e))
+    control.on('change:size', e => this.dispatchEvent(e))
 
     this.controls_.push(control)
 

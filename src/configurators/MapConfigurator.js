@@ -29,6 +29,8 @@ import {Debug} from '../Debug'
  *    is recommended that identifiers start with a #. The {{StyleObject}} with the identifier '#defaultStyle' will be
  *    used as a default Style in the whole Software
  * @property {number} [scaleIcons] a default scaling for all used feature icons
+ * @property {boolean} [manageStyles=true] set this to false to disable style managing. This disables scaleIcons,
+ *    mobileScaleIcons, feature hiding and adjustable style opacity
  * @property {ProjectionConfig[]} [additionalProjections]
  * @property {Object} [api] API-Options
  * @property {string} [loadingStrategy='ALL'] global loading strategy. Can have the values 'BBOX' or 'ALL'.
@@ -181,14 +183,21 @@ export class MapConfigurator {
 
     // has to be done before configureLayers ... -> promise?
 
-    if (mapConfigCopy.hasOwnProperty('styleMap')) {
-      this.map_.set('styling', new Styling({ styleConfigMap: mapConfigCopy.styleMap }))
-    } else {
-      this.map_.set('styling', new Styling())
+    let stylingOptions = {}
+
+    if (mapConfigCopy.hasOwnProperty('manageStyles')) {
+      stylingOptions.manageStyles = mapConfigCopy.manageStyles
     }
 
-    this.map_.set('scaleIcons', (mapConfigCopy.hasOwnProperty('scaleIcons')) ? mapConfigCopy.scaleIcons : 1)
-    this.map_.get('styling').setGlobalIconScale(this.map_.get('scaleIcons'))
+    if (mapConfigCopy.hasOwnProperty('styleMap')) {
+      stylingOptions.styleConfigMap = mapConfigCopy.styleMap
+    }
+
+    let scaleIcons = mapConfigCopy.hasOwnProperty('scaleIcons') ? mapConfigCopy.scaleIcons : 1
+    stylingOptions.scaleIcons = scaleIcons
+
+    this.map_.set('scaleIcons', scaleIcons)
+    this.map_.set('styling', new Styling(stylingOptions))
 
     // //////////////////////////////////////////////////////////////////////////////////////// //
     //                                      Projections                                         //

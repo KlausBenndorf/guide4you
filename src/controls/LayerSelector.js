@@ -120,8 +120,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   /**
    * @param {boolean} collapsed
    */
-  setCollapsed (collapsed) {
-    this.menu_.setCollapsed(collapsed)
+  setCollapsed (collapsed, silent) {
+    if (collapsed !== this.menu_.getCollapsed()) {
+      this.menu_.setCollapsed(collapsed, silent)
+    }
   }
 
   addWindowToButton ($button, layer) {
@@ -312,7 +314,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       $nextTarget = menu.get$Body()
 
       this.listenAt(menu)
-        .on('change:collapsed', () => this.changed())
+        .on('change:collapsed', () => {
+          this.dispatchEvent('change:size')
+          this.changed()
+        })
     }
 
     for (let childLayer of categoryLayer.getLayers().getArray()) {
@@ -408,7 +413,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         $target.append(menu.get$Element())
 
         this.listenAt(menu)
-          .on('change:collapsed', () => this.changed())
+          .on('change:collapsed', () => {
+            this.dispatchEvent('change:size')
+            this.changed()
+          })
 
         let activeClassName = this.classNames_.menu + '-active'
 
@@ -518,23 +526,38 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    */
   setMap (map) {
     if (this.getMap()) {
-      this.detachAllListeners()
+      this.clear()
     }
 
     super.setMap(map)
 
     if (map) {
-      this.layers_ = map.get(this.layerGroupName_).getLayers()
-      if (this.layers_.getLength() >= this.minLayerAmount_) {
-        let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
-        for (let layer of this.layers_.getArray()) {
-          this.chooseButtonBuilder(layer, this.menu_.get$Body())
-        }
-        menuFunctions.giveLastVisible(this.get$Element().children(':last-child').children(':last-child'))
-      } else {
-        this.setVisible(false)
-      }
+      this.build()
     }
+  }
+
+  clear () {
+    this.detachAllListeners()
+    this.menu_.get$Body().empty()
+  }
+
+  build () {
+    this.layers_ = this.getMap().get(this.layerGroupName_).getLayers()
+    if (this.layers_.getLength() >= this.minLayerAmount_) {
+      let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
+      for (let layer of this.layers_.getArray()) {
+        this.chooseButtonBuilder(layer, this.menu_.get$Body())
+      }
+      menuFunctions.giveLastVisible(this.get$Element().children(':last-child').children(':last-child'))
+      this.listenAt(this.menu_).on('change:collapsed', () => this.dispatchEvent('change:size'))
+    } else {
+      this.setVisible(false)
+    }
+  }
+
+  rebuild () {
+    this.clear()
+    this.build()
   }
 
   /**

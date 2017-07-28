@@ -146,7 +146,7 @@ export class ButtonBox extends ol.Object {
 
     this.$element_.append(this.$body_)
 
-    // this.$element_.collapsed_ will be setted in the following functions
+    // this.collapsed_ will be setted in the following functions
     if (!this.collapsed_) {
       this.setCollapsed(false)
     } else {
@@ -157,7 +157,7 @@ export class ButtonBox extends ol.Object {
   /**
    * @param {boolean} collapsed
    */
-  setCollapsed (collapsed) {
+  setCollapsed (collapsed, silent) {
     if (collapsed) {
       this.$body_.addClass(cssClasses.hidden)
       this.$element_.addClass(this.classNames_.collapsed)
@@ -169,7 +169,9 @@ export class ButtonBox extends ol.Object {
     this.collapsed_ = collapsed
 
     this.lastVisibleClass_()
-    this.dispatchEvent('change:collapsed')
+    if (!silent) {
+      this.dispatchEvent('change:collapsed')
+    }
   }
 
   /**

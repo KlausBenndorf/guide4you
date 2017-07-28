@@ -2,6 +2,8 @@ import $ from 'jquery'
 import uniq from 'lodash/uniq'
 
 import { cssClasses } from '../globals'
+import { mixinAsClass } from '../utilities'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 
 /**
  * This describes the floating directions of an element. It can be an array, then it will move from the center to the
@@ -36,11 +38,12 @@ import { cssClasses } from '../globals'
  * @property {HTMLElement} viewport
  */
 
-export class Positioning {
+export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   /**
    * @param {PositioningOptions} options
    */
   constructor (options) {
+    super()
     /**
      * @type {jQuery|HTMLElement}
      * @private
@@ -65,6 +68,8 @@ export class Positioning {
   }
 
   init () {
+    this.detachAllListeners()
+
     /**
      * @type {HideableElement[]}
      * @private
@@ -125,20 +130,10 @@ export class Positioning {
           importance: control.getImportance()
         }
 
-        // repositioning if collapsible elements get clicked
-        let $elem = control.get$Element()
-        if (control.getCollapsible && control.getCollapsible()) {
-          let width = $elem.width()
-          let height = $elem.height()
-
-          $elem.on('click', () => { // TODO: introduce events to react to. beware of the loops.
-            if ($elem.width() !== width || $elem.height() !== height) {
-              this.positionElements()
-              width = $elem.width()
-              height = $elem.height()
-            }
-          })
-        }
+        // repositioning if collapsible elements changes size
+        this.listenAt(control).on('change:size', () => {
+          this.positionElements()
+        })
 
         if (!parentMeta) {
           metaElem.float = metaElem.control.getFloat() || ['top', 'left']
@@ -618,7 +613,7 @@ export class Positioning {
     }
     if (elem.control.getCollapsible && elem.control.getCollapsible()) {
       if (elem.control.getCollapsed()) {
-        elem.control.setCollapsed(false)
+        elem.control.setCollapsed(false, true)
         expanded.push(elem.control)
       }
     }
@@ -637,7 +632,7 @@ export class Positioning {
     let $elem = elem.control.get$Element()
     let size = { width: $elem.outerWidth(), height: $elem.outerHeight() }
     for (let exp of expanded) {
-      exp.setCollapsed(true)
+      exp.setCollapsed(true, true)
     }
     return size
   }
