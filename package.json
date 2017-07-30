@@ -36,7 +36,7 @@
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "concurrently": "^3.4.0",
-    "esdoc": "1.0.0-alpha.3",
+    "esdoc": "1.0.1",
     "guide4you-builder": "~2.0.6",
     "http-server": "^0.10.0",
     "mocha": "3.4.2",
