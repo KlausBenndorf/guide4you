@@ -3869,50 +3869,52 @@ var URL = exports.URL = function () {
       if (!this.cache) {
         url = this.clone().addParam(Math.random().toString(36).substring(7));
       }
+
+      var urlAsString = localiser ? localiser.selectL10N(url.url) : url.url;
+
+      if (url.params.length) {
+        if (urlAsString.search(/\?/) === -1) {
+          urlAsString += '?';
+        } else {
+          urlAsString += '&';
+        }
+        urlAsString += url.params.join('&');
+      }
+
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = url.expand[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var expand = _step.value;
+
+          urlAsString = URL.expandTemplate_(urlAsString, expand);
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       if (url.useProxy === true || url.useProxy === undefined && !!url.proxy) {
         var proxy = url.proxy || globalProxy;
         if (!proxy) {
           throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' + ' useProxy.');
         }
-        var urlAsString = localiser ? localiser.selectL10N(url.url) : url.url;
 
-        if (url.params.length) {
-          if (urlAsString.search(/\?/) === -1) {
-            urlAsString += '?';
-          } else {
-            urlAsString += '&';
-          }
-          urlAsString += url.params.join('&');
-        }
-
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = url.expand[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var expand = _step.value;
-
-            urlAsString = URL.expandTemplate_(urlAsString, expand.paramName, expand.paramValue);
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
-
-        return URL.expandTemplate_(proxy, 'url', URL.encodeTemplate_(urlAsString));
+        return URL.expandTemplate_(proxy, { paramName: 'url', paramValue: URL.encodeTemplate_(urlAsString), required: true });
       } else {
-        return url.url;
+        return urlAsString;
       }
     }
 
@@ -3933,10 +3935,12 @@ var URL = exports.URL = function () {
      * replaces a param enclosed in {} in a (url) template with a value. If the value is an array it will take any string
      * not containing a '}' after the paramName to join the array, default ','.
      * @param {string} template an (url) template
-     * @param {string} paramName the parameter that will be replaced (given without {}) f.e. 'example' will replace any
-     *    occurancy of '{example}' (after the word 'example' there might be given a string join an array value
-     *    i.e. '{example+}')
-     * @param {string|string[]|number} paramValue the value(s) which will be inserted
+     * @param {object} expand
+     * @param {string} expand.paramName the parameter that will be replaced (given without {}) f.e. 'example' will
+     *    replace any occurancy of '{example}' (after the word 'example' there might be given a string join an
+     *    array value i.e. '{example+}')
+     * @param {string|string[]|number} expand.paramValue the value(s) which will be inserted
+     * @param {boolean} expand.required
      * @returns {string} the expanded string
      */
 
@@ -3947,10 +3951,13 @@ var URL = exports.URL = function () {
     /**
      * @param {string} paramName
      * @param paramValue
+     * @param {boolean} [required=true]
      * @returns {URL}
      */
     value: function expandTemplate(paramName, paramValue) {
-      this.expand.push({ paramName: paramName, paramValue: paramValue });
+      var required = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+      this.expand.push({ paramName: paramName, paramValue: paramValue, required: required });
       return this;
     }
 
@@ -4005,25 +4012,27 @@ var URL = exports.URL = function () {
     }
   }, {
     key: 'expandTemplate_',
-    value: function expandTemplate_(template, paramName, paramValue) {
-      var regexp = new RegExp('{' + paramName + '([^}]*)}');
+    value: function expandTemplate_(template, expand) {
+      var regexp = new RegExp('{' + expand.paramName + '([^}]*)}');
       var match = template.match(regexp);
       if (match) {
-        if (_jquery2.default.type(paramValue) === 'string') {
-          return template.replace(regexp, paramValue);
-        } else if (_jquery2.default.type(paramValue) === 'array') {
+        if (_jquery2.default.type(expand.paramValue) === 'string') {
+          return template.replace(regexp, expand.paramValue);
+        } else if (_jquery2.default.type(expand.paramValue) === 'array') {
           var joinString = match[1] || ',';
-          return template.replace(regexp, paramValue.join(joinString));
-        } else if (_jquery2.default.type(paramValue) === 'number') {
+          return template.replace(regexp, expand.paramValue.join(joinString));
+        } else if (_jquery2.default.type(expand.paramValue) === 'number') {
           var valReg = new RegExp('(?::|,)([^,])', 'g');
           var nextMatch = valReg.exec(match[1]);
-          for (var i = 0; i < paramValue; i++) {
+          for (var i = 0; i < expand.paramValue; i++) {
             nextMatch = valReg.exec(match[1]);
           }
           return template.replace(regexp, nextMatch[1]);
         }
+      } else if (expand.required) {
+        throw new Error('required parameter ' + expand.paramName + ' (enclosed in {}) not found in string ' + template);
       } else {
-        throw new Error('parameter ' + paramName + ' (enclosed in {}) not found in string ' + template);
+        return template;
       }
     }
   }, {
@@ -5857,7 +5866,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.2.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.2.1'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -7329,7 +7338,7 @@ var SourceServerVector = exports.SourceServerVector = function (_ol$source$Vecto
       if (this.loadingStrategy_ === 'BBOX') {
         var transformedExtent = _openlayers2.default.proj.transformExtent(extent, projection, this.bboxProjection_);
 
-        url.expandTemplate('bboxleft', transformedExtent[0].toString()).expandTemplate('bboxbottom', transformedExtent[1].toString()).expandTemplate('bboxright', transformedExtent[2].toString()).expandTemplate('bboxtop', transformedExtent[3].toString()).expandTemplate('resolution', resolution.toString());
+        url.expandTemplate('bboxleft', transformedExtent[0].toString()).expandTemplate('bboxbottom', transformedExtent[1].toString()).expandTemplate('bboxright', transformedExtent[2].toString()).expandTemplate('bboxtop', transformedExtent[3].toString()).expandTemplate('resolution', resolution.toString(), false);
       }
 
       if (this.refresh_) {
