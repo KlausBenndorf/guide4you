@@ -3,6 +3,7 @@ import $ from 'jquery'
 
 import stripJsonComments from 'strip-json-comments'
 import {Debug} from './Debug'
+import { URL } from './URLHelper'
 
 /**
  * @typedef {Object.<string, string>|string} Localizable
@@ -40,10 +41,10 @@ export class L10N extends ol.Observable {
     this.currentLang_ = options.currentLanguage || this.defaultLang_
 
     /**
-     * @type {string}
+     * @type {URL}
      * @private
      */
-    this.languageFile_ = options.languageFile || 'files/l10n.commented.json'
+    this.languageFileUrl_ = URL.extractFromConfig(options, 'languageFile', 'files/l10n.commented.json')
 
     if (options.availableLanguages) {
       /**
@@ -77,15 +78,16 @@ export class L10N extends ol.Observable {
    * Loads the language file. This function is called manually from outside to be abel to pass in a callback.
    */
   ajaxGetLanguageFile () {
+    let finalUrl = this.languageFileUrl_.finalize()
     return $.ajax({
       type: 'GET',
-      url: this.languageFile_,
+      url: finalUrl,
       dataType: 'text',
       success: data => {
         this.dictionary = JSON.parse(stripJsonComments(data))
       },
       error: () => { // The arguments are ignored
-        Debug.error(`The language file ${this.languageFile_} couldn't be loaded or parsed`)
+        Debug.error(`The language file ${finalUrl} couldn't be loaded or parsed`)
       }
     })
   }

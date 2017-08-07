@@ -1,16 +1,14 @@
 import $ from 'jquery'
 
-import { addProxy } from '../utilities'
 import { Attribution } from './Attribution'
 import {Control} from './Control'
 
 import '../../less/infobutton.less'
+import { URL } from '../URLHelper'
 
 /**
  * @typedef {g4uControlOptions} InfoButtonOptions
- * @property {string} contentURL url providing content to be shown
- * @property {boolean} [useProxy]
- * @property {string} [proxy]
+ * @property {URLLike} contentURL url providing content to be shown
  * @property {boolean} [attribution=true]
  */
 
@@ -58,22 +56,10 @@ export class InfoButton extends Control {
     this.attribution_ = options.attribution !== false
 
     /**
-     * @type {string}
+     * @type {URL}
      * @private
      */
-    this.contentURL_ = options.contentURL
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
-
-    /**
-     * @type {string|undefined}
-     * @private
-     */
-    this.proxy_ = options.proxy
+    this.contentURL_ = URL.extractFromConfig(options, 'contentURL')
 
     if (this.attribution_) {
       /**
@@ -148,11 +134,7 @@ export class InfoButton extends Control {
       }
       if (!this.loaded_) {
         if (this.contentURL_) {
-          let url = this.getLocaliser().selectL10N(this.contentURL_)
-          if (this.useProxy_) {
-            url = addProxy(url, this.proxy_ || this.getMap().get('proxy'))
-          }
-          $.get(url, (data) => {
+          $.get(this.contentURL_.finalize(), (data) => {
             this.$content_.html(data)
             this.dispatchEvent(changeEvent)
             this.loaded_ = true

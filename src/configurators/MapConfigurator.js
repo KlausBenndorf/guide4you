@@ -175,8 +175,6 @@ export class MapConfigurator {
 
     this.map_.set('interfaceProjection', interfaceProjection)
 
-    this.map_.set('proxy', (mapConfigCopy.hasOwnProperty('proxy')) ? mapConfigCopy.proxy : false)
-
     // //////////////////////////////////////////////////////////////////////////////////////// //
     //                                       Styling                                            //
     // //////////////////////////////////////////////////////////////////////////////////////// //

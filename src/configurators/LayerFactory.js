@@ -10,11 +10,12 @@ import {VectorLayer} from '../layers/VectorLayer'
 import {SourceServerVector} from '../sources/SourceServerVector'
 import {QuerySource} from '../sources/QuerySource'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
-import { checkFor, addProxy, addParamToURL } from '../utilities'
+import { checkFor } from '../utilities'
 
 import {Debug} from '../Debug'
 import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
 import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
+import { URL } from '../URLHelper'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -61,9 +62,7 @@ export const LayerType = {
  * @property {ol.Attribution[]} [attributions] will be setted automatically.
  * @property {null} [crossOrigin] will be setted automatically.
  * @property {string} loadingStrategy
- * @property {string} url
- * @property {Boolean} [useProxy=false]
- * @property {string} [proxy]
+ * @property {URLLike} url
  */
 
 /**
@@ -150,11 +149,6 @@ export class LayerFactory {
 
       if (optionsCopy.source) {
         this.configureLayerSourceAttribution_(optionsCopy.source)
-
-        if (optionsCopy.type !== LayerType.INTERN) {
-          // the url of the source
-          this.configureLayerSourceURL_(optionsCopy.source)
-        }
       }
 
       // visibility
@@ -278,6 +272,7 @@ export class LayerFactory {
         }
         break
       case LayerType.XYZ:
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.XYZ(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -287,6 +282,7 @@ export class LayerFactory {
         }
         break
       case LayerType.OSM:
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.OSM(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -296,6 +292,7 @@ export class LayerFactory {
         }
         break
       case LayerType.BING:
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -309,6 +306,7 @@ export class LayerFactory {
           optionsCopy.source.params.LAYERS = []
         }
 
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
         optionsCopy.source = new ImageWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -334,6 +332,7 @@ export class LayerFactory {
           delete optionsCopy.source.tileSize
         }
 
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
         optionsCopy.source = new TileWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -367,6 +366,8 @@ export class LayerFactory {
         break
       case LayerType.GEOJSON:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
+
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
 
         optionsCopy.source.type = 'GeoJSON'
@@ -384,6 +385,7 @@ export class LayerFactory {
         break
       case LayerType.KML:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
 
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
 
@@ -546,34 +548,6 @@ export class LayerFactory {
   }
 
   /**
-   * @param {SourceConfig} sourceConfig
-   * @returns {SourceConfig}
-   * @private
-   */
-  configureLayerSourceURL_ (sourceConfig) {
-    sourceConfig.url = this.map_.get('localiser').selectL10N(sourceConfig.url)
-
-    sourceConfig.originalUrl = sourceConfig.url
-
-    sourceConfig.crossOrigin = null // this strangely enables crossOrigin requests
-
-    let useProxy = (sourceConfig.useProxy === true || (sourceConfig.useProxy === undefined && !!sourceConfig.proxy))
-
-    if (useProxy) {
-      sourceConfig.proxy = sourceConfig.proxy || this.map_.get('proxy')
-
-      if (!sourceConfig.proxy) {
-        throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' +
-          ' useProxy.')
-      }
-
-      sourceConfig.url = addProxy(sourceConfig.url, sourceConfig.proxy)
-    }
-
-    return sourceConfig
-  }
-
-  /**
    * @param {g4uLayerOptions} config
    * @returns {g4uLayerOptions}
    * @private
@@ -621,18 +595,23 @@ export class LayerFactory {
   }
 
   setWMTSSourceFromCapabilities (layer, sourceOptions) {
-    let url = addParamToURL(sourceOptions.url, 'Service=WMTS')
-    url = addParamToURL(url, 'Request=GetCapabilities')
+    let url = URL.extractFromConfig(sourceOptions, 'url')
+    let capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities')
     $.ajax({
-      url,
+      url: capUrl.finalize(),
       dataType: 'text xml',
       crossDomain: true,
       success: data => {
         let wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
         let capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
+        sourceOptions.url = url.finalize()
         sourceOptions = mergeDeep(sourceOptions, capOptions)
         layer.setSource(new ol.source.WMTS(sourceOptions))
       }
     })
+    layer.setSource(new ol.source.ImageCanvas({
+      state: 'ready',
+      canvasFunction: () => {} // not loading any canvas
+    }))
   }
 }
