@@ -119,9 +119,6 @@ export class URL {
           ' useProxy.')
       }
       let urlAsString = localiser ? localiser.selectL10N(url.url) : url.url
-      for (let expand of url.expand) {
-        urlAsString = URL.expandTemplate_(urlAsString, expand.paramName, expand.paramValue)
-      }
 
       if (url.params.length) {
         if (urlAsString.search(/\?/) === -1) {
@@ -131,6 +128,11 @@ export class URL {
         }
         urlAsString += url.params.join('&')
       }
+
+      for (let expand of url.expand) {
+        urlAsString = URL.expandTemplate_(urlAsString, expand.paramName, expand.paramValue)
+      }
+
       return URL.expandTemplate_(proxy, 'url', URL.encodeTemplate_(urlAsString))
     } else {
       return url.url
