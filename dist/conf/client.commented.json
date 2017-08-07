@@ -72,8 +72,10 @@
       ],
       "connector": {
         "type": "nominatim",
-        "serviceURL": "http://nominatim.openstreetmap.org/search?",
-        "useProxy": true
+        "serviceURL": {
+          "url": "http://nominatim.openstreetmap.org/search?",
+          "useProxy": true
+        }
       },
       "closePageOnSearchEnd": false,
       "style": "#defaultStyle",
