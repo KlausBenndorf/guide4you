@@ -5,13 +5,12 @@ import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
 import {expandTemplate} from 'guide4you/src/utilities'
 
 export class G4USearchV2Connector extends SearchConnector {
-
   constructor (options) {
     super(options)
 
-    this.autocompleteUrl_ = this.serviceURL + '/Autocomplete.ashx?term={searchstring}'
-    this.fuzzyUrl_ = this.serviceURL + '/findall.ashx?option=2&term={searchstring}'
-    this.byHandleUrl_ = this.serviceURL + '/findall.ashx?option=1&term={searchstring}'
+    this.autocompleteUrl_ = this.serviceURL.clone().addParam('/Autocomplete.ashx?term={searchstring}')
+    this.fuzzyUrl_ = this.serviceURL.clone().addParam('/findall.ashx?option=2&term={searchstring}')
+    this.byHandleUrl_ = this.serviceURL.clone().addParam('/findall.ashx?option=1&term={searchstring}')
 
     this.dataProjection = 'EPSG:4326'
 
@@ -20,10 +19,10 @@ export class G4USearchV2Connector extends SearchConnector {
 
   getAutoComplete (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.autocompleteUrl_, 'searchstring', input)
+      let finalUrl = this.autocompleteUrl_.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
-        url: this.proxifyUrl(url),
+        url: finalUrl,
         dataType: 'text',
         success: text => {
           let results = this.parseFeatures(text)
@@ -31,7 +30,7 @@ export class G4USearchV2Connector extends SearchConnector {
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${url})`)
+            `(SearchURL: ${finalUrl})`)
         }
       })
     })
@@ -39,10 +38,10 @@ export class G4USearchV2Connector extends SearchConnector {
 
   getSearchResult (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.fuzzyUrl_, 'searchstring', input)
+      let finalUrl = this.fuzzyUrl_.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
-        url: this.proxifyUrl(url),
+        url: finalUrl,
         dataType: 'text',
         success: text => {
           let results = this.parseFeatures(text)
@@ -51,7 +50,7 @@ export class G4USearchV2Connector extends SearchConnector {
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${url})`)
+            `(SearchURL: ${finalUrl})`)
         },
         headers: {
           'Accept-Language': this.localiser.getCurrentLang()
@@ -62,10 +61,10 @@ export class G4USearchV2Connector extends SearchConnector {
 
   getByHandle (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.byHandleUrl_, 'searchstring', input)
+      let finalUrl = this.byHandleUrl_.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
-        url: this.proxifyUrl(url),
+        url: finalUrl,
         dataType: 'text',
         success: text => {
           let results = this.parseFeatures(text)
@@ -73,7 +72,7 @@ export class G4USearchV2Connector extends SearchConnector {
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${url})`)
+            `(SearchURL: ${finalUrl})`)
         },
         headers: {
           'Accept-Language': this.localiser.getCurrentLang()

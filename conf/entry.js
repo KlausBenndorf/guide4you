@@ -1,4 +1,5 @@
 import { createMapInternal } from 'guide4you/src/main'
+import { registerModule } from 'guide4you/src/moduleRegistration'
 
 import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!guide4you/conf/simple/client.commented.json'
 import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!guide4you/conf/simple/layers.commented.json'
@@ -17,13 +18,13 @@ import 'file-loader?name=images/doc/[name].[ext]!guide4you/images/doc/zoom.png'
 import 'mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
-import {SearchModule} from 'guide4you-module-search/src/SearchModule'
-import {G4USearchV2Connector} from '../src/G4USearchV2Connector'
+import { SearchModule } from 'guide4you-module-search/src/SearchModule'
+import { G4USearchV2Connector } from '../src/G4USearchV2Connector'
+
+registerModule(new SearchModule({ connectors: { G4USearchV2: G4USearchV2Connector } }))
 
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal(target, clientConf, layerConf, [
-    new SearchModule({ connectors: { G4USearchV2: G4USearchV2Connector }})
-  ])
+  return createMapInternal(target, clientConf, layerConf)
 }
 
 export * from 'guide4you/src/exports'

@@ -9,7 +9,7 @@ export class G4UServerSearchConnector extends SearchConnector {
   constructor (options) {
     super(options)
 
-    this.fuzzyUrl_ = this.serviceURL + '/Search/{searchstring}'
+    this.fuzzyUrl_ = this.serviceURL.addParam('/Search/{searchstring}')
 
     this.format_ = new ol.format.KML({showPointNames: false})
   }
@@ -38,10 +38,10 @@ export class G4UServerSearchConnector extends SearchConnector {
 
   getSearchResult (input) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.fuzzyUrl_, 'searchstring', input)
+      let finalUrl = this.fuzzyUrl_.clone().expandTemplate('searchstring', input)
 
       $.ajax({
-        url: this.proxifyUrl(url),
+        url: finalUrl,
         dataType: 'text',
         success: results => {
           let features = this.format_.readFeatures(results,
@@ -50,7 +50,7 @@ export class G4UServerSearchConnector extends SearchConnector {
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${url})`)
+            `(SearchURL: ${finalUrl})`)
         },
         headers: {
           'Accept-Language': this.localiser.getCurrentLang()
