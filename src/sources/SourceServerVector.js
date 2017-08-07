@@ -1,17 +1,13 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import { addParamToURL, addProxy } from '../utilities'
-import { copy } from '../utilitiesObject'
-
+import { copy, take } from '../utilitiesObject'
 import {Debug} from '../Debug'
 
 /**
  * @typedef {olx.source.VectorOptions} SourceServerVectorOptions
  * @property {string} type the format to use
- * @property {string} url
- * @property {boolean} [useProxy=false]
- * @property {string} [proxy] If no proxy is set the proxy of the map is used.
+ * @property {URLLike} url
  * @property {StyleLike} [defaultStyle] a default style to fallback to
  * @property {boolean} [extractStyles=true] if styles should get extracted from the KML
  * @property {string} [loadingStrategy='ALL'] Either 'BBOX' or 'ALL' (Synonym: 'FIXED').
@@ -43,17 +39,9 @@ export class SourceServerVector extends ol.source.Vector {
   constructor (options = {}) {
     const parentOptions = copy(options)
 
-    let urlTemplate = options.url
+    let urlTemplate = take(options, 'url')
 
-    if (!urlTemplate) {
-      throw new Error('No url specified for the SourceServerVector Object!')
-    }
-
-    delete parentOptions.url
-
-    const type = options.type || ''
-
-    delete parentOptions.type
+    const type = take(options, 'type') || ''
 
     parentOptions.loader = (...args) => this.loader(...args)
 
@@ -100,25 +88,13 @@ export class SourceServerVector extends ol.source.Vector {
     this.localised_ = options.localised || false
 
     /**
-     * @type {Boolean}
-     * @private
-     */
-    this.useProxy_ = this.useProxy_ = (options.useProxy || (!options.hasOwnProperty('useProxy') && options.proxy))
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.proxy_ = options.proxy
-
-    /**
      * @type {string}
      * @private
      */
     this.loadingStrategy_ = loadingStrategy
 
     /**
-     * @type {string}
+     * @type {URL}
      * @private
      */
     this.urlTemplate_ = urlTemplate
@@ -138,12 +114,6 @@ export class SourceServerVector extends ol.source.Vector {
     if (options.hasOwnProperty('extractStyles')) {
       formatOptions.extractStyles = options.extractStyles
     }
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.cache_ = options.cache
 
     switch (this.type_) {
       case 'KML':
@@ -194,16 +164,16 @@ export class SourceServerVector extends ol.source.Vector {
   loader (extent, resolution, projection) {
     // Problem with BBOX: if features are already in the layer, they shouldn't be added. Not trivial
 
-    let url = this.urlTemplate_
+    let url = this.urlTemplate_.clone()
 
     if (this.loadingStrategy_ === 'BBOX') {
       let transformedExtent = ol.proj.transformExtent(extent, projection, this.bboxProjection_)
 
-      url = url.replace(/\{bboxleft}/, transformedExtent[0].toString())
-      url = url.replace(/\{bboxbottom}/, transformedExtent[1].toString())
-      url = url.replace(/\{bboxright}/, transformedExtent[2].toString())
-      url = url.replace(/\{bboxtop}/, transformedExtent[3].toString())
-      url = url.replace(/\{resolution}/, resolution.toString())
+      url.expandTemplate('bboxleft', transformedExtent[0].toString())
+        .expandTemplate('bboxbottom', transformedExtent[1].toString())
+        .expandTemplate('bboxright', transformedExtent[2].toString())
+        .expandTemplate('bboxtop', transformedExtent[3].toString())
+        .expandTemplate('resolution', resolution.toString(), false)
     }
 
     if (this.refresh_) {
@@ -216,12 +186,14 @@ export class SourceServerVector extends ol.source.Vector {
       }, this.refresh_)
     }
 
-    if (!this.cache_ || this.localised_) {
-      url = addParamToURL(url, Math.random().toString(36).substring(7))
+    if (this.localised_) {
+      url.cache = false
     }
 
+    let finalUrl = url.finalize()
+
     $.ajax({
-      url: url,
+      url: finalUrl,
       dataType: this.dataType_,
       beforeSend: () => this.dispatchEvent('vectorloadstart'),
       success: (response) => {
@@ -242,7 +214,7 @@ export class SourceServerVector extends ol.source.Vector {
         this.dispatchEvent('vectorloadend')
       },
       error: () => {
-        Debug.error(`Getting Feature resource failed with url ${url}`)
+        Debug.error(`Getting Feature resource failed with url ${finalUrl}`)
         this.dispatchEvent('vectorloaderror')
       },
       headers: this.localiser_ ? {
@@ -271,9 +243,9 @@ export class SourceServerVector extends ol.source.Vector {
     let i, ii
     for (i = 0, ii = hrefTags.length; i < ii; i++) {
       if (hrefTags[i].textContent) {
-        hrefTags[i].textContent = addProxy(hrefTags[i].textContent, this.proxy_)
+        hrefTags[i].textContent = this.urlTemplate_.useProxyFor(hrefTags[i].textContent).finalize()
       } else if (hrefTags[i].innerHTML) {
-        hrefTags[i].innerHTML = addProxy(hrefTags[i].innerHTML, this.proxy_)
+        hrefTags[i].innerHTML = this.urlTemplate_.useProxyFor(hrefTags[i].innerHTML).finalize()
       } else {
         throw new Error("Can't prepend proxy inside KML (textContent and innerHTML missing)")
       }
@@ -283,14 +255,14 @@ export class SourceServerVector extends ol.source.Vector {
   }
 
   /**
-   * @returns {string}
+   * @returns {URL}
    */
   getUrlTemplate () {
     return this.urlTemplate_
   }
 
   /**
-   * @param {string} urlTemplate
+   * @param {URL} urlTemplate
    */
   setUrlTemplate (urlTemplate) {
     this.urlTemplate_ = urlTemplate

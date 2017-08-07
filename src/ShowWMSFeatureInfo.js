@@ -72,11 +72,12 @@ export class ShowWMSFeatureInfo {
                       this.utilitySource_.clear()
                       feature = new ol.Feature({
                         geometry: new ol.geom.Point(coordinate),
-                        description: data
+                        description: data,
+                        style: map.get('styling').getStyle(this.style_)
                       })
-                      map.get('styling').styleFeature(feature, this.style_)
+                      map.get('styling').manageFeature(feature)
                       this.utilitySource_.addFeature(feature)
-                      featurePopup.setFeature(feature,
+                      featurePopup.setFeature(feature, coordinate,
                         [ ...this.mutators_, ...layer.getSource().getFeatureInfoMutators() ])
                       featurePopup.setVisible(true)
                       this.setPointVisible(true)

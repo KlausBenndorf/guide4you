@@ -1,19 +1,21 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {mixin, addProxy} from '../utilities'
+import {mixin} from '../utilities'
 
 export class WMSFeatureInfoMixin {
   initialize (options) {
     this.featureInfo_ = options.featureInfo !== undefined
+
     if (this.featureInfo_) {
+      if (options.featureInfoProxy !== undefined) {
+        this.switchedUrl = options.originalUrl.clone()
+        this.switchedUrl.proxy = options.featureInfo.proxy
+      }
       this.featureInfoParams_ = options.featureInfo.params || {}
       this.featureInfoCheckable_ = options.featureInfo.checkable
       this.featureInfoMutators_ = options.featureInfo.mutators
-      this.featureInfoProxy_ = options.featureInfo.proxy
     }
-
-    this.originalUrl_ = options.originalUrl
   }
 
   getFeatureInfoMutators () {
@@ -38,11 +40,10 @@ export class WMSFeatureInfoMixin {
       if (!params['QUERY_LAYERS'] || params['QUERY_LAYERS'].length === 0) {
         resolve('')
       } else {
-        let switchProxies = this.featureInfoProxy_ !== undefined
         let normalUrls
-        if (switchProxies) {
+        if (this.switchedUrl) {
           normalUrls = this.getUrls()
-          this.setUrl(addProxy(this.originalUrl_, this.featureInfoProxy_))
+          this.setUrl(this.switchedUrl.finalize())
         }
         $.ajax({
           url: this.getGetFeatureInfoUrl(coordinate, resolution, projection, params),
@@ -50,7 +51,7 @@ export class WMSFeatureInfoMixin {
           error: reject,
           dataType: 'text'
         })
-        if (switchProxies) {
+        if (this.switchedUrl) {
           this.setUrls(normalUrls)
         }
       }
@@ -58,6 +59,18 @@ export class WMSFeatureInfoMixin {
   }
 }
 
-export const ImageWMSSource = mixin(ol.source.ImageWMS, WMSFeatureInfoMixin)
+export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixin) {
+  constructor (options) {
+    options.originalUrl = options.url
+    options.url = options.url.finalize()
+    super(options)
+  }
+}
 
-export const TileWMSSource = mixin(ol.source.TileWMS, WMSFeatureInfoMixin)
+export class TileWMSSource extends mixin(ol.source.TileWMS, WMSFeatureInfoMixin) {
+  constructor (options) {
+    options.originalUrl = options.url
+    options.url = options.url.finalize()
+    super(options)
+  }
+}
