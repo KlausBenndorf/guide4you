@@ -3875,6 +3875,16 @@ var URL = exports.URL = function () {
           throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' + ' useProxy.');
         }
         var urlAsString = localiser ? localiser.selectL10N(url.url) : url.url;
+
+        if (url.params.length) {
+          if (urlAsString.search(/\?/) === -1) {
+            urlAsString += '?';
+          } else {
+            urlAsString += '&';
+          }
+          urlAsString += url.params.join('&');
+        }
+
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
         var _iteratorError = undefined;
@@ -3900,14 +3910,6 @@ var URL = exports.URL = function () {
           }
         }
 
-        if (url.params.length) {
-          if (urlAsString.search(/\?/) === -1) {
-            urlAsString += '?';
-          } else {
-            urlAsString += '&';
-          }
-          urlAsString += url.params.join('&');
-        }
         return URL.expandTemplate_(proxy, 'url', URL.encodeTemplate_(urlAsString));
       } else {
         return url.url;
@@ -3976,6 +3978,9 @@ var URL = exports.URL = function () {
   }], [{
     key: 'extractFromConfig',
     value: function extractFromConfig(config, paramName, defaultValue) {
+      if (!config.hasOwnProperty(paramName)) {
+        return null;
+      }
       if (config.hasOwnProperty('useProxy') || config.hasOwnProperty('proxy') || config.hasOwnProperty('cache')) {
         _Debug.Debug.warn('Using the parameters \'useProxy\' \'proxy\' \'cache\' directly inside a config object is considered' + ' deprecated. Please use a URLConfig object');
         return new URL({
@@ -5852,7 +5857,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.1.2'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.2.0'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -15513,11 +15518,12 @@ var ShowWMSFeatureInfo = exports.ShowWMSFeatureInfo = function () {
                         _this.utilitySource_.clear();
                         feature = new _openlayers2.default.Feature({
                           geometry: new _openlayers2.default.geom.Point(coordinate),
-                          description: data
+                          description: data,
+                          style: map.get('styling').getStyle(_this.style_)
                         });
-                        map.get('styling').styleFeature(feature, _this.style_);
+                        map.get('styling').manageFeature(feature);
                         _this.utilitySource_.addFeature(feature);
-                        featurePopup.setFeature(feature, [].concat(_toConsumableArray(_this.mutators_), _toConsumableArray(layer.getSource().getFeatureInfoMutators())));
+                        featurePopup.setFeature(feature, coordinate, [].concat(_toConsumableArray(_this.mutators_), _toConsumableArray(layer.getSource().getFeatureInfoMutators())));
                         featurePopup.setVisible(true);
                         _this.setPointVisible(true);
                         if (_this.centerOnPopup_) {
