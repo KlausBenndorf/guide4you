@@ -216,12 +216,6 @@ export class SearchControl extends Control {
       .append(this.$textfield_)
       .append(this.$submitButton_)
       .append(this.dropdown_.get$Element())
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.getByIdsURL_ = options.getByIdsURL
   }
 
   /**

@@ -1,12 +1,10 @@
-import {addProxy} from 'guide4you/src/utilities'
+import {URL} from 'guide4you/src/URLHelper'
 import zip from 'lodash/zip'
 
 /**
  * @typedef {Object} SearchConnectorOptions
  * @property {string} type
- * @property {string} serviceURL
- * @property {string} proxy
- * @property {boolean} useProxy
+ * @property {URLLike} serviceURL
  * @property {L10N} localiser
  */
 export class SearchConnector {
@@ -15,22 +13,10 @@ export class SearchConnector {
    */
   constructor (options) {
     /**
-     * @type {string}
+     * @type {URL}
      * @protected
      */
-    this.serviceURL = options.serviceURL
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.useProxy_ = options.useProxy || (options.hasOwnProperty('useProxy') && options.proxy)
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.proxy_ = options.proxy
+    this.serviceURL = URL.extractFromConfig(options, 'serviceURL')
 
     /**
      * @type {L10N}
@@ -44,10 +30,6 @@ export class SearchConnector {
       return zip(...tuples)
     }
     return [[], []]
-  }
-
-  proxifyUrl (url) {
-    return this.useProxy_ ? addProxy(url, this.proxy_ || this.getMap().get('proxy')) : url
   }
 
   setMap (map) {

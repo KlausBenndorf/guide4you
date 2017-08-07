@@ -3,7 +3,6 @@ import $ from 'jquery'
 
 import {Debug} from 'guide4you/src/Debug'
 import {SearchConnector} from './SearchConnector'
-import {expandTemplate} from 'guide4you/src/utilities'
 
 export class NominatimSearchConnector extends SearchConnector {
   constructor (options) {
@@ -20,9 +19,9 @@ export class NominatimSearchConnector extends SearchConnector {
 
       let extentString = ol.proj.transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
 
-      this.url_ = this.serviceURL +
+      this.serviceURL.addParam(
         'format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=' + extentString +
-        '&bounded=1&extratags=1&namedetails=1'
+        '&bounded=1&extratags=1&namedetails=1')
     }
   }
 
@@ -32,17 +31,17 @@ export class NominatimSearchConnector extends SearchConnector {
 
   getSearchResult (searchTerm) {
     return new Promise((resolve, reject) => {
-      let url = expandTemplate(this.url_, 'searchstring', searchTerm) // !
+      let finalUrl = this.serviceURL.clone().expandTemplate('searchstring', searchTerm).finalize()
 
       $.ajax({
-        url: this.proxifyUrl(url),
+        url: finalUrl,
         dataType: 'json',
         success: results => {
           resolve(SearchConnector.flipTuples(results.map(r => this.readFeature_(r))))
         },
         error: (jqXHR, textStatus) => {
           reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${url})`)
+            `(SearchURL: ${finalUrl})`)
         }
       })
     })
