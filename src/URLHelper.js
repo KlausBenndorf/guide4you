@@ -72,6 +72,9 @@ export class URL {
    * @returns {URL}
    */
   static extractFromConfig (config, paramName, defaultValue) {
+    if (!config.hasOwnProperty(paramName)) {
+      return null
+    }
     if (config.hasOwnProperty('useProxy') || config.hasOwnProperty('proxy') || config.hasOwnProperty('cache')) {
       Debug.warn('Using the parameters \'useProxy\' \'proxy\' \'cache\' directly inside a config object is considered' +
         ' deprecated. Please use a URLConfig object')
