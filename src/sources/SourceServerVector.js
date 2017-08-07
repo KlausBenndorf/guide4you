@@ -173,7 +173,7 @@ export class SourceServerVector extends ol.source.Vector {
         .expandTemplate('bboxbottom', transformedExtent[1].toString())
         .expandTemplate('bboxright', transformedExtent[2].toString())
         .expandTemplate('bboxtop', transformedExtent[3].toString())
-        .expandTemplate('resolution', resolution.toString())
+        .expandTemplate('resolution', resolution.toString(), false)
     }
 
     if (this.refresh_) {
