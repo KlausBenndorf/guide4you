@@ -125,8 +125,10 @@
       },
       "type": "GeoJSON",
       "source": {
-        "url": "http://stadtplan.bonn.de/geojson?Thema=21247&koordsys=4326",
-        "useProxy": true,
+        "url": {
+          "url": "http://stadtplan.bonn.de/geojson?Thema=21247&koordsys=4326",
+          "useProxy": true
+        },
         "attribution": "<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de'>Creative Commons Zero (CC0)</a>"
       },
       "style": "#defaultStyle"
@@ -139,8 +141,10 @@
       },
       "type": "GeoJSON",
       "source": {
-        "url": "http://stadtplan.bonn.de/geojson?Thema=14198&koordsys=4326",
-        "useProxy": true,
+        "url": {
+          "url": "http://stadtplan.bonn.de/geojson?Thema=14198&koordsys=4326",
+          "useProxy": true
+        },
         "attribution": "<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de'>Creative Commons Zero (CC0)</a>"
       },
       "style": "#defaultStyle"
