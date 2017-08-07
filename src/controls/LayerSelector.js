@@ -4,12 +4,13 @@ import flatten from 'lodash/flatten'
 import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
 import {Control} from './Control'
-import { offset, mixin, addProxy } from '../utilities'
+import { offset, mixin } from '../utilities'
 import {cssClasses} from '../globals'
 import {Window} from '../html/Window'
 
 import '../../less/layerselector.less'
 import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
+import { URL } from '../URLHelper'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -144,10 +145,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
     let content
 
-    let useProxy = (windowConfig.useProxy || (!windowConfig.hasOwnProperty('useProxy') && windowConfig.proxy))
-
-    let proxy = windowConfig.proxy
-
     let showWindow = () => {
       if (this.getMap().get('localiser').isRtl()) {
         window.get$Body().prop('dir', 'rtl')
@@ -165,11 +162,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.listenAt($button).on('click', () => {
       if (layer.getVisible()) {
         if (!content) {
-          let url = this.getLocaliser().selectL10N(windowConfig.url)
-          if (useProxy) {
-            url = addProxy(url, proxy || this.getMap().get('proxy'))
-          }
-          $.get(url, data => {
+          let url = URL.extractFromConfig(windowConfig, 'url')
+          $.get(url.finalize(), data => {
             content = data
             showWindow()
           })

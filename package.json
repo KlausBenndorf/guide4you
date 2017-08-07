@@ -53,8 +53,8 @@
     "lint": "eslint src/ tests/",
     "version": "(npm run test && git add -A) || git checkout .",
     "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
-    "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
-    "test": "npm run lint && npm run buildTests && concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "runTests": " concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
+    "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json",
     "typing": "jsdoc -t node_modules/tsd-jsdoc -r conf/dist/entry.js src/ -d dist/"
   },
