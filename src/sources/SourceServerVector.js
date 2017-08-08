@@ -198,7 +198,7 @@ export class SourceServerVector extends ol.source.Vector {
       beforeSend: () => this.dispatchEvent('vectorloadstart'),
       success: (response) => {
         // processing urls in the xml-Data (e.g. for images)
-        if (this.useProxy_ && /xml$/.test(this.dataType_)) {
+        if (url.useProxy && /xml$/.test(this.dataType_)) {
           response = this.addProxyToHrefTags(response)
         }
 
