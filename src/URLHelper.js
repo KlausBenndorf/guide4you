@@ -144,7 +144,7 @@ export class URL {
       }
 
       return URL.expandTemplate_(proxy,
-        { paramName: 'url', paramValue: encodeURIComponent(urlAsString), required: true })
+        { paramName: 'url', paramValue: URL.encodeTemplate_(urlAsString), required: true })
     } else {
       return urlAsString
     }
@@ -197,12 +197,23 @@ export class URL {
   }
 
   /**
+   * expand the target template. automatically encodes the value
    * @param {string} paramName
    * @param paramValue
    * @param {boolean} [required=true]
    * @returns {URL}
    */
   expandTemplate (paramName, paramValue, required = true) {
+    let encode = val => {
+      if ($.type(val) === 'string') {
+        return encodeURIComponent(val)
+      } else if ($.type(paramValue) === 'array') {
+        return val.map(v => encode(v))
+      } else {
+        return val
+      }
+    }
+    paramValue = encode(paramValue)
     this.expand.push({ paramName, paramValue, required })
     return this
   }
@@ -217,5 +228,26 @@ export class URL {
       proxy: this.proxy,
       url: otherUrl
     })
+  }
+
+  /**
+   * this function takes an (url) template and encodes everything except for the templated elements.
+   * @param {string} template an (url) template
+   * @returns {string} the encoded (url) template
+   */
+  static encodeTemplate_ (template) {
+    let parts = template.split('}')
+
+    let encodedTemplate = ''
+
+    let i
+    for (i = 0; i < parts.length - 1; i += 1) {
+      let partedParts = parts[i].split('{')
+      encodedTemplate += encodeURIComponent(partedParts[0]) + '{' + partedParts[1] + '}'
+    }
+
+    encodedTemplate += encodeURIComponent(parts[i])
+
+    return encodedTemplate
   }
 }
