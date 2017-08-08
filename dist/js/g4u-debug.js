@@ -3920,7 +3920,7 @@ var URL = exports.URL = function () {
           throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' + ' useProxy.');
         }
 
-        return URL.expandTemplate_(proxy, { paramName: 'url', paramValue: encodeURIComponent(urlAsString), required: true });
+        return URL.expandTemplate_(proxy, { paramName: 'url', paramValue: URL.encodeTemplate_(urlAsString), required: true });
       } else {
         return urlAsString;
       }
@@ -3957,6 +3957,7 @@ var URL = exports.URL = function () {
 
 
     /**
+     * expand the target template. automatically encodes the value
      * @param {string} paramName
      * @param paramValue
      * @param {boolean} [required=true]
@@ -3965,6 +3966,18 @@ var URL = exports.URL = function () {
     value: function expandTemplate(paramName, paramValue) {
       var required = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
+      var encode = function encode(val) {
+        if (_jquery2.default.type(val) === 'string') {
+          return encodeURIComponent(val);
+        } else if (_jquery2.default.type(paramValue) === 'array') {
+          return val.map(function (v) {
+            return encode(v);
+          });
+        } else {
+          return val;
+        }
+      };
+      paramValue = encode(paramValue);
       this.expand.push({ paramName: paramName, paramValue: paramValue, required: required });
       return this;
     }
@@ -3983,6 +3996,13 @@ var URL = exports.URL = function () {
         url: otherUrl
       });
     }
+
+    /**
+     * this function takes an (url) template and encodes everything except for the templated elements.
+     * @param {string} template an (url) template
+     * @returns {string} the encoded (url) template
+     */
+
   }], [{
     key: 'extractFromConfig',
     value: function extractFromConfig(config, paramName, defaultValue) {
@@ -4035,6 +4055,23 @@ var URL = exports.URL = function () {
       } else {
         return template;
       }
+    }
+  }, {
+    key: 'encodeTemplate_',
+    value: function encodeTemplate_(template) {
+      var parts = template.split('}');
+
+      var encodedTemplate = '';
+
+      var i = void 0;
+      for (i = 0; i < parts.length - 1; i += 1) {
+        var partedParts = parts[i].split('{');
+        encodedTemplate += encodeURIComponent(partedParts[0]) + '{' + partedParts[1] + '}';
+      }
+
+      encodedTemplate += encodeURIComponent(parts[i]);
+
+      return encodedTemplate;
     }
   }]);
 
@@ -5850,7 +5887,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.2.2'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.2.3'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -7401,9 +7438,9 @@ var SourceServerVector = exports.SourceServerVector = function (_ol$source$Vecto
           ii = void 0;
       for (i = 0, ii = hrefTags.length; i < ii; i++) {
         if (hrefTags[i].textContent) {
-          hrefTags[i].textContent = this.urlTemplate_.useProxyFor(hrefTags[i].textContent).finalize();
+          hrefTags[i].textContent = this.urlTemplate_.useProxyFor(hrefTags[i].textContent.trim()).finalize();
         } else if (hrefTags[i].innerHTML) {
-          hrefTags[i].innerHTML = this.urlTemplate_.useProxyFor(hrefTags[i].innerHTML).finalize();
+          hrefTags[i].innerHTML = this.urlTemplate_.useProxyFor(hrefTags[i].innerHTML.trim()).finalize();
         } else {
           throw new Error("Can't prepend proxy inside KML (textContent and innerHTML missing)");
         }
@@ -10119,8 +10156,10 @@ var Attribution = exports.Attribution = function (_mixin) {
   }, {
     key: 'scanLayers',
     value: function scanLayers() {
-      this.visibleAttributions_ = [];
-      this.scanLayer(this.getMap().getLayerGroup());
+      if (this.getMap()) {
+        this.visibleAttributions_ = [];
+        this.scanLayer(this.getMap().getLayerGroup());
+      }
     }
   }, {
     key: 'scanLayer',
