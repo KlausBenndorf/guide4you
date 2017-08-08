@@ -9,7 +9,7 @@ export class G4UServerSearchConnector extends SearchConnector {
   constructor (options) {
     super(options)
 
-    this.fuzzyUrl_ = this.serviceURL.addParam('/Search/{searchstring}')
+    this.fuzzyUrl_ = this.serviceURL.url += '/Search/{searchstring}'
 
     this.format_ = new ol.format.KML({showPointNames: false})
   }

@@ -2,15 +2,17 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
-import {expandTemplate} from 'guide4you/src/utilities'
 
 export class G4USearchV2Connector extends SearchConnector {
   constructor (options) {
     super(options)
 
-    this.autocompleteUrl_ = this.serviceURL.clone().addParam('/Autocomplete.ashx?term={searchstring}')
-    this.fuzzyUrl_ = this.serviceURL.clone().addParam('/findall.ashx?option=2&term={searchstring}')
-    this.byHandleUrl_ = this.serviceURL.clone().addParam('/findall.ashx?option=1&term={searchstring}')
+    this.autocompleteUrl_ = this.serviceURL.clone()
+    this.autocompleteUrl_.url += '/Autocomplete.ashx?term={searchstring}'
+    this.fuzzyUrl_ = this.serviceURL.clone()
+    this.fuzzyUrl_.url += '/findall.ashx?option=2&term={searchstring}'
+    this.byHandleUrl_ = this.serviceURL.clone()
+    this.byHandleUrl_.url += '/findall.ashx?option=1&term={searchstring}'
 
     this.dataProjection = 'EPSG:4326'
 
