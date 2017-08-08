@@ -148,8 +148,10 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   scanLayers () {
-    this.visibleAttributions_ = []
-    this.scanLayer(this.getMap().getLayerGroup())
+    if (this.getMap()) {
+      this.visibleAttributions_ = []
+      this.scanLayer(this.getMap().getLayerGroup())
+    }
   }
 
   scanLayer (layer, layerTitle = null) {
