@@ -3834,8 +3834,16 @@ var URL = exports.URL = function () {
        * @type {boolean}
        */
       this.cache = urlLike.cache === undefined ? true : urlLike.cache;
-      this.params = urlLike.params || [];
-      this.expand = urlLike.expand || [];
+      if (urlLike.params) {
+        this.params = urlLike.params.slice(0);
+      } else {
+        this.params = [];
+      }
+      if (urlLike.expand) {
+        this.expand = urlLike.expand.slice(0);
+      } else {
+        this.expand = [];
+      }
     }
   }
 
@@ -3912,7 +3920,7 @@ var URL = exports.URL = function () {
           throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' + ' useProxy.');
         }
 
-        return URL.expandTemplate_(proxy, { paramName: 'url', paramValue: URL.encodeTemplate_(urlAsString), required: true });
+        return URL.expandTemplate_(proxy, { paramName: 'url', paramValue: encodeURIComponent(urlAsString), required: true });
       } else {
         return urlAsString;
       }
@@ -3962,19 +3970,12 @@ var URL = exports.URL = function () {
     }
 
     /**
-     * this function takes an (url) template and encodes everything except for the templated elements.
-     * @param {string} template an (url) template
-     * @returns {string} the encoded (url) template
+     * @param {string} otherUrl
+     * @returns {URL}
      */
 
   }, {
     key: 'useProxyFor',
-
-
-    /**
-     * @param {string} otherUrl
-     * @returns {URL}
-     */
     value: function useProxyFor(otherUrl) {
       return new URL({
         useProxy: this.useProxy,
@@ -4034,23 +4035,6 @@ var URL = exports.URL = function () {
       } else {
         return template;
       }
-    }
-  }, {
-    key: 'encodeTemplate_',
-    value: function encodeTemplate_(template) {
-      var parts = template.split('}');
-
-      var encodedTemplate = '';
-
-      var i = void 0;
-      for (i = 0; i < parts.length - 1; i += 1) {
-        var partedParts = parts[i].split('{');
-        encodedTemplate += encodeURIComponent(partedParts[0]) + '{' + partedParts[1] + '}';
-      }
-
-      encodedTemplate += encodeURIComponent(parts[i]);
-
-      return encodedTemplate;
     }
   }]);
 
@@ -5866,7 +5850,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.2.1'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.2.2'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -7365,7 +7349,7 @@ var SourceServerVector = exports.SourceServerVector = function (_ol$source$Vecto
         },
         success: function success(response) {
           // processing urls in the xml-Data (e.g. for images)
-          if (_this2.useProxy_ && /xml$/.test(_this2.dataType_)) {
+          if (url.useProxy && /xml$/.test(_this2.dataType_)) {
             response = _this2.addProxyToHrefTags(response);
           }
 
