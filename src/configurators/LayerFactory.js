@@ -292,7 +292,6 @@ export class LayerFactory {
         }
         break
       case LayerType.BING:
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
