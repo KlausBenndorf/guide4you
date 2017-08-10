@@ -16,6 +16,7 @@ import {Debug} from '../Debug'
 import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
 import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
 import { URL } from '../URLHelper'
+import { GoogleMapsTileSource } from '../sources/GoogleMapsSource'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -35,7 +36,8 @@ export const LayerType = {
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
-  BING: 'Bing'
+  BING: 'Bing',
+  GOOGLE: 'Google'
 }
 
 /**
@@ -293,6 +295,15 @@ export class LayerFactory {
         break
       case LayerType.BING:
         optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.GOOGLE:
+        optionsCopy.source = new GoogleMapsTileSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
