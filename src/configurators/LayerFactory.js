@@ -416,7 +416,7 @@ export class LayerFactory {
         if (superType === SuperType.QUERYLAYER) {
           this.superTypeNotSupported(layerType, superType)
         } else {
-          return new VectorLayer(optionsCopy)
+          layer = new VectorLayer(optionsCopy)
         }
         break
     }
