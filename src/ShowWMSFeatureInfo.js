@@ -22,7 +22,8 @@ export class ShowWMSFeatureInfo {
 
     this.animated_ = options.animated
     this.centerOnPopup_ = options.hasOwnProperty('centerOnPopup') ? options.centerOnPopup : true
-    this.centerIfNoData_ = options.hasOwnProperty('centerOnPopup') ? options.centerIfNoData : false
+    this.centerIfNoData_ = this.centerOnPopup_ && options.hasOwnProperty('centerIfNoData')
+      ? options.centerIfNoData : false
 
     this.centerOnPopupInitial_ = this.centerOnPopup_
 

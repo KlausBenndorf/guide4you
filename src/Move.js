@@ -124,9 +124,12 @@ export class Move {
    * @private
    */
   bufferUpToMinSize_ (extent) {
-    let smallerSize = Math.min(ol.extent.getWidth(extent), ol.extent.getHeight(extent))
+    // TODO: maybe use something more precise than transforming into 3857 to get meter size.
+    let extentInMeters = ol.proj.transformExtent(extent, this.map_.getView().getProjection(), 'EPSG:3857')
+    let smallerSize = Math.min(ol.extent.getWidth(extentInMeters), ol.extent.getHeight(extentInMeters))
     if (smallerSize < this.meterMinSize_) {
-      return ol.extent.buffer(extent, this.meterMinSize_ - smallerSize / 2)
+      extentInMeters = ol.extent.buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2)
+      return ol.proj.transformExtent(extentInMeters, 'EPSG:3857', this.map_.getView().getProjection())
     } else {
       return extent
     }
