@@ -148,9 +148,13 @@ export class ComposedControl extends Control {
           this.addClasses_($wrap)
         }
 
-        if (control.getVisible && !control.getVisible()) {
+        if (!control.getVisible()) {
           $wrap.addClass(cssClasses.hidden)
         }
+
+        control.on('change:visible', () => {
+          $wrap.toggleClass(cssClasses.hidden, !control.getVisible())
+        })
 
         this.$container_.append($wrap)
       } else {
@@ -166,16 +170,16 @@ export class ComposedControl extends Control {
           control.set$Target(this.$container_)
         }
       }
-
-      control.on('change', () => this.changed())
     }
 
+    control.on('change:visible', () => this.updateVisibility())
     control.on('change', e => this.dispatchEvent(e))
     control.on('change:size', e => this.dispatchEvent(e))
 
     this.controls_.push(control)
 
     this.changed()
+    this.updateVisibility()
   }
 
   /**
@@ -207,5 +211,9 @@ export class ComposedControl extends Control {
     }
 
     super.setMap(map)
+  }
+
+  updateVisibility () {
+    this.setVisible(this.controls_.some(c => c.getVisible()))
   }
 }
