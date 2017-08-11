@@ -5,7 +5,6 @@ import {GroupLayer} from '../layers/GroupLayer'
 import {ButtonBox} from '../html/ButtonBox'
 import {Control} from './Control'
 import { offset, mixin } from '../utilities'
-import {cssClasses} from '../globals'
 import {Window} from '../html/Window'
 
 import '../../less/layerselector.less'
@@ -538,6 +537,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   build () {
     this.layers_ = this.getMap().get(this.layerGroupName_).getLayers()
     if (this.layers_.getLength() >= this.minLayerAmount_) {
+      this.setVisible(true)
       let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
       for (let layer of this.layers_.getArray()) {
         this.chooseButtonBuilder(layer, this.menu_.get$Body())
@@ -552,21 +552,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   rebuild () {
     this.clear()
     this.build()
-  }
-
-  /**
-   * @param {boolean} visible
-   */
-  setVisible (visible) {
-    this.get$Element().toggleClass(cssClasses.hidden, !visible)
-    this.visible_ = visible
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  getVisible () {
-    return this.visible_
   }
 
   /**

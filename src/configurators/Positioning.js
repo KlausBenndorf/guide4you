@@ -113,6 +113,26 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   }
 
   /**
+   * Remove a control from the positioning.
+   * @param {Control} control
+   * @param {Object} [parentMeta] the meta information of the parent control
+   */
+  removeControl (control, parentMeta) {
+    this.all_.splice(this.all_.findIndex(e => e.control === control))
+    let float = control.getFloat() || ['top', 'left']
+    if (float === 'fixed') {
+      return
+    }
+    let cw = this.corners_[float[0]][float[1]].clockwise
+    let ccw = this.corners_[float[0]][float[1]].counterclockwise
+    cw.splice(cw.findIndex(e => e.control === control))
+    ccw.splice(ccw.findIndex(e => e.control === control))
+    control.once('change:visible', () => {
+      this.addControl(control, parentMeta)
+    })
+  }
+
+  /**
    * Add a control to the positioning.
    * @param {Control} control
    * @param {Object} [parentMeta] the meta information of the parent control
@@ -120,7 +140,15 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   addControl (control, parentMeta) {
     // check if control needs to be positioned
     if (control.get$Element().parents().hasClass('ol-viewport')) {
-      if (!parentMeta || !parentMeta.control.isWindowed()) {
+      if (!control.getVisible()) {
+        control.once('change:visible', () => {
+          this.addControl(control, parentMeta)
+        })
+      } else if (!parentMeta || !parentMeta.control.isWindowed()) {
+        control.once('change:visible', () => {
+          this.removeControl(control, parentMeta)
+        })
+
         // gather metainformation
         /** @type {HideableElement} */
         let metaElem = {

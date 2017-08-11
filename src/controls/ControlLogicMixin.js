@@ -83,6 +83,12 @@ export class ControlLogicMixin {
      * @private
      */
     this.importance_ = options.importance || 0
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.visible_ = true
   }
 
   /**
@@ -201,5 +207,23 @@ export class ControlLogicMixin {
     this.catched$Target_ = $target
     this.setTarget($target[ 0 ])
     $target.append(this.get$Element())
+  }
+
+  /**
+   * @param {boolean} visible
+   */
+  setVisible (visible) {
+    if (visible !== this.visible_) {
+      this.get$Element().toggleClass(cssClasses.hidden, !visible)
+      this.visible_ = visible
+      this.dispatchEvent('change:visible')
+    }
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  getVisible () {
+    return this.visible_
   }
 }
