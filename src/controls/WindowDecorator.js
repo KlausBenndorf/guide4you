@@ -85,29 +85,39 @@ export class WindowDecorator extends Control {
       this.window_.get$Body().append(this.component_.get$Element())
 
       if (this.component_.setActive) {
+        if (this.component_.getActive()) {
+          this.$button_.addClass(cssClasses.active)
+        }
+
         this.$button_.on('click touch', () => {
           this.component_.setActive(!this.component_.getActive())
         })
 
         this.component_.on('change:active', () => {
           let active = this.component_.getActive()
-          this.setWindowVisible(active)
+          setTimeout(() => this.setWindowVisible(active), 0)
           this.$button_.toggleClass(cssClasses.active, active)
         })
 
-        this.window_.on('change:visible', (e) => {
+        this.window_.on('change:visible', e => {
           if (!this.window_.getVisible()) {
             this.component_.setActive(false)
           }
-          this.dispatchEvent(e)
+          this.dispatchEvent({
+            type: 'change:windowVisible',
+            oldValue: e.oldValue
+          })
         })
       } else {
         this.$button_.on('click touch', () => {
           this.setWindowVisible(!this.window_.getVisible())
         })
 
-        this.window_.on('change:visible', (e) => {
-          this.dispatchEvent(e)
+        this.window_.on('change:visible', e => {
+          this.dispatchEvent({
+            type: 'change:windowVisible',
+            oldValue: e.oldValue
+          })
         })
       }
       this.get$Element().append(this.window_.get$Element())

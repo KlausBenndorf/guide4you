@@ -14,6 +14,7 @@ import '../../less/geolocation.less'
  * @property {boolean} [animated] if the move on the map to the geoposition should be animated
  * @property {StyleLike} [style='#defaultStyle']
  * @property {number} [maxZoom]
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -104,7 +105,7 @@ export class GeolocationButton extends Control {
      * @type {boolean}
      * @private
      */
-    this.active_ = false
+    this.active_ = options.active === true
   }
 
   /**
@@ -127,6 +128,11 @@ export class GeolocationButton extends Control {
       this.layer_.setStyle(map.get('styling').getStyle(this.style_))
       map.get('styling').manageLayer(this.layer_)
       map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are
+
+      if (this.active_) {
+        this.active_ = false // to trigger code in setActive
+        this.setActive(true)
+      }
     }
   }
 

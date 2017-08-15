@@ -10,6 +10,7 @@ import { URL } from '../URLHelper'
  * @typedef {g4uControlOptions} InfoButtonOptions
  * @property {URLLike} contentURL url providing content to be shown
  * @property {boolean} [attribution=true]
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -94,7 +95,7 @@ export class InfoButton extends Control {
      * @type {boolean}
      * @private
      */
-    this.active_ = false
+    this.active_ = options.active === true
   }
 
   /**
@@ -107,11 +108,18 @@ export class InfoButton extends Control {
       oldMap.removeControl(this.attributionControl_)
     }
 
-    if (map && this.attribution_) {
-      map.addControl(this.attributionControl_)
-    }
-
     super.setMap(map)
+
+    if (map) {
+      if (this.attribution_) {
+        map.addControl(this.attributionControl_)
+      }
+
+      if (this.active_) {
+        this.active_ = false // to trigger code in setActive
+        this.setActive(true)
+      }
+    }
   }
 
   /**

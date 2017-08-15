@@ -143,7 +143,8 @@
       "contentURL": {
         "de": "files/infos_de.html",
         "en": "files/infos_en.html"
-      }
+      },
+      "active": true
     },
     "scaleLine": {
       "float": [

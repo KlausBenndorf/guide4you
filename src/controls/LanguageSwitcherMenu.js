@@ -13,6 +13,7 @@ import {mixin} from '../utilities'
 /**
  * @typedef {g4uControlOptions} LanguageSwitcherMenuOptions
  * @property {boolean} [showLongLanguage=false]
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -82,7 +83,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
      * @type {boolean}
      * @private
      */
-    this.active_ = false
+    this.active_ = options.active === true
   }
 
   /**
@@ -128,6 +129,11 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
       }
 
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'))
+
+      if (this.active_) {
+        this.active_ = false // to trigger code in setActive
+        this.setActive(true)
+      }
     }
   }
 
