@@ -5887,7 +5887,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.2.4'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.2.5'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -18069,36 +18069,51 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
        */
       this.order_ = 0;
     }
-
-    /**
-     * Remove a control from the positioning.
-     * @param {Control} control
-     * @param {Object} [parentMeta] the meta information of the parent control
-     */
-
   }, {
-    key: 'removeControl',
-    value: function removeControl(control, parentMeta) {
-      var _this2 = this;
-
-      this.all_.splice(this.all_.findIndex(function (e) {
-        return e.control === control;
-      }));
-      var float = control.getFloat() || ['top', 'left'];
-      if (float === 'fixed') {
-        return;
+    key: 'getArray_',
+    value: function getArray_(float) {
+      var x = void 0,
+          y = void 0,
+          direction = void 0;
+      switch (float[0]) {
+        case 'top':
+          y = 'top';
+          x = float[1];
+          if (x === 'left') {
+            direction = 'clockwise';
+          } else if (x === 'right') {
+            direction = 'counterclockwise';
+          }
+          break;
+        case 'right':
+          x = 'right';
+          y = float[1];
+          if (y === 'top') {
+            direction = 'clockwise';
+          } else if (y === 'bottom') {
+            direction = 'counterclockwise';
+          }
+          break;
+        case 'bottom':
+          y = 'bottom';
+          x = float[1];
+          if (x === 'left') {
+            direction = 'counterclockwise';
+          } else {
+            direction = 'clockwise';
+          }
+          break;
+        case 'left':
+          x = 'left';
+          y = float[1];
+          if (y === 'top') {
+            direction = 'counterclockwise';
+          } else {
+            direction = 'clockwise';
+          }
       }
-      var cw = this.corners_[float[0]][float[1]].clockwise;
-      var ccw = this.corners_[float[0]][float[1]].counterclockwise;
-      cw.splice(cw.findIndex(function (e) {
-        return e.control === control;
-      }));
-      ccw.splice(ccw.findIndex(function (e) {
-        return e.control === control;
-      }));
-      control.once('change:visible', function () {
-        _this2.addControl(control, parentMeta);
-      });
+
+      return this.corners_[x][y][direction];
     }
 
     /**
@@ -18110,31 +18125,28 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'addControl',
     value: function addControl(control, parentMeta) {
-      var _this3 = this;
+      var _this2 = this;
 
       // check if control needs to be positioned
       if (control.get$Element().parents().hasClass('ol-viewport')) {
-        if (!control.getVisible()) {
-          control.once('change:visible', function () {
-            _this3.addControl(control, parentMeta);
-          });
-        } else if (!parentMeta || !parentMeta.control.isWindowed()) {
-          control.once('change:visible', function () {
-            _this3.removeControl(control, parentMeta);
-          });
-
+        if (!parentMeta || !parentMeta.control.isWindowed()) {
           // gather metainformation
           /** @type {HideableElement} */
           var metaElem = {
             control: control,
             order: this.order_++,
-            visible: true,
+            visible: control.getVisible(),
             importance: control.getImportance()
           };
 
+          control.on('change:visible', function () {
+            metaElem.visible = control.getVisible();
+            _this2.positionElements();
+          });
+
           // repositioning if collapsible elements changes size
           this.listenAt(control).on('change:size', function () {
-            _this3.positionElements();
+            _this2.positionElements();
           });
 
           if (!parentMeta) {
@@ -18144,48 +18156,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
               return;
             }
 
-            var x = void 0,
-                y = void 0,
-                direction = void 0;
-            switch (metaElem.float[0]) {
-              case 'top':
-                y = 'top';
-                x = metaElem.float[1];
-                if (x === 'left') {
-                  direction = 'clockwise';
-                } else if (x === 'right') {
-                  direction = 'counterclockwise';
-                }
-                break;
-              case 'right':
-                x = 'right';
-                y = metaElem.float[1];
-                if (y === 'top') {
-                  direction = 'clockwise';
-                } else if (y === 'bottom') {
-                  direction = 'counterclockwise';
-                }
-                break;
-              case 'bottom':
-                y = 'bottom';
-                x = metaElem.float[1];
-                if (x === 'left') {
-                  direction = 'counterclockwise';
-                } else {
-                  direction = 'clockwise';
-                }
-                break;
-              case 'left':
-                x = 'left';
-                y = metaElem.float[1];
-                if (y === 'top') {
-                  direction = 'counterclockwise';
-                } else {
-                  direction = 'clockwise';
-                }
-            }
-
-            this.corners_[x][y][direction].push(metaElem);
+            this.getArray_(metaElem.float).push(metaElem);
 
             this.all_.push(metaElem);
 
@@ -18326,7 +18297,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'beforePositioning_',
     value: function beforePositioning_() {
-      var _this4 = this;
+      var _this3 = this;
 
       var elems = new Set(this.all_);
 
@@ -18334,47 +18305,47 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
        * @param {PositionedElement} elem
        */
       var forEach = function forEach(elem) {
-        if (elem.control.beforePositioning) {
-          elem.control.beforePositioning();
-        }
+        if (elem.visible) {
+          if (elem.control.beforePositioning) {
+            elem.control.beforePositioning();
+          }
 
-        if (elem.hideableChildren) {
-          var _iteratorNormalCompletion2 = true;
-          var _didIteratorError2 = false;
-          var _iteratorError2 = undefined;
+          if (elem.hideableChildren) {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
 
-          try {
-            for (var _iterator2 = elem.hideableChildren[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-              var child = _step2.value;
-
-              forEach(child);
-            }
-          } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
-          } finally {
             try {
-              if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
+              for (var _iterator2 = elem.hideableChildren[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                var child = _step2.value;
+
+                forEach(child);
               }
+            } catch (err) {
+              _didIteratorError2 = true;
+              _iteratorError2 = err;
             } finally {
-              if (_didIteratorError2) {
-                throw _iteratorError2;
+              try {
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
+                }
+              } finally {
+                if (_didIteratorError2) {
+                  throw _iteratorError2;
+                }
               }
             }
           }
-        }
 
-        var $elem = elem.control.get$Element();
-        $elem.removeClass(_globals.cssClasses.hidden);
-        $elem.position({ top: 0, left: 0 });
-        elem.visible = $elem.is(':visible');
-        if (elem.visible) {
+          var $elem = elem.control.get$Element();
+          $elem.removeClass(_globals.cssClasses.hidden);
+
+          $elem.position({ top: 0, left: 0 });
           if (elem.control.release) {
             elem.control.release('height');
             elem.control.release('width');
           }
-          elem.size = _this4.measureExpandedElement_(elem);
+          elem.size = _this3.measureExpandedElement_(elem);
         }
 
         elems.delete(elem);
@@ -18535,7 +18506,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'positionElements',
     value: function positionElements() {
-      var _this5 = this;
+      var _this4 = this;
 
       var width = this.$viewport_.innerWidth();
       var height = this.$viewport_.innerHeight();
@@ -18633,12 +18604,12 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
       // positioning
 
       var positionCorner = function positionCorner(x, y) {
-        var corner = _this5.getCorner_(x, y);
+        var corner = _this4.getCorner_(x, y);
         if (corner) {
           var _$elem$removeClass$cs;
 
-          var xLength = _this5.padding_;
-          var yLength = _this5.padding_;
+          var xLength = _this4.padding_;
+          var yLength = _this4.padding_;
           var $elem = corner.control.get$Element();
 
           if (corner.control.setPositionedState) {
@@ -18647,8 +18618,8 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
           $elem.removeClass(_globals.cssClasses.hidden).css((_$elem$removeClass$cs = {}, _defineProperty(_$elem$removeClass$cs, x, xLength), _defineProperty(_$elem$removeClass$cs, y, yLength), _$elem$removeClass$cs));
 
-          xLength += $elem.outerWidth() + _this5.spacing_;
-          yLength += $elem.outerHeight() + _this5.spacing_;
+          xLength += $elem.outerWidth() + _this4.spacing_;
+          yLength += $elem.outerHeight() + _this4.spacing_;
 
           var xDirection = void 0,
               yDirection = void 0;
@@ -18673,7 +18644,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
           var _iteratorError7 = undefined;
 
           try {
-            for (var _iterator7 = _jquery2.default.grep(_this5.corners_[x][y][xDirection], function (el) {
+            for (var _iterator7 = _jquery2.default.grep(_this4.corners_[x][y][xDirection], function (el) {
               return el.visible && el !== corner;
             })[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
               var _$elem$css;
@@ -18681,11 +18652,11 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
               var elem = _step7.value;
 
               $elem = elem.control.get$Element();
-              $elem.css((_$elem$css = {}, _defineProperty(_$elem$css, x, xLength), _defineProperty(_$elem$css, y, _this5.padding_), _$elem$css));
+              $elem.css((_$elem$css = {}, _defineProperty(_$elem$css, x, xLength), _defineProperty(_$elem$css, y, _this4.padding_), _$elem$css));
               if (elem.control.setPositionedState) {
                 elem.control.setPositionedState(elem.state);
               }
-              xLength += $elem.outerWidth() + _this5.spacing_;
+              xLength += $elem.outerWidth() + _this4.spacing_;
             }
 
             // y
@@ -18709,7 +18680,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
           var _iteratorError8 = undefined;
 
           try {
-            for (var _iterator8 = _jquery2.default.grep(_this5.corners_[x][y][yDirection], function (el) {
+            for (var _iterator8 = _jquery2.default.grep(_this4.corners_[x][y][yDirection], function (el) {
               return el.visible && el !== corner;
             })[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
               var _$elem$css2;
@@ -18717,11 +18688,11 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
               var _elem = _step8.value;
 
               $elem = _elem.control.get$Element();
-              $elem.css((_$elem$css2 = {}, _defineProperty(_$elem$css2, x, _this5.padding_), _defineProperty(_$elem$css2, y, yLength), _$elem$css2));
+              $elem.css((_$elem$css2 = {}, _defineProperty(_$elem$css2, x, _this4.padding_), _defineProperty(_$elem$css2, y, yLength), _$elem$css2));
               if (_elem.control.setPositionedState) {
                 _elem.control.setPositionedState(_elem.state);
               }
-              yLength += $elem.outerHeight() + _this5.spacing_;
+              yLength += $elem.outerHeight() + _this4.spacing_;
             }
           } catch (err) {
             _didIteratorError8 = true;
