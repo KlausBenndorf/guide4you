@@ -658,6 +658,22 @@ module.exports = isArray;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var store      = __webpack_require__(102)('wks')
+  , uid        = __webpack_require__(60)
+  , Symbol     = __webpack_require__(4).Symbol
+  , USE_SYMBOL = typeof Symbol == 'function';
+
+var $exports = module.exports = function(name){
+  return store[name] || (store[name] =
+    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+$exports.store = store;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -701,22 +717,6 @@ var cssClasses = exports.cssClasses = {
   upperCase: 'g4u-uppercase',
   collapsed: 'g4u-collapsed'
 };
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var store      = __webpack_require__(102)('wks')
-  , uid        = __webpack_require__(60)
-  , Symbol     = __webpack_require__(4).Symbol
-  , USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function(name){
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
 
 /***/ }),
 /* 12 */
@@ -1309,7 +1309,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1770,7 +1770,7 @@ if(__webpack_require__(12)){
     , gOPN                = __webpack_require__(55).f
     , getIterFn           = __webpack_require__(151)
     , uid                 = __webpack_require__(60)
-    , wks                 = __webpack_require__(11)
+    , wks                 = __webpack_require__(10)
     , createArrayMethod   = __webpack_require__(37)
     , createArrayIncludes = __webpack_require__(93)
     , speciesConstructor  = __webpack_require__(143)
@@ -2703,7 +2703,7 @@ module.exports = function(target, src, safe){
 var global      = __webpack_require__(4)
   , dP          = __webpack_require__(13)
   , DESCRIPTORS = __webpack_require__(12)
-  , SPECIES     = __webpack_require__(11)('species');
+  , SPECIES     = __webpack_require__(10)('species');
 
 module.exports = function(KEY){
   var C = global[KEY];
@@ -3518,7 +3518,7 @@ var GroupLayer = exports.GroupLayer = function (_mixin) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.31 Array.prototype[@@unscopables]
-var UNSCOPABLES = __webpack_require__(11)('unscopables')
+var UNSCOPABLES = __webpack_require__(10)('unscopables')
   , ArrayProto  = Array.prototype;
 if(ArrayProto[UNSCOPABLES] == undefined)__webpack_require__(23)(ArrayProto, UNSCOPABLES, {});
 module.exports = function(key){
@@ -3567,7 +3567,7 @@ module.exports = {};
 
 var def = __webpack_require__(13).f
   , has = __webpack_require__(21)
-  , TAG = __webpack_require__(11)('toStringTag');
+  , TAG = __webpack_require__(10)('toStringTag');
 
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
@@ -4132,7 +4132,7 @@ var ProvideMapMixin = exports.ProvideMapMixin = function () {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = __webpack_require__(31)
-  , TAG = __webpack_require__(11)('toStringTag')
+  , TAG = __webpack_require__(10)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
 
@@ -4324,7 +4324,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _ControlLogicMixin2 = __webpack_require__(176);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _utilities = __webpack_require__(6);
 
@@ -4409,7 +4409,7 @@ var _utilities = __webpack_require__(6);
 
 var _html = __webpack_require__(35);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _iscroll = __webpack_require__(518);
 
@@ -5054,7 +5054,7 @@ var hide     = __webpack_require__(23)
   , redefine = __webpack_require__(24)
   , fails    = __webpack_require__(5)
   , defined  = __webpack_require__(32)
-  , wks      = __webpack_require__(11);
+  , wks      = __webpack_require__(10);
 
 module.exports = function(KEY, length, exec){
   var SYMBOL   = wks(KEY)
@@ -5125,7 +5125,7 @@ module.exports = function(fn, args, that){
 // 7.2.8 IsRegExp(argument)
 var isObject = __webpack_require__(7)
   , cof      = __webpack_require__(31)
-  , MATCH    = __webpack_require__(11)('match');
+  , MATCH    = __webpack_require__(10)('match');
 module.exports = function(it){
   var isRegExp;
   return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
@@ -5135,7 +5135,7 @@ module.exports = function(it){
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var ITERATOR     = __webpack_require__(11)('iterator')
+var ITERATOR     = __webpack_require__(10)('iterator')
   , SAFE_CLOSING = false;
 
 try {
@@ -5818,7 +5818,7 @@ var _L10N = __webpack_require__(265);
 
 var _utilitiesObject = __webpack_require__(36);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _defaultconfig = __webpack_require__(292);
 
@@ -5887,7 +5887,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.2.3'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.2.4'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -6708,7 +6708,7 @@ var _Window = __webpack_require__(91);
 
 var _Control2 = __webpack_require__(20);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(508);
 
@@ -6890,9 +6890,13 @@ var ComposedControl = exports.ComposedControl = function (_Control) {
             this.addClasses_($wrap);
           }
 
-          if (control.getVisible && !control.getVisible()) {
+          if (!control.getVisible()) {
             $wrap.addClass(_globals.cssClasses.hidden);
           }
+
+          control.on('change:visible', function () {
+            $wrap.toggleClass(_globals.cssClasses.hidden, !control.getVisible());
+          });
 
           this.$container_.append($wrap);
         } else {
@@ -6908,12 +6912,11 @@ var ComposedControl = exports.ComposedControl = function (_Control) {
             control.set$Target(this.$container_);
           }
         }
-
-        control.on('change', function () {
-          return _this2.changed();
-        });
       }
 
+      control.on('change:visible', function () {
+        return _this2.updateVisibility();
+      });
       control.on('change', function (e) {
         return _this2.dispatchEvent(e);
       });
@@ -6924,6 +6927,7 @@ var ComposedControl = exports.ComposedControl = function (_Control) {
       this.controls_.push(control);
 
       this.changed();
+      this.updateVisibility();
     }
 
     /**
@@ -6963,6 +6967,13 @@ var ComposedControl = exports.ComposedControl = function (_Control) {
       }
 
       _get(ComposedControl.prototype.__proto__ || Object.getPrototypeOf(ComposedControl.prototype), 'setMap', this).call(this, map);
+    }
+  }, {
+    key: 'updateVisibility',
+    value: function updateVisibility() {
+      this.setVisible(this.controls_.some(function (c) {
+        return c.getVisible();
+      }));
     }
   }]);
 
@@ -7533,7 +7544,7 @@ module.exports = (
 /* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MATCH = __webpack_require__(11)('match');
+var MATCH = __webpack_require__(10)('match');
 module.exports = function(KEY){
   var re = /./;
   try {
@@ -7571,7 +7582,7 @@ module.exports = function(that, target, C){
 
 // check on default Array iterator
 var Iterators  = __webpack_require__(74)
-  , ITERATOR   = __webpack_require__(11)('iterator')
+  , ITERATOR   = __webpack_require__(10)('iterator')
   , ArrayProto = Array.prototype;
 
 module.exports = function(it){
@@ -7600,7 +7611,7 @@ var create         = __webpack_require__(54)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__(23)(IteratorPrototype, __webpack_require__(11)('iterator'), function(){ return this; });
+__webpack_require__(23)(IteratorPrototype, __webpack_require__(10)('iterator'), function(){ return this; });
 
 module.exports = function(Constructor, NAME, next){
   Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
@@ -7622,7 +7633,7 @@ var LIBRARY        = __webpack_require__(53)
   , $iterCreate    = __webpack_require__(136)
   , setToStringTag = __webpack_require__(75)
   , getPrototypeOf = __webpack_require__(29)
-  , ITERATOR       = __webpack_require__(11)('iterator')
+  , ITERATOR       = __webpack_require__(10)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
   , FF_ITERATOR    = '@@iterator'
   , KEYS           = 'keys'
@@ -7827,7 +7838,7 @@ module.exports = function(key){
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject  = __webpack_require__(3)
   , aFunction = __webpack_require__(22)
-  , SPECIES   = __webpack_require__(11)('species');
+  , SPECIES   = __webpack_require__(10)('species');
 module.exports = function(O, D){
   var C = anObject(O).constructor, S;
   return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
@@ -8271,7 +8282,7 @@ module.exports = function(name){
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof   = __webpack_require__(83)
-  , ITERATOR  = __webpack_require__(11)('iterator')
+  , ITERATOR  = __webpack_require__(10)('iterator')
   , Iterators = __webpack_require__(74);
 module.exports = __webpack_require__(41).getIteratorMethod = function(it){
   if(it != undefined)return it[ITERATOR]
@@ -9121,7 +9132,7 @@ var _ListenerOrganizerMixin = __webpack_require__(51);
 
 var _Window = __webpack_require__(91);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _utilities = __webpack_require__(6);
 
@@ -9975,7 +9986,7 @@ var _ListenerOrganizerMixin = __webpack_require__(51);
 
 var _utilities = __webpack_require__(6);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _html = __webpack_require__(35);
 
@@ -10298,7 +10309,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10391,6 +10402,12 @@ var ControlLogicMixin = exports.ControlLogicMixin = function () {
        * @private
        */
       this.importance_ = options.importance || 0;
+
+      /**
+       * @type {boolean}
+       * @private
+       */
+      this.visible_ = true;
     }
 
     /**
@@ -10552,6 +10569,30 @@ var ControlLogicMixin = exports.ControlLogicMixin = function () {
       this.setTarget($target[0]);
       $target.append(this.get$Element());
     }
+
+    /**
+     * @param {boolean} visible
+     */
+
+  }, {
+    key: 'setVisible',
+    value: function setVisible(visible) {
+      if (visible !== this.visible_) {
+        this.get$Element().toggleClass(_globals.cssClasses.hidden, !visible);
+        this.visible_ = visible;
+        this.dispatchEvent('change:visible');
+      }
+    }
+
+    /**
+     * @returns {boolean}
+     */
+
+  }, {
+    key: 'getVisible',
+    value: function getVisible() {
+      return this.visible_;
+    }
   }]);
 
   return ControlLogicMixin;
@@ -10583,7 +10624,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _Control2 = __webpack_require__(20);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _VectorLayer = __webpack_require__(92);
 
@@ -10604,6 +10645,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @property {number} [dimension=1] 1 for lines, 2 for polygons
  * @property {string} [atDrawEnd] if set to 'newMeasurement' the control will start a new measurement after
  *    completing a measurement. if set to 'closeWindow' the window will be closed.
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -10661,7 +10703,7 @@ var MeasurementButton = exports.MeasurementButton = function (_Control) {
      * @type {boolean}
      * @private
      */
-    _this.active_ = false;
+    _this.active_ = options.active === true;
 
     /**
      * @type {number}
@@ -10692,6 +10734,13 @@ var MeasurementButton = exports.MeasurementButton = function (_Control) {
     key: 'setMap',
     value: function setMap(map) {
       var _this2 = this;
+
+      if (this.getMap()) {
+        this.getMap().getLayers().remove(this.layer_);
+        this.getMap().removeInteraction(this.drawInteraction_);
+      }
+
+      _get(MeasurementButton.prototype.__proto__ || Object.getPrototypeOf(MeasurementButton.prototype), 'setMap', this).call(this, map);
 
       if (map) {
         this.get$Element().append(this.getLocaliser().localiseUsingDictionary('MeasurementButton dim' + this.dimension_ + ' measured')).append((0, _jquery2.default)('<span>').addClass(this.className_ + '-value').append(this.$valueDisplay_).append('&nbsp;').append(this.$unitPlaceholder_)).append('<br/>').append(this.getLocaliser().localiseUsingDictionary('MeasurementButton doubleClickEndsMeasurement'));
@@ -10791,12 +10840,12 @@ var MeasurementButton = exports.MeasurementButton = function (_Control) {
               _this2.drawInteraction_.setActive(false);
           }
         });
-      } else {
-        this.getMap().getLayers().remove(this.layer_);
-        this.getMap().removeInteraction(this.drawInteraction_);
-      }
 
-      _get(MeasurementButton.prototype.__proto__ || Object.getPrototypeOf(MeasurementButton.prototype), 'setMap', this).call(this, map);
+        if (this.active_) {
+          this.active_ = false; // to trigger code in setActive
+          this.setActive(true);
+        }
+      }
     }
 
     /**
@@ -10918,7 +10967,7 @@ var _Control2 = __webpack_require__(20);
 
 var _html = __webpack_require__(35);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(505);
 
@@ -11103,7 +11152,7 @@ var _Window = __webpack_require__(91);
 
 var _html = __webpack_require__(35);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(511);
 
@@ -11205,13 +11254,19 @@ var WindowDecorator = exports.WindowDecorator = function (_Control) {
         this.window_.get$Body().append(this.component_.get$Element());
 
         if (this.component_.setActive) {
+          if (this.component_.getActive()) {
+            this.$button_.addClass(_globals.cssClasses.active);
+          }
+
           this.$button_.on('click touch', function () {
             _this2.component_.setActive(!_this2.component_.getActive());
           });
 
           this.component_.on('change:active', function () {
             var active = _this2.component_.getActive();
-            _this2.setWindowVisible(active);
+            setTimeout(function () {
+              return _this2.setWindowVisible(active);
+            }, 0);
             _this2.$button_.toggleClass(_globals.cssClasses.active, active);
           });
 
@@ -11219,7 +11274,10 @@ var WindowDecorator = exports.WindowDecorator = function (_Control) {
             if (!_this2.window_.getVisible()) {
               _this2.component_.setActive(false);
             }
-            _this2.dispatchEvent(e);
+            _this2.dispatchEvent({
+              type: 'change:windowVisible',
+              oldValue: e.oldValue
+            });
           });
         } else {
           this.$button_.on('click touch', function () {
@@ -11227,7 +11285,10 @@ var WindowDecorator = exports.WindowDecorator = function (_Control) {
           });
 
           this.window_.on('change:visible', function (e) {
-            _this2.dispatchEvent(e);
+            _this2.dispatchEvent({
+              type: 'change:windowVisible',
+              oldValue: e.oldValue
+            });
           });
         }
         this.get$Element().append(this.window_.get$Element());
@@ -11979,7 +12040,7 @@ module.exports = function(that, maxLength, fillString, left){
 /* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports.f = __webpack_require__(11);
+exports.f = __webpack_require__(10);
 
 /***/ }),
 /* 207 */
@@ -14066,7 +14127,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _Debug = __webpack_require__(15);
 
@@ -14484,7 +14545,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(509);
 
@@ -15321,9 +15382,12 @@ var Move = exports.Move = function () {
   }, {
     key: 'bufferUpToMinSize_',
     value: function bufferUpToMinSize_(extent) {
-      var smallerSize = Math.min(_openlayers2.default.extent.getWidth(extent), _openlayers2.default.extent.getHeight(extent));
+      // TODO: maybe use something more precise than transforming into 3857 to get meter size.
+      var extentInMeters = _openlayers2.default.proj.transformExtent(extent, this.map_.getView().getProjection(), 'EPSG:3857');
+      var smallerSize = Math.min(_openlayers2.default.extent.getWidth(extentInMeters), _openlayers2.default.extent.getHeight(extentInMeters));
       if (smallerSize < this.meterMinSize_) {
-        return _openlayers2.default.extent.buffer(extent, this.meterMinSize_ - smallerSize / 2);
+        extentInMeters = _openlayers2.default.extent.buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2);
+        return _openlayers2.default.proj.transformExtent(extentInMeters, 'EPSG:3857', this.map_.getView().getProjection());
       } else {
         return extent;
       }
@@ -15495,7 +15559,7 @@ var ShowWMSFeatureInfo = exports.ShowWMSFeatureInfo = function () {
 
     this.animated_ = options.animated;
     this.centerOnPopup_ = options.hasOwnProperty('centerOnPopup') ? options.centerOnPopup : true;
-    this.centerIfNoData_ = options.hasOwnProperty('centerOnPopup') ? options.centerIfNoData : false;
+    this.centerIfNoData_ = this.centerOnPopup_ && options.hasOwnProperty('centerIfNoData') ? options.centerIfNoData : false;
 
     this.centerOnPopupInitial_ = this.centerOnPopup_;
 
@@ -17132,7 +17196,6 @@ var LayerFactory = exports.LayerFactory = function () {
           }
           break;
         case LayerType.BING:
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url').finalize();
           optionsCopy.source = new _openlayers2.default.source.BingMaps(optionsCopy.source);
 
           if (superType === SuperType.BASELAYER) {
@@ -17256,7 +17319,7 @@ var LayerFactory = exports.LayerFactory = function () {
           if (superType === SuperType.QUERYLAYER) {
             this.superTypeNotSupported(layerType, superType);
           } else {
-            return new _VectorLayer.VectorLayer(optionsCopy);
+            layer = new _VectorLayer.VectorLayer(optionsCopy);
           }
           break;
       }
@@ -17874,7 +17937,7 @@ var _uniq = __webpack_require__(258);
 
 var _uniq2 = _interopRequireDefault(_uniq);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _utilities = __webpack_require__(6);
 
@@ -18008,6 +18071,37 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
     }
 
     /**
+     * Remove a control from the positioning.
+     * @param {Control} control
+     * @param {Object} [parentMeta] the meta information of the parent control
+     */
+
+  }, {
+    key: 'removeControl',
+    value: function removeControl(control, parentMeta) {
+      var _this2 = this;
+
+      this.all_.splice(this.all_.findIndex(function (e) {
+        return e.control === control;
+      }));
+      var float = control.getFloat() || ['top', 'left'];
+      if (float === 'fixed') {
+        return;
+      }
+      var cw = this.corners_[float[0]][float[1]].clockwise;
+      var ccw = this.corners_[float[0]][float[1]].counterclockwise;
+      cw.splice(cw.findIndex(function (e) {
+        return e.control === control;
+      }));
+      ccw.splice(ccw.findIndex(function (e) {
+        return e.control === control;
+      }));
+      control.once('change:visible', function () {
+        _this2.addControl(control, parentMeta);
+      });
+    }
+
+    /**
      * Add a control to the positioning.
      * @param {Control} control
      * @param {Object} [parentMeta] the meta information of the parent control
@@ -18016,11 +18110,19 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'addControl',
     value: function addControl(control, parentMeta) {
-      var _this2 = this;
+      var _this3 = this;
 
       // check if control needs to be positioned
       if (control.get$Element().parents().hasClass('ol-viewport')) {
-        if (!parentMeta || !parentMeta.control.isWindowed()) {
+        if (!control.getVisible()) {
+          control.once('change:visible', function () {
+            _this3.addControl(control, parentMeta);
+          });
+        } else if (!parentMeta || !parentMeta.control.isWindowed()) {
+          control.once('change:visible', function () {
+            _this3.removeControl(control, parentMeta);
+          });
+
           // gather metainformation
           /** @type {HideableElement} */
           var metaElem = {
@@ -18032,7 +18134,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
           // repositioning if collapsible elements changes size
           this.listenAt(control).on('change:size', function () {
-            _this2.positionElements();
+            _this3.positionElements();
           });
 
           if (!parentMeta) {
@@ -18224,7 +18326,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'beforePositioning_',
     value: function beforePositioning_() {
-      var _this3 = this;
+      var _this4 = this;
 
       var elems = new Set(this.all_);
 
@@ -18272,7 +18374,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
             elem.control.release('height');
             elem.control.release('width');
           }
-          elem.size = _this3.measureExpandedElement_(elem);
+          elem.size = _this4.measureExpandedElement_(elem);
         }
 
         elems.delete(elem);
@@ -18433,7 +18535,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'positionElements',
     value: function positionElements() {
-      var _this4 = this;
+      var _this5 = this;
 
       var width = this.$viewport_.innerWidth();
       var height = this.$viewport_.innerHeight();
@@ -18531,12 +18633,12 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
       // positioning
 
       var positionCorner = function positionCorner(x, y) {
-        var corner = _this4.getCorner_(x, y);
+        var corner = _this5.getCorner_(x, y);
         if (corner) {
           var _$elem$removeClass$cs;
 
-          var xLength = _this4.padding_;
-          var yLength = _this4.padding_;
+          var xLength = _this5.padding_;
+          var yLength = _this5.padding_;
           var $elem = corner.control.get$Element();
 
           if (corner.control.setPositionedState) {
@@ -18545,8 +18647,8 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
           $elem.removeClass(_globals.cssClasses.hidden).css((_$elem$removeClass$cs = {}, _defineProperty(_$elem$removeClass$cs, x, xLength), _defineProperty(_$elem$removeClass$cs, y, yLength), _$elem$removeClass$cs));
 
-          xLength += $elem.outerWidth() + _this4.spacing_;
-          yLength += $elem.outerHeight() + _this4.spacing_;
+          xLength += $elem.outerWidth() + _this5.spacing_;
+          yLength += $elem.outerHeight() + _this5.spacing_;
 
           var xDirection = void 0,
               yDirection = void 0;
@@ -18571,7 +18673,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
           var _iteratorError7 = undefined;
 
           try {
-            for (var _iterator7 = _jquery2.default.grep(_this4.corners_[x][y][xDirection], function (el) {
+            for (var _iterator7 = _jquery2.default.grep(_this5.corners_[x][y][xDirection], function (el) {
               return el.visible && el !== corner;
             })[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
               var _$elem$css;
@@ -18579,11 +18681,11 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
               var elem = _step7.value;
 
               $elem = elem.control.get$Element();
-              $elem.css((_$elem$css = {}, _defineProperty(_$elem$css, x, xLength), _defineProperty(_$elem$css, y, _this4.padding_), _$elem$css));
+              $elem.css((_$elem$css = {}, _defineProperty(_$elem$css, x, xLength), _defineProperty(_$elem$css, y, _this5.padding_), _$elem$css));
               if (elem.control.setPositionedState) {
                 elem.control.setPositionedState(elem.state);
               }
-              xLength += $elem.outerWidth() + _this4.spacing_;
+              xLength += $elem.outerWidth() + _this5.spacing_;
             }
 
             // y
@@ -18607,7 +18709,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
           var _iteratorError8 = undefined;
 
           try {
-            for (var _iterator8 = _jquery2.default.grep(_this4.corners_[x][y][yDirection], function (el) {
+            for (var _iterator8 = _jquery2.default.grep(_this5.corners_[x][y][yDirection], function (el) {
               return el.visible && el !== corner;
             })[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
               var _$elem$css2;
@@ -18615,11 +18717,11 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
               var _elem = _step8.value;
 
               $elem = _elem.control.get$Element();
-              $elem.css((_$elem$css2 = {}, _defineProperty(_$elem$css2, x, _this4.padding_), _defineProperty(_$elem$css2, y, yLength), _$elem$css2));
+              $elem.css((_$elem$css2 = {}, _defineProperty(_$elem$css2, x, _this5.padding_), _defineProperty(_$elem$css2, y, yLength), _$elem$css2));
               if (_elem.control.setPositionedState) {
                 _elem.control.setPositionedState(_elem.state);
               }
-              yLength += $elem.outerHeight() + _this4.spacing_;
+              yLength += $elem.outerHeight() + _this5.spacing_;
             }
           } catch (err) {
             _didIteratorError8 = true;
@@ -18980,7 +19082,7 @@ var _MeasurementButton = __webpack_require__(177);
 
 var _PrintButton = __webpack_require__(178);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _FeatureSelect = __webpack_require__(298);
 
@@ -20099,7 +20201,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _ComposedControl2 = __webpack_require__(123);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _utilitiesObject = __webpack_require__(36);
 
@@ -20353,7 +20455,7 @@ var _VectorLayer = __webpack_require__(92);
 
 var _MessageDisplay = __webpack_require__(266);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(492);
 
@@ -20370,6 +20472,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @property {boolean} [animated] if the move on the map to the geoposition should be animated
  * @property {StyleLike} [style='#defaultStyle']
  * @property {number} [maxZoom]
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -20457,7 +20560,7 @@ var GeolocationButton = exports.GeolocationButton = function (_Control) {
      * @type {boolean}
      * @private
      */
-    _this.active_ = false;
+    _this.active_ = options.active === true;
     return _this;
   }
 
@@ -20485,6 +20588,11 @@ var GeolocationButton = exports.GeolocationButton = function (_Control) {
         this.layer_.setStyle(map.get('styling').getStyle(this.style_));
         map.get('styling').manageLayer(this.layer_);
         map.getLayers().insertAt(1, this.layer_); // 0 is where the baseLayers are
+
+        if (this.active_) {
+          this.active_ = false; // to trigger code in setActive
+          this.setActive(true);
+        }
       }
     }
 
@@ -20607,6 +20715,8 @@ exports.HelpButton = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
@@ -20637,6 +20747,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @typedef {g4uControlOptions} HelpButtonOptions
  * @property {object} [configControls={}]
  * @property {string} fileName of the json with the helptexts
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -20669,7 +20780,7 @@ var HelpButton = exports.HelpButton = function (_Control) {
      * @type {boolean}
      * @private
      */
-    _this.active_ = false;
+    _this.active_ = options.active === true;
 
     /**
      * @type {string}
@@ -20796,6 +20907,23 @@ var HelpButton = exports.HelpButton = function (_Control) {
     }
 
     /**
+     * @param {G4UMap} map
+     */
+
+  }, {
+    key: 'setMap',
+    value: function setMap(map) {
+      _get(HelpButton.prototype.__proto__ || Object.getPrototypeOf(HelpButton.prototype), 'setMap', this).call(this, map);
+
+      if (map) {
+        if (this.active_) {
+          this.active_ = false; // to trigger code in setActive
+          this.setActive(true);
+        }
+      }
+    }
+
+    /**
      * @param {boolean} active
      */
 
@@ -20818,7 +20946,7 @@ var HelpButton = exports.HelpButton = function (_Control) {
               this.loading_ = true;
 
               _jquery2.default.ajax(this.documentationFileName_, { dataType: 'text' }).fail(function () {
-                var msg = "Wasn't able to load the documentation file " + _this3.documentationFileName_;
+                var msg = 'Wasn\'t able to load the documentation file ' + _this3.documentationFileName_;
                 _Debug.Debug.error(msg);
                 throw new Error(msg);
               }).done(function (data) {
@@ -20894,6 +21022,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @typedef {g4uControlOptions} InfoButtonOptions
  * @property {URLLike} contentURL url providing content to be shown
  * @property {boolean} [attribution=true]
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -20981,7 +21110,7 @@ var InfoButton = exports.InfoButton = function (_Control) {
      * @type {boolean}
      * @private
      */
-    _this.active_ = false;
+    _this.active_ = options.active === true;
     return _this;
   }
 
@@ -20999,11 +21128,18 @@ var InfoButton = exports.InfoButton = function (_Control) {
         oldMap.removeControl(this.attributionControl_);
       }
 
-      if (map && this.attribution_) {
-        map.addControl(this.attributionControl_);
-      }
-
       _get(InfoButton.prototype.__proto__ || Object.getPrototypeOf(InfoButton.prototype), 'setMap', this).call(this, map);
+
+      if (map) {
+        if (this.attribution_) {
+          map.addControl(this.attributionControl_);
+        }
+
+        if (this.active_) {
+          this.active_ = false; // to trigger code in setActive
+          this.setActive(true);
+        }
+      }
     }
 
     /**
@@ -21189,7 +21325,7 @@ var _html = __webpack_require__(35);
 
 var _Control = __webpack_require__(20);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _Debug = __webpack_require__(15);
 
@@ -21210,6 +21346,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * @typedef {g4uControlOptions} LanguageSwitcherMenuOptions
  * @property {boolean} [showLongLanguage=false]
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -21286,7 +21423,7 @@ var LanguageSwitcherMenu = exports.LanguageSwitcherMenu = function (_mixin) {
      * @type {boolean}
      * @private
      */
-    _this.active_ = false;
+    _this.active_ = options.active === true;
     return _this;
   }
 
@@ -21336,6 +21473,11 @@ var LanguageSwitcherMenu = exports.LanguageSwitcherMenu = function (_mixin) {
         }
 
         (0, _html.addTooltip)(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'));
+
+        if (this.active_) {
+          this.active_ = false; // to trigger code in setActive
+          this.setActive(true);
+        }
       }
     }
   }, {
@@ -21398,8 +21540,6 @@ var _ButtonBox = __webpack_require__(294);
 var _Control = __webpack_require__(20);
 
 var _utilities = __webpack_require__(6);
-
-var _globals = __webpack_require__(10);
 
 var _Window = __webpack_require__(91);
 
@@ -22087,6 +22227,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
 
       this.layers_ = this.getMap().get(this.layerGroupName_).getLayers();
       if (this.layers_.getLength() >= this.minLayerAmount_) {
+        this.setVisible(true);
         var menuFunctions = new _ButtonBox.ButtonBox({ className: this.classNames_.menu });
         var _iteratorNormalCompletion5 = true;
         var _didIteratorError5 = false;
@@ -22126,27 +22267,6 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
     value: function rebuild() {
       this.clear();
       this.build();
-    }
-
-    /**
-     * @param {boolean} visible
-     */
-
-  }, {
-    key: 'setVisible',
-    value: function setVisible(visible) {
-      this.get$Element().toggleClass(_globals.cssClasses.hidden, !visible);
-      this.visible_ = visible;
-    }
-
-    /**
-     * @returns {boolean}
-     */
-
-  }, {
-    key: 'getVisible',
-    value: function getVisible() {
-      return this.visible_;
     }
 
     /**
@@ -22245,7 +22365,7 @@ var _Control2 = __webpack_require__(20);
 
 var _html = __webpack_require__(35);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(497);
 
@@ -22821,7 +22941,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _ComposedControl2 = __webpack_require__(123);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23146,7 +23266,7 @@ var _openlayers = __webpack_require__(2);
 
 var _openlayers2 = _interopRequireDefault(_openlayers);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -23487,7 +23607,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 __webpack_require__(61);
 
@@ -24026,7 +24146,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _globals = __webpack_require__(10);
+var _globals = __webpack_require__(11);
 
 var _html = __webpack_require__(35);
 
@@ -24929,7 +25049,7 @@ module.exports = __webpack_require__(41).RegExp.escape;
 
 var isObject = __webpack_require__(7)
   , isArray  = __webpack_require__(135)
-  , SPECIES  = __webpack_require__(11)('species');
+  , SPECIES  = __webpack_require__(10)('species');
 
 module.exports = function(original){
   var C;
@@ -25520,7 +25640,7 @@ $export($export.P + $export.F * __webpack_require__(5)(function(){
 /* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var TO_PRIMITIVE = __webpack_require__(11)('toPrimitive')
+var TO_PRIMITIVE = __webpack_require__(10)('toPrimitive')
   , proto        = Date.prototype;
 
 if(!(TO_PRIMITIVE in proto))__webpack_require__(23)(proto, TO_PRIMITIVE, __webpack_require__(310));
@@ -25558,7 +25678,7 @@ $export($export.P, 'Function', {bind: __webpack_require__(187)});
 
 var isObject       = __webpack_require__(7)
   , getPrototypeOf = __webpack_require__(29)
-  , HAS_INSTANCE   = __webpack_require__(11)('hasInstance')
+  , HAS_INSTANCE   = __webpack_require__(10)('hasInstance')
   , FunctionProto  = Function.prototype;
 // 19.2.3.6 Function.prototype[@@hasInstance](V)
 if(!(HAS_INSTANCE in FunctionProto))__webpack_require__(13).f(FunctionProto, HAS_INSTANCE, {value: function(O){
@@ -26384,7 +26504,7 @@ $export($export.S, 'Object', {setPrototypeOf: __webpack_require__(141).set});
 // 19.1.3.6 Object.prototype.toString()
 var classof = __webpack_require__(83)
   , test    = {};
-test[__webpack_require__(11)('toStringTag')] = 'z';
+test[__webpack_require__(10)('toStringTag')] = 'z';
 if(test + '' != '[object z]'){
   __webpack_require__(24)(Object.prototype, 'toString', function toString(){
     return '[object ' + classof(this) + ']';
@@ -26440,7 +26560,7 @@ var USE_NATIVE = !!function(){
   try {
     // correct subclassing with @@species support
     var promise     = $Promise.resolve(1)
-      , FakePromise = (promise.constructor = {})[__webpack_require__(11)('species')] = function(exec){ exec(empty, empty); };
+      , FakePromise = (promise.constructor = {})[__webpack_require__(10)('species')] = function(exec){ exec(empty, empty); };
     // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
     return (isNode || typeof PromiseRejectionEvent == 'function') && promise.then(empty) instanceof FakePromise;
   } catch(e){ /* empty */ }
@@ -27052,7 +27172,7 @@ var global            = __webpack_require__(4)
   , CORRECT_NEW       = new $RegExp(re1) !== re1;
 
 if(__webpack_require__(12) && (!CORRECT_NEW || __webpack_require__(5)(function(){
-  re2[__webpack_require__(11)('match')] = false;
+  re2[__webpack_require__(10)('match')] = false;
   // RegExp constructor can alter flags and IsRegExp works correct with @@match
   return $RegExp(re1) != re1 || $RegExp(re2) == re2 || $RegExp(re1, 'i') != '/a/i';
 }))){
@@ -27601,7 +27721,7 @@ var global         = __webpack_require__(4)
   , shared         = __webpack_require__(102)
   , setToStringTag = __webpack_require__(75)
   , uid            = __webpack_require__(60)
-  , wks            = __webpack_require__(11)
+  , wks            = __webpack_require__(10)
   , wksExt         = __webpack_require__(206)
   , wksDefine      = __webpack_require__(150)
   , keyOf          = __webpack_require__(312)
@@ -28273,7 +28393,7 @@ var $export     = __webpack_require__(0)
   , global      = __webpack_require__(4)
   , core        = __webpack_require__(41)
   , microtask   = __webpack_require__(140)()
-  , OBSERVABLE  = __webpack_require__(11)('observable')
+  , OBSERVABLE  = __webpack_require__(10)('observable')
   , aFunction   = __webpack_require__(22)
   , anObject    = __webpack_require__(3)
   , anInstance  = __webpack_require__(52)
@@ -28777,7 +28897,7 @@ var $iterators    = __webpack_require__(152)
   , global        = __webpack_require__(4)
   , hide          = __webpack_require__(23)
   , Iterators     = __webpack_require__(74)
-  , wks           = __webpack_require__(11)
+  , wks           = __webpack_require__(10)
   , ITERATOR      = wks('iterator')
   , TO_STRING_TAG = wks('toStringTag')
   , ArrayValues   = Iterators.Array;
