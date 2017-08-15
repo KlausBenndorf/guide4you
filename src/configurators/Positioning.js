@@ -112,24 +112,47 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
     this.order_ = 0
   }
 
-  /**
-   * Remove a control from the positioning.
-   * @param {Control} control
-   * @param {Object} [parentMeta] the meta information of the parent control
-   */
-  removeControl (control, parentMeta) {
-    this.all_.splice(this.all_.findIndex(e => e.control === control))
-    let float = control.getFloat() || ['top', 'left']
-    if (float === 'fixed') {
-      return
+  getArray_ (float) {
+    let x, y, direction
+    switch (float[0]) {
+      case 'top':
+        y = 'top'
+        x = float[1]
+        if (x === 'left') {
+          direction = 'clockwise'
+        } else if (x === 'right') {
+          direction = 'counterclockwise'
+        }
+        break
+      case 'right':
+        x = 'right'
+        y = float[1]
+        if (y === 'top') {
+          direction = 'clockwise'
+        } else if (y === 'bottom') {
+          direction = 'counterclockwise'
+        }
+        break
+      case 'bottom':
+        y = 'bottom'
+        x = float[1]
+        if (x === 'left') {
+          direction = 'counterclockwise'
+        } else {
+          direction = 'clockwise'
+        }
+        break
+      case 'left':
+        x = 'left'
+        y = float[1]
+        if (y === 'top') {
+          direction = 'counterclockwise'
+        } else {
+          direction = 'clockwise'
+        }
     }
-    let cw = this.corners_[float[0]][float[1]].clockwise
-    let ccw = this.corners_[float[0]][float[1]].counterclockwise
-    cw.splice(cw.findIndex(e => e.control === control))
-    ccw.splice(ccw.findIndex(e => e.control === control))
-    control.once('change:visible', () => {
-      this.addControl(control, parentMeta)
-    })
+
+    return this.corners_[x][y][direction]
   }
 
   /**
@@ -140,23 +163,20 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   addControl (control, parentMeta) {
     // check if control needs to be positioned
     if (control.get$Element().parents().hasClass('ol-viewport')) {
-      if (!control.getVisible()) {
-        control.once('change:visible', () => {
-          this.addControl(control, parentMeta)
-        })
-      } else if (!parentMeta || !parentMeta.control.isWindowed()) {
-        control.once('change:visible', () => {
-          this.removeControl(control, parentMeta)
-        })
-
+      if (!parentMeta || !parentMeta.control.isWindowed()) {
         // gather metainformation
         /** @type {HideableElement} */
         let metaElem = {
           control,
           order: this.order_++,
-          visible: true,
+          visible: control.getVisible(),
           importance: control.getImportance()
         }
+
+        control.on('change:visible', () => {
+          metaElem.visible = control.getVisible()
+          this.positionElements()
+        })
 
         // repositioning if collapsible elements changes size
         this.listenAt(control).on('change:size', () => {
@@ -170,46 +190,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
             return
           }
 
-          let x, y, direction
-          switch (metaElem.float[0]) {
-            case 'top':
-              y = 'top'
-              x = metaElem.float[1]
-              if (x === 'left') {
-                direction = 'clockwise'
-              } else if (x === 'right') {
-                direction = 'counterclockwise'
-              }
-              break
-            case 'right':
-              x = 'right'
-              y = metaElem.float[1]
-              if (y === 'top') {
-                direction = 'clockwise'
-              } else if (y === 'bottom') {
-                direction = 'counterclockwise'
-              }
-              break
-            case 'bottom':
-              y = 'bottom'
-              x = metaElem.float[1]
-              if (x === 'left') {
-                direction = 'counterclockwise'
-              } else {
-                direction = 'clockwise'
-              }
-              break
-            case 'left':
-              x = 'left'
-              y = metaElem.float[1]
-              if (y === 'top') {
-                direction = 'counterclockwise'
-              } else {
-                direction = 'clockwise'
-              }
-          }
-
-          this.corners_[x][y][direction].push(metaElem)
+          this.getArray_(metaElem.float).push(metaElem)
 
           this.all_.push(metaElem)
 
@@ -319,21 +300,21 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
      * @param {PositionedElement} elem
      */
     let forEach = elem => {
-      if (elem.control.beforePositioning) {
-        elem.control.beforePositioning()
-      }
-
-      if (elem.hideableChildren) {
-        for (let child of elem.hideableChildren) {
-          forEach(child)
-        }
-      }
-
-      let $elem = elem.control.get$Element()
-      $elem.removeClass(cssClasses.hidden)
-      $elem.position({ top: 0, left: 0 })
-      elem.visible = $elem.is(':visible')
       if (elem.visible) {
+        if (elem.control.beforePositioning) {
+          elem.control.beforePositioning()
+        }
+
+        if (elem.hideableChildren) {
+          for (let child of elem.hideableChildren) {
+            forEach(child)
+          }
+        }
+
+        let $elem = elem.control.get$Element()
+        $elem.removeClass(cssClasses.hidden)
+
+        $elem.position({top: 0, left: 0})
         if (elem.control.release) {
           elem.control.release('height')
           elem.control.release('width')
@@ -466,7 +447,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
 
         changed = false
         while (bottomElems.length && (bottomWidth > width) &&
-            !this.squeezeElements_(bottomElems, 'width', bottomWidth - width)) {
+        !this.squeezeElements_(bottomElems, 'width', bottomWidth - width)) {
           this.hideLeastImportant_(bottomElems)
           bottomElems = this.getEdge_('bottom')
           bottomWidth = this.calculateLength_(bottomElems, 'width')
@@ -486,7 +467,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
 
         changed = false
         while (leftElems.length && (leftHeight > height) &&
-            !this.squeezeElements_(leftElems, 'height', leftHeight - height)) {
+        !this.squeezeElements_(leftElems, 'height', leftHeight - height)) {
           this.hideLeastImportant_(leftElems)
           leftElems = this.getEdge_('left')
           leftHeight = this.calculateLength_(leftElems, 'height')
@@ -658,7 +639,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   measureExpandedElement_ (elem) {
     let expanded = this.expandElement_(elem)
     let $elem = elem.control.get$Element()
-    let size = { width: $elem.outerWidth(), height: $elem.outerHeight() }
+    let size = {width: $elem.outerWidth(), height: $elem.outerHeight()}
     for (let exp of expanded) {
       exp.setCollapsed(true, true)
     }
