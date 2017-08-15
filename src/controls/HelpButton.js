@@ -1,9 +1,9 @@
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { checkFor, finishAllImages } from '../utilities'
 import stripJsonComments from 'strip-json-comments'
-import {Debug} from '../Debug'
+import { Debug } from '../Debug'
 
 import '../../less/helpbutton.less'
 
@@ -13,6 +13,7 @@ import 'polyfill!Array.prototype.includes'
  * @typedef {g4uControlOptions} HelpButtonOptions
  * @property {object} [configControls={}]
  * @property {string} fileName of the json with the helptexts
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -23,7 +24,7 @@ export class HelpButton extends Control {
    * @param {HelpButtonOptions} options
    */
   constructor (options) {
-    options.element = $('<div>')[ 0 ]
+    options.element = $('<div>')[0]
     options.className = options.className || 'g4u-helpbutton'
 
     super(options)
@@ -41,7 +42,7 @@ export class HelpButton extends Control {
      * @type {boolean}
      * @private
      */
-    this.active_ = false
+    this.active_ = options.active === true
 
     /**
      * @type {string}
@@ -68,7 +69,7 @@ export class HelpButton extends Control {
       if (localiser.isRtl()) {
         $table.prop('dir', 'rtl')
       }
-      let documentationLocalized = documentationObject[ language ]
+      let documentationLocalized = documentationObject[language]
       let id
       let imgData
       let descrData
@@ -97,15 +98,15 @@ export class HelpButton extends Control {
         if (!this.getMap().get('mobile')) {
           findContainedControls(this.configControls_.onMap.filter(c => c !== 'mobileControls'))
         } else if (this.configControls_.hasOwnProperty('mobileControls') &&
-            this.configControls_.mobileControls.hasOwnProperty('contains')) {
+          this.configControls_.mobileControls.hasOwnProperty('contains')) {
           findContainedControls(this.configControls_.mobileControls.contains)
         }
       }
       for (id in documentationLocalized) {
-        if (documentationLocalized.hasOwnProperty(id) && documentationLocalized[ id ]) {
-          imgData = documentationLocalized[ id ].img
-          descrData = documentationLocalized[ id ].descr || ''
-          joinWith = documentationLocalized[ id ].joinWith || ''
+        if (documentationLocalized.hasOwnProperty(id) && documentationLocalized[id]) {
+          imgData = documentationLocalized[id].img
+          descrData = documentationLocalized[id].descr || ''
+          joinWith = documentationLocalized[id].joinWith || ''
 
           if (visibleControls.includes(id)) {
             $row = $('<tr>')
@@ -114,7 +115,7 @@ export class HelpButton extends Control {
             if (imgData) {
               if ($.isArray(imgData)) {
                 for (let j = 0, jj = imgData.length; j < jj; j++) {
-                  imgData[ j ] = `<img class="${this.className_}-docuImg" src="images/doc/${imgData[ j ]}">`
+                  imgData[j] = `<img class="${this.className_}-docuImg" src="images/doc/${imgData[j]}">`
                 }
                 imgElements += imgData.join(joinWith)
               } else {
@@ -142,6 +143,20 @@ export class HelpButton extends Control {
   }
 
   /**
+   * @param {G4UMap} map
+   */
+  setMap (map) {
+    super.setMap(map)
+
+    if (map) {
+      if (this.active_) {
+        this.active_ = false // to trigger code in setActive
+        this.setActive(true)
+      }
+    }
+  }
+
+  /**
    * @param {boolean} active
    */
   setActive (active) {
@@ -158,9 +173,9 @@ export class HelpButton extends Control {
           if (!this.contentData_) {
             this.loading_ = true
 
-            $.ajax(this.documentationFileName_, { dataType: 'text' })
+            $.ajax(this.documentationFileName_, {dataType: 'text'})
               .fail(() => {
-                let msg = "Wasn't able to load the documentation file " + this.documentationFileName_
+                let msg = 'Wasn\'t able to load the documentation file ' + this.documentationFileName_
                 Debug.error(msg)
                 throw new Error(msg)
               })

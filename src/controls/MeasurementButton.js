@@ -14,6 +14,7 @@ import '../../less/measurement.less'
  * @property {number} [dimension=1] 1 for lines, 2 for polygons
  * @property {string} [atDrawEnd] if set to 'newMeasurement' the control will start a new measurement after
  *    completing a measurement. if set to 'closeWindow' the window will be closed.
+ * @property {boolean} [active=false]
  */
 
 /**
@@ -69,7 +70,7 @@ export class MeasurementButton extends Control {
      * @type {boolean}
      * @private
      */
-    this.active_ = false
+    this.active_ = options.active === true
 
     /**
      * @type {number}
@@ -94,6 +95,13 @@ export class MeasurementButton extends Control {
    * @param {G4UMap} map
    */
   setMap (map) {
+    if (this.getMap()) {
+      this.getMap().getLayers().remove(this.layer_)
+      this.getMap().removeInteraction(this.drawInteraction_)
+    }
+
+    super.setMap(map)
+
     if (map) {
       this.get$Element()
         .append(this.getLocaliser().localiseUsingDictionary('MeasurementButton dim' + this.dimension_ + ' measured'))
@@ -200,12 +208,12 @@ export class MeasurementButton extends Control {
             this.drawInteraction_.setActive(false)
         }
       })
-    } else {
-      this.getMap().getLayers().remove(this.layer_)
-      this.getMap().removeInteraction(this.drawInteraction_)
-    }
 
-    super.setMap(map)
+      if (this.active_) {
+        this.active_ = false // to trigger code in setActive
+        this.setActive(true)
+      }
+    }
   }
 
   /**
