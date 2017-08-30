@@ -3,7 +3,7 @@ import $ from 'jquery'
 
 import 'file-loader?name=images/[name].[ext]!../images/g4u-logo.png'
 
-import 'polyfill!requestAnimationFrame,cancelAnimationFrame'
+import 'polyfill!requestAnimationFrame,cancelAnimationFrame,Element.prototype.classList,URL'
 
 window.jQuery = window.jQuery || $
 
