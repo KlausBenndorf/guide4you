@@ -49,11 +49,6 @@ export class WindowDecorator extends Control {
       .addClass(cssClasses.hasTooltip)
       .html(this.component_.getTitle())
     addTooltip(this.$button_, this.component_.getTipLabel())
-
-    this.component_.on('change', () => {
-      this.window_.updateSize()
-      this.window_.getInFront()
-    })
   }
 
   /**
@@ -82,10 +77,16 @@ export class WindowDecorator extends Control {
        */
       this.window_ = new Window({ map: map })
 
+      this.component_.on('change', () => {
+        this.window_.updateSize()
+        this.window_.getInFront()
+      })
+
       this.window_.get$Body().append(this.component_.get$Element())
 
       if (this.component_.setActive) {
         if (this.component_.getActive()) {
+          setTimeout(() => this.setWindowVisible(true), 0)
           this.$button_.addClass(cssClasses.active)
         }
 

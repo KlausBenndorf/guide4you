@@ -8,6 +8,9 @@ import {MessageDisplay} from '../MessageDisplay'
 import {cssClasses} from '../globals'
 
 import '../../less/geolocation.less'
+import { ActivatableMixin } from './ActivatableMixin'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
+import { mixin } from '../utilities'
 
 /**
  * @typedef {g4uControlOptions} GeolocationButtonOptions
@@ -20,7 +23,7 @@ import '../../less/geolocation.less'
 /**
  * This class provides a button to center the view on your current geoposition.
  */
-export class GeolocationButton extends Control {
+export class GeolocationButton extends mixin(Control, [ActivatableMixin, ListenerOrganizerMixin]) {
   /**
    * @param {GeolocationButtonOptions} [options={}]
    */
@@ -101,11 +104,7 @@ export class GeolocationButton extends Control {
       this.setActive(false)
     })
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.active_ = options.active === true
+    this.on('change:active', e => this.activeChangeHandler_(e))
   }
 
   /**
@@ -129,77 +128,58 @@ export class GeolocationButton extends Control {
       map.get('styling').manageLayer(this.layer_)
       map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are
 
-      if (this.active_) {
-        this.active_ = false // to trigger code in setActive
-        this.setActive(true)
-      }
+      this.activateOnMapChange()
     }
   }
 
-  /**
-   * @returns {boolean}
-   */
-  getActive () {
-    return this.active_
+  changeHandler_ (options) {
+    let source = this.layer_.getSource()
+    source.clear()
+    let position = this.geolocation_.getPosition()
+    source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
+
+    let circle = this.geolocation_.getAccuracyGeometry()
+    source.addFeature(new ol.Feature({geometry: circle}))
+    if (options.hasOwnProperty('initialRun') && options.initialRun) {
+      this.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
+    } else {
+      if (this.animated_) {
+        this.getMap().getView().animate({'center': position})
+      } else {
+        this.getMap().getView().setCenter(position)
+      }
+    }
+    if (options.hasOwnProperty('stopTracking')) {
+      this.geolocation_.setTracking(!options.stopTracking)
+    }
   }
 
   /**
    * Show/Hide the geolocation on the map as point with a circle in the size of the accuracy around
-   * @param {boolean} active
    */
-  setActive (active) {
-    let that = this
-    let changeHandler_ = (options) => {
-      let source = that.layer_.getSource()
-      source.clear()
-      let position = that.geolocation_.getPosition()
-      source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
-
-      let circle = that.geolocation_.getAccuracyGeometry()
-      source.addFeature(new ol.Feature({geometry: circle}))
-      if (options.hasOwnProperty('initialRun') && options.initialRun) {
-        that.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: that.maxZoom_})
-      } else {
-        if (that.animated_) {
-          that.getMap().getView().animate({'center': position})
-        } else {
-          that.getMap().getView().setCenter(position)
+  activeChangeHandler_ () {
+    let active = this.getActive()
+    this.get$Element().toggleClass(this.classNamePushed_, active)
+    if (active) {
+      this.geolocation_.setTracking(true)
+      let position = this.geolocation_.getPosition()
+      if (position) {
+        this.changeHandler_({'stopTracking': !this.followLocation_, 'initialRun': true})
+        if (this.followLocation_) {
+          this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))
         }
-      }
-      if (options.hasOwnProperty('stopTracking')) {
-        that.geolocation_.setTracking(!options.stopTracking)
-      }
-    }
-    let oldValue = this.active_
-    if (oldValue !== active) {
-      this.get$Element().toggleClass(this.classNamePushed_, active)
-      if (active) {
-        this.geolocation_.setTracking(true)
-        let position = this.geolocation_.getPosition()
-        if (position) {
-          changeHandler_({'stopTracking': !this.followLocation_, 'initialRun': true})
+      } else {
+        this.listenAt(this.geolocation_).once('change', () => {
+          this.changeHandler_({'stopTracking': !this.followLocation_, 'initialRun': true})
           if (this.followLocation_) {
-            this.geolocation_.on('change', changeHandler_)
+            this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))
           }
-        } else {
-          this.geolocation_.once('change', () => {
-            changeHandler_({'stopTracking': !this.followLocation_, 'initialRun': true})
-            if (this.followLocation_) {
-              this.geolocation_.on('change', changeHandler_)
-            }
-          })
-        }
-      } else {
-        this.layer_.getSource().clear()
-        this.geolocation_.un('change', changeHandler_)
-        this.geolocation_.setTracking(false)
+        })
       }
-
-      this.active_ = active
-      this.dispatchEvent({
-        type: 'change:active',
-        oldValue: oldValue
-      })
+    } else {
+      this.layer_.getSource().clear()
+      this.detachFrom(this.geolocation_, 'change')
+      this.geolocation_.setTracking(false)
     }
   }
 

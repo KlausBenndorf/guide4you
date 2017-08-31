@@ -9,6 +9,7 @@ import {Debug} from '../Debug'
 import '../../less/languageControls.less'
 import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
 import {mixin} from '../utilities'
+import { ActivatableMixin } from './ActivatableMixin'
 
 /**
  * @typedef {g4uControlOptions} LanguageSwitcherMenuOptions
@@ -19,7 +20,7 @@ import {mixin} from '../utilities'
 /**
  * A button to switch the language that is being used.
  */
-export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin) {
+export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin, ActivatableMixin]) {
   /**
    * @param {LanguageSwitcherMenuOptions} options
    */
@@ -79,11 +80,7 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
       }
     })
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.active_ = options.active === true
+    this.on('change:active', () => this.handleActiveChange_())
   }
 
   /**
@@ -130,32 +127,18 @@ export class LanguageSwitcherMenu extends mixin(Control, ListenerOrganizerMixin)
 
       addTooltip(this.$button_, this.getLocaliser().localiseUsingDictionary('LanguageSwitcherMenu tipLabel'))
 
-      if (this.active_) {
-        this.active_ = false // to trigger code in setActive
-        this.setActive(true)
-      }
+      this.activateOnMapChange()
     }
   }
 
-  getActive () {
-    return this.active_
-  }
-
-  setActive (active) {
-    let oldValue = this.active_
-    if (oldValue !== active) {
-      this.dropdown_.setActivated(this.getLocaliser().getCurrentLang())
-      if (active) {
-        this.collapse_ = false
-        this.dropdown_.slideDown(this.getMap().get('mobile'))
-      } else {
-        this.dropdown_.slideUp(this.getMap().get('mobile'))
-      }
-      this.active_ = active
-      this.dispatchEvent({
-        type: 'change:active',
-        oldValue
-      })
+  handleActiveChange_ () {
+    let active = this.getActive()
+    this.dropdown_.setActivated(this.getLocaliser().getCurrentLang())
+    if (active) {
+      this.collapse_ = false
+      this.dropdown_.slideDown(this.getMap().get('mobile'))
+    } else {
+      this.dropdown_.slideUp(this.getMap().get('mobile'))
     }
   }
 }

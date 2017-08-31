@@ -2,12 +2,23 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 class DOMListener {
-  constructor (element, event, listener, useCapture) {
+  constructor (element) {
     this.element = element
+  }
+
+  on (event, listener, useCapture) {
     this.event = event
     this.listener = listener
     this.useCapture = useCapture
-    element.addEventListener(event, listener, useCapture)
+    this.element.addEventListener(event, listener, useCapture)
+  }
+
+  once (event, listener, useCapture) {
+    let that = this
+    this.on(event, function (...args) {
+      listener.apply(this, args)
+      that.detach()
+    }, useCapture)
   }
 
   detach () {
@@ -15,16 +26,29 @@ class DOMListener {
   }
 
   static usable (element) {
-    return element instanceof HTMLElement // eslint-disable-line
+    return element instanceof EventTarget // eslint-disable-line
+  }
+
+  static create (element) {
+    return new DOMListener(element)
   }
 }
 
 class JQueryListener {
-  constructor (element, event, listener) {
+  constructor (element) {
     this.element = element
+  }
+
+  on (event, listener) {
     this.event = event
     this.listener = listener
-    element.on(event, listener)
+    this.element.on(event, listener)
+  }
+
+  once (event, listener) {
+    this.event = event
+    this.listener = listener
+    this.element.one(event, listener)
   }
 
   detach () {
@@ -34,11 +58,25 @@ class JQueryListener {
   static usable (element) {
     return element instanceof $
   }
+
+  static create (element) {
+    return new JQueryListener(element)
+  }
 }
 
 class OLListener {
-  constructor (element, event, listener) {
-    this.key_ = element.on(event, listener)
+  constructor (element) {
+    this.element = element
+  }
+
+  on (event, listener) {
+    this.event = event
+    this.key_ = this.element.on(event, listener)
+  }
+
+  once (event, listener) {
+    this.event = event
+    this.key_ = this.element.once(event, listener)
   }
 
   detach () {
@@ -48,6 +86,10 @@ class OLListener {
   static usable (element) {
     return element instanceof ol.Observable
   }
+
+  static create (element) {
+    return new OLListener(element)
+  }
 }
 
 export class ListenerOrganizerMixin {
@@ -55,25 +97,43 @@ export class ListenerOrganizerMixin {
     this.organizedListeners_ = []
   }
 
-  listenAt (elements) {
-    elements = Array.isArray(elements) ? elements : [elements]
-    let on = {
-      on: (event, listener, useCapture) => {
-        for (let element of elements) {
-          for (let TypeListener of [DOMListener, JQueryListener, OLListener]) {
-            if (TypeListener.usable(element)) {
-              this.organizedListeners_.push(new TypeListener(element, event, listener, useCapture))
-            }
-          }
-        }
-        return on
+  static getTypeListener (element) {
+    for (let TypeListener of [DOMListener, JQueryListener, OLListener]) {
+      if (TypeListener.usable(element)) {
+        return TypeListener.create(element)
       }
     }
-    return on
   }
 
-  detachFrom (element) {
-    for (let listener of this.organizedListeners_.filter(l => l.element === element)) {
+  listenAt (elements) {
+    elements = Array.isArray(elements) ? elements : [elements]
+    let returnObj = {
+      on: (event, listener, useCapture) => {
+        for (let element of elements) {
+          let tListener = ListenerOrganizerMixin.getTypeListener(element)
+          tListener.on(event, listener, useCapture)
+          this.organizedListeners_.push(tListener)
+        }
+        return returnObj
+      },
+      once: (event, listener, useCapture) => {
+        for (let element of elements) {
+          let tListener = ListenerOrganizerMixin.getTypeListener(element)
+          tListener.once(event, listener, useCapture)
+          this.organizedListeners_.push(tListener)
+        }
+        return returnObj
+      }
+    }
+    return returnObj
+  }
+
+  detachFrom (element, event) {
+    let listeners = this.organizedListeners_.filter(l => l.element === element)
+    if (event) {
+      listeners = listeners.filter(l => l.event === event)
+    }
+    for (let listener of listeners) {
       listener.detach()
       this.organizedListeners_.splice(this.organizedListeners_.indexOf(listener), 1)
     }

@@ -335,30 +335,37 @@ function getPropertyNamesAndDescriptions (obj) {
  * @param mixinClass
  * @returns {class}
  */
-export function mixin (baseClass, mixinClass) {
-  let initialize = mixinClass.prototype.initialize
+export function mixin (baseClass, mixinClasses) {
+  if (!Array.isArray(mixinClasses)) {
+    mixinClasses = [mixinClasses]
+  }
+  let initializes = mixinClasses.map(mC => mC.prototype.initialize)
 
-  let m = class extends baseClass {
+  let mixed = class extends baseClass {
     constructor (options) {
       super(options)
-      if (initialize) {
-        initialize.call(this, options)
+      for (let initialize of initializes) {
+        if (initialize) {
+          initialize.call(this, options)
+        }
       }
     }
   }
 
-  let propsAndDescriptions = getPropertyNamesAndDescriptions(mixinClass.prototype)
+  for (let mixinClass of mixinClasses) {
+    let propsAndDescriptions = getPropertyNamesAndDescriptions(mixinClass.prototype)
 
-  for (let name in propsAndDescriptions) {
-    if (name !== 'constructor' && name !== 'initialize') {
-      if (name in m.prototype) {
-        throw new Error('mixins should not overwrite methods')
+    for (let name in propsAndDescriptions) {
+      if (name !== 'constructor' && name !== 'initialize') {
+        if (name in mixed.prototype) {
+          throw new Error('mixins should not overwrite methods')
+        }
+        Object.defineProperty(mixed.prototype, name, propsAndDescriptions[name])
       }
-      Object.defineProperty(m.prototype, name, propsAndDescriptions[name])
     }
   }
 
-  return m
+  return mixed
 }
 
 /**

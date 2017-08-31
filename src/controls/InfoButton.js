@@ -5,6 +5,8 @@ import {Control} from './Control'
 
 import '../../less/infobutton.less'
 import { URL } from '../URLHelper'
+import { ActivatableMixin } from './ActivatableMixin'
+import { mixin } from '../utilities'
 
 /**
  * @typedef {g4uControlOptions} InfoButtonOptions
@@ -16,7 +18,7 @@ import { URL } from '../URLHelper'
 /**
  * This control opens a window with showing some specified info text
  */
-export class InfoButton extends Control {
+export class InfoButton extends mixin(Control, ActivatableMixin) {
   /**
    * @param {InfoButtonOptions} options
    */
@@ -90,12 +92,6 @@ export class InfoButton extends Control {
      * @private
      */
     this.loaded_ = false
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.active_ = options.active === true
   }
 
   /**
@@ -115,10 +111,7 @@ export class InfoButton extends Control {
         map.addControl(this.attributionControl_)
       }
 
-      if (this.active_) {
-        this.active_ = false // to trigger code in setActive
-        this.setActive(true)
-      }
+      this.activateOnMapChange()
     }
   }
 
@@ -126,40 +119,23 @@ export class InfoButton extends Control {
    * @param {boolean} active
    */
   setActive (active) {
-    let oldValue = this.active_
-    if (oldValue !== active) {
-      this.active_ = active
-      let changeEvent = {
-        type: 'change:active',
-        oldValue: oldValue
-      }
-      if (active) {
-        if (this.getMap().get('localiser').isRtl()) {
-          this.get$Element().prop('dir', 'rtl')
-        } else {
-          this.get$Element().prop('dir', undefined)
-        }
-      }
-      if (!this.loaded_) {
-        if (this.contentURL_) {
-          $.get(this.contentURL_.finalize(), (data) => {
-            this.$content_.html(data)
-            this.dispatchEvent(changeEvent)
-            this.loaded_ = true
-          })
-        } else {
-          this.dispatchEvent(changeEvent)
-        }
+    if (active) {
+      if (this.getMap().get('localiser').isRtl()) {
+        this.get$Element().prop('dir', 'rtl')
       } else {
-        this.dispatchEvent(changeEvent)
+        this.get$Element().prop('dir', undefined)
       }
+      if (!this.loaded_ && this.contentURL_) {
+        $.get(this.contentURL_.finalize(), (data) => {
+          this.$content_.html(data)
+          super.setActive(active)
+          this.loaded_ = true
+        })
+      } else {
+        super.setActive(active)
+      }
+    } else {
+      super.setActive(active)
     }
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  getActive () {
-    return this.active_
   }
 }
