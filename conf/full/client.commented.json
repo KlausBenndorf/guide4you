@@ -16,7 +16,7 @@
   "view": {
     "center": [7.0992279052734375, 50.730696731046805],
     "zoom": 13,
-    "minZoom": 8,
+    "minZoom": 0,
     "maxZoom": 20
   },
   "scaleIcons": 1,
@@ -143,8 +143,7 @@
       "contentURL": {
         "de": "files/infos_de.html",
         "en": "files/infos_en.html"
-      },
-      "active": true
+      }
     },
     "scaleLine": {
       "float": [

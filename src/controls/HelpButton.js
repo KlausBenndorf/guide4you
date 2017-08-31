@@ -1,13 +1,14 @@
 import $ from 'jquery'
 
 import { Control } from './Control'
-import { checkFor, finishAllImages } from '../utilities'
+import { checkFor, finishAllImages, mixin } from '../utilities'
 import stripJsonComments from 'strip-json-comments'
 import { Debug } from '../Debug'
 
 import '../../less/helpbutton.less'
 
 import 'polyfill!Array.prototype.includes'
+import { ActivatableMixin } from './ActivatableMixin'
 
 /**
  * @typedef {g4uControlOptions} HelpButtonOptions
@@ -19,7 +20,7 @@ import 'polyfill!Array.prototype.includes'
 /**
  * Shows a help button. Loads an json file with the helptexts and images from the server.
  */
-export class HelpButton extends Control {
+export class HelpButton extends mixin(Control, ActivatableMixin) {
   /**
    * @param {HelpButtonOptions} options
    */
@@ -37,12 +38,6 @@ export class HelpButton extends Control {
      * @private
      */
     this.configControls_ = options.configControls || {}
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.active_ = options.active === true
 
     /**
      * @type {string}
@@ -149,10 +144,7 @@ export class HelpButton extends Control {
     super.setMap(map)
 
     if (map) {
-      if (this.active_) {
-        this.active_ = false // to trigger code in setActive
-        this.setActive(true)
-      }
+      this.activateOnMapChange()
     }
   }
 
@@ -160,48 +152,32 @@ export class HelpButton extends Control {
    * @param {boolean} active
    */
   setActive (active) {
-    if (!this.loading_) {
-      let oldValue = this.active_
-      if (oldValue !== active) {
-        this.active_ = active
-        let changeEvent = {
-          type: 'change:active',
-          oldValue: oldValue
-        }
+    if (!this.loading_) { // all calls to setActive between the start and end of loading are ignored
+      if (active === true) {
+        if (!this.contentData_) {
+          this.loading_ = true
 
-        if (active === true) {
-          if (!this.contentData_) {
-            this.loading_ = true
+          $.ajax(this.documentationFileName_, {dataType: 'text'})
+            .fail(() => {
+              let msg = 'Wasn\'t able to load the documentation file ' + this.documentationFileName_
+              Debug.error(msg)
+              throw new Error(msg)
+            })
+            .done(data => {
+              this.contentData_ = data
+              this.createContent_()
 
-            $.ajax(this.documentationFileName_, {dataType: 'text'})
-              .fail(() => {
-                let msg = 'Wasn\'t able to load the documentation file ' + this.documentationFileName_
-                Debug.error(msg)
-                throw new Error(msg)
+              finishAllImages(this.get$Element()).then(() => {
+                this.loading_ = false
+                super.setActive(active)
               })
-              .done(data => {
-                this.contentData_ = data
-                this.createContent_()
-
-                finishAllImages(this.get$Element()).then(() => {
-                  this.loading_ = false
-                  this.dispatchEvent(changeEvent)
-                })
-              })
-          } else {
-            this.dispatchEvent(changeEvent)
-          }
+            })
         } else {
-          this.dispatchEvent(changeEvent)
+          super.setActive(active)
         }
+      } else {
+        super.setActive(active)
       }
     }
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  getActive () {
-    return this.active_
   }
 }

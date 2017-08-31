@@ -6,6 +6,8 @@ import { cssClasses, keyCodes } from '../globals'
 import {VectorLayer} from '../layers/VectorLayer'
 
 import '../../less/measurement.less'
+import { mixin } from '../utilities'
+import { ActivatableMixin } from './ActivatableMixin'
 
 /**
  * @typedef {g4uControlOptions} MeasurementButtonOptions
@@ -20,7 +22,7 @@ import '../../less/measurement.less'
 /**
  * Enables the user to draw lines or polygons on the map and displays the length or area.
  */
-export class MeasurementButton extends Control {
+export class MeasurementButton extends mixin(Control, ActivatableMixin) {
   /**
    * @param {MeasurementButtonOptions} options
    */
@@ -67,12 +69,6 @@ export class MeasurementButton extends Control {
     this.atDrawEnd_ = options.atDrawEnd
 
     /**
-     * @type {boolean}
-     * @private
-     */
-    this.active_ = options.active === true
-
-    /**
      * @type {number}
      * @private
      */
@@ -89,6 +85,8 @@ export class MeasurementButton extends Control {
      * @private
      */
     this.$unitPlaceholder_ = $('<span>')
+
+    this.on('change:active', () => this.handleActiveChange_())
   }
 
   /**
@@ -209,10 +207,7 @@ export class MeasurementButton extends Control {
         }
       })
 
-      if (this.active_) {
-        this.active_ = false // to trigger code in setActive
-        this.setActive(true)
-      }
+      this.activateOnMapChange()
     }
   }
 
@@ -239,47 +234,29 @@ export class MeasurementButton extends Control {
     return this.type_
   }
 
-  /**
-   * @returns {boolean}
-   */
-  getActive () {
-    return this.active_
-  }
+  handleActiveChange_ () {
+    let active = this.getActive()
 
-  /**
-   * @param {boolean} active
-   */
-  setActive (active) {
-    let oldValue = this.active_
+    this.layer_.setVisible(active)
 
-    if (oldValue !== active) {
-      let changeEvent = {
-        type: 'change:active',
-        oldValue: oldValue
-      }
-
-      this.active_ = active
-
-      this.layer_.setVisible(active)
-
-      if (active) {
-        if (this.getMap().get('localiser').isRtl()) {
-          this.get$Element().prop('dir', 'rtl')
-        } else {
-          this.get$Element().prop('dir', undefined)
-        }
-        this.getMap().get('featurePopup').setVisible(false)
-        $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
-
-        this.clear()
-        this.drawInteraction_.setActive(true)
+    if (active) {
+      if (this.getMap().get('localiser').isRtl()) {
+        this.get$Element().prop('dir', 'rtl')
       } else {
-        $(this.getMap().getViewport()).removeClass(cssClasses.crosshair)
-
-        this.drawInteraction_.setActive(false)
+        this.get$Element().prop('dir', undefined)
       }
+      let popup = this.getMap().get('featurePopup')
+      if (popup) {
+        popup.setVisible(false)
+      }
+      $(this.getMap().getViewport()).addClass(cssClasses.crosshair)
 
-      this.dispatchEvent(changeEvent)
+      this.clear()
+      this.drawInteraction_.setActive(true)
+    } else {
+      $(this.getMap().getViewport()).removeClass(cssClasses.crosshair)
+
+      this.drawInteraction_.setActive(false)
     }
   }
 
