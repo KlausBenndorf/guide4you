@@ -199,6 +199,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         } else {
           layer.setVisible(true)
         }
+        this.dispatchEvent({
+          type: 'click:layer',
+          layer: layer
+        })
       })
 
       if (layer.getVisible()) {
@@ -299,6 +303,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             if (!(childLayer instanceof GroupLayer)) {
               childLayer.setVisible(visible)
             }
+          })
+          this.dispatchEvent({
+            type: 'click:layer',
+            layer: categoryLayer
           })
         })
 
@@ -460,7 +468,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           }
 
           this.listenAt($button)
-            .on('click', () => buttonActive(!activeLayerButtons.isActive(layerButton)))
+            .on('click', () => {
+              buttonActive(!activeLayerButtons.isActive(layerButton))
+              this.dispatchEvent({
+                type: 'click:layer',
+                layer: wmsLayer,
+                wmsLayer: true
+              })
+            })
 
           if (featureInfoCheckable) {
             $button.append($checkbox)
@@ -492,6 +507,12 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           menu.setTitleButtonActive(activateAll)
 
           updateLayersParam()
+
+          this.dispatchEvent({
+            type: 'click:category',
+            layer: wmsLayer,
+            wmsLayer: true
+          })
         })
       } else {
         this.buildLayerButton(wmsLayer, $target)
