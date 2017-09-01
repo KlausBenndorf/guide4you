@@ -214,103 +214,28 @@ export class UIConfigurator {
 
     this.map_.set('scaleIcons', mapConfigCopy.scaleIcons)
 
-    let lastMatch
-    let oldScaleIcons
-    let oldAnimations
-    let oldHitTolerance
+    this.map_.once('ready', () => {
+      this.map_.set('desktopLayout', {
+        animations: this.map_.get('move').getAnimations(),
+        scaleIcons: this.map_.get('scaleIcons'),
+        hitTolerance: this.map_.get('hitTolerance')
+      })
+    })
 
     let checkMobileLayoutQuery = () => {
       /**
        * @type {MobileLayoutOptions}
        */
       let mobileLayout = this.map_.get('mobileLayout')
-      let featurePopup = this.map_.get('featurePopup')
-      let wmsFeatureInfo = this.map_.get('showWMSFeatureInfo')
 
       if (mobileLayout && mobileLayout.mediaQueries && window.matchMedia) {
-        let match = false
-        mobileLayout.mediaQueries.forEach((query) => {
-          match = match || window.matchMedia(query).matches
-        })
-
-        if (match !== lastMatch) {
-          if (match) {
-            $(this.map_.getTarget()).children().addClass(cssClasses.mobile)
-            $(this.map_.getTarget()).children().removeClass(cssClasses.desktop)
-
-            this.map_.set('mobile', true)
-
-            if (mobileLayout.hasOwnProperty('animations')) {
-              oldAnimations = this.map_.get('move').getAnimations()
-              this.map_.get('move').setAnimations(mobileLayout.animations)
-            }
-
-            if (mobileLayout.hasOwnProperty('scaleIcons')) {
-              oldScaleIcons = this.map_.get('scaleIcons')
-              this.map_.set('scaleIcons', mobileLayout.scaleIcons)
-              this.map_.get('styling').setGlobalIconScale(mobileLayout.scaleIcons)
-              this.map_.getLayerGroup().recursiveForEach(l => {
-                if (l.getVisible()) {
-                  l.changed()
-                }
-              })
-            }
-
-            let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
-
-            if (featurePopup && featurePopup.getVisible()) {
-              featurePopup.setVisible(false)
-              setTimeout(() => {
-                featurePopup.setVisible(true)
-                if (restoreWmsFeatureInfoPoint) {
-                  wmsFeatureInfo.setPointVisible(true)
-                }
-              }, 0)
-            }
-
-            if (mobileLayout.hasOwnProperty('hitTolerance')) {
-              oldHitTolerance = this.map_.get('hitTolerance')
-              this.map_.set('hitTolerance', mobileLayout.hitTolerance)
-            }
-          } else {
-            $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
-            $(this.map_.getTarget()).children().removeClass(cssClasses.mobile)
-
-            this.map_.set('mobile', false)
-
-            if (mobileLayout.hasOwnProperty('animations')) {
-              this.map_.get('move').setAnimations(oldAnimations)
-            }
-            if (mobileLayout.hasOwnProperty('scaleIcons')) {
-              this.map_.set('scaleIcons', oldScaleIcons)
-              this.map_.get('styling').setGlobalIconScale(oldScaleIcons)
-              this.map_.getLayerGroup().recursiveForEach(l => {
-                if (l.getVisible()) {
-                  l.changed()
-                }
-              })
-            }
-
-            let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
-
-            if (featurePopup && featurePopup.getVisible()) {
-              featurePopup.setVisible(false)
-              setTimeout(() => {
-                featurePopup.setVisible(true)
-                if (restoreWmsFeatureInfoPoint) {
-                  wmsFeatureInfo.setPointVisible(true)
-                }
-              }, 0)
-            }
-
-            if (mobileLayout.hasOwnProperty('hitTolerance')) {
-              this.map_.set('hitTolerance', oldHitTolerance)
-            }
-          }
-        }
-        lastMatch = match
+        this.map_.set('mobile', mobileLayout.mediaQueries.some(query => {
+          return window.matchMedia(query).matches
+        }))
       }
     }
+
+    this.map_.on('change:mobile', this.getHandleMobileChange_())
 
     //
     // Enabling/Disabling responsiveness
@@ -337,6 +262,60 @@ export class UIConfigurator {
     this.map_.on('ready:ui', onChangeResponsive)
 
     this.initialized_ = true
+  }
+
+  applyLayout (layout) {
+    if (layout.hasOwnProperty('animations')) {
+      this.map_.get('move').setAnimations(layout.animations)
+    }
+
+    if (layout.hasOwnProperty('scaleIcons')) {
+      this.map_.set('scaleIcons', layout.scaleIcons)
+      this.map_.get('styling').setGlobalIconScale(layout.scaleIcons)
+      this.map_.getLayerGroup().recursiveForEach(l => {
+        if (l.getVisible()) {
+          l.changed()
+        }
+      })
+    }
+
+    if (layout.hasOwnProperty('hitTolerance')) {
+      this.map_.set('hitTolerance', layout.hitTolerance)
+    }
+
+    let featurePopup = this.map_.get('featurePopup')
+    let wmsFeatureInfo = this.map_.get('showWMSFeatureInfo')
+
+    let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
+
+    if (featurePopup && featurePopup.getVisible()) {
+      featurePopup.setVisible(false)
+      setTimeout(() => {
+        featurePopup.setVisible(true)
+        if (restoreWmsFeatureInfoPoint) {
+          wmsFeatureInfo.setPointVisible(true)
+        }
+      }, 0)
+    }
+  }
+
+  getHandleMobileChange_ () {
+    if (!this.handleMobileChange__) {
+      this.handleMobileChange__ = () => {
+        if (this.map_.get('mobile')) {
+          $(this.map_.getTarget()).children().addClass(cssClasses.mobile)
+          $(this.map_.getTarget()).children().removeClass(cssClasses.desktop)
+
+          this.applyLayout(this.map_.get('mobileLayout'))
+        } else {
+          $(this.map_.getTarget()).children().addClass(cssClasses.desktop)
+          $(this.map_.getTarget()).children().removeClass(cssClasses.mobile)
+
+          this.applyLayout(this.map_.get('desktopLayout'))
+        }
+      }
+    }
+    return this.handleMobileChange__
   }
 
   /**
