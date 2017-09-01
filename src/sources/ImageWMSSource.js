@@ -1,7 +1,8 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {mixin} from '../utilities'
+import { asyncImageLoad, mixin } from '../utilities'
+import { Debug } from '../Debug'
 
 export class WMSFeatureInfoMixin {
   initialize (options) {
@@ -63,6 +64,10 @@ export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixi
   constructor (options) {
     options.originalUrl = options.url
     options.url = options.url.finalize()
+    options.imageLoadFunction = (image, src) => {
+      asyncImageLoad(image.getImage(), options.originalUrl, src)
+        .catch(err => Debug.error(err))
+    }
     super(options)
   }
 }
@@ -71,6 +76,10 @@ export class TileWMSSource extends mixin(ol.source.TileWMS, WMSFeatureInfoMixin)
   constructor (options) {
     options.originalUrl = options.url
     options.url = options.url.finalize()
+    options.tileLoadFunction = (tile, src) => {
+      asyncImageLoad(tile.getImage(), options.originalUrl, src)
+        .catch(err => Debug.error(err))
+    }
     super(options)
   }
 }
