@@ -77,6 +77,49 @@ export function getConfig (config, name) {
 }
 
 // //////////////////////////////////////////////////////////////////////////////////////// //
+//                      async image load                                                    //
+// //////////////////////////////////////////////////////////////////////////////////////// //
+
+/**
+ * @param {HTMLImageElement} image
+ * @param {URL} origUrl
+ * @param {string} [finalUrl]
+ * @returns {Promise}
+ */
+export function asyncImageLoad (image, origUrl, finalUrl) {
+  if (!finalUrl) {
+    finalUrl = origUrl.finalize()
+  }
+  return new Promise((resolve, reject) => {
+    image.addEventListener('load', resolve)
+    image.addEventListener('error', reject)
+    if (!origUrl.username || !origUrl.password) {
+      image.src = finalUrl
+    } else {
+      let xhr = new XMLHttpRequest() // eslint-disable-line no-undef
+      // xhr.open('GET', url, true, username, password)
+      xhr.open('GET', finalUrl, true)
+      xhr.responseType = 'blob'
+      xhr.withCredentials = true
+
+      xhr.setRequestHeader(origUrl.useProxy ? 'X-Proxy-Forward-Authorization' : 'Authorization',
+        'Basic ' + btoa(origUrl.username + ':' + origUrl.password)) // eslint-disable-line no-undef
+
+      xhr.addEventListener('load', function (e) {
+        if (this.status === 200) {
+          let urlCreator = window.URL || window.webkitURL
+          image.src = urlCreator.createObjectURL(this.response)
+        } else {
+          reject(e)
+        }
+      })
+
+      xhr.send()
+    }
+  })
+}
+
+// //////////////////////////////////////////////////////////////////////////////////////// //
 //                      finish all ajax requests then continue                              //
 // //////////////////////////////////////////////////////////////////////////////////////// //
 

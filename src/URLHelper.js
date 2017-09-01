@@ -7,6 +7,8 @@ import { Debug } from './Debug'
  * @property {boolean} [useProxy]
  * @property {string} [proxy]
  * @property {boolean} [cache=true]
+ * @property {string} [username] only implemented for wms at the moment
+ * @property {string} [password] only implemented for wms at the moment
  */
 
 /**
@@ -60,6 +62,14 @@ export class URL {
        * @type {boolean}
        */
       this.cache = urlLike.cache === undefined ? true : urlLike.cache
+      /**
+       * @type {string}
+       */
+      this.username = urlLike.username
+      /**
+       * @type {string}
+       */
+      this.password = urlLike.password
       if (urlLike.params) {
         this.params = urlLike.params.slice(0)
       } else {
