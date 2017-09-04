@@ -26,7 +26,9 @@ class DOMListener {
   }
 
   static usable (element) {
-    return element instanceof EventTarget // eslint-disable-line
+    return !!element.addEventListener
+    // thanks to internet explorer we can't use the following line
+    // return element instanceof EventTarget
   }
 
   static create (element) {
