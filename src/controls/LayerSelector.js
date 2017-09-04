@@ -229,6 +229,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       })
 
       $target.append($button)
+
+      return $button
     }
   }
 
@@ -319,10 +321,16 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           this.dispatchEvent('change:size')
           this.changed()
         })
-    }
 
-    for (let childLayer of categoryLayer.getLayers().getArray()) {
-      this.chooseButtonBuilder(childLayer, $nextTarget)
+      for (let childLayer of categoryLayer.getLayers().getArray()) {
+        this.chooseButtonBuilder(childLayer, $nextTarget)
+      }
+
+      return menu
+    } else {
+      for (let childLayer of categoryLayer.getLayers().getArray()) {
+        this.chooseButtonBuilder(childLayer, $nextTarget)
+      }
     }
   }
 
@@ -514,8 +522,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             wmsLayer: true
           })
         })
+
+        return menu
       } else {
-        this.buildLayerButton(wmsLayer, $target)
+        return this.buildLayerButton(wmsLayer, $target)
       }
     }
   }
@@ -527,11 +537,11 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    */
   chooseButtonBuilder (layer, $target) {
     if (layer instanceof GroupLayer) {
-      this.buildCategoryButton(layer, $target)
+      return this.buildCategoryButton(layer, $target)
     } else if (layer.getSource && layer.getSource() && layer.getSource().isFeatureInfoCheckable) {
-      this.buildWMSButton(layer, $target)
+      return this.buildWMSButton(layer, $target)
     } else {
-      this.buildLayerButton(layer, $target)
+      return this.buildLayerButton(layer, $target)
     }
   }
 
