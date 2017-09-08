@@ -32,6 +32,7 @@ export const LayerType = {
   TILEWMS: 'TileWMS',
   WMTS: 'WMTS',
   OSM: 'OSM',
+  STAMEN: 'Stamen',
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
@@ -284,6 +285,15 @@ export class LayerFactory {
       case LayerType.OSM:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.OSM(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.STAMEN:
+        optionsCopy.source = new ol.source.Stamen(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
