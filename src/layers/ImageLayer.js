@@ -5,6 +5,6 @@ import {BaseLayerMixin} from './BaseLayerMixin'
 import { mixin } from '../utilities'
 import {ProvideMapMixin} from './ProvideMapMixin'
 
-export const ImageLayer = mixin(mixin(ol.layer.Image, ProvideMapMixin), LayerLoadProcessCountMixin)
+export const ImageLayer = mixin(ol.layer.Image, [ ProvideMapMixin, LayerLoadProcessCountMixin ])
 
 export const BaseLayerImage = mixin(ImageLayer, BaseLayerMixin)

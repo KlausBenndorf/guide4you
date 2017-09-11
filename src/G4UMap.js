@@ -91,6 +91,8 @@ export class G4UMap extends ol.Map {
       }
     })
 
+    this.on('postrender', () => setTimeout(() => this.dispatchEvent('delayedpostrender'), 0))
+
     // registering mutators
 
     if (options.mutators) {
