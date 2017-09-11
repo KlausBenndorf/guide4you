@@ -332,7 +332,7 @@ function getPropertyNamesAndDescriptions (obj) {
  * 'initialize') from the mixin class. The mixin class may not overwrite any existing method. If it has a method called
  * 'initialize' this will be remembered and called after the constructor of the base class has finished
  * @param baseClass
- * @param mixinClass
+ * @param mixinClasses
  * @returns {class}
  */
 export function mixin (baseClass, mixinClasses) {

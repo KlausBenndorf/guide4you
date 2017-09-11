@@ -2,7 +2,7 @@ import ol from 'openlayers'
 
 import {GroupLayer} from '../layers/GroupLayer'
 import { copyDeep } from '../utilitiesObject'
-import { checkFor } from '../utilities'
+import { afterNextAnimationFrame, checkFor } from '../utilities'
 import {Debug} from '../Debug'
 import {LayerFactory} from './LayerFactory'
 
@@ -188,13 +188,13 @@ export class LayerConfigurator {
       layers.getLayers().push(queryLayers)
     }
 
-    // //////////////////////////////////////////////////////////////////////////////////////////
-    //                                   All layers loaded                                     //
-    // //////////////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////////// //
+    //                                   All layers loaded                                      //
+    // //////////////////////////////////////////////////////////////////////////////////////// //
 
     let loadingLayers = []
-    let isLoading = false
-    let allLayersLoadedTimeout
+    let isLoadingDelayed = false
+    let isLoadingPrecise = false
 
     let forEachLayer = (layer) => {
       if (layer.getLayers) {
@@ -205,36 +205,57 @@ export class LayerConfigurator {
       }
       if (layer.isLoading) {
         if (layer.isLoading()) {
-          if (!isLoading) {
+          if (!isLoadingDelayed) {
+            isLoadingDelayed = true
             this.map_.dispatchEvent('layersloadstart')
-            isLoading = true
+            this.map_.set('allLayersLoaded', false)
           }
+          isLoadingPrecise = true
           loadingLayers.push(layer)
         }
       }
       layer.on('loadcountstart', () => {
-        if (!isLoading) {
+        if (!isLoadingDelayed) {
+          isLoadingDelayed = true
           this.map_.dispatchEvent('layersloadstart')
-          isLoading = true
+          this.map_.set('allLayersLoaded', false)
         }
+        isLoadingPrecise = true
         loadingLayers.push(layer)
-        clearTimeout(allLayersLoadedTimeout)
       })
       layer.on('loadcountend', () => {
         loadingLayers.splice(loadingLayers.indexOf(layer), 1)
         if (loadingLayers.length === 0) {
-          allLayersLoadedTimeout = setTimeout(() => {
-            this.map_.once('postrender', () => {
+          isLoadingPrecise = false
+          this.map_.once('delayedpostrender', () => {
+            if (!isLoadingPrecise) {
               this.map_.dispatchEvent('layersloadend')
-              isLoading = false
-            })
-            this.map_.render()
-          }, 40)
+              isLoadingDelayed = false
+              this.map_.set('allLayersLoaded', true)
+            }
+          })
+          this.map_.render()
         }
       })
     }
 
     forEachLayer(this.map_.getLayerGroup())
+
+    this.map_.set('allLayersLoaded', false)
+
+    let layerLoadStarted = false
+
+    this.map_.once('layersloadstart', () => {
+      layerLoadStarted = true
+    })
+
+    this.map_.once('postrender', e => {
+      this.map_.once('postrender', e => {
+        if (!layerLoadStarted) {
+          this.map_.set('allLayersLoaded', true)
+        }
+      })
+    })
 
     this.map_.set('ready:layers', true)
   }

@@ -1,6 +1,7 @@
 /**
  * A mixin to keep track the amount of load processes a source is currently waiting for
  */
+
 export class LayerLoadProcessCountMixin {
   initialize () {
     this.debounceLoadComplete_ = 40
@@ -21,15 +22,15 @@ export class LayerLoadProcessCountMixin {
   }
 
   registerCounters_ () {
-    let loadCompleteTimeout
+    let loadingPrecise = false
 
     this.getSource().on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], () => {
       this.loadProcessCount_ += 1
       if (!this.isLoading_) {
-        this.dispatchEvent('loadcountstart')
         this.isLoading_ = true
+        this.dispatchEvent('loadcountstart')
       }
-      clearTimeout(loadCompleteTimeout)
+      loadingPrecise = true
     })
 
     this.getSource().on([
@@ -38,10 +39,13 @@ export class LayerLoadProcessCountMixin {
       'imageloadend', 'imageloaderror'], () => {
       this.loadProcessCount_ -= 1
       if (this.loadProcessCount_ === 0) {
-        loadCompleteTimeout = setTimeout(() => {
-          this.dispatchEvent('loadcountend')
-          this.isLoading_ = false
-        }, this.debounceLoadComplete_)
+        loadingPrecise = false
+        this.getProvidedMap().once('delayedpostrender', () => {
+          if (!loadingPrecise) {
+            this.isLoading_ = false
+            this.dispatchEvent('loadcountend')
+          }
+        })
       }
     })
   }
