@@ -1,7 +1,7 @@
 import {createMapInternal} from '../../src/main'
 
-import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
-import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!./layers.commented.json'
+import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
+import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.commented.json'
 
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
 import 'file-loader?name=files/[name].[ext]!../../files/restaurantsbonn.kml'
@@ -33,7 +33,7 @@ import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/overviewmap-co
 import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/scaleline.png'
 import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/zoom.png'
 
-import 'mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
+import 'file-loader?name=proxy/[name].[ext]!mustache-loader!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {

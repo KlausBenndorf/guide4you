@@ -1,7 +1,7 @@
 import {createMapInternal} from '../../src/main'
 
-import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
-import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!./layers.commented.json'
+import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
+import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.commented.json'
 
 import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 
