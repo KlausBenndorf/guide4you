@@ -537,7 +537,7 @@ function getPropertyNamesAndDescriptions(obj) {
  * 'initialize') from the mixin class. The mixin class may not overwrite any existing method. If it has a method called
  * 'initialize' this will be remembered and called after the constructor of the base class has finished
  * @param baseClass
- * @param mixinClass
+ * @param mixinClasses
  * @returns {class}
  */
 function mixin(baseClass, mixinClasses) {
@@ -6336,7 +6336,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.2.5'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.3.0'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -6665,6 +6665,19 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
           }
         }
       }
+    }
+
+    /**
+     * The listener is called once immediately after the next postrender event
+     * @param listener
+     */
+
+  }, {
+    key: 'afterPostrender',
+    value: function afterPostrender(listener) {
+      this.once('postrender', function () {
+        return setTimeout(listener, 0);
+      });
     }
 
     /**
@@ -7546,6 +7559,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * A mixin to keep track the amount of load processes a source is currently waiting for
  */
+
 var LayerLoadProcessCountMixin = exports.LayerLoadProcessCountMixin = function () {
   function LayerLoadProcessCountMixin() {
     _classCallCheck(this, LayerLoadProcessCountMixin);
@@ -7579,24 +7593,27 @@ var LayerLoadProcessCountMixin = exports.LayerLoadProcessCountMixin = function (
     value: function registerCounters_() {
       var _this2 = this;
 
-      var loadCompleteTimeout = void 0;
+      var loadingPrecise = false;
 
       this.getSource().on(['vectorloadstart', 'tileloadstart', 'imageloadstart'], function () {
         _this2.loadProcessCount_ += 1;
         if (!_this2.isLoading_) {
-          _this2.dispatchEvent('loadcountstart');
           _this2.isLoading_ = true;
+          _this2.dispatchEvent('loadcountstart');
         }
-        clearTimeout(loadCompleteTimeout);
+        loadingPrecise = true;
       });
 
       this.getSource().on(['vectorloadend', 'vectorloaderror', 'tileloadend', 'tileloaderror', 'imageloadend', 'imageloaderror'], function () {
         _this2.loadProcessCount_ -= 1;
         if (_this2.loadProcessCount_ === 0) {
-          loadCompleteTimeout = setTimeout(function () {
-            _this2.dispatchEvent('loadcountend');
-            _this2.isLoading_ = false;
-          }, _this2.debounceLoadComplete_);
+          loadingPrecise = false;
+          _this2.getProvidedMap().afterPostrender(function () {
+            if (!loadingPrecise) {
+              _this2.isLoading_ = false;
+              _this2.dispatchEvent('loadcountend');
+            }
+          });
         }
       });
     }
@@ -11845,7 +11862,7 @@ var _ProvideMapMixin = __webpack_require__(84);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ImageLayer = exports.ImageLayer = (0, _utilities.mixin)((0, _utilities.mixin)(_openlayers2.default.layer.Image, _ProvideMapMixin.ProvideMapMixin), _LayerLoadProcessCountMixin.LayerLoadProcessCountMixin);
+var ImageLayer = exports.ImageLayer = (0, _utilities.mixin)(_openlayers2.default.layer.Image, [_ProvideMapMixin.ProvideMapMixin, _LayerLoadProcessCountMixin.LayerLoadProcessCountMixin]);
 
 var BaseLayerImage = exports.BaseLayerImage = (0, _utilities.mixin)(ImageLayer, _BaseLayerMixin.BaseLayerMixin);
 
@@ -11873,7 +11890,7 @@ var _ProvideMapMixin = __webpack_require__(84);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var TileLayer = exports.TileLayer = (0, _utilities.mixin)((0, _utilities.mixin)(_openlayers2.default.layer.Tile, _ProvideMapMixin.ProvideMapMixin), _LayerLoadProcessCountMixin.LayerLoadProcessCountMixin);
+var TileLayer = exports.TileLayer = (0, _utilities.mixin)(_openlayers2.default.layer.Tile, [_ProvideMapMixin.ProvideMapMixin, _LayerLoadProcessCountMixin.LayerLoadProcessCountMixin]);
 
 /***/ }),
 /* 188 */
@@ -14706,7 +14723,7 @@ __webpack_require__(546);
 
 var _main = __webpack_require__(314);
 
-__webpack_require__(549);
+__webpack_require__(548);
 
 __webpack_require__(547);
 
@@ -17357,7 +17374,7 @@ var LayerConfigurator = exports.LayerConfigurator = function () {
         this.map_.set('baseLayers', this.baseLayerGroup_);
         layers.getLayers().push(this.baseLayerGroup_);
       } else {
-        _Debug.Debug.warn("The mapConfig option 'baseLayers' is not set or not an Array!");
+        _Debug.Debug.warn('The mapConfig option \'baseLayers\' is not set or not an Array!');
       }
 
       // if no baselayer had a given projection, choose 'EPSG:3857'
@@ -17415,13 +17432,13 @@ var LayerConfigurator = exports.LayerConfigurator = function () {
         layers.getLayers().push(queryLayers);
       }
 
-      // //////////////////////////////////////////////////////////////////////////////////////////
-      //                                   All layers loaded                                     //
-      // //////////////////////////////////////////////////////////////////////////////////////////
+      // //////////////////////////////////////////////////////////////////////////////////////// //
+      //                                   All layers loaded                                      //
+      // //////////////////////////////////////////////////////////////////////////////////////// //
 
       var loadingLayers = [];
-      var isLoading = false;
-      var allLayersLoadedTimeout = void 0;
+      var isLoadingDelayed = false;
+      var isLoadingPrecise = false;
 
       var forEachLayer = function forEachLayer(layer) {
         if (layer.getLayers) {
@@ -17432,36 +17449,57 @@ var LayerConfigurator = exports.LayerConfigurator = function () {
         }
         if (layer.isLoading) {
           if (layer.isLoading()) {
-            if (!isLoading) {
+            if (!isLoadingDelayed) {
+              isLoadingDelayed = true;
               _this.map_.dispatchEvent('layersloadstart');
-              isLoading = true;
+              _this.map_.set('allLayersLoaded', false);
             }
+            isLoadingPrecise = true;
             loadingLayers.push(layer);
           }
         }
         layer.on('loadcountstart', function () {
-          if (!isLoading) {
+          if (!isLoadingDelayed) {
+            isLoadingDelayed = true;
             _this.map_.dispatchEvent('layersloadstart');
-            isLoading = true;
+            _this.map_.set('allLayersLoaded', false);
           }
+          isLoadingPrecise = true;
           loadingLayers.push(layer);
-          clearTimeout(allLayersLoadedTimeout);
         });
         layer.on('loadcountend', function () {
           loadingLayers.splice(loadingLayers.indexOf(layer), 1);
           if (loadingLayers.length === 0) {
-            allLayersLoadedTimeout = setTimeout(function () {
-              _this.map_.once('postrender', function () {
+            isLoadingPrecise = false;
+            _this.map_.afterPostrender(function () {
+              if (!isLoadingPrecise) {
                 _this.map_.dispatchEvent('layersloadend');
-                isLoading = false;
-              });
-              _this.map_.render();
-            }, 40);
+                isLoadingDelayed = false;
+                _this.map_.set('allLayersLoaded', true);
+              }
+            });
+            _this.map_.render();
           }
         });
       };
 
       forEachLayer(this.map_.getLayerGroup());
+
+      this.map_.set('allLayersLoaded', false);
+
+      var layerLoadStarted = false;
+
+      this.map_.once('layersloadstart', function () {
+        layerLoadStarted = true;
+      });
+
+      this.map_.once('postrender', function () {
+        _this.map_.once('postrender', function () {
+          if (!layerLoadStarted) {
+            _this.map_.set('allLayersLoaded', true);
+          }
+        });
+      });
 
       this.map_.set('ready:layers', true);
     }
@@ -17559,6 +17597,7 @@ var LayerType = exports.LayerType = {
   TILEWMS: 'TileWMS',
   WMTS: 'WMTS',
   OSM: 'OSM',
+  STAMEN: 'Stamen',
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
@@ -17839,6 +17878,15 @@ var LayerFactory = exports.LayerFactory = function () {
         case LayerType.OSM:
           optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url').finalize();
           optionsCopy.source = new _openlayers2.default.source.OSM(optionsCopy.source);
+
+          if (superType === SuperType.BASELAYER) {
+            layer = new _BaseTileLayer.BaseTileLayer(optionsCopy);
+          } else {
+            layer = new _TileLayer.TileLayer(optionsCopy);
+          }
+          break;
+        case LayerType.STAMEN:
+          optionsCopy.source = new _openlayers2.default.source.Stamen(optionsCopy.source);
 
           if (superType === SuperType.BASELAYER) {
             layer = new _BaseTileLayer.BaseTileLayer(optionsCopy);
@@ -22144,11 +22192,12 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
     /**
      * classNames
      * @type {object.<string, string>}
-     * @private
+     * @protected
      */
     _this.classNames_ = {
-      menu: _this.className_ + '-menu',
-      layerButton: _this.className_ + '-layerbutton'
+      menu: _this.getClassName() + '-menu',
+      layerButton: _this.getClassName() + '-layerbutton',
+      active: _this.getClassName() + '-active'
     };
 
     /**
@@ -25111,7 +25160,7 @@ var MapEventInteraction = exports.MapEventInteraction = function (_ol$interactio
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 exports.BaseTileLayer = undefined;
 
@@ -25297,7 +25346,7 @@ var _jquery = __webpack_require__(1);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-__webpack_require__(548);
+__webpack_require__(549);
 
 __webpack_require__(63);
 
@@ -30399,13 +30448,13 @@ module.exports = __webpack_require__.p + "conf/layers.commented.json";
 /* 548 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "images/g4u-logo.png";
+module.exports = __webpack_require__.p + "conf/client.commented.json";
 
 /***/ }),
 /* 549 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "conf/client.commented.json";
+module.exports = __webpack_require__.p + "images/g4u-logo.png";
 
 /***/ }),
 /* 550 */
