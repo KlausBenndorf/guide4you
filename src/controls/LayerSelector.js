@@ -63,11 +63,12 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     /**
      * classNames
      * @type {object.<string, string>}
-     * @private
+     * @protected
      */
     this.classNames_ = {
-      menu: this.className_ + '-menu',
-      layerButton: this.className_ + '-layerbutton'
+      menu: this.getClassName() + '-menu',
+      layerButton: this.getClassName() + '-layerbutton',
+      active: this.getClassName() + '-active'
     }
 
     /**

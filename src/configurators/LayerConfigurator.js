@@ -1,10 +1,10 @@
 import ol from 'openlayers'
 
-import {GroupLayer} from '../layers/GroupLayer'
+import { GroupLayer } from '../layers/GroupLayer'
 import { copyDeep } from '../utilitiesObject'
-import { afterNextAnimationFrame, checkFor } from '../utilities'
-import {Debug} from '../Debug'
-import {LayerFactory} from './LayerFactory'
+import { checkFor } from '../utilities'
+import { Debug } from '../Debug'
+import { LayerFactory } from './LayerFactory'
 
 /**
  * This is part of the MapConfigurator class
@@ -130,7 +130,7 @@ export class LayerConfigurator {
       this.map_.set('baseLayers', this.baseLayerGroup_)
       layers.getLayers().push(this.baseLayerGroup_)
     } else {
-      Debug.warn("The mapConfig option 'baseLayers' is not set or not an Array!")
+      Debug.warn('The mapConfig option \'baseLayers\' is not set or not an Array!')
     }
 
     // if no baselayer had a given projection, choose 'EPSG:3857'
@@ -227,7 +227,7 @@ export class LayerConfigurator {
         loadingLayers.splice(loadingLayers.indexOf(layer), 1)
         if (loadingLayers.length === 0) {
           isLoadingPrecise = false
-          this.map_.once('delayedpostrender', () => {
+          this.map_.afterPostrender(() => {
             if (!isLoadingPrecise) {
               this.map_.dispatchEvent('layersloadend')
               isLoadingDelayed = false
@@ -249,8 +249,8 @@ export class LayerConfigurator {
       layerLoadStarted = true
     })
 
-    this.map_.once('postrender', e => {
-      this.map_.once('postrender', e => {
+    this.map_.once('postrender', () => {
+      this.map_.once('postrender', () => {
         if (!layerLoadStarted) {
           this.map_.set('allLayersLoaded', true)
         }
