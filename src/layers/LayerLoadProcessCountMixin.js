@@ -40,7 +40,7 @@ export class LayerLoadProcessCountMixin {
       this.loadProcessCount_ -= 1
       if (this.loadProcessCount_ === 0) {
         loadingPrecise = false
-        this.getProvidedMap().once('delayedpostrender', () => {
+        this.getProvidedMap().afterPostrender(() => {
           if (!loadingPrecise) {
             this.isLoading_ = false
             this.dispatchEvent('loadcountend')
