@@ -37,7 +37,7 @@
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "concurrently": "^3.4.0",
     "esdoc": "1.0.0-alpha.3",
-    "guide4you-builder": "~2.0.6",
+    "guide4you-builder": "2.1.1",
     "http-server": "^0.10.0",
     "mocha": "3.4.2",
     "phantomjs-prebuilt": "2.1.14",
