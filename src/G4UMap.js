@@ -91,8 +91,6 @@ export class G4UMap extends ol.Map {
       }
     })
 
-    this.on('postrender', () => setTimeout(() => this.dispatchEvent('delayedpostrender'), 0))
-
     // registering mutators
 
     if (options.mutators) {
@@ -343,6 +341,14 @@ export class G4UMap extends ol.Map {
     for (let module of modules) {
       this.addModule(module)
     }
+  }
+
+  /**
+   * The listener is called once immediately after the next postrender event
+   * @param listener
+   */
+  afterPostrender (listener) {
+    this.once('postrender', () => setTimeout(listener, 0))
   }
 
   /**
