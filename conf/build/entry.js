@@ -1,8 +1,8 @@
 import { createMapInternal } from 'guide4you/src/main'
 import { registerModule } from 'guide4you/src/moduleRegistration'
 
-import defaultClientConf from 'mustache-eval-loader?name=conf/[name].[ext]!./client.commented.json'
-import defaultLayerConf from 'mustache-eval-loader?name=conf/[name].[ext]!guide4you/conf/simple/layers.commented.json'
+import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
+import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!guide4you/conf/simple/layers.commented.json'
 
 import 'tojson-file-loader?name=files/[name]!files/helptext.json.js'
 
@@ -33,7 +33,7 @@ import 'tojson-file-loader?name=files/[name]!files/l10n.json.js'
 import 'file-loader?name=files/[name].[ext]!guide4you/files/hotelsbonn.kml'
 import 'file-loader?name=files/[name].[ext]!guide4you/files/restaurantsbonn.kml'
 
-import 'mustache-eval-loader?name=proxy/[name].[ext]!guide4you-proxy/proxy.php'
+import 'file-loader?name=proxy/[name].[ext]!mustache-loader!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 import { URLAPIModule } from 'src/URLAPIModule'

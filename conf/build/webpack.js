@@ -4,11 +4,11 @@ let path = require('path')
 let baseDir = process.cwd()
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const mustacheEvalLoader = require('guide4you-builder/mustache-eval-loader')
+const mustacheLoader = require('guide4you-builder/mustache-loader')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-mustacheEvalLoader.setTemplateVars({
+mustacheLoader.setTemplateVars({
   pageTitle: 'guide4you module URLAPI',
   ajaxProxy: {
     prod: 'proxy/proxy.php?csurl={url}',
