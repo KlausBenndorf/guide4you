@@ -21,15 +21,15 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-search"
   },
   "peerDependencies": {
-    "guide4you": "2.2.*",
+    "guide4you": "2.3.*",
     "jquery": "3.2.1",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0"
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
     "esdoc": "0.5.2",
-    "guide4you": "2.2.*",
-    "guide4you-builder": "2.0.*",
+    "guide4you": "2.3.*",
+    "guide4you-builder": "2.1.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
     "http-server": "^0.10.0",
     "jquery": "3.2.1",

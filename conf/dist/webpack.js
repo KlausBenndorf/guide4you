@@ -1,13 +1,13 @@
 'use strict'
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const mustacheEvalLoader = require('guide4you-builder/mustache-eval-loader')
+const mustacheLoader = require('guide4you-builder/mustache-loader')
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 
 let path = require('path')
 let baseDir = process.cwd()
 
-mustacheEvalLoader.setTemplateVars({
+mustacheLoader.setTemplateVars({
   svgColor: 'rgba(255,255,255,1)',
   languageFile: './files/l10n.json'
 })
