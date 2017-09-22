@@ -2,7 +2,6 @@ import ol from 'openlayers'
 import $ from 'jquery'
 
 import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
-import {expandTemplate} from 'guide4you/src/utilities'
 
 export class G4UServerSearchConnector extends SearchConnector {
 
