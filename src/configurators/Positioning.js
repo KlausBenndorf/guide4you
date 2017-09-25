@@ -410,7 +410,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       }
       this.hideLeastImportant_(elems)
       elems = this.getEdge_(side)
-      wantedSpace = this.calculateLength_(elems, side)
+      wantedSpace = this.calculateLength_(elems, dim)
       changed = true
     }
     return changed
