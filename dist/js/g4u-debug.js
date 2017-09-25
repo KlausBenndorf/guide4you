@@ -6336,7 +6336,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.3.1'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.3.2'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -19220,7 +19220,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
         }
         this.hideLeastImportant_(elems);
         elems = this.getEdge_(side);
-        wantedSpace = this.calculateLength_(elems, side);
+        wantedSpace = this.calculateLength_(elems, dim);
         changed = true;
       }
       return changed;
