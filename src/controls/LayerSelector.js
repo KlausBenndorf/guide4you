@@ -83,6 +83,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       collapsed: this.collapsed_
     })
 
+    this.menu_.on('change:collapsed', () => this.dispatchEvent('change:size'))
+
     this.get$Element().append(this.menu_.get$Element())
 
     /**
@@ -95,7 +97,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
      * @type {number}
      * @private
      */
-    this.minVisibleButtons_ = options.minVisibleEntries || 6
+    this.minVisibleButtons_ = options.minVisibleEntries || 5
 
     /**
      * @type {boolean}
@@ -596,7 +598,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   /**
-   * Squeezes the control in the given dimenstion by the provided value. Used by Positioning
+   * Squeezes the control in the given dimension by the provided value. Used by Positioning
    * Returns the value the control could get squeezed by.
    * @param {string} dimension
    * @param {number} value
@@ -606,6 +608,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     if (dimension === 'height') {
       let $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
       let $buttons = $contentBox.find('button:visible')
+        .filter(`.${this.getClassName()}-layerbutton,.${this.getClassName()}-menu-titlebutton`)
 
       if ($buttons.length > 1) {
         let height = $contentBox.height()
