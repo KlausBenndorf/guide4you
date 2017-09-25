@@ -6336,7 +6336,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.3.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.3.1'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -18664,8 +18664,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * @typedef {Object} HideableElement
  * @property {Control} control
- * @property {Boolean} visible
- * @property {Object} state
  * @property {number} importance
  * @property {number} order
  * @property {Float} [float] first and second direction or special value 'fixed'
@@ -18717,6 +18715,13 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
      * @private
      */
     _this.spacing_ = options.spacing || 10;
+
+    /**
+     * The hidden controle
+     * @type {jQuery}
+     * @private
+     */
+    _this.hidden$Elements_ = [];
 
     _this.init();
     return _this;
@@ -18834,12 +18839,14 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
           var metaElem = {
             control: control,
             order: this.order_++,
-            visible: control.getVisible(),
             importance: control.getImportance()
           };
 
-          control.on('change:visible', function () {
-            metaElem.visible = control.getVisible();
+          control.on('change:visible', function (e) {
+            var index = _this2.hidden$Elements_.indexOf(control.get$Element());
+            if (e.oldValue && index > -1) {
+              _this2.hidden$Elements_.splice(index, 1);
+            }
             _this2.positionElements();
           });
 
@@ -18912,11 +18919,11 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
       var cwElem = this.corners_[x][y].clockwise[cwi++];
       var ccwElem = this.corners_[x][y].counterclockwise[ccwi++];
 
-      while (cwElem && !cwElem.visible) {
+      while (cwElem && !Positioning.isElemVisible_(cwElem)) {
         cwElem = this.corners_[x][y].clockwise[cwi++];
       }
 
-      while (ccwElem && !ccwElem.visible) {
+      while (ccwElem && !Positioning.isElemVisible_(ccwElem)) {
         ccwElem = this.corners_[x][y].counterclockwise[ccwi++];
       }
 
@@ -18934,45 +18941,41 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
         }
       }
     }
+  }, {
+    key: 'getEdge_',
+
 
     /**
      * Gets all elements at one edge
-     * @param edge
+     * @param side
      * @returns {*|Array.<Element>}
      * @private
      */
-
-  }, {
-    key: 'getEdge_',
-    value: function getEdge_(edge) {
+    value: function getEdge_(side) {
       var x1 = void 0,
           x2 = void 0,
           y1 = void 0,
           y2 = void 0;
-      if (edge === 'top') {
+      if (side === 'top') {
         x1 = 'left';
         x2 = 'right';
         y1 = y2 = 'top';
-      } else if (edge === 'right') {
+      } else if (side === 'right') {
         x1 = x2 = 'right';
         y1 = 'top';
         y2 = 'bottom';
-      } else if (edge === 'bottom') {
+      } else if (side === 'bottom') {
         x1 = 'right';
         x2 = 'left';
         y1 = y2 = 'bottom';
-      } else if (edge === 'left') {
+      } else if (side === 'left') {
         x1 = x2 = 'left';
         y1 = 'bottom';
         y2 = 'top';
       }
 
-      var clockwise = _jquery2.default.grep(this.corners_[x1][y1].clockwise, function (el) {
-        return el.visible;
-      });
-      var counterclockwise = _jquery2.default.grep(this.corners_[x2][y2].counterclockwise, function (el) {
-        return el.visible;
-      });
+      var clockwise = this.corners_[x1][y1].clockwise.filter(Positioning.isElemVisible_);
+      var counterclockwise = this.corners_[x2][y2].counterclockwise.filter(Positioning.isElemVisible_);
 
       var arr = [];
       var c = this.getCorner_(x1, y1);
@@ -19000,11 +19003,16 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
       var elems = new Set(this.all_);
 
+      this.hidden$Elements_.forEach(function ($e) {
+        return $e.removeClass(_globals.cssClasses.hidden);
+      });
+      this.hidden$Elements_ = [];
+
       /**
        * @param {PositionedElement} elem
        */
       var forEach = function forEach(elem) {
-        if (elem.visible) {
+        if (Positioning.isElemVisible_(elem)) {
           if (elem.control.beforePositioning) {
             elem.control.beforePositioning();
           }
@@ -19036,10 +19044,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
             }
           }
 
-          var $elem = elem.control.get$Element();
-          $elem.removeClass(_globals.cssClasses.hidden);
-
-          $elem.position({ top: 0, left: 0 });
+          elem.control.get$Element().position({ top: 0, left: 0 });
           if (elem.control.release) {
             elem.control.release('height');
             elem.control.release('width');
@@ -19153,14 +19158,18 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
     /**
      * Calculates summed length of all elements on one edge
      * @param {PositionedElement[]} edgeElems
-     * @param {string} side
+     * @param {string} dim
      * @returns {number}
      * @private
      */
 
   }, {
     key: 'calculateLength_',
-    value: function calculateLength_(edgeElems, side) {
+    value: function calculateLength_(edgeElems, dim) {
+      if (edgeElems.length === 0) {
+        return 0;
+      }
+
       var length = this.padding_ * 2;
 
       var firstElement = true;
@@ -19173,7 +19182,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
         for (var _iterator6 = edgeElems[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
           var elem = _step6.value;
 
-          length += elem.size[side];
+          length += elem.size[dim];
           if (firstElement) {
             firstElement = false;
           } else {
@@ -19197,6 +19206,124 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
       return length;
     }
+  }, {
+    key: 'calculateSide_',
+    value: function calculateSide_(side, availableSpace) {
+      var dim = side === 'top' || side === 'bottom' ? 'width' : 'height';
+      var elems = this.getEdge_(side);
+      var wantedSpace = this.calculateLength_(elems, dim);
+      var changed = false;
+
+      while (wantedSpace > availableSpace) {
+        if (this.squeezeElements_(elems, dim, wantedSpace - availableSpace)) {
+          break;
+        }
+        this.hideLeastImportant_(elems);
+        elems = this.getEdge_(side);
+        wantedSpace = this.calculateLength_(elems, side);
+        changed = true;
+      }
+      return changed;
+    }
+  }, {
+    key: 'positionElementsCorner_',
+    value: function positionElementsCorner_(x, y) {
+      var corner = this.getCorner_(x, y);
+      if (corner) {
+        var _$elem$removeClass$cs;
+
+        var xLength = this.padding_;
+        var yLength = this.padding_;
+        var $elem = corner.control.get$Element();
+
+        $elem.removeClass(_globals.cssClasses.hidden).css((_$elem$removeClass$cs = {}, _defineProperty(_$elem$removeClass$cs, x, xLength), _defineProperty(_$elem$removeClass$cs, y, yLength), _$elem$removeClass$cs));
+
+        xLength += $elem.outerWidth() + this.spacing_;
+        yLength += $elem.outerHeight() + this.spacing_;
+
+        var xDirection = void 0,
+            yDirection = void 0;
+
+        if (x === 'left' && y === 'top') {
+          xDirection = 'clockwise';
+          yDirection = 'counterclockwise';
+        } else if (x === 'right' && y === 'top') {
+          xDirection = 'counterclockwise';
+          yDirection = 'clockwise';
+        } else if (x === 'right' && y === 'bottom') {
+          xDirection = 'clockwise';
+          yDirection = 'counterclockwise';
+        } else if (x === 'left' && y === 'bottom') {
+          xDirection = 'counterclockwise';
+          yDirection = 'clockwise';
+        }
+
+        // x
+        var _iteratorNormalCompletion7 = true;
+        var _didIteratorError7 = false;
+        var _iteratorError7 = undefined;
+
+        try {
+          for (var _iterator7 = this.corners_[x][y][xDirection].filter(function (el) {
+            return Positioning.isElemVisible_(el) && el !== corner;
+          })[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+            var _$elem$css;
+
+            var elem = _step7.value;
+
+            $elem = elem.control.get$Element();
+            $elem.css((_$elem$css = {}, _defineProperty(_$elem$css, x, xLength), _defineProperty(_$elem$css, y, this.padding_), _$elem$css));
+            xLength += $elem.outerWidth() + this.spacing_;
+          }
+
+          // y
+        } catch (err) {
+          _didIteratorError7 = true;
+          _iteratorError7 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion7 && _iterator7.return) {
+              _iterator7.return();
+            }
+          } finally {
+            if (_didIteratorError7) {
+              throw _iteratorError7;
+            }
+          }
+        }
+
+        var _iteratorNormalCompletion8 = true;
+        var _didIteratorError8 = false;
+        var _iteratorError8 = undefined;
+
+        try {
+          for (var _iterator8 = this.corners_[x][y][yDirection].filter(function (el) {
+            return Positioning.isElemVisible_(el) && el !== corner;
+          })[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+            var _$elem$css2;
+
+            var _elem = _step8.value;
+
+            $elem = _elem.control.get$Element();
+            $elem.css((_$elem$css2 = {}, _defineProperty(_$elem$css2, x, this.padding_), _defineProperty(_$elem$css2, y, yLength), _$elem$css2));
+            yLength += $elem.outerHeight() + this.spacing_;
+          }
+        } catch (err) {
+          _didIteratorError8 = true;
+          _iteratorError8 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion8 && _iterator8.return) {
+              _iterator8.return();
+            }
+          } finally {
+            if (_didIteratorError8) {
+              throw _iteratorError8;
+            }
+          }
+        }
+      }
+    }
 
     /**
      * (Re-)Position the controls on the map
@@ -19205,32 +19332,17 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'positionElements',
     value: function positionElements() {
-      var _this4 = this;
-
       var width = this.$viewport_.innerWidth();
       var height = this.$viewport_.innerHeight();
 
       this.beforePositioning_();
 
-      var changed = void 0;
-
+      // calculation
       var processSides = new Set(['top', 'left', 'bottom', 'right']);
 
       while (processSides.size) {
-        // calculation
-
         if (processSides.has('top')) {
-          var topElems = this.getEdge_('top');
-          var topWidth = this.calculateLength_(topElems, 'width');
-
-          changed = false;
-          while (topElems.length && topWidth > width && !this.squeezeElements_(topElems, 'width', topWidth - width)) {
-            this.hideLeastImportant_(topElems);
-            topElems = this.getEdge_('top');
-            topWidth = this.calculateLength_(topElems, 'width');
-            changed = true;
-          }
-          if (changed) {
+          if (this.calculateSide_('top', width)) {
             processSides.add('left');
             processSides.add('right');
           }
@@ -19239,40 +19351,16 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
         }
 
         if (processSides.has('right')) {
-          var rightElems = this.getEdge_('right');
-          var rightHeight = this.calculateLength_(rightElems, 'height');
-
-          if (rightElems.length && rightHeight > height) {
-            changed = false;
-            var squeezable = this.squeezeElements_(rightElems, 'height', rightHeight - height);
-            while (rightElems.length && rightHeight > height && !squeezable) {
-              this.hideLeastImportant_(rightElems);
-              rightElems = this.getEdge_('right');
-              rightHeight = this.calculateLength_(rightElems, 'height');
-              changed = true;
-              squeezable = this.squeezeElements_(rightElems, 'height', rightHeight - height);
-            }
-            if (changed) {
-              processSides.add('top');
-              processSides.add('bottom');
-            }
+          if (this.calculateSide_('right', height)) {
+            processSides.add('top');
+            processSides.add('bottom');
           }
 
           processSides.delete('right');
         }
 
         if (processSides.has('bottom')) {
-          var bottomElems = this.getEdge_('bottom');
-          var bottomWidth = this.calculateLength_(bottomElems, 'width');
-
-          changed = false;
-          while (bottomElems.length && bottomWidth > width && !this.squeezeElements_(bottomElems, 'width', bottomWidth - width)) {
-            this.hideLeastImportant_(bottomElems);
-            bottomElems = this.getEdge_('bottom');
-            bottomWidth = this.calculateLength_(bottomElems, 'width');
-            changed = true;
-          }
-          if (changed) {
+          if (this.calculateSide_('bottom', width)) {
             processSides.add('left');
             processSides.add('right');
           }
@@ -19281,17 +19369,7 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
         }
 
         if (processSides.has('left')) {
-          var leftElems = this.getEdge_('left');
-          var leftHeight = this.calculateLength_(leftElems, 'height');
-
-          changed = false;
-          while (leftElems.length && leftHeight > height && !this.squeezeElements_(leftElems, 'height', leftHeight - height)) {
-            this.hideLeastImportant_(leftElems);
-            leftElems = this.getEdge_('left');
-            leftHeight = this.calculateLength_(leftElems, 'height');
-            changed = true;
-          }
-          if (changed) {
+          if (this.calculateSide_('left', height)) {
             processSides.add('top');
             processSides.add('bottom');
           }
@@ -19302,121 +19380,10 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
       // positioning
 
-      var positionCorner = function positionCorner(x, y) {
-        var corner = _this4.getCorner_(x, y);
-        if (corner) {
-          var _$elem$removeClass$cs;
-
-          var xLength = _this4.padding_;
-          var yLength = _this4.padding_;
-          var $elem = corner.control.get$Element();
-
-          if (corner.control.setPositionedState) {
-            corner.control.setPositionedState(corner.state);
-          }
-
-          $elem.removeClass(_globals.cssClasses.hidden).css((_$elem$removeClass$cs = {}, _defineProperty(_$elem$removeClass$cs, x, xLength), _defineProperty(_$elem$removeClass$cs, y, yLength), _$elem$removeClass$cs));
-
-          xLength += $elem.outerWidth() + _this4.spacing_;
-          yLength += $elem.outerHeight() + _this4.spacing_;
-
-          var xDirection = void 0,
-              yDirection = void 0;
-
-          if (x === 'left' && y === 'top') {
-            xDirection = 'clockwise';
-            yDirection = 'counterclockwise';
-          } else if (x === 'right' && y === 'top') {
-            xDirection = 'counterclockwise';
-            yDirection = 'clockwise';
-          } else if (x === 'right' && y === 'bottom') {
-            xDirection = 'clockwise';
-            yDirection = 'counterclockwise';
-          } else if (x === 'left' && y === 'bottom') {
-            xDirection = 'counterclockwise';
-            yDirection = 'clockwise';
-          }
-
-          // x
-          var _iteratorNormalCompletion7 = true;
-          var _didIteratorError7 = false;
-          var _iteratorError7 = undefined;
-
-          try {
-            for (var _iterator7 = _jquery2.default.grep(_this4.corners_[x][y][xDirection], function (el) {
-              return el.visible && el !== corner;
-            })[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-              var _$elem$css;
-
-              var elem = _step7.value;
-
-              $elem = elem.control.get$Element();
-              $elem.css((_$elem$css = {}, _defineProperty(_$elem$css, x, xLength), _defineProperty(_$elem$css, y, _this4.padding_), _$elem$css));
-              if (elem.control.setPositionedState) {
-                elem.control.setPositionedState(elem.state);
-              }
-              xLength += $elem.outerWidth() + _this4.spacing_;
-            }
-
-            // y
-          } catch (err) {
-            _didIteratorError7 = true;
-            _iteratorError7 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                _iterator7.return();
-              }
-            } finally {
-              if (_didIteratorError7) {
-                throw _iteratorError7;
-              }
-            }
-          }
-
-          var _iteratorNormalCompletion8 = true;
-          var _didIteratorError8 = false;
-          var _iteratorError8 = undefined;
-
-          try {
-            for (var _iterator8 = _jquery2.default.grep(_this4.corners_[x][y][yDirection], function (el) {
-              return el.visible && el !== corner;
-            })[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
-              var _$elem$css2;
-
-              var _elem = _step8.value;
-
-              $elem = _elem.control.get$Element();
-              $elem.css((_$elem$css2 = {}, _defineProperty(_$elem$css2, x, _this4.padding_), _defineProperty(_$elem$css2, y, yLength), _$elem$css2));
-              if (_elem.control.setPositionedState) {
-                _elem.control.setPositionedState(_elem.state);
-              }
-              yLength += $elem.outerHeight() + _this4.spacing_;
-            }
-          } catch (err) {
-            _didIteratorError8 = true;
-            _iteratorError8 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion8 && _iterator8.return) {
-                _iterator8.return();
-              }
-            } finally {
-              if (_didIteratorError8) {
-                throw _iteratorError8;
-              }
-            }
-          }
-        }
-      };
-
-      positionCorner('left', 'top');
-
-      positionCorner('right', 'top');
-
-      positionCorner('right', 'bottom');
-
-      positionCorner('left', 'bottom');
+      this.positionElementsCorner_('left', 'top');
+      this.positionElementsCorner_('right', 'top');
+      this.positionElementsCorner_('right', 'bottom');
+      this.positionElementsCorner_('left', 'bottom');
 
       this.afterPositioning_();
     }
@@ -19488,8 +19455,6 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
 
       findSqueezables(elems);
 
-      var squeezed = 0;
-
       var _iteratorNormalCompletion10 = true;
       var _didIteratorError10 = false;
       var _iteratorError10 = undefined;
@@ -19498,9 +19463,9 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
         for (var _iterator10 = squeezableElements[Symbol.iterator](), _step10; !(_iteratorNormalCompletion10 = (_step10 = _iterator10.next()).done); _iteratorNormalCompletion10 = true) {
           var elem = _step10.value;
 
-          squeezed += elem.control.squeezeBy(side, neededSpace);
+          neededSpace -= elem.control.squeezeBy(side, neededSpace);
 
-          if (squeezed >= neededSpace) {
+          if (neededSpace <= 0) {
             return true;
           }
         }
@@ -19605,34 +19570,12 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
   }, {
     key: 'measureExpandedElement_',
     value: function measureExpandedElement_(elem) {
-      var expanded = this.expandElement_(elem);
+      // let expanded = this.expandElement_(elem)
       var $elem = elem.control.get$Element();
       var size = { width: $elem.outerWidth(), height: $elem.outerHeight() };
-      var _iteratorNormalCompletion13 = true;
-      var _didIteratorError13 = false;
-      var _iteratorError13 = undefined;
-
-      try {
-        for (var _iterator13 = expanded[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
-          var exp = _step13.value;
-
-          exp.setCollapsed(true, true);
-        }
-      } catch (err) {
-        _didIteratorError13 = true;
-        _iteratorError13 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion13 && _iterator13.return) {
-            _iterator13.return();
-          }
-        } finally {
-          if (_didIteratorError13) {
-            throw _iteratorError13;
-          }
-        }
-      }
-
+      // for (let exp of expanded) {
+      //   exp.setCollapsed(true, true)
+      // }
       return size;
     }
 
@@ -19651,13 +19594,13 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
        */
       var findLeastImportant = function findLeastImportant(elems) {
         var leastImportant = void 0;
-        var _iteratorNormalCompletion14 = true;
-        var _didIteratorError14 = false;
-        var _iteratorError14 = undefined;
+        var _iteratorNormalCompletion13 = true;
+        var _didIteratorError13 = false;
+        var _iteratorError13 = undefined;
 
         try {
-          for (var _iterator14 = elems[Symbol.iterator](), _step14; !(_iteratorNormalCompletion14 = (_step14 = _iterator14.next()).done); _iteratorNormalCompletion14 = true) {
-            var elem = _step14.value;
+          for (var _iterator13 = elems[Symbol.iterator](), _step13; !(_iteratorNormalCompletion13 = (_step13 = _iterator13.next()).done); _iteratorNormalCompletion13 = true) {
+            var elem = _step13.value;
 
             if (!leastImportant) {
               leastImportant = elem;
@@ -19668,8 +19611,8 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
             }
 
             if (elem.hideableChildren) {
-              var hideableChildren = _jquery2.default.grep(elem.hideableChildren, function (el) {
-                return el.visible;
+              var hideableChildren = elem.hideableChildren.filter(function (el) {
+                return Positioning.isElemVisible_;
               });
               if (hideableChildren.length) {
                 var leastImportantChild = findLeastImportant(hideableChildren);
@@ -19680,16 +19623,16 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
             }
           }
         } catch (err) {
-          _didIteratorError14 = true;
-          _iteratorError14 = err;
+          _didIteratorError13 = true;
+          _iteratorError13 = err;
         } finally {
           try {
-            if (!_iteratorNormalCompletion14 && _iterator14.return) {
-              _iterator14.return();
+            if (!_iteratorNormalCompletion13 && _iterator13.return) {
+              _iterator13.return();
             }
           } finally {
-            if (_didIteratorError14) {
-              throw _iteratorError14;
+            if (_didIteratorError13) {
+              throw _iteratorError13;
             }
           }
         }
@@ -19698,8 +19641,13 @@ var Positioning = exports.Positioning = function (_mixinAsClass) {
       };
 
       var leastImportant = findLeastImportant(elems);
-      leastImportant.visible = false;
       leastImportant.control.get$Element().addClass(_globals.cssClasses.hidden);
+      this.hidden$Elements_.push(leastImportant.control.get$Element());
+    }
+  }], [{
+    key: 'isElemVisible_',
+    value: function isElemVisible_(elem) {
+      return elem.control.get$Element().is(':visible');
     }
   }]);
 
@@ -22212,6 +22160,10 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
       collapsed: _this.collapsed_
     });
 
+    _this.menu_.on('change:collapsed', function () {
+      return _this.dispatchEvent('change:size');
+    });
+
     _this.get$Element().append(_this.menu_.get$Element());
 
     /**
@@ -22224,7 +22176,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
      * @type {number}
      * @private
      */
-    _this.minVisibleButtons_ = options.minVisibleEntries || 6;
+    _this.minVisibleButtons_ = options.minVisibleEntries || 5;
 
     /**
      * @type {boolean}
@@ -22920,7 +22872,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
     }
 
     /**
-     * Squeezes the control in the given dimenstion by the provided value. Used by Positioning
+     * Squeezes the control in the given dimension by the provided value. Used by Positioning
      * Returns the value the control could get squeezed by.
      * @param {string} dimension
      * @param {number} value
@@ -22932,7 +22884,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
     value: function squeezeBy(dimension, value) {
       if (dimension === 'height') {
         var $contentBox = this.get$Element().find('.' + this.getClassName() + '-content');
-        var $buttons = $contentBox.find('button:visible');
+        var $buttons = $contentBox.find('button:visible').filter('.' + this.getClassName() + '-layerbutton,.' + this.getClassName() + '-menu-titlebutton');
 
         if ($buttons.length > 1) {
           var height = $contentBox.height();
