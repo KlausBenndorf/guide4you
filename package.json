@@ -40,7 +40,7 @@
     "guide4you-builder": "2.1.1",
     "http-server": "^0.10.0",
     "mocha": "3.4.2",
-    "phantomjs-prebuilt": "2.1.14",
+    "phantomjs-prebuilt": "2.1.15",
     "selenium-webdriver": "3.4.0",
     "standard": "10.0.2",
     "wait-on": "^2.0.2"
