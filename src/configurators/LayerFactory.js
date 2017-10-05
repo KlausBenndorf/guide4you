@@ -16,6 +16,7 @@ import {Debug} from '../Debug'
 import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
 import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
 import { URL } from '../URLHelper'
+import { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -316,13 +317,16 @@ export class LayerFactory {
         }
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
-        optionsCopy.source = new ImageWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
+          optionsCopy.source = new ImageWMSSource(optionsCopy.source)
           layer = new BaseLayerImage(optionsCopy)
         } else if (superType === SuperType.QUERYLAYER) {
-          this.superTypeNotSupported(layerType, superType)
+          optionsCopy.visible = false
+          optionsCopy.source = new QueryImageWMSSource(optionsCopy.source)
+          layer = new ImageLayer(optionsCopy)
         } else {
+          optionsCopy.source = new ImageWMSSource(optionsCopy.source)
           layer = new ImageLayer(optionsCopy)
         }
 
@@ -342,13 +346,16 @@ export class LayerFactory {
         }
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
-        optionsCopy.source = new TileWMSSource(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
+          optionsCopy.source = new TileWMSSource(optionsCopy.source)
           layer = new BaseTileLayer(optionsCopy)
         } else if (superType === SuperType.QUERYLAYER) {
-          this.superTypeNotSupported(layerType, superType)
+          optionsCopy.visible = false
+          optionsCopy.source = new QueryTileWMSSource(optionsCopy.source)
+          layer = new TileLayer(optionsCopy)
         } else {
+          optionsCopy.source = new TileWMSSource(optionsCopy.source)
           layer = new TileLayer(optionsCopy)
         }
 
@@ -386,6 +393,7 @@ export class LayerFactory {
         optionsCopy.source.styling = this.map_.get('styling')
 
         if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.visible = false
           optionsCopy.source = new QueryVectorSource(optionsCopy.source)
         } else {
           optionsCopy.source = new SourceServerVector(optionsCopy.source)
@@ -405,6 +413,7 @@ export class LayerFactory {
         optionsCopy.source.styling = this.map_.get('styling')
 
         if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.visible = false
           optionsCopy.source = new QueryVectorSource(optionsCopy.source)
         } else {
           optionsCopy.source = new SourceServerVector(optionsCopy.source)
@@ -431,10 +440,10 @@ export class LayerFactory {
     }
 
     for (let module of this.map_.getModules()) {
-      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
       if (layer) {
         break
       }
+      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
     }
 
     if (!layer) {

@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import flatten from 'lodash/flatten'
 
 import { GroupLayer } from '../layers/GroupLayer'
 import { ButtonBox } from '../html/ButtonBox'
