@@ -1,5 +1,4 @@
 import {SourceServerVector} from './SourceServerVector'
-import { expandTemplate } from '../utilities'
 
 /**
  * @typedef {SourceServerVectorOptions} QuerySourceOptions
@@ -15,12 +14,6 @@ export class QueryVectorSource extends SourceServerVector {
    */
   constructor (options = {}) {
     super(options)
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.origUrlTemplate_ = this.getUrlTemplate()
 
     /**
      * @type {number}
@@ -40,7 +33,7 @@ export class QueryVectorSource extends SourceServerVector {
      * @private
      */
     this.queryValues_ = values
-    this.setUrlTemplate(expandTemplate(this.origUrlTemplate_, 'apiValue', this.queryValues_))
+    this.urlTemplate.expandTemplate('apiValue', this.queryValues_, true)
 
     this.changedQueryValuesCount_++
     this.changed()
