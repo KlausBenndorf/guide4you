@@ -18,6 +18,30 @@ import { visibleLayersParam } from './handling/visibleLayers'
 import { zoomParam } from './handling/zoom'
 
 /**
+ * @callback SetToMapFunction
+ * @param {G4UMap} map
+ * @param {Query} query
+ */
+
+/**
+ * @callback GetFromMapFunction
+ * @param {G4UMap} map
+ * @param {Query} query
+ * @returns {object.<string,string>} result
+ */
+
+/**
+ * @typedef {object} URLParameter
+ * @property {string[]} keys an array of keys this URLParameter reacts to. If any of this are contined in the URL
+ *    the setToMap function of this parameter is called.
+ * @property {string} [setEvent] if this event is thrown by the map the setToMap function will be called.
+ * @property {function} [SetToMapFunction] this function should adjust the map state according to the given keys.
+ * @property {function} [GetFromMapFunction] this function is called to get the needed values from the map to create the
+ *    needed URL Parameter(s). This function needs to return an object with key value pairs representing the values
+ *    to be written in the URL
+ */
+
+/**
  * @typedef {object} URLAPIOptions
  * @property {G4UMap} map
  * @property {string[]} [excluded] parameters to exclude
@@ -50,17 +74,6 @@ export class URLAPI {
      * @private
      */
     this.initialValues_ = {}
-
-    /**
-     * @typedef {object} URLParameter
-     * @property {string[]} keys an array of keys this URLParameter reacts to. If any of this are contined in the URL
-     *    the setToMap function of this parameter is called.
-     * @property {string} [setEvent] if this event is thrown by the map the setToMap function will be called.
-     * @property {function} [setToMap] this function should adjust the map state according to the given keys.
-     * @property {function} [getFromMap] this function is called to get the needed values from the map to create the
-     *    needed URL Parameter(s). This function needs to return an object with key value pairs representing the values
-     *    to be written in the URL
-     */
 
     /**
      * @type {URLParameter[]}

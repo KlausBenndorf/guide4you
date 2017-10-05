@@ -1,5 +1,8 @@
 import {GroupLayer} from 'guide4you/src/layers/GroupLayer'
 
+/**
+ * @type {URLParameter}
+ */
 export const visibleLayersParam = {
   keys: [ 'vislay' ],
   setEvent: 'afterConfiguring',

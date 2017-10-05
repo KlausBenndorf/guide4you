@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const availableLayersParam = {
   keys: [ 'avalay' ],
   setEvent: 'afterConfiguring',

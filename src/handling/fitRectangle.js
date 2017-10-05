@@ -1,5 +1,8 @@
 import ol from 'openlayers'
 
+/**
+ * @type {URLParameter}
+ */
 export const fitRectangleParam = {
   keys: ['x0', 'y0', 'x1', 'y1', 'srid'],
   setEvent: 'afterConfiguring',

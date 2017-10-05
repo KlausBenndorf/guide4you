@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const rotationParam = {
   keys: ['rot'],
   setEvent: 'afterConfiguring',

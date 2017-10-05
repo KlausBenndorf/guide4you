@@ -1,5 +1,8 @@
 import ol from 'openlayers'
 
+/**
+ * @type {URLParameter}
+ */
 export const centerParam = {
   keys: ['lon', 'lat', 'x', 'y', 'srid'],
   setEvent: 'afterConfiguring',

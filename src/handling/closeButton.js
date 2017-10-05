@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const closeButtonParam = {
   keys: [ 'clsbtn' ],
   setEvent: 'ready:ui',

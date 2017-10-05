@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const languageParam = {
   keys: [ 'lang' ],
   setEvent: 'afterConfigLoad',

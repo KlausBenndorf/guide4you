@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const zoomParam = {
   keys: ['zoom'],
   setEvent: 'afterConfiguring',

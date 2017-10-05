@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const searchParam = {
   keys: [ 'search' ],
   setEvent: 'ready',

@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const configurationFileParam = {
   keys: [ 'conf' ],
   setEvent: 'beforeConfigLoad',

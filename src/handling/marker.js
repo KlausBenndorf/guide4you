@@ -2,6 +2,9 @@ import ol from 'openlayers'
 import {Debug} from 'guide4you/src/Debug'
 import {restoreText} from 'guide4you/src/xssprotection'
 
+/**
+ * @type {URLParameter}
+ */
 export const markerParam = {
   keys: [ 'marklat', 'marklon', 'markx', 'marky', 'marktext', 'markpop', 'srid' ],
   setEvent: 'ready',

@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const layerConfigurationFileParam = {
   keys: [ 'layconf' ],
   setEvent: 'beforeConfigLoad',

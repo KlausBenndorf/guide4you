@@ -1,3 +1,6 @@
+/**
+ * @type {URLParameter}
+ */
 export const responsivenessParam = {
   keys: [ 'responsive' ],
   setEvent: 'ready',
