@@ -8,7 +8,7 @@ import {TileLayer} from '../layers/TileLayer'
 import {GroupLayer} from '../layers/GroupLayer'
 import {VectorLayer} from '../layers/VectorLayer'
 import {SourceServerVector} from '../sources/SourceServerVector'
-import {QuerySource} from '../sources/QuerySource'
+import {QueryVectorSource} from '../sources/QueryVectorSource'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
 import { checkFor } from '../utilities'
 
@@ -386,7 +386,7 @@ export class LayerFactory {
         optionsCopy.source.styling = this.map_.get('styling')
 
         if (superType === SuperType.QUERYLAYER) {
-          optionsCopy.source = new QuerySource(optionsCopy.source)
+          optionsCopy.source = new QueryVectorSource(optionsCopy.source)
         } else {
           optionsCopy.source = new SourceServerVector(optionsCopy.source)
         }
@@ -405,7 +405,7 @@ export class LayerFactory {
         optionsCopy.source.styling = this.map_.get('styling')
 
         if (superType === SuperType.QUERYLAYER) {
-          optionsCopy.source = new QuerySource(optionsCopy.source)
+          optionsCopy.source = new QueryVectorSource(optionsCopy.source)
         } else {
           optionsCopy.source = new SourceServerVector(optionsCopy.source)
         }
@@ -430,10 +430,11 @@ export class LayerFactory {
         break
     }
 
-    let modules = this.map_.getModules()
-
-    for (let i = 0, ii = modules.length; i < ii && (layer === undefined); i++) {
-      layer = modules[i].createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
+    for (let module of this.map_.getModules()) {
+      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
+      if (layer) {
+        break
+      }
     }
 
     if (!layer) {

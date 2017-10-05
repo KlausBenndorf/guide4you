@@ -9,7 +9,7 @@ import { expandTemplate } from '../utilities'
 /**
  * A source for a VectorLayer which address is controlled by the urlapi and which is not shown in the LayerSelector
  */
-export class QuerySource extends SourceServerVector {
+export class QueryVectorSource extends SourceServerVector {
   /**
    * @param {QuerySourceOptions} options
    */

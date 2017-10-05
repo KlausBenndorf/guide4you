@@ -1,14 +1,14 @@
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
 
-import {GroupLayer} from '../layers/GroupLayer'
-import {ButtonBox} from '../html/ButtonBox'
-import {Control} from './Control'
+import { GroupLayer } from '../layers/GroupLayer'
+import { ButtonBox } from '../html/ButtonBox'
+import { Control } from './Control'
 import { offset, mixin } from '../utilities'
-import {Window} from '../html/Window'
+import { Window } from '../html/Window'
 
 import '../../less/layerselector.less'
-import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { URL } from '../URLHelper'
 
 /**
@@ -31,7 +31,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    */
   constructor (options = {}) {
     options.className = options.className || 'g4u-layerselector'
-    options.element = $('<div>')[ 0 ]
+    options.element = $('<div>')[0]
     options.singleButton = false
 
     super(options)
@@ -68,7 +68,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.classNames_ = {
       menu: this.getClassName() + '-menu',
       layerButton: this.getClassName() + '-layerbutton',
-      active: this.getClassName() + '-active'
+      active: this.getClassName() + '-active',
+      checkbox: this.getClassName() + '-checkbox'
     }
 
     /**
@@ -283,7 +284,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       let forEachChildLayer = childLayer => {
         this.listenAt(childLayer)
-          .on([ 'change:visible', 'change:childVisible' ], e => {
+          .on(['change:visible', 'change:childVisible'], e => {
             let changedLayer = e.child || childLayer
 
             if (changedLayer.getVisible()) {
@@ -341,79 +342,15 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     if (wmsLayer.get('available')) {
       let layerButtons = wmsLayer.get('buttons')
 
-      class ActiveButtons {
-        constructor () {
-          this.buttons_ = []
-        }
+      if (layerButtons && layerButtons.length) {
+        let countActiveButtons = 0
+        let wmsSource = wmsLayer.getSource()
 
-        isActive (button) {
-          return this.buttons_.indexOf(button) > -1
-        }
+        let allLayersParams = []
+        let allQueryLayersParams = []
 
-        add (button) {
-          if (Array.isArray(button)) {
-            for (let b of button) {
-              this.add(b)
-            }
-          } else {
-            if (!this.isActive(button)) {
-              this.buttons_.push(button)
-            }
-          }
-        }
+        let featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
 
-        remove (button) {
-          if (Array.isArray(button)) {
-            for (let b of button) {
-              this.remove(b)
-            }
-          } else {
-            let index = this.buttons_.indexOf(button)
-            if (index > -1) {
-              this.buttons_.splice(index, 1)
-            }
-          }
-        }
-
-        clear () {
-          this.buttons_ = []
-        }
-
-        getFlatProp (prop) {
-          return flatten(this.buttons_.map(a => a[ prop ] || []))
-        }
-
-        count () {
-          return this.buttons_.length
-        }
-
-        toggle (button, value) {
-          if (value) {
-            this.add(button)
-          } else {
-            this.remove(button)
-          }
-        }
-      }
-
-      let activeLayerButtons = new ActiveButtons()
-      let updateLayersParam = () => {
-        wmsLayer.getSource().updateParams({ LAYERS: activeLayerButtons.getFlatProp('LAYERS') })
-      }
-
-      let featureInfoCheckable = wmsLayer.getSource().isFeatureInfoCheckable()
-      let activeQueryLayerButtons = new ActiveButtons()
-      let updateQueryLayersParam = () => {
-        let featureInfoParams
-        if (featureInfoCheckable) {
-          featureInfoParams = { QUERY_LAYERS: activeQueryLayerButtons.getFlatProp('QUERY_LAYERS') }
-        } else {
-          featureInfoParams = { QUERY_LAYERS: activeLayerButtons.getFlatProp('QUERY_LAYERS') }
-        }
-        wmsLayer.getSource().updateFeatureInfoParams(featureInfoParams)
-      }
-
-      if (layerButtons) {
         let menu = new ButtonBox({
           className: this.classNames_.menu,
           title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
@@ -432,29 +369,42 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
         let activeClassName = this.classNames_.menu + '-active'
 
-        let $buttons = $()
-
         for (let layerButton of layerButtons) {
+          allLayersParams = allLayersParams.concat(layerButton.LAYERS)
+          allQueryLayersParams = allQueryLayersParams.concat(layerButton.QUERY_LAYERS)
+
           let $button = $('<button>')
             .addClass(this.classNames_.layerButton)
             .html(this.getLocaliser().selectL10N(layerButton.title))
           let $checkbox = $('<input type="checkbox">')
+            .addClass(this.classNames_.checkbox)
 
-          let buttonActive, checkboxActive
+          menu.get$Body().append($button)
 
-          buttonActive = active => {
-            activeLayerButtons.toggle(layerButton, active)
-            $button.toggleClass(activeClassName, active)
+          let toggleButtonActive, setCheckboxActive
 
-            if (!active && featureInfoCheckable) {
-              checkboxActive(false)
+          toggleButtonActive = () => {
+            let active = !wmsSource.getWMSLayersVisible(layerButton.LAYERS)
+
+            if (active) {
+              countActiveButtons++
+            } else {
+              countActiveButtons--
             }
 
-            if (activeLayerButtons.count() === 0) {
+            $button.toggleClass(activeClassName, active)
+
+            wmsSource.toggleWMSLayers(layerButton.LAYERS, active)
+
+            if (!active && featureInfoCheckable) {
+              setCheckboxActive(false)
+            }
+
+            if (countActiveButtons === 0) {
               wmsLayer.setVisible(false)
               menu.setCollapseButtonActive(false)
               menu.setTitleButtonActive(false)
-            } else if (activeLayerButtons.count() === layerButtons.length) {
+            } else if (countActiveButtons === layerButtons.length) {
               wmsLayer.setVisible(true)
               menu.setCollapseButtonActive(true)
               menu.setTitleButtonActive(true)
@@ -463,61 +413,53 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
               menu.setCollapseButtonActive(true)
               menu.setTitleButtonActive(false)
             }
-
-            updateLayersParam()
-            updateQueryLayersParam()
+            this.dispatchEvent({
+              type: 'click:layer',
+              layer: wmsLayer,
+              wmsLayer: true
+            })
           }
 
-          checkboxActive = active => {
-            activeQueryLayerButtons.toggle(layerButton, active)
-            if (active && !activeLayerButtons.isActive(layerButton)) {
-              buttonActive(true)
+          setCheckboxActive = checkboxActive => {
+            if (checkboxActive && !wmsSource.getWMSLayersVisible(layerButton.LAYERS)) {
+              toggleButtonActive()
             }
-
-            updateQueryLayersParam()
-            $checkbox.prop('checked', active)
+            wmsSource.toggleWMSQueryLayers(layerButton.QUERY_LAYERS, checkboxActive)
+            $checkbox.prop('checked', checkboxActive)
           }
 
           this.listenAt($button)
             .on('click', () => {
-              buttonActive(!activeLayerButtons.isActive(layerButton))
-              this.dispatchEvent({
-                type: 'click:layer',
-                layer: wmsLayer,
-                wmsLayer: true
-              })
+              toggleButtonActive()
             })
 
           if (featureInfoCheckable) {
             $button.append($checkbox)
             this.listenAt($checkbox).on('click', e => {
-              checkboxActive($checkbox.is(':checked'))
+              setCheckboxActive($checkbox.is(':checked'))
               e.stopPropagation()
             })
           }
-
-          $buttons = $buttons.add($button)
-          menu.get$Body().append($button)
         }
 
         this.listenAt(menu).on('title:click', () => {
-          let activateAll = activeLayerButtons.count() < layerButtons.length
+          let activateAll = countActiveButtons < layerButtons.length
           if (activateAll) {
-            activeLayerButtons.add(layerButtons)
+            wmsSource.toggleWMSLayers(allLayersParams, true)
+            countActiveButtons = layerButtons.length
           } else {
-            activeLayerButtons.clear()
+            wmsSource.toggleWMSLayers(allLayersParams, false)
             if (featureInfoCheckable) {
-              activeQueryLayerButtons.clear()
-              $buttons.find('input[type=checkbox]').prop('checked', false)
+              wmsSource.toggleWMSQueryLayers(allQueryLayersParams, false)
+              menu.get$Body().find('input[type=checkbox]').prop('checked', false)
             }
+            countActiveButtons = 0
           }
 
-          $buttons.toggleClass(activeClassName, activateAll)
+          menu.get$Body().find('button').toggleClass(activeClassName, activateAll)
           wmsLayer.setVisible(activateAll)
           menu.setCollapseButtonActive(activateAll)
           menu.setTitleButtonActive(activateAll)
-
-          updateLayersParam()
 
           this.dispatchEvent({
             type: 'click:category',
@@ -572,7 +514,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.layers_ = this.getMap().get(this.layerGroupName_).getLayers()
     if (this.layers_.getLength() >= this.minLayerAmount_) {
       this.setVisible(true)
-      let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
+      let menuFunctions = new ButtonBox({className: this.classNames_.menu})
       for (let layer of this.layers_.getArray()) {
         this.chooseButtonBuilder(layer, this.menu_.get$Body())
       }
