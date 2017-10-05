@@ -95,9 +95,9 @@ export class SourceServerVector extends ol.source.Vector {
 
     /**
      * @type {URL}
-     * @private
+     * @protected
      */
-    this.urlTemplate_ = urlTemplate
+    this.urlTemplate = urlTemplate
 
     /**
      * @type {string}
@@ -164,7 +164,7 @@ export class SourceServerVector extends ol.source.Vector {
   loader (extent, resolution, projection) {
     // Problem with BBOX: if features are already in the layer, they shouldn't be added. Not trivial
 
-    let url = this.urlTemplate_.clone()
+    let url = this.urlTemplate.clone()
 
     if (this.loadingStrategy_ === 'BBOX') {
       let transformedExtent = ol.proj.transformExtent(extent, projection, this.bboxProjection_)
@@ -243,9 +243,9 @@ export class SourceServerVector extends ol.source.Vector {
     let i, ii
     for (i = 0, ii = hrefTags.length; i < ii; i++) {
       if (hrefTags[i].textContent) {
-        hrefTags[i].textContent = this.urlTemplate_.useProxyFor(hrefTags[i].textContent.trim()).finalize()
+        hrefTags[i].textContent = this.urlTemplate.useProxyFor(hrefTags[i].textContent.trim()).finalize()
       } else if (hrefTags[i].innerHTML) {
-        hrefTags[i].innerHTML = this.urlTemplate_.useProxyFor(hrefTags[i].innerHTML.trim()).finalize()
+        hrefTags[i].innerHTML = this.urlTemplate.useProxyFor(hrefTags[i].innerHTML.trim()).finalize()
       } else {
         throw new Error("Can't prepend proxy inside KML (textContent and innerHTML missing)")
       }
@@ -258,13 +258,13 @@ export class SourceServerVector extends ol.source.Vector {
    * @returns {URL}
    */
   getUrlTemplate () {
-    return this.urlTemplate_
+    return this.urlTemplate
   }
 
   /**
    * @param {URL} urlTemplate
    */
   setUrlTemplate (urlTemplate) {
-    this.urlTemplate_ = urlTemplate
+    this.urlTemplate = urlTemplate
   }
 }

@@ -214,6 +214,10 @@ export class URL {
    * @returns {URL}
    */
   expandTemplate (paramName, paramValue, required = true) {
+    let index = this.expand.findIndex(e => e.paramName === paramName)
+    if (index >= 0) {
+      this.expand.splice(index, 1)
+    }
     let encode = val => {
       if ($.type(val) === 'string') {
         return encodeURIComponent(val)
