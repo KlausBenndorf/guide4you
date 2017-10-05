@@ -151,9 +151,9 @@ export class URLAPI {
       Debug.error('Key should be lowercase.')
     } else {
       let queryString = window.location.search
-      let match = queryString.match(new RegExp(key + '=(.*?)(&|$)', 'i'))
+      let match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'))
       if (match) {
-        let value = match[ 1 ]
+        let value = match[ 2 ]
         this.query_.addValue(key, value)
       }
 

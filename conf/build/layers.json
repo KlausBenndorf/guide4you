@@ -1,0 +1,188 @@
+{
+  /*
+   * This software uses strip-json-comments so you can comment in any JSON-file.
+   */
+  // Beware of breaking the JSON-syntax!
+  "baseLayers": [
+    {
+      "id": "b1",
+      "title": {
+        "en": "Roads",
+        "de": "Stra&szlig;en"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
+      },
+      "visible": true
+    },
+    {
+      "id": "b2",
+      "title": {
+        "en": "Cycling Map",
+        "de": "Radkarte"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Kartendaten <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
+      }
+    },
+    {
+      "id": "b3",
+      "title": {
+        "en": "OSM in Hydda Style",
+        "de": "OSM im Hydda-Stil"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "https://{a-c}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
+        }
+      }
+    },
+    {
+      "id": "b5",
+      "title": "DOP20 (NRW) WMS",
+      "type": "WMS",
+      "source": {
+        "url": {
+          "useProxy": true,
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
+        },
+        "params": {
+          "FORMAT": "image/jpeg",
+          "VERSION": "1.3.0",
+          "LAYERS": [
+            "nw_dop20"
+          ]
+        },
+        "attribution": "&copy; Geobasis NRW 2016"
+      }
+    }
+  ],
+  "queryLayers": [
+    {
+      "id": "q1",
+      "type": "WMS",
+      "source": {
+        "url": {
+          "useProxy": true,
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
+        },
+        "params": {
+          "FORMAT": "image/jpeg",
+          "VERSION": "1.3.0"
+        },
+        "attribution": "&copy; Geobasis NRW 2016"
+      },
+      "apiKey": "wmslayers"
+    },
+    {
+      "id": "q2",
+      "type": "KML",
+      "source": {
+        "url": "files/hotelsbonn.kml?layers={apiValue}",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
+      },
+      "style": "#defaultStyle",
+      "apiKey": "layers"
+    }
+  ],
+  "featureLayers": [
+    {
+      "id": "f0",
+      "title": {
+        "en": "Roads and Labels for Hydda",
+        "de": "Straßen und Beschriftungen für Hydda"
+      },
+      "type": "OSM",
+      "source": {
+        "url": "https://{a-c}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
+        }
+      },
+      "visible": false
+    },
+    {
+      "id": "f1",
+      "title": {
+        "en": "Hotels in Bonn",
+        "de": "Hotels in Bonn"
+      },
+      "type": "KML",
+      "source": {
+        "loadingStrategy": "BBOX",
+        "bboxRatio": 1.2,
+        "url": "files/hotelsbonn.kml?bbox={bboxleft},{bboxbottom},{bboxright},{bboxtop}",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
+      },
+      "style": "#defaultStyle"
+    },
+    {
+      "id": "f2",
+      "title": {
+        "en": "Restaurants in Bonn",
+        "de": "Restaurants in Bonn"
+      },
+      "type": "KML",
+      "source": {
+        "url": "files/restaurantsbonn.kml",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
+      },
+      "style": "#iconStyle"
+    },
+    {
+      "id": "f3",
+      "title": {
+        "de": "Bonn: Ortsteile",
+        "en": "Bonn: Neighbourhoods"
+      },
+      "type": "GeoJSON",
+      "source": {
+        "url": {
+          "url": "http://stadtplan.bonn.de/geojson?Thema=21247&koordsys=4326",
+          "useProxy": true
+        },
+        "attribution": "<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de'>Creative Commons Zero (CC0)</a>"
+      },
+      "style": "#defaultStyle"
+    },
+    {
+      "id": "f4",
+      "title": {
+        "de": "Bonn: Sirenenstandorte",
+        "en": "Bonn: Siren locations"
+      },
+      "type": "GeoJSON",
+      "source": {
+        "url": {
+          "url": "http://stadtplan.bonn.de/geojson?Thema=14198&koordsys=4326",
+          "useProxy": true
+        },
+        "attribution": "<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de'>Creative Commons Zero (CC0)</a>"
+      },
+      "style": "#defaultStyle"
+    }
+  ]
+}

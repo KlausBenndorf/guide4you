@@ -22,7 +22,8 @@ mustacheLoader.setTemplateVars({
   proxyValidRequests: [
     'a.tile.openstreetmap.org',
     'b.tile.openstreetmap.org',
-    'c.tile.openstreetmap.org'
+    'c.tile.openstreetmap.org',
+    'www.wms.nrw.de'
   ]
 })
 
