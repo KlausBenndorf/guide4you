@@ -58,6 +58,51 @@ export class WMSFeatureInfoMixin {
       }
     })
   }
+
+  toggleArrayEntries_ (obj, prop, names, toggle) {
+    let arr = obj[prop] || []
+    if (toggle) {
+      for (let name of names) {
+        if (arr.indexOf(name) < 0) {
+          arr.push(name)
+        }
+      }
+    } else {
+      for (let name of names) {
+        let index = arr.indexOf(name)
+        if (index >= 0) {
+          arr.splice(index, 1)
+        }
+      }
+    }
+    obj[prop] = arr
+    return obj
+  }
+
+  toggleWMSLayers (names, toggle) {
+    this.updateParams(this.toggleArrayEntries_(this.getParams(), 'LAYERS', names, toggle))
+  }
+
+  toggleWMSQueryLayers (names, toggle) {
+    this.updateFeatureInfoParams(this.toggleArrayEntries_(this.featureInfoParams_, 'QUERY_LAYERS', names, toggle))
+  }
+
+  arrayContainsAll (arr, contains) {
+    for (let needle in contains) {
+      if (arr.indexOf(needle) < 0) {
+        return false
+      }
+    }
+    return true
+  }
+
+  getWMSLayersVisible (names) {
+    return this.arrayContainsAll(this.getParams().LAYERS || [], names)
+  }
+
+  getWMSQueryLayersVisible (names) {
+    return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)
+  }
 }
 
 export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixin) {
