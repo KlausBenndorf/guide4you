@@ -102,6 +102,12 @@
       "minLayerAmount": 1,
       "title": "Information"
     },
+    "infoButton": {
+      "contentURL": {
+        "de": "files/infos_de.html",
+        "en": "files/infos_en.html"
+      }
+    },
     "attribution": {
       "float": [
         "left",
