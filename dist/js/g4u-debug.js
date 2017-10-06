@@ -6320,7 +6320,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.4.1'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.4.2'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -21971,7 +21971,9 @@ var InfoButton = exports.InfoButton = function (_mixin) {
       _get(InfoButton.prototype.__proto__ || Object.getPrototypeOf(InfoButton.prototype), 'setMap', this).call(this, map);
 
       if (map) {
-        this.contentURL_.extractParamsFromMap(map);
+        if (this.contentURL_) {
+          this.contentURL_.extractParamsFromMap(map);
+        }
 
         if (this.attribution_) {
           map.addControl(this.attributionControl_);
