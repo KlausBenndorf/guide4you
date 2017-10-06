@@ -16,7 +16,6 @@ import {Debug} from './Debug'
 
 import '../less/map.less'
 import { getRegisteredModules } from './moduleRegistration'
-import { URL } from './URLHelper'
 
 /**
  * @typedef {object} G4UMapOptions
@@ -237,7 +236,7 @@ export class G4UMap extends ol.Map {
         }
       })
 
-      URL.setGlobalProxy(config.proxy)
+      this.set('proxy', config.proxy)
 
       // //////////////////////////////////////////////////////////////////////////////////////// //
       //                                     Localization                                         //
@@ -273,8 +272,6 @@ export class G4UMap extends ol.Map {
       } else {
         this.set('localiser', options.localiser)
       }
-
-      URL.setLocaliser(this.get('localiser'))
 
       this.asSoonAs('ready', true, () => {
         this.get('localiser').on('change:language', () => {

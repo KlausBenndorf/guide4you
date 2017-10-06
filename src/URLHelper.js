@@ -15,21 +15,12 @@ import { Debug } from './Debug'
  * @typedef {URLConfig|Localizable|URL} URLLike
  */
 
-// workaround for static members (es7)
-/**
- * @type {string}
- */
-let globalProxy
-/**
- * @type {L10N}
- */
-let localiser
-
 export class URL {
   /**
    * @param {URLLike} urlLike
+   * @param {G4UMap|null} map
    */
-  constructor (urlLike) {
+  constructor (urlLike, map) {
     if ($.type(urlLike) === 'string' || !urlLike.hasOwnProperty('url')) {
       /**
        * @type {string}
@@ -47,7 +38,7 @@ export class URL {
       this.expand = []
     } else {
       /**
-       * @type {string}
+       * @type {Localizable}
        */
       this.url = urlLike.url
       /**
@@ -81,15 +72,34 @@ export class URL {
         this.expand = []
       }
     }
+
+    if (map) {
+      this.extractParamsFromMap(map)
+    }
   }
 
   /**
+   * @param {G4UMap} map
+   */
+  extractParamsFromMap (map) {
+    /**
+     * @type {string}
+     */
+    this.globalProxy = map.get('proxy')
+    /**
+     * {L10N}
+     */
+    this.localiser = map.get('localiser')
+  }
+
+  /**
+   * @param {G4UMap|null} map
    * @param {object} config
    * @param {string} paramName
    * @param {string} [defaultValue]
    * @returns {URL}
    */
-  static extractFromConfig (config, paramName, defaultValue) {
+  static extractFromConfig (map, config, paramName, defaultValue) {
     if (!config.hasOwnProperty(paramName)) {
       return null
     }
@@ -101,18 +111,16 @@ export class URL {
         useProxy: config.useProxy,
         proxy: config.proxy,
         cache: config.cache
-      })
+      }, map)
+    } else if ($.isPlainObject(config[paramName]) && !config[paramName].hasOwnProperty('url')) {
+      Debug.warn('The url config object is missing an "url" parameter. The software is assuming the' +
+        ' parameter is a Localizable.')
+      return new URL({
+        url: config[paramName]
+      }, map)
     } else {
-      return new URL(config[paramName])
+      return new URL(config[paramName], map)
     }
-  }
-
-  static setGlobalProxy (proxy) {
-    globalProxy = proxy
-  }
-
-  static setLocaliser (aLocaliser) {
-    localiser = aLocaliser
   }
 
   /**
@@ -131,7 +139,7 @@ export class URL {
       url = this.clone().addParam(Math.random().toString(36).substring(7))
     }
 
-    let urlAsString = localiser ? localiser.selectL10N(url.url) : url.url
+    let urlAsString = this.localiser ? this.localiser.selectL10N(url.url) : url.url
 
     if (url.params.length) {
       if (urlAsString.search(/\?/) === -1) {
@@ -147,7 +155,7 @@ export class URL {
     }
 
     if (url.useProxy === true || (url.useProxy === undefined && !!url.proxy)) {
-      let proxy = url.proxy || globalProxy
+      let proxy = url.proxy || this.globalProxy
       if (!proxy) {
         throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' +
           ' useProxy.')

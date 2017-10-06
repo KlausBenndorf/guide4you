@@ -274,7 +274,7 @@ export class LayerFactory {
         }
         break
       case LayerType.XYZ:
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
+        optionsCopy.source.url = URL.extractFromConfig(this.map_, optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.XYZ(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -284,7 +284,7 @@ export class LayerFactory {
         }
         break
       case LayerType.OSM:
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url').finalize()
+        optionsCopy.source.url = URL.extractFromConfig(this.map_, optionsCopy.source, 'url').finalize()
         optionsCopy.source = new ol.source.OSM(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
@@ -316,7 +316,7 @@ export class LayerFactory {
           optionsCopy.source.params.LAYERS = []
         }
 
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
+        optionsCopy.source.url = URL.extractFromConfig(this.map_, optionsCopy.source, 'url') // not finalized
 
         if (superType === SuperType.BASELAYER) {
           optionsCopy.source = new ImageWMSSource(optionsCopy.source)
@@ -345,7 +345,7 @@ export class LayerFactory {
           delete optionsCopy.source.tileSize
         }
 
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
+        optionsCopy.source.url = URL.extractFromConfig(this.map_, optionsCopy.source, 'url') // not finalized
 
         if (superType === SuperType.BASELAYER) {
           optionsCopy.source = new TileWMSSource(optionsCopy.source)
@@ -382,7 +382,7 @@ export class LayerFactory {
         break
       case LayerType.GEOJSON:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
+        optionsCopy.source.url = URL.extractFromConfig(this.map_, optionsCopy.source, 'url') // not finalized
 
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
 
@@ -402,7 +402,7 @@ export class LayerFactory {
         break
       case LayerType.KML:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
-        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url') // not finalized
+        optionsCopy.source.url = URL.extractFromConfig(this.map_, optionsCopy.source, 'url') // not finalized
 
         optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')
 
@@ -614,7 +614,7 @@ export class LayerFactory {
   }
 
   setWMTSSourceFromCapabilities (layer, sourceOptions) {
-    let url = URL.extractFromConfig(sourceOptions, 'url')
+    let url = URL.extractFromConfig(this.map_, sourceOptions, 'url')
     let capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities')
     $.ajax({
       url: capUrl.finalize(),
