@@ -164,7 +164,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.listenAt($button).on('click', () => {
       if (layer.getVisible()) {
         if (!content) {
-          let url = URL.extractFromConfig(windowConfig, 'url')
+          let url = URL.extractFromConfig(this.getMap(), windowConfig, 'url')
           $.get(url.finalize(), data => {
             content = data
             showWindow()
