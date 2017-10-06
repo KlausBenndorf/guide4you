@@ -62,7 +62,7 @@ export class InfoButton extends mixin(Control, ActivatableMixin) {
      * @type {URL}
      * @private
      */
-    this.contentURL_ = URL.extractFromConfig(options, 'contentURL')
+    this.contentURL_ = URL.extractFromConfig(null, options, 'contentURL')
 
     if (this.attribution_) {
       /**
@@ -107,6 +107,8 @@ export class InfoButton extends mixin(Control, ActivatableMixin) {
     super.setMap(map)
 
     if (map) {
+      this.contentURL_.extractParamsFromMap(map)
+
       if (this.attribution_) {
         map.addControl(this.attributionControl_)
       }
