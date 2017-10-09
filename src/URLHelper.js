@@ -71,6 +71,15 @@ export class URL {
       } else {
         this.expand = []
       }
+
+      /**
+       * @type {string}
+       */
+      this.globalProxy = urlLike.globalProxy
+      /**
+       * {L10N}
+       */
+      this.localiser = urlLike.localiser
     }
 
     if (map) {
@@ -85,21 +94,21 @@ export class URL {
     /**
      * @type {string}
      */
-    this.globalProxy = map.get('proxy')
+    this.globalProxy = this.globalProxy || map.get('proxy')
     /**
      * {L10N}
      */
-    this.localiser = map.get('localiser')
+    this.localiser = this.localiser || map.get('localiser')
   }
 
   /**
-   * @param {G4UMap|null} map
    * @param {object} config
    * @param {string} paramName
    * @param {string} [defaultValue]
+   * @param {G4UMap} [map]
    * @returns {URL}
    */
-  static extractFromConfig (map, config, paramName, defaultValue) {
+  static extractFromConfig (config, paramName, defaultValue, map) {
     if (!config.hasOwnProperty(paramName)) {
       return null
     }

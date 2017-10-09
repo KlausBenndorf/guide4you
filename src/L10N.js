@@ -44,7 +44,7 @@ export class L10N extends ol.Observable {
      * @type {URL}
      * @private
      */
-    this.languageFileUrl_ = URL.extractFromConfig(null, options, 'languageFile', 'files/l10n.commented.json')
+    this.languageFileUrl_ = URL.extractFromConfig(options, 'languageFile', 'files/l10n.commented.json')
 
     if (options.availableLanguages) {
       /**

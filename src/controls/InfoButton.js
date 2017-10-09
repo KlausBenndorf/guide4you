@@ -62,7 +62,7 @@ export class InfoButton extends mixin(Control, ActivatableMixin) {
      * @type {URL}
      * @private
      */
-    this.contentURL_ = URL.extractFromConfig(null, options, 'contentURL')
+    this.contentURL_ = URL.extractFromConfig(options, 'contentURL')
 
     if (this.attribution_) {
       /**
