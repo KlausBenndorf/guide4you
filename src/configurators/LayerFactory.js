@@ -462,8 +462,8 @@ export class LayerFactory {
         if (!this.mapProjection) {
           this.mapProjection = layer.getSource().getProjection()
         } else if (this.mapProjection && this.mapProjection !== layer.getSource().getProjection()) {
-          throw new Error('The baseLayers are not in mapProjection or a baseLayers has a different projection than' +
-            ' another! This is not supported.')
+          Debug.warn('The baseLayers are not in mapProjection or a baseLayers has a different projection than' +
+             ' another! This might cause reprojection issues.')
         }
       }
     } else if (superType === SuperType.QUERYLAYER) {
