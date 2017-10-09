@@ -4409,6 +4409,15 @@ var URL = exports.URL = function () {
       } else {
         this.expand = [];
       }
+
+      /**
+       * @type {string}
+       */
+      this.globalProxy = urlLike.globalProxy;
+      /**
+       * {L10N}
+       */
+      this.localiser = urlLike.localiser;
     }
 
     if (map) {
@@ -4427,18 +4436,18 @@ var URL = exports.URL = function () {
       /**
        * @type {string}
        */
-      this.globalProxy = map.get('proxy');
+      this.globalProxy = this.globalProxy || map.get('proxy');
       /**
        * {L10N}
        */
-      this.localiser = map.get('localiser');
+      this.localiser = this.localiser || map.get('localiser');
     }
 
     /**
-     * @param {G4UMap|null} map
      * @param {object} config
      * @param {string} paramName
      * @param {string} [defaultValue]
+     * @param {G4UMap} [map]
      * @returns {URL}
      */
 
@@ -4598,7 +4607,7 @@ var URL = exports.URL = function () {
 
   }], [{
     key: 'extractFromConfig',
-    value: function extractFromConfig(map, config, paramName, defaultValue) {
+    value: function extractFromConfig(config, paramName, defaultValue, map) {
       if (!config.hasOwnProperty(paramName)) {
         return null;
       }
@@ -6320,7 +6329,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.4.2'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.4.3'); // eslint-disable-line
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -15691,7 +15700,7 @@ var L10N = exports.L10N = function (_ol$Observable) {
      * @type {URL}
      * @private
      */
-    _this.languageFileUrl_ = _URLHelper.URL.extractFromConfig(null, options, 'languageFile', 'files/l10n.commented.json');
+    _this.languageFileUrl_ = _URLHelper.URL.extractFromConfig(options, 'languageFile', 'files/l10n.commented.json');
 
     if (options.availableLanguages) {
       /**
@@ -18115,7 +18124,7 @@ var LayerFactory = exports.LayerFactory = function () {
           }
           break;
         case LayerType.XYZ:
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(this.map_, optionsCopy.source, 'url').finalize();
+          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize();
           optionsCopy.source = new _openlayers2.default.source.XYZ(optionsCopy.source);
 
           if (superType === SuperType.BASELAYER) {
@@ -18125,7 +18134,7 @@ var LayerFactory = exports.LayerFactory = function () {
           }
           break;
         case LayerType.OSM:
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(this.map_, optionsCopy.source, 'url').finalize();
+          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize();
           optionsCopy.source = new _openlayers2.default.source.OSM(optionsCopy.source);
 
           if (superType === SuperType.BASELAYER) {
@@ -18157,7 +18166,7 @@ var LayerFactory = exports.LayerFactory = function () {
             optionsCopy.source.params.LAYERS = [];
           }
 
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(this.map_, optionsCopy.source, 'url'); // not finalized
+          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_); // not finalized
 
           if (superType === SuperType.BASELAYER) {
             optionsCopy.source = new _ImageWMSSource.ImageWMSSource(optionsCopy.source);
@@ -18186,7 +18195,7 @@ var LayerFactory = exports.LayerFactory = function () {
             delete optionsCopy.source.tileSize;
           }
 
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(this.map_, optionsCopy.source, 'url'); // not finalized
+          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_); // not finalized
 
           if (superType === SuperType.BASELAYER) {
             optionsCopy.source = new _ImageWMSSource.TileWMSSource(optionsCopy.source);
@@ -18223,7 +18232,7 @@ var LayerFactory = exports.LayerFactory = function () {
           break;
         case LayerType.GEOJSON:
           this.configureLayerSourceLoadingStrategy_(optionsCopy.source);
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(this.map_, optionsCopy.source, 'url'); // not finalized
+          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_); // not finalized
 
           optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle');
 
@@ -18243,7 +18252,7 @@ var LayerFactory = exports.LayerFactory = function () {
           break;
         case LayerType.KML:
           this.configureLayerSourceLoadingStrategy_(optionsCopy.source);
-          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(this.map_, optionsCopy.source, 'url'); // not finalized
+          optionsCopy.source.url = _URLHelper.URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_); // not finalized
 
           optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle');
 
@@ -18494,7 +18503,7 @@ var LayerFactory = exports.LayerFactory = function () {
   }, {
     key: 'setWMTSSourceFromCapabilities',
     value: function setWMTSSourceFromCapabilities(layer, sourceOptions) {
-      var url = _URLHelper.URL.extractFromConfig(this.map_, sourceOptions, 'url');
+      var url = _URLHelper.URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_);
       var capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities');
       _jquery2.default.ajax({
         url: capUrl.finalize(),
@@ -21923,7 +21932,7 @@ var InfoButton = exports.InfoButton = function (_mixin) {
      * @type {URL}
      * @private
      */
-    _this.contentURL_ = _URLHelper.URL.extractFromConfig(null, options, 'contentURL');
+    _this.contentURL_ = _URLHelper.URL.extractFromConfig(options, 'contentURL');
 
     if (_this.attribution_) {
       /**
@@ -22537,7 +22546,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
       this.listenAt($button).on('click', function () {
         if (layer.getVisible()) {
           if (!content) {
-            var url = _URLHelper.URL.extractFromConfig(_this2.getMap(), windowConfig, 'url');
+            var url = _URLHelper.URL.extractFromConfig(windowConfig, 'url', undefined, _this2.getMap());
             _jquery2.default.get(url.finalize(), function (data) {
               content = data;
               showWindow();
