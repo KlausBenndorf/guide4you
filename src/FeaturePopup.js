@@ -6,7 +6,6 @@ import {ListenerOrganizerMixin} from './ListenerOrganizerMixin'
 import {Window} from './html/Window'
 import {cssClasses} from './globals'
 import { finishAllImages, mixin } from './utilities'
-import {Debug} from './Debug'
 
 import '../less/featurepopup.less'
 
@@ -18,13 +17,7 @@ import '../less/featurepopup.less'
  * @property {number[]} [iconSizedOffset=[0,0]]
  * @property {boolean} [centerOnPopup=false]
  * @property {boolean} [animated=true]
- * @property {string[]} [mutators] default mutators to use
- */
-
-/**
- * @typedef {function} Mutator
- * @param {string} text
- * @returns {string}
+ * @property {string[]} [popupModifier] default popupModifiers to use
  */
 
 /**
@@ -133,22 +126,16 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     })
 
     /**
-     * @type {Map.<string,function>}
+     * @type {string[]}
      * @private
      */
-    this.mutators_ = new Map()
+    this.defaultPopupModifiers_ = options.popupModifier || []
 
     /**
      * @type {string[]}
      * @private
      */
-    this.defaultMutators_ = options.mutators || []
-
-    /**
-     * @type {string[]}
-     * @private
-     */
-    this.useMutators_ = []
+    this.currentPopupModifiers_ = []
 
     /**
      * @type {?Window}
@@ -366,13 +353,36 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     return this.referencingVisibleLayers_
   }
 
-  /**
-   * register a text mutator with a name. Which mutator is finally used can be adjusted via the config files.
-   * @param {string} name
-   * @param {Mutator} mutator
-   */
-  registerMutator (name, mutator) {
-    this.mutators_.set(name, mutator)
+  updateContent () {
+    if (this.getMap().get('localiser').isRtl()) {
+      this.window_.get$Body().prop('dir', 'rtl')
+    } else {
+      this.window_.get$Body().prop('dir', undefined)
+    }
+
+    this.getMap().get('popupModifiers').apply({
+      name: this.getFeature().get('name'),
+      description: this.getFeature().get('description')
+    }, this.currentPopupModifiers_)
+      .then(result => {
+        if (result.name) {
+          this.$name_.removeClass(cssClasses.hidden)
+          this.$name_.html(result.name)
+        } else {
+          this.$name_.addClass(cssClasses.hidden)
+        }
+
+        if (result.description) {
+          this.$description_.removeClass(cssClasses.hidden)
+          this.$description_.html(result.description)
+        } else {
+          this.$description_.addClass(cssClasses.hidden)
+        }
+
+        this.updateSize()
+
+        this.dispatchEvent('update:content')
+      })
   }
 
   /**
@@ -382,49 +392,20 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     if (this.getFeature()) {
       const feature = this.getFeature()
 
-      const updateContent = () => {
-        if (this.getMap().get('localiser').isRtl()) {
-          this.window_.get$Body().prop('dir', 'rtl')
-        } else {
-          this.window_.get$Body().prop('dir', undefined)
-        }
-
-        let name = feature.get('name')
-        let description = feature.get('description')
-
-        if (name) {
-          this.$name_.html(name)
-        }
-
-        if (description) {
-          for (let m of this.useMutators_) {
-            let mutator = this.mutators_.get(m)
-            if (mutator) {
-              description = mutator(description)
-            } else {
-              Debug.error(`Trying to use unregistered mutator ${m}`)
-            }
-          }
-          this.$description_.html(description)
-        }
-
-        this.updateSize()
-      }
-
       this.$name_.empty()
       this.$description_.empty()
 
-      updateContent() // this produces one unnecessary call to window.updateSize()
+      this.updateContent() // this produces one unnecessary call to window.updateSize()
 
       if (!feature.get('observedByPopup')) {
-        feature.on('change:name', updateContent)
-        feature.on('change:description', updateContent)
+        feature.on('change:name', () => this.updateContent())
+        feature.on('change:description', () => this.updateContent())
         feature.set('observedByPopup', true)
       }
 
       this.once('change:feature', () => {
-        feature.un('change:name', updateContent)
-        feature.un('change:description', updateContent)
+        feature.un('change:name', () => this.updateContent())
+        feature.un('change:description', () => this.updateContent())
         feature.set('observedByPopup', false)
       })
 
@@ -443,8 +424,6 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       if (this.getVisible()) {
         setTimeout(() => this.window_.updateSize(), 0)
       }
-
-      this.dispatchEvent('update:content')
     }
   }
 
@@ -458,9 +437,9 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
    * @param {ol.Coordinate} coordinate
-   * @param {string[]} [optMutators=[]]
+   * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, coordinate = null, optMutators = []) {
+  setFeature (feature, coordinate = null, optPopupModifiers = []) {
     let oldValue = this.feature_
     if (feature) {
       this.overlay_.setPosition(coordinate || ol.extent.getCenter(feature.getGeometry().getExtent()))
@@ -471,9 +450,9 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.useMutators_ = [ ...this.defaultMutators_, ...optMutators ]
+      this.currentPopupModifiers_ = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
       for (let layer of this.referencingVisibleLayers_) {
-        this.useMutators_ = this.useMutators_.concat(flatten(layer.get('mutators')))
+        this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get('popupModifiers')))
       }
       this.geometryChangeHandler_ = () => {
         this.overlay_.setPosition(coordinate || ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
