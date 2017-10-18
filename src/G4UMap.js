@@ -16,11 +16,12 @@ import {Debug} from './Debug'
 
 import '../less/map.less'
 import { getRegisteredModules } from './moduleRegistration'
+import { PopupModifierManager } from './PopupModifierManager'
 
 /**
  * @typedef {object} G4UMapOptions
  * @property {L10N} [localiser]
- * @property {object.<string, Mutator>} [mutators]
+ * @property {object.<string, PopupModifier>} [popupModifiers]
  */
 
 /**
@@ -90,13 +91,17 @@ export class G4UMap extends ol.Map {
       }
     })
 
-    // registering mutators
+    // popupModifiers
 
-    if (options.mutators) {
+    let popupModifiers = new PopupModifierManager()
+    this.set('popupModifiers', popupModifiers)
+
+    if (options.popupModifiers) {
       this.on('change:featurePopup', () => {
-        let featurePopup = this.get('featurePopup')
-        for (let name of Object.keys(options.mutators)) {
-          featurePopup.registerMutator(name, options.mutators[name])
+        for (let name of Object.keys(options.popupModifiers)) {
+          let popupModifier = options.popupModifiers[name]
+          popupModifier.setMap(this)
+          popupModifiers.register(name, popupModifier)
         }
       })
     }

@@ -11,6 +11,7 @@ import {html2Text} from './utilities'
  * @property {string} [className='g4u-featuretooltip']
  * @property {number[]} [offset=[0,0]]
  * @property {ol.OverlayPositioning} [positioning='center-center']
+ * @property {string[]} [popupModifier=[]]
  */
 
 /**
@@ -45,6 +46,12 @@ export class FeatureTooltip {
     })
 
     /**
+     * @type {string[]}
+     * @private
+     */
+    this.defaultPopupModifiers_ = options.popupModifier || []
+
+    /**
      * @type {?ol.Feature}
      * @private
      */
@@ -53,7 +60,7 @@ export class FeatureTooltip {
     this.$element_.parent().addClass(this.className_ + '-container')
   }
 
-  static filter_ (feature) {
+  static canDisplay (feature) {
     return !feature.get('disabled') && feature.get('name')
   }
 
@@ -70,7 +77,7 @@ export class FeatureTooltip {
 
       let interaction = map.getDefaultInteractions('pointermove')[0]
       interaction.on('select', e => {
-        let selected = e.selected.filter(FeatureTooltip.filter_)
+        let selected = e.selected.filter(FeatureTooltip.canDisplay)
         if (selected.length) {
           this.setFeature(selected[0], e.mapBrowserEvent.coordinate)
         } else {
@@ -95,16 +102,25 @@ export class FeatureTooltip {
 
   /**
    * @param {?ol.Feature} feature
+   * @param {ol.Coordinate} coordinate
+   * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, coordinate = null) {
+  setFeature (feature, coordinate = null, optPopupModifiers = []) {
     if (feature) {
-      this.$element_.html(html2Text(feature.get('name')))
+      let currentPopupModifiers = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
+      this.getMap().get('popupModifiers').apply({
+        name: feature.get('name'),
+        description: feature.get('description')
+      }, currentPopupModifiers)
+        .then(result => {
+          this.$element_.html(html2Text(result.name))
+          this.$element_.removeClass(cssClasses.hidden)
+        })
       if (!coordinate) {
         let geometry = feature.getGeometry()
         coordinate = ol.extent.getCenter(geometry.getExtent())
       }
       this.overlay_.setPosition(coordinate)
-      this.$element_.removeClass(cssClasses.hidden)
     } else {
       this.$element_.addClass(cssClasses.hidden)
     }
