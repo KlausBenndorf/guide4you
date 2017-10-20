@@ -97,7 +97,6 @@ export class ControlFactory {
       case 'overviewMap':
         let projection = options.projection || this.map_.get('mapProjection')
         options.view = new ol.View({projection: projection})
-        options.layers = this.map_.get('baseLayers').getLayers()
         return new OverviewMap(options)
       case 'infoButton':
         return new WindowDecorator({
