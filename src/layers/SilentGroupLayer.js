@@ -17,7 +17,7 @@ export class SilentGroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
       if (layer.provideMap) {
         layer.provideMap(this.getProvidedMap())
       }
-      listenerKeys.set(layer, layer.on('change:visible', () => {
+      listenerKeys.set(layer, layer.on(['change:visible', 'change:childVisible'], () => {
         this.dispatchEvent({
           type: 'change:childVisible',
           child: layer
