@@ -8,6 +8,7 @@ import '../../less/overviewmap.less'
 /**
  * @typedef {g4uControlOptions} OverviewMapOptions
  * @property {Localizable} [tipLabel]
+ * @property {ol.layer.Group} [layerGroup]
  */
 
 /**
@@ -26,6 +27,8 @@ export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin
         : options.localiser.localiseUsingDictionary('OverviewMap tipLabel')
     }
 
+    options.layers = []
+
     super(options)
   }
 
@@ -35,6 +38,8 @@ export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin
     }
     super.setMap(map)
     if (map) {
+      this.getOverviewMap().setLayerGroup(map.get('baseLayers'))
+
       let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
 
       $overviewmap = $overviewmap.add($overviewmap.find('.ol-overviewmap-box'))
