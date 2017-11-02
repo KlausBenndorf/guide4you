@@ -40,7 +40,7 @@
     "jquery": "3.2.1",
     "mocha": "3.4.2",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1",
-    "phantomjs-prebuilt": "2.1.14",
+    "phantomjs-prebuilt": "2.1.16",
     "selenium-webdriver": "3.4.0",
     "standard": "10.0.2",
     "wait-on": "^2.0.2"
