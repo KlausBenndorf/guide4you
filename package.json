@@ -1,6 +1,6 @@
 {
   "name": "guide4you-module-search",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "A search parser module for Guide4You.",
   "keywords": [
     "search",
@@ -28,12 +28,12 @@
   "devDependencies": {
     "concurrently": "^3.4.0",
     "esdoc": "0.5.2",
-    "guide4you": "2.3.*",
+    "guide4you": "2.5.*",
     "guide4you-builder": "2.1.1",
-    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.0.0",
+    "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "^0.10.0",
     "jquery": "3.2.1",
-    "mocha": "3.4.2",
+    "mocha": "4.0.1",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.4.0",
