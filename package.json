@@ -21,9 +21,9 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-search"
   },
   "peerDependencies": {
-    "guide4you": "2.3.*",
+    "guide4you": "2.5.*",
     "jquery": "3.2.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.1.0"
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1"
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
