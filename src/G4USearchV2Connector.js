@@ -19,6 +19,15 @@ export class G4USearchV2Connector extends SearchConnector {
     this.wktParser_ = new ol.format.WKT()
   }
 
+  setMap (map) {
+    if (map) {
+      this.autocompleteUrl_.extractParamsFromMap(map)
+      this.fuzzyUrl_.extractParamsFromMap(map)
+      this.byHandleUrl_.extractParamsFromMap(map)
+    }
+    super.setMap(map)
+  }
+
   getAutoComplete (input) {
     return new Promise((resolve, reject) => {
       let finalUrl = this.autocompleteUrl_.clone().expandTemplate('searchstring', input).finalize()

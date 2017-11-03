@@ -8,7 +8,7 @@ export class G4UServerSearchConnector extends SearchConnector {
   constructor (options) {
     super(options)
 
-    this.fuzzyUrl_ = this.serviceURL.url += '/Search/{searchstring}'
+    this.serviceURL.url += '/Search/{searchstring}'
 
     this.format_ = new ol.format.KML({showPointNames: false})
   }
@@ -37,7 +37,7 @@ export class G4UServerSearchConnector extends SearchConnector {
 
   getSearchResult (input) {
     return new Promise((resolve, reject) => {
-      let finalUrl = this.fuzzyUrl_.clone().expandTemplate('searchstring', input)
+      let finalUrl = this.serviceURL.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
         url: finalUrl,
