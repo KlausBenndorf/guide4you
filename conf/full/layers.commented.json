@@ -113,6 +113,7 @@
         "loadingStrategy": "BBOX",
         "bboxRatio": 1.2,
         "url": "files/hotelsbonn.kml?bbox={bboxleft},{bboxbottom},{bboxright},{bboxtop}",
+        "cluster": true,
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
@@ -128,6 +129,9 @@
       },
       "type": "KML",
       "source": {
+        "cluster": {
+          "distance": 100
+        },
         "url": "files/restaurantsbonn.kml",
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",

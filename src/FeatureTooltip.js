@@ -61,7 +61,8 @@ export class FeatureTooltip {
   }
 
   static canDisplay (feature) {
-    return !feature.get('disabled') && feature.get('name')
+    return !feature.get('disabled') && (feature.get('name') ||
+      (feature.get('features') && feature.get('features').length === 1))
   }
 
   /**
@@ -79,7 +80,11 @@ export class FeatureTooltip {
       interaction.on('select', e => {
         let selected = e.selected.filter(FeatureTooltip.canDisplay)
         if (selected.length) {
-          this.setFeature(selected[0], e.mapBrowserEvent.coordinate)
+          let feature = selected[0]
+          if (feature.get('features')) {
+            feature = feature.get('features')[0]
+          }
+          this.setFeature(feature, e.mapBrowserEvent.coordinate)
         } else {
           this.setFeature(null)
         }
