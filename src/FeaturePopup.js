@@ -155,8 +155,16 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    * @returns {boolean}
    */
   static canDisplay (feature) {
-    return !feature.get('disabled') && (feature.get('name') ||
-      (feature.get('description') && $(feature.get('description')).text().match(/\S/)))
+    if (feature.get('disabled')) {
+      return false
+    }
+    if (feature.get('name') || (feature.get('description') && $(feature.get('description')).text().match(/\S/))) {
+      return true
+    }
+    if (feature.get('features') && feature.get('features').length === 1) {
+      return true
+    }
+    return false
   }
 
   /**
@@ -303,6 +311,10 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    * @private
    */
   onFeatureClick_ (feature, coordinate = null) {
+    if (feature.get('features')) {
+      feature = feature.get('features')[0]
+    }
+
     this.referencingVisibleLayers_ = []
 
     this.getMap().getLayerGroup().recursiveForEach(layer => {

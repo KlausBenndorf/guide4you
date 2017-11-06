@@ -241,6 +241,26 @@
         }
       }
     },
+    "#red": {
+      "fill": {
+        "color": "rgba( 255, 0, 0, 0.3)"
+      },
+      "stroke": {
+        "color": "rgba( 255, 0, 0, 0.8)",
+        "width": 2
+      },
+      "image": {
+        "type": "circle",
+        "radius": 7.5,
+        "fill": {
+          "color": "rgba( 255, 0, 0, 0.3)"
+        },
+        "stroke": {
+          "color": "rgba( 255, 0, 0, 0.8)",
+          "width": 2
+        }
+      }
+    },
     "#iconStyle": {
       "fill": {
         "color": "rgba( 255, 0, 0, 0.3)"

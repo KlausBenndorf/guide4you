@@ -10,13 +10,14 @@ import {VectorLayer} from '../layers/VectorLayer'
 import {SourceServerVector} from '../sources/SourceServerVector'
 import {QueryVectorSource} from '../sources/QueryVectorSource'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
-import { checkFor } from '../utilities'
+import { asObject, checkFor } from '../utilities'
 
 import {Debug} from '../Debug'
 import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
 import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
 import { URL } from '../URLHelper'
 import { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'
+import { ClusterSource } from '../sources/ClusterSource'
 
 export const SuperType = {
   BASELAYER: 'baseLayer',
@@ -202,6 +203,7 @@ export class LayerFactory {
 
     let layer
     let layerConfigs
+    let clusterOptions
     let localised = false
     if (optionsCopy.source) {
       optionsCopy.source.localiser = this.map_.get('localiser')
@@ -392,11 +394,18 @@ export class LayerFactory {
 
         optionsCopy.source.styling = this.map_.get('styling')
 
+        clusterOptions = take(optionsCopy.source, 'cluster')
+
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.visible = false
           optionsCopy.source = new QueryVectorSource(optionsCopy.source)
         } else {
           optionsCopy.source = new SourceServerVector(optionsCopy.source)
+        }
+
+        if (clusterOptions) {
+          clusterOptions = asObject(clusterOptions)
+          optionsCopy.source = new ClusterSource(optionsCopy.source, clusterOptions)
         }
         layer = new VectorLayer(optionsCopy)
         break
@@ -412,6 +421,8 @@ export class LayerFactory {
 
         optionsCopy.source.styling = this.map_.get('styling')
 
+        clusterOptions = take(optionsCopy.source, 'cluster')
+
         if (superType === SuperType.QUERYLAYER) {
           optionsCopy.visible = false
           optionsCopy.source = new QueryVectorSource(optionsCopy.source)
@@ -419,6 +430,9 @@ export class LayerFactory {
           optionsCopy.source = new SourceServerVector(optionsCopy.source)
         }
 
+        if (clusterOptions) {
+          optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))
+        }
         layer = new VectorLayer(optionsCopy)
         break
       case LayerType.INTERN:

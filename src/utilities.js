@@ -67,12 +67,8 @@ export function asObject (argument) {
  * @returns {object}
  */
 export function getConfig (config, name) {
-  if (name in config && config[name]) {
-    if (typeof config[name] !== 'object') {
-      return {}
-    } else {
-      return config[name]
-    }
+  if (config.hasOwnProperty(name) && config[name]) {
+    return asObject(config[name])
   }
 }
 
