@@ -122,6 +122,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
   /**
    * @param {boolean} collapsed
+   * @param {boolean} silent
    */
   setCollapsed (collapsed, silent) {
     if (collapsed !== this.menu_.getCollapsed()) {
@@ -573,7 +574,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
   /**
    * used by positioning
-   * @param {{scroll: number}} state
    */
   afterPositioning () {
     this.menu_.get$Body().scrollTop(this.scrolled_)

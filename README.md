@@ -18,7 +18,7 @@ For a screenshot of the mobile view [see below](#mobile-screenshot).
 With the basic system **GUIDE4YOU** can:
 
 * Display maps like [Openstreetmap](https://openstreetmap.org), [OpenTopoMap](https://opentopomap.org), or [OpenCycleMap](http://www.thunderforest.com/maps/opencyclemap/)
-* Use OSM, WMS, WFS, KML, GPX (others follow) 
+* Use OSM, WMS, WFS, KML, GPX (others follow)
 * Measure areas and distances
 * Display your location
 * Print the current view on a single page
@@ -77,10 +77,14 @@ npm run build conf/simple
 ```
 
 If you want to develop you can use the dev server script, which listens on port 8080 by default
- 
+
 ```
 npm run dev conf/simple
 ```
+
+## Generated documentation
+
+Can be found under [klausbenndorf.github.io/guide4you](http://klausbenndorf.github.io/guide4you).
 
 ## <a name="mobile-screenshot"></a>Mobile Screenshot
 

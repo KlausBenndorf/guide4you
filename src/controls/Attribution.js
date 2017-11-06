@@ -38,7 +38,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
     /**
      * Pairs of layer title and attribution
-     * @type {Array.<[string, string]>}
+     * @type {[string, string][]}
      * @private
      */
     this.visibleAttributions_ = []

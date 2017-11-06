@@ -13,7 +13,7 @@ import '../../less/arrowbuttons.less'
  * @property {ol.Extent|undefined} [initExtent=undefined] the initial Extent to move the map back to (center button)
  * @property {number} [animationDuration=100] duration of the animation
  * @property {boolean} [animated=true] if the move should be done with an animation or without
- * @property {{up: string, right: string, down: string, left: string, center: string}} [labels={}]
+ * @property {{up: string, right: string, down: string, left: string, center: string}|{}} [labels={}]
  *  unicode labels for the buttons (only shown if pictures are not loaded)
  */
 

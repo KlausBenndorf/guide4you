@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/configurators/LayerFactory.js | guide4you</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="guide4you"><meta property="twitter:description" content="A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KlausBenndorf/guide4you"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FunctionCallBuffer.js~FunctionCallBuffer.html">FunctionCallBuffer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/L10N.js~L10N.html">L10N</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/MessageDisplay.js~MessageDisplay.html">MessageDisplay</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Module.js~Module.html">Module</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Move.js~Move.html">Move</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/PopupModifierManager.js~PopupModifierManager.html">PopupModifierManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Styling.js~Styling.html">Styling</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-multiplyExtent">multiplyExtent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createMapInternal">createMapInternal</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getRegisteredModules">getRegisteredModules</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-registerModule">registerModule</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asObject">asObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asyncImageLoad">asyncImageLoad</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-checkFor">checkFor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-even">even</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-finishAllImages">finishAllImages</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getConfig">getConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-html2Text">html2Text</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mixin">mixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mixinAsClass">mixinAsClass</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-odd">odd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-offset">offset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-recursiveSelect">recursiveSelect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-showInteractionActivity">showInteractionActivity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlDirname">urlDirname</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlIsAbsolute">urlIsAbsolute</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlJoin">urlJoin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlNormalize">urlNormalize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlRelative">urlRelative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-copy">copy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-copyDeep">copyDeep</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-merge">merge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeDeep">mergeDeep</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeWithDefaults">mergeWithDefaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-take">take</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterText">filterText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-restoreText">restoreText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-olEventTypes">olEventTypes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cssClasses">cssClasses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-keyCodes">keyCodes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-APIMapInteraction">APIMapInteraction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-APIOptions">APIOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeaturePopupOptions">FeaturePopupOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureTooltipOptions">FeatureTooltipOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-G4UMapOptions">G4UMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-L10NOptions">L10NOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Localizable">Localizable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageConstructorOptions">MessageConstructorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageDisplayOptions">MessageDisplayOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageReducedDisplayOptions">MessageReducedDisplayOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MoveOptions">MoveOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SingleMoveOptions">SingleMoveOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PopupContent">PopupContent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShowWMSFeatureInfoOptions">ShowWMSFeatureInfoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StyleLike">StyleLike</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StyleObject">StyleObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLConfig">URLConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLLike">URLLike</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#configurators">configurators</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/ControlFactory.js~ControlFactory.html">ControlFactory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/LayerConfigurator.js~LayerConfigurator.html">LayerConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/LayerFactory.js~LayerFactory.html">LayerFactory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/MapConfigurator.js~MapConfigurator.html">MapConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/UIConfigurator.js~UIConfigurator.html">UIConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LayerType">LayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SuperType">SuperType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ControlFactoryOptions">ControlFactoryOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureConfig">FeatureConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KineticOptions">KineticOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerConfig">LayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapConfig">MapConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MobileLayoutOptions">MobileLayoutOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjectionConfig">ProjectionConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uViewOptions">g4uViewOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Float">Float</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HideableElement">HideableElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PositionedElement">PositionedElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PositioningOptions">PositioningOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#controls">controls</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ActivatableMixin.js~ActivatableMixin.html">ActivatableMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ActiveGroup.js~ActiveGroup.html">ActiveGroup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ArrowButtons.js~ArrowButtons.html">ArrowButtons</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/Attribution.js~Attribution.html">Attribution</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~CombinedZoom.html">CombinedZoom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~Zoom.html">Zoom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~ZoomSlider.html">ZoomSlider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ComposedControl.js~ComposedControl.html">ComposedControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ControlLogicMixin.js~ControlLogicMixin.html">ControlLogicMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/GeoLocationButton.js~GeolocationButton.html">GeolocationButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/HelpButton.js~HelpButton.html">HelpButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/InfoButton.js~InfoButton.html">InfoButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LanguageSwitcherButton.js~LanguageSwitcherButton.html">LanguageSwitcherButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LanguageSwitcherMenu.js~LanguageSwitcherMenu.html">LanguageSwitcherMenu</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LayerSelector.js~LayerSelector.html">LayerSelector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LinkButton.js~LinkButton.html">LinkButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/Logo.js~Logo.html">Logo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MeasurementButton.js~MeasurementButton.html">MeasurementButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MobileControls.js~MobileControls.html">MobileControls</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MousePosition.js~MousePosition.html">MousePosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/OverviewMap.js~OverviewMap.html">OverviewMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/PrintButton.js~PrintButton.html">PrintButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/RewireMixin.js~RewireMixin.html">RewireMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ScaleLine.js~ScaleLine.html">ScaleLine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ShiftableComposedControl.js~ShiftableComposedControl.html">ShiftableComposedControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/WindowDecorator.js~WindowDecorator.html">WindowDecorator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Control">Control</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArrowButtonOptions">ArrowButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CombinedZoomOptions">CombinedZoomOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ZoomOptions">ZoomOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ComposedControlOptions">ComposedControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeolocationButtonOptions">GeolocationButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HelpButtonOptions">HelpButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InfoButtonOptions">InfoButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LanguageSwitcherButtonOptions">LanguageSwitcherButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LanguageSwitcherMenuOptions">LanguageSwitcherMenuOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerSelectorOptions">LayerSelectorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LinkButtonOptions">LinkButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LogoOptions">LogoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MeasurementButtonOptions">MeasurementButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MousePositionOptions">MousePositionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OverviewMapOptions">OverviewMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShiftableComposedControlOptions">ShiftableComposedControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowDecoratorOptions">WindowDecoratorOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#html">html</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/ButtonBox.js~ButtonBox.html">ButtonBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Dropdown.js~Dropdown.html">Dropdown</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/History.js~History.html">History</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Shield.js~Shield.html">Shield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Window.js~Window.html">Window</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addTooltip">addTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getInFront">getInFront</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ButtonBoxOptions">ButtonBoxOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DropdownOptions">DropdownOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Entry">Entry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ElementPosition">ElementPosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/LayerLoadProcessCountMixin.js~LayerLoadProcessCountMixin.html">LayerLoadProcessCountMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/ProvideMapMixin.js~ProvideMapMixin.html">ProvideMapMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/SilentGroupLayer.js~BaseSilentGroupLayer.html">BaseSilentGroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/SilentGroupLayer.js~SilentGroupLayer.html">SilentGroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BaseTileLayer">BaseTileLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BaseLayerImage">BaseLayerImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageLayer">ImageLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TileLayer">TileLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BaseLayerMixinOptions">BaseLayerMixinOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorLayerOptions">VectorLayerOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#sources">sources</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ClusterSource.js~ClusterSource.html">ClusterSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~ImageWMSSource.html">ImageWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~TileWMSSource.html">TileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html">WMSFeatureInfoMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryVectorSource.js~QueryVectorSource.html">QueryVectorSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryWMSSource.js~QueryWMSMixin.html">QueryWMSMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceServerVectorOptions">SourceServerVectorOptions</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/configurators/LayerFactory.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;openlayers&apos;
+import $ from &apos;jquery&apos;
+
+import {BaseLayerImage, ImageLayer} from &apos;../layers/ImageLayer&apos;
+import {EmptyBaseLayer} from &apos;../layers/EmptyBaseLayer&apos;
+import {BaseTileLayer} from &apos;../layers/BaseTileLayer&apos;
+import {TileLayer} from &apos;../layers/TileLayer&apos;
+import {GroupLayer} from &apos;../layers/GroupLayer&apos;
+import {VectorLayer} from &apos;../layers/VectorLayer&apos;
+import {SourceServerVector} from &apos;../sources/SourceServerVector&apos;
+import {QueryVectorSource} from &apos;../sources/QueryVectorSource&apos;
+import { copyDeep, mergeDeep, take } from &apos;../utilitiesObject&apos;
+import { asObject, checkFor } from &apos;../utilities&apos;
+
+import {Debug} from &apos;../Debug&apos;
+import {ImageWMSSource, TileWMSSource} from &apos;../sources/ImageWMSSource&apos;
+import { BaseSilentGroupLayer, SilentGroupLayer } from &apos;../layers/SilentGroupLayer&apos;
+import { URL } from &apos;../URLHelper&apos;
+import { QueryImageWMSSource, QueryTileWMSSource } from &apos;../sources/QueryWMSSource&apos;
+import { ClusterSource } from &apos;../sources/ClusterSource&apos;
+
+export const SuperType = {
+  BASELAYER: &apos;baseLayer&apos;,
+  FEATURELAYER: &apos;featureLayer&apos;,
+  QUERYLAYER: &apos;queryLayer&apos;
+}
+
+export const LayerType = {
+  CATEGORY: &apos;Category&apos;,
+  SILENTGROUP: &apos;SilentGroup&apos;,
+  GEOJSON: &apos;GeoJSON&apos;,
+  KML: &apos;KML&apos;,
+  WMS: &apos;WMS&apos;,
+  TILEWMS: &apos;TileWMS&apos;,
+  WMTS: &apos;WMTS&apos;,
+  OSM: &apos;OSM&apos;,
+  STAMEN: &apos;Stamen&apos;,
+  INTERN: &apos;Intern&apos;,
+  EMPTY: &apos;Empty&apos;,
+  XYZ: &apos;XYZ&apos;,
+  BING: &apos;Bing&apos;
+}
+
+/**
+ * A config describing a layer
+ * @public
+ * @typedef {Object} g4uLayerOptions
+ * @property {string} type the LayerType
+ * @property {string|number} id unique in the whole config
+ * @property {string} title
+ * @property {SourceConfig|ol.source.Source} source
+ * @property {Boolean} available
+ * @property {Boolean} availableMobile overwrites available in mobile mode
+ * @property {Boolean} visible
+ * @property {Boolean} alwaysVisible overwrites visible, available and mobileAvailable
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A config describing the source of a layer
+ * @public
+ * @typedef {Object} SourceConfig
+ * @property {Localizable} [attribution]
+ * @property {boolean} [localised=false]
+ * @property {ol.Attribution[]} [attributions] will be setted automatically.
+ * @property {null} [crossOrigin] will be setted automatically.
+ * @property {string} loadingStrategy
+ * @property {URLLike} url
+ * @property {
+ */
+
+/**
+ * @typedef {Object} FeatureConfig
+ * @public
+ * @property {string|number} id
+ * @property {StyleLike} style
+ * @property {string} geometryWKT
+ * @property {ol.geom.Geometry} geometry
+ */
+
+/**
+ * This class constructs a layer according to the given {{LayerOptions}}
+ */
+export class LayerFactory {
+  /**
+   * @param {G4UMap} map
+   */
+  constructor (map) {
+    /**
+     * @type {G4UMap}
+     * @private
+     */
+    this.map_ = map
+  }
+
+  /**
+   * @param {ol.ProjectionLike} mapConfigProjection
+   */
+  setMapConfigProjection (mapConfigProjection) {
+    this.mapProjection = mapConfigProjection
+  }
+
+  /**
+   * @returns {ol.ProjectionLike}
+   */
+  getMapProjection () {
+    return this.mapProjection
+  }
+
+  /**
+   * Adds multiple layers according to their configs to the given layerGroup
+   * @param {LayerGroup} layerGroup
+   * @param {g4uLayerOptions[]} configs
+   * @param {string} superType
+   * @param {Boolean} skipIdCheck
+   * @returns {ol.Layer.Base[]}
+   */
+  addLayers (layerGroup, configs, superType, skipIdCheck) {
+    return configs.map(config =&gt; this.addLayer(layerGroup, config, superType, skipIdCheck))
+  }
+
+  /**
+   * Adds a layer defined by a given config to a given layerGroup
+   * @param {LayerGroup} layerGroup
+   * @param {g4uLayerOptions} options
+   * @param {string} superType
+   * @param {Boolean} skipIdCheck
+   * @returns {ol.layer.Base}
+   */
+  addLayer (layerGroup, options, superType, skipIdCheck) {
+    let layer
+    /**
+     * @type {g4uLayerOptions}
+     */
+    let optionsCopy = copyDeep(options)
+
+    if (skipIdCheck || this.configureLayerIsIdOk_(optionsCopy.id)) {
+      // loading strategy
+
+      if (!optionsCopy.type) {
+        throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)
+      }
+
+      // availability
+      this.configureLayerAvailability_(optionsCopy)
+
+      // the title/name of the layer
+      this.configureLayerTitle_(optionsCopy)
+
+      if (superType === SuperType.BASELAYER) {
+        optionsCopy.groupLayer = this.map_.get(&apos;layerConfigurator&apos;).getBaseLayerGroup()
+      }
+
+      if (optionsCopy.source) {
+        this.configureLayerSourceAttribution_(optionsCopy.source)
+      }
+
+      // visibility
+      this.configureLayerVisibility_(optionsCopy)
+
+      layer = this.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
+
+      let forEachLayer = layer =&gt; {
+        layerGroup.getLayers().push(layer)
+      }
+
+      if (layer instanceof ol.Collection) {
+        layer.forEach(forEachLayer)
+      } else {
+        forEachLayer(layer)
+      }
+    }
+
+    return layer
+  }
+
+  /**
+   * @param {string} type
+   * @param {string} superType
+   */
+  superTypeNotSupported (type, superType) {
+    throw new Error(`${type} is not configured for superType &apos;${superType}&apos;`)
+  }
+
+  /**
+   * Creates a layer or a collection of layers from the config
+   * @param {string} layerType
+   * @param {g4uLayerOptions} optionsCopy
+   * @param {string} superType
+   * @param {Boolean} skipIdCheck
+   * @returns {ol.layer.Layer|ol.Collection.&lt;ol.layer.Layer&gt;}
+   */
+  createLayer (layerType, optionsCopy, superType, skipIdCheck) {
+    if (superType === SuperType.QUERYLAYER) {
+      if (!optionsCopy.hasOwnProperty(&apos;apiKey&apos;)) {
+        Debug.error(&apos;Each query layer needs to have an apiKey.&apos;)
+      }
+      optionsCopy.source.projection = this.mapProjection
+    }
+
+    if (optionsCopy.source) {
+      optionsCopy.source.localiser = this.map_.get(&apos;localiser&apos;)
+    }
+
+    let layer
+    let layerConfigs
+    let clusterOptions
+    let localised = false
+    if (optionsCopy.source) {
+      optionsCopy.source.localiser = this.map_.get(&apos;localiser&apos;)
+      localised = optionsCopy.source.localised
+    }
+
+    let style = take(optionsCopy, &apos;style&apos;)
+
+    switch (layerType) {
+      case LayerType.SILENTGROUP:
+
+        layerConfigs = take(optionsCopy, &apos;layers&apos;)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseSilentGroupLayer(optionsCopy)
+        } else {
+          layer = new SilentGroupLayer(optionsCopy)
+        }
+
+        this.addLayers(layer, layerConfigs, superType, true)
+
+        layer.getLayers().forEach(childLayer =&gt; {
+          childLayer.setVisible(true)
+        })
+        break
+      case LayerType.CATEGORY:
+        layerConfigs = take(optionsCopy, &apos;layers&apos;)
+
+        layer = new GroupLayer(optionsCopy)
+
+        this.addLayers(layer, layerConfigs, superType, skipIdCheck)
+
+        // availability &amp; parent ref
+        let childrenAvailable = false
+        layer.getLayers().forEach(childLayer =&gt; {
+          childLayer.set(&apos;category&apos;, layer)
+          childrenAvailable = childrenAvailable || childLayer.get(&apos;available&apos;)
+        })
+
+        let childrenCount = layer.getLayers().getLength()
+
+        if (childrenAvailable !== false) {
+          if ((layer.get(&apos;available&apos;) !== false) &amp;&amp; (childrenCount &gt; 0)) {
+            // category is shown
+
+            if (childrenAvailable === true) {
+              layer.set(&apos;available&apos;, true)
+            }
+
+            layer.setVisible(true)
+
+            if (superType === SuperType.BASELAYER) {
+              layer.set(&apos;activateChildren&apos;, false)
+            }
+
+            return layer
+          } else if (childrenAvailable === true) {
+            // only children are shown
+            return layer.getLayers()
+          }
+          // else neither are shown
+        }
+        break
+      case LayerType.EMPTY:
+        if (superType === SuperType.BASELAYER) {
+          layer = new EmptyBaseLayer(optionsCopy)
+        } else {
+          optionsCopy.source = new ol.source.Vector()
+          layer = new VectorLayer(optionsCopy)
+        }
+        break
+      case LayerType.XYZ:
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_).finalize()
+        optionsCopy.source = new ol.source.XYZ(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.OSM:
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_).finalize()
+        optionsCopy.source = new ol.source.OSM(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.STAMEN:
+        optionsCopy.source = new ol.source.Stamen(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.BING:
+        optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+        break
+      case LayerType.WMS:
+        if (optionsCopy.categoryButtons) {
+          optionsCopy.source.params.LAYERS = []
+        }
+
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
+
+        if (superType === SuperType.BASELAYER) {
+          optionsCopy.source = new ImageWMSSource(optionsCopy.source)
+          layer = new BaseLayerImage(optionsCopy)
+        } else if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.visible = false
+          optionsCopy.source = new QueryImageWMSSource(optionsCopy.source)
+          layer = new ImageLayer(optionsCopy)
+        } else {
+          optionsCopy.source = new ImageWMSSource(optionsCopy.source)
+          layer = new ImageLayer(optionsCopy)
+        }
+
+        if (layer.getSource().hasFeatureInfo()) {
+          this.map_.asSoonAs(&apos;ready:ui&apos;, true, () =&gt; {
+            if (this.map_.get(&apos;showWMSFeatureInfo&apos;)) {
+              this.map_.get(&apos;showWMSFeatureInfo&apos;).addLayer(layer)
+            }
+          })
+        }
+
+        break
+      case LayerType.TILEWMS:
+        if (optionsCopy.source.tileSize) {
+          optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
+          delete optionsCopy.source.tileSize
+        }
+
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
+
+        if (superType === SuperType.BASELAYER) {
+          optionsCopy.source = new TileWMSSource(optionsCopy.source)
+          layer = new BaseTileLayer(optionsCopy)
+        } else if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.visible = false
+          optionsCopy.source = new QueryTileWMSSource(optionsCopy.source)
+          layer = new TileLayer(optionsCopy)
+        } else {
+          optionsCopy.source = new TileWMSSource(optionsCopy.source)
+          layer = new TileLayer(optionsCopy)
+        }
+
+        if (layer.getSource().hasFeatureInfo()) {
+          this.map_.asSoonAs(&apos;ready:ui&apos;, true, () =&gt; {
+            if (this.map_.get(&apos;showWMSFeatureInfo&apos;)) {
+              this.map_.get(&apos;showWMSFeatureInfo&apos;).addLayer(layer)
+            }
+          })
+        }
+
+        break
+      case LayerType.WMTS:
+        let sourceOptions = take(optionsCopy, &apos;source&apos;)
+
+        if (superType === SuperType.BASELAYER) {
+          layer = new BaseTileLayer(optionsCopy)
+        } else {
+          layer = new TileLayer(optionsCopy)
+        }
+
+        this.setWMTSSourceFromCapabilities(layer, sourceOptions)
+
+        break
+      case LayerType.GEOJSON:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
+
+        optionsCopy.source.defaultStyle = this.map_.get(&apos;styling&apos;).getStyle(style || &apos;#defaultStyle&apos;)
+
+        optionsCopy.source.type = &apos;GeoJSON&apos;
+
+        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get(&apos;interfaceProjection&apos;)
+
+        optionsCopy.source.styling = this.map_.get(&apos;styling&apos;)
+
+        clusterOptions = take(optionsCopy.source, &apos;cluster&apos;)
+
+        if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.visible = false
+          optionsCopy.source = new QueryVectorSource(optionsCopy.source)
+        } else {
+          optionsCopy.source = new SourceServerVector(optionsCopy.source)
+        }
+
+        if (clusterOptions) {
+          clusterOptions = asObject(clusterOptions)
+          optionsCopy.source = new ClusterSource(optionsCopy.source, clusterOptions)
+        }
+        layer = new VectorLayer(optionsCopy)
+        break
+      case LayerType.KML:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
+
+        optionsCopy.source.defaultStyle = this.map_.get(&apos;styling&apos;).getStyle(style || &apos;#defaultStyle&apos;)
+
+        optionsCopy.source.type = &apos;KML&apos;
+
+        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get(&apos;interfaceProjection&apos;)
+
+        optionsCopy.source.styling = this.map_.get(&apos;styling&apos;)
+
+        clusterOptions = take(optionsCopy.source, &apos;cluster&apos;)
+
+        if (superType === SuperType.QUERYLAYER) {
+          optionsCopy.visible = false
+          optionsCopy.source = new QueryVectorSource(optionsCopy.source)
+        } else {
+          optionsCopy.source = new SourceServerVector(optionsCopy.source)
+        }
+
+        if (clusterOptions) {
+          optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))
+        }
+        layer = new VectorLayer(optionsCopy)
+        break
+      case LayerType.INTERN:
+
+        if (optionsCopy.source.hasOwnProperty(&apos;features&apos;)) {
+          for (let i = 0; i &lt; optionsCopy.source.features.length; i++) {
+            optionsCopy.source.features[i] = this.createFeature(optionsCopy.source.features[i])
+          }
+        }
+
+        optionsCopy.source = new ol.source.Vector(optionsCopy.source)
+
+        if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          layer = new VectorLayer(optionsCopy)
+        }
+        break
+    }
+
+    for (let module of this.map_.getModules()) {
+      if (layer) {
+        break
+      }
+      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
+    }
+
+    if (!layer) {
+      throw new Error(`layer with type &apos;${optionsCopy.type}&apos; could not be created.`)
+    }
+
+    // styling
+    if (layer.setStyle) {
+      layer.setStyle(this.map_.get(&apos;styling&apos;).getStyle(style))
+      this.map_.get(&apos;styling&apos;).manageLayer(layer)
+    }
+
+    // if layer is a baselayer, check for mapProjection
+    if (superType === SuperType.BASELAYER &amp;&amp; optionsCopy.source) {
+      if (layer.getSource().getProjection()) {
+        if (!this.mapProjection) {
+          this.mapProjection = layer.getSource().getProjection()
+        } else if (this.mapProjection &amp;&amp; this.mapProjection !== layer.getSource().getProjection()) {
+          Debug.warn(&apos;The baseLayers are not in mapProjection or a baseLayers has a different projection than&apos; +
+             &apos; another! This might cause reprojection issues.&apos;)
+        }
+      }
+    } else if (superType === SuperType.QUERYLAYER) {
+      this.map_.get(&apos;urlApi&apos;).addApiLayer(layer, optionsCopy.apiKey)
+    }
+
+    // if layer is being localised, refresh on language change
+    if (localised) {
+      this.map_.get(&apos;localiser&apos;).on(&apos;change:language&apos;, () =&gt; layer.getSource().refresh())
+    }
+
+    return layer
+  }
+
+  /**
+   * A function that checks if a layer id is setted and not a duplicate of another.
+   * Throws an error if this is the case.
+   * @param {string|number} id
+   * @private
+   */
+  configureLayerIsIdOk_ (id) {
+    /**
+     * @type {string[]|number[]}
+     */
+    let layerIds = this.map_.get(&apos;layerIds&apos;)
+
+    if (id === 0 || (id &amp;&amp; (typeof id === &apos;string&apos; || !isNaN(id)))) {
+      for (let j = 0, jj = layerIds.length; j &lt; jj; j++) {
+        if (id === layerIds[j]) {
+          Debug.error(`Each layer needs a unique id! Otherwise the layer won&apos;t be shown. Layer id: ${id}`)
+          return false
+        }
+      }
+      layerIds.push(id)
+      this.map_.set(&apos;layerIds&apos;, layerIds)
+      return true
+    } else {
+      Debug.error(`Each layer needs a unique id! Otherwise the layer won&apos;t be shown. Layer id: ${id}`)
+      return false
+    }
+  }
+
+  /**
+   * @param {g4uLayerOptions} config
+   * @returns {g4uLayerOptions}
+   * @private
+   */
+  configureLayerAvailability_ (config) {
+    // if available is set to false explicitely, the layer won&apos;t be available
+    config.available = (config.available !== false)
+
+    if (!config.alwaysVisible) {
+      config.available = config.hasOwnProperty(&apos;availableMobile&apos;) ? config.availableMobile : config.available
+      if (this.map_.get(&apos;ignoreLayerAvailability&apos;)) {
+        config.available = true
+      }
+    }
+    return config
+  }
+
+  /**
+   * @param {SourceConfig} sourceConfig
+   * @returns {SourceConfig}
+   * @private
+   */
+  configureLayerSourceAttribution_ (sourceConfig) {
+    if (checkFor(sourceConfig, &apos;attribution&apos;)) {
+      sourceConfig.attributions = [
+        new ol.Attribution({
+          html: this.map_.get(&apos;localiser&apos;).selectL10N(sourceConfig.attribution)
+        })
+      ]
+    }
+    return sourceConfig
+  }
+
+  /**
+   * @param {SourceConfig} sourceConfig
+   * @returns {SourceConfig}
+   * @private
+   */
+  configureLayerSourceLoadingStrategy_ (sourceConfig) {
+    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty(&apos;loadingStrategy&apos;)
+      ? sourceConfig.loadingStrategy
+      : this.map_.get(&apos;loadingStrategy&apos;)
+    return sourceConfig
+  }
+
+  /**
+   * @param {g4uLayerOptions} config
+   * @returns {g4uLayerOptions}
+   * @private
+   */
+  configureLayerTitle_ (config) {
+    if (!config.hasOwnProperty(&apos;title&apos;)) {
+      config.title = &apos;No title given&apos;
+    } else {
+      config.title = this.map_.get(&apos;localiser&apos;).selectL10N(config.title)
+    }
+    return config
+  }
+
+  /**
+   * @param {g4uLayerOptions} config
+   * @returns {g4uLayerOptions}
+   * @private
+   */
+  configureLayerVisibility_ (config) {
+    if (config.alwaysVisible === true) {
+      config.visible = true
+    } else {
+      config.visible = (config.visible === true)
+    }
+
+    return config
+  }
+
+  /**
+   * @param {FeatureConfig} featureConf
+   * @returns {ol.Feature}
+   */
+  createFeature (featureConf) {
+    /**
+     * @type {FeatureConfig}
+     */
+    let featureConfCopy = copyDeep(featureConf)
+
+    let id = take(featureConfCopy, &apos;id&apos;)
+
+    let style = take(featureConfCopy, &apos;style&apos;)
+
+    let format = new ol.format.WKT()
+    let wkt = take(featureConfCopy, &apos;geometryWKT&apos;) || take(featureConfCopy, &apos;geographyWKT&apos;)
+    featureConfCopy.geometry = format.readGeometry(wkt)
+      .transform(this.map_.get(&apos;interfaceProjection&apos;), this.map_.get(&apos;mapProjection&apos;))
+
+    let feature = new ol.Feature(featureConfCopy)
+
+    if (style) {
+      this.map_.get(&apos;styling&apos;).styleFeature(feature, style)
+    }
+
+    if (id) {
+      feature.setId(id)
+    }
+
+    return feature
+  }
+
+  setWMTSSourceFromCapabilities (layer, sourceOptions) {
+    let url = URL.extractFromConfig(sourceOptions, &apos;url&apos;, undefined, this.map_)
+    let capUrl = url.clone().addParam(&apos;Service=WMTS&apos;).addParam(&apos;Request=GetCapabilities&apos;)
+    $.ajax({
+      url: capUrl.finalize(),
+      dataType: &apos;text xml&apos;,
+      crossDomain: true,
+      success: data =&gt; {
+        let wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
+        let capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, &apos;config&apos;))
+        sourceOptions.url = url.finalize()
+        sourceOptions = mergeDeep(sourceOptions, capOptions)
+        layer.setSource(new ol.source.WMTS(sourceOptions))
+      }
+    })
+    layer.setSource(new ol.source.ImageCanvas({
+      state: &apos;ready&apos;,
+      canvasFunction: () =&gt; {} // not loading any canvas
+    }))
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.3)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -156,6 +156,7 @@ export class ButtonBox extends ol.Object {
 
   /**
    * @param {boolean} collapsed
+   * @param {boolean} silent
    */
   setCollapsed (collapsed, silent) {
     if (collapsed) {

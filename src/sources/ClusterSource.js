@@ -2,6 +2,10 @@ import ol from 'openlayers'
 import { Debug } from '../Debug'
 
 export class ClusterSource extends ol.source.Cluster {
+  /**
+   * @param {ol.source.Vector} source
+   * @param {olx.} options
+   */
   constructor (source, options) {
     options.source = source
     options.geometryFunction = options.geometryFunction || ClusterSource.defaultGeometryFunction
