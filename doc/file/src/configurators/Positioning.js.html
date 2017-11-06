@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/configurators/Positioning.js | guide4you</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="guide4you"><meta property="twitter:description" content="A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KlausBenndorf/guide4you"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FunctionCallBuffer.js~FunctionCallBuffer.html">FunctionCallBuffer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/L10N.js~L10N.html">L10N</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/MessageDisplay.js~MessageDisplay.html">MessageDisplay</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Module.js~Module.html">Module</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Move.js~Move.html">Move</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/PopupModifierManager.js~PopupModifierManager.html">PopupModifierManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Styling.js~Styling.html">Styling</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-multiplyExtent">multiplyExtent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createMapInternal">createMapInternal</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getRegisteredModules">getRegisteredModules</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-registerModule">registerModule</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asObject">asObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asyncImageLoad">asyncImageLoad</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-checkFor">checkFor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-even">even</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-finishAllImages">finishAllImages</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getConfig">getConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-html2Text">html2Text</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mixin">mixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mixinAsClass">mixinAsClass</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-odd">odd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-offset">offset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-recursiveSelect">recursiveSelect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-showInteractionActivity">showInteractionActivity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlDirname">urlDirname</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlIsAbsolute">urlIsAbsolute</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlJoin">urlJoin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlNormalize">urlNormalize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlRelative">urlRelative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-copy">copy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-copyDeep">copyDeep</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-merge">merge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeDeep">mergeDeep</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeWithDefaults">mergeWithDefaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-take">take</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterText">filterText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-restoreText">restoreText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaults">defaults</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-olEventTypes">olEventTypes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cssClasses">cssClasses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-keyCodes">keyCodes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-APIMapInteraction">APIMapInteraction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-APIOptions">APIOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeaturePopupOptions">FeaturePopupOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureTooltipOptions">FeatureTooltipOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-G4UMapOptions">G4UMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-L10NOptions">L10NOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Localizable">Localizable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageConstructorOptions">MessageConstructorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageDisplayOptions">MessageDisplayOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageReducedDisplayOptions">MessageReducedDisplayOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MoveOptions">MoveOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SingleMoveOptions">SingleMoveOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PopupContent">PopupContent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShowWMSFeatureInfoOptions">ShowWMSFeatureInfoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StyleLike">StyleLike</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StyleObject">StyleObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLConfig">URLConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLLike">URLLike</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#configurators">configurators</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/ControlFactory.js~ControlFactory.html">ControlFactory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/LayerConfigurator.js~LayerConfigurator.html">LayerConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/LayerFactory.js~LayerFactory.html">LayerFactory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/MapConfigurator.js~MapConfigurator.html">MapConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/UIConfigurator.js~UIConfigurator.html">UIConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LayerType">LayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-SuperType">SuperType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ControlFactoryOptions">ControlFactoryOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureConfig">FeatureConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KineticOptions">KineticOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerConfig">LayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapConfig">MapConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MobileLayoutOptions">MobileLayoutOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjectionConfig">ProjectionConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uViewOptions">g4uViewOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Float">Float</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HideableElement">HideableElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PositionedElement">PositionedElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PositioningOptions">PositioningOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#controls">controls</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ActivatableMixin.js~ActivatableMixin.html">ActivatableMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ActiveGroup.js~ActiveGroup.html">ActiveGroup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ArrowButtons.js~ArrowButtons.html">ArrowButtons</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/Attribution.js~Attribution.html">Attribution</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~CombinedZoom.html">CombinedZoom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~Zoom.html">Zoom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~ZoomSlider.html">ZoomSlider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ComposedControl.js~ComposedControl.html">ComposedControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ControlLogicMixin.js~ControlLogicMixin.html">ControlLogicMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/GeoLocationButton.js~GeolocationButton.html">GeolocationButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/HelpButton.js~HelpButton.html">HelpButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/InfoButton.js~InfoButton.html">InfoButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LanguageSwitcherButton.js~LanguageSwitcherButton.html">LanguageSwitcherButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LanguageSwitcherMenu.js~LanguageSwitcherMenu.html">LanguageSwitcherMenu</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LayerSelector.js~LayerSelector.html">LayerSelector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LinkButton.js~LinkButton.html">LinkButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/Logo.js~Logo.html">Logo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MeasurementButton.js~MeasurementButton.html">MeasurementButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MobileControls.js~MobileControls.html">MobileControls</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MousePosition.js~MousePosition.html">MousePosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/OverviewMap.js~OverviewMap.html">OverviewMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/PrintButton.js~PrintButton.html">PrintButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/RewireMixin.js~RewireMixin.html">RewireMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ScaleLine.js~ScaleLine.html">ScaleLine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ShiftableComposedControl.js~ShiftableComposedControl.html">ShiftableComposedControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/WindowDecorator.js~WindowDecorator.html">WindowDecorator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Control">Control</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArrowButtonOptions">ArrowButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CombinedZoomOptions">CombinedZoomOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ZoomOptions">ZoomOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ComposedControlOptions">ComposedControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeolocationButtonOptions">GeolocationButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HelpButtonOptions">HelpButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InfoButtonOptions">InfoButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LanguageSwitcherButtonOptions">LanguageSwitcherButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LanguageSwitcherMenuOptions">LanguageSwitcherMenuOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerSelectorOptions">LayerSelectorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LinkButtonOptions">LinkButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LogoOptions">LogoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MeasurementButtonOptions">MeasurementButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MousePositionOptions">MousePositionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OverviewMapOptions">OverviewMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShiftableComposedControlOptions">ShiftableComposedControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowDecoratorOptions">WindowDecoratorOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#html">html</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/ButtonBox.js~ButtonBox.html">ButtonBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Dropdown.js~Dropdown.html">Dropdown</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/History.js~History.html">History</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Shield.js~Shield.html">Shield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Window.js~Window.html">Window</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addTooltip">addTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getInFront">getInFront</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ButtonBoxOptions">ButtonBoxOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DropdownOptions">DropdownOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Entry">Entry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ElementPosition">ElementPosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/LayerLoadProcessCountMixin.js~LayerLoadProcessCountMixin.html">LayerLoadProcessCountMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/ProvideMapMixin.js~ProvideMapMixin.html">ProvideMapMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/SilentGroupLayer.js~BaseSilentGroupLayer.html">BaseSilentGroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/SilentGroupLayer.js~SilentGroupLayer.html">SilentGroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BaseTileLayer">BaseTileLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-BaseLayerImage">BaseLayerImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageLayer">ImageLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TileLayer">TileLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BaseLayerMixinOptions">BaseLayerMixinOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorLayerOptions">VectorLayerOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#sources">sources</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ClusterSource.js~ClusterSource.html">ClusterSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~ImageWMSSource.html">ImageWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~TileWMSSource.html">TileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html">WMSFeatureInfoMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryVectorSource.js~QueryVectorSource.html">QueryVectorSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryWMSSource.js~QueryWMSMixin.html">QueryWMSMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceServerVectorOptions">SourceServerVectorOptions</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/configurators/Positioning.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+import uniq from &apos;lodash/uniq&apos;
+
+import { cssClasses } from &apos;../globals&apos;
+import { mixinAsClass } from &apos;../utilities&apos;
+import { ListenerOrganizerMixin } from &apos;../ListenerOrganizerMixin&apos;
+
+/**
+ * This describes the floating directions of an element. It can be an array, then it will move from the center to the
+ * first specified direction and after that it moves in the second direction. If it is set to &apos;fixed&apos; it is not
+ * positioned via Positioning.
+ * @typedef {string[]|string} Float
+ */
+
+/**
+ * @typedef {Object} HideableElement
+ * @property {Control} control
+ * @property {number} importance
+ * @property {number} order
+ * @property {Float} [float] first and second direction or special value &apos;fixed&apos;
+ * @property {HideableElement[]} [hideableChildren]
+ */
+
+/**
+ * @typedef {HideableElement} PositionedElement
+ * @property {string[]} float first and second direction or special value &apos;fixed&apos;
+ * @property {number} minWidth
+ * @property {number} minHeight
+ * @property {{width: number, height: number}} size
+ */
+
+/**
+ * @typedef {object} PositioningOptions
+ * @property {number} [padding=5]
+ * @property {number} [spacing=10]
+ * @property {HTMLElement} viewport
+ */
+
+export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
+  /**
+   * @param {PositioningOptions} options
+   */
+  constructor (options) {
+    super()
+    /**
+     * @type {jQuery|HTMLElement}
+     * @private
+     */
+    this.$viewport_ = $(options.viewport)
+
+    /**
+     * The padding between the controls
+     * @type {number}
+     * @private
+     */
+    this.padding_ = options.padding || 5
+
+    /**
+     * The space between the controls and the edges of the map
+     * @type {number}
+     * @private
+     */
+    this.spacing_ = options.spacing || 10
+
+    /**
+     * The hidden controle
+     * @type {jQuery}
+     * @private
+     */
+    this.hidden$Elements_ = []
+
+    this.init()
+  }
+
+  init () {
+    this.detachAllListeners()
+
+    /**
+     * @type {HideableElement[]}
+     * @private
+     */
+    this.all_ = []
+
+    /**
+     * All Controls stored according their position on the map
+     * @type {object}
+     * @private
+     */
+    this.corners_ = {
+      &apos;left&apos;: {
+        &apos;top&apos;: {
+          counterclockwise: [],
+          clockwise: []
+        },
+        &apos;bottom&apos;: {
+          counterclockwise: [],
+          clockwise: []
+        }
+      },
+      &apos;right&apos;: {
+        &apos;top&apos;: {
+          counterclockwise: [],
+          clockwise: []
+        },
+        &apos;bottom&apos;: {
+          counterclockwise: [],
+          clockwise: []
+        }
+      }
+    }
+
+    /**
+     * This number tracks the order in which controls are added
+     * @type {number}
+     * @private
+     */
+    this.order_ = 0
+  }
+
+  getArray_ (float) {
+    let x, y, direction
+    switch (float[0]) {
+      case &apos;top&apos;:
+        y = &apos;top&apos;
+        x = float[1]
+        if (x === &apos;left&apos;) {
+          direction = &apos;clockwise&apos;
+        } else if (x === &apos;right&apos;) {
+          direction = &apos;counterclockwise&apos;
+        }
+        break
+      case &apos;right&apos;:
+        x = &apos;right&apos;
+        y = float[1]
+        if (y === &apos;top&apos;) {
+          direction = &apos;clockwise&apos;
+        } else if (y === &apos;bottom&apos;) {
+          direction = &apos;counterclockwise&apos;
+        }
+        break
+      case &apos;bottom&apos;:
+        y = &apos;bottom&apos;
+        x = float[1]
+        if (x === &apos;left&apos;) {
+          direction = &apos;counterclockwise&apos;
+        } else {
+          direction = &apos;clockwise&apos;
+        }
+        break
+      case &apos;left&apos;:
+        x = &apos;left&apos;
+        y = float[1]
+        if (y === &apos;top&apos;) {
+          direction = &apos;counterclockwise&apos;
+        } else {
+          direction = &apos;clockwise&apos;
+        }
+    }
+
+    return this.corners_[x][y][direction]
+  }
+
+  /**
+   * Add a control to the positioning.
+   * @param {Control} control
+   * @param {Object} [parentMeta] the meta information of the parent control
+   */
+  addControl (control, parentMeta) {
+    // check if control needs to be positioned
+    if (control.get$Element().parents().hasClass(&apos;ol-viewport&apos;)) {
+      if (!parentMeta || !parentMeta.control.isWindowed()) {
+        // gather metainformation
+        /** @type {HideableElement} */
+        let metaElem = {
+          control,
+          order: this.order_++,
+          importance: control.getImportance()
+        }
+
+        control.on(&apos;change:visible&apos;, e =&gt; {
+          let index = this.hidden$Elements_.indexOf(control.get$Element())
+          if (e.oldValue &amp;&amp; index &gt; -1) {
+            this.hidden$Elements_.splice(index, 1)
+          }
+          this.positionElements()
+        })
+
+        // repositioning if collapsible elements changes size
+        this.listenAt(control).on(&apos;change:size&apos;, () =&gt; {
+          this.positionElements()
+        })
+
+        if (!parentMeta) {
+          metaElem.float = metaElem.control.getFloat() || [&apos;top&apos;, &apos;left&apos;]
+
+          if (metaElem.float === &apos;fixed&apos;) {
+            return
+          }
+
+          this.getArray_(metaElem.float).push(metaElem)
+
+          this.all_.push(metaElem)
+
+          if (metaElem.control.getControls) {
+            metaElem.hideableChildren = []
+            for (let child of metaElem.control.getControls()) {
+              this.addControl(child, metaElem)
+            }
+          }
+        } else if (!parentMeta.control.isWindowed()) {
+          metaElem.importance = control.getImportance()
+          parentMeta.hideableChildren.push(metaElem)
+          this.all_.push(metaElem)
+        }
+      }
+    }
+  }
+
+  /**
+   * Gets the element in a corner
+   * @param {string} x
+   * @param {string} y
+   * @returns {HideableElement}
+   * @private
+   */
+  getCorner_ (x, y) {
+    let cwi = 0
+    let ccwi = 0
+
+    let cwElem = this.corners_[x][y].clockwise[cwi++]
+    let ccwElem = this.corners_[x][y].counterclockwise[ccwi++]
+
+    while (cwElem &amp;&amp; !Positioning.isElemVisible_(cwElem)) {
+      cwElem = this.corners_[x][y].clockwise[cwi++]
+    }
+
+    while (ccwElem &amp;&amp; !Positioning.isElemVisible_(ccwElem)) {
+      ccwElem = this.corners_[x][y].counterclockwise[ccwi++]
+    }
+
+    if (cwElem || ccwElem) {
+      if (!cwElem) {
+        return ccwElem
+      } else if (!ccwElem) {
+        return cwElem
+      } else {
+        if (cwElem.order &lt; ccwElem.order) {
+          return cwElem
+        } else {
+          return ccwElem
+        }
+      }
+    }
+  }
+
+  static isElemVisible_ (elem) {
+    return elem.control.get$Element().is(&apos;:visible&apos;)
+  }
+
+  /**
+   * Gets all elements at one edge
+   * @param side
+   * @returns {*|Array.&lt;Element&gt;}
+   * @private
+   */
+  getEdge_ (side) {
+    let x1, x2, y1, y2
+    if (side === &apos;top&apos;) {
+      x1 = &apos;left&apos;
+      x2 = &apos;right&apos;
+      y1 = y2 = &apos;top&apos;
+    } else if (side === &apos;right&apos;) {
+      x1 = x2 = &apos;right&apos;
+      y1 = &apos;top&apos;
+      y2 = &apos;bottom&apos;
+    } else if (side === &apos;bottom&apos;) {
+      x1 = &apos;right&apos;
+      x2 = &apos;left&apos;
+      y1 = y2 = &apos;bottom&apos;
+    } else if (side === &apos;left&apos;) {
+      x1 = x2 = &apos;left&apos;
+      y1 = &apos;bottom&apos;
+      y2 = &apos;top&apos;
+    }
+
+    let clockwise = this.corners_[x1][y1].clockwise.filter(Positioning.isElemVisible_)
+    let counterclockwise = this.corners_[x2][y2].counterclockwise.filter(Positioning.isElemVisible_)
+
+    let arr = []
+    let c = this.getCorner_(x1, y1)
+    if (c) {
+      arr.push(c)
+    }
+    arr.push(...clockwise)
+    arr.push(...counterclockwise)
+    c = this.getCorner_(x2, y2)
+    if (c) {
+      arr.push(c)
+    }
+    return uniq(arr)
+  }
+
+  /**
+   * Initializes all elements
+   * @private
+   */
+  beforePositioning_ () {
+    let elems = new Set(this.all_)
+
+    this.hidden$Elements_.forEach($e =&gt; $e.removeClass(cssClasses.hidden))
+    this.hidden$Elements_ = []
+
+    /**
+     * @param {PositionedElement} elem
+     */
+    let forEach = elem =&gt; {
+      if (Positioning.isElemVisible_(elem)) {
+        if (elem.control.beforePositioning) {
+          elem.control.beforePositioning()
+        }
+
+        if (elem.hideableChildren) {
+          for (let child of elem.hideableChildren) {
+            forEach(child)
+          }
+        }
+
+        elem.control.get$Element().position({ top: 0, left: 0 })
+        if (elem.control.release) {
+          elem.control.release(&apos;height&apos;)
+          elem.control.release(&apos;width&apos;)
+        }
+        elem.size = this.measureExpandedElement_(elem)
+      }
+
+      elems.delete(elem)
+    }
+
+    for (let elem of elems) {
+      forEach(elem)
+    }
+  }
+
+  /**
+   * called after positioning
+   * @private
+   */
+  afterPositioning_ () {
+    let elems = new Set(this.all_)
+
+    /**
+     * @param {PositionedElement} elem
+     */
+    let forEach = elem =&gt; {
+      if (elem.control.afterPositioning) {
+        elem.control.afterPositioning()
+      }
+
+      if (elem.hideableChildren) {
+        for (let child of elem.hideableChildren) {
+          forEach(child)
+        }
+      }
+
+      elems.delete(elem)
+    }
+
+    for (let elem of elems) {
+      forEach(elem)
+    }
+  }
+
+  /**
+   * Calculates summed length of all elements on one edge
+   * @param {PositionedElement[]} edgeElems
+   * @param {string} dim
+   * @returns {number}
+   * @private
+   */
+  calculateLength_ (edgeElems, dim) {
+    if (edgeElems.length === 0) {
+      return 0
+    }
+
+    let length = this.padding_ * 2
+
+    let firstElement = true
+
+    for (let elem of edgeElems) {
+      length += elem.size[dim]
+      if (firstElement) {
+        firstElement = false
+      } else {
+        length += this.spacing_
+      }
+    }
+
+    return length
+  }
+
+  calculateSide_ (side, availableSpace) {
+    let dim = (side === &apos;top&apos; || side === &apos;bottom&apos;) ? &apos;width&apos; : &apos;height&apos;
+    let elems = this.getEdge_(side)
+    let wantedSpace = this.calculateLength_(elems, dim)
+    let changed = false
+
+    while (wantedSpace &gt; availableSpace) {
+      if (this.squeezeElements_(elems, dim, wantedSpace - availableSpace)) {
+        break
+      }
+      this.hideLeastImportant_(elems)
+      elems = this.getEdge_(side)
+      wantedSpace = this.calculateLength_(elems, dim)
+      changed = true
+    }
+    return changed
+  }
+
+  positionElementsCorner_ (x, y) {
+    let corner = this.getCorner_(x, y)
+    if (corner) {
+      let xLength = this.padding_
+      let yLength = this.padding_
+      let $elem = corner.control.get$Element()
+
+      $elem.removeClass(cssClasses.hidden).css({[x]: xLength, [y]: yLength})
+
+      xLength += $elem.outerWidth() + this.spacing_
+      yLength += $elem.outerHeight() + this.spacing_
+
+      let xDirection, yDirection
+
+      if (x === &apos;left&apos; &amp;&amp; y === &apos;top&apos;) {
+        xDirection = &apos;clockwise&apos;
+        yDirection = &apos;counterclockwise&apos;
+      } else if (x === &apos;right&apos; &amp;&amp; y === &apos;top&apos;) {
+        xDirection = &apos;counterclockwise&apos;
+        yDirection = &apos;clockwise&apos;
+      } else if (x === &apos;right&apos; &amp;&amp; y === &apos;bottom&apos;) {
+        xDirection = &apos;clockwise&apos;
+        yDirection = &apos;counterclockwise&apos;
+      } else if (x === &apos;left&apos; &amp;&amp; y === &apos;bottom&apos;) {
+        xDirection = &apos;counterclockwise&apos;
+        yDirection = &apos;clockwise&apos;
+      }
+
+      // x
+      for (let elem of this.corners_[x][y][xDirection]
+        .filter(el =&gt; Positioning.isElemVisible_(el) &amp;&amp; el !== corner)) {
+        $elem = elem.control.get$Element()
+        $elem.css({[x]: xLength, [y]: this.padding_})
+        xLength += $elem.outerWidth() + this.spacing_
+      }
+
+      // y
+      for (let elem of this.corners_[x][y][yDirection]
+        .filter(el =&gt; Positioning.isElemVisible_(el) &amp;&amp; el !== corner)) {
+        $elem = elem.control.get$Element()
+        $elem.css({[x]: this.padding_, [y]: yLength})
+        yLength += $elem.outerHeight() + this.spacing_
+      }
+    }
+  }
+
+  /**
+   * (Re-)Position the controls on the map
+   */
+  positionElements () {
+    let width = this.$viewport_.innerWidth()
+    let height = this.$viewport_.innerHeight()
+
+    this.beforePositioning_()
+
+    // calculation
+    let processSides = new Set([&apos;top&apos;, &apos;left&apos;, &apos;bottom&apos;, &apos;right&apos;])
+
+    while (processSides.size) {
+      if (processSides.has(&apos;top&apos;)) {
+        if (this.calculateSide_(&apos;top&apos;, width)) {
+          processSides.add(&apos;left&apos;)
+          processSides.add(&apos;right&apos;)
+        }
+
+        processSides.delete(&apos;top&apos;)
+      }
+
+      if (processSides.has(&apos;right&apos;)) {
+        if (this.calculateSide_(&apos;right&apos;, height)) {
+          processSides.add(&apos;top&apos;)
+          processSides.add(&apos;bottom&apos;)
+        }
+
+        processSides.delete(&apos;right&apos;)
+      }
+
+      if (processSides.has(&apos;bottom&apos;)) {
+        if (this.calculateSide_(&apos;bottom&apos;, width)) {
+          processSides.add(&apos;left&apos;)
+          processSides.add(&apos;right&apos;)
+        }
+
+        processSides.delete(&apos;bottom&apos;)
+      }
+
+      if (processSides.has(&apos;left&apos;)) {
+        if (this.calculateSide_(&apos;left&apos;, height)) {
+          processSides.add(&apos;top&apos;)
+          processSides.add(&apos;bottom&apos;)
+        }
+
+        processSides.delete(&apos;left&apos;)
+      }
+    }
+
+    // positioning
+
+    this.positionElementsCorner_(&apos;left&apos;, &apos;top&apos;)
+    this.positionElementsCorner_(&apos;right&apos;, &apos;top&apos;)
+    this.positionElementsCorner_(&apos;right&apos;, &apos;bottom&apos;)
+    this.positionElementsCorner_(&apos;left&apos;, &apos;bottom&apos;)
+
+    this.afterPositioning_()
+  }
+
+  /**
+   * Tries to squeeze the elements on one edge to fit the space. Returns true if it did work, false otherwise.
+   * @param {PositionedElement[]} elems
+   * @param {string} side
+   * @param {number} neededSpace
+   * @private
+   * @returns {boolean}
+   */
+  squeezeElements_ (elems, side, neededSpace) {
+    let squeezableElements = []
+
+    function insert (item, x = 0, y = squeezableElements.length) {
+      if (y === x) {
+        squeezableElements.splice(x, 0, item)
+      } else {
+        let p = Math.floor((x + y) / 2)
+        if (item.importance &lt;= squeezableElements[p].importance) {
+          insert(item, x, p)
+        } else {
+          insert(item, p + 1, y)
+        }
+      }
+    }
+
+    /**
+     * @param {PositionedElement[]} elems
+     */
+    function findSqueezables (elems) {
+      for (let elem of elems) {
+        if (elem.control.isSqueezable &amp;&amp; elem.control.isSqueezable(side)) {
+          insert(elem)
+        }
+        if (elem.hideableChildren) {
+          findSqueezables(elem.hideableChildren)
+        }
+      }
+    }
+
+    findSqueezables(elems)
+
+    for (let elem of squeezableElements) {
+      neededSpace -= elem.control.squeezeBy(side, neededSpace)
+
+      if (neededSpace &lt;= 0) {
+        return true
+      }
+    }
+
+    for (let elem of squeezableElements) {
+      elem.control.release(side)
+    }
+
+    return false
+  }
+
+  /**
+   * Expands element to maximum size
+   * @param {PositionedElement} elem
+   * @returns {Array}
+   * @private
+   */
+  expandElement_ (elem) {
+    let expanded = []
+
+    if (elem.hideableChildren) {
+      for (let child of elem.hideableChildren) {
+        expanded.push(...this.expandElement_(child))
+      }
+    }
+    if (elem.control.getCollapsible &amp;&amp; elem.control.getCollapsible()) {
+      if (elem.control.getCollapsed()) {
+        elem.control.setCollapsed(false, true)
+        expanded.push(elem.control)
+      }
+    }
+
+    return expanded
+  }
+
+  /**
+   * measures size of the element
+   * @param {PositionedElement} elem
+   * @returns {{width: number, height: number}}
+   * @private
+   */
+  measureExpandedElement_ (elem) {
+    // let expanded = this.expandElement_(elem)
+    let $elem = elem.control.get$Element()
+    let size = {width: $elem.outerWidth(), height: $elem.outerHeight()}
+    // for (let exp of expanded) {
+    //   exp.setCollapsed(true, true)
+    // }
+    return size
+  }
+
+  /**
+   * Hides the least important element of the given ones.
+   * @param {PositionedElement[]} elems visible elements
+   * @private
+   */
+  hideLeastImportant_ (elems) {
+    /**
+     * @param {PositionedElement[]} elems
+     * @returns {PositionedElement}
+     */
+    let findLeastImportant = function (elems) {
+      let leastImportant
+      for (let elem of elems) {
+        if (!leastImportant) {
+          leastImportant = elem
+        } else {
+          if (elem.importance &lt; leastImportant.importance) {
+            leastImportant = elem
+          }
+        }
+
+        if (elem.hideableChildren) {
+          let hideableChildren = elem.hideableChildren.filter(el =&gt; Positioning.isElemVisible_)
+          if (hideableChildren.length) {
+            let leastImportantChild = findLeastImportant(hideableChildren)
+            if (leastImportantChild.importance &lt; leastImportant.importance) {
+              leastImportant = leastImportantChild
+            }
+          }
+        }
+      }
+      return leastImportant
+    }
+
+    let leastImportant = findLeastImportant(elems)
+    leastImportant.control.get$Element().addClass(cssClasses.hidden)
+    this.hidden$Elements_.push(leastImportant.control.get$Element())
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.3)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

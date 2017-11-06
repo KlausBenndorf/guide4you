@@ -6,9 +6,8 @@
 
 Thumbs.db
 
-# build/doc only contains generated files
+# build only contains generated files
 /build/
-/doc/
 
 # CSS files in css/less only occur by accident
 /less/*.css

@@ -243,6 +243,7 @@ export class Window extends ol.Object {
 
   /**
    * @param {boolean} visible
+   * @param {boolean} [popHistory=true]
    */
   setVisible (visible, popHistory = true) {
     let oldValue = this.visible_

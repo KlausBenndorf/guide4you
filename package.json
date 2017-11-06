@@ -33,7 +33,8 @@
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
-    "esdoc": "1.0.0-alpha.3",
+    "esdoc": "^1.0.3",
+    "esdoc-standard-plugin": "^1.0.0",
     "guide4you-builder": "2.1.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "^0.10.0",
@@ -51,7 +52,7 @@
     "debugBuild": "g4u-build -d -m prod -c",
     "dev": "g4u-build -m dev -c",
     "lint": "eslint src/ tests/",
-    "version": "(npm run test && git add -A) || git checkout .",
+    "version": "(npm run test && npm run doc && git add -A) || git checkout .",
     "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
     "runTests": " concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
     "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",

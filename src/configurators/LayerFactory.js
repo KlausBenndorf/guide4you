@@ -66,6 +66,7 @@ export const LayerType = {
  * @property {null} [crossOrigin] will be setted automatically.
  * @property {string} loadingStrategy
  * @property {URLLike} url
+ * @property {
  */
 
 /**
