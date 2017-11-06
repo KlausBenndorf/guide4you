@@ -1,4 +1,4 @@
-# ![Guide4You](images/g4u-logo.png) guide4you
+# ![Guide4You](https://github.com/KlausBenndorf/guide4you/raw/master/images/g4u-logo.png) guide4you
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/KlausBenndorf/guide4you.svg)](https://greenkeeper.io/)
 
@@ -10,7 +10,7 @@
 **GUIDE4YOU** is a JavaScript Web client application built on [OpenLayers](http://openlayers.org)
 that supports both desktop and mobile web browsers and features a responsive design.
 
-![Screenshot of desktop view, 736x467 pixel](https://github.com/KlausBenndorf/guide4you/blob/master/images/screenshots/desktop-736-467.png "Screenshot of desktop view, 736x467 pixel")
+![Screenshot of desktop view, 736x467 pixel](https://github.com/KlausBenndorf/guide4you/raw/master/images/screenshots/desktop-736-467.png "Screenshot of desktop view, 736x467 pixel")
 
 For a screenshot of the mobile view [see below](#mobile-screenshot).
 
@@ -89,4 +89,4 @@ Can be found under [https://klausbenndorf.github.io/guide4you/index.html](https:
 
 ## <a name="mobile-screenshot"></a>Mobile Screenshot
 
-![Screenshot of mobile view, 360x640 pixel](https://github.com/KlausBenndorf/guide4you/blob/master/images/screenshots/mobile-360-640.png "Screenshot of mobile view, 360x640 pixel")
+![Screenshot of mobile view, 360x640 pixel](https://github.com/KlausBenndorf/guide4you/raw/master/images/screenshots/mobile-360-640.png "Screenshot of mobile view, 360x640 pixel")
