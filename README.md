@@ -5,11 +5,12 @@
 [![NPM](https://nodei.co/npm/guide4you.png?mini=true)](https://npmjs.org/package/guide4you)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Continuous Integration](https://travis-ci.org/KlausBenndorf/guide4you.svg?branch=master)](https://travis-ci.org/KlausBenndorf/guide4you)
+[![Documentation Coverage](http://klausbenndorf.github.io/guide4you/badge.svg)](http://klausbenndorf.github.io/guide4you/index.html)
 
 **GUIDE4YOU** is a JavaScript Web client application built on [OpenLayers](http://openlayers.org)
 that supports both desktop and mobile web browsers and features a responsive design.
 
-![Screenshot of desktop view, 736x467 pixel](images/screenshots/desktop-736-467.png "Screenshot of desktop view, 736x467 pixel")
+![Screenshot of desktop view, 736x467 pixel](https://github.com/KlausBenndorf/guide4you/blob/master/images/screenshots/desktop-736-467.png "Screenshot of desktop view, 736x467 pixel")
 
 For a screenshot of the mobile view [see below](#mobile-screenshot).
 
@@ -84,8 +85,8 @@ npm run dev conf/simple
 
 ## Generated documentation
 
-Can be found under [klausbenndorf.github.io/guide4you](http://klausbenndorf.github.io/guide4you).
+Can be found under [https://klausbenndorf.github.io/guide4you/index.html](https://klausbenndorf.github.io/guide4you/index.html).
 
 ## <a name="mobile-screenshot"></a>Mobile Screenshot
 
-![Screenshot of mobile view, 360x640 pixel](images/screenshots/mobile-360-640.png "Screenshot of mobile view, 360x640 pixel")
+![Screenshot of mobile view, 360x640 pixel](https://github.com/KlausBenndorf/guide4you/blob/master/images/screenshots/mobile-360-640.png "Screenshot of mobile view, 360x640 pixel")
