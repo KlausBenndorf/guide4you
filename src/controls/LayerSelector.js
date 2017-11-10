@@ -249,12 +249,18 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     if (categoryLayer.get('available')) {
       let activateChildren = categoryLayer.get('activateChildren') !== false
 
+      let collapsed = categoryLayer.get('collapsed')
+      if (collapsed === undefined) {
+        collapsed = !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false)
+        categoryLayer.set('collapsed', collapsed)
+      }
+
       let menu = new ButtonBox({
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
         rtl: this.getMap().get('localiser').isRtl(),
         titleButton: activateChildren,
-        collapsed: !categoryLayer.countChildrenVisible() && (categoryLayer.get('collapsed') !== false),
+        collapsed,
         id: categoryLayer.get('id')
       })
 
@@ -322,6 +328,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       this.listenAt(menu)
         .on('change:collapsed', () => {
+          categoryLayer.set('collapsed', menu.getCollapsed())
           this.dispatchEvent('change:size')
           this.changed()
         })
