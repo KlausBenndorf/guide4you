@@ -103,42 +103,52 @@
       "visible": false
     },
     {
-      "id": "f1",
+      "id": "c1",
       "title": {
-        "en": "Hotels in Bonn",
-        "de": "Hotels in Bonn"
+        "de": "Essen und Schlafen in Bonn",
+        "en": "Eating and sleeping in Bonn"
       },
-      "type": "KML",
-      "source": {
-        "loadingStrategy": "BBOX",
-        "bboxRatio": 1.2,
-        "url": "files/hotelsbonn.kml?bbox={bboxleft},{bboxbottom},{bboxright},{bboxtop}",
-        "cluster": true,
-        "attribution": {
-          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
-          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
-        }
-      },
-      "style": "#defaultStyle"
-    },
-    {
-      "id": "f2",
-      "title": {
-        "en": "Restaurants in Bonn",
-        "de": "Restaurants in Bonn"
-      },
-      "type": "KML",
-      "source": {
-        "cluster": {
-          "distance": 100
+      "type": "Category",
+      "layers": [
+        {
+          "id": "f1",
+          "title": {
+            "en": "Hotels in Bonn",
+            "de": "Hotels in Bonn"
+          },
+          "type": "KML",
+          "source": {
+            "loadingStrategy": "BBOX",
+            "bboxRatio": 1.2,
+            "url": "files/hotelsbonn.kml?bbox={bboxleft},{bboxbottom},{bboxright},{bboxtop}",
+            "cluster": true,
+            "attribution": {
+              "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+              "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+            }
+          },
+          "style": "#defaultStyle"
         },
-        "url": "files/restaurantsbonn.kml",
-        "attribution": {
-          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
-          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        {
+          "id": "f2",
+          "title": {
+            "en": "Restaurants in Bonn",
+            "de": "Restaurants in Bonn"
+          },
+          "type": "KML",
+          "source": {
+            "cluster": {
+              "distance": 100
+            },
+            "url": "files/restaurantsbonn.kml",
+            "attribution": {
+              "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+              "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+            }
+          },
+          "style": "#iconStyle"
         }
-      },
-      "style": "#iconStyle"
+      ]
     },
     {
       "id": "f3",
