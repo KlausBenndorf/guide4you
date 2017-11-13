@@ -623,36 +623,27 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * @private
    */
   hideLeastImportant_ (elems) {
-    /**
-     * @param {PositionedElement[]} elems
-     * @returns {PositionedElement}
-     */
-    let findLeastImportant = function (elems) {
-      let leastImportant
-      for (let elem of elems) {
-        if (!leastImportant) {
-          leastImportant = elem
-        } else {
-          if (elem.importance < leastImportant.importance) {
-            leastImportant = elem
-          }
-        }
-
-        if (elem.hideableChildren) {
-          let hideableChildren = elem.hideableChildren.filter(el => Positioning.isElemVisible_)
-          if (hideableChildren.length) {
-            let leastImportantChild = findLeastImportant(hideableChildren)
-            if (leastImportantChild.importance < leastImportant.importance) {
-              leastImportant = leastImportantChild
-            }
-          }
-        }
+    let leastImportant = elems[0]
+    for (let elem of elems.slice(1)) {
+      if (elem.importance < leastImportant.importance) {
+        leastImportant = elem
       }
-      return leastImportant
     }
 
-    let leastImportant = findLeastImportant(elems)
-    leastImportant.control.get$Element().addClass(cssClasses.hidden)
-    this.hidden$Elements_.push(leastImportant.control.get$Element())
+    let childHidden = false
+    if (leastImportant.hideableChildren) {
+      let hideableChildren = leastImportant.hideableChildren.filter(Positioning.isElemVisible_)
+      if (hideableChildren.length > 1) {
+        this.hideLeastImportant_(hideableChildren)
+        childHidden = true
+      }
+    }
+
+    if (childHidden) {
+      leastImportant.size = this.measureExpandedElement_(leastImportant)
+    } else {
+      leastImportant.control.get$Element().addClass(cssClasses.hidden)
+      this.hidden$Elements_.push(leastImportant.control.get$Element())
+    }
   }
 }
