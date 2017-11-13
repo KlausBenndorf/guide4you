@@ -10,7 +10,7 @@ import { GroupLayer } from '../layers/GroupLayer'
 
 import '../../less/attribution.less'
 import { uniq } from 'lodash/array'
-import { FunctionCallBuffer } from '../FunctionCallBuffer'
+import { debounce } from 'lodash/function'
 
 function groupByChain (col) {
   return {
@@ -47,7 +47,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
     this.setCollapsed(options.collapsed === true)
 
-    this.updateListCallBuffer = new FunctionCallBuffer(() => this.updateList())
+    this.debouncedUpdateList = debounce(() => this.updateList())
   }
 
   setCollapsed (collapsed, silent) {
@@ -176,22 +176,22 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
       this.listenAt(layer.getLayers())
         .on('add', e => {
           this.attachListeners(e.element)
-          this.updateListCallBuffer.call()
+          this.debouncedUpdateList()
         })
         .on('remove', e => {
           this.detachFrom(e.element)
-          this.updateListCallBuffer.call()
+          this.debouncedUpdateList()
         })
     }
 
     if (!(layer instanceof GroupLayer)) {
       this.listenAt(layer)
         .on('change:visible', () => {
-          this.updateListCallBuffer.call()
+          this.debouncedUpdateList()
         })
         .on('change:source', () => {
           if (layer.getVisible()) {
-            this.updateListCallBuffer.call()
+            this.debouncedUpdateList()
           }
         })
     }
@@ -227,7 +227,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     if (map) {
       setTimeout(() => {
         this.attachListeners(map.getLayerGroup())
-        this.updateListCallBuffer.call()
+        this.debouncedUpdateList()
         this.updateRtl()
         this.listenAt(map.get('localiser')).on('change:language', () => {
           this.updateRtl()
