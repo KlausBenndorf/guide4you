@@ -24,10 +24,10 @@ import {cssClasses} from '../globals'
 import {FeatureSelect} from '../interactions/FeatureSelect'
 
 import {parseCSSColor} from 'csscolorparser'
-import {FunctionCallBuffer} from '../FunctionCallBuffer'
 import {ShowWMSFeatureInfo} from '../ShowWMSFeatureInfo'
 
 import {History} from '../html/History'
+import { debounce } from 'lodash/function'
 
 /**
  * This class configures the UI of a map according to its mapconfig
@@ -182,27 +182,25 @@ export class UIConfigurator {
 
     this.map_.set('controlPositioning', new Positioning(positioningOptions))
 
-    let positionCallBuffer = new FunctionCallBuffer(() => {
-      return this.map_.get('controlPositioning').positionElements()
-    })
+    let debouncedPosition = debounce(() => this.map_.get('controlPositioning').positionElements())
 
-    this.map_.on('ready', () => positionCallBuffer.call())
+    this.map_.on('ready', debouncedPosition)
 
     this.map_.asSoonAs('ready', true, () => {
-      this.map_.on('resize', () => positionCallBuffer.call())
+      this.map_.on('resize', debouncedPosition)
       this.map_.on('ready:ui', () => {
         if (this.map_.get('ready:ui')) {
-          positionCallBuffer.call()
+          debouncedPosition()
         }
       })
-      this.map_.on('change:mobile', () => positionCallBuffer.call())
+      this.map_.on('change:mobile', debouncedPosition)
 
       this.map_.on('ready:layers', () => {
-        positionCallBuffer.call()
-        this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(() => positionCallBuffer.call(), 200))
+        debouncedPosition()
+        this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(debouncedPosition, 200))
       })
 
-      this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(() => positionCallBuffer.call(), 200))
+      this.map_.getLayerGroup().forEachOn('change:visible', () => setTimeout(debouncedPosition, 200))
     })
 
     //
