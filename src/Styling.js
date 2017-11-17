@@ -64,7 +64,7 @@ export class Styling {
   /**
    * @param {Object} [options]
    * @param {Object} [options.styleConfigMap]
-   * @param {number} [options.globalIconScale]
+   * @param {number} [options.scaleIcons]
    * @param {boolean} [options.manageStyles=true]
    */
   constructor (options = {}) {
@@ -115,8 +115,8 @@ export class Styling {
      */
     this.allStyles_ = new Set()
 
-    if (options.globalIconScale) {
-      this.setGlobalIconScale(options.globalIconScale)
+    if (options.scaleIcons) {
+      this.setGlobalIconScale(options.scaleIcons)
     }
 
     let _this = this
