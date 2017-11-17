@@ -126,12 +126,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/functioncallbuffer.js~functioncallbuffer",
-    "class/src/FunctionCallBuffer.js~FunctionCallBuffer.html",
-    "<span>FunctionCallBuffer</span> <span class=\"search-result-import-path\">guide4you/src/FunctionCallBuffer.js</span>",
-    "class"
-  ],
-  [
     "guide4you/src/g4umap.js~g4umap",
     "class/src/G4UMap.js~G4UMap.html",
     "<span>G4UMap</span> <span class=\"search-result-import-path\">guide4you/src/G4UMap.js</span>",
@@ -1306,42 +1300,6 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-FeatureTooltipOptions",
     "src/FeatureTooltip.js~FeatureTooltipOptions",
     "typedef"
-  ],
-  [
-    "src/functioncallbuffer.js",
-    "file/src/FunctionCallBuffer.js.html",
-    "src/FunctionCallBuffer.js",
-    "file"
-  ],
-  [
-    "src/functioncallbuffer.js~functioncallbuffer#buffertime_",
-    "class/src/FunctionCallBuffer.js~FunctionCallBuffer.html#instance-member-bufferTime_",
-    "src/FunctionCallBuffer.js~FunctionCallBuffer#bufferTime_",
-    "member"
-  ],
-  [
-    "src/functioncallbuffer.js~functioncallbuffer#call",
-    "class/src/FunctionCallBuffer.js~FunctionCallBuffer.html#instance-method-call",
-    "src/FunctionCallBuffer.js~FunctionCallBuffer#call",
-    "method"
-  ],
-  [
-    "src/functioncallbuffer.js~functioncallbuffer#constructor",
-    "class/src/FunctionCallBuffer.js~FunctionCallBuffer.html#instance-constructor-constructor",
-    "src/FunctionCallBuffer.js~FunctionCallBuffer#constructor",
-    "method"
-  ],
-  [
-    "src/functioncallbuffer.js~functioncallbuffer#func_",
-    "class/src/FunctionCallBuffer.js~FunctionCallBuffer.html#instance-member-func_",
-    "src/FunctionCallBuffer.js~FunctionCallBuffer#func_",
-    "member"
-  ],
-  [
-    "src/functioncallbuffer.js~functioncallbuffer#timeout_",
-    "class/src/FunctionCallBuffer.js~FunctionCallBuffer.html#instance-member-timeout_",
-    "src/FunctionCallBuffer.js~FunctionCallBuffer#timeout_",
-    "member"
   ],
   [
     "src/g4umap.js",
@@ -2784,6 +2742,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/controls/attribution.js~attribution#debouncedupdatelist",
+    "class/src/controls/Attribution.js~Attribution.html#instance-member-debouncedUpdateList",
+    "src/controls/Attribution.js~Attribution#debouncedUpdateList",
+    "member"
+  ],
+  [
     "src/controls/attribution.js~attribution#getcollapsed",
     "class/src/controls/Attribution.js~Attribution.html#instance-method-getCollapsed",
     "src/controls/Attribution.js~Attribution#getCollapsed",
@@ -2824,12 +2788,6 @@ window.esdocSearchIndex = [
     "class/src/controls/Attribution.js~Attribution.html#instance-method-updateList",
     "src/controls/Attribution.js~Attribution#updateList",
     "method"
-  ],
-  [
-    "src/controls/attribution.js~attribution#updatelistcallbuffer",
-    "class/src/controls/Attribution.js~Attribution.html#instance-member-updateListCallBuffer",
-    "src/controls/Attribution.js~Attribution#updateListCallBuffer",
-    "member"
   ],
   [
     "src/controls/attribution.js~attribution#updatertl",
@@ -4728,9 +4686,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/html/window.js~window#setiscrollenabled_",
-    "class/src/html/Window.js~Window.html#instance-method-setIScrollEnabled_",
-    "src/html/Window.js~Window#setIScrollEnabled_",
+    "src/html/window.js~window#setenablemobilescrolling_",
+    "class/src/html/Window.js~Window.html#instance-method-setEnableMobileScrolling_",
+    "src/html/Window.js~Window#setEnableMobileScrolling_",
     "method"
   ],
   [
