@@ -1,7 +1,7 @@
 {
-  "coverage": "75.03%",
-  "expectCount": 753,
-  "actualCount": 565,
+  "coverage": "74.83%",
+  "expectCount": 747,
+  "actualCount": 559,
   "files": {
     "src/configurators/ControlFactory.js": {
       "expectCount": 12,
@@ -35,10 +35,10 @@
       "actualCount": 10,
       "undocumentLines": [
         154,
-        267,
-        302,
-        304,
-        390
+        268,
+        303,
+        305,
+        391
       ]
     },
     "src/controls/ActivatableMixin.js": {
@@ -158,13 +158,13 @@
       "undocumentLines": [
         133,
         141,
-        341,
-        508,
-        513,
-        514,
-        528,
-        571,
-        572
+        348,
+        515,
+        520,
+        521,
+        535,
+        578,
+        579
       ]
     },
     "src/controls/LinkButton.js": {
@@ -273,11 +273,6 @@
       "undocumentLines": [
         63
       ]
-    },
-    "src/FunctionCallBuffer.js": {
-      "expectCount": 6,
-      "actualCount": 6,
-      "undocumentLines": []
     },
     "src/G4UMap.js": {
       "expectCount": 24,
