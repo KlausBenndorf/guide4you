@@ -61,8 +61,10 @@ export class FeatureTooltip {
   }
 
   static canDisplay (feature) {
-    return !feature.get('disabled') && (feature.get('name') ||
-      (feature.get('features') && feature.get('features').length === 1))
+    if (feature.get('features') && feature.get('features').length === 1) {
+      feature = feature.get('features')[0]
+    }
+    return !feature.get('disabled') && feature.get('name')
   }
 
   /**

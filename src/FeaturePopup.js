@@ -155,16 +155,11 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    * @returns {boolean}
    */
   static canDisplay (feature) {
-    if (feature.get('disabled')) {
-      return false
-    }
-    if (feature.get('name') || (feature.get('description') && $(feature.get('description')).text().match(/\S/))) {
-      return true
-    }
     if (feature.get('features') && feature.get('features').length === 1) {
-      return true
+      feature = feature.get('features')[0]
     }
-    return false
+    return !feature.get('disabled') &&
+      (feature.get('name') || (feature.get('description') && $(feature.get('description')).text().match(/\S/)))
   }
 
   /**
