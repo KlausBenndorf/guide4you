@@ -32,7 +32,6 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FunctionCallBuffer.js~FunctionCallBuffer.html">FunctionCallBuffer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/L10N.js~L10N.html">L10N</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span></span></li>
@@ -216,7 +215,7 @@ import { GroupLayer } from &apos;../layers/GroupLayer&apos;
 
 import &apos;../../less/attribution.less&apos;
 import { uniq } from &apos;lodash/array&apos;
-import { FunctionCallBuffer } from &apos;../FunctionCallBuffer&apos;
+import { debounce } from &apos;lodash/function&apos;
 
 function groupByChain (col) {
   return {
@@ -253,7 +252,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
     this.setCollapsed(options.collapsed === true)
 
-    this.updateListCallBuffer = new FunctionCallBuffer(() =&gt; this.updateList())
+    this.debouncedUpdateList = debounce(() =&gt; this.updateList())
   }
 
   setCollapsed (collapsed, silent) {
@@ -382,22 +381,22 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
       this.listenAt(layer.getLayers())
         .on(&apos;add&apos;, e =&gt; {
           this.attachListeners(e.element)
-          this.updateListCallBuffer.call()
+          this.debouncedUpdateList()
         })
         .on(&apos;remove&apos;, e =&gt; {
           this.detachFrom(e.element)
-          this.updateListCallBuffer.call()
+          this.debouncedUpdateList()
         })
     }
 
     if (!(layer instanceof GroupLayer)) {
       this.listenAt(layer)
         .on(&apos;change:visible&apos;, () =&gt; {
-          this.updateListCallBuffer.call()
+          this.debouncedUpdateList()
         })
         .on(&apos;change:source&apos;, () =&gt; {
           if (layer.getVisible()) {
-            this.updateListCallBuffer.call()
+            this.debouncedUpdateList()
           }
         })
     }
@@ -433,7 +432,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     if (map) {
       setTimeout(() =&gt; {
         this.attachListeners(map.getLayerGroup())
-        this.updateListCallBuffer.call()
+        this.debouncedUpdateList()
         this.updateRtl()
         this.listenAt(map.get(&apos;localiser&apos;)).on(&apos;change:language&apos;, () =&gt; {
           this.updateRtl()

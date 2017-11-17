@@ -32,7 +32,6 @@
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FunctionCallBuffer.js~FunctionCallBuffer.html">FunctionCallBuffer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/L10N.js~L10N.html">L10N</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span></span></li>
@@ -455,12 +454,18 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     if (categoryLayer.get(&apos;available&apos;)) {
       let activateChildren = categoryLayer.get(&apos;activateChildren&apos;) !== false
 
+      let collapsed = categoryLayer.get(&apos;collapsed&apos;)
+      if (collapsed === undefined) {
+        collapsed = !categoryLayer.countChildrenVisible() &amp;&amp; (categoryLayer.get(&apos;collapsed&apos;) !== false)
+        categoryLayer.set(&apos;collapsed&apos;, collapsed)
+      }
+
       let menu = new ButtonBox({
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get(&apos;title&apos;)),
         rtl: this.getMap().get(&apos;localiser&apos;).isRtl(),
         titleButton: activateChildren,
-        collapsed: !categoryLayer.countChildrenVisible() &amp;&amp; (categoryLayer.get(&apos;collapsed&apos;) !== false),
+        collapsed,
         id: categoryLayer.get(&apos;id&apos;)
       })
 
@@ -528,6 +533,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       this.listenAt(menu)
         .on(&apos;change:collapsed&apos;, () =&gt; {
+          categoryLayer.set(&apos;collapsed&apos;, menu.getCollapsed())
           this.dispatchEvent(&apos;change:size&apos;)
           this.changed()
         })
