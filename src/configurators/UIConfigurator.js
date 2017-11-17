@@ -233,7 +233,10 @@ export class UIConfigurator {
       }
     }
 
-    this.map_.on('change:mobile', this.getHandleMobileChange_())
+    let mobileChangeHandler = this.getHandleMobileChange_()
+    this.map_.on('change:mobile', mobileChangeHandler)
+
+    debounce(mobileChangeHandler)()
 
     //
     // Enabling/Disabling responsiveness
