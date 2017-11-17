@@ -5,7 +5,7 @@ import {offset} from '../utilities'
 import {getInFront} from './html'
 import {cssClasses} from '../globals'
 
-import IScroll from 'iscroll/build/iscroll'
+import BScroll from 'better-scroll'
 
 import '../../less/window.less'
 
@@ -124,10 +124,10 @@ export class Window extends ol.Object {
       let onChangeMobile = () => {
         if (this.map_.get('mobile')) {
           this.draggable_ = false
-          this.setIScrollEnabled_(true)
+          this.setEnableMobileScrolling_(true)
         } else {
           this.draggable_ = initialDraggable
-          this.setIScrollEnabled_(false)
+          this.setEnableMobileScrolling_(false)
         }
         this.updateSize()
       }
@@ -207,30 +207,40 @@ export class Window extends ol.Object {
    * @param {boolean} scrollable
    * @private
    */
-  setIScrollEnabled_ (scrollable) {
+  setEnableMobileScrolling_ (scrollable) {
     if (scrollable) {
       if (!this.scroll_) {
-        this.scroll_ = new IScroll(this.$scrollWrapper_.get(0), {
-          mouseWheel: true,
-          scrollbars: true,
-          momentum: false,
-          interactiveScrollbars: true,
-          // bounce: true,
-          click: true,
-          keyBindings: true,
-          disablePointer: true,
-          disableTouch: false,
-          disableMouse: true,
-          eventPassthrough: false
+        this.scroll_ = new BScroll(this.$scrollWrapper_.get(0), {
+          scrollbar: true,
+          bounce: false
+          // mouseWheel: true,
+          //
+          // momentum: false,
+          // interactiveScrollbars: true,
+          // // bounce: true,
+          // click: true,
+          // keyBindings: true,
+          // disablePointer: true,
+          // disableTouch: false,
+          // disableMouse: true,
+          // eventPassthrough: false
         })
+
+        window.addEventListener('wheel', e => {
+          if (this.scroll_.enabled) {
+            this.scroll_.scrollTo(0, Math.max(this.scroll_.maxScrollY, Math.min(0, this.scroll_.y - e.deltaY)), 100)
+          }
+        })
+      } else {
+        this.scroll_.enable()
       }
     } else {
       if (this.scroll_) {
         this.scroll_.scrollTo(0, 0, 0)
-        this.scroll_.destroy()
-        this.$body_.removeAttr('style')
+        this.scroll_.disable()
+        // this.$body_.removeAttr('style')
       }
-      this.scroll_ = null
+      // this.scroll_ = null
     }
   }
 
