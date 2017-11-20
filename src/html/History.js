@@ -25,9 +25,12 @@ export class History {
   }
 
   pop () {
-    let cb = this.callbacks_.pop()
-    if (cb) {
-      cb()
+    this.callbacks_.pop()()
+  }
+
+  flush () {
+    while (this.callbacks_.length) {
+      this.pop()
     }
   }
 }
