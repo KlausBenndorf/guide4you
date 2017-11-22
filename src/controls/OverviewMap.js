@@ -78,4 +78,8 @@ export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin
       this.listenAt($button).on('click', () => this.dispatchEvent('change:size'))
     }
   }
+
+  afterPositioning () {
+    this.getOverviewMap().updateSize()
+  }
 }
