@@ -88,12 +88,7 @@ export class WMSFeatureInfoMixin {
   }
 
   arrayContainsAll (arr, contains) {
-    for (let needle in contains) {
-      if (arr.indexOf(needle) < 0) {
-        return false
-      }
-    }
-    return true
+    return contains.every(needle => arr.indexOf(needle) >= 0)
   }
 
   getWMSLayersVisible (names) {
