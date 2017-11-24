@@ -129,7 +129,7 @@ export class Window extends ol.Object {
           }
         } else {
           this.draggable_ = initialDraggable
-          if (this.getVisible()) {
+          if (this.scroll_ && this.scroll_.enabled) {
             this.setEnableMobileScrolling_(false)
           }
         }

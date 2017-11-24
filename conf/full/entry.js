@@ -36,8 +36,8 @@ import 'file-loader?name=images/doc/[name].[ext]!../../images/doc/zoom.png'
 import 'file-loader?name=proxy/[name].[ext]!mustache-loader!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
-export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal(target, clientConf, layerConf)
+export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf, options) {
+  return createMapInternal(target, clientConf, layerConf, options)
 }
 
 export * from '../../src/exports'

@@ -10,8 +10,8 @@ import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 // exports
 
 export function createMap (target, clientConf = './conf/client.commented.json',
-                           layerConf = './conf/layers.commented.json') {
-  return createMapInternal(target, clientConf, layerConf)
+                           layerConf = './conf/layers.commented.json', options) {
+  return createMapInternal(target, clientConf, layerConf, options)
 }
 
 export * from '../../src/exports'
