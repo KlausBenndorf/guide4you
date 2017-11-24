@@ -5133,10 +5133,14 @@ var Window = exports.Window = function (_ol$Object) {
       var onChangeMobile = function onChangeMobile() {
         if (_this.map_.get('mobile')) {
           _this.draggable_ = false;
-          _this.setEnableMobileScrolling_(true);
+          if (_this.getVisible()) {
+            _this.setEnableMobileScrolling_(true);
+          }
         } else {
           _this.draggable_ = initialDraggable;
-          _this.setEnableMobileScrolling_(false);
+          if (_this.getVisible()) {
+            _this.setEnableMobileScrolling_(false);
+          }
         }
         _this.updateSize();
       };
@@ -5218,7 +5222,7 @@ var Window = exports.Window = function (_ol$Object) {
     }
 
     /**
-     * Enables/Disables the iscroll needed for mobile scrolling
+     * Enables/Disables the scroll lib needed for mobile scrolling
      * @param {boolean} scrollable
      * @private
      */
@@ -5247,7 +5251,7 @@ var Window = exports.Window = function (_ol$Object) {
           });
 
           window.addEventListener('wheel', function (e) {
-            if (_this3.scroll_.enabled) {
+            if (_this3.getVisible() && _this3.scroll_.enabled) {
               _this3.scroll_.scrollTo(0, Math.max(_this3.scroll_.maxScrollY, Math.min(0, _this3.scroll_.y - e.deltaY)), 100);
             }
           });
@@ -5258,9 +5262,7 @@ var Window = exports.Window = function (_ol$Object) {
         if (this.scroll_) {
           this.scroll_.scrollTo(0, 0, 0);
           this.scroll_.disable();
-          // this.$body_.removeAttr('style')
         }
-        // this.scroll_ = null
       }
     }
 
@@ -5291,6 +5293,7 @@ var Window = exports.Window = function (_ol$Object) {
         if (visible) {
           this.$element_.removeClass(_globals.cssClasses.hidden);
           if (this.map_.get('mobile')) {
+            this.setEnableMobileScrolling_(true);
             this.map_.get('shield').setActive(true);
             this.map_.get('shield').add$OnTop(this.$element_, {
               findParentWindow: false
@@ -5303,6 +5306,9 @@ var Window = exports.Window = function (_ol$Object) {
             this.getInFront();
           }
         } else {
+          if (this.map_.get('mobile')) {
+            this.setEnableMobileScrolling_(false);
+          }
           if (this.shieldActivated_) {
             if (popHistory) {
               this.map_.get('history').pop();
@@ -10783,16 +10789,10 @@ var FeaturePopup = exports.FeaturePopup = function (_mixin) {
   }], [{
     key: 'canDisplay',
     value: function canDisplay(feature) {
-      if (feature.get('disabled')) {
-        return false;
-      }
-      if (feature.get('name') || feature.get('description') && (0, _jquery2.default)(feature.get('description')).text().match(/\S/)) {
-        return true;
-      }
       if (feature.get('features') && feature.get('features').length === 1) {
-        return true;
+        feature = feature.get('features')[0];
       }
-      return false;
+      return !feature.get('disabled') && (feature.get('name') || feature.get('description') && (0, _jquery2.default)(feature.get('description')).text().match(/\S/));
     }
   }]);
 
@@ -12415,12 +12415,9 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
   }, {
     key: 'arrayContainsAll',
     value: function arrayContainsAll(arr, contains) {
-      for (var needle in contains) {
-        if (arr.indexOf(needle) < 0) {
-          return false;
-        }
-      }
-      return true;
+      return contains.every(function (needle) {
+        return arr.indexOf(needle) >= 0;
+      });
     }
   }, {
     key: 'getWMSLayersVisible',
@@ -16957,7 +16954,10 @@ var FeatureTooltip = exports.FeatureTooltip = function () {
   }], [{
     key: 'canDisplay',
     value: function canDisplay(feature) {
-      return !feature.get('disabled') && (feature.get('name') || feature.get('features') && feature.get('features').length === 1);
+      if (feature.get('features') && feature.get('features').length === 1) {
+        feature = feature.get('features')[0];
+      }
+      return !feature.get('disabled') && feature.get('name');
     }
   }]);
 
@@ -21841,6 +21841,10 @@ var UIConfigurator = exports.UIConfigurator = function () {
         this.initialize_(mapConfigCopy);
       }
 
+      if (this.map_.get('history')) {
+        this.map_.get('history').flush();
+      }
+
       var curConfig = void 0;
 
       // //////////////////////////////////////////////////////////////////////////////////////// //
@@ -25164,6 +25168,11 @@ var OverviewMap = exports.OverviewMap = function (_mixin) {
         });
       }
     }
+  }, {
+    key: 'afterPositioning',
+    value: function afterPositioning() {
+      this.getOverviewMap().updateSize();
+    }
   }]);
 
   return OverviewMap;
@@ -26442,9 +26451,13 @@ var History = exports.History = function () {
   }, {
     key: 'pop',
     value: function pop() {
-      var cb = this.callbacks_.pop();
-      if (cb) {
-        cb();
+      this.callbacks_.pop()();
+    }
+  }, {
+    key: 'flush',
+    value: function flush() {
+      while (this.callbacks_.length) {
+        this.pop();
       }
     }
   }]);
