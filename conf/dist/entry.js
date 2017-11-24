@@ -11,8 +11,8 @@ import {URLAPIModule} from 'src/URLAPIModule'
 registerModule(new URLAPIModule())
 
 export function createMap (target, clientConf = './conf/client.commented.json',
-                           layerConf = './conf/layers.commented.json') {
-  return createMapInternal(target, clientConf, layerConf)
+                           layerConf = './conf/layers.commented.json', options) {
+  return createMapInternal(target, clientConf, layerConf, options)
 }
 
 export * from 'guide4you/src/exports'

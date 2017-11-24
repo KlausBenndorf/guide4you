@@ -1,16 +1,25 @@
 import { filterText } from 'guide4you/src/xssprotection'
 
 export class Query {
-  constructor (possibleKeys, excluded) {
+  constructor (possibleKeys, excluded, extract, values = {}) {
     /**
      * All parsed values as key value pairs.
      * @type {object.<string,string>}
      * @private
      */
-    this.queryValues_ = {}
+    this.urlValues_ = {}
+
+    this.jsValues_ = values
+
     this.parameterKeys_ = possibleKeys
 
     this.excluded_ = excluded
+
+    for (let ex of this.excluded_) {
+      if (this.jsValues_.hasOwnProperty(ex)) {
+        this.jsValues_[ex] = undefined
+      }
+    }
 
     // some helper functions to be used in the parameter definitions
 
@@ -35,7 +44,7 @@ export class Query {
 
           // Skip unsupported keys
           if (this.parameterKeys_.indexOf(key) > -1) {
-            this.queryValues_[key] = value // store key and value
+            this.urlValues_[key] = value // store key and value
           }
         }
       }
@@ -43,15 +52,15 @@ export class Query {
   }
 
   isSet (key) {
-    return this.queryValues_.hasOwnProperty(key)
+    return this.jsValues_.hasOwnProperty(key) || this.urlValues_.hasOwnProperty(key)
   }
 
   getSanitizedVal (key) {
-    return filterText(this.queryValues_[key])
+    return this.urlValues_.hasOwnProperty(key) ? filterText(this.urlValues_[key]) : this.jsValues_[key]
   }
 
   getInjectUnsafeVal (key) {
-    return this.queryValues_[key]
+    return this.urlValues_.hasOwnProperty(key) ? this.urlValues_[key] : this.jsValues_[key]
   }
 
   isExcluded (key) {
@@ -59,14 +68,22 @@ export class Query {
   }
 
   isTrue (key) {
-    return (this.isSet(key) && !!JSON.parse(this.getSanitizedVal(key)))
+    if (this.urlValues_.hasOwnProperty(key)) {
+      return JSON.parse(this.urlValues_[key])
+    } else {
+      return this.jsValues_.hasOwnProperty(key) && this.jsValues_[key]
+    }
   }
 
   getArray (key) {
-    return this.queryValues_[key].split(',')
+    return this.urlValues_.hasOwnProperty(key) ? this.urlValues_[key].split(',').map(filterText) : this.jsValues_[key]
   }
 
-  addValue (key, value) {
-    this.queryValues_[key] = value
+  setUrlValue (key, value) {
+    this.urlValues_[key] = value
+  }
+
+  setJsValue (key, value) {
+    this.jsValues_[key] = value
   }
 }

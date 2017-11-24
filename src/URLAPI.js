@@ -45,6 +45,8 @@ import { zoomParam } from './handling/zoom'
  * @typedef {object} URLAPIOptions
  * @property {G4UMap} map
  * @property {string[]} [excluded] parameters to exclude
+ * @property {object} [init] set all properties to this initial values
+ * @property {string} [mode='both'] possible values: 'js', 'url', 'both'
  */
 
 /**
@@ -136,7 +138,9 @@ export class URLAPI {
       }
     }
 
-    this.query_ = new Query(this.parameterKeys_, options.excluded || [])
+    let extractFromUrl = options.mode !== 'js'
+    let jsValues = options.mode !== 'url' ? options.init : {}
+    this.query_ = new Query(this.parameterKeys_, options.excluded || [], extractFromUrl, jsValues)
   }
 
   /**
@@ -154,7 +158,7 @@ export class URLAPI {
       let match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'))
       if (match) {
         let value = match[ 2 ]
-        this.query_.addValue(key, value)
+        this.query_.set(key, value)
       }
 
       // get

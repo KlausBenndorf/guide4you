@@ -35,9 +35,6 @@ module.exports = {
     path: path.join(baseDir, './build')
   },
   resolve: {
-    modules: [
-      'node_modules/guide4you'
-    ],
     alias: {
       'lessConfig': path.join(baseDir, 'node_modules/guide4you/conf/clouds.less')
     }

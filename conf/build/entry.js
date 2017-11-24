@@ -51,8 +51,8 @@ registerModule(new URLAPIModule(
    } */
 ))
 
-export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal(target, clientConf, layerConf)
+export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf, options) {
+  return createMapInternal(target, clientConf, layerConf, options)
 }
 
 export * from 'guide4you/src/exports'

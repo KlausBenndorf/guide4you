@@ -15,6 +15,10 @@ import {CloseWindowButton} from './CloseWindowButton'
  * This module can also generate URL which will reproduce the map in most of its current state.
  * This is used by the control LinkGenerator which can display the URL in various forms and by the LinkGeneratorButton
  * which can additionally let the user set the marker on the map and give it a text.
+ *
+ * The URLAPI module extends the G4UMapOptions by 2 parameters:
+ * @property {string} [apiMode='both'] can be 'url', 'js' or 'both'
+ * @property {object} [apiInit] initial values for the api
  */
 export class URLAPIModule extends Module {
 
@@ -31,7 +35,13 @@ export class URLAPIModule extends Module {
    */
   setMap (map) {
     super.setMap(map)
-    map.set('urlApi', new URLAPI({ map: map, moduleParameters: this.moduleParameters_ }))
+    let options = map.get('options')
+    map.set('urlApi', new URLAPI({
+      map: map,
+      moduleParameters: this.moduleParameters_,
+      mode: options.apiMode,
+      init: options.apiInit
+    }))
   }
 
   /**
