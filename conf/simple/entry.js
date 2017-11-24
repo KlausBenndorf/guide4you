@@ -8,8 +8,8 @@ import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
 import 'file-loader?name=files/[name].[ext]!../../files/restaurantsbonn.kml'
 
-export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf) {
-  return createMapInternal(target, clientConf, layerConf)
+export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf, options) {
+  return createMapInternal(target, clientConf, layerConf, options)
 }
 
 export * from '../../src/exports'
