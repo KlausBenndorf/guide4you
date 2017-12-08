@@ -109,11 +109,11 @@ export class L10N extends ol.Observable {
       if (typeof data === 'string') { // Only a generic string is available
         return data
       } else { // an object is available
-        if (data.hasOwnProperty(this.currentLang_)) { // current language available
+        if (data[this.currentLang_] !== null) { // current language available
           return data[this.currentLang_]
-        } else if (data.hasOwnProperty(this.defaultLang_)) { // default language as a last resort
+        } else if (data[this.defaultLang_] !== null) { // default language as a last resort
           return data[this.defaultLang_]
-        } else if (data.hasOwnProperty('*')) {
+        } else if (data['*'] !== null) {
           return data['*']
         } else {
           Debug.error('Unable to obtain localization')
