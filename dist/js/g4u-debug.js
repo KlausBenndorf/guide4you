@@ -5138,7 +5138,7 @@ var Window = exports.Window = function (_ol$Object) {
           }
         } else {
           _this.draggable_ = initialDraggable;
-          if (_this.getVisible()) {
+          if (_this.scroll_ && _this.scroll_.enabled) {
             _this.setEnableMobileScrolling_(false);
           }
         }
@@ -6582,7 +6582,9 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.7.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.7.1'); // eslint-disable-line
+
+    _this.set('options', options);
 
     /**
      * @type {Map.<string, ol.interaction.Interaction[]>}
@@ -16310,8 +16312,9 @@ __webpack_require__(581);
 function createMap(target) {
                            var clientConf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : './conf/client.commented.json';
                            var layerConf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : './conf/layers.commented.json';
+                           var options = arguments[3];
 
-                           return (0, _main.createMapInternal)(target, clientConf, layerConf);
+                           return (0, _main.createMapInternal)(target, clientConf, layerConf, options);
 }
 
 /***/ }),
@@ -17131,13 +17134,13 @@ var L10N = exports.L10N = function (_ol$Observable) {
           return data;
         } else {
           // an object is available
-          if (data.hasOwnProperty(this.currentLang_)) {
+          if (data[this.currentLang_] !== null) {
             // current language available
             return data[this.currentLang_];
-          } else if (data.hasOwnProperty(this.defaultLang_)) {
+          } else if (data[this.defaultLang_] !== null) {
             // default language as a last resort
             return data[this.defaultLang_];
-          } else if (data.hasOwnProperty('*')) {
+          } else if (data['*'] !== null) {
             return data['*'];
           } else {
             _Debug.Debug.error('Unable to obtain localization');

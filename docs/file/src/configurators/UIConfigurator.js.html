@@ -537,6 +537,10 @@ export class UIConfigurator {
       this.initialize_(mapConfigCopy)
     }
 
+    if (this.map_.get(&apos;history&apos;)) {
+      this.map_.get(&apos;history&apos;).flush()
+    }
+
     let curConfig
 
     // //////////////////////////////////////////////////////////////////////////////////////// //
