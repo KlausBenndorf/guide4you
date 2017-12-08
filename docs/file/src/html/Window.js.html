@@ -329,10 +329,14 @@ export class Window extends ol.Object {
       let onChangeMobile = () =&gt; {
         if (this.map_.get(&apos;mobile&apos;)) {
           this.draggable_ = false
-          this.setEnableMobileScrolling_(true)
+          if (this.getVisible()) {
+            this.setEnableMobileScrolling_(true)
+          }
         } else {
           this.draggable_ = initialDraggable
-          this.setEnableMobileScrolling_(false)
+          if (this.scroll_ &amp;&amp; this.scroll_.enabled) {
+            this.setEnableMobileScrolling_(false)
+          }
         }
         this.updateSize()
       }
@@ -408,7 +412,7 @@ export class Window extends ol.Object {
   }
 
   /**
-   * Enables/Disables the iscroll needed for mobile scrolling
+   * Enables/Disables the scroll lib needed for mobile scrolling
    * @param {boolean} scrollable
    * @private
    */
@@ -432,7 +436,7 @@ export class Window extends ol.Object {
         })
 
         window.addEventListener(&apos;wheel&apos;, e =&gt; {
-          if (this.scroll_.enabled) {
+          if (this.getVisible() &amp;&amp; this.scroll_.enabled) {
             this.scroll_.scrollTo(0, Math.max(this.scroll_.maxScrollY, Math.min(0, this.scroll_.y - e.deltaY)), 100)
           }
         })
@@ -443,9 +447,7 @@ export class Window extends ol.Object {
       if (this.scroll_) {
         this.scroll_.scrollTo(0, 0, 0)
         this.scroll_.disable()
-        // this.$body_.removeAttr(&apos;style&apos;)
       }
-      // this.scroll_ = null
     }
   }
 
@@ -466,6 +468,7 @@ export class Window extends ol.Object {
       if (visible) {
         this.$element_.removeClass(cssClasses.hidden)
         if (this.map_.get(&apos;mobile&apos;)) {
+          this.setEnableMobileScrolling_(true)
           this.map_.get(&apos;shield&apos;).setActive(true)
           this.map_.get(&apos;shield&apos;).add$OnTop(this.$element_, {
             findParentWindow: false
@@ -477,6 +480,9 @@ export class Window extends ol.Object {
           this.getInFront()
         }
       } else {
+        if (this.map_.get(&apos;mobile&apos;)) {
+          this.setEnableMobileScrolling_(false)
+        }
         if (this.shieldActivated_) {
           if (popHistory) {
             this.map_.get(&apos;history&apos;).pop()

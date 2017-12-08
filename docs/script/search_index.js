@@ -3918,6 +3918,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/controls/overviewmap.js~overviewmap#afterpositioning",
+    "class/src/controls/OverviewMap.js~OverviewMap.html#instance-method-afterPositioning",
+    "src/controls/OverviewMap.js~OverviewMap#afterPositioning",
+    "method"
+  ],
+  [
     "src/controls/overviewmap.js~overviewmap#constructor",
     "class/src/controls/OverviewMap.js~OverviewMap.html#instance-constructor-constructor",
     "src/controls/OverviewMap.js~OverviewMap#constructor",
@@ -4455,6 +4461,12 @@ window.esdocSearchIndex = [
     "src/html/history.js~history#constructor",
     "class/src/html/History.js~History.html#instance-constructor-constructor",
     "src/html/History.js~History#constructor",
+    "method"
+  ],
+  [
+    "src/html/history.js~history#flush",
+    "class/src/html/History.js~History.html#instance-method-flush",
+    "src/html/History.js~History#flush",
     "method"
   ],
   [

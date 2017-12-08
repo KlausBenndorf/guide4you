@@ -1,6 +1,6 @@
 {
-  "coverage": "74.83%",
-  "expectCount": 747,
+  "coverage": "74.63%",
+  "expectCount": 749,
   "actualCount": 559,
   "files": {
     "src/configurators/ControlFactory.js": {
@@ -38,7 +38,7 @@
         268,
         303,
         305,
-        391
+        395
       ]
     },
     "src/controls/ActivatableMixin.js": {
@@ -197,10 +197,11 @@
       "undocumentLines": []
     },
     "src/controls/OverviewMap.js": {
-      "expectCount": 3,
+      "expectCount": 4,
       "actualCount": 2,
       "undocumentLines": [
-        35
+        35,
+        82
       ]
     },
     "src/controls/PrintButton.js": {
@@ -262,9 +263,9 @@
       "expectCount": 38,
       "actualCount": 35,
       "undocumentLines": [
-        368,
-        442,
-        469
+        363,
+        437,
+        464
       ]
     },
     "src/FeatureTooltip.js": {
@@ -278,10 +279,10 @@
       "expectCount": 24,
       "actualCount": 20,
       "undocumentLines": [
-        199,
-        223,
-        507,
-        516
+        201,
+        225,
+        509,
+        518
       ]
     },
     "src/globals.js": {
@@ -309,14 +310,15 @@
       ]
     },
     "src/html/History.js": {
-      "expectCount": 5,
+      "expectCount": 6,
       "actualCount": 0,
       "undocumentLines": [
         1,
         2,
         3,
         23,
-        27
+        27,
+        31
       ]
     },
     "src/html/html.js": {
@@ -335,7 +337,7 @@
       "expectCount": 25,
       "actualCount": 24,
       "undocumentLines": [
-        213
+        217
       ]
     },
     "src/interactions/FeatureSelect.js": {
@@ -544,10 +546,10 @@
         82,
         86,
         90,
-        99,
+        94,
+        98,
         103,
-        108,
-        120
+        115
       ]
     },
     "src/sources/QueryVectorSource.js": {
