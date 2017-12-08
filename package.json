@@ -35,7 +35,7 @@
     "concurrently": "^3.4.0",
     "esdoc": "^1.0.3",
     "esdoc-standard-plugin": "^1.0.0",
-    "guide4you-builder": "2.1.1",
+    "guide4you-builder": "2.2.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "^0.10.0",
     "jquery": "3.2.1",
