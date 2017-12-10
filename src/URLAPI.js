@@ -188,16 +188,8 @@ export class URLAPI {
     return this.query_.get(key)
   }
 
-  /**
-   * Create query string from map and optional name of config file
-   * @param {object} [options={}]
-   * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
-   * @returns {string} Query string
-   */
-  makeURL (options = {}) {
-    let baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[ 0 ]
-
-    let assignmentList = []
+  getCurrentParameters () {
+    let values = {}
 
     /**
      * Compares if the two values are equal
@@ -234,12 +226,29 @@ export class URLAPI {
           if (keyValuePairs.hasOwnProperty(key) && keyValuePairs[ key ] !== undefined) {
             // check if the value differs from the initial Value
             if (!(this.initialValues_.hasOwnProperty(key) && equal(this.initialValues_[ key ], keyValuePairs[ key ]))) {
-              assignmentList.push(
-                encodeURIComponent(key) + '=' + encodeURIComponent(keyValuePairs[ key ].toString()))
+              values[key] = keyValuePairs[ key ].toString()
             }
           }
         }
       }
+    }
+  }
+
+  /**
+   * Create query string from map and optional name of config file
+   * @param {object} [options={}]
+   * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
+   * @returns {string} Query string
+   */
+  makeURL (options = {}) {
+    let baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[ 0 ]
+
+    let assignmentList = []
+
+    let values = this.getCurrentParameters()
+
+    for (let key in values) {
+      assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(values[key]))
     }
 
     let url = baseURL || ''
@@ -253,5 +262,33 @@ export class URLAPI {
     } else {
       return url + '?' + assignmentList.join('&')
     }
+  }
+
+  /**
+   * Create query string from map and optional name of config file
+   * @param {object} [options={}]
+   * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
+   * @returns {string} Query string
+   */
+  makeHTMLSnippet (options = {}) {
+    let baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[ 0 ]
+    let rand = Math.random().toString(36).substring(7)
+    let clientConfig = this.map_.get('configFileName')
+    let layerConfig = this.map_.get('layerConfigFileName')
+    let values = this.getCurrentParameters()
+    delete values.conf
+    delete values.layconf
+    return `
+      <div>
+        <script src="${baseURL}/js/ol.js"></script>
+        <script src="${baseURL}/js/jquery.min.js"></script>
+        <script src="${baseURL}/js/g4u.js"></script>
+        <link rel="stylesheet" href="${this.mapUrl}/css/g4u.css" />
+        <div id="#g4u-${rand}"></div>
+          <script>
+            g4u.createMap('#g4u-${rand}', '${clientConfig}', '${layerConfig}', { apiInit: ${JSON.stringify(values)}})
+        </script>
+      </div>
+    `
   }
 }
