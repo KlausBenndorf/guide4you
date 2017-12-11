@@ -6441,7 +6441,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.7.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.7.1'); // eslint-disable-line
 
     _this.set('options', options);
 
@@ -15967,9 +15967,8 @@ var _URLAPIModule = __webpack_require__(302);
 function createMap(target) {
                            var clientConf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : './conf/client.commented.json';
                            var layerConf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : './conf/layers.commented.json';
-                           var options = arguments[3];
 
-                           return (0, _main.createMapInternal)(target, clientConf, layerConf, options);
+                           return (0, _main.createMapInternal)(target, clientConf, layerConf);
 }
 
 /***/ }),
@@ -16840,9 +16839,7 @@ var _xssprotection = __webpack_require__(135);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Query = exports.Query = function () {
-  function Query(possibleKeys, excluded, extract) {
-    var values = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-
+  function Query(possibleKeys, excluded) {
     _classCallCheck(this, Query);
 
     /**
@@ -16850,42 +16847,12 @@ var Query = exports.Query = function () {
      * @type {object.<string,string>}
      * @private
      */
-    this.urlValues_ = {};
-
-    this.jsValues_ = values;
-
+    this.queryValues_ = {};
     this.parameterKeys_ = possibleKeys;
 
     this.excluded_ = excluded;
 
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = this.excluded_[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var ex = _step.value;
-
-        if (this.jsValues_.hasOwnProperty(ex)) {
-          this.jsValues_[ex] = undefined;
-        }
-      }
-
-      // some helper functions to be used in the parameter definitions
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
+    // some helper functions to be used in the parameter definitions
 
     var keyValuePair = void 0;
     var queryString = window.location.search;
@@ -16909,7 +16876,7 @@ var Query = exports.Query = function () {
 
           // Skip unsupported keys
           if (this.parameterKeys_.indexOf(key) > -1) {
-            this.urlValues_[key] = value; // store key and value
+            this.queryValues_[key] = value; // store key and value
           }
         }
       }
@@ -16919,17 +16886,17 @@ var Query = exports.Query = function () {
   _createClass(Query, [{
     key: 'isSet',
     value: function isSet(key) {
-      return this.jsValues_.hasOwnProperty(key) || this.urlValues_.hasOwnProperty(key);
+      return this.queryValues_.hasOwnProperty(key);
     }
   }, {
     key: 'getSanitizedVal',
     value: function getSanitizedVal(key) {
-      return this.urlValues_.hasOwnProperty(key) ? (0, _xssprotection.filterText)(this.urlValues_[key]) : this.jsValues_[key];
+      return (0, _xssprotection.filterText)(this.queryValues_[key]);
     }
   }, {
     key: 'getInjectUnsafeVal',
     value: function getInjectUnsafeVal(key) {
-      return this.urlValues_.hasOwnProperty(key) ? this.urlValues_[key] : this.jsValues_[key];
+      return this.queryValues_[key];
     }
   }, {
     key: 'isExcluded',
@@ -16939,26 +16906,17 @@ var Query = exports.Query = function () {
   }, {
     key: 'isTrue',
     value: function isTrue(key) {
-      if (this.urlValues_.hasOwnProperty(key)) {
-        return JSON.parse(this.urlValues_[key]);
-      } else {
-        return this.jsValues_.hasOwnProperty(key) && this.jsValues_[key];
-      }
+      return this.isSet(key) && !!JSON.parse(this.getSanitizedVal(key));
     }
   }, {
     key: 'getArray',
     value: function getArray(key) {
-      return this.urlValues_.hasOwnProperty(key) ? this.urlValues_[key].split(',').map(_xssprotection.filterText) : this.jsValues_[key];
+      return this.queryValues_[key].split(',');
     }
   }, {
-    key: 'setUrlValue',
-    value: function setUrlValue(key, value) {
-      this.urlValues_[key] = value;
-    }
-  }, {
-    key: 'setJsValue',
-    value: function setJsValue(key, value) {
-      this.jsValues_[key] = value;
+    key: 'addValue',
+    value: function addValue(key, value) {
+      this.queryValues_[key] = value;
     }
   }]);
 
@@ -17047,8 +17005,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @typedef {object} URLAPIOptions
  * @property {G4UMap} map
  * @property {string[]} [excluded] parameters to exclude
- * @property {object} [init] set all properties to this initial values
- * @property {string} [mode='both'] possible values: 'js', 'url', 'both'
  */
 
 /**
@@ -17154,9 +17110,7 @@ var URLAPI = exports.URLAPI = function () {
       }
     }
 
-    var extractFromUrl = options.mode !== 'js';
-    var jsValues = options.mode !== 'url' ? options.init : {};
-    this.query_ = new _Query.Query(this.parameterKeys_, options.excluded || [], extractFromUrl, jsValues);
+    this.query_ = new _Query.Query(this.parameterKeys_, options.excluded || []);
   }
 
   /**
@@ -17178,7 +17132,7 @@ var URLAPI = exports.URLAPI = function () {
         var match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'));
         if (match) {
           var value = match[2];
-          this.query_.set(key, value);
+          this.query_.setUrlValue(key, value);
         }
 
         // get
@@ -17198,34 +17152,10 @@ var URLAPI = exports.URLAPI = function () {
         }
       }
     }
-
-    /**
-     * Returns the value of a key in the URLAPI
-     * @param {string} key
-     * @returns {string}
-     */
-
   }, {
-    key: 'get',
-    value: function get(key) {
-      return this.query_.get(key);
-    }
-
-    /**
-     * Create query string from map and optional name of config file
-     * @param {object} [options={}]
-     * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
-     * @returns {string} Query string
-     */
-
-  }, {
-    key: 'makeURL',
-    value: function makeURL() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      var baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0];
-
-      var assignmentList = [];
+    key: 'getCurrentParameters',
+    value: function getCurrentParameters() {
+      var values = {};
 
       /**
        * Compares if the two values are equal
@@ -17269,7 +17199,7 @@ var URLAPI = exports.URLAPI = function () {
               if (keyValuePairs.hasOwnProperty(key) && keyValuePairs[key] !== undefined) {
                 // check if the value differs from the initial Value
                 if (!(this.initialValues_.hasOwnProperty(key) && equal(this.initialValues_[key], keyValuePairs[key]))) {
-                  assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(keyValuePairs[key].toString()));
+                  values[key] = keyValuePairs[key].toString();
                 }
               }
             }
@@ -17290,6 +17220,31 @@ var URLAPI = exports.URLAPI = function () {
         }
       }
 
+      return values;
+    }
+
+    /**
+     * Create query string from map and optional name of config file
+     * @param {object} [options={}]
+     * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
+     * @returns {string} Query string
+     */
+
+  }, {
+    key: 'makeURL',
+    value: function makeURL() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0];
+
+      var assignmentList = [];
+
+      var values = this.getCurrentParameters();
+
+      for (var key in values) {
+        assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(values[key]));
+      }
+
       var url = baseURL || '';
 
       if (assignmentList.length === 0) {
@@ -17301,6 +17256,28 @@ var URLAPI = exports.URLAPI = function () {
       } else {
         return url + '?' + assignmentList.join('&');
       }
+    }
+
+    /**
+     * Create query string from map and optional name of config file
+     * @param {object} [options={}]
+     * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
+     * @returns {string} Query string
+     */
+
+  }, {
+    key: 'makeHTMLSnippet',
+    value: function makeHTMLSnippet() {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      var baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0];
+      var rand = Math.random().toString(36).substring(7);
+      var clientConfig = this.map_.get('configFileName');
+      var layerConfig = this.map_.get('layerConfigFileName');
+      var values = this.getCurrentParameters();
+      delete values.conf;
+      delete values.layconf;
+      return '\n      <div>\n        <script src="' + baseURL + '/js/ol.js"></script>\n        <script src="' + baseURL + '/js/jquery.min.js"></script>\n        <script src="' + baseURL + '/js/g4u.js"></script>\n        <link rel="stylesheet" href="' + this.mapUrl + '/css/g4u.css" />\n        <div id="#g4u-' + rand + '"></div>\n          <script>\n            g4u.createMap(\'#g4u-' + rand + '\', \'' + clientConfig + '\', \'' + layerConfig + '\', { apiInit: ' + JSON.stringify(values) + '})\n        </script>\n      </div>\n    ';
     }
   }]);
 
@@ -17351,10 +17328,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * This module can also generate URL which will reproduce the map in most of its current state.
  * This is used by the control LinkGenerator which can display the URL in various forms and by the LinkGeneratorButton
  * which can additionally let the user set the marker on the map and give it a text.
- *
- * The URLAPI module extends the G4UMapOptions by 2 parameters:
- * @property {string} [apiMode='both'] can be 'url', 'js' or 'both'
- * @property {object} [apiInit] initial values for the api
  */
 var URLAPIModule = exports.URLAPIModule = function (_Module) {
   _inherits(URLAPIModule, _Module);
@@ -17380,13 +17353,7 @@ var URLAPIModule = exports.URLAPIModule = function (_Module) {
     key: 'setMap',
     value: function setMap(map) {
       _get(URLAPIModule.prototype.__proto__ || Object.getPrototypeOf(URLAPIModule.prototype), 'setMap', this).call(this, map);
-      var options = map.get('options');
-      map.set('urlApi', new _URLAPI.URLAPI({
-        map: map,
-        moduleParameters: this.moduleParameters_,
-        mode: options.apiMode,
-        init: options.apiInit
-      }));
+      map.set('urlApi', new _URLAPI.URLAPI({ map: map, moduleParameters: this.moduleParameters_ }));
     }
 
     /**
@@ -17648,15 +17615,13 @@ var _openlayers = __webpack_require__(2);
 
 var _openlayers2 = _interopRequireDefault(_openlayers);
 
-var _Debug = __webpack_require__(13);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * @type {URLParameter}
  */
 var fitRectangleParam = exports.fitRectangleParam = {
-  keys: ['x0', 'y0', 'x1', 'y1', 'srid', 'pad'],
+  keys: ['x0', 'y0', 'x1', 'y1', 'srid'],
   setEvent: 'afterConfiguring',
   setToMap: function setToMap(map, query) {
     if (query.isSet('x0') && query.isSet('y0') && query.isSet('x1') && query.isSet('y1')) {
@@ -17664,24 +17629,17 @@ var fitRectangleParam = exports.fitRectangleParam = {
       var y0 = parseFloat(query.getSanitizedVal('y0'));
       var x1 = parseFloat(query.getSanitizedVal('x1'));
       var y1 = parseFloat(query.getSanitizedVal('y1'));
-      if (!isNaN(x0) && !isNaN(y0) && !isNaN(x1) && !isNaN(y1)) {
-        var options = {};
-        if (query.isSet('srid')) {
-          var srId = query.getSanitizedVal('srid');
-          if (_openlayers2.default.proj.get(srId)) {
-            options.srId = srId;
-          } else {
-            _Debug.Debug.error('Unknown Projection \'' + srId + '\'');
-          }
-        } else {
-          options.srId = map.get('interfaceProjection');
-        }
-        if (query.isSet('pad')) {
-          var p = parseFloat(query.getSanitizedVal('pad'));
-          options.padding = [p, p, p, p];
-        }
+      var srId = map.get('interfaceProjection');
+      if (query.isSet('srid')) {
+        srId = query.getSanitizedVal('srid');
+      }
 
-        map.get('api').fitRectangle([[x0, y0], [x1, y1]], options);
+      if (!isNaN(x0) && !isNaN(y0) && !isNaN(x1) && !isNaN(y1)) {
+        if (_openlayers2.default.proj.get(srId)) {
+          map.get('api').fitRectangle([[x0, y0], [x1, y1]], { 'srId': srId });
+        } else {
+          console.error('Unknown Projection \'' + srId + '\'');
+        }
       }
     }
   },
@@ -18809,13 +18767,13 @@ var L10N = exports.L10N = function (_ol$Observable) {
           return data;
         } else {
           // an object is available
-          if (data.hasOwnProperty(this.currentLang_)) {
+          if (data[this.currentLang_] !== null) {
             // current language available
             return data[this.currentLang_];
-          } else if (data.hasOwnProperty(this.defaultLang_)) {
+          } else if (data[this.defaultLang_] !== null) {
             // default language as a last resort
             return data[this.defaultLang_];
-          } else if (data.hasOwnProperty('*')) {
+          } else if (data['*'] !== null) {
             return data['*'];
           } else {
             _Debug.Debug.error('Unable to obtain localization');
