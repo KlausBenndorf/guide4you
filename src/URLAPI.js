@@ -158,18 +158,18 @@ export class URLAPI {
       let match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'))
       if (match) {
         let value = match[ 2 ]
-        this.query_.set(key, value)
+        this.query_.setUrlValue(key, value)
       }
 
       // get
       let get = () => {
         let obj = {}
-        obj[ key ] = layer.getSource().getQueryValues()
+        obj[key] = layer.getSource().getQueryValues()
         return obj
       }
 
       this.parameterGetters_.push(get)
-      this.initialValues_[ key ] = get()[ key ]
+      this.initialValues_[key] = get()[key]
 
       // set
       if (this.query_.isSet(key)) {
@@ -180,14 +180,6 @@ export class URLAPI {
   }
 
   /**
-   * Returns the value of a key in the URLAPI
-   * @param {string} key
-   * @returns {string}
-   */
-  get (key) {
-    return this.query_.get(key)
-  }
-
   getCurrentParameters () {
     let values = {}
 
