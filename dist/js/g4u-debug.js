@@ -15967,8 +15967,9 @@ var _URLAPIModule = __webpack_require__(302);
 function createMap(target) {
                            var clientConf = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : './conf/client.commented.json';
                            var layerConf = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : './conf/layers.commented.json';
+                           var options = arguments[3];
 
-                           return (0, _main.createMapInternal)(target, clientConf, layerConf);
+                           return (0, _main.createMapInternal)(target, clientConf, layerConf, options);
 }
 
 /***/ }),
@@ -16839,7 +16840,9 @@ var _xssprotection = __webpack_require__(135);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Query = exports.Query = function () {
-  function Query(possibleKeys, excluded) {
+  function Query(possibleKeys, excluded, extract) {
+    var values = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
     _classCallCheck(this, Query);
 
     /**
@@ -16847,12 +16850,42 @@ var Query = exports.Query = function () {
      * @type {object.<string,string>}
      * @private
      */
-    this.queryValues_ = {};
+    this.urlValues_ = {};
+
+    this.jsValues_ = values;
+
     this.parameterKeys_ = possibleKeys;
 
     this.excluded_ = excluded;
 
-    // some helper functions to be used in the parameter definitions
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = this.excluded_[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var ex = _step.value;
+
+        if (this.jsValues_.hasOwnProperty(ex)) {
+          this.jsValues_[ex] = undefined;
+        }
+      }
+
+      // some helper functions to be used in the parameter definitions
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
 
     var keyValuePair = void 0;
     var queryString = window.location.search;
@@ -16876,7 +16909,7 @@ var Query = exports.Query = function () {
 
           // Skip unsupported keys
           if (this.parameterKeys_.indexOf(key) > -1) {
-            this.queryValues_[key] = value; // store key and value
+            this.urlValues_[key] = value; // store key and value
           }
         }
       }
@@ -16886,17 +16919,17 @@ var Query = exports.Query = function () {
   _createClass(Query, [{
     key: 'isSet',
     value: function isSet(key) {
-      return this.queryValues_.hasOwnProperty(key);
+      return this.jsValues_.hasOwnProperty(key) || this.urlValues_.hasOwnProperty(key);
     }
   }, {
     key: 'getSanitizedVal',
     value: function getSanitizedVal(key) {
-      return (0, _xssprotection.filterText)(this.queryValues_[key]);
+      return this.urlValues_.hasOwnProperty(key) ? (0, _xssprotection.filterText)(this.urlValues_[key]) : this.jsValues_[key];
     }
   }, {
     key: 'getInjectUnsafeVal',
     value: function getInjectUnsafeVal(key) {
-      return this.queryValues_[key];
+      return this.urlValues_.hasOwnProperty(key) ? this.urlValues_[key] : this.jsValues_[key];
     }
   }, {
     key: 'isExcluded',
@@ -16906,17 +16939,26 @@ var Query = exports.Query = function () {
   }, {
     key: 'isTrue',
     value: function isTrue(key) {
-      return this.isSet(key) && !!JSON.parse(this.getSanitizedVal(key));
+      if (this.urlValues_.hasOwnProperty(key)) {
+        return JSON.parse(this.urlValues_[key]);
+      } else {
+        return this.jsValues_.hasOwnProperty(key) && this.jsValues_[key];
+      }
     }
   }, {
     key: 'getArray',
     value: function getArray(key) {
-      return this.queryValues_[key].split(',');
+      return this.urlValues_.hasOwnProperty(key) ? this.urlValues_[key].split(',').map(_xssprotection.filterText) : this.jsValues_[key];
     }
   }, {
-    key: 'addValue',
-    value: function addValue(key, value) {
-      this.queryValues_[key] = value;
+    key: 'setUrlValue',
+    value: function setUrlValue(key, value) {
+      this.urlValues_[key] = value;
+    }
+  }, {
+    key: 'setJsValue',
+    value: function setJsValue(key, value) {
+      this.jsValues_[key] = value;
     }
   }]);
 
@@ -17005,6 +17047,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @typedef {object} URLAPIOptions
  * @property {G4UMap} map
  * @property {string[]} [excluded] parameters to exclude
+ * @property {object} [init] set all properties to this initial values
+ * @property {string} [mode='both'] possible values: 'js', 'url', 'both'
  */
 
 /**
@@ -17110,7 +17154,9 @@ var URLAPI = exports.URLAPI = function () {
       }
     }
 
-    this.query_ = new _Query.Query(this.parameterKeys_, options.excluded || []);
+    var extractFromUrl = options.mode !== 'js';
+    var jsValues = options.mode !== 'url' ? options.init : {};
+    this.query_ = new _Query.Query(this.parameterKeys_, options.excluded || [], extractFromUrl, jsValues);
   }
 
   /**
@@ -17328,6 +17374,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * This module can also generate URL which will reproduce the map in most of its current state.
  * This is used by the control LinkGenerator which can display the URL in various forms and by the LinkGeneratorButton
  * which can additionally let the user set the marker on the map and give it a text.
+ *
+ * The URLAPI module extends the G4UMapOptions by 2 parameters:
+ * @property {string} [apiMode='both'] can be 'url', 'js' or 'both'
+ * @property {object} [apiInit] initial values for the api
  */
 var URLAPIModule = exports.URLAPIModule = function (_Module) {
   _inherits(URLAPIModule, _Module);
@@ -17353,7 +17403,13 @@ var URLAPIModule = exports.URLAPIModule = function (_Module) {
     key: 'setMap',
     value: function setMap(map) {
       _get(URLAPIModule.prototype.__proto__ || Object.getPrototypeOf(URLAPIModule.prototype), 'setMap', this).call(this, map);
-      map.set('urlApi', new _URLAPI.URLAPI({ map: map, moduleParameters: this.moduleParameters_ }));
+      var options = map.get('options');
+      map.set('urlApi', new _URLAPI.URLAPI({
+        map: map,
+        moduleParameters: this.moduleParameters_,
+        mode: options.apiMode,
+        init: options.apiInit
+      }));
     }
 
     /**
@@ -17615,13 +17671,15 @@ var _openlayers = __webpack_require__(2);
 
 var _openlayers2 = _interopRequireDefault(_openlayers);
 
+var _Debug = __webpack_require__(13);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * @type {URLParameter}
  */
 var fitRectangleParam = exports.fitRectangleParam = {
-  keys: ['x0', 'y0', 'x1', 'y1', 'srid'],
+  keys: ['x0', 'y0', 'x1', 'y1', 'srid', 'pad'],
   setEvent: 'afterConfiguring',
   setToMap: function setToMap(map, query) {
     if (query.isSet('x0') && query.isSet('y0') && query.isSet('x1') && query.isSet('y1')) {
@@ -17629,17 +17687,24 @@ var fitRectangleParam = exports.fitRectangleParam = {
       var y0 = parseFloat(query.getSanitizedVal('y0'));
       var x1 = parseFloat(query.getSanitizedVal('x1'));
       var y1 = parseFloat(query.getSanitizedVal('y1'));
-      var srId = map.get('interfaceProjection');
-      if (query.isSet('srid')) {
-        srId = query.getSanitizedVal('srid');
-      }
-
       if (!isNaN(x0) && !isNaN(y0) && !isNaN(x1) && !isNaN(y1)) {
-        if (_openlayers2.default.proj.get(srId)) {
-          map.get('api').fitRectangle([[x0, y0], [x1, y1]], { 'srId': srId });
+        var options = {};
+        if (query.isSet('srid')) {
+          var srId = query.getSanitizedVal('srid');
+          if (_openlayers2.default.proj.get(srId)) {
+            options.srId = srId;
+          } else {
+            _Debug.Debug.error('Unknown Projection \'' + srId + '\'');
+          }
         } else {
-          console.error('Unknown Projection \'' + srId + '\'');
+          options.srId = map.get('interfaceProjection');
         }
+        if (query.isSet('pad')) {
+          var p = parseFloat(query.getSanitizedVal('pad'));
+          options.padding = [p, p, p, p];
+        }
+
+        map.get('api').fitRectangle([[x0, y0], [x1, y1]], options);
       }
     }
   },
