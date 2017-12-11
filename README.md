@@ -40,7 +40,7 @@ With additional modules it can also:
 Compared to alternative software **GUIDE4YOU** provides a couple of interesting features:
 
 * Highly customizable
-* Support for new languages can easily be added
+* Support for new languages can easily be added. English, german, polish and arabic are supported out of the box.
 * Icons are vector graphics (SVG) so they can be scaled to whatever size seems suitable
 * No separate mobile and desktop versions
 * Easily extensible
