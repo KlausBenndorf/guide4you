@@ -14,7 +14,7 @@ import {ControlFactory} from './ControlFactory'
 import {Debug} from '../Debug'
 
 import {copyDeep} from '../utilitiesObject'
-import {checkFor, getConfig, urlDirname, urlJoin} from '../utilities'
+import { asObject, checkFor, getConfig, urlDirname, urlJoin } from '../utilities'
 
 import {MeasurementButton} from '../controls/MeasurementButton'
 import {PrintButton} from '../controls/PrintButton'
@@ -356,7 +356,7 @@ export class UIConfigurator {
         //                           Move Class (before mobileLayout)                               //
         // //////////////////////////////////////////////////////////////////////////////////////// //
 
-        let moveOptions = copyDeep(getConfig(mapConfigCopy, 'move'))
+        let moveOptions = copyDeep(getConfig(mapConfigCopy, 'move')) || {}
         moveOptions.map = this.map_
 
         this.map_.set('move', new Move(moveOptions))
