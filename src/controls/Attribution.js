@@ -226,12 +226,14 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
     if (map) {
       setTimeout(() => {
-        this.attachListeners(map.getLayerGroup())
-        this.debouncedUpdateList()
-        this.updateRtl()
-        this.listenAt(map.get('localiser')).on('change:language', () => {
+        if (this.getMap()) {
+          this.attachListeners(this.getMap().getLayerGroup())
+          this.debouncedUpdateList()
           this.updateRtl()
-        })
+          this.listenAt(this.getMap().get('localiser')).on('change:language', () => {
+            this.updateRtl()
+          })
+        }
       }, 0)
     }
   }
