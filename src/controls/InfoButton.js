@@ -7,6 +7,7 @@ import '../../less/infobutton.less'
 import { URL } from '../URLHelper'
 import { ActivatableMixin } from './ActivatableMixin'
 import { mixin } from '../utilities'
+import { cssClasses } from '../globals'
 
 /**
  * @typedef {g4uControlOptions} InfoButtonOptions
@@ -141,5 +142,6 @@ export class InfoButton extends mixin(Control, ActivatableMixin) {
     } else {
       super.setActive(active)
     }
+    this.get$Element().toggleClass(cssClasses.active, active)
   }
 }

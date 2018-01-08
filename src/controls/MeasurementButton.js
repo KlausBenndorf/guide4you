@@ -258,6 +258,8 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
 
       this.drawInteraction_.setActive(false)
     }
+
+    this.get$Element().toggleClass(cssClasses.active, active)
   }
 
   /**
