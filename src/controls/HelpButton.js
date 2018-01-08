@@ -9,6 +9,7 @@ import '../../less/helpbutton.less'
 
 import 'polyfill!Array.prototype.includes'
 import { ActivatableMixin } from './ActivatableMixin'
+import { cssClasses } from '../globals'
 
 /**
  * @typedef {g4uControlOptions} HelpButtonOptions
@@ -152,8 +153,8 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
    * @param {boolean} active
    */
   setActive (active) {
-    if (!this.loading_) { // all calls to setActive between the start and end of loading are ignored
-      if (active === true) {
+    if (!this.loading_) {
+      if (active) {
         if (!this.contentData_) {
           this.loading_ = true
 
@@ -169,6 +170,7 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
 
               finishAllImages(this.get$Element()).then(() => {
                 this.loading_ = false
+                this.dispatchEvent('loaded')
                 super.setActive(active)
               })
             })
@@ -178,6 +180,9 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
       } else {
         super.setActive(active)
       }
+    } else {
+      this.once('loaded', () => this.setActive(active))
     }
+    this.get$Element().toggleClass(cssClasses.active, active)
   }
 }
