@@ -384,7 +384,7 @@ export class Styling {
         layer.setStyle((feature, resolution) => {
           let style = layer.get('managedStyle')
           if ($.isFunction(style)) {
-            style = style.call(feature, resolution)
+            style = style(feature, resolution)
           }
           if (!style) {
             style = this.getStyle('#defaultStyle')
