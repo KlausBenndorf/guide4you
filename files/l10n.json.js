@@ -257,6 +257,35 @@ module.exports = {
     'ar': 'G4U3 نافذة الطباعة'
   },
 
+  'SingleDrawButton title': {
+    'de': 'Zeichen',
+    'en': 'Draw'
+  },
+  'SingleDrawButton tipLabel': {
+    'de': 'Geometrien einzeichnen/löschen',
+    'en': 'Draw/delete geometries'
+  },
+  'SingleDrawButton draw point': {
+    'de': 'Punkt einzeichnen',
+    'en': 'Draw point'
+  },
+  'SingleDrawButton draw line': {
+    'de': 'Linie einzeichnen',
+    'en': 'Draw line'
+  },
+  'SingleDrawButton draw polygon': {
+    'de': 'Polygon einzeichnen',
+    'en': 'Draw polygon'
+  },
+  'SingleDrawButton draw circle': {
+    'de': 'Circle einzeichnen',
+    'en': 'Draw circle'
+  },
+  'SingleDrawButton delete all': {
+    'de': 'Alle Geometrien löschen',
+    'en': 'Delete all geometries'
+  },
+
   'Zoom zoomInTipLabel': {
     'de': 'Hereinzoomen',
     'en': 'Zoom in',
