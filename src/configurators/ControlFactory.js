@@ -27,6 +27,7 @@ import {ActiveGroup} from '../controls/ActiveGroup'
 import {MousePosition} from '../controls/MousePosition'
 import {ScaleLine} from '../controls/ScaleLine'
 import {OverviewMap} from '../controls/OverviewMap'
+import { SingleDrawButton } from '../controls/SingleDrawButton'
 
 /**
  * @typedef {Object} ControlFactoryOptions
@@ -149,6 +150,8 @@ export class ControlFactory {
       case 'layerMenu':
         options.className = options.className || 'g4u-layermenu'
         return new ComposedControl(options)
+      case 'singleDrawButton':
+        return new SingleDrawButton(options)
     }
   }
 
