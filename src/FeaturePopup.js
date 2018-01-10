@@ -122,7 +122,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       element: this.$element_.get(0),
       offset: this.pixelOffset_,
       positioning: options.hasOwnProperty('positioning') ? options.positioning : 'center-center',
-      stopEvent: false
+      stopEvent: true
     })
 
     /**
@@ -272,12 +272,6 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       map.addOverlay(this.overlay_)
 
       this.$element_.parent().addClass(this.className_ + '-container')
-
-      // disable scrolling of body and zooming into map while in the feature popup
-      this.window_.get$Element().on('mousewheel wheel DOMMouseScroll', e => {
-        e.stopPropagation()
-        e.preventDefault()
-      })
 
       let onMapChangeMobile = () => {
         if (map.get('mobile')) {

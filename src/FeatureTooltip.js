@@ -120,8 +120,10 @@ export class FeatureTooltip {
         description: feature.get('description')
       }, currentPopupModifiers)
         .then(result => {
-          this.$element_.html(html2Text(result.name))
-          this.$element_.removeClass(cssClasses.hidden)
+          if (result.name) {
+            this.$element_.html(html2Text(result.name))
+            this.$element_.removeClass(cssClasses.hidden)
+          }
         })
       if (!coordinate) {
         let geometry = feature.getGeometry()

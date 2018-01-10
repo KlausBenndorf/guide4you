@@ -122,7 +122,7 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
     map.addSupersedingInteraction('singleclick dblclick pointermove', this.interaction_)
 
     this.interaction_.on('drawend', () => {
-      this.removeInteraction()
+      this.setActive(false)
     })
   }
 
@@ -168,5 +168,9 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
         }
       })
     }
+  }
+
+  getLayer () {
+    return this.layer_
   }
 }
