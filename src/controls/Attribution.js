@@ -148,14 +148,19 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   scanLayers () {
-    if (this.getMap()) {
+    const map = this.getMap()
+    if (map) {
       this.visibleAttributions_ = []
-      this.scanLayer(this.getMap().getLayerGroup())
+      this.scanLayer(map.getLayerGroup())
     }
   }
 
+  labelize (title) {
+    return title.replace(/<[^>]*>/, ' ').replace(/\s{2,}/, ' ')
+  }
+
   scanLayer (layer, layerTitle = null) {
-    if (layer.getVisible()) {
+    if (layer && layer.getVisible()) {
       if (layer.getLayers) {
         let silentGroup = !(layer instanceof GroupLayer)
         layer.getLayers().forEach(l => this.scanLayer(l, silentGroup ? layer.get('title') : null))
@@ -164,7 +169,9 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
           let label = layer.isBaseLayer
             ? this.getLocaliser().localiseUsingDictionary('Attribution baseLayerLabel')
             : (layerTitle || layer.get('title'))
-          this.addLayer(layer, label)
+          if (label) {
+            this.addLayer(layer, this.labelize(label))
+          }
         }
       }
     }
