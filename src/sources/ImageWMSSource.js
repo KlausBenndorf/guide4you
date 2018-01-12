@@ -19,6 +19,10 @@ export class WMSFeatureInfoMixin {
     }
   }
 
+  getQueryable () {
+    return this.featureInfoParams_['QUERY_LAYERS'] && this.featureInfoParams_['QUERY_LAYERS'].length
+  }
+
   getFeatureInfoMutators () {
     return this.featureInfoMutators_ || []
   }

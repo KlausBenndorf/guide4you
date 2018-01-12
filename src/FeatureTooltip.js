@@ -87,7 +87,7 @@ export class FeatureTooltip {
             feature = feature.get('features')[0]
           }
           this.setFeature(feature, e.mapBrowserEvent.coordinate)
-        } else {
+        } else if (e.deselected.length && e.deselected.some(f => f === this.getFeature())) {
           this.setFeature(null)
         }
       })
