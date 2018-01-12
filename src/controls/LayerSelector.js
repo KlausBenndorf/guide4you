@@ -9,6 +9,7 @@ import { Window } from '../html/Window'
 import '../../less/layerselector.less'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { URL } from '../URLHelper'
+import { addTooltip, changeTooltip } from '../html/html'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -68,7 +69,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       menu: this.getClassName() + '-menu',
       layerButton: this.getClassName() + '-layerbutton',
       active: this.getClassName() + '-active',
-      checkbox: this.getClassName() + '-checkbox'
+      featureInfo: this.getClassName() + '-info',
+      featureInfoActive: this.getClassName() + '-info-active'
     }
 
     /**
@@ -358,21 +360,26 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
         let featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
 
-        let menu = new ButtonBox({
-          className: this.classNames_.menu,
-          title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
-          titleButton: true,
-          collapsed: wmsLayer.get('collapsed') !== false,
-          id: wmsLayer.get('id')
-        })
-
-        $target.append(menu.get$Element())
-
-        this.listenAt(menu)
-          .on('change:collapsed', () => {
-            this.dispatchEvent('change:size')
-            this.changed()
+        let menu
+        if (layerButtons.length > 1) {
+          menu = new ButtonBox({
+            className: this.classNames_.menu,
+            title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
+            titleButton: true,
+            collapsed: wmsLayer.get('collapsed') !== false,
+            id: wmsLayer.get('id')
           })
+
+          $target.append(menu.get$Element())
+
+          this.listenAt(menu)
+            .on('change:collapsed', () => {
+              this.dispatchEvent('change:size')
+              this.changed()
+            })
+
+          $target = menu.get$Body()
+        }
 
         let activeClassName = this.classNames_.menu + '-active'
 
@@ -380,13 +387,16 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           allLayersParams = allLayersParams.concat(layerButton.LAYERS)
           allQueryLayersParams = allQueryLayersParams.concat(layerButton.QUERY_LAYERS)
 
-          let $button = $('<button>')
+          let $button = $('<span>')
             .addClass(this.classNames_.layerButton)
+            .addClass('button')
             .html(this.getLocaliser().selectL10N(layerButton.title))
-          let $checkbox = $('<input type="checkbox">')
-            .addClass(this.classNames_.checkbox)
+          let $toggleFeatureInfo = $('<span>')
+            .addClass(this.classNames_.featureInfo)
+          addTooltip($toggleFeatureInfo,
+            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'))
 
-          menu.get$Body().append($button)
+          $target.append($button)
 
           let toggleButtonActive, setCheckboxActive
 
@@ -409,16 +419,22 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
             if (countActiveButtons === 0) {
               wmsLayer.setVisible(false)
-              menu.setCollapseButtonActive(false)
-              menu.setTitleButtonActive(false)
+              if (menu) {
+                menu.setCollapseButtonActive(false)
+                menu.setTitleButtonActive(false)
+              }
             } else if (countActiveButtons === layerButtons.length) {
               wmsLayer.setVisible(true)
-              menu.setCollapseButtonActive(true)
-              menu.setTitleButtonActive(true)
+              if (menu) {
+                menu.setCollapseButtonActive(true)
+                menu.setTitleButtonActive(true)
+              }
             } else {
               wmsLayer.setVisible(true)
-              menu.setCollapseButtonActive(true)
-              menu.setTitleButtonActive(false)
+              if (menu) {
+                menu.setCollapseButtonActive(true)
+                menu.setTitleButtonActive(false)
+              }
             }
             this.dispatchEvent({
               type: 'click:layer',
@@ -432,7 +448,19 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
               toggleButtonActive()
             }
             wmsSource.toggleWMSQueryLayers(layerButton.QUERY_LAYERS, checkboxActive)
-            $checkbox.prop('checked', checkboxActive)
+            $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, checkboxActive)
+            if (checkboxActive) {
+              changeTooltip($toggleFeatureInfo,
+                this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'))
+            } else {
+              changeTooltip($toggleFeatureInfo,
+                this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
+            }
+          }
+
+          if (layerButton.checked) {
+            wmsSource.toggleWMSQueryLayers(layerButton.QUERY_LAYERS, true)
+            $toggleFeatureInfo.addClass(this.classNames_.featureInfoActive)
           }
 
           this.listenAt($button)
@@ -441,41 +469,43 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             })
 
           if (featureInfoCheckable) {
-            $button.append($checkbox)
-            this.listenAt($checkbox).on('click', e => {
-              setCheckboxActive($checkbox.is(':checked'))
+            $button.append($toggleFeatureInfo)
+            this.listenAt($toggleFeatureInfo).on('click', e => {
+              setCheckboxActive(!$toggleFeatureInfo.hasClass(this.classNames_.featureInfoActive))
               e.stopPropagation()
             })
           }
         }
 
-        this.listenAt(menu).on('title:click', () => {
-          let activateAll = countActiveButtons < layerButtons.length
-          if (activateAll) {
-            wmsSource.toggleWMSLayers(allLayersParams, true)
-            countActiveButtons = layerButtons.length
-          } else {
-            wmsSource.toggleWMSLayers(allLayersParams, false)
-            if (featureInfoCheckable) {
-              wmsSource.toggleWMSQueryLayers(allQueryLayersParams, false)
-              menu.get$Body().find('input[type=checkbox]').prop('checked', false)
+        if (menu) {
+          this.listenAt(menu).on('title:click', () => {
+            let activateAll = countActiveButtons < layerButtons.length
+            if (activateAll) {
+              wmsSource.toggleWMSLayers(allLayersParams, true)
+              countActiveButtons = layerButtons.length
+            } else {
+              wmsSource.toggleWMSLayers(allLayersParams, false)
+              if (featureInfoCheckable) {
+                wmsSource.toggleWMSQueryLayers(allQueryLayersParams, false)
+                menu.get$Body().find('input[type=checkbox]').prop('checked', false)
+              }
+              countActiveButtons = 0
             }
-            countActiveButtons = 0
-          }
 
-          menu.get$Body().find('button').toggleClass(activeClassName, activateAll)
-          wmsLayer.setVisible(activateAll)
-          menu.setCollapseButtonActive(activateAll)
-          menu.setTitleButtonActive(activateAll)
+            menu.get$Body().find('button').toggleClass(activeClassName, activateAll)
+            wmsLayer.setVisible(activateAll)
+            menu.setCollapseButtonActive(activateAll)
+            menu.setTitleButtonActive(activateAll)
 
-          this.dispatchEvent({
-            type: 'click:category',
-            layer: wmsLayer,
-            wmsLayer: true
+            this.dispatchEvent({
+              type: 'click:category',
+              layer: wmsLayer,
+              wmsLayer: true
+            })
           })
-        })
 
-        return menu
+          return menu
+        }
       } else {
         return this.buildLayerButton(wmsLayer, $target)
       }
