@@ -1,11 +1,13 @@
 @import "./lengths";
 @import "./colors";
-@import "./controlgenerics";
+@import "./buttons";
 
 @g4u-layerselector-menu-collapsed-icon: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/plusminus-plus.svg");
 @g4u-layerselector-menu-expanded-icon: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/plusminus-minus.svg");
 @g4u-layerselector-group-collapsed-icon: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/expand-outline-down.svg");
 @g4u-layerselector-group-expanded-icon: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/expand-outline-right.svg");
+@g4u-layerselector-info: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/info-circle.svg");
+@g4u-layerselector-info-green: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/info-circle-green.svg");
 @g4u-whitespace-icon: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/plusminus-nothing.svg");
 @g4u-load-animation: url("~file-loader?name=images/[name].[ext]!mustache-loader!../images/icons/load-animation.svg");
 
@@ -14,7 +16,7 @@
     .g4u-layerselector {
       // TODO: remove unneccessary classes
 
-      button {
+      button, .button {
         box-sizing: border-box;
         width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
         padding-left: 2 * @g4u-desktop-padding;
@@ -169,18 +171,51 @@
     }
   }
 
-  .g4u-layerselector-checkbox {
+  .g4u-layerselector-info {
+    &.g4u-has-tooltip [role=tooltip] {
+      top: 0 !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: @g4u-desktop-button-size + 2*@g4u-desktop-padding !important;
+    }
+    overflow: visible !important;
+    display: none;
+
     position: absolute;
-    left: @g4u-desktop-padding;
-    top: auto;
-    bottom: auto;
+    right: 2 * @g4u-desktop-padding;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: @g4u-desktop-button-size;
+    height: @g4u-desktop-button-size;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: round(0.5 * (@g4u-desktop-button-size - @g4u-desktop-huge-fontsize));
+      left: round(0.5 * (@g4u-desktop-button-size - @g4u-desktop-huge-fontsize));
+      height: @g4u-desktop-huge-fontsize;
+      width: @g4u-desktop-huge-fontsize;
+      background-image: @g4u-layerselector-info;
+      background-repeat: no-repeat;
+    }
+
+    &.g4u-layerselector-info-active {
+      &:before {
+        background-image: @g4u-layerselector-info-green;
+      }
+    }
+  }
+
+  .g4u-layerselector-menu-active .g4u-layerselector-info {
+    display: block;
   }
 }
 
 .g4u-mobile {
   .g4u-layerselector {
     .g4u-layerselector {
-      button {
+      button, .button {
         box-sizing: border-box;
         width: 100%;
         text-align: left;
