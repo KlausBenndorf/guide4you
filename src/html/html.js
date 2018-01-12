@@ -53,3 +53,13 @@ export function addTooltip ($element, text) {
     .append($('<span role="tooltip">')
       .html(text))
 }
+
+/**
+ * @param {jQuery} $element
+ * @param {string} text
+ */
+export function changeTooltip ($element, text) {
+  $element
+    .find('[role=tooltip]')
+    .html(text)
+}
