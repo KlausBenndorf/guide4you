@@ -52,6 +52,15 @@
   }
 }
 
+.tooltip-enable-hover() {
+  &:hover {
+    [role=tooltip] {
+      position: absolute;
+      display: block;
+    }
+  }
+}
+
 .g4u-desktop {
   .g4u-featuretooltip-container {
     z-index: 100;
@@ -59,15 +68,6 @@
 
   .g4u-featuretooltip {
     .tooltip();
-  }
-
-  .tooltip-enable-hover() {
-    &:hover {
-      [role=tooltip] {
-        position: absolute;
-        display: block;
-      }
-    }
   }
 
   .g4u-has-tooltip {
