@@ -14,7 +14,7 @@ import {ControlFactory} from './ControlFactory'
 import {Debug} from '../Debug'
 
 import {copyDeep} from '../utilitiesObject'
-import { asObject, checkFor, getConfig, urlDirname, urlJoin } from '../utilities'
+import { checkFor, getConfig, urlDirname, urlJoin } from '../utilities'
 
 import {MeasurementButton} from '../controls/MeasurementButton'
 import {PrintButton} from '../controls/PrintButton'

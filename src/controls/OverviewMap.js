@@ -38,6 +38,8 @@ export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin
     }
     super.setMap(map)
     if (map) {
+      const view = map.getView()
+
       this.getOverviewMap().setLayerGroup(map.get('baseLayers'))
 
       let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
@@ -48,7 +50,7 @@ export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin
 
       this.listenAt($overviewmap).on('click', e => {
         if (!dontClick) {
-          map.getView().setCenter(this.getOverviewMap().getEventCoordinate(e))
+          view.setCenter(view.constrainCenter(this.getOverviewMap().getEventCoordinate(e)))
         }
       })
 
@@ -65,7 +67,7 @@ export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin
 
       this.listenAt($overviewmap).on('mousemove', e => {
         if (mouseDown) {
-          map.getView().setCenter(this.getOverviewMap().getEventCoordinate(e))
+          view.setCenter(view.constrainCenter(this.getOverviewMap().getEventCoordinate(e)))
         }
       })
 

@@ -7,6 +7,14 @@ import { Debug } from '../Debug'
 import { LayerFactory } from './LayerFactory'
 
 /**
+ * @typedef {Object} LayerConfig
+ * @property {g4uLayerOptions[]} baseLayers
+ * @property {g4uLayerOptions[]} featureLayers
+ * @property {g4uLayerOptions[]} fixedFeatureLayers
+ * @property {g4uLayerOptions[]} queryLayers
+ */
+
+/**
  * This is part of the MapConfigurator class
  */
 export class LayerConfigurator {

@@ -19,12 +19,18 @@ import { URL } from '../URLHelper'
 import { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'
 import { ClusterSource } from '../sources/ClusterSource'
 
+/**
+ * @enum {string}
+ */
 export const SuperType = {
   BASELAYER: 'baseLayer',
   FEATURELAYER: 'featureLayer',
   QUERYLAYER: 'queryLayer'
 }
 
+/**
+ * @enum {string}
+ */
 export const LayerType = {
   CATEGORY: 'Category',
   SILENTGROUP: 'SilentGroup',
@@ -45,15 +51,19 @@ export const LayerType = {
  * A config describing a layer
  * @public
  * @typedef {Object} g4uLayerOptions
- * @property {string} type the LayerType
+ * @property {LayerType} type The layer type.
  * @property {string|number} id unique in the whole config
- * @property {string} title
- * @property {SourceConfig|ol.source.Source} source
- * @property {Boolean} available
- * @property {Boolean} availableMobile overwrites available in mobile mode
- * @property {Boolean} visible
- * @property {Boolean} alwaysVisible overwrites visible, available and mobileAvailable
+ * @property {string} [title]
+ * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.
+ * @property {Boolean} [availableMobile] overwrites available in mobile mode
+ * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.
+ * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable
  * @property {StyleLike} [style]
+ */
+
+/**
+ * @typedef {g4uLayerOptions} SourcedLayerOptions
+ * @property {SourceConfig|ol.source.Source} [source]
  */
 
 /**
@@ -64,18 +74,17 @@ export const LayerType = {
  * @property {boolean} [localised=false]
  * @property {ol.Attribution[]} [attributions] will be setted automatically.
  * @property {null} [crossOrigin] will be setted automatically.
- * @property {string} loadingStrategy
+ * @property {string} [loadingStrategy]
  * @property {URLLike} url
- * @property {
  */
 
 /**
  * @typedef {Object} FeatureConfig
  * @public
  * @property {string|number} id
- * @property {StyleLike} style
- * @property {string} geometryWKT
- * @property {ol.geom.Geometry} geometry
+ * @property {StyleLike} [style]
+ * @property {string} [geometryWKT]
+ * @property {ol.geom.Geometry} [geometry]
  */
 
 /**
@@ -374,6 +383,8 @@ export class LayerFactory {
       case LayerType.WMTS:
         let sourceOptions = take(optionsCopy, 'source')
 
+        // url gets extracted in setWMTSSourceFromCapabilities
+
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
         } else {
@@ -629,16 +640,20 @@ export class LayerFactory {
   }
 
   setWMTSSourceFromCapabilities (layer, sourceOptions) {
-    let url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_)
-    let capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities')
+    const url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_)
+    const capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities')
     $.ajax({
       url: capUrl.finalize(),
       dataType: 'text xml',
       crossDomain: true,
       success: data => {
-        let wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
-        let capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
-        sourceOptions.url = url.finalize()
+        const wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
+        const capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
+        capOptions.urls = capOptions.urls.map(newUrl => {
+          const u = url.clone()
+          u.url = newUrl
+          return u.finalize()
+        })
         sourceOptions = mergeDeep(sourceOptions, capOptions)
         layer.setSource(new ol.source.WMTS(sourceOptions))
       }

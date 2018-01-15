@@ -30,6 +30,50 @@ import {OverviewMap} from '../controls/OverviewMap'
 import { SingleDrawButton } from '../controls/SingleDrawButton'
 
 /**
+ *  Inside of this object the controls are configured. Normally they are referenced by their type, but if
+ *  you have multiple controls of one type you can specify a name under which it is referenced. Then you
+ *  have to specify the `controlType` in the configuration object.
+ *
+ *  Example:
+ *  let `'example'` be the chosen name for an attribution control. Then we can reference it in `onMap` or
+ *  any `contains` property as `'example'`. The configuration object is now named `'example'` but needs to
+ *  have an `'controlType'` property which needs to be set to `'attribution'`.
+ *
+ *  ```
+ *    "controls": {
+ *      "onMap": ["example"],
+ *      "example": {
+ *        "controlType": "attribution",
+ *        ...
+ *      }
+ *    }
+ *  ```
+ *
+ * @typedef {object} ControlsConfig
+ * @property {string[]} onMap All controls mentioned in this array will be added directly to the map.
+ * @property {ArrowButtonOptions} [arrowButtons]
+ * @property {AttributionOptions} [attribution]
+ * @property {CombinedZoomOptions} [combinedZoom]
+ * @property {GeoLocationButtonOptions} [geolocationButton]
+ * @property {HelpButtonOptions} [helpButton]
+ * @property {InfoButtonOptions} [infoButton]
+ * @property {LanguageSwitcherButtonOptions} [languageSwitcherButton]
+ * @property {LanguageSwitcherMenuOptions} [languageSwitcherMenu]
+ * @property {LayerSelectorOptions} [layerSelector]
+ * @property {LinkButtonOptions} [linkButton]
+ * @property {LogoOptions} [logo]
+ * @property {MeasurementButtonOptions} [measurementButton]
+ * @property {ShiftableComposedControlOptions} [mobileControls]
+ * @property {MousePositionOptions} [mousePosition]
+ * @property {OverviewMapOptions} [overviewMap]
+ * @property {g4uControlOptions} [printButton]
+ * @property {ScaleLineOptions} [scaleLine]
+ * @property {DrawButtonsOptions} [singleDrawButton]
+ * @property {ComposedControlOptions} [toolbox]
+ * @property {ComposedControlOptions} [layerMenu]
+ */
+
+/**
  * @typedef {Object} ControlFactoryOptions
  * @property {L10N} localiser
  * @property {G4UMap} map
@@ -237,6 +281,9 @@ export class ControlFactory {
    * @public
    */
   addControls () {
+    /**
+     * @type {ControlsConfig}
+     */
     this.controlsConfig = this.map_.get('mapConfig').controls
     if (checkFor(this.controlsConfig, 'onMap')) {
       this.addControlMultipleInternal_(this.map_, this.controlsConfig.onMap)
