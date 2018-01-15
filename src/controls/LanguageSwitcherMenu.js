@@ -3,7 +3,7 @@ import $ from 'jquery'
 import {Dropdown} from '../html/Dropdown'
 import { addTooltip } from '../html/html'
 import {Control} from './Control'
-import { cssClasses, keyCodes } from '../globals'
+import { cssClasses } from '../globals'
 import {Debug} from '../Debug'
 
 import '../../less/languageControls.less'
@@ -73,11 +73,9 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
 
     this.dropdown_.on('select', () => this.getLocaliser().setCurrentLang((this.dropdown_.getValue())))
 
-    this.get$Element().on('keydown', e => {
-      if (e.which === keyCodes.ESCAPE) {
-        this.setActive(false)
-        $(this.getMap().getViewport()).focus()
-      }
+    this.dropdown_.on('close', () => {
+      this.setActive(false)
+      $(this.getMap().getViewport()).focus()
     })
 
     this.on('change:active', () => this.handleActiveChange_())
@@ -89,6 +87,7 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
   setMap (map) {
     if (this.getMap()) {
       this.detachAllListeners()
+      this.dropdown_.detach()
 
       this.setActive(false)
     }
@@ -96,22 +95,8 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
     super.setMap(map)
 
     if (map) {
-      this.collapse_ = true
-
-      // The following does not work in 'on('click')' as it relies on useCapture; all click events will be
-      // dispatched to the listener before being dispatched to any EventTarget beneath it in the DOM tree.
-      this.listenAt(document).on('click', () => {
-        this.collapse_ = true
-      }, true)
-
-      this.listenAt([
-        $(this.getMap().getViewport()).find('.ol-overlaycontainer-stopevent'),
-        document
-      ]).on('click', () => {
-        if (this.collapse_ && this.getActive()) {
-          this.setActive(false)
-        }
-      })
+      this.dropdown_.setFastMode(map.get('mobile'))
+      map.on('change:mobile', () => this.dropdown_.setFastMode(map.get('mobile')))
 
       this.listenAt(this.get$Element()).on('click', () => {
         this.collapse_ = false
@@ -132,13 +117,6 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
   }
 
   handleActiveChange_ () {
-    let active = this.getActive()
     this.dropdown_.setActivated(this.getLocaliser().getCurrentLang())
-    if (active) {
-      this.collapse_ = false
-      this.dropdown_.slideDown(this.getMap().get('mobile'))
-    } else {
-      this.dropdown_.slideUp(this.getMap().get('mobile'))
-    }
   }
 }

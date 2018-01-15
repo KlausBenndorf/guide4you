@@ -32,6 +32,7 @@
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.26.0",
     "concurrently": "^3.4.0",
     "esdoc": "^1.0.3",
     "esdoc-standard-plugin": "^1.0.0",

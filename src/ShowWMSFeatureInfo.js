@@ -79,51 +79,59 @@ export class ShowWMSFeatureInfo {
     }
   }
 
+  layerQueryable (layer) {
+    return this.layers_.some(l => {
+      return l.getVisible() &&
+        this.layers_.indexOf(layer) > -1 &&
+        layer.getSource().getQueryable()
+    })
+  }
+
   handlePointerMoveEvent (e) {
     let map = this.getMap()
-    let featureTooltip = map.get('featureTooltip')
+    if (!map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay, {hitTolerance: 5})) {
+      let featureTooltip = map.get('featureTooltip')
+      this.lastTooltipPixel_ = e.pixel
 
-    featureTooltip.setFeature(null)
-    clearTimeout(this.tooltipTimeout_)
-    this.lastTooltipPixel_ = e.pixel
-    this.tooltipTimeout_ = setTimeout(() => {
-      if (e.pixel === this.lastTooltipPixel_) {
-        let projection = map.getView().getProjection()
-        let layers = this.layers_.filter(l => l.getVisible())
-        let shouldShow = map.forEachLayerAtPixel(e.mapEvent.pixel, layer => layers.indexOf(layer) > -1) &&
-          !map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay)
-
-        if (shouldShow) {
-          let coordinate = e.mapEvent.coordinate
-          let feature
-          for (let layer of layers) {
-            layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
-              .then(data => {
-                if (data !== '') {
-                  if (!feature) {
-                    feature = new ol.Feature({
-                      geometry: new ol.geom.Point(coordinate),
-                      description: data
+      if (map.forEachLayerAtPixel(e.mapEvent.pixel, layer => this.layerQueryable(layer))) {
+        clearTimeout(this.tooltipTimeout_)
+        $(map.getViewport()).addClass(cssClasses.clickable)
+        this.tooltipTimeout_ = setTimeout(() => {
+          if (e.pixel === this.lastTooltipPixel_) {
+            let projection = map.getView().getProjection()
+            let coordinate = e.mapEvent.coordinate
+            let feature
+            map.forEachLayerAtPixel(e.mapEvent.pixel, layer => {
+              if (this.layerQueryable(layer)) {
+                layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
+                  .then(data => {
+                    if (data !== '') {
+                      if (!feature) {
+                        feature = new ol.Feature({
+                          geometry: new ol.geom.Point(coordinate),
+                          description: data
+                        })
+                        featureTooltip.setFeature(feature, coordinate,
+                          [...this.popupModifiers_, ...layer.getSource().getFeatureInfoMutators()])
+                      } else {
+                        feature.set('description', feature.get('description') + this.separator_ + data)
+                      }
+                      this.shouldHide_ = true
+                    }
+                    layer.on('change:visible', () => {
+                      featureTooltip.setFeature(null)
                     })
-                    featureTooltip.setFeature(feature, coordinate,
-                      [...this.popupModifiers_, ...layer.getSource().getFeatureInfoMutators()])
-                  } else {
-                    feature.set('description', feature.get('description') + this.separator_ + data)
-                  }
-                }
-                layer.on('change:visible', () => {
-                  featureTooltip.setFeature(null)
-                })
-              })
+                  })
+              }
+            })
           }
+        }, 200)
+      } else {
+        if (this.shouldHide_) {
+          featureTooltip.setFeature(null)
         }
+        $(map.getViewport()).removeClass(cssClasses.clickable)
       }
-    }, 200)
-
-    if (map.forEachLayerAtPixel(e.mapEvent.pixel, layer => this.layers_.indexOf(layer) > -1)) {
-      $(map.getViewport()).addClass(cssClasses.clickable)
-    } else {
-      $(map.getViewport()).removeClass(cssClasses.clickable)
     }
   }
 

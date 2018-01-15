@@ -526,9 +526,12 @@ export class G4UMap extends ol.Map {
 
   /**
    * @param {GroupLayer} groupLayer
+   * @param {boolean} [silent=false] provide map to layers
    */
-  setLayerGroup (groupLayer) {
-    groupLayer.provideMap(this)
+  setLayerGroup (groupLayer, silent = false) {
+    if (!silent) {
+      groupLayer.provideMap(this)
+    }
     super.setLayerGroup(groupLayer)
   }
 
