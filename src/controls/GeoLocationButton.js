@@ -13,7 +13,7 @@ import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
 
 /**
- * @typedef {g4uControlOptions} GeolocationButtonOptions
+ * @typedef {g4uControlOptions} GeoLocationButtonOptions
  * @property {boolean} [animated] if the move on the map to the geoposition should be animated
  * @property {StyleLike} [style='#defaultStyle']
  * @property {number} [maxZoom]
@@ -25,7 +25,7 @@ import { mixin } from '../utilities'
  */
 export class GeolocationButton extends mixin(Control, [ActivatableMixin, ListenerOrganizerMixin]) {
   /**
-   * @param {GeolocationButtonOptions} [options={}]
+   * @param {GeoLocationButtonOptions} [options={}]
    */
   constructor (options = {}) {
     options.className = options.className || 'g4u-geolocation'

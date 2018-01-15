@@ -5,6 +5,8 @@ import { cssClasses, keyCodes } from '../globals'
 import 'polyfill!Array.prototype.findIndex,Array.prototype.find'
 
 import '../../less/dropdown.less'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
+import { mixin } from '../utilities'
 
 /**
  * @typedef {object} DropdownOptions
@@ -33,8 +35,10 @@ $.extend($.easing, {
  * The text entries in the list can be setted and changed and given a click handler.
  * @fires 'leave:backwards' This event is raised if the dropdown is left via the up arrow or shift+tab
  * @fires 'leave:forwards' This event is raised if the dropdown is left via the down arrow or tab
+ * @fires 'close' dropdown closing without select
+ * @fires 'select' dropdown closing with select
  */
-export class Dropdown extends ol.Object {
+export class Dropdown extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * @param {DropdownOptions} [options={}]
    */
@@ -93,17 +97,38 @@ export class Dropdown extends ol.Object {
 
     this.setUpKeyboardHandling_()
 
-    this.$element_.on('focus', () => {
+    this.listenAt(this.$element_).on('focus', () => {
       if (this.selectedIndex_ > -1) {
         this.entriesArray_[this.selectedIndex_].$element.focus()
       }
     })
 
-    this.$element_.get(0).addEventListener('mousemove', e => {
+    this.listenAt(this.$element_).on('mousemove', e => {
       e.stopPropagation()
-    }, false)
+    })
 
     this.slideUp(true)
+
+    let skipCollapse
+
+    this.listenAt(this.$element_).on('click', () => {
+      skipCollapse = true
+    })
+
+    this.listenAt([
+      // $(this.getMap().getViewport()).find('.ol-overlaycontainer-stopevent'),
+      document
+    ]).on('click', () => {
+      if (skipCollapse) {
+        skipCollapse = false
+      } else if (this.collapse_) {
+        this.slideUp()
+      }
+    })
+  }
+
+  detach () {
+    this.detachAllListeners()
   }
 
   /**
@@ -129,7 +154,7 @@ export class Dropdown extends ol.Object {
    * @private
    */
   setUpKeyboardHandling_ () {
-    this.$element_.on('keydown', e => {
+    this.listenAt(this.$element_).on('keydown', e => {
       switch (e.which) {
         case keyCodes.ARROW_DOWN:
           e.preventDefault()
@@ -177,6 +202,12 @@ export class Dropdown extends ol.Object {
           this.select$Entry_(this.entriesArray_[this.selectedIndex_].$element)
       }
     })
+    this.listenAt(window).on('keydown', e => {
+      if (this.collapse_ && e.which === keyCodes.ESCAPE) {
+        this.slideUp()
+        this.dispatchEvent('close')
+      }
+    })
   }
 
   /**
@@ -222,6 +253,10 @@ export class Dropdown extends ol.Object {
     this.entriesArray_.find(o => o.value === value).$element.toggleClass(cssClasses.active, active)
   }
 
+  setFastMode (value) {
+    this.fastMode_ = value
+  }
+
   /**
    * This function takes an array of entries (strings).
    * The length of the dropdown is set to the length of the arrays (they have to have the same length).
@@ -247,6 +282,7 @@ export class Dropdown extends ol.Object {
       }
     }
     this.selectedIndex_ = this.entriesArray_.findIndex(el => el.$element === $entry)
+    this.slideUp()
     this.dispatchEvent('select')
   }
 
@@ -322,9 +358,10 @@ export class Dropdown extends ol.Object {
    */
   slideUp (immediately = false) {
     return new Promise(resolve => {
-      let duration = 0
-      if (!immediately) {
-        duration = this.slideDuration_
+      this.collapse_ = false
+      let duration = this.slideDuration_
+      if (immediately || this.fastMode_) {
+        duration = 0
       }
       this.$element_.slideUp({
         duration: duration,
@@ -344,14 +381,17 @@ export class Dropdown extends ol.Object {
   slideDown (immediately = false) {
     return new Promise(resolve => {
       if (this.$element_.children().length > 0) {
-        let duration = 0
-        if (!immediately) {
-          duration = this.slideDuration_
+        let duration = this.slideDuration_
+        if (immediately || this.fastMode_) {
+          duration = 0
         }
         this.$element_.removeClass(cssClasses.hidden)
         this.$element_.slideDown({
           easing: 'easeOutCirc',
-          complete: resolve,
+          complete: () => {
+            this.collapse_ = true
+            resolve()
+          },
           duration: duration
         })
       }

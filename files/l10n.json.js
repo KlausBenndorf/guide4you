@@ -155,6 +155,15 @@ module.exports = {
     'ar': 'طبقات شكلي'
   },
 
+  'LayerSelector featureInfo show': {
+    'de': 'Aktiviere FeatureInfo',
+    'en': 'Activate FeatureInfo'
+  },
+  'LayerSelector featureInfo hide': {
+    'de': 'Deaktiviere FeatureInfo',
+    'en': 'Deactivate FeatureInfo'
+  },
+
   'LinkButton title': {
     'de': 'Home',
     'en': 'Home',
@@ -278,7 +287,7 @@ module.exports = {
     'en': 'Draw polygon'
   },
   'SingleDrawButton draw circle': {
-    'de': 'Circle einzeichnen',
+    'de': 'Kreis einzeichnen',
     'en': 'Draw circle'
   },
   'SingleDrawButton delete all': {

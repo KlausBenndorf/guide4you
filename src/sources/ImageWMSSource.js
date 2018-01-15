@@ -66,11 +66,19 @@ export class WMSFeatureInfoMixin {
   toggleArrayEntries_ (obj, prop, names, toggle) {
     let arr = obj[prop] || []
     if (toggle) {
-      for (let name of names) {
+      // the call of toggleWMSLayers in TemplatePrintControl causes an polyfill error in
+      // internet explorer / microsoft edge related to Symbol.iterator which is used for
+      // the for-of loop
+      names.forEach(name => {
         if (arr.indexOf(name) < 0) {
           arr.push(name)
         }
-      }
+      })
+      // for (let name of names) {
+      //   if (arr.indexOf(name) < 0) {
+      //     arr.push(name)
+      //   }
+      // }
     } else {
       for (let name of names) {
         let index = arr.indexOf(name)

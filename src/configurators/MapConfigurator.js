@@ -17,32 +17,47 @@ import {Debug} from '../Debug'
 
 /**
  * @typedef {Object} MapConfig
- * @property {Boolean} [userActionTracking]
+ * @property {string} [proxy] A proxy url. It should have an {url} string which will be replaced with the proxied url.
+ *    Example: 'proxy.php?csurl={url}'.
+ * @property {Boolean} [userActionTracking=false] if checked the map tracks certain user actions and
+ *    fires 'userActionTracking' events that contain this information. Tracked actions are: move, layer activation,
+ *    clicks on features, printing, measurements.
+ * @property {L10NOptions} [languageSettings] settings regarding the display language.
+ * @property {string} [interfaceProjection='EPSG:4326'] the projection the interface will use to interact with the
+ *    user or the api.
+ * @property {string} [mapProjection] the projection that is used internally. Will be infered from map data if not set.
+ * @property {string} [measurementProjection] the projection measurements will calculated in.
  * @property {boolean} [enableContextMenu=false] enables the contextMenu outside of textinput fields
- * @property {g4uViewOptions} view
- * @property {string} [interfaceProjection='EPSG:4326']
- * @property {string} [mapProjection] will be infered from map data if not set
- * @property {string} [measurementProjection] the projection measurements will calculated in
- * @property {string} [proxy] A proxy url. It should be an url with a {url} part where the proxied url is to be
- *    inserted.
- * @property {Object.<string,StyleObject>} [styleMap] the style objects which will be mapped to certain identifiers. It
- *    is recommended that identifiers start with a #. The {{StyleObject}} with the identifier '#defaultStyle' will be
- *    used as a default Style in the whole Software
+ * @property {g4uViewOptions} view View options.
  * @property {number} [scaleIcons] a default scaling for all used feature icons
+ * @property {number} [hitTolerance=0] a default hit tolerance that will be used for all interactions
+ *    (except show wms feature info).
  * @property {boolean} [manageStyles=true] set this to false to disable style managing. This disables scaleIcons,
  *    mobileScaleIcons, feature hiding and adjustable style opacity
- * @property {ProjectionConfig[]} [additionalProjections]
- * @property {Object} [api] API-Options
- * @property {string} [loadingStrategy='ALL'] global loading strategy. Can have the values 'BBOX' or 'ALL'.
- * @property {boolean} [ignoreLayerAvailability=false] if set all layers are added to the map, regardless of their
- *    available config option
+ * @property {MobileLayoutOptions} [mobileLayout] special layout options for mobile use.
+ * @property {ProjectionConfig[]} [additionalProjections] if any other projections than 'EPSG:4326' or 'EPSG:3857' are
+ *    needed they can be specified here.
+ * @property {APIOptions} [api] API-Options
+ * @property {FeaturePopupOptions} [featurePopup] Options regarding the feature popup.
+ * @property {FeatureTooltipOptions} [featureTooltip] Options regarding the feature tooltip.
+ * @property {ShowWMSFeatureInfoOptions} [showWMSFeatureInfo] Options regarding WMS GetFeatureInfo.
+ * @property {Object.<string, boolean>} [interactions] Specifies which map interactions should be turned on by default.
+ *    Possible interactions are: 'doubleClickZoom', 'dragPan' (to which the {KineticOptions} are applied), 'dragRotate',
+ *    'dragZoom', 'keyboardPan', 'keyboardZoom', 'mouseWheelZoom', 'pinchRotate', 'pinchZoom'
+ * @property {KineticOptions|boolean} [kinetic] This influences the DragPan behaviour. If set to false no kinetic
+ *    options are applied, if not set, the defaults are used.
+ * @property {MoveOptions} [move] Options regarding the behaviour of movements on the maps.
+ * @property {PositioningOptions} [positioning] Options regarding the positioning of the controls.
+ * @property {string} [loadingStrategy='ALL'] Global default loading strategy. Can have the values 'BBOX' or 'ALL'.
+ * @property {boolean} [ignoreLayerAvailability=false] If set all layers are added to the map, regardless of their
+ *    available config option.
  * @property {string} [cssFile] a cssFile to load and insert in the head dynamically.
  * @property {Color[]} [cssTemplate] if 3 colors are given, the colors used in the text of the loaded cssFile will be
  *    replaced by this colors. The colors in the cssFile need to be pure red, blue and green.
- * @property {MobileLayoutOptions} [mobileLayout]
- * @property {PositioningOptions} [positioning={}]
- * @property {KineticOptions|boolean} [kinetic] This influences the DragPan behaviour. If set to false no kinetic
- *    options are applied, if not set, the defaults are used.
+ * @property {Object.<string, StyleObject>} [styleMap] the style objects which will be mapped to certain identifiers. It
+ *    is recommended that identifiers start with a #. The {{StyleObject}} with the identifier '#defaultStyle' will be
+ *    used as a default Style in the whole Software.
+ * @property {ControlsConfig} controls
  */
 
 /**
@@ -67,14 +82,6 @@ import {Debug} from '../Debug'
  * @property {number} [rotation]
  * @property {number} [fit] an extent to fit the map initialy to, overwrites center settings
  * @property {ol.ProjectionLike} [projection]
- */
-
-/**
- * @typedef {Object} LayerConfig
- * @property {Object[]} baseLayers
- * @property {Object[]} featureLayers
- * @property {Object[]} fixedFeatureLayers
- * @property {Object[]} queryLayers
  */
 
 /**
