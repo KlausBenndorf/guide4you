@@ -6591,7 +6591,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.8.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.8.1'); // eslint-disable-line
 
     _this.set('options', options);
 
