@@ -95,6 +95,7 @@
         "languageSwitcherMenu",
         "printButton",
         "infoButton",
+        "singleDrawButton",
         "helpButton"
       ],
       "float": [
@@ -150,6 +151,10 @@
         "left",
         "bottom"
       ]
+    },
+    "singleDrawButton": {
+      "editStyle": "#red",
+      "finishedStyle": "#defaultStyle"
     },
     "zoom": {
       "slider": true,
