@@ -894,7 +894,7 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\n * @typedef {g4uControlOptions} GeolocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
+            "value": "*\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
             "start": 462,
             "end": 740,
             "loc": {
@@ -6843,7 +6843,7 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\n   * @param {GeolocationButtonOptions} [options={}]\n   ",
+                    "value": "*\n   * @param {GeoLocationButtonOptions} [options={}]\n   ",
                     "start": 932,
                     "end": 993,
                     "loc": {
@@ -15743,7 +15743,7 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\n * @typedef {g4uControlOptions} GeolocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
+              "value": "*\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
               "start": 462,
               "end": 740,
               "loc": {
@@ -15779,7 +15779,7 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\n * @typedef {g4uControlOptions} GeolocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
+            "value": "*\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
             "start": 462,
             "end": 740,
             "loc": {
@@ -15817,7 +15817,7 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {g4uControlOptions} GeolocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
+      "value": "*\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
       "start": 462,
       "end": 740,
       "loc": {
@@ -15849,7 +15849,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n   * @param {GeolocationButtonOptions} [options={}]\n   ",
+      "value": "*\n   * @param {GeoLocationButtonOptions} [options={}]\n   ",
       "start": 932,
       "end": 993,
       "loc": {
@@ -17568,7 +17568,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * @typedef {g4uControlOptions} GeolocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
+      "value": "*\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n ",
       "start": 462,
       "end": 740,
       "loc": {
@@ -17993,7 +17993,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n   * @param {GeolocationButtonOptions} [options={}]\n   ",
+      "value": "*\n   * @param {GeoLocationButtonOptions} [options={}]\n   ",
       "start": 932,
       "end": 993,
       "loc": {

@@ -1,14 +1,12 @@
 {
-  "coverage": "74.63%",
-  "expectCount": 749,
-  "actualCount": 559,
+  "coverage": "72.78%",
+  "expectCount": 801,
+  "actualCount": 583,
   "files": {
     "src/configurators/ControlFactory.js": {
       "expectCount": 12,
-      "actualCount": 11,
-      "undocumentLines": [
-        237
-      ]
+      "actualCount": 12,
+      "undocumentLines": []
     },
     "src/configurators/LayerConfigurator.js": {
       "expectCount": 8,
@@ -17,12 +15,10 @@
     },
     "src/configurators/LayerFactory.js": {
       "expectCount": 20,
-      "actualCount": 16,
+      "actualCount": 18,
       "undocumentLines": [
-        22,
-        28,
-        100,
-        631
+        109,
+        642
       ]
     },
     "src/configurators/MapConfigurator.js": {
@@ -62,7 +58,7 @@
       "undocumentLines": []
     },
     "src/controls/Attribution.js": {
-      "expectCount": 19,
+      "expectCount": 20,
       "actualCount": 3,
       "undocumentLines": [
         15,
@@ -76,11 +72,12 @@
         79,
         109,
         150,
-        157,
-        173,
-        200,
-        211,
-        219
+        158,
+        162,
+        180,
+        207,
+        218,
+        226
       ]
     },
     "src/controls/CombinedZoom.js": {
@@ -113,6 +110,30 @@
         185
       ]
     },
+    "src/controls/DrawButtons.js": {
+      "expectCount": 32,
+      "actualCount": 14,
+      "undocumentLines": [
+        31,
+        56,
+        57,
+        58,
+        61,
+        69,
+        80,
+        91,
+        102,
+        103,
+        118,
+        119,
+        129,
+        133,
+        134,
+        148,
+        303,
+        315
+      ]
+    },
     "src/controls/GeoLocationButton.js": {
       "expectCount": 14,
       "actualCount": 10,
@@ -127,10 +148,10 @@
       "expectCount": 10,
       "actualCount": 6,
       "undocumentLines": [
-        49,
-        55,
-        158,
-        167
+        50,
+        56,
+        159,
+        168
       ]
     },
     "src/controls/InfoButton.js": {
@@ -148,23 +169,23 @@
       "actualCount": 5,
       "undocumentLines": [
         34,
-        99,
-        134
+        102,
+        119
       ]
     },
     "src/controls/LayerSelector.js": {
       "expectCount": 31,
       "actualCount": 22,
       "undocumentLines": [
-        133,
-        141,
-        348,
-        515,
-        520,
-        521,
-        535,
-        578,
-        579
+        135,
+        143,
+        350,
+        545,
+        550,
+        551,
+        565,
+        608,
+        609
       ]
     },
     "src/controls/LinkButton.js": {
@@ -201,7 +222,7 @@
       "actualCount": 2,
       "undocumentLines": [
         35,
-        82
+        84
       ]
     },
     "src/controls/PrintButton.js": {
@@ -227,6 +248,19 @@
       "expectCount": 8,
       "actualCount": 8,
       "undocumentLines": []
+    },
+    "src/controls/SingleDrawButton.js": {
+      "expectCount": 13,
+      "actualCount": 6,
+      "undocumentLines": [
+        55,
+        70,
+        93,
+        111,
+        114,
+        129,
+        173
+      ]
     },
     "src/controls/WindowDecorator.js": {
       "expectCount": 11,
@@ -263,9 +297,9 @@
       "expectCount": 38,
       "actualCount": 35,
       "undocumentLines": [
-        363,
-        437,
-        464
+        357,
+        431,
+        458
       ]
     },
     "src/FeatureTooltip.js": {
@@ -300,13 +334,17 @@
       ]
     },
     "src/html/Dropdown.js": {
-      "expectCount": 25,
+      "expectCount": 29,
       "actualCount": 21,
       "undocumentLines": [
-        221,
-        242,
-        303,
-        309
+        130,
+        252,
+        256,
+        257,
+        277,
+        339,
+        345,
+        361
       ]
     },
     "src/html/History.js": {
@@ -322,8 +360,8 @@
       ]
     },
     "src/html/html.js": {
-      "expectCount": 2,
-      "actualCount": 2,
+      "expectCount": 3,
+      "actualCount": 3,
       "undocumentLines": []
     },
     "src/html/Shield.js": {
@@ -527,7 +565,7 @@
       ]
     },
     "src/sources/ImageWMSSource.js": {
-      "expectCount": 20,
+      "expectCount": 21,
       "actualCount": 0,
       "undocumentLines": [
         7,
@@ -542,14 +580,15 @@
         30,
         34,
         38,
-        62,
-        82,
-        86,
-        90,
+        42,
+        66,
         94,
         98,
-        103,
-        115
+        102,
+        106,
+        110,
+        115,
+        127
       ]
     },
     "src/sources/QueryVectorSource.js": {

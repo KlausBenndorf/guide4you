@@ -252,6 +252,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/controls/drawbuttons.js~measurementbutton",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html",
+    "<span>MeasurementButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/DrawButtons.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/controls/measurementbutton.js~measurementbutton",
     "class/src/controls/MeasurementButton.js~MeasurementButton.html",
     "<span>MeasurementButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/MeasurementButton.js</span>",
@@ -366,6 +372,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/controls/singledrawbutton.js~singledrawbutton",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html",
+    "<span>SingleDrawButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/SingleDrawButton.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/sources/sourceservervector.js~sourceservervector",
     "class/src/sources/SourceServerVector.js~SourceServerVector.html",
     "<span>SourceServerVector</span> <span class=\"search-result-import-path\">guide4you/src/sources/SourceServerVector.js</span>",
@@ -447,6 +459,12 @@ window.esdocSearchIndex = [
     "guide4you/src/utilities.js~asyncimageload",
     "function/index.html#static-function-asyncImageLoad",
     "<span>asyncImageLoad</span> <span class=\"search-result-import-path\">guide4you/src/utilities.js</span>",
+    "function"
+  ],
+  [
+    "guide4you/src/html/html.js~changetooltip",
+    "function/index.html#static-function-changeTooltip",
+    "<span>changeTooltip</span> <span class=\"search-result-import-path\">guide4you/src/html/html.js</span>",
     "function"
   ],
   [
@@ -2166,10 +2184,22 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/controlfactory.js~controlsconfig",
+    "typedef/index.html#static-typedef-ControlsConfig",
+    "src/configurators/ControlFactory.js~ControlsConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js",
     "file/src/configurators/LayerConfigurator.js.html",
     "src/configurators/LayerConfigurator.js",
     "file"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~layerconfig",
+    "typedef/index.html#static-typedef-LayerConfig",
+    "src/configurators/LayerConfigurator.js~LayerConfig",
+    "typedef"
   ],
   [
     "src/configurators/layerconfigurator.js~layerconfigurator#baselayergroup_",
@@ -2334,6 +2364,12 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerfactory.js~sourcedlayeroptions",
+    "typedef/index.html#static-typedef-SourcedLayerOptions",
+    "src/configurators/LayerFactory.js~SourcedLayerOptions",
+    "typedef"
+  ],
+  [
     "src/configurators/layerfactory.js~g4ulayeroptions",
     "typedef/index.html#static-typedef-g4uLayerOptions",
     "src/configurators/LayerFactory.js~g4uLayerOptions",
@@ -2349,12 +2385,6 @@ window.esdocSearchIndex = [
     "src/configurators/mapconfigurator.js~kineticoptions",
     "typedef/index.html#static-typedef-KineticOptions",
     "src/configurators/MapConfigurator.js~KineticOptions",
-    "typedef"
-  ],
-  [
-    "src/configurators/mapconfigurator.js~layerconfig",
-    "typedef/index.html#static-typedef-LayerConfig",
-    "src/configurators/MapConfigurator.js~LayerConfig",
     "typedef"
   ],
   [
@@ -2751,6 +2781,12 @@ window.esdocSearchIndex = [
     "src/controls/attribution.js~attribution#getcollapsed",
     "class/src/controls/Attribution.js~Attribution.html#instance-method-getCollapsed",
     "src/controls/Attribution.js~Attribution#getCollapsed",
+    "method"
+  ],
+  [
+    "src/controls/attribution.js~attribution#labelize",
+    "class/src/controls/Attribution.js~Attribution.html#instance-method-labelize",
+    "src/controls/Attribution.js~Attribution#labelize",
     "method"
   ],
   [
@@ -3180,10 +3216,214 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/controls/drawbuttons.js",
+    "file/src/controls/DrawButtons.js.html",
+    "src/controls/DrawButtons.js",
+    "file"
+  ],
+  [
+    "src/controls/drawbuttons.js~drawbuttonsoptions",
+    "typedef/index.html#static-typedef-DrawButtonsOptions",
+    "src/controls/DrawButtons.js~DrawButtonsOptions",
+    "typedef"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#classnames_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-classNames_",
+    "src/controls/DrawButtons.js~MeasurementButton#classNames_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#clear",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-clear",
+    "src/controls/DrawButtons.js~MeasurementButton#clear",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#constructor",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-constructor-constructor",
+    "src/controls/DrawButtons.js~MeasurementButton#constructor",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#createhtml",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-createHTML",
+    "src/controls/DrawButtons.js~MeasurementButton#createHTML",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#drawinteraction_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-drawInteraction_",
+    "src/controls/DrawButtons.js~MeasurementButton#drawInteraction_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#editinteraction_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-editInteraction_",
+    "src/controls/DrawButtons.js~MeasurementButton#editInteraction_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#editstyle_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-editStyle_",
+    "src/controls/DrawButtons.js~MeasurementButton#editStyle_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#eraseclickinteraction_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-eraseClickInteraction_",
+    "src/controls/DrawButtons.js~MeasurementButton#eraseClickInteraction_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#erasehoverinteraction_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-eraseHoverInteraction_",
+    "src/controls/DrawButtons.js~MeasurementButton#eraseHoverInteraction_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#finishedstyle_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-finishedStyle_",
+    "src/controls/DrawButtons.js~MeasurementButton#finishedStyle_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#gettype",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-getType",
+    "src/controls/DrawButtons.js~MeasurementButton#getType",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#getvalue",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-getValue",
+    "src/controls/DrawButtons.js~MeasurementButton#getValue",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#handleactivechange_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-handleActiveChange_",
+    "src/controls/DrawButtons.js~MeasurementButton#handleActiveChange_",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#layer_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-layer_",
+    "src/controls/DrawButtons.js~MeasurementButton#layer_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#measurementprojection_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-measurementProjection_",
+    "src/controls/DrawButtons.js~MeasurementButton#measurementProjection_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#measurementtransform_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-measurementTransform_",
+    "src/controls/DrawButtons.js~MeasurementButton#measurementTransform_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#modeedit_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeEdit_",
+    "src/controls/DrawButtons.js~MeasurementButton#modeEdit_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#modeedit__",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeEdit__",
+    "src/controls/DrawButtons.js~MeasurementButton#modeEdit__",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#modeerase_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeErase_",
+    "src/controls/DrawButtons.js~MeasurementButton#modeErase_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#modenew_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeNew_",
+    "src/controls/DrawButtons.js~MeasurementButton#modeNew_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#newinteraction_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-newInteraction_",
+    "src/controls/DrawButtons.js~MeasurementButton#newInteraction_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#setmap",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setMap",
+    "src/controls/DrawButtons.js~MeasurementButton#setMap",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#setvalue",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setValue",
+    "src/controls/DrawButtons.js~MeasurementButton#setValue",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#setupeditinteraction",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setupEditInteraction",
+    "src/controls/DrawButtons.js~MeasurementButton#setupEditInteraction",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#setuperaseinteractions",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setupEraseInteractions",
+    "src/controls/DrawButtons.js~MeasurementButton#setupEraseInteractions",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#setupnewinteraction",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setupNewInteraction",
+    "src/controls/DrawButtons.js~MeasurementButton#setupNewInteraction",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#source_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-source_",
+    "src/controls/DrawButtons.js~MeasurementButton#source_",
+    "member"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#togglemodeedit",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-toggleModeEdit",
+    "src/controls/DrawButtons.js~MeasurementButton#toggleModeEdit",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#togglemodeerase",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-toggleModeErase",
+    "src/controls/DrawButtons.js~MeasurementButton#toggleModeErase",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#togglemodenew",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-toggleModeNew",
+    "src/controls/DrawButtons.js~MeasurementButton#toggleModeNew",
+    "method"
+  ],
+  [
+    "src/controls/drawbuttons.js~measurementbutton#value_",
+    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-value_",
+    "src/controls/DrawButtons.js~MeasurementButton#value_",
+    "member"
+  ],
+  [
     "src/controls/geolocationbutton.js",
     "file/src/controls/GeoLocationButton.js.html",
     "src/controls/GeoLocationButton.js",
     "file"
+  ],
+  [
+    "src/controls/geolocationbutton.js~geolocationbuttonoptions",
+    "typedef/index.html#static-typedef-GeoLocationButtonOptions",
+    "src/controls/GeoLocationButton.js~GeoLocationButtonOptions",
+    "typedef"
   ],
   [
     "src/controls/geolocationbutton.js~geolocationbutton#activechangehandler_",
@@ -3262,12 +3502,6 @@ window.esdocSearchIndex = [
     "class/src/controls/GeoLocationButton.js~GeolocationButton.html#static-method-makeCircle_",
     "src/controls/GeoLocationButton.js~GeolocationButton.makeCircle_",
     "method"
-  ],
-  [
-    "src/controls/geolocationbutton.js~geolocationbuttonoptions",
-    "typedef/index.html#static-typedef-GeolocationButtonOptions",
-    "src/controls/GeoLocationButton.js~GeolocationButtonOptions",
-    "typedef"
   ],
   [
     "src/controls/helpbutton.js",
@@ -4050,6 +4284,90 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/controls/singledrawbutton.js",
+    "file/src/controls/SingleDrawButton.js.html",
+    "src/controls/SingleDrawButton.js",
+    "file"
+  ],
+  [
+    "src/controls/singledrawbutton.js~drawbuttonsoptions",
+    "typedef/index.html#static-typedef-DrawButtonsOptions",
+    "src/controls/SingleDrawButton.js~DrawButtonsOptions",
+    "typedef"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#addinteraction",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-addInteraction",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#addInteraction",
+    "method"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#constructor",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-constructor-constructor",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#constructor",
+    "method"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#createhtml",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-createHTML",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#createHTML",
+    "method"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#dropdown_",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-member-dropdown_",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#dropdown_",
+    "member"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#editstyle_",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-member-editStyle_",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#editStyle_",
+    "member"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#finishedstyle_",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-member-finishedStyle_",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#finishedStyle_",
+    "member"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#getlayer",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-getLayer",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#getLayer",
+    "method"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#interaction_",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-member-interaction_",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#interaction_",
+    "member"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#layer_",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-member-layer_",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#layer_",
+    "member"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#removeinteraction",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-removeInteraction",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#removeInteraction",
+    "method"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#setactive",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-setActive",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#setActive",
+    "method"
+  ],
+  [
+    "src/controls/singledrawbutton.js~singledrawbutton#setmap",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-setMap",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#setMap",
+    "method"
+  ],
+  [
     "src/controls/windowdecorator.js",
     "file/src/controls/WindowDecorator.js.html",
     "src/controls/WindowDecorator.js",
@@ -4326,15 +4644,33 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/html/dropdown.js~dropdown#collapse_",
+    "class/src/html/Dropdown.js~Dropdown.html#instance-member-collapse_",
+    "src/html/Dropdown.js~Dropdown#collapse_",
+    "member"
+  ],
+  [
     "src/html/dropdown.js~dropdown#constructor",
     "class/src/html/Dropdown.js~Dropdown.html#instance-constructor-constructor",
     "src/html/Dropdown.js~Dropdown#constructor",
     "method"
   ],
   [
+    "src/html/dropdown.js~dropdown#detach",
+    "class/src/html/Dropdown.js~Dropdown.html#instance-method-detach",
+    "src/html/Dropdown.js~Dropdown#detach",
+    "method"
+  ],
+  [
     "src/html/dropdown.js~dropdown#entriesarray_",
     "class/src/html/Dropdown.js~Dropdown.html#instance-member-entriesArray_",
     "src/html/Dropdown.js~Dropdown#entriesArray_",
+    "member"
+  ],
+  [
+    "src/html/dropdown.js~dropdown#fastmode_",
+    "class/src/html/Dropdown.js~Dropdown.html#instance-member-fastMode_",
+    "src/html/Dropdown.js~Dropdown#fastMode_",
     "member"
   ],
   [
@@ -4395,6 +4731,12 @@ window.esdocSearchIndex = [
     "src/html/dropdown.js~dropdown#setentries",
     "class/src/html/Dropdown.js~Dropdown.html#instance-method-setEntries",
     "src/html/Dropdown.js~Dropdown#setEntries",
+    "method"
+  ],
+  [
+    "src/html/dropdown.js~dropdown#setfastmode",
+    "class/src/html/Dropdown.js~Dropdown.html#instance-method-setFastMode",
+    "src/html/Dropdown.js~Dropdown#setFastMode",
     "method"
   ],
   [
@@ -5127,6 +5469,12 @@ window.esdocSearchIndex = [
     "src/sources/imagewmssource.js~wmsfeatureinfomixin#getfeatureinfomutators",
     "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getFeatureInfoMutators",
     "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getFeatureInfoMutators",
+    "method"
+  ],
+  [
+    "src/sources/imagewmssource.js~wmsfeatureinfomixin#getqueryable",
+    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getQueryable",
+    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getQueryable",
     "method"
   ],
   [
