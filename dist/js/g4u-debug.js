@@ -6591,7 +6591,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.8.1'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.8.2'); // eslint-disable-line
 
     _this.set('options', options);
 
@@ -19643,10 +19643,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * @typedef {Object} LayerConfig
- * @property {g4uLayerOptions[]} baseLayers
- * @property {g4uLayerOptions[]} featureLayers
- * @property {g4uLayerOptions[]} fixedFeatureLayers
- * @property {g4uLayerOptions[]} queryLayers
+ * @property {AnyLayerConfig[]} baseLayers
+ * @property {AnyLayerConfig[]} featureLayers
+ * @property {AnyLayerConfig[]} fixedFeatureLayers
+ * @property {AnyLayerConfig[]} queryLayers
  */
 
 /**
@@ -20016,7 +20016,13 @@ var LayerType = exports.LayerType = {
 };
 
 /**
- * A config describing a layer
+ * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig
+ *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig
+ *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig
+ */
+
+/**
+ * Common config for all layers.
  * @public
  * @typedef {Object} g4uLayerOptions
  * @property {LayerType} type The layer type.
@@ -20030,25 +20036,137 @@ var LayerType = exports.LayerType = {
  */
 
 /**
- * @typedef {g4uLayerOptions} SourcedLayerOptions
- * @property {SourceConfig|ol.source.Source} [source]
+ * The silent group can display a group of layers which appears as a single in the layer selector.
+ * @typedef {g4uLayerOptions} SilentGroupLayerConfig
+ * @property {"SilentGroup"} type
+ * @property {AnyLayerConfig[]} layers
  */
 
 /**
- * A config describing the source of a layer
- * @public
+ * The category contains other layer(s) and will appear as a category in the layer selector.
+ * @typedef {g4uLayerOptions} CategoryLayerConfig
+ * @property {"Category"} type
+ * @property {AnyLayerConfig[]} layers
+ */
+
+/**
+ * The empty layer will show nothing (in case of a base layer a white background).
+ * @typedef {g4uLayerOptions} EmptyLayerConfig
+ * @property {"Empty"} type
+ */
+
+/**
+ * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).
+ * @typedef {g4uLayerOptions} XYZLayerConfig
+ * @property {"XYZ"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).
+ * @typedef {g4uLayerOptions} OSMLayerConfig
+ * @property {"OSM"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).
+ * @typedef {g4uLayerOptions} StamenLayerConfig
+ * @property {"Stamen"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).
+ * @typedef {g4uLayerOptions} BingLayerConfig
+ * @property {"Bing"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * A WMTS Layer. Check the {WMTSSSourceConfig}.
+ * @typedef {g4uLayerOptions} WMTSLayerConfig
+ * @property {"WMTS"} type
+ * @property {WMTSSSourceConfig} source
+ */
+
+/**
+ * A WMS Layer. Check the {WMSSSourceConfig}.
+ * @typedef {g4uLayerOptions} WMSLayerConfig
+ * @property {"WMS"} type
+ * @property {WMSSSourceConfig} source
+ */
+
+/**
+ * A WMS Layer which is called like a tiled layer. Good for performance. Check the {WMSSSourceConfig}.
+ * @typedef {g4uLayerOptions} TileWMSLayerConfig
+ * @property {"TileWMS"} type
+ * @property {WMSSSourceConfig} source
+ */
+
+/**
+ * A GeoJSON Layer.
+ * @typedef {g4uLayerOptions} GeoJSONLayerConfig
+ * @property {"GeoJSON"} type
+ * @property {VectorSourceConfig} source
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A KML Layer.
+ * @typedef {g4uLayerOptions} KMLLayerConfig
+ * @property {"KML"} type
+ * @property {VectorSourceConfig} source
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A layer whichs contents are completly defined in the config file.
+ * @typedef {g4uLayerOptions} InternalLayerConfig
+ * @property {"Intern"} type
+ * @property {InternalSourceConfig} source
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A source config.
  * @typedef {Object} SourceConfig
  * @property {Localizable} [attribution]
- * @property {boolean} [localised=false]
- * @property {ol.Attribution[]} [attributions] will be setted automatically.
- * @property {null} [crossOrigin] will be setted automatically.
- * @property {string} [loadingStrategy]
  * @property {URLLike} url
  */
 
 /**
+ * A vector source config.
+ * @typedef {SourceConfig} VectorSourceConfig
+ * @property {string} [loadingStrategy] "BBOX" or "ALL"
+ * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
+ *    loaded around a bbox.
+ * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
+ */
+
+/**
+ * A wmts source config. The config must contain a `config` object that must contain a `layer`` parameter. For other
+ *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities. All other
+ *    needed Parameters will be obtained automatically.
+ * @typedef {SourceConfig} WMTSSSourceConfig
+ * @property {object} config
+ */
+
+/**
+ * A wms source config. The config must contain a `params` object that must contain a `LAYERS` parameter. For other
+ *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.ImageWMS.html -> Constructor options -> params.
+ * @typedef {SourceConfig} WMSSSourceConfig
+ * @property {object} params
+ */
+
+/**
+ * An internal source whose features are defined directly in the config file.
+ * @typedef {SourceConfig} InternalSourceConfig
+ * @property {FeatureConfig[]} features
+ */
+
+/**
  * @typedef {Object} FeatureConfig
- * @public
  * @property {string|number} id
  * @property {StyleLike} [style]
  * @property {string} [geometryWKT]
