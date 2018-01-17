@@ -17,8 +17,8 @@
       "expectCount": 20,
       "actualCount": 18,
       "undocumentLines": [
-        109,
-        642
+        227,
+        760
       ]
     },
     "src/configurators/MapConfigurator.js": {

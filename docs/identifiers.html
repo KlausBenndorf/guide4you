@@ -102,9 +102,26 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ControlFactoryOptions">ControlFactoryOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ControlsConfig">ControlsConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerConfig">LayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-AnyLayerConfig">AnyLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BingLayerConfig">BingLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CategoryLayerConfig">CategoryLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EmptyLayerConfig">EmptyLayerConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureConfig">FeatureConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoJSONLayerConfig">GeoJSONLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalLayerConfig">InternalLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalSourceConfig">InternalSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KMLLayerConfig">KMLLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OSMLayerConfig">OSMLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SilentGroupLayerConfig">SilentGroupLayerConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourcedLayerOptions">SourcedLayerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StamenLayerConfig">StamenLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TileWMSLayerConfig">TileWMSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorSourceConfig">VectorSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSLayerConfig">WMSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSLayerConfig">WMTSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSSSourceConfig">WMTSSSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-XYZLayerConfig">XYZLayerConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KineticOptions">KineticOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapConfig">MapConfig</a></span></span></li>
@@ -2336,6 +2353,123 @@ if the value is an array (on the left side, config) it is called with the key va
           <span data-ice="kind-icon" class="kind-typedef">T</span>
           
           
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-AnyLayerConfig">AnyLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-SilentGroupLayerConfig">SilentGroupLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-CategoryLayerConfig">CategoryLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-EmptyLayerConfig">EmptyLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-XYZLayerConfig">XYZLayerConfig</a></span> | <span>OSMLayerConfig
+   </span> | <span><a href="typedef/index.html#static-typedef-StamenLayerConfig">StamenLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-BingLayerConfig">BingLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-WMTSLayerConfig">WMTSLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-WMSLayerConfig">WMSLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-TileWMSLayerConfig">TileWMSLayerConfig</a></span> | <span>GeoJSONLayerConfig
+   </span> | <span><a href="typedef/index.html#static-typedef-KMLLayerConfig">KMLLayerConfig</a></span> | <span><a href="typedef/index.html#static-typedef-InternalLayerConfig">InternalLayerConfig</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-BingLayerConfig">BingLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A bing maps Layer (See <a href="http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html">http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html</a>).</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-CategoryLayerConfig">CategoryLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The category contains other layer(s) and will appear as a category in the layer selector.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-EmptyLayerConfig">EmptyLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The empty layer will show nothing (in case of a base layer a white background).</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
           <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureConfig">FeatureConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
@@ -2364,13 +2498,13 @@ if the value is an array (on the left side, config) it is called with the key va
           <span data-ice="kind-icon" class="kind-typedef">T</span>
           
           
-          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoJSONLayerConfig">GeoJSONLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>A config describing the source of a layer</p>
+        <div data-ice="description"><p>A GeoJSON Layer.</p>
 </div>
       </div>
     </td>
@@ -2393,13 +2527,391 @@ if the value is an array (on the left side, config) it is called with the key va
           <span data-ice="kind-icon" class="kind-typedef">T</span>
           
           
-          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-SourcedLayerOptions">SourcedLayerOptions</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalLayerConfig">InternalLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
         </p>
       </div>
       <div>
         
         
+        <div data-ice="description"><p>A layer whichs contents are completly defined in the config file.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalSourceConfig">InternalSourceConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span>
+        </p>
+      </div>
+      <div>
         
+        
+        <div data-ice="description"><p>An internal source whose features are defined directly in the config file.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-KMLLayerConfig">KMLLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A KML Layer.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-OSMLayerConfig">OSMLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>An OSM Layer (See <a href="http://openlayers.org/en/latest/apidoc/ol.source.OSM.html">http://openlayers.org/en/latest/apidoc/ol.source.OSM.html</a>).</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-SilentGroupLayerConfig">SilentGroupLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The silent group can display a group of layers which appears as a single in the layer selector.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A source config.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-StamenLayerConfig">StamenLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A stamen Layer (See <a href="http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html">http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html</a>).</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-TileWMSLayerConfig">TileWMSLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A WMS Layer which is called like a tiled layer.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorSourceConfig">VectorSourceConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A vector source config.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSLayerConfig">WMSLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A WMS Layer.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A wms source config.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSLayerConfig">WMTSLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A WMTS Layer.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSSSourceConfig">WMTSSSourceConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A wmts source config.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          <span data-ice="kind-icon" class="kind-typedef">T</span>
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-XYZLayerConfig">XYZLayerConfig</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A XYZ Layer (See <a href="http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html">http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html</a>).</p>
+</div>
       </div>
     </td>
     <td>
@@ -2427,7 +2939,7 @@ if the value is an array (on the left side, config) it is called with the key va
       <div>
         
         
-        <div data-ice="description"><p>A config describing a layer</p>
+        <div data-ice="description"><p>Common config for all layers.</p>
 </div>
       </div>
     </td>
