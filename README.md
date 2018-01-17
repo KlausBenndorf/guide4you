@@ -83,9 +83,15 @@ If you want to develop you can use the dev server script, which listens on port 
 npm run dev conf/simple
 ```
 
-## Generated documentation
+## Documentation
 
-Can be found under [https://klausbenndorf.github.io/guide4you/index.html](https://klausbenndorf.github.io/guide4you/index.html).
+A german documentation can be found here: [GUIDE4YOU Benutzerhandbuch](https://github.com/KlausBenndorf/guide4you/wiki/GUIDE4YOU-Benutzerhandbuch)
+
+An API-Documentation can be found here: [https://klausbenndorf.github.io/guide4you/index.html](https://klausbenndorf.github.io/guide4you/index.html).
+
+## Support
+
+Please feel free to ask any question on [Stackoverflow](https://stackoverflow.com) with the guide4you tag and file any bugs in the [issue tracker](https://github.com/KlausBenndorf/guide4you/issues).
 
 ## <a name="mobile-screenshot"></a>Mobile Screenshot
 
