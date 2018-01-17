@@ -8,10 +8,10 @@ import { LayerFactory } from './LayerFactory'
 
 /**
  * @typedef {Object} LayerConfig
- * @property {g4uLayerOptions[]} baseLayers
- * @property {g4uLayerOptions[]} featureLayers
- * @property {g4uLayerOptions[]} fixedFeatureLayers
- * @property {g4uLayerOptions[]} queryLayers
+ * @property {AnyLayerConfig[]} baseLayers
+ * @property {AnyLayerConfig[]} featureLayers
+ * @property {AnyLayerConfig[]} fixedFeatureLayers
+ * @property {AnyLayerConfig[]} queryLayers
  */
 
 /**
