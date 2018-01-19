@@ -2250,9 +2250,57 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/configurators/layerfactory.js~anylayerconfig",
+    "typedef/index.html#static-typedef-AnyLayerConfig",
+    "src/configurators/LayerFactory.js~AnyLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~binglayerconfig",
+    "typedef/index.html#static-typedef-BingLayerConfig",
+    "src/configurators/LayerFactory.js~BingLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~categorylayerconfig",
+    "typedef/index.html#static-typedef-CategoryLayerConfig",
+    "src/configurators/LayerFactory.js~CategoryLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~emptylayerconfig",
+    "typedef/index.html#static-typedef-EmptyLayerConfig",
+    "src/configurators/LayerFactory.js~EmptyLayerConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerfactory.js~featureconfig",
     "typedef/index.html#static-typedef-FeatureConfig",
     "src/configurators/LayerFactory.js~FeatureConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~geojsonlayerconfig",
+    "typedef/index.html#static-typedef-GeoJSONLayerConfig",
+    "src/configurators/LayerFactory.js~GeoJSONLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~internallayerconfig",
+    "typedef/index.html#static-typedef-InternalLayerConfig",
+    "src/configurators/LayerFactory.js~InternalLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~internalsourceconfig",
+    "typedef/index.html#static-typedef-InternalSourceConfig",
+    "src/configurators/LayerFactory.js~InternalSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~kmllayerconfig",
+    "typedef/index.html#static-typedef-KMLLayerConfig",
+    "src/configurators/LayerFactory.js~KMLLayerConfig",
     "typedef"
   ],
   [
@@ -2358,15 +2406,69 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/configurators/layerfactory.js~osmlayerconfig",
+    "typedef/index.html#static-typedef-OSMLayerConfig",
+    "src/configurators/LayerFactory.js~OSMLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~silentgrouplayerconfig",
+    "typedef/index.html#static-typedef-SilentGroupLayerConfig",
+    "src/configurators/LayerFactory.js~SilentGroupLayerConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerfactory.js~sourceconfig",
     "typedef/index.html#static-typedef-SourceConfig",
     "src/configurators/LayerFactory.js~SourceConfig",
     "typedef"
   ],
   [
-    "src/configurators/layerfactory.js~sourcedlayeroptions",
-    "typedef/index.html#static-typedef-SourcedLayerOptions",
-    "src/configurators/LayerFactory.js~SourcedLayerOptions",
+    "src/configurators/layerfactory.js~stamenlayerconfig",
+    "typedef/index.html#static-typedef-StamenLayerConfig",
+    "src/configurators/LayerFactory.js~StamenLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~tilewmslayerconfig",
+    "typedef/index.html#static-typedef-TileWMSLayerConfig",
+    "src/configurators/LayerFactory.js~TileWMSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~vectorsourceconfig",
+    "typedef/index.html#static-typedef-VectorSourceConfig",
+    "src/configurators/LayerFactory.js~VectorSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~wmslayerconfig",
+    "typedef/index.html#static-typedef-WMSLayerConfig",
+    "src/configurators/LayerFactory.js~WMSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~wmsssourceconfig",
+    "typedef/index.html#static-typedef-WMSSSourceConfig",
+    "src/configurators/LayerFactory.js~WMSSSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~wmtslayerconfig",
+    "typedef/index.html#static-typedef-WMTSLayerConfig",
+    "src/configurators/LayerFactory.js~WMTSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~wmtsssourceconfig",
+    "typedef/index.html#static-typedef-WMTSSSourceConfig",
+    "src/configurators/LayerFactory.js~WMTSSSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerfactory.js~xyzlayerconfig",
+    "typedef/index.html#static-typedef-XYZLayerConfig",
+    "src/configurators/LayerFactory.js~XYZLayerConfig",
     "typedef"
   ],
   [
