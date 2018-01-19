@@ -53,7 +53,7 @@ All modern browsers including
 * Edge and Internet Explorer 10+
 * Safari
 
-## How to install and build GUIDE4YOU?
+## How to setup?
 
 Install guide4you from npm or clone the repository
 
@@ -65,7 +65,17 @@ or
 git clone https://github.com/KlausBenndorf/guide4you.git
 ```
 
-Then switch into the `guide4you` directory and install all dependecies using
+To find out what is needed insede a webpage to include GUIDE4YOU check out the index.html in the dist folder. It contains everything which is needed to get you started. 
+
+The crucial part is:
+```
+  g4u.createMap('#g4u-map')
+```
+This method creates the map in the given DOM-Element. It accepts a selector or a reference to a DOM-Element. As a second and third argument it accepts a [https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-MapConfig](map configuration) and a [https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-LayerConfig](layer configuration). Both can be provided as paths to JSON-files or as actual JavaScript objects.
+
+## How to build a customized version of GUIDE4YOU?
+
+Switch into the `guide4you` directory and install all dependecies using
 
 ```
 npm install
