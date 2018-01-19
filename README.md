@@ -71,7 +71,7 @@ The crucial part is:
 ```
   g4u.createMap('#g4u-map')
 ```
-This method creates the map in the given DOM-Element. It accepts a selector or a reference to a DOM-Element. As a second and third argument it accepts a [https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-MapConfig](map configuration) and a [https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-LayerConfig](layer configuration). Both can be provided as paths to JSON-files or as actual JavaScript objects.
+This method creates the map in the given DOM-Element. It accepts a selector or a reference to a DOM-Element. As a second and third argument it accepts a [map configuration](https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-MapConfig) and a [layer configuration](https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-LayerConfig). Both can be provided as paths to JSON-files or as actual JavaScript objects.
 
 ## How to build a customized version of GUIDE4YOU?
 
