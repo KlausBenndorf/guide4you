@@ -65,7 +65,7 @@ or
 git clone https://github.com/KlausBenndorf/guide4you.git
 ```
 
-To find out what is needed insede a webpage to include GUIDE4YOU check out the index.html in the dist folder. It contains everything which is needed to get you started. 
+To find out what is needed to include GUIDE4YOU intoe a webpage check out the index.html in the dist folder. It contains everything that is needed to get you started. 
 
 The crucial part is:
 ```
