@@ -39,7 +39,7 @@
     "guide4you-builder": "2.2.2",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "^0.10.0",
-    "jquery": "3.2.1",
+    "jquery": "3.3.1",
     "mocha": "4.0.1",
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1",
     "phantomjs-prebuilt": "2.1.14",
