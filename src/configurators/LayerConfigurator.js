@@ -5,6 +5,7 @@ import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
 import { Debug } from '../Debug'
 import { LayerFactory } from './LayerFactory'
+import { Attributions } from '../Attributions'
 
 /**
  * @typedef {Object} LayerConfig
@@ -264,6 +265,15 @@ export class LayerConfigurator {
         }
       })
     })
+
+    /** Attributions */
+
+    let attributions = this.map_.get('attributions')
+    if (!attributions) {
+      attributions = new Attributions()
+      this.map_.set('attributions', attributions)
+    }
+    attributions.setMap(this.map_)
 
     this.map_.set('ready:layers', true)
   }

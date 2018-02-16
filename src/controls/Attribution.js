@@ -1,30 +1,12 @@
 import $ from 'jquery'
-import { groupBy, map } from 'lodash/collection'
 
 import { Control } from './Control'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
 import { cssClasses } from '../globals'
 import { addTooltip } from '../html/html'
-import { GroupLayer } from '../layers/GroupLayer'
 
 import '../../less/attribution.less'
-import { uniq } from 'lodash/array'
-import { debounce } from 'lodash/function'
-
-function groupByChain (col) {
-  return {
-    groupBy: (cb) => {
-      return groupByChain(groupBy(col, cb))
-    },
-    forEach: (cb) => {
-      return groupByChain(col.forEach(cb))
-    },
-    map: (cb) => {
-      return groupByChain(map(col, cb))
-    }
-  }
-}
 
 export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   constructor (options) {
@@ -36,18 +18,9 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
     this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary('Attribution tipLabel'))
 
-    /**
-     * Pairs of layer title and attribution
-     * @type {[string, string][]}
-     * @private
-     */
-    this.visibleAttributions_ = []
-
     this.createStaticHTML(options)
 
     this.setCollapsed(options.collapsed === true)
-
-    this.debouncedUpdateList = debounce(() => this.updateList())
   }
 
   setCollapsed (collapsed, silent) {
@@ -106,112 +79,18 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     }
   }
 
-  updateList () {
-    this.scanLayers()
-
+  updateList (attributions) {
     this.$list_.empty()
     if (this.showPoweredBy_) {
       this.$list_.append(this.$poweredBy_)
     }
 
-    groupByChain(this.visibleAttributions_)
-      .groupBy(([layerTitle, attribution]) => {
-        return layerTitle
-      }) // -> { layerTitle: [[layerTitle, attribution]*] }
-      .map((val, key) => {
-        return [key, val.map(p => p[1])]
-      }) // -> [[layerTitle, attribution*]*]
-      .groupBy(([layerTitle, attributions]) => {
-        attributions = uniq(attributions)
-        if (attributions.length === 1) {
-          return attributions[0]
-        } else {
-          return attributions.join(' & ')
-        }
-      })
-      .map((val, key) => {
-        return [val.map(p => p[0]), key]
-      })
-      .forEach(([layerTitles, attributionText]) => {
-        let text
-        if (layerTitles.length === 1) {
-          text = layerTitles[0]
-        } else {
-          text = layerTitles.slice(0, -1).join(', ') + ' & ' + layerTitles[layerTitles.length - 1]
-        }
-        text += ': ' + attributionText
-        this.$list_.append($('<li>').html(text))
-        if (!this.getCollapsed()) {
-          this.dispatchEvent('change:size')
-        }
-      })
-  }
-
-  scanLayers () {
-    const map = this.getMap()
-    if (map) {
-      this.visibleAttributions_ = []
-      this.scanLayer(map.getLayerGroup())
-    }
-  }
-
-  labelize (title) {
-    return title.replace(/<[^>]*>/, ' ').replace(/\s{2,}/, ' ')
-  }
-
-  scanLayer (layer, layerTitle = null) {
-    if (layer && layer.getVisible()) {
-      if (layer.getLayers) {
-        let silentGroup = !(layer instanceof GroupLayer)
-        layer.getLayers().forEach(l => this.scanLayer(l, silentGroup ? layer.get('title') : null))
-      } else {
-        if (layer.getVisible()) {
-          let label = layer.isBaseLayer
-            ? this.getLocaliser().localiseUsingDictionary('Attribution baseLayerLabel')
-            : (layerTitle || layer.get('title'))
-          if (label) {
-            this.addLayer(layer, this.labelize(label))
-          }
-        }
-      }
-    }
-  }
-
-  attachListeners (layer) {
-    if (layer.getLayers) {
-      layer.getLayers().forEach(l => this.attachListeners(l))
-      this.listenAt(layer.getLayers())
-        .on('add', e => {
-          this.attachListeners(e.element)
-          this.debouncedUpdateList()
-        })
-        .on('remove', e => {
-          this.detachFrom(e.element)
-          this.debouncedUpdateList()
-        })
+    for (let attribution of attributions) {
+      this.$list_.append($('<li>').html(attribution))
     }
 
-    if (!(layer instanceof GroupLayer)) {
-      this.listenAt(layer)
-        .on('change:visible', () => {
-          this.debouncedUpdateList()
-        })
-        .on('change:source', () => {
-          if (layer.getVisible()) {
-            this.debouncedUpdateList()
-          }
-        })
-    }
-  }
-
-  addLayer (layer, label) {
-    if (layer.getSource && layer.getSource()) {
-      let attributions = layer.getSource().getAttributions()
-      if (attributions) {
-        for (let attribution of attributions) {
-          this.visibleAttributions_.push([label, attribution.getHTML()])
-        }
-      }
+    if (!this.getCollapsed()) {
+      this.dispatchEvent('change:size')
     }
   }
 
@@ -225,17 +104,19 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
   setMap (map) {
     if (this.getMap()) {
-      this.visibleAttributions_ = []
       this.detachAllListeners()
     }
 
     super.setMap(map)
 
     if (map) {
-      setTimeout(() => {
+      map.asSoonAs('ready:layers', true, () => {
         if (this.getMap()) {
-          this.attachListeners(this.getMap().getLayerGroup())
-          this.debouncedUpdateList()
+          const attributions = this.getMap().get('attributions')
+          this.updateList(attributions.getArray())
+          this.listenAt(attributions).on('change', () => {
+            this.updateList(attributions.getArray())
+          })
           this.updateRtl()
           this.listenAt(this.getMap().get('localiser')).on('change:language', () => {
             this.updateRtl()
