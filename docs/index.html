@@ -29,7 +29,8 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Attributions.js~Attributions.html">Attributions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
@@ -269,17 +270,23 @@ that supports both desktop and mobile web browsers and features a responsive des
 <li>Edge and Internet Explorer 10+</li>
 <li>Safari</li>
 </ul>
-<h2 id="how-to-install-and-build-guide4you-">How to install and build GUIDE4YOU?</h2><p>Install guide4you from npm or clone the repository</p>
+<h2 id="how-to-setup-">How to setup?</h2><p>Install guide4you from npm or clone the repository</p>
 <pre><code><code class="source-code prettyprint">npm install guide4you</code>
 </code></pre><p>or</p>
 <pre><code><code class="source-code prettyprint">git clone https://github.com/KlausBenndorf/guide4you.git</code>
-</code></pre><p>Then switch into the <code>guide4you</code> directory and install all dependecies using</p>
+</code></pre><p>To find out what is needed insede a webpage to include GUIDE4YOU check out the index.html in the dist folder. It contains everything which is needed to get you started. </p>
+<p>The crucial part is:</p>
+<pre><code><code class="source-code prettyprint">  g4u.createMap(&apos;#g4u-map&apos;)</code>
+</code></pre><p>This method creates the map in the given DOM-Element. It accepts a selector or a reference to a DOM-Element. As a second and third argument it accepts a <a href="map configuration">https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-MapConfig</a> and a <a href="layer configuration">https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-LayerConfig</a>. Both can be provided as paths to JSON-files or as actual JavaScript objects.</p>
+<h2 id="how-to-build-a-customized-version-of-guide4you-">How to build a customized version of GUIDE4YOU?</h2><p>Switch into the <code>guide4you</code> directory and install all dependecies using</p>
 <pre><code><code class="source-code prettyprint">npm install</code>
 </code></pre><p>Then build with a configuration of your choice</p>
 <pre><code><code class="source-code prettyprint">npm run build conf/simple</code>
 </code></pre><p>If you want to develop you can use the dev server script, which listens on port 8080 by default</p>
 <pre><code><code class="source-code prettyprint">npm run dev conf/simple</code>
-</code></pre><h2 id="generated-documentation">Generated documentation</h2><p>Can be found under <a href="https://klausbenndorf.github.io/guide4you/index.html">https://klausbenndorf.github.io/guide4you/index.html</a>.</p>
+</code></pre><h2 id="documentation">Documentation</h2><p>A german documentation can be found here: <a href="https://github.com/KlausBenndorf/guide4you/wiki/GUIDE4YOU-Benutzerhandbuch">GUIDE4YOU Benutzerhandbuch</a></p>
+<p>An API-Documentation can be found here: <a href="https://klausbenndorf.github.io/guide4you/index.html">https://klausbenndorf.github.io/guide4you/index.html</a>.</p>
+<h2 id="support">Support</h2><p>Please feel free to ask any question on <a href="https://stackoverflow.com">Stackoverflow</a> with the guide4you tag and file any bugs in the <a href="https://github.com/KlausBenndorf/guide4you/issues">issue tracker</a>.</p>
 <h2 id="-a-name--mobile-screenshot----a-mobile-screenshot"><a name="mobile-screenshot"></a>Mobile Screenshot</h2><p><img src="https://github.com/KlausBenndorf/guide4you/raw/master/images/screenshots/mobile-360-640.png" alt="Screenshot of mobile view, 360x640 pixel" title="Screenshot of mobile view, 360x640 pixel"></p>
 </div>
 </div>

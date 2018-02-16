@@ -29,7 +29,8 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Attributions.js~Attributions.html">Attributions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
@@ -228,32 +229,14 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/controls/Attribution.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
-import { groupBy, map } from &apos;lodash/collection&apos;
 
 import { Control } from &apos;./Control&apos;
 import { ListenerOrganizerMixin } from &apos;../ListenerOrganizerMixin&apos;
 import { mixin } from &apos;../utilities&apos;
 import { cssClasses } from &apos;../globals&apos;
 import { addTooltip } from &apos;../html/html&apos;
-import { GroupLayer } from &apos;../layers/GroupLayer&apos;
 
 import &apos;../../less/attribution.less&apos;
-import { uniq } from &apos;lodash/array&apos;
-import { debounce } from &apos;lodash/function&apos;
-
-function groupByChain (col) {
-  return {
-    groupBy: (cb) =&gt; {
-      return groupByChain(groupBy(col, cb))
-    },
-    forEach: (cb) =&gt; {
-      return groupByChain(col.forEach(cb))
-    },
-    map: (cb) =&gt; {
-      return groupByChain(map(col, cb))
-    }
-  }
-}
 
 export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   constructor (options) {
@@ -265,18 +248,9 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
     this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary(&apos;Attribution tipLabel&apos;))
 
-    /**
-     * Pairs of layer title and attribution
-     * @type {[string, string][]}
-     * @private
-     */
-    this.visibleAttributions_ = []
-
     this.createStaticHTML(options)
 
     this.setCollapsed(options.collapsed === true)
-
-    this.debouncedUpdateList = debounce(() =&gt; this.updateList())
   }
 
   setCollapsed (collapsed, silent) {
@@ -335,112 +309,18 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
     }
   }
 
-  updateList () {
-    this.scanLayers()
-
+  updateList (attributions) {
     this.$list_.empty()
     if (this.showPoweredBy_) {
       this.$list_.append(this.$poweredBy_)
     }
 
-    groupByChain(this.visibleAttributions_)
-      .groupBy(([layerTitle, attribution]) =&gt; {
-        return layerTitle
-      }) // -&gt; { layerTitle: [[layerTitle, attribution]*] }
-      .map((val, key) =&gt; {
-        return [key, val.map(p =&gt; p[1])]
-      }) // -&gt; [[layerTitle, attribution*]*]
-      .groupBy(([layerTitle, attributions]) =&gt; {
-        attributions = uniq(attributions)
-        if (attributions.length === 1) {
-          return attributions[0]
-        } else {
-          return attributions.join(&apos; &amp; &apos;)
-        }
-      })
-      .map((val, key) =&gt; {
-        return [val.map(p =&gt; p[0]), key]
-      })
-      .forEach(([layerTitles, attributionText]) =&gt; {
-        let text
-        if (layerTitles.length === 1) {
-          text = layerTitles[0]
-        } else {
-          text = layerTitles.slice(0, -1).join(&apos;, &apos;) + &apos; &amp; &apos; + layerTitles[layerTitles.length - 1]
-        }
-        text += &apos;: &apos; + attributionText
-        this.$list_.append($(&apos;&lt;li&gt;&apos;).html(text))
-        if (!this.getCollapsed()) {
-          this.dispatchEvent(&apos;change:size&apos;)
-        }
-      })
-  }
-
-  scanLayers () {
-    const map = this.getMap()
-    if (map) {
-      this.visibleAttributions_ = []
-      this.scanLayer(map.getLayerGroup())
-    }
-  }
-
-  labelize (title) {
-    return title.replace(/&lt;[^&gt;]*&gt;/, &apos; &apos;).replace(/\s{2,}/, &apos; &apos;)
-  }
-
-  scanLayer (layer, layerTitle = null) {
-    if (layer &amp;&amp; layer.getVisible()) {
-      if (layer.getLayers) {
-        let silentGroup = !(layer instanceof GroupLayer)
-        layer.getLayers().forEach(l =&gt; this.scanLayer(l, silentGroup ? layer.get(&apos;title&apos;) : null))
-      } else {
-        if (layer.getVisible()) {
-          let label = layer.isBaseLayer
-            ? this.getLocaliser().localiseUsingDictionary(&apos;Attribution baseLayerLabel&apos;)
-            : (layerTitle || layer.get(&apos;title&apos;))
-          if (label) {
-            this.addLayer(layer, this.labelize(label))
-          }
-        }
-      }
-    }
-  }
-
-  attachListeners (layer) {
-    if (layer.getLayers) {
-      layer.getLayers().forEach(l =&gt; this.attachListeners(l))
-      this.listenAt(layer.getLayers())
-        .on(&apos;add&apos;, e =&gt; {
-          this.attachListeners(e.element)
-          this.debouncedUpdateList()
-        })
-        .on(&apos;remove&apos;, e =&gt; {
-          this.detachFrom(e.element)
-          this.debouncedUpdateList()
-        })
+    for (let attribution of attributions) {
+      this.$list_.append($(&apos;&lt;li&gt;&apos;).html(attribution))
     }
 
-    if (!(layer instanceof GroupLayer)) {
-      this.listenAt(layer)
-        .on(&apos;change:visible&apos;, () =&gt; {
-          this.debouncedUpdateList()
-        })
-        .on(&apos;change:source&apos;, () =&gt; {
-          if (layer.getVisible()) {
-            this.debouncedUpdateList()
-          }
-        })
-    }
-  }
-
-  addLayer (layer, label) {
-    if (layer.getSource &amp;&amp; layer.getSource()) {
-      let attributions = layer.getSource().getAttributions()
-      if (attributions) {
-        for (let attribution of attributions) {
-          this.visibleAttributions_.push([label, attribution.getHTML()])
-        }
-      }
+    if (!this.getCollapsed()) {
+      this.dispatchEvent(&apos;change:size&apos;)
     }
   }
 
@@ -454,17 +334,19 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
 
   setMap (map) {
     if (this.getMap()) {
-      this.visibleAttributions_ = []
       this.detachAllListeners()
     }
 
     super.setMap(map)
 
     if (map) {
-      setTimeout(() =&gt; {
+      map.asSoonAs(&apos;ready:layers&apos;, true, () =&gt; {
         if (this.getMap()) {
-          this.attachListeners(this.getMap().getLayerGroup())
-          this.debouncedUpdateList()
+          const attributions = this.getMap().get(&apos;attributions&apos;)
+          this.updateList(attributions.getArray())
+          this.listenAt(attributions).on(&apos;change&apos;, () =&gt; {
+            this.updateList(attributions.getArray())
+          })
           this.updateRtl()
           this.listenAt(this.getMap().get(&apos;localiser&apos;)).on(&apos;change:language&apos;, () =&gt; {
             this.updateRtl()

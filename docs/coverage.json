@@ -1,8 +1,26 @@
 {
-  "coverage": "72.78%",
-  "expectCount": 801,
-  "actualCount": 583,
+  "coverage": "72.36%",
+  "expectCount": 807,
+  "actualCount": 584,
   "files": {
+    "src/Attributions.js": {
+      "expectCount": 14,
+      "actualCount": 2,
+      "undocumentLines": [
+        10,
+        27,
+        28,
+        36,
+        48,
+        60,
+        64,
+        68,
+        90,
+        100,
+        104,
+        137
+      ]
+    },
     "src/configurators/ControlFactory.js": {
       "expectCount": 12,
       "actualCount": 12,
@@ -31,10 +49,10 @@
       "actualCount": 10,
       "undocumentLines": [
         154,
-        268,
-        303,
-        305,
-        395
+        267,
+        302,
+        304,
+        394
       ]
     },
     "src/controls/ActivatableMixin.js": {
@@ -58,26 +76,19 @@
       "undocumentLines": []
     },
     "src/controls/Attribution.js": {
-      "expectCount": 20,
-      "actualCount": 3,
+      "expectCount": 12,
+      "actualCount": 2,
       "undocumentLines": [
-        15,
+        11,
+        12,
+        26,
         29,
-        30,
-        50,
-        53,
-        56,
-        68,
-        72,
-        79,
-        109,
-        150,
-        158,
-        162,
-        180,
-        207,
-        218,
-        226
+        41,
+        45,
+        52,
+        82,
+        97,
+        105
       ]
     },
     "src/controls/CombinedZoom.js": {
