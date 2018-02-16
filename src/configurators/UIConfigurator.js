@@ -212,12 +212,16 @@ export class UIConfigurator {
 
     this.map_.set('scaleIcons', mapConfigCopy.scaleIcons)
 
+    let mobileChangeHandler = this.getHandleMobileChange_()
+    this.map_.on('change:mobile', mobileChangeHandler)
+
     this.map_.once('ready', () => {
       this.map_.set('desktopLayout', {
         animations: this.map_.get('move').getAnimations(),
         scaleIcons: this.map_.get('scaleIcons'),
         hitTolerance: this.map_.get('hitTolerance')
       })
+      mobileChangeHandler()
     })
 
     let checkMobileLayoutQuery = () => {
@@ -232,11 +236,6 @@ export class UIConfigurator {
         }))
       }
     }
-
-    let mobileChangeHandler = this.getHandleMobileChange_()
-    this.map_.on('change:mobile', mobileChangeHandler)
-
-    debounce(mobileChangeHandler)()
 
     //
     // Enabling/Disabling responsiveness
