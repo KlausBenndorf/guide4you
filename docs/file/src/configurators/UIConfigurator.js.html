@@ -29,7 +29,8 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Attributions.js~Attributions.html">Attributions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
@@ -441,12 +442,16 @@ export class UIConfigurator {
 
     this.map_.set(&apos;scaleIcons&apos;, mapConfigCopy.scaleIcons)
 
+    let mobileChangeHandler = this.getHandleMobileChange_()
+    this.map_.on(&apos;change:mobile&apos;, mobileChangeHandler)
+
     this.map_.once(&apos;ready&apos;, () =&gt; {
       this.map_.set(&apos;desktopLayout&apos;, {
         animations: this.map_.get(&apos;move&apos;).getAnimations(),
         scaleIcons: this.map_.get(&apos;scaleIcons&apos;),
         hitTolerance: this.map_.get(&apos;hitTolerance&apos;)
       })
+      mobileChangeHandler()
     })
 
     let checkMobileLayoutQuery = () =&gt; {
@@ -461,11 +466,6 @@ export class UIConfigurator {
         }))
       }
     }
-
-    let mobileChangeHandler = this.getHandleMobileChange_()
-    this.map_.on(&apos;change:mobile&apos;, mobileChangeHandler)
-
-    debounce(mobileChangeHandler)()
 
     //
     // Enabling/Disabling responsiveness
