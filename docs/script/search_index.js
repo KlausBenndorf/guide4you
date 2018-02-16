@@ -24,6 +24,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/attributions.js~attributions",
+    "class/src/Attributions.js~Attributions.html",
+    "<span>Attributions</span> <span class=\"search-result-import-path\">guide4you/src/Attributions.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/layers/imagelayer.js~baselayerimage",
     "variable/index.html#static-variable-BaseLayerImage",
     "<span>BaseLayerImage</span> <span class=\"search-result-import-path\">guide4you/src/layers/ImageLayer.js</span>",
@@ -964,6 +970,84 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-APIOptions",
     "src/API.js~APIOptions",
     "typedef"
+  ],
+  [
+    "src/attributions.js",
+    "file/src/Attributions.js.html",
+    "src/Attributions.js",
+    "file"
+  ],
+  [
+    "src/attributions.js~attributions#attachlisteners",
+    "class/src/Attributions.js~Attributions.html#instance-method-attachListeners",
+    "src/Attributions.js~Attributions#attachListeners",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#attributions_",
+    "class/src/Attributions.js~Attributions.html#instance-member-attributions_",
+    "src/Attributions.js~Attributions#attributions_",
+    "member"
+  ],
+  [
+    "src/attributions.js~attributions#constructor",
+    "class/src/Attributions.js~Attributions.html#instance-constructor-constructor",
+    "src/Attributions.js~Attributions#constructor",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#debouncedupdate",
+    "class/src/Attributions.js~Attributions.html#instance-member-debouncedUpdate",
+    "src/Attributions.js~Attributions#debouncedUpdate",
+    "member"
+  ],
+  [
+    "src/attributions.js~attributions#extractattributions",
+    "class/src/Attributions.js~Attributions.html#instance-method-extractAttributions",
+    "src/Attributions.js~Attributions#extractAttributions",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#getarray",
+    "class/src/Attributions.js~Attributions.html#instance-method-getArray",
+    "src/Attributions.js~Attributions#getArray",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#labelize",
+    "class/src/Attributions.js~Attributions.html#instance-method-labelize",
+    "src/Attributions.js~Attributions#labelize",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#map_",
+    "class/src/Attributions.js~Attributions.html#instance-member-map_",
+    "src/Attributions.js~Attributions#map_",
+    "member"
+  ],
+  [
+    "src/attributions.js~attributions#scanlayer",
+    "class/src/Attributions.js~Attributions.html#instance-method-scanLayer",
+    "src/Attributions.js~Attributions#scanLayer",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#scanlayers",
+    "class/src/Attributions.js~Attributions.html#instance-method-scanLayers",
+    "src/Attributions.js~Attributions#scanLayers",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#setmap",
+    "class/src/Attributions.js~Attributions.html#instance-method-setMap",
+    "src/Attributions.js~Attributions#setMap",
+    "method"
+  ],
+  [
+    "src/attributions.js~attributions#update",
+    "class/src/Attributions.js~Attributions.html#instance-method-update",
+    "src/Attributions.js~Attributions#update",
+    "method"
   ],
   [
     "src/debug.js",
@@ -2844,18 +2928,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/controls/attribution.js~attribution#addlayer",
-    "class/src/controls/Attribution.js~Attribution.html#instance-method-addLayer",
-    "src/controls/Attribution.js~Attribution#addLayer",
-    "method"
-  ],
-  [
-    "src/controls/attribution.js~attribution#attachlisteners",
-    "class/src/controls/Attribution.js~Attribution.html#instance-method-attachListeners",
-    "src/controls/Attribution.js~Attribution#attachListeners",
-    "method"
-  ],
-  [
     "src/controls/attribution.js~attribution#collapsed_",
     "class/src/controls/Attribution.js~Attribution.html#instance-member-collapsed_",
     "src/controls/Attribution.js~Attribution#collapsed_",
@@ -2874,33 +2946,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/controls/attribution.js~attribution#debouncedupdatelist",
-    "class/src/controls/Attribution.js~Attribution.html#instance-member-debouncedUpdateList",
-    "src/controls/Attribution.js~Attribution#debouncedUpdateList",
-    "member"
-  ],
-  [
     "src/controls/attribution.js~attribution#getcollapsed",
     "class/src/controls/Attribution.js~Attribution.html#instance-method-getCollapsed",
     "src/controls/Attribution.js~Attribution#getCollapsed",
-    "method"
-  ],
-  [
-    "src/controls/attribution.js~attribution#labelize",
-    "class/src/controls/Attribution.js~Attribution.html#instance-method-labelize",
-    "src/controls/Attribution.js~Attribution#labelize",
-    "method"
-  ],
-  [
-    "src/controls/attribution.js~attribution#scanlayer",
-    "class/src/controls/Attribution.js~Attribution.html#instance-method-scanLayer",
-    "src/controls/Attribution.js~Attribution#scanLayer",
-    "method"
-  ],
-  [
-    "src/controls/attribution.js~attribution#scanlayers",
-    "class/src/controls/Attribution.js~Attribution.html#instance-method-scanLayers",
-    "src/controls/Attribution.js~Attribution#scanLayers",
     "method"
   ],
   [
@@ -2932,12 +2980,6 @@ window.esdocSearchIndex = [
     "class/src/controls/Attribution.js~Attribution.html#instance-method-updateRtl",
     "src/controls/Attribution.js~Attribution#updateRtl",
     "method"
-  ],
-  [
-    "src/controls/attribution.js~attribution#visibleattributions_",
-    "class/src/controls/Attribution.js~Attribution.html#instance-member-visibleAttributions_",
-    "src/controls/Attribution.js~Attribution#visibleAttributions_",
-    "member"
   ],
   [
     "src/controls/combinedzoom.js",
