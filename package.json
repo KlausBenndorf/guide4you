@@ -21,7 +21,7 @@
   },
   "peerDependencies": {
     "jquery": "3.2.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1"
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4"
   },
   "dependencies": {
     "better-scroll": "^1.4.2",
@@ -41,7 +41,7 @@
     "http-server": "^0.10.0",
     "jquery": "3.2.1",
     "mocha": "4.0.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
     "standard": "10.0.3",
