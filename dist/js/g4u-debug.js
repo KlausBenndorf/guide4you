@@ -3028,10 +3028,13 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
+  var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER : length;
+
   return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
 }
 
 module.exports = isIndex;
@@ -6591,7 +6594,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.10.0'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.10.1'); // eslint-disable-line
 
     _this.set('options', options);
 
@@ -15727,9 +15730,11 @@ function debounce(func, wait, options) {
   function remainingWait(time) {
     var timeSinceLastCall = time - lastCallTime,
         timeSinceLastInvoke = time - lastInvokeTime,
-        result = wait - timeSinceLastCall;
+        timeWaiting = wait - timeSinceLastCall;
 
-    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
   }
 
   function shouldInvoke(time) {
@@ -32488,8 +32493,8 @@ module.exports = __webpack_require__(41);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /*!
- * better-normal-scroll v1.4.2
- * (c) 2016-2017 ustbhuangyi
+ * better-normal-scroll v1.8.4
+ * (c) 2016-2018 ustbhuangyi
  * Released under the MIT License.
  */
 var slicedToArray = function () {
@@ -32566,17 +32571,12 @@ function eventMixin(BScroll) {
   BScroll.prototype.once = function (type, fn) {
     var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
 
-    var fired = false;
-
     function magic() {
       this.off(type, magic);
 
-      if (!fired) {
-        fired = true;
-        fn.apply(context, arguments);
-      }
+      fn.apply(context, arguments);
     }
-    // 将参数中的回调函数挂载在magic对象的fn属性上,为了执行off方法的时候，暴露对应的函数方法
+    // To expose the corresponding function method in order to execute the off method
     magic.fn = fn;
 
     this.on(type, magic);
@@ -32590,7 +32590,6 @@ function eventMixin(BScroll) {
 
     var count = _events.length;
     while (count--) {
-      // 移除通过on或者once绑定的回调函数
       if (_events[count][0] === fn || _events[count][0] && _events[count][0].fn === fn) {
         _events[count][0] = undefined;
       }
@@ -32619,9 +32618,40 @@ function eventMixin(BScroll) {
   };
 }
 
-var elementStyle = document.createElement('div').style;
+// ssr support
+var inBrowser = typeof window !== 'undefined';
+var ua = inBrowser && navigator.userAgent.toLowerCase();
+var isWeChatDevTools = ua && /wechatdevtools/.test(ua);
+var isAndroid = ua && ua.indexOf('android') > 0;
+
+function getNow() {
+  return window.performance && window.performance.now ? window.performance.now() + window.performance.timing.navigationStart : +new Date();
+}
+
+function extend(target) {
+  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    rest[_key - 1] = arguments[_key];
+  }
+
+  for (var i = 0; i < rest.length; i++) {
+    var source = rest[i];
+    for (var key in source) {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
+function isUndef(v) {
+  return v === undefined || v === null;
+}
+
+var elementStyle = inBrowser && document.createElement('div').style;
 
 var vendor = function () {
+  if (!inBrowser) {
+    return false;
+  }
   var transformNames = {
     webkit: 'webkitTransform',
     Moz: 'MozTransform',
@@ -32645,6 +32675,9 @@ function prefixStyle(style) {
   }
 
   if (vendor === 'standard') {
+    if (style === 'transitionEnd') {
+      return 'transitionend';
+    }
     return style;
   }
 
@@ -32677,10 +32710,11 @@ function offset(el) {
 
 var transform = prefixStyle('transform');
 
-var hasPerspective = prefixStyle('perspective') in elementStyle;
-var hasTouch = 'ontouchstart' in window;
+var hasPerspective = inBrowser && prefixStyle('perspective') in elementStyle;
+// fix issue #361
+var hasTouch = inBrowser && ('ontouchstart' in window || isWeChatDevTools);
 var hasTransform = transform !== false;
-var hasTransition = prefixStyle('transition') in elementStyle;
+var hasTransition = inBrowser && prefixStyle('transition') in elementStyle;
 
 var style = {
   transform: transform,
@@ -32742,15 +32776,46 @@ function tap(e, eventName) {
 }
 
 function click(e) {
-  var target = e.target;
-
-  if (!/(SELECT|INPUT|TEXTAREA)/i.test(target.tagName)) {
-    var ev = document.createEvent(window.MouseEvent ? 'MouseEvents' : 'Event');
-    // cancelable 设置为 false 是为了解决和 fastclick 冲突问题
-    ev.initEvent('click', true, false);
-    ev._constructed = true;
-    target.dispatchEvent(ev);
+  var eventSource = void 0;
+  if (e.type === 'mouseup' || e.type === 'mousecancel') {
+    eventSource = e;
+  } else if (e.type === 'touchend' || e.type === 'touchcancel') {
+    eventSource = e.changedTouches[0];
   }
+  var posSrc = {};
+  if (eventSource) {
+    posSrc.screenX = eventSource.screenX || 0;
+    posSrc.screenY = eventSource.screenY || 0;
+    posSrc.clientX = eventSource.clientX || 0;
+    posSrc.clientY = eventSource.clientY || 0;
+  }
+  var ev = void 0;
+  var event = 'click';
+  var bubbles = true;
+  var cancelable = true;
+  if (typeof MouseEvent !== 'undefined') {
+    try {
+      ev = new MouseEvent(event, extend({
+        bubbles: bubbles,
+        cancelable: cancelable
+      }, posSrc));
+    } catch (e) {
+      createEvent();
+    }
+  } else {
+    createEvent();
+  }
+
+  function createEvent() {
+    ev = document.createEvent('Event');
+    ev.initEvent(event, bubbles, cancelable);
+    extend(ev, posSrc);
+  }
+
+  // forwardedTouchEvent set to true in case of the conflict with fastclick
+  ev.forwardedTouchEvent = true;
+  ev._constructed = true;
+  e.target.dispatchEvent(ev);
 }
 
 function prepend(el, target) {
@@ -32765,22 +32830,8 @@ function before(el, target) {
   target.parentNode.insertBefore(el, target);
 }
 
-function getNow() {
-  return window.performance && window.performance.now ? window.performance.now() + window.performance.timing.navigationStart : +new Date();
-}
-
-function extend(target) {
-  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    rest[_key - 1] = arguments[_key];
-  }
-
-  for (var i = 0; i < rest.length; i++) {
-    var source = rest[i];
-    for (var key in source) {
-      target[key] = source[key];
-    }
-  }
-  return target;
+function removeChild(el, child) {
+  el.removeChild(child);
 }
 
 var DEFAULT_OPTIONS = {
@@ -32794,7 +32845,7 @@ var DEFAULT_OPTIONS = {
   click: false,
   tap: false,
   bounce: true,
-  bounceTime: 700,
+  bounceTime: 800,
   momentum: true,
   momentumLimitTime: 300,
   momentumLimitDistance: 15,
@@ -32815,6 +32866,8 @@ var DEFAULT_OPTIONS = {
   bindToWrapper: false,
   disableMouse: hasTouch,
   disableTouch: !hasTouch,
+  observeDOM: true,
+  autoBlur: true,
   /**
    * for picker
    * wheel: {
@@ -32834,6 +32887,13 @@ var DEFAULT_OPTIONS = {
    *   threshold: 0.1,
    *   stepX: 100,
    *   stepY: 100,
+   *   speed: 400,
+   *   easing: {
+   *     style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+   *     fn: function (t) {
+   *       return t * (2 - t)
+   *     }
+   *   }
    *   listenFlick: true
    * }
    */
@@ -32841,7 +32901,8 @@ var DEFAULT_OPTIONS = {
   /**
    * for scrollbar
    * scrollbar: {
-   *   fade: true
+   *   fade: true,
+   *   interactive: false
    * }
    */
   scrollbar: false,
@@ -32859,7 +32920,15 @@ var DEFAULT_OPTIONS = {
    *   threshold: 50
    * }
    */
-  pullUpLoad: false
+  pullUpLoad: false,
+  /**
+   * for mouse wheel
+   * mouseWheel:{
+   *   speed: 20,
+   *   invert: false
+   * }
+   */
+  mouseWheel: false
 };
 
 function initMixin(BScroll) {
@@ -32879,6 +32948,14 @@ function initMixin(BScroll) {
     this._initExtFeatures();
 
     this._watchTransition();
+
+    if (this.options.observeDOM) {
+      this._initDOMObserver();
+    }
+
+    if (this.options.autoBlur) {
+      this._handleAutoBlur();
+    }
 
     this.refresh();
 
@@ -32964,6 +33041,130 @@ function initMixin(BScroll) {
     if (this.options.wheel) {
       this._initWheel();
     }
+    if (this.options.mouseWheel) {
+      this._initMouseWheel();
+    }
+  };
+
+  BScroll.prototype._watchTransition = function () {
+    if (typeof Object.defineProperty !== 'function') {
+      return;
+    }
+    var me = this;
+    var isInTransition = false;
+    Object.defineProperty(this, 'isInTransition', {
+      get: function get() {
+        return isInTransition;
+      },
+      set: function set(newVal) {
+        isInTransition = newVal;
+        // fix issue #359
+        var el = me.scroller.children.length ? me.scroller.children : [me.scroller];
+        var pointerEvents = isInTransition && !me.pulling ? 'none' : 'auto';
+        for (var i = 0; i < el.length; i++) {
+          el[i].style.pointerEvents = pointerEvents;
+        }
+      }
+    });
+  };
+
+  BScroll.prototype._handleAutoBlur = function () {
+    this.on('beforeScrollStart', function () {
+      var activeElement = document.activeElement;
+      if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+        activeElement.blur();
+      }
+    });
+  };
+
+  BScroll.prototype._initDOMObserver = function () {
+    var _this = this;
+
+    if (typeof MutationObserver !== 'undefined') {
+      var timer = void 0;
+      var observer = new MutationObserver(function (mutations) {
+        // don't do any refresh during the transition, or outside of the boundaries
+        if (_this._shouldNotRefresh()) {
+          return;
+        }
+        var immediateRefresh = false;
+        var deferredRefresh = false;
+        for (var i = 0; i < mutations.length; i++) {
+          var mutation = mutations[i];
+          if (mutation.type !== 'attributes') {
+            immediateRefresh = true;
+            break;
+          } else {
+            if (mutation.target !== _this.scroller) {
+              deferredRefresh = true;
+              break;
+            }
+          }
+        }
+        if (immediateRefresh) {
+          _this.refresh();
+        } else if (deferredRefresh) {
+          // attributes changes too often
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            if (!_this._shouldNotRefresh()) {
+              _this.refresh();
+            }
+          }, 60);
+        }
+      });
+      var config = {
+        attributes: true,
+        childList: true,
+        subtree: true
+      };
+      observer.observe(this.scroller, config);
+
+      this.on('destroy', function () {
+        observer.disconnect();
+      });
+    } else {
+      this._checkDOMUpdate();
+    }
+  };
+
+  BScroll.prototype._shouldNotRefresh = function () {
+    var outsideBoundaries = this.x > 0 || this.x < this.maxScrollX || this.y > 0 || this.y < this.maxScrollY;
+
+    return this.isInTransition || this.stopFromTransition || outsideBoundaries;
+  };
+
+  BScroll.prototype._checkDOMUpdate = function () {
+    var scrollerRect = getRect(this.scroller);
+    var oldWidth = scrollerRect.width;
+    var oldHeight = scrollerRect.height;
+
+    function check() {
+      if (this.destroyed) {
+        return;
+      }
+      scrollerRect = getRect(this.scroller);
+      var newWidth = scrollerRect.width;
+      var newHeight = scrollerRect.height;
+
+      if (oldWidth !== newWidth || oldHeight !== newHeight) {
+        this.refresh();
+      }
+      oldWidth = newWidth;
+      oldHeight = newHeight;
+
+      next.call(this);
+    }
+
+    function next() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        check.call(_this2);
+      }, 1000);
+    }
+
+    next.call(this);
   };
 
   BScroll.prototype.handleEvent = function (e) {
@@ -32996,9 +33197,14 @@ function initMixin(BScroll) {
         if (this.enabled && !e._constructed) {
           if (!preventDefaultException(e.target, this.options.preventDefaultException)) {
             e.preventDefault();
+            e.stopPropagation();
           }
-          e.stopPropagation();
         }
+        break;
+      case 'wheel':
+      case 'DOMMouseScroll':
+      case 'mousewheel':
+        this._onMouseWheel(e);
         break;
     }
   };
@@ -33057,25 +33263,6 @@ function initMixin(BScroll) {
   BScroll.prototype.disable = function () {
     this.enabled = false;
   };
-
-  BScroll.prototype._watchTransition = function () {
-    var isInTransition = false;
-    var me = this;
-    var prePointerEvents = this.scroller.style.pointerEvents || 'auto';
-    Object.defineProperty(this, 'isInTransition', {
-      get: function get() {
-        return isInTransition;
-      },
-      set: function set(newVal) {
-        isInTransition = newVal;
-        if (isInTransition) {
-          me.scroller.style.pointerEvents = 'none';
-        } else {
-          me.scroller.style.pointerEvents = prePointerEvents;
-        }
-      }
-    });
-  };
 }
 
 var ease = {
@@ -33122,10 +33309,10 @@ function momentum(current, start, time, lowerMargin, wrapperSize, options) {
   }
 
   if (destination < lowerMargin) {
-    destination = wrapperSize ? lowerMargin - wrapperSize / rate * speed : lowerMargin;
+    destination = wrapperSize ? Math.max(lowerMargin - wrapperSize / 4, lowerMargin - wrapperSize / rate * speed) : lowerMargin;
     duration = swipeBounceTime;
   } else if (destination > 0) {
-    destination = wrapperSize ? wrapperSize / rate * speed : 0;
+    destination = wrapperSize ? Math.min(wrapperSize / 4, wrapperSize / rate * speed) : 0;
     duration = swipeBounceTime;
   }
 
@@ -33137,7 +33324,13 @@ function momentum(current, start, time, lowerMargin, wrapperSize, options) {
 
 var DEFAULT_INTERVAL = 100 / 60;
 
+function noop() {}
+
 var requestAnimationFrame = function () {
+  if (!inBrowser) {
+    /* istanbul ignore if */
+    return noop;
+  }
   return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame ||
   // if all else fails, use setTimeout
   function (callback) {
@@ -33146,10 +33339,29 @@ var requestAnimationFrame = function () {
 }();
 
 var cancelAnimationFrame = function () {
+  if (!inBrowser) {
+    /* istanbul ignore if */
+    return noop;
+  }
   return window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.oCancelAnimationFrame || function (id) {
     window.clearTimeout(id);
   };
 }();
+
+var DIRECTION_UP = 1;
+var DIRECTION_DOWN = -1;
+var DIRECTION_LEFT = 1;
+var DIRECTION_RIGHT = -1;
+
+function warn(msg) {
+  console.error('[BScroll warn]: ' + msg);
+}
+
+function assert(condition, msg) {
+  if (!condition) {
+    throw new Error('[BScroll] ' + msg);
+  }
+}
 
 function coreMixin(BScroll) {
   BScroll.prototype._start = function (e) {
@@ -33258,8 +33470,8 @@ function coreMixin(BScroll) {
 
     deltaX = this.hasHorizontalScroll ? deltaX : 0;
     deltaY = this.hasVerticalScroll ? deltaY : 0;
-    this.movingDirectionX = deltaX > 0 ? -1 : deltaX < 0 ? 1 : 0;
-    this.movingDirectionY = deltaY > 0 ? -1 : deltaY < 0 ? 1 : 0;
+    this.movingDirectionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
+    this.movingDirectionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0;
 
     var newX = this.x + deltaX;
     var newY = this.y + deltaY;
@@ -33333,11 +33545,25 @@ function coreMixin(BScroll) {
       y: this.y
     });
 
-    var preventClick = this.stopFromTransition;
-    this.stopFromTransition = false;
+    this.isInTransition = false;
+
+    // ensures that the last position is rounded
+    var newX = Math.round(this.x);
+    var newY = Math.round(this.y);
+
+    var deltaX = newX - this.absStartX;
+    var deltaY = newY - this.absStartY;
+    this.directionX = deltaX > 0 ? DIRECTION_RIGHT : deltaX < 0 ? DIRECTION_LEFT : 0;
+    this.directionY = deltaY > 0 ? DIRECTION_DOWN : deltaY < 0 ? DIRECTION_UP : 0;
 
     // if configure pull down refresh, check it first
     if (this.options.pullDownRefresh && this._checkPullDown()) {
+      return;
+    }
+
+    // check if it is a click operation
+    if (this._checkClick(e)) {
+      this.trigger('scrollCancel');
       return;
     }
 
@@ -33345,44 +33571,10 @@ function coreMixin(BScroll) {
     if (this.resetPosition(this.options.bounceTime, ease.bounce)) {
       return;
     }
-    this.isInTransition = false;
-    // ensures that the last position is rounded
-    var newX = Math.round(this.x);
-    var newY = Math.round(this.y);
-
-    // we scrolled less than 15 pixels
-    if (!this.moved) {
-      if (this.options.wheel) {
-        if (this.target && this.target.className === this.options.wheel.wheelWrapperClass) {
-          var index = Math.abs(Math.round(newY / this.itemHeight));
-          var _offset = Math.round((this.pointY + offset(this.target).top - this.itemHeight / 2) / this.itemHeight);
-          this.target = this.items[index + _offset];
-        }
-        this.scrollToElement(this.target, this.options.wheel.adjustTime || 400, true, true, ease.swipe);
-      } else {
-        if (!preventClick) {
-          if (this.options.tap) {
-            tap(e, this.options.tap);
-          }
-
-          if (this.options.click) {
-            click(e);
-          }
-        }
-      }
-      this.trigger('scrollCancel');
-      return;
-    }
 
     this.scrollTo(newX, newY);
 
-    var deltaX = newX - this.absStartX;
-    var deltaY = newY - this.absStartY;
-    this.directionX = deltaX > 0 ? -1 : deltaX < 0 ? 1 : 0;
-    this.directionY = deltaY > 0 ? -1 : deltaY < 0 ? 1 : 0;
-
     this.endTime = getNow();
-
     var duration = this.endTime - this.startTime;
     var absDistX = Math.abs(newX - this.startX);
     var absDistY = Math.abs(newY - this.startY);
@@ -33419,7 +33611,7 @@ function coreMixin(BScroll) {
 
       this.directionX = 0;
       this.directionY = 0;
-      easing = ease.bounce;
+      easing = this.options.snap.easing || ease.bounce;
     }
 
     if (newX !== this.x || newY !== this.y) {
@@ -33440,13 +33632,48 @@ function coreMixin(BScroll) {
     });
   };
 
+  BScroll.prototype._checkClick = function (e) {
+    // when in the process of pulling down, it should not prevent click
+    var preventClick = this.stopFromTransition && !this.pulling;
+    this.stopFromTransition = false;
+
+    // we scrolled less than 15 pixels
+    if (!this.moved) {
+      if (this.options.wheel) {
+        if (this.target && this.target.className === this.options.wheel.wheelWrapperClass) {
+          var index = Math.abs(Math.round(this.y / this.itemHeight));
+          var _offset = Math.round((this.pointY + offset(this.target).top - this.itemHeight / 2) / this.itemHeight);
+          this.target = this.items[index + _offset];
+        }
+        this.scrollToElement(this.target, this.options.wheel.adjustTime || 400, true, true, ease.swipe);
+        return true;
+      } else {
+        if (!preventClick) {
+          if (this.options.tap) {
+            tap(e, this.options.tap);
+          }
+
+          if (this.options.click && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+            click(e);
+          }
+          return true;
+        }
+        return false;
+      }
+    }
+    return false;
+  };
+
   BScroll.prototype._resize = function () {
     var _this = this;
 
     if (!this.enabled) {
       return;
     }
-
+    // fix a scroll problem under Android condition
+    if (isAndroid) {
+      this.wrapper.scrollTop = 0;
+    }
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(function () {
       _this.refresh();
@@ -33460,11 +33687,12 @@ function coreMixin(BScroll) {
     var me = this;
 
     function probe() {
-      if (!me.isInTransition) {
-        return;
-      }
       var pos = me.getComputedPosition();
       me.trigger('scroll', pos);
+      if (!me.isInTransition) {
+        me.trigger('scrollEnd', pos);
+        return;
+      }
       me.probeTimer = requestAnimationFrame(probe);
     }
   };
@@ -33517,14 +33745,17 @@ function coreMixin(BScroll) {
     this._transitionTime();
     if (!this.pulling && !this.resetPosition(this.options.bounceTime, ease.bounce)) {
       this.isInTransition = false;
-      this.trigger('scrollEnd', {
-        x: this.x,
-        y: this.y
-      });
+      if (this.options.probeType !== 3) {
+        this.trigger('scrollEnd', {
+          x: this.x,
+          y: this.y
+        });
+      }
     }
   };
 
   BScroll.prototype._translate = function (x, y) {
+    assert(!isUndef(x) && !isUndef(y), 'Oops! translate x or y is null or undefined. please check your code.');
     if (this.options.useTransform) {
       this.scrollerStyle[style.transform] = 'translate(' + x + 'px,' + y + 'px)' + this.translateZ;
     } else {
@@ -33679,16 +33910,18 @@ function coreMixin(BScroll) {
     var easeing = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ease.bounce;
 
     var x = this.x;
-    if (!this.hasHorizontalScroll || x > 0) {
+    var roundX = Math.round(x);
+    if (!this.hasHorizontalScroll || roundX > 0) {
       x = 0;
-    } else if (x < this.maxScrollX) {
+    } else if (roundX < this.maxScrollX) {
       x = this.maxScrollX;
     }
 
     var y = this.y;
-    if (!this.hasVerticalScroll || y > 0) {
+    var roundY = Math.round(y);
+    if (!this.hasVerticalScroll || roundY > 0) {
       y = 0;
-    } else if (y < this.maxScrollY) {
+    } else if (roundY < this.maxScrollY) {
       y = this.maxScrollY;
     }
 
@@ -33746,16 +33979,12 @@ function coreMixin(BScroll) {
   };
 
   BScroll.prototype.destroy = function () {
+    this.destroyed = true;
+    this.trigger('destroy');
+
     this._removeDOMEvents();
     // remove custom events
     this._events = {};
-
-    if (this.options.scrollbar) {
-      this._removeScrollBars();
-    }
-
-    this.destroyed = true;
-    this.trigger('destroy');
   };
 }
 
@@ -33860,7 +34089,7 @@ function snapMixin(BScroll) {
       }
 
       var initPage = snap.loop ? 1 : 0;
-      _this.goToPage(_this.currentPage.pageX || initPage, _this.currentPage.pageY || 0, 0);
+      _this._goToPage(_this.currentPage.pageX || initPage, _this.currentPage.pageY || 0, 0);
 
       // Update snap threshold if needed
       var snapThreshold = snap.threshold;
@@ -33876,10 +34105,10 @@ function snapMixin(BScroll) {
     this.on('scrollEnd', function () {
       if (snap.loop) {
         if (_this.currentPage.pageX === 0) {
-          _this.goToPage(_this.pages.length - 2, _this.currentPage.pageY, 0);
+          _this._goToPage(_this.pages.length - 2, _this.currentPage.pageY, 0);
         }
         if (_this.currentPage.pageX === _this.pages.length - 1) {
-          _this.goToPage(1, _this.currentPage.pageY, 0);
+          _this._goToPage(1, _this.currentPage.pageY, 0);
         }
       }
     });
@@ -33888,9 +34117,19 @@ function snapMixin(BScroll) {
       this.on('flick', function () {
         var time = snap.speed || Math.max(Math.max(Math.min(Math.abs(_this.x - _this.startX), 1000), Math.min(Math.abs(_this.y - _this.startY), 1000)), 300);
 
-        _this.goToPage(_this.currentPage.pageX + _this.directionX, _this.currentPage.pageY + _this.directionY, time);
+        _this._goToPage(_this.currentPage.pageX + _this.directionX, _this.currentPage.pageY + _this.directionY, time);
       });
     }
+
+    this.on('destroy', function () {
+      if (snap.loop) {
+        var _children = _this.scroller.children;
+        if (_children.length > 2) {
+          removeChild(_this.scroller, _children[_children.length - 1]);
+          removeChild(_this.scroller, _children[0]);
+        }
+      }
+    });
   };
 
   BScroll.prototype._nearestSnap = function (x, y) {
@@ -33966,14 +34205,27 @@ function snapMixin(BScroll) {
     };
   };
 
-  BScroll.prototype.goToPage = function (x, y, time) {
-    var easing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ease.bounce;
+  BScroll.prototype._goToPage = function (x) {
+    var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    var time = arguments[2];
+    var easing = arguments[3];
 
     var snap = this.options.snap;
+
+    if (!snap || !this.pages) {
+      return;
+    }
+
+    easing = easing || snap.easing || ease.bounce;
+
     if (x >= this.pages.length) {
       x = this.pages.length - 1;
     } else if (x < 0) {
       x = 0;
+    }
+
+    if (!this.pages[x]) {
+      return;
     }
 
     if (y >= this.pages[x].length) {
@@ -33996,6 +34248,22 @@ function snapMixin(BScroll) {
     this.scrollTo(posX, posY, time, easing);
   };
 
+  BScroll.prototype.goToPage = function (x, y, time, easing) {
+    var snap = this.options.snap;
+    if (snap) {
+      if (snap.loop) {
+        var len = this.pages.length - 2;
+        if (x >= len) {
+          x = len - 1;
+        } else if (x < 0) {
+          x = 0;
+        }
+        x += 1;
+      }
+      this._goToPage(x, y, time, easing);
+    }
+  };
+
   BScroll.prototype.next = function (time, easing) {
     var x = this.currentPage.pageX;
     var y = this.currentPage.pageY;
@@ -34006,7 +34274,7 @@ function snapMixin(BScroll) {
       y++;
     }
 
-    this.goToPage(x, y, time, easing);
+    this._goToPage(x, y, time, easing);
   };
 
   BScroll.prototype.prev = function (time, easing) {
@@ -34019,20 +34287,28 @@ function snapMixin(BScroll) {
       y--;
     }
 
-    this.goToPage(x, y, time, easing);
+    this._goToPage(x, y, time, easing);
   };
 
   BScroll.prototype.getCurrentPage = function () {
-    return this.options.snap && this.currentPage;
+    var snap = this.options.snap;
+    if (snap) {
+      if (snap.loop) {
+        var currentPage = extend({}, this.currentPage, {
+          pageX: this.currentPage.pageX - 1
+        });
+        return currentPage;
+      }
+      return this.currentPage;
+    }
+    return null;
   };
 }
 
-function warn(msg) {
-  console.error("[BScroll warn]: " + msg);
-}
-
 function wheelMixin(BScroll) {
-  BScroll.prototype.wheelTo = function (index) {
+  BScroll.prototype.wheelTo = function () {
+    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
     if (this.options.wheel) {
       this.y = -index * this.itemHeight;
       this.scrollTo(0, this.y);
@@ -34064,8 +34340,11 @@ function scrollbarMixin(BScroll) {
   BScroll.prototype._initScrollbar = function () {
     var _this = this;
 
-    var _options$scrollbar$fa = this.options.scrollbar.fade,
-        fade = _options$scrollbar$fa === undefined ? true : _options$scrollbar$fa;
+    var _options$scrollbar = this.options.scrollbar,
+        _options$scrollbar$fa = _options$scrollbar.fade,
+        fade = _options$scrollbar$fa === undefined ? true : _options$scrollbar$fa,
+        _options$scrollbar$in = _options$scrollbar.interactive,
+        interactive = _options$scrollbar$in === undefined ? false : _options$scrollbar$in;
 
     this.indicators = [];
     var indicator = void 0;
@@ -34074,7 +34353,8 @@ function scrollbarMixin(BScroll) {
       indicator = {
         el: createScrollbar('horizontal'),
         direction: 'horizontal',
-        fade: fade
+        fade: fade,
+        interactive: interactive
       };
       this._insertScrollBar(indicator.el);
 
@@ -34085,7 +34365,8 @@ function scrollbarMixin(BScroll) {
       indicator = {
         el: createScrollbar('vertical'),
         direction: 'vertical',
-        fade: fade
+        fade: fade,
+        interactive: interactive
       };
       this._insertScrollBar(indicator.el);
       this.indicators.push(new Indicator(this, indicator));
@@ -34122,6 +34403,10 @@ function scrollbarMixin(BScroll) {
         }
       });
     }
+
+    this.on('destroy', function () {
+      _this._removeScrollBars();
+    });
   };
 
   BScroll.prototype._insertScrollBar = function (scrollbar) {
@@ -34130,8 +34415,7 @@ function scrollbarMixin(BScroll) {
 
   BScroll.prototype._removeScrollBars = function () {
     for (var i = 0; i < this.indicators.length; i++) {
-      var indicator = this.indicators[i];
-      indicator.remove();
+      this.indicators[i].destroy();
     }
   };
 }
@@ -34174,7 +34458,37 @@ function Indicator(scroller, options) {
   } else {
     this.visible = 1;
   }
+
+  this.sizeRatioX = 1;
+  this.sizeRatioY = 1;
+  this.maxPosX = 0;
+  this.maxPosY = 0;
+  this.x = 0;
+  this.y = 0;
+
+  if (options.interactive) {
+    this._addDOMEvents();
+  }
 }
+
+Indicator.prototype.handleEvent = function (e) {
+  switch (e.type) {
+    case 'touchstart':
+    case 'mousedown':
+      this._start(e);
+      break;
+    case 'touchmove':
+    case 'mousemove':
+      this._move(e);
+      break;
+    case 'touchend':
+    case 'mouseup':
+    case 'touchcancel':
+    case 'mousecancel':
+      this._end(e);
+      break;
+  }
+};
 
 Indicator.prototype.refresh = function () {
   this.transitionTime();
@@ -34263,8 +34577,112 @@ Indicator.prototype.transitionTimingFunction = function (easing) {
   this.indicatorStyle[style.transitionTimingFunction] = easing;
 };
 
-Indicator.prototype.remove = function () {
+Indicator.prototype.destroy = function () {
+  this._removeDOMEvents();
   this.wrapper.parentNode.removeChild(this.wrapper);
+};
+
+Indicator.prototype._start = function (e) {
+  var point = e.touches ? e.touches[0] : e;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  this.transitionTime();
+
+  this.initiated = true;
+  this.moved = false;
+  this.lastPointX = point.pageX;
+  this.lastPointY = point.pageY;
+
+  this.startTime = getNow();
+
+  this._handleMoveEvents(addEvent);
+  this.scroller.trigger('beforeScrollStart');
+};
+
+Indicator.prototype._move = function (e) {
+  var point = e.touches ? e.touches[0] : e;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (!this.moved) {
+    this.scroller.trigger('scrollStart');
+  }
+
+  this.moved = true;
+
+  var deltaX = point.pageX - this.lastPointX;
+  this.lastPointX = point.pageX;
+
+  var deltaY = point.pageY - this.lastPointY;
+  this.lastPointY = point.pageY;
+
+  var newX = this.x + deltaX;
+  var newY = this.y + deltaY;
+
+  this._pos(newX, newY);
+};
+
+Indicator.prototype._end = function (e) {
+  if (!this.initiated) {
+    return;
+  }
+  this.initiated = false;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  this._handleMoveEvents(removeEvent);
+
+  var snapOption = this.scroller.options.snap;
+  if (snapOption) {
+    var speed = snapOption.speed,
+        _snapOption$easing = snapOption.easing,
+        easing = _snapOption$easing === undefined ? ease.bounce : _snapOption$easing;
+
+    var snap = this.scroller._nearestSnap(this.scroller.x, this.scroller.y);
+
+    var time = speed || Math.max(Math.max(Math.min(Math.abs(this.scroller.x - snap.x), 1000), Math.min(Math.abs(this.scroller.y - snap.y), 1000)), 300);
+
+    if (this.scroller.x !== snap.x || this.scroller.y !== snap.y) {
+      this.scroller.directionX = 0;
+      this.scroller.directionY = 0;
+      this.scroller.currentPage = snap;
+      this.scroller.scrollTo(snap.x, snap.y, time, easing);
+    }
+  }
+
+  if (this.moved) {
+    this.scroller.trigger('scrollEnd', {
+      x: this.scroller.x,
+      y: this.scroller.y
+    });
+  }
+};
+
+Indicator.prototype._pos = function (x, y) {
+  if (x < 0) {
+    x = 0;
+  } else if (x > this.maxPosX) {
+    x = this.maxPosX;
+  }
+
+  if (y < 0) {
+    y = 0;
+  } else if (y > this.maxPosY) {
+    y = this.maxPosY;
+  }
+
+  x = Math.round(x / this.sizeRatioX);
+  y = Math.round(y / this.sizeRatioY);
+
+  this.scroller.scrollTo(x, y);
+  this.scroller.trigger('scroll', {
+    x: this.scroller.x,
+    y: this.scroller.y
+  });
 };
 
 Indicator.prototype._calculate = function () {
@@ -34287,6 +34705,37 @@ Indicator.prototype._calculate = function () {
   }
 };
 
+Indicator.prototype._addDOMEvents = function () {
+  var eventOperation = addEvent;
+  this._handleDOMEvents(eventOperation);
+};
+
+Indicator.prototype._removeDOMEvents = function () {
+  var eventOperation = removeEvent;
+  this._handleDOMEvents(eventOperation);
+  this._handleMoveEvents(eventOperation);
+};
+
+Indicator.prototype._handleMoveEvents = function (eventOperation) {
+  if (!this.scroller.options.disableTouch) {
+    eventOperation(window, 'touchmove', this);
+  }
+  if (!this.scroller.options.disableMouse) {
+    eventOperation(window, 'mousemove', this);
+  }
+};
+
+Indicator.prototype._handleDOMEvents = function (eventOperation) {
+  if (!this.scroller.options.disableTouch) {
+    eventOperation(this.indicator, 'touchstart', this);
+    eventOperation(window, 'touchend', this);
+  }
+  if (!this.scroller.options.disableMouse) {
+    eventOperation(this.indicator, 'mousedown', this);
+    eventOperation(window, 'mouseup', this);
+  }
+};
+
 function pullDownMixin(BScroll) {
   BScroll.prototype._initPullDown = function () {
     // must watch scroll in real time
@@ -34300,14 +34749,17 @@ function pullDownMixin(BScroll) {
         _options$pullDownRefr3 = _options$pullDownRefr.stop,
         stop = _options$pullDownRefr3 === undefined ? 40 : _options$pullDownRefr3;
 
+    // check if a real pull down action
 
-    if (this.y > threshold) {
-      if (!this.pulling) {
-        this.pulling = true;
-        this.trigger('pullingDown');
-      }
-      this.scrollTo(this.x, stop, this.options.bounceTime, ease.bounce);
+    if (this.directionY !== DIRECTION_DOWN || this.y < threshold) {
+      return false;
     }
+
+    if (!this.pulling) {
+      this.pulling = true;
+      this.trigger('pullingDown');
+    }
+    this.scrollTo(this.x, stop, this.options.bounceTime, ease.bounce);
 
     return this.pulling;
   };
@@ -34328,9 +34780,6 @@ function pullUpMixin(BScroll) {
   };
 
   BScroll.prototype._watchPullUp = function () {
-    if (this.pullupWatching) {
-      return;
-    }
     this.pullupWatching = true;
     var _options$pullUpLoad$t = this.options.pullUpLoad.threshold,
         threshold = _options$pullUpLoad$t === undefined ? 0 : _options$pullUpLoad$t;
@@ -34339,24 +34788,163 @@ function pullUpMixin(BScroll) {
     this.on('scroll', checkToEnd);
 
     function checkToEnd(pos) {
-      if (this.movingDirectionY === 1 && pos.y <= this.maxScrollY + threshold) {
+      var _this = this;
+
+      if (this.movingDirectionY === DIRECTION_UP && pos.y <= this.maxScrollY + threshold) {
+        // reset pullupWatching status after scroll end.
+        this.once('scrollEnd', function () {
+          _this.pullupWatching = false;
+        });
         this.trigger('pullingUp');
-        this.pullupWatching = false;
         this.off('scroll', checkToEnd);
       }
     }
   };
 
   BScroll.prototype.finishPullUp = function () {
-    var _this = this;
+    var _this2 = this;
 
-    if (this.isInTransition) {
+    if (this.pullupWatching) {
       this.once('scrollEnd', function () {
-        _this._watchPullUp();
+        _this2._watchPullUp();
       });
     } else {
       this._watchPullUp();
     }
+  };
+}
+
+function mouseWheelMixin(BScroll) {
+  BScroll.prototype._initMouseWheel = function () {
+    var _this = this;
+
+    this._handleMouseWheelEvent(addEvent);
+
+    this.on('destroy', function () {
+      clearTimeout(_this.mouseWheelTimer);
+      _this._handleMouseWheelEvent(removeEvent);
+    });
+
+    this.firstWheelOpreation = true;
+  };
+
+  BScroll.prototype._handleMouseWheelEvent = function (eventOperation) {
+    eventOperation(this.wrapper, 'wheel', this);
+    eventOperation(this.wrapper, 'mousewheel', this);
+    eventOperation(this.wrapper, 'DOMMouseScroll', this);
+  };
+
+  BScroll.prototype._onMouseWheel = function (e) {
+    var _this2 = this;
+
+    if (!this.enabled) {
+      return;
+    }
+    e.preventDefault();
+
+    if (this.firstWheelOpreation) {
+      this.trigger('scrollStart');
+    }
+    this.firstWheelOpreation = false;
+
+    clearTimeout(this.mouseWheelTimer);
+    this.mouseWheelTimer = setTimeout(function () {
+      if (!_this2.options.snap) {
+        _this2.trigger('scrollEnd', {
+          x: _this2.x,
+          y: _this2.y
+        });
+      }
+      _this2.firstWheelOpreation = true;
+    }, 400);
+
+    var _options$mouseWheel = this.options.mouseWheel,
+        _options$mouseWheel$s = _options$mouseWheel.speed,
+        speed = _options$mouseWheel$s === undefined ? 20 : _options$mouseWheel$s,
+        _options$mouseWheel$i = _options$mouseWheel.invert,
+        invert = _options$mouseWheel$i === undefined ? false : _options$mouseWheel$i;
+
+    var wheelDeltaX = void 0;
+    var wheelDeltaY = void 0;
+
+    switch (true) {
+      case 'deltaX' in e:
+        if (e.deltaMode === 1) {
+          wheelDeltaX = -e.deltaX * speed;
+          wheelDeltaY = -e.deltaY * speed;
+        } else {
+          wheelDeltaX = -e.deltaX;
+          wheelDeltaY = -e.deltaY;
+        }
+        break;
+      case 'wheelDeltaX' in e:
+        wheelDeltaX = e.wheelDeltaX / 120 * speed;
+        wheelDeltaY = e.wheelDeltaY / 120 * speed;
+        break;
+      case 'wheelDelta' in e:
+        wheelDeltaX = wheelDeltaY = e.wheelDelta / 120 * speed;
+        break;
+      case 'detail' in e:
+        wheelDeltaX = wheelDeltaY = -e.detail / 3 * speed;
+        break;
+      default:
+        return;
+    }
+
+    var direction = invert ? -1 : 1;
+    wheelDeltaX *= direction;
+    wheelDeltaY *= direction;
+
+    if (!this.hasVerticalScroll) {
+      wheelDeltaX = wheelDeltaY;
+      wheelDeltaY = 0;
+    }
+
+    var newX = void 0;
+    var newY = void 0;
+    if (this.options.snap) {
+      newX = this.currentPage.pageX;
+      newY = this.currentPage.pageY;
+
+      if (wheelDeltaX > 0) {
+        newX--;
+      } else if (wheelDeltaX < 0) {
+        newX++;
+      }
+
+      if (wheelDeltaY > 0) {
+        newY--;
+      } else if (wheelDeltaY < 0) {
+        newY++;
+      }
+
+      this._goToPage(newX, newY);
+      return;
+    }
+
+    newX = this.x + Math.round(this.hasHorizontalScroll ? wheelDeltaX : 0);
+    newY = this.y + Math.round(this.hasVerticalScroll ? wheelDeltaY : 0);
+
+    this.directionX = wheelDeltaX > 0 ? -1 : wheelDeltaX < 0 ? 1 : 0;
+    this.directionY = wheelDeltaY > 0 ? -1 : wheelDeltaY < 0 ? 1 : 0;
+
+    if (newX > 0) {
+      newX = 0;
+    } else if (newX < this.maxScrollX) {
+      newX = this.maxScrollX;
+    }
+
+    if (newY > 0) {
+      newY = 0;
+    } else if (newY < this.maxScrollY) {
+      newY = this.maxScrollY;
+    }
+
+    this.scrollTo(newX, newY);
+    this.trigger('scroll', {
+      x: this.x,
+      y: this.y
+    });
   };
 }
 
@@ -34383,8 +34971,9 @@ wheelMixin(BScroll);
 scrollbarMixin(BScroll);
 pullDownMixin(BScroll);
 pullUpMixin(BScroll);
+mouseWheelMixin(BScroll);
 
-BScroll.Version = '1.4.2';
+BScroll.Version = '1.8.4';
 
 /* harmony default export */ __webpack_exports__["default"] = (BScroll);
 
@@ -37843,8 +38432,7 @@ module.exports = stringSize;
 var memoizeCapped = __webpack_require__(672);
 
 /** Used to match property names within property paths. */
-var reLeadingDot = /^\./,
-    rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
 
 /** Used to match backslashes in property paths. */
 var reEscapeChar = /\\(\\)?/g;
@@ -37858,11 +38446,11 @@ var reEscapeChar = /\\(\\)?/g;
  */
 var stringToPath = memoizeCapped(function(string) {
   var result = [];
-  if (reLeadingDot.test(string)) {
+  if (string.charCodeAt(0) === 46 /* . */) {
     result.push('');
   }
-  string.replace(rePropName, function(match, number, quote, string) {
-    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  string.replace(rePropName, function(match, number, quote, subString) {
+    result.push(quote ? subString.replace(reEscapeChar, '$1') : (number || match));
   });
   return result;
 });
