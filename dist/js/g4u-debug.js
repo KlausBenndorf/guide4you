@@ -1613,18 +1613,6 @@ var DOMListener = function () {
     value: function detach() {
       this.element.removeEventListener(this.event, this.listener, this.useCapture);
     }
-  }], [{
-    key: 'usable',
-    value: function usable(element) {
-      return !!element.addEventListener;
-      // thanks to internet explorer we can't use the following line
-      // return element instanceof EventTarget
-    }
-  }, {
-    key: 'create',
-    value: function create(element) {
-      return new DOMListener(element);
-    }
   }]);
 
   return DOMListener;
@@ -1656,16 +1644,6 @@ var JQueryListener = function () {
     value: function detach() {
       this.element.off(this.event, this.listener);
     }
-  }], [{
-    key: 'usable',
-    value: function usable(element) {
-      return element instanceof _jquery2.default;
-    }
-  }, {
-    key: 'create',
-    value: function create(element) {
-      return new JQueryListener(element);
-    }
   }]);
 
   return JQueryListener;
@@ -1694,16 +1672,6 @@ var OLListener = function () {
     key: 'detach',
     value: function detach() {
       _openlayers2.default.Observable.unByKey(this.key_);
-    }
-  }], [{
-    key: 'usable',
-    value: function usable(element) {
-      return element instanceof _openlayers2.default.Observable;
-    }
-  }, {
-    key: 'create',
-    value: function create(element) {
-      return new OLListener(element);
     }
   }]);
 
@@ -1860,14 +1828,16 @@ var ListenerOrganizerMixin = exports.ListenerOrganizerMixin = function () {
   }], [{
     key: 'getTypeListener',
     value: function getTypeListener(element) {
-      var _arr = [DOMListener, JQueryListener, OLListener];
-
-      for (var _i = 0; _i < _arr.length; _i++) {
-        var TypeListener = _arr[_i];
-        if (TypeListener.usable(element)) {
-          return TypeListener.create(element);
-        }
+      if (element instanceof _openlayers2.default.Observable) {
+        return new OLListener(element);
       }
+      if (element instanceof _jquery2.default) {
+        return new JQueryListener(element);
+      }
+      if (element.addEventListener) {
+        return new DOMListener(element);
+      }
+      throw new Error('no suitable listener interface found!');
     }
   }]);
 
@@ -6594,7 +6564,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.10.1'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.10.2'); // eslint-disable-line
 
     _this.set('options', options);
 
@@ -12682,6 +12652,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * @typedef {object} WMSFeatureInfoOptions
+ * @property {object.<string, string>} [params] the params to be used with the GetFeatureInfo call.
+ *    Needs to include INFO_FORMAT.
+ *    If the layer does not use the buttons options than needs to include QUERY_LAYERS.
+ * @property {boolean} [checkable=false] If the layer does not use the buttons options, this options specifies if an
+ *    extra button on the layer button appears to toggle the feature info.
+ * @property {boolean} [checked=true] If the layer does not use the buttons options and checkable is true, this option
+ *    specifies if the feature info button appears activated or not.
+ */
+
 var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
   function WMSFeatureInfoMixin() {
     _classCallCheck(this, WMSFeatureInfoMixin);
@@ -12689,6 +12670,11 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
 
   _createClass(WMSFeatureInfoMixin, [{
     key: 'initialize',
+
+    /**
+     * @param {object} options
+     * @param {WMSFeatureInfoOptions} options.featureInfo
+     */
     value: function initialize(options) {
       this.featureInfo_ = options.featureInfo !== undefined;
 
@@ -12700,7 +12686,13 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
         this.featureInfoParams_ = options.featureInfo.params || {};
         this.featureInfoCheckable_ = options.featureInfo.checkable;
         this.featureInfoMutators_ = options.featureInfo.mutators;
+        this.featureInfoChecked_ = options.featureInfo.checked;
       }
+    }
+  }, {
+    key: 'getFeatureInfoParams',
+    value: function getFeatureInfoParams() {
+      return this.featureInfoParams_;
     }
   }, {
     key: 'getQueryable',
@@ -12721,6 +12713,11 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
     key: 'isFeatureInfoCheckable',
     value: function isFeatureInfoCheckable() {
       return this.featureInfoCheckable_;
+    }
+  }, {
+    key: 'isFeatureInfoChecked',
+    value: function isFeatureInfoChecked() {
+      return this.featureInfoChecked_;
     }
   }, {
     key: 'updateFeatureInfoParams',
@@ -12835,6 +12832,14 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
 
   return WMSFeatureInfoMixin;
 }();
+
+/**
+ * A wms source config.
+ * @typedef {SourceConfig} WMSSSourceConfig
+ * @property {object} params required. needs to contain a `LAYERS` parameter. For other
+ *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.ImageWMS.html -> Constructor options -> params
+ * @property {WMSFeatureInfoOptions} featureInfo
+ */
 
 var ImageWMSSource = exports.ImageWMSSource = function (_mixin) {
   _inherits(ImageWMSSource, _mixin);
@@ -20195,6 +20200,9 @@ var LayerType = exports.LayerType = {
  * @typedef {g4uLayerOptions} WMSLayerConfig
  * @property {"WMS"} type
  * @property {WMSSSourceConfig} source
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
+ *    appear as a category or not.
  */
 
 /**
@@ -20202,6 +20210,9 @@ var LayerType = exports.LayerType = {
  * @typedef {g4uLayerOptions} TileWMSLayerConfig
  * @property {"TileWMS"} type
  * @property {WMSSSourceConfig} source
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
+ *    appear as a category or not.
  */
 
 /**
@@ -20250,13 +20261,6 @@ var LayerType = exports.LayerType = {
  *    needed Parameters will be obtained automatically.
  * @typedef {SourceConfig} WMTSSSourceConfig
  * @property {object} config
- */
-
-/**
- * A wms source config. The config must contain a `params` object that must contain a `LAYERS` parameter. For other
- *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.ImageWMS.html -> Constructor options -> params.
- * @typedef {SourceConfig} WMSSSourceConfig
- * @property {object} params
  */
 
 /**
@@ -24752,12 +24756,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
- * @property {boolean} [toggle=true] if the layers are toggable
  * @property {boolean} [collapsible=true] if the menu should be collapsible
  * @property {boolean} [collapsed=false] if the menu starts collapsed
  * @property {number} [minVisibleEntries=6] amount of minimal visible elements
  * @property {string} layerGroupName the name of the layerGroup this selector is connected to. For example 'baseLayers'
  * @property {number} [minLayerAmount=1] the minimum number of layers which should be visible to show this selector
+ */
+
+/**
+ * @typedef {object} LayerButton
+ * @property {string} title
+ * @property {boolean} [checked] if QUERY_LAYERS are set and checked is true, the featureInfo appears turned on.
+ * @property {string[]} LAYERS
+ * @property {string[]} [QUERY_LAYERS]
  */
 
 /**
@@ -24835,12 +24846,6 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
     });
 
     _this.get$Element().append(_this.menu_.get$Element());
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    _this.toggle_ = options.toggle || true;
 
     /**
      * @type {number}
@@ -24963,11 +24968,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
         var activeClassName = this.classNames_.menu + '-active';
 
         this.listenAt($button).on('click', function () {
-          if (_this3.toggle_) {
-            layer.setVisible(!layer.getVisible());
-          } else {
-            layer.setVisible(true);
-          }
+          layer.setVisible(!layer.getVisible());
           _this3.dispatchEvent({
             type: 'click:layer',
             layer: layer
@@ -25201,7 +25202,7 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
 
                 var $button = (0, _jquery2.default)('<span>').addClass(_this5.classNames_.layerButton).addClass('button').html(_this5.getLocaliser().selectL10N(layerButton.title));
                 var $toggleFeatureInfo = (0, _jquery2.default)('<span>').addClass(_this5.classNames_.featureInfo);
-                (0, _html.addTooltip)($toggleFeatureInfo, _this5.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'));
+                (0, _html.addTooltip)($toggleFeatureInfo, _this5.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'));
 
                 $target.append($button);
 
@@ -25223,6 +25224,10 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
 
                   if (!active && featureInfoCheckable) {
                     setCheckboxActive(false);
+                  }
+
+                  if (active && layerButton.checked) {
+                    setCheckboxActive(true);
                   }
 
                   if (countActiveButtons === 0) {
@@ -25264,9 +25269,8 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
                   }
                 };
 
-                if (layerButton.checked) {
-                  wmsSource.toggleWMSQueryLayers(layerButton.QUERY_LAYERS, true);
-                  $toggleFeatureInfo.addClass(_this5.classNames_.featureInfoActive);
+                if (wmsLayer.getVisible()) {
+                  toggleButtonActive();
                 }
 
                 _this5.listenAt($button).on('click', function () {
@@ -25344,9 +25348,79 @@ var LayerSelector = exports.LayerSelector = function (_mixin) {
 
             if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
           } else {
-            return {
-              v: _this5.buildLayerButton(wmsLayer, $target)
+            var wmsSource = wmsLayer.getSource();
+            var featureInfoCheckable = wmsSource.isFeatureInfoCheckable();
+
+            var activeClassName = _this5.classNames_.menu + '-active';
+
+            var _$button = (0, _jquery2.default)('<span>').addClass(_this5.classNames_.layerButton).addClass('button').html(_this5.getLocaliser().selectL10N(wmsLayer.get('title')));
+            var _$toggleFeatureInfo = (0, _jquery2.default)('<span>').addClass(_this5.classNames_.featureInfo);
+            (0, _html.addTooltip)(_$toggleFeatureInfo, _this5.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'));
+
+            $target.append(_$button);
+
+            var _toggleButtonActive = void 0,
+                _setCheckboxActive = void 0;
+
+            _toggleButtonActive = function _toggleButtonActive() {
+              var active = !wmsLayer.getVisible();
+              wmsLayer.setVisible(active);
+              _$button.toggleClass(activeClassName, active);
+
+              if (!active && featureInfoCheckable) {
+                _setCheckboxActive(false);
+              }
+
+              if (active && wmsSource.isFeatureInfoChecked()) {
+                _setCheckboxActive(true);
+              }
+
+              _this5.dispatchEvent({
+                type: 'click:layer',
+                layer: wmsLayer,
+                wmsLayer: true
+              });
             };
+
+            var featureInfoParams = wmsSource.getFeatureInfoParams();
+
+            _setCheckboxActive = function _setCheckboxActive(checkboxActive) {
+              if (checkboxActive && !wmsLayer.getVisible()) {
+                _toggleButtonActive();
+              }
+              wmsSource.toggleWMSQueryLayers(featureInfoParams['QUERY_LAYERS'], checkboxActive);
+              _$toggleFeatureInfo.toggleClass(_this5.classNames_.featureInfoActive, checkboxActive);
+              if (checkboxActive) {
+                (0, _html.changeTooltip)(_$toggleFeatureInfo, _this5.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'));
+              } else {
+                (0, _html.changeTooltip)(_$toggleFeatureInfo, _this5.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'));
+              }
+            };
+
+            _this5.listenAt(_$button).on('click', function () {
+              _toggleButtonActive();
+              _this5.dispatchEvent({
+                type: 'click:layer',
+                layer: wmsLayer,
+                wmsLayer: true
+              });
+            });
+
+            _this5.listenAt(wmsLayer).on('change:visible', function () {
+              _$button.toggleClass(activeClassName, wmsLayer.getVisible());
+            });
+
+            if (wmsLayer.get('window')) {
+              _this5.addWindowToButton(_$button, wmsLayer);
+            }
+
+            if (featureInfoCheckable) {
+              _$button.append(_$toggleFeatureInfo);
+              _this5.listenAt(_$toggleFeatureInfo).on('click', function (e) {
+                _setCheckboxActive(!_$toggleFeatureInfo.hasClass(_this5.classNames_.featureInfoActive));
+                e.stopPropagation();
+              });
+            }
           }
         }();
 

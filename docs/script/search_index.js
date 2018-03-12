@@ -168,12 +168,6 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "guide4you/src/sources/imagewmssource.js~imagewmssource",
-    "class/src/sources/ImageWMSSource.js~ImageWMSSource.html",
-    "<span>ImageWMSSource</span> <span class=\"search-result-import-path\">guide4you/src/sources/ImageWMSSource.js</span>",
-    "class"
-  ],
-  [
     "guide4you/src/controls/infobutton.js~infobutton",
     "class/src/controls/InfoButton.js~InfoButton.html",
     "<span>InfoButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/InfoButton.js</span>",
@@ -417,12 +411,6 @@ window.esdocSearchIndex = [
     "guide4you/src/configurators/uiconfigurator.js~uiconfigurator",
     "class/src/configurators/UIConfigurator.js~UIConfigurator.html",
     "<span>UIConfigurator</span> <span class=\"search-result-import-path\">guide4you/src/configurators/UIConfigurator.js</span>",
-    "class"
-  ],
-  [
-    "guide4you/src/sources/imagewmssource.js~wmsfeatureinfomixin",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html",
-    "<span>WMSFeatureInfoMixin</span> <span class=\"search-result-import-path\">guide4you/src/sources/ImageWMSSource.js</span>",
     "class"
   ],
   [
@@ -2532,12 +2520,6 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "src/configurators/layerfactory.js~wmsssourceconfig",
-    "typedef/index.html#static-typedef-WMSSSourceConfig",
-    "src/configurators/LayerFactory.js~WMSSSourceConfig",
-    "typedef"
-  ],
-  [
     "src/configurators/layerfactory.js~wmtslayerconfig",
     "typedef/index.html#static-typedef-WMTSLayerConfig",
     "src/configurators/LayerFactory.js~WMTSLayerConfig",
@@ -3882,6 +3864,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/controls/layerselector.js~layerbutton",
+    "typedef/index.html#static-typedef-LayerButton",
+    "src/controls/LayerSelector.js~LayerButton",
+    "typedef"
+  ],
+  [
     "src/controls/layerselector.js~layerselector#$windowcontainer_",
     "class/src/controls/LayerSelector.js~LayerSelector.html#instance-member-$windowContainer_",
     "src/controls/LayerSelector.js~LayerSelector#$windowContainer_",
@@ -4048,12 +4036,6 @@ window.esdocSearchIndex = [
     "class/src/controls/LayerSelector.js~LayerSelector.html#instance-method-squeezeBy",
     "src/controls/LayerSelector.js~LayerSelector#squeezeBy",
     "method"
-  ],
-  [
-    "src/controls/layerselector.js~layerselector#toggle_",
-    "class/src/controls/LayerSelector.js~LayerSelector.html#instance-member-toggle_",
-    "src/controls/LayerSelector.js~LayerSelector#toggle_",
-    "member"
   ],
   [
     "src/controls/layerselector.js~layerselector#visible_",
@@ -5574,112 +5556,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#arraycontainsall",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-arrayContainsAll",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#arrayContainsAll",
-    "method"
+    "src/sources/imagewmssource.js~wmsfeatureinfooptions",
+    "typedef/index.html#static-typedef-WMSFeatureInfoOptions",
+    "src/sources/ImageWMSSource.js~WMSFeatureInfoOptions",
+    "typedef"
   ],
   [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#featureinfocheckable_",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-member-featureInfoCheckable_",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#featureInfoCheckable_",
-    "member"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#featureinfomutators_",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-member-featureInfoMutators_",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#featureInfoMutators_",
-    "member"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#featureinfoparams_",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-member-featureInfoParams_",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#featureInfoParams_",
-    "member"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#featureinfo_",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-member-featureInfo_",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#featureInfo_",
-    "member"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#getfeatureinfo",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getFeatureInfo",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getFeatureInfo",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#getfeatureinfomutators",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getFeatureInfoMutators",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getFeatureInfoMutators",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#getqueryable",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getQueryable",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getQueryable",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#getwmslayersvisible",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getWMSLayersVisible",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getWMSLayersVisible",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#getwmsquerylayersvisible",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-getWMSQueryLayersVisible",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#getWMSQueryLayersVisible",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#hasfeatureinfo",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-hasFeatureInfo",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#hasFeatureInfo",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#initialize",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-initialize",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#initialize",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#isfeatureinfocheckable",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-isFeatureInfoCheckable",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#isFeatureInfoCheckable",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#switchedurl",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-member-switchedUrl",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#switchedUrl",
-    "member"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#togglearrayentries_",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-toggleArrayEntries_",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#toggleArrayEntries_",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#togglewmslayers",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-toggleWMSLayers",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#toggleWMSLayers",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#togglewmsquerylayers",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-toggleWMSQueryLayers",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#toggleWMSQueryLayers",
-    "method"
-  ],
-  [
-    "src/sources/imagewmssource.js~wmsfeatureinfomixin#updatefeatureinfoparams",
-    "class/src/sources/ImageWMSSource.js~WMSFeatureInfoMixin.html#instance-method-updateFeatureInfoParams",
-    "src/sources/ImageWMSSource.js~WMSFeatureInfoMixin#updateFeatureInfoParams",
-    "method"
+    "src/sources/imagewmssource.js~wmsssourceconfig",
+    "typedef/index.html#static-typedef-WMSSSourceConfig",
+    "src/sources/ImageWMSSource.js~WMSSSourceConfig",
+    "typedef"
   ],
   [
     "src/sources/queryvectorsource.js",
