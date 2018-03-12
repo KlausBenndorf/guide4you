@@ -13,12 +13,19 @@ import { addTooltip, changeTooltip } from '../html/html'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
- * @property {boolean} [toggle=true] if the layers are toggable
  * @property {boolean} [collapsible=true] if the menu should be collapsible
  * @property {boolean} [collapsed=false] if the menu starts collapsed
  * @property {number} [minVisibleEntries=6] amount of minimal visible elements
  * @property {string} layerGroupName the name of the layerGroup this selector is connected to. For example 'baseLayers'
  * @property {number} [minLayerAmount=1] the minimum number of layers which should be visible to show this selector
+ */
+
+/**
+ * @typedef {object} LayerButton
+ * @property {string} title
+ * @property {boolean} [checked] if QUERY_LAYERS are set and checked is true, the featureInfo appears turned on.
+ * @property {string[]} LAYERS
+ * @property {string[]} [QUERY_LAYERS]
  */
 
 /**
@@ -88,12 +95,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.menu_.on('change:collapsed', () => this.dispatchEvent('change:size'))
 
     this.get$Element().append(this.menu_.get$Element())
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.toggle_ = options.toggle || true
 
     /**
      * @type {number}
@@ -200,11 +201,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       let activeClassName = this.classNames_.menu + '-active'
 
       this.listenAt($button).on('click', () => {
-        if (this.toggle_) {
-          layer.setVisible(!layer.getVisible())
-        } else {
-          layer.setVisible(true)
-        }
+        layer.setVisible(!layer.getVisible())
         this.dispatchEvent({
           type: 'click:layer',
           layer: layer
@@ -394,7 +391,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           let $toggleFeatureInfo = $('<span>')
             .addClass(this.classNames_.featureInfo)
           addTooltip($toggleFeatureInfo,
-            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'))
+            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
 
           $target.append($button)
 
@@ -415,6 +412,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
             if (!active && featureInfoCheckable) {
               setCheckboxActive(false)
+            }
+
+            if (active && layerButton.checked) {
+              setCheckboxActive(true)
             }
 
             if (countActiveButtons === 0) {
@@ -458,9 +459,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             }
           }
 
-          if (layerButton.checked) {
-            wmsSource.toggleWMSQueryLayers(layerButton.QUERY_LAYERS, true)
-            $toggleFeatureInfo.addClass(this.classNames_.featureInfoActive)
+          if (wmsLayer.getVisible()) {
+            toggleButtonActive()
           }
 
           this.listenAt($button)
@@ -507,7 +507,86 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           return menu
         }
       } else {
-        return this.buildLayerButton(wmsLayer, $target)
+        let wmsSource = wmsLayer.getSource()
+        let featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
+
+        let activeClassName = this.classNames_.menu + '-active'
+
+        let $button = $('<span>')
+          .addClass(this.classNames_.layerButton)
+          .addClass('button')
+          .html(this.getLocaliser().selectL10N(wmsLayer.get('title')))
+        let $toggleFeatureInfo = $('<span>')
+          .addClass(this.classNames_.featureInfo)
+        addTooltip($toggleFeatureInfo,
+          this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
+
+        $target.append($button)
+
+        let toggleButtonActive, setCheckboxActive
+
+        toggleButtonActive = () => {
+          let active = !wmsLayer.getVisible()
+          wmsLayer.setVisible(active)
+          $button.toggleClass(activeClassName, active)
+
+          if (!active && featureInfoCheckable) {
+            setCheckboxActive(false)
+          }
+
+          if (active && wmsSource.isFeatureInfoChecked()) {
+            setCheckboxActive(true)
+          }
+
+          this.dispatchEvent({
+            type: 'click:layer',
+            layer: wmsLayer,
+            wmsLayer: true
+          })
+        }
+
+        const featureInfoParams = wmsSource.getFeatureInfoParams()
+
+        setCheckboxActive = checkboxActive => {
+          if (checkboxActive && !wmsLayer.getVisible()) {
+            toggleButtonActive()
+          }
+          wmsSource.toggleWMSQueryLayers(featureInfoParams['QUERY_LAYERS'], checkboxActive)
+          $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, checkboxActive)
+          if (checkboxActive) {
+            changeTooltip($toggleFeatureInfo,
+              this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'))
+          } else {
+            changeTooltip($toggleFeatureInfo,
+              this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
+          }
+        }
+
+        this.listenAt($button)
+          .on('click', () => {
+            toggleButtonActive()
+            this.dispatchEvent({
+              type: 'click:layer',
+              layer: wmsLayer,
+              wmsLayer: true
+            })
+          })
+
+        this.listenAt(wmsLayer).on('change:visible', () => {
+          $button.toggleClass(activeClassName, wmsLayer.getVisible())
+        })
+
+        if (wmsLayer.get('window')) {
+          this.addWindowToButton($button, wmsLayer)
+        }
+
+        if (featureInfoCheckable) {
+          $button.append($toggleFeatureInfo)
+          this.listenAt($toggleFeatureInfo).on('click', e => {
+            setCheckboxActive(!$toggleFeatureInfo.hasClass(this.classNames_.featureInfoActive))
+            e.stopPropagation()
+          })
+        }
       }
     }
   }

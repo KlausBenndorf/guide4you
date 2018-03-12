@@ -127,6 +127,9 @@ export const LayerType = {
  * @typedef {g4uLayerOptions} WMSLayerConfig
  * @property {"WMS"} type
  * @property {WMSSSourceConfig} source
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
+ *    appear as a category or not.
  */
 
 /**
@@ -134,6 +137,9 @@ export const LayerType = {
  * @typedef {g4uLayerOptions} TileWMSLayerConfig
  * @property {"TileWMS"} type
  * @property {WMSSSourceConfig} source
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
+ *    appear as a category or not.
  */
 
 /**
@@ -182,13 +188,6 @@ export const LayerType = {
  *    needed Parameters will be obtained automatically.
  * @typedef {SourceConfig} WMTSSSourceConfig
  * @property {object} config
- */
-
-/**
- * A wms source config. The config must contain a `params` object that must contain a `LAYERS` parameter. For other
- *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.ImageWMS.html -> Constructor options -> params.
- * @typedef {SourceConfig} WMSSSourceConfig
- * @property {object} params
  */
 
 /**
