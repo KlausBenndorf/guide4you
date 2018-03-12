@@ -612,7 +612,7 @@ a.ol-control,
   background: rgba(255, 255, 255, 0.7);
 }
 .g4u-desktop .g4u-layermenu button {
-  width: 207px;
+  width: 210px;
 }
 .g4u-desktop .g4u-layermenu button:focus {
   color: white;
@@ -1077,7 +1077,8 @@ a.ol-control,
 .g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector button,
 .g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector .button {
   box-sizing: border-box;
-  width: 210px;
+  left: 0;
+  right: 0;
   padding-left: 6px;
   border-radius: 0;
 }
@@ -1190,7 +1191,8 @@ a.ol-control,
   padding-top: 3px;
   padding-bottom: 3px;
   margin-top: 3px;
-  width: 210px;
+  left: 0;
+  right: 0;
   padding-left: 28px;
 }
 .g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector .g4u-layerselector-layerbutton:before {
