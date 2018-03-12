@@ -4,7 +4,22 @@ import $ from 'jquery'
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
 
+/**
+ * @typedef {object} WMSFeatureInfoOptions
+ * @property {object.<string, string>} [params] the params to be used with the GetFeatureInfo call.
+ *    Needs to include INFO_FORMAT.
+ *    If the layer does not use the buttons options than needs to include QUERY_LAYERS.
+ * @property {boolean} [checkable=false] If the layer does not use the buttons options, this options specifies if an
+ *    extra button on the layer button appears to toggle the feature info.
+ * @property {boolean} [checked=true] If the layer does not use the buttons options and checkable is true, this option
+ *    specifies if the feature info button appears activated or not.
+ */
+
 export class WMSFeatureInfoMixin {
+  /**
+   * @param {object} options
+   * @param {WMSFeatureInfoOptions} options.featureInfo
+   */
   initialize (options) {
     this.featureInfo_ = options.featureInfo !== undefined
 
@@ -16,7 +31,12 @@ export class WMSFeatureInfoMixin {
       this.featureInfoParams_ = options.featureInfo.params || {}
       this.featureInfoCheckable_ = options.featureInfo.checkable
       this.featureInfoMutators_ = options.featureInfo.mutators
+      this.featureInfoChecked_ = options.featureInfo.checked
     }
+  }
+
+  getFeatureInfoParams () {
+    return this.featureInfoParams_
   }
 
   getQueryable () {
@@ -33,6 +53,10 @@ export class WMSFeatureInfoMixin {
 
   isFeatureInfoCheckable () {
     return this.featureInfoCheckable_
+  }
+
+  isFeatureInfoChecked () {
+    return this.featureInfoChecked_
   }
 
   updateFeatureInfoParams (newParams) {
@@ -111,6 +135,14 @@ export class WMSFeatureInfoMixin {
     return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)
   }
 }
+
+/**
+ * A wms source config.
+ * @typedef {SourceConfig} WMSSSourceConfig
+ * @property {object} params required. needs to contain a `LAYERS` parameter. For other
+ *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.ImageWMS.html -> Constructor options -> params
+ * @property {WMSFeatureInfoOptions} featureInfo
+ */
 
 export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixin) {
   constructor (options) {

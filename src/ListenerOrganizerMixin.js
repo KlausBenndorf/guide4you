@@ -24,16 +24,6 @@ class DOMListener {
   detach () {
     this.element.removeEventListener(this.event, this.listener, this.useCapture)
   }
-
-  static usable (element) {
-    return !!element.addEventListener
-    // thanks to internet explorer we can't use the following line
-    // return element instanceof EventTarget
-  }
-
-  static create (element) {
-    return new DOMListener(element)
-  }
 }
 
 class JQueryListener {
@@ -56,14 +46,6 @@ class JQueryListener {
   detach () {
     this.element.off(this.event, this.listener)
   }
-
-  static usable (element) {
-    return element instanceof $
-  }
-
-  static create (element) {
-    return new JQueryListener(element)
-  }
 }
 
 class OLListener {
@@ -84,14 +66,6 @@ class OLListener {
   detach () {
     ol.Observable.unByKey(this.key_)
   }
-
-  static usable (element) {
-    return element instanceof ol.Observable
-  }
-
-  static create (element) {
-    return new OLListener(element)
-  }
 }
 
 export class ListenerOrganizerMixin {
@@ -100,11 +74,16 @@ export class ListenerOrganizerMixin {
   }
 
   static getTypeListener (element) {
-    for (let TypeListener of [DOMListener, JQueryListener, OLListener]) {
-      if (TypeListener.usable(element)) {
-        return TypeListener.create(element)
-      }
+    if (element instanceof ol.Observable) {
+      return new OLListener(element)
     }
+    if (element instanceof $) {
+      return new JQueryListener(element)
+    }
+    if (element.addEventListener) {
+      return new DOMListener(element)
+    }
+    throw new Error('no suitable listener interface found!')
   }
 
   listenAt (elements) {
