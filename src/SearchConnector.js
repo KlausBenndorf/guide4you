@@ -34,6 +34,7 @@ export class SearchConnector {
 
   setMap (map) {
     if (map) {
+      this.serviceURL.extractParamsFromMap(map)
       this.featureProjection = map.getView().getProjection()
       this.map_ = map
     }
