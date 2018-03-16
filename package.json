@@ -21,24 +21,24 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-urlapi"
   },
   "peerDependencies": {
-    "guide4you": "^2.7.1",
-    "jquery": "3.2.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1"
+    "guide4you": "^2.10.2",
+    "jquery": "3.3.1",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4"
   },
   "devDependencies": {
     "concurrently": "^3.4.0",
     "esdoc": "^1.0.4",
-    "guide4you": "^2.10.1",
+    "guide4you": "^2.10.2",
     "guide4you-builder": "^2.2.2",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
-    "http-server": "^0.10.0",
-    "jquery": "3.2.1",
-    "mocha": "^4.0.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.3.1",
+    "http-server": "^0.11.0",
+    "jquery": "3.3.1",
+    "mocha": "^5.0.4",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "^3.6.0",
-    "standard": "^10.0.3",
-    "wait-on": "^2.0.2"
+    "standard": "^11.0.0",
+    "wait-on": "^2.1.0"
   },
   "scripts": {
     "dist": "g4u-build -m dist -c conf/dist",
