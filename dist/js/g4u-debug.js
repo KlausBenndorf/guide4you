@@ -280,8 +280,11 @@ function asyncImageLoad(image, origUrl, finalUrl) {
     finalUrl = origUrl.finalize();
   }
   return new Promise(function (resolve, reject) {
+    function onError() {
+      reject('Error loading url ' + finalUrl);
+    }
     image.addEventListener('load', resolve);
-    image.addEventListener('error', reject);
+    image.addEventListener('error', onError);
     if (!origUrl.username || !origUrl.password) {
       image.src = finalUrl;
     } else {
@@ -298,7 +301,7 @@ function asyncImageLoad(image, origUrl, finalUrl) {
           var urlCreator = window.URL || window.webkitURL;
           image.src = urlCreator.createObjectURL(this.response);
         } else {
-          reject(e);
+          onError();
         }
       });
 
@@ -1004,6 +1007,7 @@ var Debug = exports.Debug = function () {
     key: 'error',
     value: function error(msg) {
       console.error(msg); // eslint-disable-line
+      console.trace(); // eslint-disable-line
     }
 
     /**
@@ -4861,6 +4865,20 @@ var URL = exports.URL = function () {
      * @returns {string} the encoded (url) template
      */
 
+  }, {
+    key: 'extend',
+
+
+    /**
+     * this method returns a new URL extend by the provided string
+     * @param {string} extension
+     * @returns {URL}
+     */
+    value: function extend(extension) {
+      var newUrl = this.clone();
+      newUrl.url += extension;
+      return newUrl;
+    }
   }], [{
     key: 'extractFromConfig',
     value: function extractFromConfig(config, paramName, defaultValue, map) {
@@ -6564,7 +6582,7 @@ var G4UMap = exports.G4UMap = function (_ol$Map) {
       view: null
     }));
 
-    _this.set('guide4youVersion', 'v2.10.2'); // eslint-disable-line
+    _this.set('guide4youVersion', 'v2.10.3'); // eslint-disable-line
 
     _this.set('options', options);
 
@@ -12679,10 +12697,6 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
       this.featureInfo_ = options.featureInfo !== undefined;
 
       if (this.featureInfo_) {
-        if (options.featureInfoProxy !== undefined) {
-          this.switchedUrl = options.originalUrl.clone();
-          this.switchedUrl.proxy = options.featureInfo.proxy;
-        }
         this.featureInfoParams_ = options.featureInfo.params || {};
         this.featureInfoCheckable_ = options.featureInfo.checkable;
         this.featureInfoMutators_ = options.featureInfo.mutators;
@@ -12734,20 +12748,13 @@ var WMSFeatureInfoMixin = exports.WMSFeatureInfoMixin = function () {
         if (!params['QUERY_LAYERS'] || params['QUERY_LAYERS'].length === 0) {
           resolve('');
         } else {
-          var normalUrls = void 0;
-          if (_this.switchedUrl) {
-            normalUrls = _this.getUrls();
-            _this.setUrl(_this.switchedUrl.finalize());
-          }
+          var gfiExt = _this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1);
           _jquery2.default.ajax({
-            url: _this.getGetFeatureInfoUrl(coordinate, resolution, projection, params),
+            url: _this.originalUrlObject.extend(gfiExt).finalize(),
             success: resolve,
             error: reject,
             dataType: 'text'
           });
-          if (_this.switchedUrl) {
-            _this.setUrls(normalUrls);
-          }
         }
       });
     }
@@ -12847,14 +12854,18 @@ var ImageWMSSource = exports.ImageWMSSource = function (_mixin) {
   function ImageWMSSource(options) {
     _classCallCheck(this, ImageWMSSource);
 
-    options.originalUrl = options.url;
-    options.url = options.url.finalize();
+    var originalUrl = options.url;
+    options.url = 't'; // dummy value that gets sliced out
     options.imageLoadFunction = function (image, src) {
-      (0, _utilities.asyncImageLoad)(image.getImage(), options.originalUrl, src).catch(function (err) {
+      (0, _utilities.asyncImageLoad)(image.getImage(), _this2.originalUrlObject.extend(src.slice(1))).catch(function (err) {
         return _Debug.Debug.error(err);
       });
     };
-    return _possibleConstructorReturn(this, (ImageWMSSource.__proto__ || Object.getPrototypeOf(ImageWMSSource)).call(this, options));
+
+    var _this2 = _possibleConstructorReturn(this, (ImageWMSSource.__proto__ || Object.getPrototypeOf(ImageWMSSource)).call(this, options));
+
+    _this2.originalUrlObject = originalUrl;
+    return _this2;
   }
 
   return ImageWMSSource;
@@ -12866,14 +12877,18 @@ var TileWMSSource = exports.TileWMSSource = function (_mixin2) {
   function TileWMSSource(options) {
     _classCallCheck(this, TileWMSSource);
 
-    options.originalUrl = options.url;
-    options.url = options.url.finalize();
+    var origUrl = options.url;
+    options.url = 't'; // dummy value that gets sliced out
     options.tileLoadFunction = function (tile, src) {
-      (0, _utilities.asyncImageLoad)(tile.getImage(), options.originalUrl, src).catch(function (err) {
+      (0, _utilities.asyncImageLoad)(tile.getImage(), _this3.originalUrlObject.extend(src.slice(1))).catch(function (err) {
         return _Debug.Debug.error(err);
       });
     };
-    return _possibleConstructorReturn(this, (TileWMSSource.__proto__ || Object.getPrototypeOf(TileWMSSource)).call(this, options));
+
+    var _this3 = _possibleConstructorReturn(this, (TileWMSSource.__proto__ || Object.getPrototypeOf(TileWMSSource)).call(this, options));
+
+    _this3.originalUrlObject = origUrl;
+    return _this3;
   }
 
   return TileWMSSource;
@@ -20196,7 +20211,7 @@ var LayerType = exports.LayerType = {
  */
 
 /**
- * A WMS Layer. Check the {WMSSSourceConfig}.
+ * A WMS Layer. Check the {{WMSSSourceConfig}}.
  * @typedef {g4uLayerOptions} WMSLayerConfig
  * @property {"WMS"} type
  * @property {WMSSSourceConfig} source
@@ -20206,7 +20221,7 @@ var LayerType = exports.LayerType = {
  */
 
 /**
- * A WMS Layer which is called like a tiled layer. Good for performance. Check the {WMSSSourceConfig}.
+ * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.
  * @typedef {g4uLayerOptions} TileWMSLayerConfig
  * @property {"TileWMS"} type
  * @property {WMSSSourceConfig} source

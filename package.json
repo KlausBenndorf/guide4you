@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "2.10.2",
+  "version": "2.10.3",
   "description": "A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.",
   "keywords": [
     "map",
