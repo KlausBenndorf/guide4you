@@ -24,10 +24,6 @@ export class WMSFeatureInfoMixin {
     this.featureInfo_ = options.featureInfo !== undefined
 
     if (this.featureInfo_) {
-      if (options.featureInfoProxy !== undefined) {
-        this.switchedUrl = options.originalUrl.clone()
-        this.switchedUrl.proxy = options.featureInfo.proxy
-      }
       this.featureInfoParams_ = options.featureInfo.params || {}
       this.featureInfoCheckable_ = options.featureInfo.checkable
       this.featureInfoMutators_ = options.featureInfo.mutators
@@ -69,20 +65,13 @@ export class WMSFeatureInfoMixin {
       if (!params['QUERY_LAYERS'] || params['QUERY_LAYERS'].length === 0) {
         resolve('')
       } else {
-        let normalUrls
-        if (this.switchedUrl) {
-          normalUrls = this.getUrls()
-          this.setUrl(this.switchedUrl.finalize())
-        }
+        const gfiExt = this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
         $.ajax({
-          url: this.getGetFeatureInfoUrl(coordinate, resolution, projection, params),
+          url: this.originalUrlObject.extend(gfiExt).finalize(),
           success: resolve,
           error: reject,
           dataType: 'text'
         })
-        if (this.switchedUrl) {
-          this.setUrls(normalUrls)
-        }
       }
     })
   }
@@ -146,24 +135,26 @@ export class WMSFeatureInfoMixin {
 
 export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixin) {
   constructor (options) {
-    options.originalUrl = options.url
-    options.url = options.url.finalize()
+    const originalUrl = options.url
+    options.url = 't' // dummy value that gets sliced out
     options.imageLoadFunction = (image, src) => {
-      asyncImageLoad(image.getImage(), options.originalUrl, src)
+      asyncImageLoad(image.getImage(), this.originalUrlObject.extend(src.slice(1)))
         .catch(err => Debug.error(err))
     }
     super(options)
+    this.originalUrlObject = originalUrl
   }
 }
 
 export class TileWMSSource extends mixin(ol.source.TileWMS, WMSFeatureInfoMixin) {
   constructor (options) {
-    options.originalUrl = options.url
-    options.url = options.url.finalize()
+    const origUrl = options.url
+    options.url = 't' // dummy value that gets sliced out
     options.tileLoadFunction = (tile, src) => {
-      asyncImageLoad(tile.getImage(), options.originalUrl, src)
+      asyncImageLoad(tile.getImage(), this.originalUrlObject.extend(src.slice(1)))
         .catch(err => Debug.error(err))
     }
     super(options)
+    this.originalUrlObject = origUrl
   }
 }

@@ -281,4 +281,15 @@ export class URL {
 
     return encodedTemplate
   }
+
+  /**
+   * this method returns a new URL extend by the provided string
+   * @param {string} extension
+   * @returns {URL}
+   */
+  extend (extension) {
+    const newUrl = this.clone()
+    newUrl.url += extension
+    return newUrl
+  }
 }

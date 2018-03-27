@@ -87,8 +87,11 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
     finalUrl = origUrl.finalize()
   }
   return new Promise((resolve, reject) => {
+    function onError () {
+      reject(`Error loading url ${finalUrl}`)
+    }
     image.addEventListener('load', resolve)
-    image.addEventListener('error', reject)
+    image.addEventListener('error', onError)
     if (!origUrl.username || !origUrl.password) {
       image.src = finalUrl
     } else {
@@ -106,7 +109,7 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
           let urlCreator = window.URL || window.webkitURL
           image.src = urlCreator.createObjectURL(this.response)
         } else {
-          reject(e)
+          onError()
         }
       })
 
