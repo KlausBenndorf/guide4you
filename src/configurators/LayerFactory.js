@@ -123,7 +123,7 @@ export const LayerType = {
  */
 
 /**
- * A WMS Layer. Check the {WMSSSourceConfig}.
+ * A WMS Layer. Check the {{WMSSSourceConfig}}.
  * @typedef {g4uLayerOptions} WMSLayerConfig
  * @property {"WMS"} type
  * @property {WMSSSourceConfig} source
@@ -133,7 +133,7 @@ export const LayerType = {
  */
 
 /**
- * A WMS Layer which is called like a tiled layer. Good for performance. Check the {WMSSSourceConfig}.
+ * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.
  * @typedef {g4uLayerOptions} TileWMSLayerConfig
  * @property {"TileWMS"} type
  * @property {WMSSSourceConfig} source
