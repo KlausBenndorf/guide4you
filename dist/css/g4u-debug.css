@@ -1,8 +1,23 @@
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -12,9 +27,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -314,8 +341,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -325,9 +367,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -505,8 +559,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -516,9 +585,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -531,7 +612,7 @@ a.ol-control,
   background: rgba(255, 255, 255, 0.7);
 }
 .g4u-desktop .g4u-layermenu button {
-  width: 207px;
+  width: 210px;
 }
 .g4u-desktop .g4u-layermenu button:focus {
   color: white;
@@ -588,8 +669,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -599,9 +695,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -759,8 +867,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -770,9 +893,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -893,8 +1028,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -904,17 +1054,31 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
   padding: 0;
 }
-.g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector button {
+.g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector button,
+.g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector .button {
   box-sizing: border-box;
-  width: 210px;
+  left: 0;
+  right: 0;
   padding-left: 6px;
   border-radius: 0;
 }
@@ -1027,7 +1191,8 @@ a.ol-control,
   padding-top: 3px;
   padding-bottom: 3px;
   margin-top: 3px;
-  width: 210px;
+  left: 0;
+  right: 0;
   padding-left: 28px;
 }
 .g4u-desktop .g4u-layerselector.ol-unselectable.ol-control .g4u-layerselector .g4u-layerselector-layerbutton:before {
@@ -1074,13 +1239,40 @@ a.ol-control,
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
-.g4u-desktop .g4u-layerselector-checkbox {
+.g4u-desktop .g4u-layerselector-info {
+  overflow: visible !important;
+  display: none;
   position: absolute;
-  left: 3px;
-  top: auto;
-  bottom: auto;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
 }
-.g4u-mobile .g4u-layerselector .g4u-layerselector button {
+.g4u-desktop .g4u-layerselector-info.g4u-has-tooltip [role=tooltip] {
+  top: 0 !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: 28px !important;
+}
+.g4u-desktop .g4u-layerselector-info:before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  height: 16px;
+  width: 16px;
+  background-image: url(../images/info-circle.svg);
+  background-repeat: no-repeat;
+}
+.g4u-desktop .g4u-layerselector-info.g4u-layerselector-info-active:before {
+  background-image: url(../images/info-circle-green.svg);
+}
+.g4u-desktop .g4u-layerselector-menu-active .g4u-layerselector-info {
+  display: block;
+}
+.g4u-mobile .g4u-layerselector .g4u-layerselector button,
+.g4u-mobile .g4u-layerselector .g4u-layerselector .button {
   box-sizing: border-box;
   width: 100%;
   text-align: left;
@@ -1235,8 +1427,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1246,9 +1453,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1309,8 +1528,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1320,9 +1554,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1389,8 +1635,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1400,9 +1661,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1590,8 +1863,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1601,9 +1889,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1718,8 +2018,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1729,9 +2044,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1812,8 +2139,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1823,9 +2165,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1880,8 +2234,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1891,9 +2260,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -1940,8 +2321,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -1951,9 +2347,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -2130,8 +2538,23 @@ a.ol-control,
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -2141,9 +2564,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
@@ -2264,6 +2699,78 @@ a.ol-control,
   bottom: 28px !important;
   left: auto !important;
   right: 28px !important;
+}
+.ol-control {
+  cursor: default;
+}
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
+button.ol-control,
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  white-space: nowrap;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+button.ol-control::-moz-focus-inner,
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
+  padding: 0;
+  border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
+}
+a.ol-control,
+.ol-control a {
+  padding: 0;
+}
+.g4u-desktop .g4u-single-draw .g4u-control-mainbutton {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  padding: 0;
+  color: transparent;
+}
+.g4u-desktop .g4u-single-draw .g4u-control-mainbutton:hover {
+  color: transparent;
+}
+.g4u-desktop .g4u-single-draw .g4u-control-mainbutton:focus {
+  color: transparent;
+}
+.g4u-desktop .g4u-single-draw .g4u-control-mainbutton:before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  background-image: url(../images/pencil.svg);
+  background-repeat: no-repeat;
 }
 .g4u-hidden {
   display: none !important;
@@ -2412,17 +2919,6 @@ a {
   -o-user-select: none;
   user-select: none;
 }
-.g4u-desktop button {
-  cursor: pointer;
-  height: 22px;
-  text-align: left;
-}
-.g4u-desktop button:hover {
-  color: white;
-  background: rgba(0, 113, 188, 0.7);
-  background: #0071bc;
-  cursor: pointer;
-}
 .g4u-desktop .ol-full-screen-false:after {
   content: "\\002194";
 }
@@ -2501,8 +2997,23 @@ a {
 .ol-control {
   cursor: default;
 }
+.g4u-desktop button,
+.g4u-desktop .button {
+  cursor: pointer;
+  height: 22px;
+  text-align: left;
+}
+.g4u-desktop button:hover,
+.g4u-desktop .button:hover {
+  color: white;
+  background: rgba(0, 113, 188, 0.7);
+  background: #0071bc;
+  cursor: pointer;
+}
 button.ol-control,
-.ol-control button {
+.button.ol-control,
+.ol-control button,
+.ol-control .button {
   color: white;
   background: rgba(0, 113, 188, 0.7);
   white-space: nowrap;
@@ -2512,9 +3023,21 @@ button.ol-control,
   border: none;
 }
 button.ol-control::-moz-focus-inner,
-.ol-control button::-moz-focus-inner {
+.button.ol-control::-moz-focus-inner,
+.ol-control button::-moz-focus-inner,
+.ol-control .button::-moz-focus-inner {
   padding: 0;
   border: none;
+}
+.g4u-active .g4u-control-mainbutton,
+button.g4u-active,
+.button.g4u-active {
+  background-color: #22246b;
+}
+.g4u-active .g4u-control-mainbutton:hover,
+button.g4u-active:hover,
+.button.g4u-active:hover {
+  background-color: #22246b;
 }
 a.ol-control,
 .ol-control a {
