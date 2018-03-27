@@ -573,7 +573,7 @@
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        159
+        149
       ]
     },
     "src/sources/QueryVectorSource.js": {
@@ -618,9 +618,9 @@
       "expectCount": 20,
       "actualCount": 17,
       "undocumentLines": [
-        176,
-        311,
-        387
+        179,
+        314,
+        390
       ]
     },
     "src/utilitiesObject.js": {
