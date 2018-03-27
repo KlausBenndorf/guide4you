@@ -42,6 +42,7 @@ export class Debug {
    */
   static error (msg) {
     console.error(msg) // eslint-disable-line
+    console.trace() // eslint-disable-line
   }
 
   /**
