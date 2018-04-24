@@ -26,7 +26,7 @@
   "dependencies": {
     "better-scroll": "1.8.4",
     "csscolorparser": "1.0.3",
-    "lodash": "4.17.5",
+    "lodash": "4.17.9",
     "notifyjs-browser": "0.4.2",
     "proj4": "2.4.3",
     "strip-json-comments": "2.0.1"
