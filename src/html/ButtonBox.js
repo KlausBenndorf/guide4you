@@ -80,6 +80,10 @@ export class ButtonBox extends ol.Object {
     this.$body_ = $('<div>')
       .addClass(this.classNames_.body)
 
+    if (options.addClass) {
+      this.$body_.addClass(options.addClass)
+    }
+
     if (options.hasOwnProperty('content')) {
       this.$body_.append(options.content)
     }
