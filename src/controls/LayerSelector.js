@@ -194,6 +194,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         .attr('id', layer.get('id'))
         .html(layer.get('title'))
 
+      if (layer.get('addClass')) {
+        $button.addClass(layer.get('addClass'))
+      }
+
       if (this.getMap().get('localiser').isRtl()) {
         $button.prop('dir', 'rtl')
       }
@@ -260,7 +264,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         rtl: this.getMap().get('localiser').isRtl(),
         titleButton: activateChildren,
         collapsed,
-        id: categoryLayer.get('id')
+        id: categoryLayer.get('id'),
+        addClass: categoryLayer.get('addClass')
       })
 
       let countChildren = categoryLayer.countChildren()
@@ -364,7 +369,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             title: this.getLocaliser().selectL10N(wmsLayer.get('title')),
             titleButton: true,
             collapsed: wmsLayer.get('collapsed') !== false,
-            id: wmsLayer.get('id')
+            id: wmsLayer.get('id'),
+            addClass: wmsLayer.get('addClass')
           })
 
           $target.append(menu.get$Element())
@@ -516,6 +522,11 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           .addClass(this.classNames_.layerButton)
           .addClass('button')
           .html(this.getLocaliser().selectL10N(wmsLayer.get('title')))
+
+        if (wmsLayer.get('addClass')) {
+          $button.addClass(wmsLayer.get('addClass'))
+        }
+
         let $toggleFeatureInfo = $('<span>')
           .addClass(this.classNames_.featureInfo)
         addTooltip($toggleFeatureInfo,
