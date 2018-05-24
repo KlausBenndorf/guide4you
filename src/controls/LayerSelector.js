@@ -563,7 +563,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         }
 
         this.listenAt($button)
-          .on('click', () => {
+          .on('click touchstart', () => {
             toggleButtonActive()
             this.dispatchEvent({
               type: 'click:layer',
@@ -582,7 +582,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
         if (featureInfoCheckable) {
           $button.append($toggleFeatureInfo)
-          this.listenAt($toggleFeatureInfo).on('click', e => {
+          this.listenAt($toggleFeatureInfo).on('click touchstart', e => {
             setCheckboxActive(!$toggleFeatureInfo.hasClass(this.classNames_.featureInfoActive))
             e.stopPropagation()
           })
