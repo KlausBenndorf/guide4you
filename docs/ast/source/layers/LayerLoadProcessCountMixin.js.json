@@ -106,6 +106,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -124,7 +125,6 @@
                   },
                   "name": "initialize"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -860,6 +860,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -878,7 +879,6 @@
                   },
                   "name": "registerCounters_"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -2706,6 +2706,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -2724,7 +2725,6 @@
                   },
                   "name": "isLoading"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,

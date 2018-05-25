@@ -759,6 +759,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -778,7 +779,6 @@
                   "name": "constructor",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "constructor",
                 "id": null,
                 "generator": false,
@@ -1877,7 +1877,25 @@
                                   },
                                   "value": "-erase"
                                 }
-                              }
+                              },
+                              "trailingComments": [
+                                {
+                                  "type": "CommentBlock",
+                                  "value": "*\n     * @type {StyleLike}\n     * @private\n     ",
+                                  "start": 967,
+                                  "end": 1019,
+                                  "loc": {
+                                    "start": {
+                                      "line": 37,
+                                      "column": 4
+                                    },
+                                    "end": {
+                                      "line": 40,
+                                      "column": 7
+                                    }
+                                  }
+                                }
+                              ]
                             }
                           ],
                           "trailingComments": null
@@ -1959,8 +1977,7 @@
                                 "line": 41,
                                 "column": 8
                               }
-                            },
-                            "leadingComments": null
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -1979,8 +1996,7 @@
                             },
                             "name": "editStyle_"
                           },
-                          "computed": false,
-                          "leadingComments": null
+                          "computed": false
                         },
                         "right": {
                           "type": "LogicalExpression",
@@ -2071,27 +2087,8 @@
                           },
                           "trailingComments": null
                         },
-                        "leadingComments": null,
                         "trailingComments": null
                       },
-                      "leadingComments": [
-                        {
-                          "type": "CommentBlock",
-                          "value": "*\n     * @type {StyleLike}\n     * @private\n     ",
-                          "start": 967,
-                          "end": 1019,
-                          "loc": {
-                            "start": {
-                              "line": 37,
-                              "column": 4
-                            },
-                            "end": {
-                              "line": 40,
-                              "column": 7
-                            }
-                          }
-                        }
-                      ],
                       "trailingComments": [
                         {
                           "type": "CommentBlock",
@@ -3406,6 +3403,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -3424,7 +3422,6 @@
                   },
                   "name": "createHTML"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -3999,6 +3996,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -4017,7 +4015,6 @@
                   },
                   "name": "toggleModeNew"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -4887,6 +4884,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -4905,7 +4903,6 @@
                   },
                   "name": "toggleModeEdit"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -5745,6 +5742,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -5763,7 +5761,6 @@
                   },
                   "name": "toggleModeErase"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -6603,6 +6600,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -6621,7 +6619,6 @@
                   },
                   "name": "setupNewInteraction"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -7908,6 +7905,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -7926,7 +7924,6 @@
                   },
                   "name": "setupEditInteraction"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -9158,6 +9155,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -9176,7 +9174,6 @@
                   },
                   "name": "setupEraseInteractions"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -12190,6 +12187,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -12209,7 +12207,6 @@
                   "name": "setMap",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -21003,6 +21000,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -21022,7 +21020,6 @@
                   "name": "getValue",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -21162,6 +21159,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -21181,7 +21179,6 @@
                   "name": "setValue",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -21684,6 +21681,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -21703,7 +21701,6 @@
                   "name": "getType",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -21824,6 +21821,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -21842,7 +21840,6 @@
                   },
                   "name": "handleActiveChange_"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -24172,6 +24169,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -24191,7 +24189,6 @@
                   "name": "clear",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -24787,7 +24784,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -24894,7 +24891,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -25001,7 +24998,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -25158,7 +25155,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -25367,7 +25364,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -25524,7 +25521,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -25579,7 +25576,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,

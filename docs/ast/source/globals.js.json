@@ -489,7 +489,25 @@
                         "raw": "17"
                       },
                       "value": 17
-                    }
+                    },
+                    "trailingComments": [
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * Names of globally used cssClasses are stored here\n * @type {object.<string, string>}\n ",
+                        "start": 232,
+                        "end": 327,
+                        "loc": {
+                          "start": {
+                            "line": 19,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 22,
+                            "column": 3
+                          }
+                        }
+                      }
+                    ]
                   }
                 ],
                 "trailingComments": null
@@ -665,8 +683,7 @@
                   },
                   "identifierName": "cssClasses"
                 },
-                "name": "cssClasses",
-                "leadingComments": null
+                "name": "cssClasses"
               },
               "init": {
                 "type": "ObjectExpression",
@@ -1399,49 +1416,13 @@
                     }
                   }
                 ]
-              },
-              "leadingComments": null
+              }
             }
           ],
           "kind": "const",
-          "leadingComments": [
-            {
-              "type": "CommentBlock",
-              "value": "*\n * Names of globally used cssClasses are stored here\n * @type {object.<string, string>}\n ",
-              "start": 232,
-              "end": 327,
-              "loc": {
-                "start": {
-                  "line": 19,
-                  "column": 0
-                },
-                "end": {
-                  "line": 22,
-                  "column": 3
-                }
-              }
-            }
-          ],
+          "leadingComments": [],
           "trailingComments": []
-        },
-        "leadingComments": [
-          {
-            "type": "CommentBlock",
-            "value": "*\n * Names of globally used cssClasses are stored here\n * @type {object.<string, string>}\n ",
-            "start": 232,
-            "end": 327,
-            "loc": {
-              "start": {
-                "line": 19,
-                "column": 0
-              },
-              "end": {
-                "line": 22,
-                "column": 3
-              }
-            }
-          }
-        ]
+        }
       }
     ],
     "directives": []

@@ -1,7 +1,7 @@
 {
-  "coverage": "74.74%",
+  "coverage": "73.46%",
   "expectCount": 780,
-  "actualCount": 583,
+  "actualCount": 573,
   "files": {
     "src/Attributions.js": {
       "expectCount": 14,
@@ -33,8 +33,10 @@
     },
     "src/configurators/LayerFactory.js": {
       "expectCount": 20,
-      "actualCount": 18,
+      "actualCount": 16,
       "undocumentLines": [
+        34,
+        210,
         226,
         759
       ]
@@ -72,8 +74,11 @@
     },
     "src/controls/ArrowButtons.js": {
       "expectCount": 11,
-      "actualCount": 11,
-      "undocumentLines": []
+      "actualCount": 9,
+      "undocumentLines": [
+        52,
+        88
+      ]
     },
     "src/controls/Attribution.js": {
       "expectCount": 12,
@@ -123,9 +128,10 @@
     },
     "src/controls/DrawButtons.js": {
       "expectCount": 32,
-      "actualCount": 14,
+      "actualCount": 13,
       "undocumentLines": [
         31,
+        41,
         56,
         57,
         58,
@@ -177,17 +183,19 @@
     },
     "src/controls/LanguageSwitcherMenu.js": {
       "expectCount": 8,
-      "actualCount": 5,
+      "actualCount": 4,
       "undocumentLines": [
         34,
+        58,
         102,
         119
       ]
     },
     "src/controls/LayerSelector.js": {
       "expectCount": 30,
-      "actualCount": 21,
+      "actualCount": 20,
       "undocumentLines": [
+        87,
         136,
         144,
         347,
@@ -332,22 +340,26 @@
     },
     "src/globals.js": {
       "expectCount": 2,
-      "actualCount": 2,
-      "undocumentLines": []
+      "actualCount": 1,
+      "undocumentLines": [
+        23
+      ]
     },
     "src/html/ButtonBox.js": {
       "expectCount": 21,
-      "actualCount": 18,
+      "actualCount": 17,
       "undocumentLines": [
         37,
+        51,
         223,
         227
       ]
     },
     "src/html/Dropdown.js": {
       "expectCount": 29,
-      "actualCount": 21,
+      "actualCount": 20,
       "undocumentLines": [
+        68,
         130,
         252,
         256,
