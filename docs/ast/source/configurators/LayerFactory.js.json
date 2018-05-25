@@ -2146,7 +2146,25 @@
                         "raw": "'queryLayer'"
                       },
                       "value": "queryLayer"
-                    }
+                    },
+                    "trailingComments": [
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * @enum {string}\n ",
+                        "start": 1117,
+                        "end": 1142,
+                        "loc": {
+                          "start": {
+                            "line": 31,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 33,
+                            "column": 3
+                          }
+                        }
+                      }
+                    ]
                   }
                 ],
                 "trailingComments": null
@@ -2290,8 +2308,7 @@
                   },
                   "identifierName": "LayerType"
                 },
-                "name": "LayerType",
-                "leadingComments": null
+                "name": "LayerType"
               },
               "init": {
                 "type": "ObjectExpression",
@@ -3021,34 +3038,353 @@
                         "raw": "'Bing'"
                       },
                       "value": "Bing"
-                    }
+                    },
+                    "trailingComments": [
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig\n *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig\n *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig\n ",
+                        "start": 1416,
+                        "end": 1694,
+                        "loc": {
+                          "start": {
+                            "line": 50,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 54,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * Common config for all layers.\n * @public\n * @typedef {Object} g4uLayerOptions\n * @property {LayerType} type The layer type.\n * @property {string|number} id unique in the whole config\n * @property {string} [title]\n * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.\n * @property {Boolean} [availableMobile] overwrites available in mobile mode\n * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.\n * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable\n * @property {StyleLike} [style]\n ",
+                        "start": 1696,
+                        "end": 2324,
+                        "loc": {
+                          "start": {
+                            "line": 56,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 68,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * The silent group can display a group of layers which appears as a single in the layer selector.\n * @typedef {g4uLayerOptions} SilentGroupLayerConfig\n * @property {\"SilentGroup\"} type\n * @property {AnyLayerConfig[]} layers\n ",
+                        "start": 2326,
+                        "end": 2558,
+                        "loc": {
+                          "start": {
+                            "line": 70,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 75,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * The category contains other layer(s) and will appear as a category in the layer selector.\n * @typedef {g4uLayerOptions} CategoryLayerConfig\n * @property {\"Category\"} type\n * @property {AnyLayerConfig[]} layers\n ",
+                        "start": 2560,
+                        "end": 2780,
+                        "loc": {
+                          "start": {
+                            "line": 77,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 82,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * The empty layer will show nothing (in case of a base layer a white background).\n * @typedef {g4uLayerOptions} EmptyLayerConfig\n * @property {\"Empty\"} type\n ",
+                        "start": 2782,
+                        "end": 2947,
+                        "loc": {
+                          "start": {
+                            "line": 84,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 88,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).\n * @typedef {g4uLayerOptions} XYZLayerConfig\n * @property {\"XYZ\"} type\n * @property {SourceConfig} source\n ",
+                        "start": 2949,
+                        "end": 3142,
+                        "loc": {
+                          "start": {
+                            "line": 90,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 95,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).\n * @typedef {g4uLayerOptions} OSMLayerConfig\n * @property {\"OSM\"} type\n * @property {SourceConfig} source\n ",
+                        "start": 3144,
+                        "end": 3338,
+                        "loc": {
+                          "start": {
+                            "line": 97,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 102,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).\n * @typedef {g4uLayerOptions} StamenLayerConfig\n * @property {\"Stamen\"} type\n * @property {SourceConfig} source\n ",
+                        "start": 3340,
+                        "end": 3545,
+                        "loc": {
+                          "start": {
+                            "line": 104,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 109,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).\n * @typedef {g4uLayerOptions} BingLayerConfig\n * @property {\"Bing\"} type\n * @property {SourceConfig} source\n ",
+                        "start": 3547,
+                        "end": 3753,
+                        "loc": {
+                          "start": {
+                            "line": 111,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 116,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A WMTS Layer. Check the {WMTSSSourceConfig}.\n * @typedef {g4uLayerOptions} WMTSLayerConfig\n * @property {\"WMTS\"} type\n * @property {WMTSSSourceConfig} source\n ",
+                        "start": 3755,
+                        "end": 3923,
+                        "loc": {
+                          "start": {
+                            "line": 118,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 123,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A WMS Layer. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} WMSLayerConfig\n * @property {\"WMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n ",
+                        "start": 3925,
+                        "end": 4359,
+                        "loc": {
+                          "start": {
+                            "line": 125,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 133,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} TileWMSLayerConfig\n * @property {\"TileWMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n ",
+                        "start": 4361,
+                        "end": 4860,
+                        "loc": {
+                          "start": {
+                            "line": 135,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 143,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A GeoJSON Layer.\n * @typedef {g4uLayerOptions} GeoJSONLayerConfig\n * @property {\"GeoJSON\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n ",
+                        "start": 4862,
+                        "end": 5042,
+                        "loc": {
+                          "start": {
+                            "line": 145,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 151,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A KML Layer.\n * @typedef {g4uLayerOptions} KMLLayerConfig\n * @property {\"KML\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n ",
+                        "start": 5044,
+                        "end": 5212,
+                        "loc": {
+                          "start": {
+                            "line": 153,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 159,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A layer whichs contents are completly defined in the config file.\n * @typedef {g4uLayerOptions} InternalLayerConfig\n * @property {\"Intern\"} type\n * @property {InternalSourceConfig} source\n * @property {StyleLike} [style]\n ",
+                        "start": 5214,
+                        "end": 5445,
+                        "loc": {
+                          "start": {
+                            "line": 161,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 167,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A source config.\n * @typedef {Object} SourceConfig\n * @property {Localizable} [attribution]\n * @property {URLLike} url\n ",
+                        "start": 5447,
+                        "end": 5576,
+                        "loc": {
+                          "start": {
+                            "line": 169,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 174,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A vector source config.\n * @typedef {SourceConfig} VectorSourceConfig\n * @property {string} [loadingStrategy] \"BBOX\" or \"ALL\"\n * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be\n *    loaded around a bbox.\n * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.\n ",
+                        "start": 5578,
+                        "end": 5959,
+                        "loc": {
+                          "start": {
+                            "line": 176,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 183,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * A wmts source config. The config must contain a `config` object that must contain a `layer`` parameter. For other\n *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities. All other\n *    needed Parameters will be obtained automatically.\n * @typedef {SourceConfig} WMTSSSourceConfig\n * @property {object} config\n ",
+                        "start": 5961,
+                        "end": 6332,
+                        "loc": {
+                          "start": {
+                            "line": 185,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 191,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * An internal source whose features are defined directly in the config file.\n * @typedef {SourceConfig} InternalSourceConfig\n * @property {FeatureConfig[]} features\n ",
+                        "start": 6334,
+                        "end": 6507,
+                        "loc": {
+                          "start": {
+                            "line": 193,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 197,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * @typedef {Object} FeatureConfig\n * @property {string|number} id\n * @property {StyleLike} [style]\n * @property {string} [geometryWKT]\n * @property {ol.geom.Geometry} [geometry]\n ",
+                        "start": 6509,
+                        "end": 6695,
+                        "loc": {
+                          "start": {
+                            "line": 199,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 205,
+                            "column": 3
+                          }
+                        }
+                      },
+                      {
+                        "type": "CommentBlock",
+                        "value": "*\n * This class constructs a layer according to the given {{LayerOptions}}\n ",
+                        "start": 6697,
+                        "end": 6777,
+                        "loc": {
+                          "start": {
+                            "line": 207,
+                            "column": 0
+                          },
+                          "end": {
+                            "line": 209,
+                            "column": 3
+                          }
+                        }
+                      }
+                    ]
                   }
                 ],
                 "trailingComments": null
               },
-              "leadingComments": null,
               "trailingComments": null
             }
           ],
           "kind": "const",
-          "leadingComments": [
-            {
-              "type": "CommentBlock",
-              "value": "*\n * @enum {string}\n ",
-              "start": 1117,
-              "end": 1142,
-              "loc": {
-                "start": {
-                  "line": 31,
-                  "column": 0
-                },
-                "end": {
-                  "line": 33,
-                  "column": 3
-                }
-              }
-            }
-          ],
           "trailingComments": [
             {
               "type": "CommentBlock",
@@ -3386,26 +3722,9 @@
                 }
               }
             }
-          ]
+          ],
+          "leadingComments": []
         },
-        "leadingComments": [
-          {
-            "type": "CommentBlock",
-            "value": "*\n * @enum {string}\n ",
-            "start": 1117,
-            "end": 1142,
-            "loc": {
-              "start": {
-                "line": 31,
-                "column": 0
-              },
-              "end": {
-                "line": 33,
-                "column": 3
-              }
-            }
-          }
-        ],
         "trailingComments": [
           {
             "type": "CommentBlock",
@@ -3790,8 +4109,7 @@
               },
               "identifierName": "LayerFactory"
             },
-            "name": "LayerFactory",
-            "leadingComments": null
+            "name": "LayerFactory"
           },
           "superClass": null,
           "body": {
@@ -3823,6 +4141,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -3842,7 +4161,6 @@
                   "name": "constructor",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "constructor",
                 "id": null,
                 "generator": false,
@@ -4054,6 +4372,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -4073,7 +4392,6 @@
                   "name": "setMapConfigProjection",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -4264,6 +4582,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -4283,7 +4602,6 @@
                   "name": "getMapProjection",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -4423,6 +4741,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -4442,7 +4761,6 @@
                   "name": "addLayers",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -4841,6 +5159,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -4860,7 +5179,6 @@
                   "name": "addLayer",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -7523,6 +7841,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -7542,7 +7861,6 @@
                   "name": "superTypeNotSupported",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -7816,6 +8134,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -7835,7 +8154,6 @@
                   "name": "createLayer",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -32913,6 +33231,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -32932,7 +33251,6 @@
                   "name": "configureLayerIsIdOk_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -34580,6 +34898,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -34599,7 +34918,6 @@
                   "name": "configureLayerAvailability_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -35550,6 +35868,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -35569,7 +35888,6 @@
                   "name": "configureLayerSourceAttribution_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -36236,6 +36554,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -36255,7 +36574,6 @@
                   "name": "configureLayerSourceLoadingStrategy_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -36733,6 +37051,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -36752,7 +37071,6 @@
                   "name": "configureLayerTitle_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -37437,6 +37755,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -37456,7 +37775,6 @@
                   "name": "configureLayerVisibility_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -37980,6 +38298,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -37999,7 +38318,6 @@
                   "name": "createFeature",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -39830,6 +40148,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -39848,7 +40167,6 @@
                   },
                   "name": "setWMTSSourceFromCapabilities"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -42468,684 +42786,9 @@
               }
             ]
           },
-          "leadingComments": [
-            {
-              "type": "CommentBlock",
-              "value": "*\n * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig\n *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig\n *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig\n ",
-              "start": 1416,
-              "end": 1694,
-              "loc": {
-                "start": {
-                  "line": 50,
-                  "column": 0
-                },
-                "end": {
-                  "line": 54,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * Common config for all layers.\n * @public\n * @typedef {Object} g4uLayerOptions\n * @property {LayerType} type The layer type.\n * @property {string|number} id unique in the whole config\n * @property {string} [title]\n * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.\n * @property {Boolean} [availableMobile] overwrites available in mobile mode\n * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.\n * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable\n * @property {StyleLike} [style]\n ",
-              "start": 1696,
-              "end": 2324,
-              "loc": {
-                "start": {
-                  "line": 56,
-                  "column": 0
-                },
-                "end": {
-                  "line": 68,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * The silent group can display a group of layers which appears as a single in the layer selector.\n * @typedef {g4uLayerOptions} SilentGroupLayerConfig\n * @property {\"SilentGroup\"} type\n * @property {AnyLayerConfig[]} layers\n ",
-              "start": 2326,
-              "end": 2558,
-              "loc": {
-                "start": {
-                  "line": 70,
-                  "column": 0
-                },
-                "end": {
-                  "line": 75,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * The category contains other layer(s) and will appear as a category in the layer selector.\n * @typedef {g4uLayerOptions} CategoryLayerConfig\n * @property {\"Category\"} type\n * @property {AnyLayerConfig[]} layers\n ",
-              "start": 2560,
-              "end": 2780,
-              "loc": {
-                "start": {
-                  "line": 77,
-                  "column": 0
-                },
-                "end": {
-                  "line": 82,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * The empty layer will show nothing (in case of a base layer a white background).\n * @typedef {g4uLayerOptions} EmptyLayerConfig\n * @property {\"Empty\"} type\n ",
-              "start": 2782,
-              "end": 2947,
-              "loc": {
-                "start": {
-                  "line": 84,
-                  "column": 0
-                },
-                "end": {
-                  "line": 88,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).\n * @typedef {g4uLayerOptions} XYZLayerConfig\n * @property {\"XYZ\"} type\n * @property {SourceConfig} source\n ",
-              "start": 2949,
-              "end": 3142,
-              "loc": {
-                "start": {
-                  "line": 90,
-                  "column": 0
-                },
-                "end": {
-                  "line": 95,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).\n * @typedef {g4uLayerOptions} OSMLayerConfig\n * @property {\"OSM\"} type\n * @property {SourceConfig} source\n ",
-              "start": 3144,
-              "end": 3338,
-              "loc": {
-                "start": {
-                  "line": 97,
-                  "column": 0
-                },
-                "end": {
-                  "line": 102,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).\n * @typedef {g4uLayerOptions} StamenLayerConfig\n * @property {\"Stamen\"} type\n * @property {SourceConfig} source\n ",
-              "start": 3340,
-              "end": 3545,
-              "loc": {
-                "start": {
-                  "line": 104,
-                  "column": 0
-                },
-                "end": {
-                  "line": 109,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).\n * @typedef {g4uLayerOptions} BingLayerConfig\n * @property {\"Bing\"} type\n * @property {SourceConfig} source\n ",
-              "start": 3547,
-              "end": 3753,
-              "loc": {
-                "start": {
-                  "line": 111,
-                  "column": 0
-                },
-                "end": {
-                  "line": 116,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A WMTS Layer. Check the {WMTSSSourceConfig}.\n * @typedef {g4uLayerOptions} WMTSLayerConfig\n * @property {\"WMTS\"} type\n * @property {WMTSSSourceConfig} source\n ",
-              "start": 3755,
-              "end": 3923,
-              "loc": {
-                "start": {
-                  "line": 118,
-                  "column": 0
-                },
-                "end": {
-                  "line": 123,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A WMS Layer. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} WMSLayerConfig\n * @property {\"WMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n ",
-              "start": 3925,
-              "end": 4359,
-              "loc": {
-                "start": {
-                  "line": 125,
-                  "column": 0
-                },
-                "end": {
-                  "line": 133,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} TileWMSLayerConfig\n * @property {\"TileWMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n ",
-              "start": 4361,
-              "end": 4860,
-              "loc": {
-                "start": {
-                  "line": 135,
-                  "column": 0
-                },
-                "end": {
-                  "line": 143,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A GeoJSON Layer.\n * @typedef {g4uLayerOptions} GeoJSONLayerConfig\n * @property {\"GeoJSON\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n ",
-              "start": 4862,
-              "end": 5042,
-              "loc": {
-                "start": {
-                  "line": 145,
-                  "column": 0
-                },
-                "end": {
-                  "line": 151,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A KML Layer.\n * @typedef {g4uLayerOptions} KMLLayerConfig\n * @property {\"KML\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n ",
-              "start": 5044,
-              "end": 5212,
-              "loc": {
-                "start": {
-                  "line": 153,
-                  "column": 0
-                },
-                "end": {
-                  "line": 159,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A layer whichs contents are completly defined in the config file.\n * @typedef {g4uLayerOptions} InternalLayerConfig\n * @property {\"Intern\"} type\n * @property {InternalSourceConfig} source\n * @property {StyleLike} [style]\n ",
-              "start": 5214,
-              "end": 5445,
-              "loc": {
-                "start": {
-                  "line": 161,
-                  "column": 0
-                },
-                "end": {
-                  "line": 167,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A source config.\n * @typedef {Object} SourceConfig\n * @property {Localizable} [attribution]\n * @property {URLLike} url\n ",
-              "start": 5447,
-              "end": 5576,
-              "loc": {
-                "start": {
-                  "line": 169,
-                  "column": 0
-                },
-                "end": {
-                  "line": 174,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A vector source config.\n * @typedef {SourceConfig} VectorSourceConfig\n * @property {string} [loadingStrategy] \"BBOX\" or \"ALL\"\n * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be\n *    loaded around a bbox.\n * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.\n ",
-              "start": 5578,
-              "end": 5959,
-              "loc": {
-                "start": {
-                  "line": 176,
-                  "column": 0
-                },
-                "end": {
-                  "line": 183,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * A wmts source config. The config must contain a `config` object that must contain a `layer`` parameter. For other\n *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities. All other\n *    needed Parameters will be obtained automatically.\n * @typedef {SourceConfig} WMTSSSourceConfig\n * @property {object} config\n ",
-              "start": 5961,
-              "end": 6332,
-              "loc": {
-                "start": {
-                  "line": 185,
-                  "column": 0
-                },
-                "end": {
-                  "line": 191,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * An internal source whose features are defined directly in the config file.\n * @typedef {SourceConfig} InternalSourceConfig\n * @property {FeatureConfig[]} features\n ",
-              "start": 6334,
-              "end": 6507,
-              "loc": {
-                "start": {
-                  "line": 193,
-                  "column": 0
-                },
-                "end": {
-                  "line": 197,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * @typedef {Object} FeatureConfig\n * @property {string|number} id\n * @property {StyleLike} [style]\n * @property {string} [geometryWKT]\n * @property {ol.geom.Geometry} [geometry]\n ",
-              "start": 6509,
-              "end": 6695,
-              "loc": {
-                "start": {
-                  "line": 199,
-                  "column": 0
-                },
-                "end": {
-                  "line": 205,
-                  "column": 3
-                }
-              }
-            },
-            {
-              "type": "CommentBlock",
-              "value": "*\n * This class constructs a layer according to the given {{LayerOptions}}\n ",
-              "start": 6697,
-              "end": 6777,
-              "loc": {
-                "start": {
-                  "line": 207,
-                  "column": 0
-                },
-                "end": {
-                  "line": 209,
-                  "column": 3
-                }
-              }
-            }
-          ],
+          "leadingComments": [],
           "trailingComments": []
-        },
-        "leadingComments": [
-          {
-            "type": "CommentBlock",
-            "value": "*\n * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig\n *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig\n *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig\n ",
-            "start": 1416,
-            "end": 1694,
-            "loc": {
-              "start": {
-                "line": 50,
-                "column": 0
-              },
-              "end": {
-                "line": 54,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * Common config for all layers.\n * @public\n * @typedef {Object} g4uLayerOptions\n * @property {LayerType} type The layer type.\n * @property {string|number} id unique in the whole config\n * @property {string} [title]\n * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.\n * @property {Boolean} [availableMobile] overwrites available in mobile mode\n * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.\n * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable\n * @property {StyleLike} [style]\n ",
-            "start": 1696,
-            "end": 2324,
-            "loc": {
-              "start": {
-                "line": 56,
-                "column": 0
-              },
-              "end": {
-                "line": 68,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * The silent group can display a group of layers which appears as a single in the layer selector.\n * @typedef {g4uLayerOptions} SilentGroupLayerConfig\n * @property {\"SilentGroup\"} type\n * @property {AnyLayerConfig[]} layers\n ",
-            "start": 2326,
-            "end": 2558,
-            "loc": {
-              "start": {
-                "line": 70,
-                "column": 0
-              },
-              "end": {
-                "line": 75,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * The category contains other layer(s) and will appear as a category in the layer selector.\n * @typedef {g4uLayerOptions} CategoryLayerConfig\n * @property {\"Category\"} type\n * @property {AnyLayerConfig[]} layers\n ",
-            "start": 2560,
-            "end": 2780,
-            "loc": {
-              "start": {
-                "line": 77,
-                "column": 0
-              },
-              "end": {
-                "line": 82,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * The empty layer will show nothing (in case of a base layer a white background).\n * @typedef {g4uLayerOptions} EmptyLayerConfig\n * @property {\"Empty\"} type\n ",
-            "start": 2782,
-            "end": 2947,
-            "loc": {
-              "start": {
-                "line": 84,
-                "column": 0
-              },
-              "end": {
-                "line": 88,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).\n * @typedef {g4uLayerOptions} XYZLayerConfig\n * @property {\"XYZ\"} type\n * @property {SourceConfig} source\n ",
-            "start": 2949,
-            "end": 3142,
-            "loc": {
-              "start": {
-                "line": 90,
-                "column": 0
-              },
-              "end": {
-                "line": 95,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).\n * @typedef {g4uLayerOptions} OSMLayerConfig\n * @property {\"OSM\"} type\n * @property {SourceConfig} source\n ",
-            "start": 3144,
-            "end": 3338,
-            "loc": {
-              "start": {
-                "line": 97,
-                "column": 0
-              },
-              "end": {
-                "line": 102,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).\n * @typedef {g4uLayerOptions} StamenLayerConfig\n * @property {\"Stamen\"} type\n * @property {SourceConfig} source\n ",
-            "start": 3340,
-            "end": 3545,
-            "loc": {
-              "start": {
-                "line": 104,
-                "column": 0
-              },
-              "end": {
-                "line": 109,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).\n * @typedef {g4uLayerOptions} BingLayerConfig\n * @property {\"Bing\"} type\n * @property {SourceConfig} source\n ",
-            "start": 3547,
-            "end": 3753,
-            "loc": {
-              "start": {
-                "line": 111,
-                "column": 0
-              },
-              "end": {
-                "line": 116,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A WMTS Layer. Check the {WMTSSSourceConfig}.\n * @typedef {g4uLayerOptions} WMTSLayerConfig\n * @property {\"WMTS\"} type\n * @property {WMTSSSourceConfig} source\n ",
-            "start": 3755,
-            "end": 3923,
-            "loc": {
-              "start": {
-                "line": 118,
-                "column": 0
-              },
-              "end": {
-                "line": 123,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A WMS Layer. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} WMSLayerConfig\n * @property {\"WMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n ",
-            "start": 3925,
-            "end": 4359,
-            "loc": {
-              "start": {
-                "line": 125,
-                "column": 0
-              },
-              "end": {
-                "line": 133,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} TileWMSLayerConfig\n * @property {\"TileWMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n ",
-            "start": 4361,
-            "end": 4860,
-            "loc": {
-              "start": {
-                "line": 135,
-                "column": 0
-              },
-              "end": {
-                "line": 143,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A GeoJSON Layer.\n * @typedef {g4uLayerOptions} GeoJSONLayerConfig\n * @property {\"GeoJSON\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n ",
-            "start": 4862,
-            "end": 5042,
-            "loc": {
-              "start": {
-                "line": 145,
-                "column": 0
-              },
-              "end": {
-                "line": 151,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A KML Layer.\n * @typedef {g4uLayerOptions} KMLLayerConfig\n * @property {\"KML\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n ",
-            "start": 5044,
-            "end": 5212,
-            "loc": {
-              "start": {
-                "line": 153,
-                "column": 0
-              },
-              "end": {
-                "line": 159,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A layer whichs contents are completly defined in the config file.\n * @typedef {g4uLayerOptions} InternalLayerConfig\n * @property {\"Intern\"} type\n * @property {InternalSourceConfig} source\n * @property {StyleLike} [style]\n ",
-            "start": 5214,
-            "end": 5445,
-            "loc": {
-              "start": {
-                "line": 161,
-                "column": 0
-              },
-              "end": {
-                "line": 167,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A source config.\n * @typedef {Object} SourceConfig\n * @property {Localizable} [attribution]\n * @property {URLLike} url\n ",
-            "start": 5447,
-            "end": 5576,
-            "loc": {
-              "start": {
-                "line": 169,
-                "column": 0
-              },
-              "end": {
-                "line": 174,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A vector source config.\n * @typedef {SourceConfig} VectorSourceConfig\n * @property {string} [loadingStrategy] \"BBOX\" or \"ALL\"\n * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be\n *    loaded around a bbox.\n * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.\n ",
-            "start": 5578,
-            "end": 5959,
-            "loc": {
-              "start": {
-                "line": 176,
-                "column": 0
-              },
-              "end": {
-                "line": 183,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * A wmts source config. The config must contain a `config` object that must contain a `layer`` parameter. For other\n *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities. All other\n *    needed Parameters will be obtained automatically.\n * @typedef {SourceConfig} WMTSSSourceConfig\n * @property {object} config\n ",
-            "start": 5961,
-            "end": 6332,
-            "loc": {
-              "start": {
-                "line": 185,
-                "column": 0
-              },
-              "end": {
-                "line": 191,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * An internal source whose features are defined directly in the config file.\n * @typedef {SourceConfig} InternalSourceConfig\n * @property {FeatureConfig[]} features\n ",
-            "start": 6334,
-            "end": 6507,
-            "loc": {
-              "start": {
-                "line": 193,
-                "column": 0
-              },
-              "end": {
-                "line": 197,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * @typedef {Object} FeatureConfig\n * @property {string|number} id\n * @property {StyleLike} [style]\n * @property {string} [geometryWKT]\n * @property {ol.geom.Geometry} [geometry]\n ",
-            "start": 6509,
-            "end": 6695,
-            "loc": {
-              "start": {
-                "line": 199,
-                "column": 0
-              },
-              "end": {
-                "line": 205,
-                "column": 3
-              }
-            }
-          },
-          {
-            "type": "CommentBlock",
-            "value": "*\n * This class constructs a layer according to the given {{LayerOptions}}\n ",
-            "start": 6697,
-            "end": 6777,
-            "loc": {
-              "start": {
-                "line": 207,
-                "column": 0
-              },
-              "end": {
-                "line": 209,
-                "column": 3
-              }
-            }
-          }
-        ]
+        }
       }
     ],
     "directives": []
@@ -44102,7 +43745,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -44209,7 +43852,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -44316,7 +43959,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -44525,7 +44168,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -44682,7 +44325,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -44839,7 +44482,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -44996,7 +44639,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -45153,7 +44796,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -45310,7 +44953,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -45467,7 +45110,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -45624,7 +45267,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -45885,7 +45528,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -46094,7 +45737,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -46251,7 +45894,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -46460,7 +46103,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -46669,7 +46312,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -46826,7 +46469,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -47035,7 +46678,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,

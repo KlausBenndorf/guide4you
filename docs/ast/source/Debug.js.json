@@ -106,6 +106,7 @@
                     "column": 3
                   }
                 },
+                "static": true,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -124,7 +125,6 @@
                   },
                   "name": "tryOrThrow"
                 },
-                "static": true,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -712,6 +712,7 @@
                     "column": 3
                   }
                 },
+                "static": true,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -730,7 +731,6 @@
                   },
                   "name": "info"
                 },
-                "static": true,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -1051,6 +1051,7 @@
                     "column": 3
                   }
                 },
+                "static": true,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -1069,7 +1070,6 @@
                   },
                   "name": "warn"
                 },
-                "static": true,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -1282,6 +1282,7 @@
                     "column": 3
                   }
                 },
+                "static": true,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -1300,7 +1301,6 @@
                   },
                   "name": "error"
                 },
-                "static": true,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -1634,6 +1634,7 @@
                     "column": 3
                   }
                 },
+                "static": true,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -1652,7 +1653,6 @@
                   },
                   "name": "defaultErrorHandler"
                 },
-                "static": true,
                 "kind": "method",
                 "id": null,
                 "generator": false,

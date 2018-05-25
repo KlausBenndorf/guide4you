@@ -1953,6 +1953,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -1972,7 +1973,6 @@
                   "name": "constructor",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "constructor",
                 "id": null,
                 "generator": false,
@@ -2765,7 +2765,25 @@
                                   },
                                   "value": "-ghostentry"
                                 }
-                              }
+                              },
+                              "trailingComments": [
+                                {
+                                  "type": "CommentBlock",
+                                  "value": "*\n     * @type {jQuery}\n     * @private\n     ",
+                                  "start": 1824,
+                                  "end": 1873,
+                                  "loc": {
+                                    "start": {
+                                      "line": 64,
+                                      "column": 4
+                                    },
+                                    "end": {
+                                      "line": 67,
+                                      "column": 7
+                                    }
+                                  }
+                                }
+                              ]
                             }
                           ],
                           "trailingComments": null
@@ -2866,8 +2884,7 @@
                                 "line": 68,
                                 "column": 8
                               }
-                            },
-                            "leadingComments": null
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -2886,8 +2903,7 @@
                             },
                             "name": "$element_"
                           },
-                          "computed": false,
-                          "leadingComments": null
+                          "computed": false
                         },
                         "right": {
                           "type": "CallExpression",
@@ -3042,27 +3058,8 @@
                           ],
                           "trailingComments": null
                         },
-                        "leadingComments": null,
                         "trailingComments": null
                       },
-                      "leadingComments": [
-                        {
-                          "type": "CommentBlock",
-                          "value": "*\n     * @type {jQuery}\n     * @private\n     ",
-                          "start": 1824,
-                          "end": 1873,
-                          "loc": {
-                            "start": {
-                              "line": 64,
-                              "column": 4
-                            },
-                            "end": {
-                              "line": 67,
-                              "column": 7
-                            }
-                          }
-                        }
-                      ],
                       "trailingComments": [
                         {
                           "type": "CommentBlock",
@@ -6046,6 +6043,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -6064,7 +6062,6 @@
                   },
                   "name": "detach"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -6202,6 +6199,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -6221,7 +6219,6 @@
                   "name": "getValue",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -6576,6 +6573,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -6595,7 +6593,6 @@
                   "name": "getText",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -6950,6 +6947,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -6969,7 +6967,6 @@
                   "name": "setUpKeyboardHandling_",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -12427,6 +12424,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -12446,7 +12444,6 @@
                   "name": "get$Element",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -12586,6 +12583,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -12605,7 +12603,6 @@
                   "name": "getLength",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -12778,6 +12775,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -12797,7 +12795,6 @@
                   "name": "addEntry",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -14085,6 +14082,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -14103,7 +14101,6 @@
                   },
                   "name": "setActivated"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -14562,6 +14559,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -14580,7 +14578,6 @@
                   },
                   "name": "setFastMode"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -14753,6 +14750,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -14772,7 +14770,6 @@
                   "name": "setEntries",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -15981,6 +15978,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -15999,7 +15997,6 @@
                   },
                   "name": "select$Entry_"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -17347,6 +17344,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -17366,7 +17364,6 @@
                   "name": "setLength",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -21333,6 +21330,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -21351,7 +21349,6 @@
                   },
                   "name": "showGhostEntry"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -21731,6 +21728,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -21749,7 +21747,6 @@
                   },
                   "name": "focus"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -22648,6 +22645,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -22667,7 +22665,6 @@
                   "name": "slideUp",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -23795,6 +23792,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -23814,7 +23812,6 @@
                   "name": "slideDown",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -25142,6 +25139,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -25161,7 +25159,6 @@
                   "name": "clear",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -25643,6 +25640,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -25662,7 +25660,6 @@
                   "name": "isSelectable",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -26358,7 +26355,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -26465,7 +26462,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -26572,7 +26569,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -26781,7 +26778,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -26836,7 +26833,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -26891,7 +26888,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -27048,7 +27045,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,

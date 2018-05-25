@@ -1036,6 +1036,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -1055,7 +1056,6 @@
                   "name": "constructor",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "constructor",
                 "id": null,
                 "generator": false,
@@ -2993,7 +2993,25 @@
                                     "raw": "'g4u-dropdown'"
                                   },
                                   "value": "g4u-dropdown"
-                                }
+                                },
+                                "trailingComments": [
+                                  {
+                                    "type": "CommentBlock",
+                                    "value": "*\n     * @type {Dropdown}\n     * @private\n     ",
+                                    "start": 1494,
+                                    "end": 1545,
+                                    "loc": {
+                                      "start": {
+                                        "line": 54,
+                                        "column": 4
+                                      },
+                                      "end": {
+                                        "line": 57,
+                                        "column": 7
+                                      }
+                                    }
+                                  }
+                                ]
                               }
                             ],
                             "trailingComments": null
@@ -3077,8 +3095,7 @@
                                 "line": 58,
                                 "column": 8
                               }
-                            },
-                            "leadingComments": null
+                            }
                           },
                           "property": {
                             "type": "Identifier",
@@ -3097,8 +3114,7 @@
                             },
                             "name": "dropdown_"
                           },
-                          "computed": false,
-                          "leadingComments": null
+                          "computed": false
                         },
                         "right": {
                           "type": "NewExpression",
@@ -3150,27 +3166,8 @@
                               "name": "dropdownOptions"
                             }
                           ]
-                        },
-                        "leadingComments": null
-                      },
-                      "leadingComments": [
-                        {
-                          "type": "CommentBlock",
-                          "value": "*\n     * @type {Dropdown}\n     * @private\n     ",
-                          "start": 1494,
-                          "end": 1545,
-                          "loc": {
-                            "start": {
-                              "line": 54,
-                              "column": 4
-                            },
-                            "end": {
-                              "line": 57,
-                              "column": 7
-                            }
-                          }
                         }
-                      ]
+                      }
                     },
                     {
                       "type": "ExpressionStatement",
@@ -5804,6 +5801,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -5823,7 +5821,6 @@
                   "name": "setMap",
                   "leadingComments": null
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -8583,6 +8580,7 @@
                     "column": 3
                   }
                 },
+                "static": false,
                 "computed": false,
                 "key": {
                   "type": "Identifier",
@@ -8601,7 +8599,6 @@
                   },
                   "name": "handleActiveChange_"
                 },
-                "static": false,
                 "kind": "method",
                 "id": null,
                 "generator": false,
@@ -9033,7 +9030,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9140,7 +9137,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9297,7 +9294,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9454,7 +9451,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9611,7 +9608,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9768,7 +9765,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9925,7 +9922,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -9980,7 +9977,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -10137,7 +10134,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
@@ -10294,7 +10291,7 @@
         "label": "import",
         "keyword": "import",
         "beforeExpr": false,
-        "startsExpr": false,
+        "startsExpr": true,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,

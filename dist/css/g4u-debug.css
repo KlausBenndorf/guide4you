@@ -1276,7 +1276,13 @@ a.ol-control,
   box-sizing: border-box;
   width: 100%;
   text-align: left;
-  padding-left: 6px;
+  padding-left: 10px;
+}
+.g4u-mobile .g4u-layerselector .g4u-layerselector .button {
+  vertical-align: middle;
+  line-height: 44px;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-content {
   overflow-y: auto;
@@ -1402,6 +1408,10 @@ a.ol-control,
   position: absolute;
   top: 13px;
   left: 13px;
+}
+.g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-layerbutton.button {
+  padding-bottom: 0;
+  padding-top: 0;
 }
 .g4u-mobile .g4u-layerselector .g4u-layerselector .g4u-layerselector-layerbutton.g4u-layerselector-menu-active {
   background: #29abe2;
