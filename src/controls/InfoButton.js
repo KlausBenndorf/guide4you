@@ -41,8 +41,12 @@ export class InfoButton extends mixin(Control, ActivatableMixin) {
      */
     this.classNameContent_ = this.className_ + '-content'
 
-    this.setTitle(this.getLocaliser().localiseUsingDictionary('InfoPage title'))
-    this.setTipLabel(this.getLocaliser().localiseUsingDictionary('InfoPage tipLabel'))
+    if (!this.getTitle()) {
+      this.setTitle(this.getLocaliser().localiseUsingDictionary('InfoPage title'))
+    }
+    if (!this.getTipLabel()) {
+      this.setTipLabel(this.getLocaliser().localiseUsingDictionary('InfoPage tipLabel'))
+    }
 
     /**
      * @type {jQuery}
