@@ -118,5 +118,10 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
 
   handleActiveChange_ () {
     this.dropdown_.setActivated(this.getLocaliser().getCurrentLang())
+    if (this.getActive()) {
+      this.dropdown_.slideDown()
+    } else {
+      this.dropdown_.slideUp()
+    }
   }
 }
