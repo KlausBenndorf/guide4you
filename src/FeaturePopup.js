@@ -416,8 +416,10 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         this.addIconSizedOffset(this.getFeature(), resolution)
       }
 
-      if (this.referencingVisibleLayers_.length) {
-        this.window_.get$Element().attr('data-layer-0', this.referencingVisibleLayers_[0].get('id'))
+      for (let layer of this.referencingVisibleLayers_) {
+        if (layer.get('addClass')) {
+          this.window_.get$Element().addClass(layer.get('addClass'))
+        }
       }
 
       // apply default offset

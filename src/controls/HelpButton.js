@@ -111,11 +111,11 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
             if (imgData) {
               if ($.isArray(imgData)) {
                 for (let j = 0, jj = imgData.length; j < jj; j++) {
-                  imgData[j] = `<img class="${this.className_}-docuImg" src="images/doc/${imgData[j]}">`
+                  imgData[j] = `<img class="${this.className_}-docuImg" src="images/${imgData[j]}">`
                 }
                 imgElements += imgData.join(joinWith)
               } else {
-                imgElements += `<img class="${this.className_}-docuImg" src="images/doc/${imgData}">`
+                imgElements += `<img class="${this.className_}-docuImg" src="images/${imgData}">`
               }
             }
             imgElements += '</div></td>'
