@@ -6,6 +6,7 @@ import { cssClasses } from '../globals'
 /**
  * @typedef {object} ButtonBoxOptions
  * @property {string} [className='g4u-menu']
+ * @property {string} [addClass] adds a classname
  * @property {HTMLElement|jQuery} [content] the content of the body of the button box
  * @property {boolean} [collapsible]
  * @property {boolean} [collapsed]
@@ -55,6 +56,10 @@ export class ButtonBox extends ol.Object {
       this.$element_.attr('id', options.id)
     }
 
+    if (options.addClass) {
+      this.$element_.addClass(options.addClass)
+    }
+
     /**
      * @type {boolean}
      * @private
@@ -79,10 +84,6 @@ export class ButtonBox extends ol.Object {
      */
     this.$body_ = $('<div>')
       .addClass(this.classNames_.body)
-
-    if (options.addClass) {
-      this.$body_.addClass(options.addClass)
-    }
 
     if (options.hasOwnProperty('content')) {
       this.$body_.append(options.content)

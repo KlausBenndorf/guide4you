@@ -2,7 +2,7 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import 'babel-polyfill'
 
-import 'file-loader?name=images/[name].[ext]!../images/g4u-logo.png'
+import '../images/g4u-logo.png'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame,Element.prototype.classList,URL'
 
