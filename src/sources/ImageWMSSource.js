@@ -136,7 +136,7 @@ export class WMSFeatureInfoMixin {
 export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixin) {
   constructor (options) {
     const originalUrl = options.url
-    options.url = 't' // dummy value that gets sliced out
+    options.url = '_' // dummy value that gets sliced out
     options.imageLoadFunction = (image, src) => {
       asyncImageLoad(image.getImage(), this.originalUrlObject.extend(src.slice(1)))
         .catch(err => Debug.error(err))
@@ -149,7 +149,7 @@ export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixi
 export class TileWMSSource extends mixin(ol.source.TileWMS, WMSFeatureInfoMixin) {
   constructor (options) {
     const origUrl = options.url
-    options.url = 't' // dummy value that gets sliced out
+    options.url = '_' // dummy value that gets sliced out
     options.tileLoadFunction = (tile, src) => {
       asyncImageLoad(tile.getImage(), this.originalUrlObject.extend(src.slice(1)))
         .catch(err => Debug.error(err))

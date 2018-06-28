@@ -18,6 +18,7 @@ import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLay
 import { URL } from '../URLHelper'
 import { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'
 import { ClusterSource } from '../sources/ClusterSource'
+import { WMTSSource } from '../sources/WMTSSource'
 
 /**
  * @enum {string}
@@ -472,6 +473,8 @@ export class LayerFactory {
         if (optionsCopy.source.tileSize) {
           optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
           delete optionsCopy.source.tileSize
+        } else if (optionsCopy.source.tileGrid) {
+          optionsCopy.source.tileGrid = new ol.tilegrid.TileGrid(optionsCopy.source.tileGrid)
         }
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
@@ -500,6 +503,17 @@ export class LayerFactory {
       case LayerType.WMTS:
         let sourceOptions = take(optionsCopy, 'source')
 
+        if (!sourceOptions.autoConfig) {
+          if (!sourceOptions.tileGrid) {
+            throw new Error('You have to provide either a tileGrid or use autoConfig for WMTS Source')
+          }
+
+          sourceOptions.tileGrid = new ol.tilegrid.WMTS(sourceOptions.tileGrid)
+
+          sourceOptions.url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_) // not finalized
+
+          optionsCopy.source = new WMTSSource(sourceOptions)
+        }
         // url gets extracted in setWMTSSourceFromCapabilities
 
         if (superType === SuperType.BASELAYER) {
@@ -508,7 +522,9 @@ export class LayerFactory {
           layer = new TileLayer(optionsCopy)
         }
 
-        this.setWMTSSourceFromCapabilities(layer, sourceOptions)
+        if (sourceOptions.autoConfig) {
+          this.setWMTSSourceFromCapabilities(layer, sourceOptions)
+        }
 
         break
       case LayerType.GEOJSON:

@@ -1,11 +1,8 @@
-import webdriver from 'selenium-webdriver'
+import {By, until} from 'selenium-webdriver'
 import phantomDriver from './customPhantomDriver'
-import test from 'selenium-webdriver/testing/'
-import assert from 'selenium-webdriver/testing/assert.js'
+import {describe, before, after, it} from 'selenium-webdriver/testing/'
 import config from './config.js'
-import until from 'selenium-webdriver/lib/until'
-
-let By = webdriver.By
+import assert from 'selenium-webdriver/testing/assert.js'
 
 import {stringifyFunctionCall, waitUntilMapReady} from './testUtils'
 
@@ -63,22 +60,25 @@ function addLayerWithPolygonAroundMapCenter (name, description, edgeLength) {
   }))
 }
 
-test.describe('FeatureTooltip', function () {
+describe('FeatureTooltip', function () {
   this.timeout(config.mochaTimeout)
   let driver
 
-  test.before(function () {
+  before(function () {
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
-    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
-    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
+    driver.manage().setTimeouts({
+      script: config.seleniumTimeout,
+      implicit: config.seleniumTimeout,
+      pageLoad: config.seleniumTimeout
+    })
   })
 
-  test.after(function () {
+  after(function () {
     driver.quit()
   })
 
-  test.it('should show no tooltip if there is no feature under the mouse', function (done) {
+  it('should show no tooltip if there is no feature under the mouse', function (done) {
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(function () {
         driver.actions()
@@ -93,7 +93,7 @@ test.describe('FeatureTooltip', function () {
     })
   })
 
-  test.it('should 1: show a tooltip with the name of the feature if there is a point feature under the mouse and 2:' +
+  it('should 1: show a tooltip with the name of the feature if there is a point feature under the mouse and 2:' +
     ' should hide the tooltip if the mouse moves somewhere else', function (done) {
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
@@ -122,7 +122,7 @@ test.describe('FeatureTooltip', function () {
     })
   })
 
-  test.it('should 1: show a tooltip with the name of the feature if there is a line feature under the mouse ' +
+  it('should 1: show a tooltip with the name of the feature if there is a line feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
@@ -151,7 +151,7 @@ test.describe('FeatureTooltip', function () {
     })
   })
 
-  test.it('should 1: show a tooltip with the name of the feature if there is a polygon feature under the mouse ' +
+  it('should 1: show a tooltip with the name of the feature if there is a polygon feature under the mouse ' +
     'and 2: hide the tooltip again if the mouse moves somewhere else', function (done) {
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
@@ -181,7 +181,7 @@ test.describe('FeatureTooltip', function () {
     })
   })
 
-  test.it('should show the tooltip of a point lying under a polygon', function (done) {
+  it('should show the tooltip of a point lying under a polygon', function (done) {
     driver.get(config.testClient).then(function () {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
@@ -215,7 +215,7 @@ test.describe('FeatureTooltip', function () {
     })
   })
 
-  test.it('should show the tooltip of a line lying under a polygon', function (done) {
+  it('should show the tooltip of a line lying under a polygon', function (done) {
     driver.get(config.testClient).then(() => {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(

@@ -1,6 +1,5 @@
 import ol from 'openlayers'
 import $ from 'jquery'
-import 'babel-polyfill'
 
 import '../images/g4u-logo.png'
 

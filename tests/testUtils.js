@@ -1,8 +1,5 @@
-import webdriver from 'selenium-webdriver'
-import fs from 'fs'
-
-let By = webdriver.By
-let until = webdriver.until
+import {promise} from 'selenium-webdriver'
+import {writeFile} from 'fs'
 
 export function stringifyFunctionCall (func, ...params) {
   return `return (${func.toString()})(` + params.map(JSON.stringify).join(',') + ')'
@@ -13,31 +10,42 @@ export function executeFunctionInPage (driver, func, ...params) {
 }
 
 export function waitUntilMapReady (driver) {
-  function addReadyElement () {
-    var readyMessage = document.getElementById('map-ready')
-    if (readyMessage) {
-      document.body.removeChild(readyMessage)
-    }
-
-    setTimeout(function () {
-      var readyMessage = document.createElement('div')
-      readyMessage.id = 'map-ready'
-      if (!window.map) {
-        throw new Error('Map does not exist after 20 ms')
-      }
-      window.map.asSoonAs('ready', true, function () {
-        document.body.appendChild(readyMessage)
-      })
-    }, 20)
-  }
-
-  return new webdriver.promise.Promise(function (fulfill, reject) {
-    driver.executeScript(stringifyFunctionCall(addReadyElement)).then(function () {
-      driver.wait(until.elementLocated(By.id('map-ready')), 5000).then(function () {
+  return new promise.Promise(function (fulfill, reject) {
+    driver.executeAsyncScript(function (callback) {
+      setTimeout(function () {
+        if (window.test) {
+          callback('READY')
+        }
+        if (!window.map) {
+          callback('NOEXIST')
+        }
+        const t = setTimeout(function () {
+          callback('NOREADY')
+        }, 2000)
+        window.map.asSoonAs('ready', true, function () {
+          clearTimeout(t)
+          callback('READY')
+        })
+      }, 20)
+    }).then(function (val) {
+      if (val === 'READY') {
         fulfill()
-      }).catch(function (err) {
-        reject(err)
-      })
+      } else {
+        driver.manage().logs().get('browser').then(function (logs) {
+          if (logs) {
+            logs.forEach(function (log) {
+              console.log('g4u log ' + log.level + ': ' + log.message) // eslint-disable-line no-console
+            })
+          }
+        })
+        if (val === 'NOEXIST') {
+          reject('Map does not exist after 20 ms')
+        } else if (val === 'NOREADY') {
+          reject('Map not ready after 2000 ms')
+        } else {
+          reject('Unknown value')
+        }
+      }
     })
   })
 }
@@ -45,7 +53,7 @@ export function waitUntilMapReady (driver) {
 export function saveScreenshot (driver) {
   driver.takeScreenshot()
     .then(picture => {
-      fs.writeFile('screenshot.png', picture, 'base64', err => {
+      writeFile('screenshot.png', picture, 'base64', err => {
         throw err
       })
     })
