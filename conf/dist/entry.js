@@ -1,5 +1,3 @@
-import 'file-loader?name=[name].[ext]!./g4u.d.ts'
-
 import {createMapInternal} from '../../src/main'
 
 import 'file-loader?name=conf/[name].[ext]!mustache-loader!../full/client.commented.json'

@@ -55,6 +55,7 @@
       "title": "Luftbilder WMTS",
       "type": "WMTS",
       "source": {
+        "autoConfig": true,
         "url": {
           "url": "http://www.wmts.nrw.de/geobasis/wmts_nw_dop20",
           "useProxy": true

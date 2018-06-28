@@ -1,120 +1,138 @@
 {
   "baseLayers": [
     {
-      "id": 0,
-      "title": "Roads",
+      "id": "b1",
+      "title": {
+        "en": "Roads",
+        "de": "Stra&szlig;en"
+      },
       "type": "OSM",
       "source": {
-        "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
+        "url": "https://{a-c}-tiles.koeln.de/tiles/kde/{z}/{x}/{y}.png",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
       },
       "visible": true
-    }//,
-//    {
-//      "id": 1,
-//      "title": "Cycling Map",
-//      "type": "OSM",
-//      "source": {
-//        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-//        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-//      }
-//    }
+    }
   ],
   "featureLayers": [
     {
-      "id": 3,
-      "title": "Verwaltungsgrenzen NRW",
-      "type": "WMS",
-      "source": {
-        "url": "http://www.wms.nrw.de/geobasis/wms_nw_dvg",
-        "params": {
-          "FORMAT": "image/png",
-          "VERSION": "1.3.0"
-        },
-        "categoryButton": true,
-        "attribution": "Geobasis NRW 2016"
+    "id": "v1",
+    "title": "Verkehr",
+    "type": "TileWMS",
+    "source": {
+      "url": {
+        "url": "http://geotiles.verkehr.nrw/geowebcache/service/wms",
+        "useProxy": true
       },
-      "buttons": [
-        {
-          "title": "Landesgrenzen",
-          "LAYERS": ["nw_dvg_bld"]
-        },
-        {
-          "title": "Regierungsbezirke",
-          "LAYERS": ["nw_dvg_rbz", "nw_dvg_rbz_namen"]
-        },
-        {
-          "title": "Kreise",
-          "LAYERS": ["nw_dvg_krs", "nw_dvg_krs_namen"]
-        },
-        {
-          "title": "Gemeinden",
-          "LAYERS": ["nw_dvg_gem", "nw_dvg_gem_namen"]
-        },
-        {
-          "title": "Gemeinden Gesamt",
-          "LAYERS": ["nw_dvg_gem_gesamt", "nw_dvg_gem_gesamt_namen"]
+      "attribution": "&copy; Land NRW",
+      "projection": "EPSG:900913",
+      "params": {
+        "VERSION": "1.1.1",
+        "FORMAT": "image/png",
+        "LAYERS": ["LOS"]
+      },
+      "tileGrid": {
+        "tileSize": [512, 512],
+        "origins": [[270402.7634448332, 8437721.0], [270402.7634448332, 7811549.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7459327.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7438537.0], [270402.7634448332, 7437925.0], [270402.7634448332, 7437619.0]],
+        "resolutions": [2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814436, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+      },
+      "featureInfo": {
+        "params": {
+          "QUERY_LAYERS": ["LOS"],
+          "INFO_FORMAT": "text/html"
         }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Freizeitkatasters NRW",
-      "type": "WMS",
-      "source": {
-        "url": {
-          "url": "http://www.wms.nrw.de/geobasis/wms_nw_fzk",
-          "useProxy": true
-        },
-        "params": {
-          "FORMAT": "image/png",
-          "VERSION": "1.3.0",
-          "LAYERS": [
-            "nw_fzk"
-          ]
-        },
-//        "featureInfo": {
-//          "params": {
-//            "FORMAT": "text/html"
-//            // "text/plain", "application/vnd.ogc.gml"
-//          }
-//        },
-        "attribution": "Geobasis NRW 2016"
       }
-    },
+    }
+  },
     {
-      "id": 6,
-      "title": "historische Orthophotos 1988 - 1994",
-      "type": "WMS",
+      "id": "v2",
+      "title": "RoadworkLines",
+      "type": "TileWMS",
       "source": {
         "url": {
-          "url": "http://www.wms.nrw.de/geobasis/wms_nw_histortho_1988-1994",
+          "url": "http://geotiles.verkehr.nrw/geowebcache/service/wms",
           "useProxy": true
         },
+        "attribution": "&copy; Land NRW",
+        "projection": "EPSG:900913",
         "params": {
+          "VERSION": "1.1.1",
           "FORMAT": "image/png",
-          "VERSION": "1.3.0"
+          "LAYERS": ["RoadworkLines"]
+        },
+        "tileGrid": {
+          "tileSize": [512, 512],
+          "origins": [[270402.7634448332, 8437721.0], [270402.7634448332, 7811549.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7459327.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7438537.0], [270402.7634448332, 7437925.0], [270402.7634448332, 7437619.0]],
+          "resolutions": [2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814436, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
         },
         "featureInfo": {
           "params": {
-            "INFO_FORMAT": "text/plain"
-          },
-          "checkable": true
-        },
-        "attribution": "Geobasis NRW 2016"
-      },
-      "buttons": [
-        {
-          "title": "test",
-          "LAYERS": [ "nw_histortho_1988-1994" ],
-          "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
-        },
-        {
-          "title": "test2",
-          "LAYERS": [ "nw_histortho_1988-1994" ],
-          "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
+            "QUERY_LAYERS": ["RoadworkLines"],
+            "INFO_FORMAT": "text/html"
+          }
         }
-      ]
+      }
+    },
+    {
+      "id": "v3",
+      "title": "TrafficmessageLines",
+      "type": "TileWMS",
+      "source": {
+        "url": {
+          "url": "http://geotiles.verkehr.nrw/geowebcache/service/wms",
+          "useProxy": true
+        },
+        "attribution": "&copy; Land NRW",
+        "projection": "EPSG:900913",
+        "params": {
+          "VERSION": "1.1.1",
+          "FORMAT": "image/png",
+          "LAYERS": ["TrafficmessageLines"]
+        },
+        "tileGrid": {
+          "tileSize": [512, 512],
+          "origins": [[270402.7634448332, 8437721.0], [270402.7634448332, 7811549.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7459327.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7438537.0], [270402.7634448332, 7437925.0], [270402.7634448332, 7437619.0]],
+          "resolutions": [2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814436, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+        },
+        "featureInfo": {
+          "params": {
+            "QUERY_LAYERS": ["TrafficmessageLines"],
+            "INFO_FORMAT": "text/html"
+          }
+        }
+      }
+    },
+    {
+      "id": "v4",
+      "title": "PlannedLines",
+      "type": "TileWMS",
+      "source": {
+        "url": {
+          "url": "http://geotiles.verkehr.nrw/geowebcache/service/wms",
+          "useProxy": true
+        },
+        "attribution": "&copy; Land NRW",
+        "projection": "EPSG:900913",
+        "params": {
+          "VERSION": "1.1.1",
+          "FORMAT": "image/png",
+          "LAYERS": ["PlannedLines"]
+        },
+        "tileGrid": {
+          "tileSize": [512, 512],
+          "origins": [[270402.7634448332, 8437721.0], [270402.7634448332, 7811549.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7498463.0], [270402.7634448332, 7459327.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7439760.0], [270402.7634448332, 7438537.0], [270402.7634448332, 7437925.0], [270402.7634448332, 7437619.0]],
+          "resolutions": [2445.9849047851562, 1222.9924523925781, 611.4962261962891, 305.74811309814436, 152.87405654907226, 76.43702827453613, 38.218514137268066, 19.109257068634033, 9.554628534317017, 4.777314267158508, 2.388657133579254, 1.194328566789627, 0.5971642833948135]
+        },
+        "featureInfo": {
+          "params": {
+            "QUERY_LAYERS": ["PlannedLines"],
+            "INFO_FORMAT": "text/html"
+          }
+        }
+      }
     }
   ]
 }
