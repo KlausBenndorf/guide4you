@@ -252,12 +252,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/controls/drawbuttons.js~measurementbutton",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html",
-    "<span>MeasurementButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/DrawButtons.js</span>",
-    "class"
-  ],
-  [
     "guide4you/src/controls/measurementbutton.js~measurementbutton",
     "class/src/controls/MeasurementButton.js~MeasurementButton.html",
     "<span>MeasurementButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/MeasurementButton.js</span>",
@@ -411,6 +405,12 @@ window.esdocSearchIndex = [
     "guide4you/src/configurators/uiconfigurator.js~uiconfigurator",
     "class/src/configurators/UIConfigurator.js~UIConfigurator.html",
     "<span>UIConfigurator</span> <span class=\"search-result-import-path\">guide4you/src/configurators/UIConfigurator.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/sources/wmtssource.js~wmtssource",
+    "class/src/sources/WMTSSource.js~WMTSSource.html",
+    "<span>WMTSSource</span> <span class=\"search-result-import-path\">guide4you/src/sources/WMTSSource.js</span>",
     "class"
   ],
   [
@@ -2058,12 +2058,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/styling.js~styling#convertstylefunction",
-    "class/src/Styling.js~Styling.html#instance-method-convertStyleFunction",
-    "src/Styling.js~Styling#convertStyleFunction",
-    "method"
-  ],
-  [
     "src/styling.js~styling#getconfigbyid",
     "class/src/Styling.js~Styling.html#instance-method-getConfigById",
     "src/Styling.js~Styling#getConfigById",
@@ -2127,6 +2121,12 @@ window.esdocSearchIndex = [
     "src/styling.js~styling#managestyles_",
     "class/src/Styling.js~Styling.html#instance-member-manageStyles_",
     "src/Styling.js~Styling#manageStyles_",
+    "member"
+  ],
+  [
+    "src/styling.js~styling#managingfeaturestyle_",
+    "class/src/Styling.js~Styling.html#instance-member-managingFeatureStyle_",
+    "src/Styling.js~Styling#managingFeatureStyle_",
     "member"
   ],
   [
@@ -3219,204 +3219,6 @@ window.esdocSearchIndex = [
     "src/controls/controllogicmixin.js~controllogicmixin#windowed_",
     "class/src/controls/ControlLogicMixin.js~ControlLogicMixin.html#instance-member-windowed_",
     "src/controls/ControlLogicMixin.js~ControlLogicMixin#windowed_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js",
-    "file/src/controls/DrawButtons.js.html",
-    "src/controls/DrawButtons.js",
-    "file"
-  ],
-  [
-    "src/controls/drawbuttons.js~drawbuttonsoptions",
-    "typedef/index.html#static-typedef-DrawButtonsOptions",
-    "src/controls/DrawButtons.js~DrawButtonsOptions",
-    "typedef"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#classnames_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-classNames_",
-    "src/controls/DrawButtons.js~MeasurementButton#classNames_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#clear",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-clear",
-    "src/controls/DrawButtons.js~MeasurementButton#clear",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#constructor",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-constructor-constructor",
-    "src/controls/DrawButtons.js~MeasurementButton#constructor",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#createhtml",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-createHTML",
-    "src/controls/DrawButtons.js~MeasurementButton#createHTML",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#drawinteraction_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-drawInteraction_",
-    "src/controls/DrawButtons.js~MeasurementButton#drawInteraction_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#editinteraction_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-editInteraction_",
-    "src/controls/DrawButtons.js~MeasurementButton#editInteraction_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#editstyle_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-editStyle_",
-    "src/controls/DrawButtons.js~MeasurementButton#editStyle_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#eraseclickinteraction_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-eraseClickInteraction_",
-    "src/controls/DrawButtons.js~MeasurementButton#eraseClickInteraction_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#erasehoverinteraction_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-eraseHoverInteraction_",
-    "src/controls/DrawButtons.js~MeasurementButton#eraseHoverInteraction_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#finishedstyle_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-finishedStyle_",
-    "src/controls/DrawButtons.js~MeasurementButton#finishedStyle_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#gettype",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-getType",
-    "src/controls/DrawButtons.js~MeasurementButton#getType",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#getvalue",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-getValue",
-    "src/controls/DrawButtons.js~MeasurementButton#getValue",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#handleactivechange_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-handleActiveChange_",
-    "src/controls/DrawButtons.js~MeasurementButton#handleActiveChange_",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#layer_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-layer_",
-    "src/controls/DrawButtons.js~MeasurementButton#layer_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#measurementprojection_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-measurementProjection_",
-    "src/controls/DrawButtons.js~MeasurementButton#measurementProjection_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#measurementtransform_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-measurementTransform_",
-    "src/controls/DrawButtons.js~MeasurementButton#measurementTransform_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#modeedit_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeEdit_",
-    "src/controls/DrawButtons.js~MeasurementButton#modeEdit_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#modeedit__",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeEdit__",
-    "src/controls/DrawButtons.js~MeasurementButton#modeEdit__",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#modeerase_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeErase_",
-    "src/controls/DrawButtons.js~MeasurementButton#modeErase_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#modenew_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-modeNew_",
-    "src/controls/DrawButtons.js~MeasurementButton#modeNew_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#newinteraction_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-newInteraction_",
-    "src/controls/DrawButtons.js~MeasurementButton#newInteraction_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#setmap",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setMap",
-    "src/controls/DrawButtons.js~MeasurementButton#setMap",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#setvalue",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setValue",
-    "src/controls/DrawButtons.js~MeasurementButton#setValue",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#setupeditinteraction",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setupEditInteraction",
-    "src/controls/DrawButtons.js~MeasurementButton#setupEditInteraction",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#setuperaseinteractions",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setupEraseInteractions",
-    "src/controls/DrawButtons.js~MeasurementButton#setupEraseInteractions",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#setupnewinteraction",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-setupNewInteraction",
-    "src/controls/DrawButtons.js~MeasurementButton#setupNewInteraction",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#source_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-source_",
-    "src/controls/DrawButtons.js~MeasurementButton#source_",
-    "member"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#togglemodeedit",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-toggleModeEdit",
-    "src/controls/DrawButtons.js~MeasurementButton#toggleModeEdit",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#togglemodeerase",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-toggleModeErase",
-    "src/controls/DrawButtons.js~MeasurementButton#toggleModeErase",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#togglemodenew",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-method-toggleModeNew",
-    "src/controls/DrawButtons.js~MeasurementButton#toggleModeNew",
-    "method"
-  ],
-  [
-    "src/controls/drawbuttons.js~measurementbutton#value_",
-    "class/src/controls/DrawButtons.js~MeasurementButton.html#instance-member-value_",
-    "src/controls/DrawButtons.js~MeasurementButton#value_",
     "member"
   ],
   [
@@ -5638,6 +5440,24 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-SourceServerVectorOptions",
     "src/sources/SourceServerVector.js~SourceServerVectorOptions",
     "typedef"
+  ],
+  [
+    "src/sources/wmtssource.js",
+    "file/src/sources/WMTSSource.js.html",
+    "src/sources/WMTSSource.js",
+    "file"
+  ],
+  [
+    "src/sources/wmtssource.js~wmtssource#constructor",
+    "class/src/sources/WMTSSource.js~WMTSSource.html#instance-constructor-constructor",
+    "src/sources/WMTSSource.js~WMTSSource#constructor",
+    "method"
+  ],
+  [
+    "src/sources/wmtssource.js~wmtssource#originalurlobject",
+    "class/src/sources/WMTSSource.js~WMTSSource.html#instance-member-originalUrlObject",
+    "src/sources/WMTSSource.js~WMTSSource#originalUrlObject",
+    "member"
   ],
   [
     "src/utilities.js",
