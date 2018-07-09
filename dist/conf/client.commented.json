@@ -1,0 +1,286 @@
+{
+/*
+ * This software uses strip-json-comments so you can comment in any JSON-file.
+ */
+// Beware of breaking the JSON-syntax!
+  "proxy": "",
+  "languageSettings": {
+    "currentLanguage": "en",
+    "defaultLanguage": "en",
+    "availableLanguages": ["en", "de", "pl", "ar"],
+    "languageFile": "./files/l10n.json"
+  },
+  "mapProjection": "EPSG:3857",
+  "interfaceProjection": "EPSG:4326",
+  "loadingStrategy": "ALL",
+  "view": {
+    "center": [7.0992279052734375, 50.730696731046805],
+    "zoom": 13,
+    "minZoom": 0,
+    "maxZoom": 20
+  },
+  "scaleIcons": 1,
+  "manageStyles": true,
+  "mobileLayout": {
+    "mediaQueries": [
+      "(max-width: 736px)"
+    ],
+    "scaleIcons": 1.4,
+    "animations": false
+  },
+  "additionalProjections": [
+    {
+      "code": "EPSG:25832",
+      "definition": "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+    }
+  ],
+  "measurementProjection": "EPSG:25832",
+  "featurePopup": {
+    "centerOnPopup": true,
+    "offset": [
+      0,
+      -20
+    ],
+    "positioning": "bottom-center",
+    "iconSizedOffset": [
+      0,
+      -1
+    ],
+    "animated": true
+  },
+  "featureTooltip": {
+    "positioning": "top-left",
+    "offset": [
+      10,
+      20
+    ]
+  },
+  "interactions": {
+    "doubleClickZoom": true,
+    "dragPan": true,
+    "keyboardPan": true,
+    "keyboardZoom": true,
+    "mouseWheelZoom": true,
+    "pinchZoom": true,
+    "dragRotate": true,
+    "pinchRotate": true
+  },
+  "move": {
+    "animationDuration": 2000,
+    "pixelPadding": 60,
+    "meterMinSize": 300
+  },
+  "positioning": {
+    "padding": 5,
+    "spacing": 10
+  },
+  "controls": {
+    "onMap": [
+      "arrowButtons",
+      "attribution",
+      "overviewMap",
+      "layerMenu",
+      "scaleLine",
+      "zoom",
+      "mobileControls",
+      "toolbox",
+      "printLogo"
+    ],
+    "toolbox": {
+      "contains": [
+        "linkButton",
+        "geolocationButton",
+        "distanceMeasurementButton",
+        "areaMeasurementButton",
+        "languageSwitcherMenu",
+        "printButton",
+        "infoButton",
+        "singleDrawButton",
+        "helpButton"
+      ],
+      "float": [
+        "top",
+        "left"
+      ]
+    },
+    "mobileControls": {
+      "float": "fixed",
+      "contains": [
+        "linkButton",
+        "geolocationButton",
+        "mobileLayerMenu",
+        "languageSwitcherMenu",
+        "infoButton"
+      ]
+    },
+    "layerMenu": {
+      "float": [
+        "right",
+        "top"
+      ],
+      "contains": [
+        "baseLayerSelector",
+        "featureLayerSelector"
+      ]
+    },
+    "mobileLayerMenu": {
+      "controlType": "layerMenu",
+      "collapsible": false,
+      "contains": [
+        "baseLayerSelector",
+        "featureLayerSelector"
+      ]
+    },
+    "arrowButtons": {
+      "float": [
+        "top",
+        "left"
+      ]
+    },
+    "helpButton": {
+      "fileName": "files/helptext.json"
+    },
+    "infoButton": {
+      "contentURL": {
+        "de": "files/infos_de.html",
+        "en": "files/infos_en.html"
+      }
+    },
+    "scaleLine": {
+      "float": [
+        "left",
+        "bottom"
+      ]
+    },
+    "singleDrawButton": {
+      "editStyle": "#red",
+      "finishedStyle": "#defaultStyle"
+    },
+    "zoom": {
+      "slider": true,
+      "buttons": true,
+      "float": [
+        "left",
+        "top"
+      ]
+    },
+    "baseLayerSelector": {
+      "controlType": "layerSelector",
+      "layerGroupName": "baseLayers",
+      "minLayerAmount": 2,
+      "title": {
+        "de": "Karten",
+        "en": "Maps",
+        "pl": "Mapy",
+        "ar": "خرائط"
+      }
+    },
+    "featureLayerSelector": {
+      "controlType": "layerSelector",
+      "layerGroupName": "featureLayers",
+      "minLayerAmount": 1,
+      "title": {
+        "de": "Infos",
+        "en": "Information",
+        "ar": "معلومات"
+      }
+    },
+    "attribution": {
+      "float": [
+        "left",
+        "bottom"
+      ],
+      "importance": 99,
+      "collapsible": true
+    },
+    "geolocationButton": {
+      "animated": true,
+      "style": "#defaultStyle",
+      "followLocation": true,
+      "trackingOptions": {
+        "enableHighAccuracy": true,
+        "timeout": 20000,
+        "maximumAge": 5000
+      }
+    },
+    "printLogo": {
+      "controlType": "logo",
+      "src": "images/g4u-logo.png",
+      "mode": "print"
+    },
+    "distanceMeasurementButton": {
+      "atDrawEnd": "newMeasurement",
+      "snapTolerance": 0,
+      "style": "#defaultStyle"
+    },
+    "areaMeasurementButton": {
+      "atDrawEnd": "newMeasurement",
+      "style": "#defaultStyle"
+    },
+    "overviewMap": {
+      "float": [
+        "right",
+        "bottom"
+      ],
+      "collapsed": false
+    }
+  },
+  "styleMap": {
+    "#defaultStyle": {
+      "fill": {
+        "color": "rgba( 0, 113, 188, 0.3)"
+      },
+      "stroke": {
+        "color": "rgba( 46, 49, 146, 0.8)",
+        "width": 2
+      },
+      "image": {
+        "type": "circle",
+        "radius": 7.5,
+        "fill": {
+          "color": "rgba( 0, 113, 188, 0.3)"
+        },
+        "stroke": {
+          "color": "rgba( 46, 49, 146, 0.8)",
+          "width": 2
+        }
+      }
+    },
+    "#red": {
+      "fill": {
+        "color": "rgba( 255, 0, 0, 0.3)"
+      },
+      "stroke": {
+        "color": "rgba( 255, 0, 0, 0.8)",
+        "width": 2
+      },
+      "image": {
+        "type": "circle",
+        "radius": 7.5,
+        "fill": {
+          "color": "rgba( 255, 0, 0, 0.3)"
+        },
+        "stroke": {
+          "color": "rgba( 255, 0, 0, 0.8)",
+          "width": 2
+        }
+      }
+    },
+    "#iconStyle": {
+      "fill": {
+        "color": "rgba( 255, 0, 0, 0.3)"
+      },
+      "stroke": {
+        "color": "rgba( 255, 0, 0, 0.8)",
+        "width": 2
+      },
+      "image": {
+        "type": "icon",
+        "src": "images/g4u-logo.png",
+        "rotation": 10,
+        "scale": 0.3,
+        "anchor": [0.5, 0.5]
+      }
+    }
+  }
+}

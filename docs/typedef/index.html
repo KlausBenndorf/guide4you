@@ -121,7 +121,6 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~ZoomSlider.html">ZoomSlider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ComposedControl.js~ComposedControl.html">ComposedControl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ControlLogicMixin.js~ControlLogicMixin.html">ControlLogicMixin</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/DrawButtons.js~MeasurementButton.html">MeasurementButton</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/GeoLocationButton.js~GeolocationButton.html">GeolocationButton</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/HelpButton.js~HelpButton.html">HelpButton</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/InfoButton.js~InfoButton.html">InfoButton</a></span></span></li>
@@ -146,7 +145,6 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ZoomOptions">ZoomOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ComposedControlOptions">ComposedControlOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DrawButtonsOptions">DrawButtonsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoLocationButtonOptions">GeoLocationButtonOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HelpButtonOptions">HelpButtonOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InfoButtonOptions">InfoButtonOptions</a></span></span></li>
@@ -197,6 +195,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryVectorSource.js~QueryVectorSource.html">QueryVectorSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryWMSSource.js~QueryWMSMixin.html">QueryWMSMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
@@ -458,34 +457,6 @@
         
         <div data-ice="description"><p> Inside of this object the controls are configured.</p>
 </div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-DrawButtonsOptions">DrawButtonsOptions</a></span></span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
       </div>
     </td>
     <td>
@@ -2338,6 +2309,13 @@
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">addClass</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>adds a classname</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">content</td>
       <td data-ice="type" class="code"><span>HTMLElement</span> | <span>jQuery</span></td>
       <td data-ice="appendix"><ul><li>optional</li></ul></td>
@@ -2825,73 +2803,6 @@
       
       
       <span data-ice="source"><span><a href="file/src/controls/SingleDrawButton.js.html#lineNumberundefined">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Properties:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">editStyle</td>
-      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-StyleLike">StyleLike</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: &apos;#defaultStyle&apos;</li></ul></td>
-      <td data-ice="description"></td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">finishedStyle</td>
-      <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-StyleLike">StyleLike</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: &apos;#defaultStyle&apos;</li></ul></td>
-      <td data-ice="description"></td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-typedef-DrawButtonsOptions">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">DrawButtonsOptions</span><span class="code" data-ice="signature">: <span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/controls/DrawButtons.js.html#lineNumberundefined">source</a></span></span>
     </span>
   </h3>
 
@@ -5285,7 +5196,7 @@ positioned via Positioning.</p>
       <td data-ice="name" class="code" data-depth="0">pixelPadding</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
-<li>default: 0</li></ul></td>
+<li>default: 50</li></ul></td>
       <td data-ice="description"><p>a default padding around the target extent in pixels</p>
 </td>
     </tr>
@@ -5293,7 +5204,7 @@ positioned via Positioning.</p>
       <td data-ice="name" class="code" data-depth="0">meterMinSize</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
-<li>default: 0</li></ul></td>
+<li>default: 500</li></ul></td>
       <td data-ice="description"><p>the minimal size of the target extent in meters</p>
 </td>
     </tr>
@@ -5301,7 +5212,7 @@ positioned via Positioning.</p>
       <td data-ice="name" class="code" data-depth="0">animationDuration</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li>
-<li>default: 4000</li></ul></td>
+<li>default: 2000</li></ul></td>
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
@@ -7123,7 +7034,7 @@ positioned via Positioning.</p>
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

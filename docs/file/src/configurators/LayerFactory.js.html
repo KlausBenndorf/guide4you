@@ -121,7 +121,6 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~ZoomSlider.html">ZoomSlider</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ComposedControl.js~ComposedControl.html">ComposedControl</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ControlLogicMixin.js~ControlLogicMixin.html">ControlLogicMixin</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/DrawButtons.js~MeasurementButton.html">MeasurementButton</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/GeoLocationButton.js~GeolocationButton.html">GeolocationButton</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/HelpButton.js~HelpButton.html">HelpButton</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/InfoButton.js~InfoButton.html">InfoButton</a></span></span></li>
@@ -146,7 +145,6 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ZoomOptions">ZoomOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ComposedControlOptions">ComposedControlOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DrawButtonsOptions">DrawButtonsOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoLocationButtonOptions">GeoLocationButtonOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HelpButtonOptions">HelpButtonOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InfoButtonOptions">InfoButtonOptions</a></span></span></li>
@@ -197,6 +195,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryVectorSource.js~QueryVectorSource.html">QueryVectorSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryWMSSource.js~QueryWMSMixin.html">QueryWMSMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
@@ -228,6 +227,7 @@ import { BaseSilentGroupLayer, SilentGroupLayer } from &apos;../layers/SilentGro
 import { URL } from &apos;../URLHelper&apos;
 import { QueryImageWMSSource, QueryTileWMSSource } from &apos;../sources/QueryWMSSource&apos;
 import { ClusterSource } from &apos;../sources/ClusterSource&apos;
+import { WMTSSource } from &apos;../sources/WMTSSource&apos;
 
 /**
  * @enum {string}
@@ -682,6 +682,8 @@ export class LayerFactory {
         if (optionsCopy.source.tileSize) {
           optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
           delete optionsCopy.source.tileSize
+        } else if (optionsCopy.source.tileGrid) {
+          optionsCopy.source.tileGrid = new ol.tilegrid.TileGrid(optionsCopy.source.tileGrid)
         }
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
@@ -710,6 +712,17 @@ export class LayerFactory {
       case LayerType.WMTS:
         let sourceOptions = take(optionsCopy, &apos;source&apos;)
 
+        if (!sourceOptions.autoConfig) {
+          if (!sourceOptions.tileGrid) {
+            throw new Error(&apos;You have to provide either a tileGrid or use autoConfig for WMTS Source&apos;)
+          }
+
+          sourceOptions.tileGrid = new ol.tilegrid.WMTS(sourceOptions.tileGrid)
+
+          sourceOptions.url = URL.extractFromConfig(sourceOptions, &apos;url&apos;, undefined, this.map_) // not finalized
+
+          optionsCopy.source = new WMTSSource(sourceOptions)
+        }
         // url gets extracted in setWMTSSourceFromCapabilities
 
         if (superType === SuperType.BASELAYER) {
@@ -718,7 +731,9 @@ export class LayerFactory {
           layer = new TileLayer(optionsCopy)
         }
 
-        this.setWMTSSourceFromCapabilities(layer, sourceOptions)
+        if (sourceOptions.autoConfig) {
+          this.setWMTSSourceFromCapabilities(layer, sourceOptions)
+        }
 
         break
       case LayerType.GEOJSON:
@@ -884,11 +899,7 @@ export class LayerFactory {
    */
   configureLayerSourceAttribution_ (sourceConfig) {
     if (checkFor(sourceConfig, &apos;attribution&apos;)) {
-      sourceConfig.attributions = [
-        new ol.Attribution({
-          html: this.map_.get(&apos;localiser&apos;).selectL10N(sourceConfig.attribution)
-        })
-      ]
+      sourceConfig.attributions = [this.map_.get(&apos;localiser&apos;).selectL10N(sourceConfig.attribution)]
     }
     return sourceConfig
   }
@@ -996,7 +1007,7 @@ export class LayerFactory {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>
