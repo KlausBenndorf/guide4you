@@ -119,25 +119,24 @@ export class Styling {
       this.setGlobalIconScale(options.scaleIcons)
     }
 
-    let _this = this
-
     /**
-     * @param resolution
+     * @param {ol.Feature} feature
+     * @param {number} resolution
      * @returns {*}
      * @private
      */
-    this.managingFeatureStyle_ = function (resolution) {
-      let style = this.get('managedStyle')
+    this.managingFeatureStyle_ = (feature, resolution) => {
+      let style = feature.get('managedStyle')
       if ($.isFunction(style)) {
-        style = style.call(this, resolution)
+        style = style(feature, resolution)
       }
       if (!style) {
-        style = _this.getStyle('#defaultStyle')
+        style = this.getStyle('#defaultStyle')
       }
       if ($.isArray(style)) {
-        return style.map(s => _this.adjustStyle_(this, s))
+        return style.map(s => this.adjustStyle_(feature, s))
       } else {
-        return _this.adjustStyle_(this, style)
+        return this.adjustStyle_(feature, style)
       }
     }
 
@@ -266,15 +265,6 @@ export class Styling {
     } else {
       return this.getStyleById(data)
     }
-  }
-
-  /**
-   * converts ol.StyleFunction to ol.FeatureStyleFunction
-   * @param {ol.style.StyleFunction} styleFunction
-   * @returns {ol.FeatureStyleFunction}
-   */
-  convertStyleFunction (styleFunction) {
-    return function (resolution) { return styleFunction(this, resolution) }
   }
 
   /**

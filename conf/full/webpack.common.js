@@ -33,10 +33,10 @@ module.exports = webpackMerge.smartStrategy({ plugins: 'prepend' })(
   require('guide4you-builder/webpack.common'),
   {
     entry: {
-      'g4u': [ path.join(baseDir, 'conf/simple/entry.js') ]
+      'g4u': [ path.join(baseDir, 'conf/full/entry.js') ]
     },
     output: {
-      path: path.join(baseDir, 'build/simple')
+      path: path.join(baseDir, 'build/full')
     },
     resolve: {
       alias: {

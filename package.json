@@ -21,7 +21,7 @@
   },
   "peerDependencies": {
     "jquery": "3.3.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4"
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2"
   },
   "dependencies": {
     "better-scroll": "1.12.1",
@@ -37,12 +37,12 @@
     "concurrently": "^3.6.0",
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
-    "guide4you-builder": "3.3.0",
+    "guide4you-builder": "3.2.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "^0.11.1",
     "jquery": "3.3.1",
     "mocha": "^5.2.0",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
     "standard": "^11.0.1",

@@ -2,8 +2,6 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import proj4 from 'proj4/dist/proj4'
 
-ol.proj.setProj4(proj4)
-
 import {Styling} from '../Styling'
 import {LayerConfigurator} from './LayerConfigurator'
 import {UIConfigurator} from './UIConfigurator'
@@ -214,6 +212,10 @@ export class MapConfigurator {
 
     for (let i = 0, ii = additionalProjectionsConf.length; i < ii; i++) {
       proj4.defs(additionalProjectionsConf[i].code, additionalProjectionsConf[i].definition)
+    }
+
+    if (additionalProjectionsConf.length > 0) {
+      ol.proj.proj4.register(proj4)
     }
 
     if (checkFor(mapConfigCopy, 'measurementProjection')) {
