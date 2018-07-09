@@ -690,11 +690,7 @@ export class LayerFactory {
    */
   configureLayerSourceAttribution_ (sourceConfig) {
     if (checkFor(sourceConfig, 'attribution')) {
-      sourceConfig.attributions = [
-        new ol.Attribution({
-          html: this.map_.get('localiser').selectL10N(sourceConfig.attribution)
-        })
-      ]
+      sourceConfig.attributions = [this.map_.get('localiser').selectL10N(sourceConfig.attribution)]
     }
     return sourceConfig
   }

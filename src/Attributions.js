@@ -91,7 +91,7 @@ export class Attributions extends mixin(ol.Observable, ListenerOrganizerMixin) {
     if (layer.getSource && layer.getSource()) {
       let attributions = layer.getSource().getAttributions()
       if (attributions) {
-        return attributions.map(a => [label, a.getHTML()])
+        return attributions().map(a => [label, a])
       }
       return []
     }

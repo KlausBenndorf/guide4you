@@ -519,7 +519,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
       let featureStyleFunction = feature.getStyleFunction()
       if (featureStyleFunction) {
-        let style = featureStyleFunction.call(feature, resolution)[ 0 ]
+        let style = featureStyleFunction(feature, resolution)[ 0 ]
         if (style) {
           let imageStyle = style.getImage()
           if (imageStyle instanceof ol.style.Icon) {

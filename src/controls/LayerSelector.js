@@ -481,6 +481,16 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
               e.stopPropagation()
             })
           }
+
+          if (layerButtons.length === 1) {
+            this.listenAt(wmsLayer).on('loadcountstart', () => {
+              $button.addClass('g4u-layer-loading')
+            })
+
+            this.listenAt(wmsLayer).on('loadcountend', () => {
+              $button.removeClass('g4u-layer-loading')
+            })
+          }
         }
 
         if (menu) {
@@ -508,6 +518,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
               layer: wmsLayer,
               wmsLayer: true
             })
+          })
+
+          this.listenAt(wmsLayer).on('loadcountstart', () => {
+            menu.get$Element().addClass('g4u-layer-loading')
+          })
+
+          this.listenAt(wmsLayer).on('loadcountend', () => {
+            menu.get$Element().removeClass('g4u-layer-loading')
           })
 
           return menu
@@ -598,6 +616,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             e.stopPropagation()
           })
         }
+
+        this.listenAt(wmsLayer).on('loadcountstart', () => {
+          $button.addClass('g4u-layer-loading')
+        })
+
+        this.listenAt(wmsLayer).on('loadcountend', () => {
+          $button.removeClass('g4u-layer-loading')
+        })
       }
     }
   }

@@ -3,9 +3,9 @@ import ol from 'openlayers'
 /**
  * @typedef {object} MoveOptions
  * @property {G4UMap} map
- * @property {number} [pixelPadding=0] a default padding around the target extent in pixels
- * @property {number} [meterMinSize=0] the minimal size of the target extent in meters
- * @property {number} [animationDuration=4000]
+ * @property {number} [pixelPadding=50] a default padding around the target extent in pixels
+ * @property {number} [meterMinSize=500] the minimal size of the target extent in meters
+ * @property {number} [animationDuration=2000]
  * @property {boolean} [animations=true]
  * @property {boolean} [bouncing=false] if the animation should bounce or not
  */

@@ -30,11 +30,6 @@ export function createMapInternal (element, clientConfPath, layerConfPath, optio
         reject('OpenLayers not available.')
       }
 
-      if (!ol.has.CANVAS) {
-        $('.g4u-browser-support-message').show()
-        reject('Browser does not support Canvas.')
-      }
-
       $(element).empty()
 
       // for remote analysis and debugging - not used inside of the software
