@@ -321,7 +321,7 @@ export class API extends ol.Object {
       }
       let loadErrorHandler = () => {
         source.un('vectorloaderror', loadEndHandler)
-        reject('vector load error')
+        reject(new Error('vector load error'))
       }
       source.once('vectorloadend', loadEndHandler)
       source.once('vectorloaderror', loadErrorHandler)
