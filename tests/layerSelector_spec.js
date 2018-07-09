@@ -1,12 +1,8 @@
-import webdriver from 'selenium-webdriver'
+import {By, until} from 'selenium-webdriver'
 import phantomDriver from './customPhantomDriver'
-import test from 'selenium-webdriver/testing/'
+import {describe, before, after, it} from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
 import config from './config.js'
-import until from 'selenium-webdriver/lib/until'
-
-let By = webdriver.By
-
 import {executeFunctionInPage, waitUntilMapReady} from './testUtils'
 
 // globals in browser
@@ -24,22 +20,22 @@ function waitUntilSetFeatureLayers (driver, featureLayers) {
     .then(waitUntilMapReady(driver))
 }
 
-test.describe('LayerSelector', function () {
+describe('LayerSelector', function () {
   this.timeout(config.mochaTimeout)
   let driver
 
-  test.before(function () {
+  before(function () {
     driver = phantomDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
     driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
   })
 
-  test.after(function () {
+  after(function () {
     driver.quit()
   })
 
-  test.it('should show a layerSelector', function (done) {
+  it('should show a layerSelector', function (done) {
     driver.get(config.testClient).then(
       waitUntilMapReady(driver)
     ).then(
@@ -62,7 +58,7 @@ test.describe('LayerSelector', function () {
     )
   })
 
-  test.it('should show a category button', function (done) {
+  it('should show a category button', function (done) {
     driver.get(config.testClient).then(
       waitUntilMapReady(driver)
     ).then(

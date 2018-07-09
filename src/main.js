@@ -5,10 +5,10 @@ import '../images/g4u-logo.png'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame,Element.prototype.classList,URL'
 
-window.jQuery = window.jQuery || $
-
 import {G4UMap} from './G4UMap'
 import {Debug} from './Debug'
+
+window.jQuery = window.jQuery || $
 
 export function createMapInternal (element, clientConfPath, layerConfPath, options) {
   if (Array.isArray(options)) { // backwards compatibility
@@ -18,7 +18,7 @@ export function createMapInternal (element, clientConfPath, layerConfPath, optio
   return new Promise((resolve, reject) => {
     $(document).ready(() => {
       if (!$) {
-        reject('jQuery not available.')
+        reject(new Error('jQuery not available.'))
       } else {
         let v = $().jquery.split('.')
         if (+v[0] < 2 && +v[1] < 9) {
@@ -27,7 +27,7 @@ export function createMapInternal (element, clientConfPath, layerConfPath, optio
       }
 
       if (!ol) {
-        reject('OpenLayers not available.')
+        reject(new Error('OpenLayers not available.'))
       }
 
       $(element).empty()

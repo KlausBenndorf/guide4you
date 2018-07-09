@@ -14,21 +14,21 @@ export function waitUntilMapReady (driver) {
     driver.executeAsyncScript(function (callback) {
       setTimeout(function () {
         if (window.test) {
-          callback('READY')
+          callback(null)
         }
         if (!window.map) {
-          callback('NOEXIST')
+          callback(new Error('Map does not exist after 20 ms'))
         }
         const t = setTimeout(function () {
-          callback('NOREADY')
+          callback(new Error('Map not ready after 2000 ms'))
         }, 2000)
         window.map.asSoonAs('ready', true, function () {
           clearTimeout(t)
-          callback('READY')
+          callback(null)
         })
       }, 20)
-    }).then(function (val) {
-      if (val === 'READY') {
+    }).then(function (err) {
+      if (err === null) {
         fulfill()
       } else {
         driver.manage().logs().get('browser').then(function (logs) {
@@ -38,13 +38,7 @@ export function waitUntilMapReady (driver) {
             })
           }
         })
-        if (val === 'NOEXIST') {
-          reject('Map does not exist after 20 ms')
-        } else if (val === 'NOREADY') {
-          reject('Map not ready after 2000 ms')
-        } else {
-          reject('Unknown value')
-        }
+        reject(err)
       }
     })
   })
