@@ -297,7 +297,7 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
   }
   return new Promise((resolve, reject) =&gt; {
     function onError () {
-      reject(`Error loading url ${finalUrl}`)
+      reject(new Error(`Error loading url ${finalUrl}`))
     }
     image.addEventListener(&apos;load&apos;, resolve)
     image.addEventListener(&apos;error&apos;, onError)
