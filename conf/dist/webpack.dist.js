@@ -5,7 +5,6 @@ const webpackMerge = require('webpack-merge')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const mustacheLoader = require('guide4you-builder/mustache-loader')
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 
 const baseDir = process.cwd()
 
@@ -18,7 +17,7 @@ const common = webpackMerge.smartStrategy({ plugins: 'prepend' })(
   require('guide4you-builder/webpack.common'),
   {
     entry: {
-      'g4u': [path.join(baseDir, 'conf/dist/entry.js') ]
+      'g4u': [ path.join(baseDir, 'conf/dist/entry.js') ]
     },
     output: {
       path: path.join(baseDir, 'dist')
