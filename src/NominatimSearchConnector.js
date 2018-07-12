@@ -40,8 +40,8 @@ export class NominatimSearchConnector extends SearchConnector {
           resolve(SearchConnector.flipTuples(results.map(r => this.readFeature_(r))))
         },
         error: (jqXHR, textStatus) => {
-          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${finalUrl})`)
+          reject(new Error('Problem while trying to get search results from the Server: ' +
+            `${textStatus} - ${jqXHR.responseText} (SearchURL: ${finalUrl})`))
         }
       })
     })

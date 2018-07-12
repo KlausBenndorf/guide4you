@@ -7,7 +7,6 @@ import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
  */
 
 export class SearchView {
-
   /**
    * @param {SearchViewOptions} options
    */
