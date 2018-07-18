@@ -24,7 +24,7 @@
     "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2"
   },
   "dependencies": {
-    "better-scroll": "1.12.1",
+    "better-scroll": "1.12.5",
     "csscolorparser": "1.0.3",
     "lodash": "4.17.10",
     "notifyjs-browser": "0.4.2",
