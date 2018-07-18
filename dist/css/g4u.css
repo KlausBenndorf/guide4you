@@ -1,6 +1,6 @@
 /*!
  * guide4you-module-urlapi
- * Version: 2.4.0 (built Wed Jul 18 2018)
+ * Version: 3.0.0 (built Wed Jul 18 2018)
  * Klaus Benndorf, License: MIT (https://spdx.org/licenses/MIT.html)
  * Homepage: https://github.com/KlausBenndorf/guide4you-module-urlapi
  *
