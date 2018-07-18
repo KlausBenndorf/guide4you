@@ -248,7 +248,7 @@ export class LinkGeneratorButton extends Control {
         resolve(e.feature.getGeometry().getCoordinates())
       })
     })
-    .catch(Debug.defaultErrorHandler)
+      .catch(Debug.defaultErrorHandler)
   }
 
   updateURL () {

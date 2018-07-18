@@ -21,36 +21,39 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-urlapi"
   },
   "peerDependencies": {
-    "guide4you": "^2.10.2",
+    "guide4you": "^3.0.1",
     "jquery": "3.3.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4"
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2"
   },
   "devDependencies": {
-    "concurrently": "^3.4.0",
+    "concurrently": "3.6.0",
     "esdoc": "^1.0.4",
-    "guide4you": "^2.10.2",
-    "guide4you-builder": "^2.2.2",
+    "esdoc-standard-plugin": "^1.0.0",
+    "eslint": "^5.1.0",
+    "eslint-config-standard": "^11.0.0",
+    "guide4you": "3.0.1",
+    "guide4you-builder": "3.2.5",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
-    "http-server": "^0.11.0",
+    "http-server": "0.11.1",
     "jquery": "3.3.1",
     "mocha": "^5.0.4",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v4.6.4",
+    "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "^3.6.0",
-    "standard": "^11.0.0",
     "wait-on": "^2.1.0"
   },
   "scripts": {
-    "dist": "g4u-build -m dist -c conf/dist",
-    "linkRepos": "g4u-link guide4you",
-    "unlinkRepos": "g4u-unlink guide4you",
-    "build": "g4u-build -m prod -c",
-    "dev": "g4u-build -m dev -c",
-    "lint": "eslint src/ tests/",
+    "grab": "g4u-grab guide4you-builder guide4you",
+    "dist": "g4u-build -c conf/dist/webpack.dist.js",
+    "dev": "cross-env-shell DEVELOPMENT=true g4u-build -c conf/build/webpack.dev.js",
+    "prod": "rimraf build/* && g4u-build -c conf/build/webpack.prod.js",
+    "debug": "rimraf build/* && g4u-build -c conf/build/webpack.prod.js",
+    "lint": "eslint src/ tests/ conf/",
     "version": "(npm run test && git add -A) || git checkout .",
+    "server": "http-server ./ -p 8089 -s",
     "buildTests": "concurrently \"g4u-buildTests -i node_modules/guide4you\" \"npm run dist\"",
-    "runTests": "wait-on -l http-get://localhost:8089 && mocha build/tests/*",
-    "test": "npm run lint && npm run buildTests && concurrently --kill-others --success first \"http-server ./ -p 8089 -s\" \"npm run runTests\" && echo \"Tests completed successfully\"",
+    "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
+    "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }
 }

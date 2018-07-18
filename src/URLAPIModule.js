@@ -21,7 +21,6 @@ import {CloseWindowButton} from './CloseWindowButton'
  * @property {object} [apiInit] initial values for the api
  */
 export class URLAPIModule extends Module {
-
   constructor (options) {
     super(options)
     if (options && options.hasOwnProperty('moduleParameters')) {
@@ -30,6 +29,7 @@ export class URLAPIModule extends Module {
       this.moduleParameters_ = []
     }
   }
+
   /**
    * @param {G4UMap} map
    */
