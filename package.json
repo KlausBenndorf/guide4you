@@ -46,7 +46,7 @@
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
     "eslint-config-standard": "^11.0.0",
-    "wait-on": "^2.1.0"
+    "wait-on": "^3.0.0"
   },
   "scripts": {
     "dist": "g4u-build -c conf/dist/webpack.dist.js",
