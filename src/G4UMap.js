@@ -330,6 +330,14 @@ export class G4UMap extends ol.Map {
     return this.controlsByName[ name ] || []
   }
 
+  getControlsByType (type) {
+    let matched = []
+    for (const controls of Object.values(this.controlsByName)) {
+      matched = matched.concat(controls.filter(c => c instanceof type))
+    }
+    return matched
+  }
+
   /**
    * @param {Module} module
    */
