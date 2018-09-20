@@ -7,6 +7,8 @@ import { Debug } from './Debug'
 
 import { parseCSSColor } from 'csscolorparser'
 
+import {isFunction, isObject, isArray} from 'lodash/lang'
+
 /**
  * @typedef {string|StyleObject|ol.style.Style} StyleLike
  */
@@ -258,9 +260,11 @@ export class Styling {
   getStyle (data) {
     if (data === undefined) {
       return this.getStyleById('#defaultStyle')
-    } else if (data instanceof ol.style.Style || $.isFunction(data)) {
+    } else if (data instanceof ol.style.Style || isFunction(data)) {
       return data
-    } else if (typeof data === 'object') {
+    } else if (isArray(data)) {
+      return this.getConditionalStyleFromConfig(data)
+    } else if (isObject(data)) {
       return this.getStyleFromConfig(data)
     } else {
       return this.getStyleById(data)
@@ -394,6 +398,50 @@ export class Styling {
       layer.getSource().on('addfeature', e => {
         this.manageFeature(e.feature)
       })
+    }
+  }
+
+  getConditionalStyleFromConfig (configArr) {
+    const styles = configArr.map(o => this.getStyle(o.style))
+    return (feature, resolution) => {
+      for (let i = 0; i < configArr.length; i++) {
+        if (!configArr[i]['condition']) {
+          return styles[i]
+        }
+        const cond = configArr[i]['condition']
+        switch (cond[1]) {
+          case '=':
+            if (feature.get(cond[0]) === cond[2]) {
+              return styles[i]
+            }
+            break
+          case '!=':
+            if (feature.get(cond[0]) !== cond[2]) {
+              return styles[i]
+            }
+            break
+          case '<':
+            if (feature.get(cond[0]) < cond[2]) {
+              return styles[i]
+            }
+            break
+          case '>':
+            if (feature.get(cond[0]) > cond[2]) {
+              return styles[i]
+            }
+            break
+          case '<=':
+            if (feature.get(cond[0]) <= cond[2]) {
+              return styles[i]
+            }
+            break
+          case '>=':
+            if (feature.get(cond[0]) >= cond[2]) {
+              return styles[i]
+            }
+            break
+        }
+      }
     }
   }
 }
