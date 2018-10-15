@@ -1,5 +1,5 @@
-import {promise} from 'selenium-webdriver'
-import {writeFile} from 'fs'
+import { promise } from 'selenium-webdriver'
+import { writeFile } from 'fs'
 
 export function stringifyFunctionCall (func, ...params) {
   return `return (${func.toString()})(` + params.map(JSON.stringify).join(',') + ')'

@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import {ControlLogicMixin} from './ControlLogicMixin'
-import {cssClasses} from '../globals'
-import {recursiveSelect} from '../utilities'
+import { ControlLogicMixin } from './ControlLogicMixin'
+import { cssClasses } from '../globals'
+import { recursiveSelect } from '../utilities'
 
 /**
  * This class does all generic rewiring including catching the target and restyling the tooltips

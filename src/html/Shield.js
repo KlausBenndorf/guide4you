@@ -146,7 +146,7 @@ export class Shield extends ol.Object {
   remove$OnTop ($element) {
     let element = $element[0]
 
-    let {$actualElement, $oldParent, oldIndex} = this.elementsOnTop_.get(element)
+    let { $actualElement, $oldParent, oldIndex } = this.elementsOnTop_.get(element)
 
     if (oldIndex === 0) {
       $oldParent.prepend($actualElement)

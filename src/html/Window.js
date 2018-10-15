@@ -1,9 +1,9 @@
 import ol from 'ol'
 import $ from 'jquery'
 
-import {offset} from '../utilities'
-import {getInFront} from './html'
-import {cssClasses} from '../globals'
+import { offset } from '../utilities'
+import { getInFront } from './html'
+import { cssClasses } from '../globals'
 
 import BScroll from 'better-scroll'
 

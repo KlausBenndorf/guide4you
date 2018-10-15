@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 
 import '../../less/logo.less'
 

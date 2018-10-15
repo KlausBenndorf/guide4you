@@ -4,7 +4,7 @@ import $ from 'jquery'
 import { cssClasses } from './globals'
 
 import '../less/tooltip.less'
-import {html2Text} from './utilities'
+import { html2Text } from './utilities'
 
 /**
  * @typedef {object} FeatureTooltipOptions

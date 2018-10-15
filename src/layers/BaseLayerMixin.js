@@ -1,4 +1,4 @@
-import {GroupLayer} from './GroupLayer'
+import { GroupLayer } from './GroupLayer'
 
 /**
  * @typedef {object} BaseLayerMixinOptions

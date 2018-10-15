@@ -1,7 +1,7 @@
 import ol from 'ol'
 
-import {mixin} from '../utilities'
-import {RewireMixin} from './RewireMixin'
+import { mixin } from '../utilities'
+import { RewireMixin } from './RewireMixin'
 
 import '../../less/mouseposition.less'
 

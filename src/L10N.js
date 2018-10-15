@@ -2,7 +2,7 @@ import ol from 'ol'
 import $ from 'jquery'
 
 import stripJsonComments from 'strip-json-comments'
-import {Debug} from './Debug'
+import { Debug } from './Debug'
 import { URL } from './URLHelper'
 
 /**

@@ -2,8 +2,8 @@ import ol from 'ol'
 import $ from 'jquery'
 
 import { merge } from '../utilitiesObject'
-import {Control} from './Control'
-import {addTooltip} from '../html/html'
+import { Control } from './Control'
+import { addTooltip } from '../html/html'
 
 import '../../less/arrowbuttons.less'
 
@@ -79,7 +79,7 @@ export class ArrowButtons extends Control {
      * @type {{left: number[], up: number[], right: number[], down: number[]}}
      * @private
      */
-    this.vectors_ = {left: [-1, 0], up: [0, 1], right: [1, 0], down: [0, -1]}
+    this.vectors_ = { left: [-1, 0], up: [0, 1], right: [1, 0], down: [0, -1] }
 
     /**
      * @type {{up: string, right: string, down: string, left: string, center: string}}

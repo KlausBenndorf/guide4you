@@ -423,7 +423,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       let yLength = this.padding_
       let $elem = corner.control.get$Element()
 
-      $elem.removeClass(cssClasses.hidden).css({[x]: xLength, [y]: yLength})
+      $elem.removeClass(cssClasses.hidden).css({ [x]: xLength, [y]: yLength })
 
       xLength += $elem.outerWidth() + this.spacing_
       yLength += $elem.outerHeight() + this.spacing_
@@ -448,7 +448,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       for (let elem of this.corners_[x][y][xDirection]
         .filter(el => Positioning.isElemVisible_(el) && el !== corner)) {
         $elem = elem.control.get$Element()
-        $elem.css({[x]: xLength, [y]: this.padding_})
+        $elem.css({ [x]: xLength, [y]: this.padding_ })
         xLength += $elem.outerWidth() + this.spacing_
       }
 
@@ -456,7 +456,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       for (let elem of this.corners_[x][y][yDirection]
         .filter(el => Positioning.isElemVisible_(el) && el !== corner)) {
         $elem = elem.control.get$Element()
-        $elem.css({[x]: this.padding_, [y]: yLength})
+        $elem.css({ [x]: this.padding_, [y]: yLength })
         yLength += $elem.outerHeight() + this.spacing_
       }
     }
@@ -610,7 +610,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   measureExpandedElement_ (elem) {
     // let expanded = this.expandElement_(elem)
     let $elem = elem.control.get$Element()
-    let size = {width: $elem.outerWidth(), height: $elem.outerHeight()}
+    let size = { width: $elem.outerWidth(), height: $elem.outerHeight() }
     // for (let exp of expanded) {
     //   exp.setCollapsed(true, true)
     // }

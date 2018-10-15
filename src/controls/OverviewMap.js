@@ -1,7 +1,7 @@
 import ol from 'ol'
-import {RewireMixin} from './RewireMixin'
+import { RewireMixin } from './RewireMixin'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
-import {mixin} from '../utilities'
+import { mixin } from '../utilities'
 
 import '../../less/overviewmap.less'
 

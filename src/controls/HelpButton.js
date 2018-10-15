@@ -158,7 +158,7 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
         if (!this.contentData_) {
           this.loading_ = true
 
-          $.ajax(this.documentationFileName_, {dataType: 'text'})
+          $.ajax(this.documentationFileName_, { dataType: 'text' })
             .fail(() => {
               let msg = 'Wasn\'t able to load the documentation file ' + this.documentationFileName_
               Debug.error(msg)

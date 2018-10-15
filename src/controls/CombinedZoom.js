@@ -1,13 +1,13 @@
 import ol from 'ol'
 import $ from 'jquery'
 
-import {ComposedControl} from './ComposedControl'
+import { ComposedControl } from './ComposedControl'
 import { cssClasses } from '../globals'
 import { copy } from '../utilitiesObject'
 
 import '../../less/zoom.less'
-import {mixin} from '../utilities'
-import {RewireMixin} from './RewireMixin'
+import { mixin } from '../utilities'
+import { RewireMixin } from './RewireMixin'
 
 /**
  * @typedef {ComposedControlOptions} CombinedZoomOptions
@@ -90,7 +90,7 @@ export class CombinedZoom extends ComposedControl {
      */
     this.zoomButtons_ = new Zoom(this.zoomButtonOptions)
 
-    this.addControl(this.zoomButtons_, {wrap: false})
+    this.addControl(this.zoomButtons_, { wrap: false })
 
     let $zoomIn = this.zoomButtons_.get$Element().children('.g4u-zoom-in')
     let $zoomOut = this.zoomButtons_.get$Element().children('.g4u-zoom-out')
@@ -108,7 +108,7 @@ export class CombinedZoom extends ComposedControl {
      */
     this.zoomSlider_ = new ZoomSlider(this.zoomSliderOptions)
 
-    this.addControl(this.zoomSlider_, {wrap: false})
+    this.addControl(this.zoomSlider_, { wrap: false })
 
     let $zoomSlider = this.zoomSlider_.get$Element()
 
