@@ -356,7 +356,9 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
     this.$windowContainer_.append(window.get$Element())
 
-    window.get$Element().attr(&apos;data-layer-0&apos;, layer.get(&apos;id&apos;))
+    if (layer.get(&apos;addClass&apos;)) {
+      window.get$Element().addClass(layer.get(&apos;addClass&apos;))
+    }
 
     let content
 
