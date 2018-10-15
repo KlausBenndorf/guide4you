@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 import proj4 from 'proj4/dist/proj4'
 

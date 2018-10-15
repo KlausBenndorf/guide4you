@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 
 import {Attribution} from '../controls/Attribution'
 import {ComposedControl} from '../controls/ComposedControl'

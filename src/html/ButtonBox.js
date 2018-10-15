@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import ol from 'openlayers'
+import ol from 'ol'
 
 import { cssClasses } from '../globals'
 
