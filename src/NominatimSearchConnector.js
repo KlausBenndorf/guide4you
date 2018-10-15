@@ -1,8 +1,8 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
-import {Debug} from 'guide4you/src/Debug'
-import {SearchConnector} from './SearchConnector'
+import { Debug } from 'guide4you/src/Debug'
+import { SearchConnector } from './SearchConnector'
 
 export class NominatimSearchConnector extends SearchConnector {
   constructor (options) {

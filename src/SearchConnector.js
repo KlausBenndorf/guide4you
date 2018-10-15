@@ -1,4 +1,4 @@
-import {URL} from 'guide4you/src/URLHelper'
+import { URL } from 'guide4you/src/URLHelper'
 import zip from 'lodash/zip'
 
 /**

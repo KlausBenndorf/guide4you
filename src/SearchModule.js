@@ -1,6 +1,6 @@
-import {Module} from 'guide4you/src/Module'
-import {Debug} from 'guide4you/src/Debug'
-import {SearchControl} from './SearchControl'
+import { Module } from 'guide4you/src/Module'
+import { Debug } from 'guide4you/src/Debug'
+import { SearchControl } from './SearchControl'
 
 /**
  * @typedef {object} SearchControlModuleOptions

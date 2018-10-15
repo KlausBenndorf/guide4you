@@ -1,5 +1,5 @@
-import ol from 'openlayers'
-import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
+import ol from 'ol'
+import { VectorLayer } from 'guide4you/src/layers/VectorLayer'
 
 /**
  * @typedef {Object} SearchViewOptions

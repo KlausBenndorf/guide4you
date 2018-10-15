@@ -13,15 +13,15 @@
  * @property {string} [ghostentry] text to be seen in the dropdown if the autocomplete or search didn't find
  * @property {string} [deactivateMobileSearch='exactResult']  other possible values are 'never' and 'anyResult'
  */
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
-import {addTooltip} from 'guide4you/src/html/html'
-import {Dropdown} from 'guide4you/src/html/Dropdown'
-import {keyCodes} from 'guide4you/src/globals'
-import {html2Text} from 'guide4you/src/utilities'
-import {Control} from 'guide4you/src/controls/Control'
-import {SearchView} from './SearchView'
+import { addTooltip } from 'guide4you/src/html/html'
+import { Dropdown } from 'guide4you/src/html/Dropdown'
+import { keyCodes } from 'guide4you/src/globals'
+import { html2Text } from 'guide4you/src/utilities'
+import { Control } from 'guide4you/src/controls/Control'
+import { SearchView } from './SearchView'
 
 import 'polyfill!Element.prototype.placeholder'
 

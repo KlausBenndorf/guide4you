@@ -1,11 +1,11 @@
-import {By, until} from 'selenium-webdriver'
+import { By, until } from 'selenium-webdriver'
 import phantomDriver from 'guide4you/tests/customPhantomDriver'
-import {describe, before, after, it} from 'selenium-webdriver/testing/'
+import { describe, before, after, it } from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert'
 
 import config from './config.js'
 
-import {waitUntilMapReady} from 'guide4you/tests/testUtils'
+import { waitUntilMapReady } from 'guide4you/tests/testUtils'
 
 describe('Search', function () {
   let driver
