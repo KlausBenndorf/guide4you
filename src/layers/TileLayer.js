@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 
 import {LayerLoadProcessCountMixin} from './LayerLoadProcessCountMixin'
 import { mixin } from '../utilities'

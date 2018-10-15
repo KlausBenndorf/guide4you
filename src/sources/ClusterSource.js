@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import { Debug } from '../Debug'
 
 export class ClusterSource extends ol.source.Cluster {

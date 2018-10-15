@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
 import {BaseLayerImage, ImageLayer} from '../layers/ImageLayer'
