@@ -1,6 +1,6 @@
 import ol from 'ol'
 
-import {BaseLayerImage} from './ImageLayer'
+import { BaseLayerImage } from './ImageLayer'
 
 export class EmptyBaseLayer extends BaseLayerImage {
   /**

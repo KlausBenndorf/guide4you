@@ -1,4 +1,4 @@
-import {SourceServerVector} from './SourceServerVector'
+import { SourceServerVector } from './SourceServerVector'
 
 /**
  * @typedef {SourceServerVectorOptions} QuerySourceOptions

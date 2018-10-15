@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import {cssClasses} from '../globals'
+import { cssClasses } from '../globals'
 
 /**
  * This class contains logic which should be part of any Control in the Software. Any custom controls

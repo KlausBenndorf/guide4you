@@ -2,9 +2,9 @@ import ol from 'ol'
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
 
-import {ListenerOrganizerMixin} from './ListenerOrganizerMixin'
-import {Window} from './html/Window'
-import {cssClasses} from './globals'
+import { ListenerOrganizerMixin } from './ListenerOrganizerMixin'
+import { Window } from './html/Window'
+import { cssClasses } from './globals'
 import { finishAllImages, mixin } from './utilities'
 
 import '../less/featurepopup.less'

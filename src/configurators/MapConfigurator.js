@@ -2,16 +2,16 @@ import ol from 'ol'
 import $ from 'jquery'
 import proj4 from 'proj4/dist/proj4'
 
-import {Styling} from '../Styling'
-import {LayerConfigurator} from './LayerConfigurator'
-import {UIConfigurator} from './UIConfigurator'
+import { Styling } from '../Styling'
+import { LayerConfigurator } from './LayerConfigurator'
+import { UIConfigurator } from './UIConfigurator'
 
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
 
-import {API} from '../API'
+import { API } from '../API'
 
-import {Debug} from '../Debug'
+import { Debug } from '../Debug'
 
 /**
  * @typedef {Object} MapConfig

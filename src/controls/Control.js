@@ -1,6 +1,6 @@
 import ol from 'ol'
 import { mixin } from '../utilities'
-import {ControlLogicMixin} from './ControlLogicMixin'
+import { ControlLogicMixin } from './ControlLogicMixin'
 
 /**
  * @typedef {object} g4uControlOptions

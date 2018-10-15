@@ -3,16 +3,16 @@ import $ from 'jquery'
 
 import stripJsonComments from 'strip-json-comments'
 
-import {MapConfigurator} from './configurators/MapConfigurator'
+import { MapConfigurator } from './configurators/MapConfigurator'
 import './openlayersInjections'
-import {L10N} from './L10N'
+import { L10N } from './L10N'
 
-import {mergeWithDefaults} from './utilitiesObject'
-import {cssClasses} from './globals'
+import { mergeWithDefaults } from './utilitiesObject'
+import { cssClasses } from './globals'
 
-import {defaults} from './defaultconfig'
+import { defaults } from './defaultconfig'
 
-import {Debug} from './Debug'
+import { Debug } from './Debug'
 
 import '../less/map.less'
 import { getRegisteredModules } from './moduleRegistration'

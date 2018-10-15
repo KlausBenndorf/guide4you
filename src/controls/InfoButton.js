@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import { Attribution } from './Attribution'
-import {Control} from './Control'
+import { Control } from './Control'
 
 import '../../less/infobutton.less'
 import { URL } from '../URLHelper'

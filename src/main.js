@@ -5,8 +5,8 @@ import '../images/g4u-logo.png'
 
 import 'polyfill!requestAnimationFrame,cancelAnimationFrame,Element.prototype.classList,URL'
 
-import {G4UMap} from './G4UMap'
-import {Debug} from './Debug'
+import { G4UMap } from './G4UMap'
+import { Debug } from './Debug'
 
 window.jQuery = window.jQuery || $
 

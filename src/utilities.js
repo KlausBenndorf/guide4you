@@ -10,7 +10,7 @@ import 'polyfill!Object.getOwnPropertyNames'
 import 'polyfill!Object.getOwnPropertyDescriptor'
 import 'polyfill!Object.getPrototypeOf'
 
-import {Debug} from './Debug'
+import { Debug } from './Debug'
 
 /**
  * Checks whether an argument can be interpreted as an even integer

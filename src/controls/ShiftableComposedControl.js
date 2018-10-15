@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import {ComposedControl} from './ComposedControl'
+import { ComposedControl } from './ComposedControl'
 import { cssClasses } from '../globals'
 
 /**

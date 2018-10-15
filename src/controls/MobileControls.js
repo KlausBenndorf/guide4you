@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
-import {ShiftableComposedControl} from './ShiftableComposedControl'
-import {WindowDecorator} from './WindowDecorator'
+import { ShiftableComposedControl } from './ShiftableComposedControl'
+import { WindowDecorator } from './WindowDecorator'
 
 import '../../less/mobilecontrols.less'
 

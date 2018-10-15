@@ -2,7 +2,7 @@ import ol from 'ol'
 import $ from 'jquery'
 
 import { copy, take } from '../utilitiesObject'
-import {Debug} from '../Debug'
+import { Debug } from '../Debug'
 
 /**
  * @typedef {olx.source.VectorOptions} SourceServerVectorOptions

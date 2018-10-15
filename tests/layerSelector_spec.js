@@ -1,9 +1,9 @@
-import {By, until} from 'selenium-webdriver'
+import { By, until } from 'selenium-webdriver'
 import phantomDriver from './customPhantomDriver'
-import {describe, before, after, it} from 'selenium-webdriver/testing/'
+import { describe, before, after, it } from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
 import config from './config.js'
-import {executeFunctionInPage, waitUntilMapReady} from './testUtils'
+import { executeFunctionInPage, waitUntilMapReady } from './testUtils'
 
 // globals in browser
 var map

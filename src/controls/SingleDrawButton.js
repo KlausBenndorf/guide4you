@@ -1,9 +1,9 @@
 import ol from 'ol'
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { cssClasses, keyCodes } from '../globals'
-import {VectorLayer} from '../layers/VectorLayer'
+import { VectorLayer } from '../layers/VectorLayer'
 
 import '../../less/singledrawbutton.less'
 import { mixin } from '../utilities'
