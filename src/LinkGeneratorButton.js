@@ -1,12 +1,12 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
-import {Control} from 'guide4you/src/controls/Control'
-import {cssClasses} from 'guide4you/src/globals'
-import {Debug} from 'guide4you/src/Debug'
+import { Control } from 'guide4you/src/controls/Control'
+import { cssClasses } from 'guide4you/src/globals'
+import { Debug } from 'guide4you/src/Debug'
 
 import '../less/linkgeneratorbutton.less'
-import {filterText, restoreText} from 'guide4you/src/xssprotection'
+import { filterText, restoreText } from 'guide4you/src/xssprotection'
 
 /**
  * @typedef {g4uControlOptions} LinkGeneratorButtonOptions

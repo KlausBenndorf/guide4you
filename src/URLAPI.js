@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import {Debug} from 'guide4you/src/Debug'
+import { Debug } from 'guide4you/src/Debug'
 import { Query } from './Query'
 
 import { availableLayersParam } from './handling/availableLayers'

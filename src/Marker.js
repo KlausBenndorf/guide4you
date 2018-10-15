@@ -1,6 +1,6 @@
-import ol from 'openlayers'
+import ol from 'ol'
 
-import {VectorLayer} from 'guide4you/src/layers/VectorLayer'
+import { VectorLayer } from 'guide4you/src/layers/VectorLayer'
 
 /**
  * @typedef {object} MarkerOptions
@@ -56,7 +56,7 @@ export class Marker {
        * @private
        */
       this.vectorLayer_ = new VectorLayer({
-        source: new ol.source.Vector({features: [this.feature_]}),
+        source: new ol.source.Vector({ features: [this.feature_] }),
         visible: false
       })
 

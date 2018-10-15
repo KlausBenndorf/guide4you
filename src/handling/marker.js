@@ -1,6 +1,6 @@
-import ol from 'openlayers'
-import {Debug} from 'guide4you/src/Debug'
-import {restoreText} from 'guide4you/src/xssprotection'
+import ol from 'ol'
+import { Debug } from 'guide4you/src/Debug'
+import { restoreText } from 'guide4you/src/xssprotection'
 
 /**
  * @type {URLParameter}

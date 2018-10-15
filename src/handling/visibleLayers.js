@@ -1,4 +1,4 @@
-import {GroupLayer} from 'guide4you/src/layers/GroupLayer'
+import { GroupLayer } from 'guide4you/src/layers/GroupLayer'
 
 /**
  * @type {URLParameter}

@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-import {Control} from 'guide4you/src/controls/Control'
+import { Control } from 'guide4you/src/controls/Control'
 
 import '../less/closewindowbutton.less'
 

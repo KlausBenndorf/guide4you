@@ -1,13 +1,13 @@
-import {getConfig} from 'guide4you/src/utilities'
+import { getConfig } from 'guide4you/src/utilities'
 
-import {Module} from 'guide4you/src/Module'
-import {URLAPI} from './URLAPI'
-import {Marker} from './Marker'
+import { Module } from 'guide4you/src/Module'
+import { URLAPI } from './URLAPI'
+import { Marker } from './Marker'
 
-import {WindowDecorator} from 'guide4you/src/controls/WindowDecorator'
-import {LinkGeneratorButton} from './LinkGeneratorButton'
-import {LinkGenerator} from './LinkGenerator'
-import {CloseWindowButton} from './CloseWindowButton'
+import { WindowDecorator } from 'guide4you/src/controls/WindowDecorator'
+import { LinkGeneratorButton } from './LinkGeneratorButton'
+import { LinkGenerator } from './LinkGenerator'
+import { CloseWindowButton } from './CloseWindowButton'
 
 /**
  * The URLAPI module provides a possibility to control the map with various parameters from the URL. this contains a
