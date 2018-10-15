@@ -5,7 +5,7 @@ import { uniq } from 'lodash/array'
 import { debounce } from 'lodash/function'
 import { mixin } from './utilities'
 
-import ol from 'openlayers'
+import ol from 'ol'
 
 function groupByChain (col) {
   return {

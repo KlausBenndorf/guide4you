@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 
 import { GroupLayer } from '../layers/GroupLayer'
 import { copyDeep } from '../utilitiesObject'

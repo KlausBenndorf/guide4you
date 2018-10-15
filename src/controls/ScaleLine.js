@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import {mixin} from '../utilities'
 import {RewireMixin} from './RewireMixin'
 

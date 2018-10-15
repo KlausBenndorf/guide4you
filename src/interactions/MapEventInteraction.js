@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
 export class MapEventInteraction extends ol.interaction.Interaction {

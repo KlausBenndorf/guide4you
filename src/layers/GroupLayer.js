@@ -1,4 +1,4 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import {ProvideMapMixin} from './ProvideMapMixin'
 import {mixin} from '../utilities'
 

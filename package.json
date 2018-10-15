@@ -21,7 +21,7 @@
   },
   "peerDependencies": {
     "jquery": "3.3.1",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2"
+    "ol": "github:KlausBenndorf/ol3#g4u3_v5.2.0"
   },
   "dependencies": {
     "better-scroll": "1.12.1",
@@ -37,19 +37,19 @@
     "esdoc": "^1.1.0",
     "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^5.1.0",
-    "guide4you-builder": "3.2.2",
+    "guide4you-builder": "3.4.0",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "^0.11.1",
     "jquery": "3.3.1",
     "mocha": "^5.2.0",
-    "openlayers": "github:KlausBenndorf/ol3#g4u3_v5.0.2",
+    "ol": "github:KlausBenndorf/ol3#g4u3_v5.2.0",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
     "eslint-config-standard": "^11.0.0",
     "wait-on": "^2.1.0"
   },
   "scripts": {
-    "dist": "g4u-build -c conf/dist/webpack.dist.js",
+    "dist": "rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js",
     "dev:simple": "cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js",
     "prod:simple": "rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js",
     "debug:simple": "rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js",
@@ -59,14 +59,12 @@
     "lint": "eslint src/ tests/",
     "version": "(npm run test && npm run doc && git add -A) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
-    "buildTests": "concurrently \"g4u-buildTests\" \"npm run dist\"",
+    "buildTests": "concurrently \"g4u-buildTests tests\" \"npm run dist\"",
     "runTests": " concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
     "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
-    "doc": "esdoc -c esdoc.json",
-    "typing": "jsdoc -t node_modules/tsd-jsdoc -r conf/dist/entry.js src/ -d dist/"
+    "doc": "esdoc -c esdoc.json"
   },
   "main": "./dist/g4u.js",
   "module": "./config/dist/entry.js",
-  "types": "./dist/g4u.d.ts",
-  "false": {}
+  "types": "./dist/g4u.d.ts"
 }
