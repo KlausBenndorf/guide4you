@@ -1,6 +1,6 @@
 {
   "name": "guide4you-module-search-guide4you-server",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "A G4U Server search parser module for Guide4You.",
   "keywords": [
     "search",
