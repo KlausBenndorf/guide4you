@@ -1,16 +1,13 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
-import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
+import { SearchConnector } from 'guide4you-module-search/src/SearchConnector'
 
 export class G4UServerSearchConnector extends SearchConnector {
-
   constructor (options) {
     super(options)
-
     this.serviceURL.url += '/Search/{searchstring}'
-
-    this.format_ = new ol.format.KML({showPointNames: false})
+    this.format_ = new ol.format.KML({ showPointNames: false })
   }
 
   getAutoComplete (input) {
@@ -48,8 +45,8 @@ export class G4UServerSearchConnector extends SearchConnector {
           resolve(SearchConnector.flipTuples(features.map(f => [f.get('extra'), f])))
         },
         error: (jqXHR, textStatus) => {
-          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${finalUrl})`)
+          reject(new Error(`Problem getting search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
+            `(SearchURL: ${finalUrl})`))
         },
         headers: {
           'Accept-Language': this.localiser.getCurrentLang()

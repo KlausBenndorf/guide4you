@@ -1,7 +1,7 @@
-import ol from 'openlayers'
+import ol from 'ol'
 import $ from 'jquery'
 
-import {SearchConnector} from 'guide4you-module-search/src/SearchConnector'
+import { SearchConnector } from 'guide4you-module-search/src/SearchConnector'
 
 export class G4USearchV2Connector extends SearchConnector {
   constructor (options) {
@@ -28,6 +28,11 @@ export class G4USearchV2Connector extends SearchConnector {
     super.setMap(map)
   }
 
+  errorText_ (textStatus, responseText, finalUrl) {
+    return `Problem getting search results from the Server: ${textStatus} - ${responseText} ` +
+      `(SearchURL: ${finalUrl})`
+  }
+
   getAutoComplete (input) {
     return new Promise((resolve, reject) => {
       let finalUrl = this.autocompleteUrl_.clone().expandTemplate('searchstring', input).finalize()
@@ -40,8 +45,7 @@ export class G4USearchV2Connector extends SearchConnector {
           resolve(SearchConnector.flipTuples(results.map(r => [r.name, r.name])))
         },
         error: (jqXHR, textStatus) => {
-          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${finalUrl})`)
+          reject(new Error(this.errorText_(textStatus, jqXHR.responseText, finalUrl)))
         }
       })
     })
@@ -60,8 +64,7 @@ export class G4USearchV2Connector extends SearchConnector {
           resolve(SearchConnector.flipTuples(features.map(f => [f.get('name'), f])))
         },
         error: (jqXHR, textStatus) => {
-          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${finalUrl})`)
+          reject(new Error(this.errorText_(textStatus, jqXHR.responseText, finalUrl)))
         },
         headers: {
           'Accept-Language': this.localiser.getCurrentLang()
@@ -82,8 +85,7 @@ export class G4USearchV2Connector extends SearchConnector {
           resolve(this.readFeature_(results[0]))
         },
         error: (jqXHR, textStatus) => {
-          reject(`Problem while trying to get search results from the Server: ${textStatus} - ${jqXHR.responseText} ` +
-            `(SearchURL: ${finalUrl})`)
+          reject(new Error(this.errorText_(textStatus, jqXHR.responseText, finalUrl)))
         },
         headers: {
           'Accept-Language': this.localiser.getCurrentLang()
@@ -141,5 +143,4 @@ export class G4USearchV2Connector extends SearchConnector {
       return JSON.parse(text)
     }
   }
-
 }
