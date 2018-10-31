@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -307,6 +307,21 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
           findContainedControls(this.configControls_.mobileControls.contains)
         }
       }
+
+      if (documentationLocalized.hasOwnProperty(&apos;help-header&apos;) &amp;&amp; documentationLocalized[&apos;help-header&apos;]) {
+        descrData = documentationLocalized[&apos;help-header&apos;].descr || &apos;&apos;
+        joinWith = documentationLocalized[&apos;help-header&apos;].joinWith || &apos;&apos;
+        $row = $(&apos;&lt;tr&gt;&apos;).addClass(this.className_ + &apos;-header&apos;)
+        $td = $(&apos;&lt;td&gt;&apos;).addClass(this.className_ + &apos;-descr&apos;).attr(&apos;colspan&apos;, 2)
+        if ($.isArray(descrData)) {
+          $td.append(descrData.join(&apos;&lt;p&gt;&apos;))
+        } else {
+          $td.append(descrData)
+        }
+        $row.append($td)
+        $table.append($row)
+      }
+
       for (id in documentationLocalized) {
         if (documentationLocalized.hasOwnProperty(id) &amp;&amp; documentationLocalized[id]) {
           imgData = documentationLocalized[id].img
@@ -337,8 +352,8 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
               $td.append(descrData)
             }
             $row.append($td)
+            $table.append($row)
           }
-          $table.append($row)
         }
       }
       return $table
@@ -367,7 +382,7 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
         if (!this.contentData_) {
           this.loading_ = true
 
-          $.ajax(this.documentationFileName_, {dataType: &apos;text&apos;})
+          $.ajax(this.documentationFileName_, { dataType: &apos;text&apos; })
             .fail(() =&gt; {
               let msg = &apos;Wasn\&apos;t able to load the documentation file &apos; + this.documentationFileName_
               Debug.error(msg)

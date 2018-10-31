@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -632,7 +632,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       let yLength = this.padding_
       let $elem = corner.control.get$Element()
 
-      $elem.removeClass(cssClasses.hidden).css({[x]: xLength, [y]: yLength})
+      $elem.removeClass(cssClasses.hidden).css({ [x]: xLength, [y]: yLength })
 
       xLength += $elem.outerWidth() + this.spacing_
       yLength += $elem.outerHeight() + this.spacing_
@@ -657,7 +657,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       for (let elem of this.corners_[x][y][xDirection]
         .filter(el =&gt; Positioning.isElemVisible_(el) &amp;&amp; el !== corner)) {
         $elem = elem.control.get$Element()
-        $elem.css({[x]: xLength, [y]: this.padding_})
+        $elem.css({ [x]: xLength, [y]: this.padding_ })
         xLength += $elem.outerWidth() + this.spacing_
       }
 
@@ -665,7 +665,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       for (let elem of this.corners_[x][y][yDirection]
         .filter(el =&gt; Positioning.isElemVisible_(el) &amp;&amp; el !== corner)) {
         $elem = elem.control.get$Element()
-        $elem.css({[x]: this.padding_, [y]: yLength})
+        $elem.css({ [x]: this.padding_, [y]: yLength })
         yLength += $elem.outerHeight() + this.spacing_
       }
     }
@@ -819,7 +819,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   measureExpandedElement_ (elem) {
     // let expanded = this.expandElement_(elem)
     let $elem = elem.control.get$Element()
-    let size = {width: $elem.outerWidth(), height: $elem.outerHeight()}
+    let size = { width: $elem.outerWidth(), height: $elem.outerHeight() }
     // for (let exp of expanded) {
     //   exp.setCollapsed(true, true)
     // }
