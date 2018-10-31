@@ -97,13 +97,13 @@ export class Marker {
 
     if (featurePopup) {
       if (visible === true) {
-        featurePopup.setFeature(this.feature_)
+        featurePopup.setFeature(this.feature_, this.vectorLayer_.getStyle())
         featurePopup.setVisible(true)
       } else {
         featurePopup.setVisible(false)
       }
 
-      featurePopup.update()
+      // featurePopup.update()
     }
   }
 
