@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -210,10 +210,12 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
 import $ from &apos;jquery&apos;
 import flatten from &apos;lodash/flatten&apos;
+import isFunction from &apos;lodash/isFunction&apos;
+import isArray from &apos;lodash/isArray&apos;
 
-import {ListenerOrganizerMixin} from &apos;./ListenerOrganizerMixin&apos;
-import {Window} from &apos;./html/Window&apos;
-import {cssClasses} from &apos;./globals&apos;
+import { ListenerOrganizerMixin } from &apos;./ListenerOrganizerMixin&apos;
+import { Window } from &apos;./html/Window&apos;
+import { cssClasses } from &apos;./globals&apos;
 import { finishAllImages, mixin } from &apos;./utilities&apos;
 
 import &apos;../less/featurepopup.less&apos;
@@ -367,8 +369,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     if (feature.get(&apos;features&apos;) &amp;&amp; feature.get(&apos;features&apos;).length === 1) {
       feature = feature.get(&apos;features&apos;)[0]
     }
-    return !feature.get(&apos;disabled&apos;) &amp;&amp;
-      (feature.get(&apos;name&apos;) || (feature.get(&apos;description&apos;) &amp;&amp; $(feature.get(&apos;description&apos;)).text().match(/\S/)))
+    return !feature.get(&apos;disabled&apos;) &amp;&amp; (feature.get(&apos;name&apos;) ||
+      (feature.get(&apos;description&apos;) &amp;&amp; $(&apos;&lt;span&gt;&apos;).html(feature.get(&apos;description&apos;)).text().match(/\S/)))
   }
 
   /**
@@ -395,23 +397,21 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
       // feature click
 
-      this.listenAt(map.getDefaultInteractions(&apos;singleclick&apos;)[ 0 ]).on(&apos;select&apos;, e =&gt; {
-        let selected = e.selected.filter(FeaturePopup.canDisplay)
-        if (selected.length) {
-          this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
-          e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
-          e.target.changed()
+      this.listenAt(map.getDefaultInteractions(&apos;singleclick&apos;)[ 0 ]).on(&apos;interaction&apos;, e =&gt; {
+        let interacted = e.interacted.filter(({ feature }) =&gt; FeaturePopup.canDisplay(feature))
+        if (interacted.length) {
+          const { feature, layer } = interacted[0]
+          this.onFeatureClick_(feature, layer, e.coordinate)
         }
       })
 
       // feature hover
 
-      this.listenAt(map.getDefaultInteractions(&apos;pointermove&apos;)[ 0 ]).on(&apos;select&apos;, e =&gt; {
-        let selected = e.selected.filter(FeaturePopup.canDisplay)
-        let deselected = e.deselected.filter(FeaturePopup.canDisplay)
-        if (selected.length) {
+      this.listenAt(map.getDefaultInteractions(&apos;pointermove&apos;)[ 0 ]).on(&apos;interaction&apos;, e =&gt; {
+        const interacted = e.interacted.filter(({ feature }) =&gt; FeaturePopup.canDisplay(feature))
+        if (interacted.length) {
           $(map.getViewport()).addClass(cssClasses.clickable)
-        } else if (deselected.length) {
+        } else {
           $(map.getViewport()).removeClass(cssClasses.clickable)
         }
       })
@@ -505,10 +505,11 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
   /**
    * @param {ol.Feature} feature
+   * @param {ol.layer.Vector} layer
    * @param {ol.Coordinate} coordinate
    * @private
    */
-  onFeatureClick_ (feature, coordinate = null) {
+  onFeatureClick_ (feature, layer, coordinate = null) {
     if (feature.get(&apos;features&apos;)) {
       feature = feature.get(&apos;features&apos;)[0]
     }
@@ -523,7 +524,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       }
     })
 
-    this.setFeature(feature, coordinate)
+    this.setFeature(feature, feature.getStyle() || layer.getStyle(), coordinate)
     this.setVisible(true)
 
     if (this.centerOnPopup_) {
@@ -598,7 +599,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * Update the Popup. Call this if something in the feature has changed
    */
-  update () {
+  update (style) {
     if (this.getFeature()) {
       const feature = this.getFeature()
 
@@ -622,7 +623,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       if (!this.getMap().get(&apos;mobile&apos;)) {
         let resolution = this.getMap().getView().getResolution()
 
-        this.addIconSizedOffset(this.getFeature(), resolution)
+        this.addIconSizedOffset(this.getFeature(), style, resolution)
       }
 
       for (let layer of this.referencingVisibleLayers_) {
@@ -648,13 +649,18 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * The feature should have a property &apos;name&apos; and/or &apos;description&apos; to be shown inside of the popup.
    * @param {ol.Feature} feature
-   * @param {ol.Coordinate} coordinate
+   * @param {ol.style.StyleLike} style
+   * @param {ol.Coordinate} clickCoordinate
    * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, coordinate = null, optPopupModifiers = []) {
+  setFeature (feature, style, clickCoordinate = null, optPopupModifiers = []) {
     let oldValue = this.feature_
     if (feature) {
-      this.overlay_.setPosition(coordinate || ol.extent.getCenter(feature.getGeometry().getExtent()))
+      let coordinate = clickCoordinate
+      if (feature.getGeometry() instanceof ol.geom.Point || !clickCoordinate) {
+        coordinate = ol.extent.getCenter(feature.getGeometry().getExtent())
+      }
+      this.overlay_.setPosition(coordinate)
     }
 
     if (oldValue !== feature) {
@@ -667,9 +673,13 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get(&apos;popupModifiers&apos;)))
       }
       this.geometryChangeHandler_ = () =&gt; {
-        this.overlay_.setPosition(coordinate || ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
+        let coordinate = clickCoordinate
+        if (feature.getGeometry() instanceof ol.geom.Point || !clickCoordinate) {
+          coordinate = ol.extent.getCenter(feature.getGeometry().getExtent())
+        }
+        this.overlay_.setPosition(coordinate)
         if (this.getVisible()) {
-          this.update()
+          this.update(style)
         }
       }
       this.feature_.on(&apos;change:geometry&apos;, this.geometryChangeHandler_)
@@ -679,7 +689,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         key: &apos;feature&apos;
       })
 
-      this.update()
+      this.update(style)
     }
   }
 
@@ -724,11 +734,15 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    * @param {number} resolution
    */
 
-  addIconSizedOffset (feature, resolution) {
+  addIconSizedOffset (feature, style, resolution) {
     if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
-      let featureStyleFunction = feature.getStyleFunction()
-      if (featureStyleFunction) {
-        let style = featureStyleFunction(feature, resolution)[ 0 ]
+      if (style) {
+        if (isFunction(style)) {
+          style = style(feature, resolution)
+        }
+        if (isArray(style)) {
+          style = style[ 0 ]
+        }
         if (style) {
           let imageStyle = style.getImage()
           if (imageStyle instanceof ol.style.Icon) {

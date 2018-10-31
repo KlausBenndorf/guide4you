@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -210,11 +210,11 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
 import $ from &apos;jquery&apos;
 
-import {Control} from &apos;./Control&apos;
+import { Control } from &apos;./Control&apos;
 import { addTooltip } from &apos;../html/html&apos;
-import {VectorLayer} from &apos;../layers/VectorLayer&apos;
-import {MessageDisplay} from &apos;../MessageDisplay&apos;
-import {cssClasses} from &apos;../globals&apos;
+import { VectorLayer } from &apos;../layers/VectorLayer&apos;
+import { MessageDisplay } from &apos;../MessageDisplay&apos;
+import { cssClasses } from &apos;../globals&apos;
 
 import &apos;../../less/geolocation.less&apos;
 import { ActivatableMixin } from &apos;./ActivatableMixin&apos;
@@ -290,7 +290,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       } else {
         this.buttonMessageDisplay_.error(
           this.getLocaliser().localiseUsingDictionary(&apos;geolocation geolocation-not-possible&apos;),
-          this.getMap().get(&apos;mobile&apos;) ? {position: &apos;top middle&apos;} : {}
+          this.getMap().get(&apos;mobile&apos;) ? { position: &apos;top middle&apos; } : {}
         )
       }
     })
@@ -308,7 +308,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
     this.geolocation_.on(&apos;error&apos;, () =&gt; {
       this.buttonMessageDisplay_.error(
         this.getLocaliser().localiseUsingDictionary(&apos;geolocation geolocation-not-possible&apos;),
-        this.getMap().get(&apos;mobile&apos;) ? {position: &apos;top middle&apos;} : {}
+        this.getMap().get(&apos;mobile&apos;) ? { position: &apos;top middle&apos; } : {}
       )
       this.setActive(false)
     })
@@ -330,7 +330,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       let projection = map.getView().getProjection()
       this.geolocation_.setProjection(projection)
 
-      let layerOptions = {source: new ol.source.Vector({projection: projection}), visible: true}
+      let layerOptions = { source: new ol.source.Vector({ projection: projection }), visible: true }
       this.layer_ = new VectorLayer(layerOptions)
 
       this.layer_.setStyle(map.get(&apos;styling&apos;).getStyle(this.style_))
@@ -345,15 +345,15 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
     let source = this.layer_.getSource()
     source.clear()
     let position = this.geolocation_.getPosition()
-    source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
+    source.addFeature(new ol.Feature({ geometry: new ol.geom.Point(position) }))
 
     let circle = this.geolocation_.getAccuracyGeometry()
-    source.addFeature(new ol.Feature({geometry: circle}))
+    source.addFeature(new ol.Feature({ geometry: circle }))
     if (options.hasOwnProperty(&apos;initialRun&apos;) &amp;&amp; options.initialRun) {
-      this.getMap().get(&apos;move&apos;).toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
+      this.getMap().get(&apos;move&apos;).toExtent(circle.getExtent(), { animated: this.animated_, maxZoom: this.maxZoom_ })
     } else {
       if (this.animated_) {
-        this.getMap().getView().animate({&apos;center&apos;: position})
+        this.getMap().getView().animate({ &apos;center&apos;: position })
       } else {
         this.getMap().getView().setCenter(position)
       }
@@ -373,13 +373,13 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       this.geolocation_.setTracking(true)
       let position = this.geolocation_.getPosition()
       if (position) {
-        this.changeHandler_({&apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true})
+        this.changeHandler_({ &apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true })
         if (this.followLocation_) {
           this.listenAt(this.geolocation_).on(&apos;change&apos;, e =&gt; this.changeHandler_(e))
         }
       } else {
         this.listenAt(this.geolocation_).once(&apos;change&apos;, () =&gt; {
-          this.changeHandler_({&apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true})
+          this.changeHandler_({ &apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true })
           if (this.followLocation_) {
             this.listenAt(this.geolocation_).on(&apos;change&apos;, e =&gt; this.changeHandler_(e))
           }
@@ -390,30 +390,6 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       this.detachFrom(this.geolocation_, &apos;change&apos;)
       this.geolocation_.setTracking(false)
     }
-  }
-
-  /**
-   * Creates a circle around a given position with a given radius in meters in a desired projection
-   * @param {ol.Coordinate} position
-   * @param {ol.ProjectionLike} projection
-   * @param {number} meters
-   * @returns {ol.geom.Circle}
-   * @private
-   */
-  static makeCircle_ (position, projection, meters) {
-    // using assumption that earth is a sphere and that one degree in north/south direction
-    // on any point of the earth is 90/10000 km
-
-    let position4326 = ol.proj.transform(position, projection, &apos;EPSG:4326&apos;)
-
-    let secondPosition4326 = [position4326[0], position4326[1] +
-    meters / 1000 * 90 / 10000]
-
-    let secondPosition = ol.proj.transform(secondPosition4326, &apos;EPSG:4326&apos;, projection)
-
-    let radius = Math.abs(position[1] - secondPosition[1])
-
-    return new ol.geom.Circle(position, radius)
   }
 }
 </code></pre>

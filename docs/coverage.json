@@ -1,7 +1,7 @@
 {
-  "coverage": "74.56%",
-  "expectCount": 751,
-  "actualCount": 560,
+  "coverage": "73.67%",
+  "expectCount": 756,
+  "actualCount": 557,
   "files": {
     "src/Attributions.js": {
       "expectCount": 14,
@@ -127,8 +127,8 @@
       ]
     },
     "src/controls/GeoLocationButton.js": {
-      "expectCount": 14,
-      "actualCount": 10,
+      "expectCount": 13,
+      "actualCount": 9,
       "undocumentLines": [
         89,
         97,
@@ -142,8 +142,8 @@
       "undocumentLines": [
         50,
         56,
-        159,
-        168
+        174,
+        183
       ]
     },
     "src/controls/InfoButton.js": {
@@ -291,9 +291,9 @@
       "expectCount": 38,
       "actualCount": 35,
       "undocumentLines": [
-        357,
-        433,
-        460
+        358,
+        434,
+        466
       ]
     },
     "src/FeatureTooltip.js": {
@@ -376,17 +376,26 @@
         217
       ]
     },
-    "src/interactions/FeatureSelect.js": {
-      "expectCount": 2,
-      "actualCount": 2,
-      "undocumentLines": []
+    "src/interactions/FeatureInteraction.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        9,
+        12,
+        37,
+        44,
+        48
+      ]
     },
     "src/interactions/MapEventInteraction.js": {
-      "expectCount": 2,
+      "expectCount": 3,
       "actualCount": 0,
       "undocumentLines": [
         4,
-        5
+        5,
+        17
       ]
     },
     "src/L10N.js": {

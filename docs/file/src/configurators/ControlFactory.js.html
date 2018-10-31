@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -209,33 +209,33 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/configurators/ControlFactory.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
 
-import {Attribution} from &apos;../controls/Attribution&apos;
-import {ComposedControl} from &apos;../controls/ComposedControl&apos;
-import {ArrowButtons} from &apos;../controls/ArrowButtons&apos;
-import {CombinedZoom} from &apos;../controls/CombinedZoom&apos;
-import {LayerSelector} from &apos;../controls/LayerSelector&apos;
-import {GeolocationButton} from &apos;../controls/GeoLocationButton&apos;
-import {MeasurementButton} from &apos;../controls/MeasurementButton&apos;
-import {LanguageSwitcherButton} from &apos;../controls/LanguageSwitcherButton&apos;
-import {LanguageSwitcherMenu} from &apos;../controls/LanguageSwitcherMenu&apos;
-import {MobileControls} from &apos;../controls/MobileControls&apos;
-import {InfoButton} from &apos;../controls/InfoButton&apos;
-import {LinkButton} from &apos;../controls/LinkButton&apos;
-import {PrintButton} from &apos;../controls/PrintButton&apos;
-import {Logo} from &apos;../controls/Logo&apos;
-import {HelpButton} from &apos;../controls/HelpButton&apos;
-import {WindowDecorator} from &apos;../controls/WindowDecorator&apos;
+import { Attribution } from &apos;../controls/Attribution&apos;
+import { ComposedControl } from &apos;../controls/ComposedControl&apos;
+import { ArrowButtons } from &apos;../controls/ArrowButtons&apos;
+import { CombinedZoom } from &apos;../controls/CombinedZoom&apos;
+import { LayerSelector } from &apos;../controls/LayerSelector&apos;
+import { GeolocationButton } from &apos;../controls/GeoLocationButton&apos;
+import { MeasurementButton } from &apos;../controls/MeasurementButton&apos;
+import { LanguageSwitcherButton } from &apos;../controls/LanguageSwitcherButton&apos;
+import { LanguageSwitcherMenu } from &apos;../controls/LanguageSwitcherMenu&apos;
+import { MobileControls } from &apos;../controls/MobileControls&apos;
+import { InfoButton } from &apos;../controls/InfoButton&apos;
+import { LinkButton } from &apos;../controls/LinkButton&apos;
+import { PrintButton } from &apos;../controls/PrintButton&apos;
+import { Logo } from &apos;../controls/Logo&apos;
+import { HelpButton } from &apos;../controls/HelpButton&apos;
+import { WindowDecorator } from &apos;../controls/WindowDecorator&apos;
 
 import { asObject, checkFor } from &apos;../utilities&apos;
 import { copyDeep } from &apos;../utilitiesObject&apos;
 
-import {G4UMap} from &apos;../G4UMap&apos;
+import { G4UMap } from &apos;../G4UMap&apos;
 
-import {Debug} from &apos;../Debug&apos;
-import {ActiveGroup} from &apos;../controls/ActiveGroup&apos;
-import {MousePosition} from &apos;../controls/MousePosition&apos;
-import {ScaleLine} from &apos;../controls/ScaleLine&apos;
-import {OverviewMap} from &apos;../controls/OverviewMap&apos;
+import { Debug } from &apos;../Debug&apos;
+import { ActiveGroup } from &apos;../controls/ActiveGroup&apos;
+import { MousePosition } from &apos;../controls/MousePosition&apos;
+import { ScaleLine } from &apos;../controls/ScaleLine&apos;
+import { OverviewMap } from &apos;../controls/OverviewMap&apos;
 import { SingleDrawButton } from &apos;../controls/SingleDrawButton&apos;
 
 /**
@@ -350,7 +350,7 @@ export class ControlFactory {
         return new MobileControls(options)
       case &apos;overviewMap&apos;:
         let projection = options.projection || this.map_.get(&apos;mapProjection&apos;)
-        options.view = new ol.View({projection: projection})
+        options.view = new ol.View({ projection: projection })
         return new OverviewMap(options)
       case &apos;infoButton&apos;:
         return new WindowDecorator({

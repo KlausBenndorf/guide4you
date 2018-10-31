@@ -114,15 +114,15 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/featurepopup.js~featurepopup",
-    "class/src/FeaturePopup.js~FeaturePopup.html",
-    "<span>FeaturePopup</span> <span class=\"search-result-import-path\">guide4you/src/FeaturePopup.js</span>",
+    "guide4you/src/interactions/featureinteraction.js~featureinteraction",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html",
+    "<span>FeatureInteraction</span> <span class=\"search-result-import-path\">guide4you/src/interactions/FeatureInteraction.js</span>",
     "class"
   ],
   [
-    "guide4you/src/interactions/featureselect.js~featureselect",
-    "class/src/interactions/FeatureSelect.js~FeatureSelect.html",
-    "<span>FeatureSelect</span> <span class=\"search-result-import-path\">guide4you/src/interactions/FeatureSelect.js</span>",
+    "guide4you/src/featurepopup.js~featurepopup",
+    "class/src/FeaturePopup.js~FeaturePopup.html",
+    "<span>FeaturePopup</span> <span class=\"search-result-import-path\">guide4you/src/FeaturePopup.js</span>",
     "class"
   ],
   [
@@ -3306,12 +3306,6 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/controls/geolocationbutton.js~geolocationbutton.makecircle_",
-    "class/src/controls/GeoLocationButton.js~GeolocationButton.html#static-method-makeCircle_",
-    "src/controls/GeoLocationButton.js~GeolocationButton.makeCircle_",
-    "method"
-  ],
-  [
     "src/controls/helpbutton.js",
     "file/src/controls/HelpButton.js.html",
     "src/controls/HelpButton.js",
@@ -4890,15 +4884,45 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/interactions/featureselect.js",
-    "file/src/interactions/FeatureSelect.js.html",
-    "src/interactions/FeatureSelect.js",
+    "src/interactions/featureinteraction.js",
+    "file/src/interactions/FeatureInteraction.js.html",
+    "src/interactions/FeatureInteraction.js",
     "file"
   ],
   [
-    "src/interactions/featureselect.js~featureselect#constructor",
-    "class/src/interactions/FeatureSelect.js~FeatureSelect.html#instance-constructor-constructor",
-    "src/interactions/FeatureSelect.js~FeatureSelect#constructor",
+    "src/interactions/featureinteraction.js~featureinteraction#constructor",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-constructor-constructor",
+    "src/interactions/FeatureInteraction.js~FeatureInteraction#constructor",
+    "method"
+  ],
+  [
+    "src/interactions/featureinteraction.js~featureinteraction#gethittolerance",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-getHitTolerance",
+    "src/interactions/FeatureInteraction.js~FeatureInteraction#getHitTolerance",
+    "method"
+  ],
+  [
+    "src/interactions/featureinteraction.js~featureinteraction#handlemapevent",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-handleMapEvent",
+    "src/interactions/FeatureInteraction.js~FeatureInteraction#handleMapEvent",
+    "method"
+  ],
+  [
+    "src/interactions/featureinteraction.js~featureinteraction#hittolerance_",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-member-hitTolerance_",
+    "src/interactions/FeatureInteraction.js~FeatureInteraction#hitTolerance_",
+    "member"
+  ],
+  [
+    "src/interactions/featureinteraction.js~featureinteraction#sethittolerance",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-setHitTolerance",
+    "src/interactions/FeatureInteraction.js~FeatureInteraction#setHitTolerance",
+    "method"
+  ],
+  [
+    "src/interactions/featureinteraction.js~featureinteraction#triggeremptymapevent",
+    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-triggerEmptyMapEvent",
+    "src/interactions/FeatureInteraction.js~FeatureInteraction#triggerEmptyMapEvent",
     "method"
   ],
   [
@@ -4911,6 +4935,12 @@ window.esdocSearchIndex = [
     "src/interactions/mapeventinteraction.js~mapeventinteraction#constructor",
     "class/src/interactions/MapEventInteraction.js~MapEventInteraction.html#instance-constructor-constructor",
     "src/interactions/MapEventInteraction.js~MapEventInteraction#constructor",
+    "method"
+  ],
+  [
+    "src/interactions/mapeventinteraction.js~mapeventinteraction#handlemapevent",
+    "class/src/interactions/MapEventInteraction.js~MapEventInteraction.html#instance-method-handleMapEvent",
+    "src/interactions/MapEventInteraction.js~MapEventInteraction#handleMapEvent",
     "method"
   ],
   [

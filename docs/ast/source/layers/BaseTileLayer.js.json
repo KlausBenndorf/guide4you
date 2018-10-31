@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 186,
+  "end": 190,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 186,
+    "end": 190,
     "loc": {
       "start": {
         "line": 1,
@@ -31,7 +31,7 @@
       {
         "type": "ImportDeclaration",
         "start": 0,
-        "end": 37,
+        "end": 39,
         "loc": {
           "start": {
             "line": 1,
@@ -39,36 +39,36 @@
           },
           "end": {
             "line": 1,
-            "column": 37
+            "column": 39
           }
         },
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 8,
-            "end": 17,
+            "start": 9,
+            "end": 18,
             "loc": {
               "start": {
                 "line": 1,
-                "column": 8
+                "column": 9
               },
               "end": {
                 "line": 1,
-                "column": 17
+                "column": 18
               }
             },
             "imported": {
               "type": "Identifier",
-              "start": 8,
-              "end": 17,
+              "start": 9,
+              "end": 18,
               "loc": {
                 "start": {
                   "line": 1,
-                  "column": 8
+                  "column": 9
                 },
                 "end": {
                   "line": 1,
-                  "column": 17
+                  "column": 18
                 },
                 "identifierName": "TileLayer"
               },
@@ -76,16 +76,16 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 8,
-              "end": 17,
+              "start": 9,
+              "end": 18,
               "loc": {
                 "start": {
                   "line": 1,
-                  "column": 8
+                  "column": 9
                 },
                 "end": {
                   "line": 1,
-                  "column": 17
+                  "column": 18
                 },
                 "identifierName": "TileLayer"
               },
@@ -95,16 +95,16 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 24,
-          "end": 37,
+          "start": 26,
+          "end": 39,
           "loc": {
             "start": {
               "line": 1,
-              "column": 24
+              "column": 26
             },
             "end": {
               "line": 1,
-              "column": 37
+              "column": 39
             }
           },
           "extra": {
@@ -116,8 +116,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 38,
-        "end": 85,
+        "start": 40,
+        "end": 89,
         "loc": {
           "start": {
             "line": 2,
@@ -125,36 +125,36 @@
           },
           "end": {
             "line": 2,
-            "column": 47
+            "column": 49
           }
         },
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 46,
-            "end": 60,
+            "start": 49,
+            "end": 63,
             "loc": {
               "start": {
                 "line": 2,
-                "column": 8
+                "column": 9
               },
               "end": {
                 "line": 2,
-                "column": 22
+                "column": 23
               }
             },
             "imported": {
               "type": "Identifier",
-              "start": 46,
-              "end": 60,
+              "start": 49,
+              "end": 63,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 8
+                  "column": 9
                 },
                 "end": {
                   "line": 2,
-                  "column": 22
+                  "column": 23
                 },
                 "identifierName": "BaseLayerMixin"
               },
@@ -162,16 +162,16 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 46,
-              "end": 60,
+              "start": 49,
+              "end": 63,
               "loc": {
                 "start": {
                   "line": 2,
-                  "column": 8
+                  "column": 9
                 },
                 "end": {
                   "line": 2,
-                  "column": 22
+                  "column": 23
                 },
                 "identifierName": "BaseLayerMixin"
               },
@@ -181,16 +181,16 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 67,
-          "end": 85,
+          "start": 71,
+          "end": 89,
           "loc": {
             "start": {
               "line": 2,
-              "column": 29
+              "column": 31
             },
             "end": {
               "line": 2,
-              "column": 47
+              "column": 49
             }
           },
           "extra": {
@@ -202,8 +202,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 86,
-        "end": 122,
+        "start": 90,
+        "end": 126,
         "loc": {
           "start": {
             "line": 3,
@@ -217,8 +217,8 @@
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 95,
-            "end": 100,
+            "start": 99,
+            "end": 104,
             "loc": {
               "start": {
                 "line": 3,
@@ -231,8 +231,8 @@
             },
             "imported": {
               "type": "Identifier",
-              "start": 95,
-              "end": 100,
+              "start": 99,
+              "end": 104,
               "loc": {
                 "start": {
                   "line": 3,
@@ -248,8 +248,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 95,
-              "end": 100,
+              "start": 99,
+              "end": 104,
               "loc": {
                 "start": {
                   "line": 3,
@@ -267,8 +267,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 108,
-          "end": 122,
+          "start": 112,
+          "end": 126,
           "loc": {
             "start": {
               "line": 3,
@@ -288,8 +288,8 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 124,
-        "end": 185,
+        "start": 128,
+        "end": 189,
         "loc": {
           "start": {
             "line": 5,
@@ -304,8 +304,8 @@
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 131,
-          "end": 185,
+          "start": 135,
+          "end": 189,
           "loc": {
             "start": {
               "line": 5,
@@ -319,8 +319,8 @@
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 137,
-              "end": 185,
+              "start": 141,
+              "end": 189,
               "loc": {
                 "start": {
                   "line": 5,
@@ -333,8 +333,8 @@
               },
               "id": {
                 "type": "Identifier",
-                "start": 137,
-                "end": 150,
+                "start": 141,
+                "end": 154,
                 "loc": {
                   "start": {
                     "line": 5,
@@ -350,8 +350,8 @@
               },
               "init": {
                 "type": "CallExpression",
-                "start": 153,
-                "end": 185,
+                "start": 157,
+                "end": 189,
                 "loc": {
                   "start": {
                     "line": 5,
@@ -364,8 +364,8 @@
                 },
                 "callee": {
                   "type": "Identifier",
-                  "start": 153,
-                  "end": 158,
+                  "start": 157,
+                  "end": 162,
                   "loc": {
                     "start": {
                       "line": 5,
@@ -382,8 +382,8 @@
                 "arguments": [
                   {
                     "type": "Identifier",
-                    "start": 159,
-                    "end": 168,
+                    "start": 163,
+                    "end": 172,
                     "loc": {
                       "start": {
                         "line": 5,
@@ -399,8 +399,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 170,
-                    "end": 184,
+                    "start": 174,
+                    "end": 188,
                     "loc": {
                       "start": {
                         "line": 5,
@@ -494,16 +494,16 @@
         "binop": null
       },
       "value": "TileLayer",
-      "start": 8,
-      "end": 17,
+      "start": 9,
+      "end": 18,
       "loc": {
         "start": {
           "line": 1,
-          "column": 8
+          "column": 9
         },
         "end": {
           "line": 1,
-          "column": 17
+          "column": 18
         }
       }
     },
@@ -519,16 +519,16 @@
         "postfix": false,
         "binop": null
       },
-      "start": 17,
-      "end": 18,
+      "start": 19,
+      "end": 20,
       "loc": {
         "start": {
           "line": 1,
-          "column": 17
+          "column": 19
         },
         "end": {
           "line": 1,
-          "column": 18
+          "column": 20
         }
       }
     },
@@ -545,16 +545,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 19,
-      "end": 23,
+      "start": 21,
+      "end": 25,
       "loc": {
         "start": {
           "line": 1,
-          "column": 19
+          "column": 21
         },
         "end": {
           "line": 1,
-          "column": 23
+          "column": 25
         }
       }
     },
@@ -572,16 +572,16 @@
         "updateContext": null
       },
       "value": "./TileLayer",
-      "start": 24,
-      "end": 37,
+      "start": 26,
+      "end": 39,
       "loc": {
         "start": {
           "line": 1,
-          "column": 24
+          "column": 26
         },
         "end": {
           "line": 1,
-          "column": 37
+          "column": 39
         }
       }
     },
@@ -600,8 +600,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 38,
-      "end": 44,
+      "start": 40,
+      "end": 46,
       "loc": {
         "start": {
           "line": 2,
@@ -625,8 +625,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 45,
-      "end": 46,
+      "start": 47,
+      "end": 48,
       "loc": {
         "start": {
           "line": 2,
@@ -651,16 +651,16 @@
         "binop": null
       },
       "value": "BaseLayerMixin",
-      "start": 46,
-      "end": 60,
+      "start": 49,
+      "end": 63,
       "loc": {
         "start": {
           "line": 2,
-          "column": 8
+          "column": 9
         },
         "end": {
           "line": 2,
-          "column": 22
+          "column": 23
         }
       }
     },
@@ -676,16 +676,16 @@
         "postfix": false,
         "binop": null
       },
-      "start": 60,
-      "end": 61,
+      "start": 64,
+      "end": 65,
       "loc": {
         "start": {
           "line": 2,
-          "column": 22
+          "column": 24
         },
         "end": {
           "line": 2,
-          "column": 23
+          "column": 25
         }
       }
     },
@@ -702,16 +702,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 62,
-      "end": 66,
+      "start": 66,
+      "end": 70,
       "loc": {
         "start": {
           "line": 2,
-          "column": 24
+          "column": 26
         },
         "end": {
           "line": 2,
-          "column": 28
+          "column": 30
         }
       }
     },
@@ -729,16 +729,16 @@
         "updateContext": null
       },
       "value": "./BaseLayerMixin",
-      "start": 67,
-      "end": 85,
+      "start": 71,
+      "end": 89,
       "loc": {
         "start": {
           "line": 2,
-          "column": 29
+          "column": 31
         },
         "end": {
           "line": 2,
-          "column": 47
+          "column": 49
         }
       }
     },
@@ -757,8 +757,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 86,
-      "end": 92,
+      "start": 90,
+      "end": 96,
       "loc": {
         "start": {
           "line": 3,
@@ -782,8 +782,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 93,
-      "end": 94,
+      "start": 97,
+      "end": 98,
       "loc": {
         "start": {
           "line": 3,
@@ -808,8 +808,8 @@
         "binop": null
       },
       "value": "mixin",
-      "start": 95,
-      "end": 100,
+      "start": 99,
+      "end": 104,
       "loc": {
         "start": {
           "line": 3,
@@ -833,8 +833,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 101,
-      "end": 102,
+      "start": 105,
+      "end": 106,
       "loc": {
         "start": {
           "line": 3,
@@ -859,8 +859,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 103,
-      "end": 107,
+      "start": 107,
+      "end": 111,
       "loc": {
         "start": {
           "line": 3,
@@ -886,8 +886,8 @@
         "updateContext": null
       },
       "value": "../utilities",
-      "start": 108,
-      "end": 122,
+      "start": 112,
+      "end": 126,
       "loc": {
         "start": {
           "line": 3,
@@ -914,8 +914,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 124,
-      "end": 130,
+      "start": 128,
+      "end": 134,
       "loc": {
         "start": {
           "line": 5,
@@ -942,8 +942,8 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 131,
-      "end": 136,
+      "start": 135,
+      "end": 140,
       "loc": {
         "start": {
           "line": 5,
@@ -968,8 +968,8 @@
         "binop": null
       },
       "value": "BaseTileLayer",
-      "start": 137,
-      "end": 150,
+      "start": 141,
+      "end": 154,
       "loc": {
         "start": {
           "line": 5,
@@ -995,8 +995,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 151,
-      "end": 152,
+      "start": 155,
+      "end": 156,
       "loc": {
         "start": {
           "line": 5,
@@ -1021,8 +1021,8 @@
         "binop": null
       },
       "value": "mixin",
-      "start": 153,
-      "end": 158,
+      "start": 157,
+      "end": 162,
       "loc": {
         "start": {
           "line": 5,
@@ -1046,8 +1046,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 158,
-      "end": 159,
+      "start": 162,
+      "end": 163,
       "loc": {
         "start": {
           "line": 5,
@@ -1072,8 +1072,8 @@
         "binop": null
       },
       "value": "TileLayer",
-      "start": 159,
-      "end": 168,
+      "start": 163,
+      "end": 172,
       "loc": {
         "start": {
           "line": 5,
@@ -1098,8 +1098,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 168,
-      "end": 169,
+      "start": 172,
+      "end": 173,
       "loc": {
         "start": {
           "line": 5,
@@ -1124,8 +1124,8 @@
         "binop": null
       },
       "value": "BaseLayerMixin",
-      "start": 170,
-      "end": 184,
+      "start": 174,
+      "end": 188,
       "loc": {
         "start": {
           "line": 5,
@@ -1149,8 +1149,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 184,
-      "end": 185,
+      "start": 188,
+      "end": 189,
       "loc": {
         "start": {
           "line": 5,
@@ -1175,8 +1175,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 186,
-      "end": 186,
+      "start": 190,
+      "end": 190,
       "loc": {
         "start": {
           "line": 6,

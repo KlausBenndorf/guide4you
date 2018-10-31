@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "name": "FeaturePopup#addIconSizedOffset",
+    "filePath": "src/FeaturePopup.js",
+    "lines": [
+      {
+        "lineNumber": 521,
+        "line": "  /**"
+      },
+      {
+        "lineNumber": 522,
+        "line": "   * calculates iconSized Offset and applies it"
+      },
+      {
+        "lineNumber": 523,
+        "line": "   * @param {ol.Feature} feature"
+      },
+      {
+        "lineNumber": 524,
+        "line": "   * @param {number} resolution"
+      },
+      {
+        "lineNumber": 525,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 526,
+        "line": ""
+      },
+      {
+        "lineNumber": 527,
+        "line": "  addIconSizedOffset (feature, style, resolution) {"
+      }
+    ],
+    "codeParams": [
+      "feature",
+      "style",
+      "resolution"
+    ],
+    "docParams": [
+      "feature",
+      "resolution"
+    ]
+  }
+]

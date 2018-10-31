@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -210,13 +210,13 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
 import $ from &apos;jquery&apos;
 
-import {ComposedControl} from &apos;./ComposedControl&apos;
+import { ComposedControl } from &apos;./ComposedControl&apos;
 import { cssClasses } from &apos;../globals&apos;
 import { copy } from &apos;../utilitiesObject&apos;
 
 import &apos;../../less/zoom.less&apos;
-import {mixin} from &apos;../utilities&apos;
-import {RewireMixin} from &apos;./RewireMixin&apos;
+import { mixin } from &apos;../utilities&apos;
+import { RewireMixin } from &apos;./RewireMixin&apos;
 
 /**
  * @typedef {ComposedControlOptions} CombinedZoomOptions
@@ -299,7 +299,7 @@ export class CombinedZoom extends ComposedControl {
      */
     this.zoomButtons_ = new Zoom(this.zoomButtonOptions)
 
-    this.addControl(this.zoomButtons_, {wrap: false})
+    this.addControl(this.zoomButtons_, { wrap: false })
 
     let $zoomIn = this.zoomButtons_.get$Element().children(&apos;.g4u-zoom-in&apos;)
     let $zoomOut = this.zoomButtons_.get$Element().children(&apos;.g4u-zoom-out&apos;)
@@ -317,7 +317,7 @@ export class CombinedZoom extends ComposedControl {
      */
     this.zoomSlider_ = new ZoomSlider(this.zoomSliderOptions)
 
-    this.addControl(this.zoomSlider_, {wrap: false})
+    this.addControl(this.zoomSlider_, { wrap: false })
 
     let $zoomSlider = this.zoomSlider_.get$Element()
 

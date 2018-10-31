@@ -175,7 +175,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
@@ -210,32 +210,32 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
 import $ from &apos;jquery&apos;
 
-import {Positioning} from &apos;./Positioning&apos;
+import { Positioning } from &apos;./Positioning&apos;
 
-import {Move} from &apos;../Move&apos;
-import {FeaturePopup} from &apos;../FeaturePopup&apos;
-import {FeatureTooltip} from &apos;../FeatureTooltip&apos;
+import { Move } from &apos;../Move&apos;
+import { FeaturePopup } from &apos;../FeaturePopup&apos;
+import { FeatureTooltip } from &apos;../FeatureTooltip&apos;
 
-import {Shield} from &apos;../html/Shield&apos;
+import { Shield } from &apos;../html/Shield&apos;
 
-import {ControlFactory} from &apos;./ControlFactory&apos;
+import { ControlFactory } from &apos;./ControlFactory&apos;
 
-import {Debug} from &apos;../Debug&apos;
+import { Debug } from &apos;../Debug&apos;
 
-import {copyDeep} from &apos;../utilitiesObject&apos;
+import { copyDeep } from &apos;../utilitiesObject&apos;
 import { checkFor, getConfig, urlDirname, urlJoin } from &apos;../utilities&apos;
 
-import {MeasurementButton} from &apos;../controls/MeasurementButton&apos;
-import {PrintButton} from &apos;../controls/PrintButton&apos;
+import { MeasurementButton } from &apos;../controls/MeasurementButton&apos;
+import { PrintButton } from &apos;../controls/PrintButton&apos;
 
-import {cssClasses} from &apos;../globals&apos;
+import { cssClasses } from &apos;../globals&apos;
 
-import {FeatureSelect} from &apos;../interactions/FeatureSelect&apos;
+import { FeatureInteraction } from &apos;../interactions/FeatureInteraction&apos;
 
-import {parseCSSColor} from &apos;csscolorparser&apos;
-import {ShowWMSFeatureInfo} from &apos;../ShowWMSFeatureInfo&apos;
+import { parseCSSColor } from &apos;csscolorparser&apos;
+import { ShowWMSFeatureInfo } from &apos;../ShowWMSFeatureInfo&apos;
 
-import {History} from &apos;../html/History&apos;
+import { History } from &apos;../html/History&apos;
 import { debounce } from &apos;lodash/function&apos;
 
 /**
@@ -679,16 +679,14 @@ export class UIConfigurator {
           }
         }
 
-        this.map_.addDefaultInteraction(&apos;singleclick&apos;, new FeatureSelect({
-          condition: e =&gt; ol.events.condition.singleClick(e) &amp;&amp; $(e.originalEvent.target).is(&apos;canvas&apos;),
-          style: null,
-          multi: true
+        this.map_.addDefaultInteraction(&apos;singleclick&apos;, new FeatureInteraction({
+          type: &apos;singleclick&apos;,
+          style: null
         }))
 
-        let moveInteraction = new FeatureSelect({
-          condition: e =&gt; ol.events.condition.pointerMove(e) &amp;&amp; $(e.originalEvent.target).is(&apos;canvas&apos;),
-          style: null,
-          multi: true
+        let moveInteraction = new FeatureInteraction({
+          type: &apos;pointermove&apos;,
+          style: null
         })
         this.map_.addDefaultInteraction(&apos;pointermove&apos;, moveInteraction)
 
@@ -697,9 +695,7 @@ export class UIConfigurator {
         // if the map is left the features should get deselected
         $viewport.find(&apos;canvas&apos;).on(&apos;mouseleave&apos;, e =&gt; {
           if (!$(e.relatedTarget).is(&apos;canvas&apos;)) {
-            if (moveInteraction.getFeatures().getLength() &gt; 0) {
-              moveInteraction.deselect(moveInteraction.getFeatures().getArray())
-            }
+            moveInteraction.triggerEmptyMapEvent()
           }
         })
 
