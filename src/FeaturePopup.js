@@ -440,7 +440,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
-   * @param {ol.style.StyleLike} style
+   * @param {ol.style.Style} style
    * @param {ol.Coordinate} clickCoordinate
    * @param {string[]} [optPopupModifiers=[]]
    */
@@ -522,6 +522,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * calculates iconSized Offset and applies it
    * @param {ol.Feature} feature
+   * @param {ol.style.Style} style
    * @param {number} resolution
    */
 
