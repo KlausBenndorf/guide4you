@@ -7,13 +7,17 @@ export class MapEventInteraction extends ol.interaction.Interaction {
     super({
       handleEvent: e => {
         if (this.getActive() && e.type === type && $(e.originalEvent.target).is('.ol-viewport > canvas')) {
-          this.dispatchEvent({
-            type: 'mapevent',
-            mapEvent: e
-          })
+          this.handleMapEvent(e)
         }
         return true
       }
+    })
+  }
+
+  handleMapEvent (e) {
+    this.dispatchEvent({
+      type: 'mapevent',
+      mapEvent: e
     })
   }
 }

@@ -21,7 +21,7 @@ import { PrintButton } from '../controls/PrintButton'
 
 import { cssClasses } from '../globals'
 
-import { FeatureSelect } from '../interactions/FeatureSelect'
+import { FeatureInteraction } from '../interactions/FeatureInteraction'
 
 import { parseCSSColor } from 'csscolorparser'
 import { ShowWMSFeatureInfo } from '../ShowWMSFeatureInfo'
@@ -470,16 +470,14 @@ export class UIConfigurator {
           }
         }
 
-        this.map_.addDefaultInteraction('singleclick', new FeatureSelect({
-          condition: e => ol.events.condition.singleClick(e) && $(e.originalEvent.target).is('canvas'),
-          style: null,
-          multi: true
+        this.map_.addDefaultInteraction('singleclick', new FeatureInteraction({
+          type: 'singleclick',
+          style: null
         }))
 
-        let moveInteraction = new FeatureSelect({
-          condition: e => ol.events.condition.pointerMove(e) && $(e.originalEvent.target).is('canvas'),
-          style: null,
-          multi: true
+        let moveInteraction = new FeatureInteraction({
+          type: 'pointermove',
+          style: null
         })
         this.map_.addDefaultInteraction('pointermove', moveInteraction)
 
@@ -488,9 +486,7 @@ export class UIConfigurator {
         // if the map is left the features should get deselected
         $viewport.find('canvas').on('mouseleave', e => {
           if (!$(e.relatedTarget).is('canvas')) {
-            if (moveInteraction.getFeatures().getLength() > 0) {
-              moveInteraction.deselect(moveInteraction.getFeatures().getArray())
-            }
+            moveInteraction.triggerEmptyMapEvent()
           }
         })
 

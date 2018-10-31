@@ -182,28 +182,4 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       this.geolocation_.setTracking(false)
     }
   }
-
-  /**
-   * Creates a circle around a given position with a given radius in meters in a desired projection
-   * @param {ol.Coordinate} position
-   * @param {ol.ProjectionLike} projection
-   * @param {number} meters
-   * @returns {ol.geom.Circle}
-   * @private
-   */
-  static makeCircle_ (position, projection, meters) {
-    // using assumption that earth is a sphere and that one degree in north/south direction
-    // on any point of the earth is 90/10000 km
-
-    let position4326 = ol.proj.transform(position, projection, 'EPSG:4326')
-
-    let secondPosition4326 = [position4326[0], position4326[1] +
-    meters / 1000 * 90 / 10000]
-
-    let secondPosition = ol.proj.transform(secondPosition4326, 'EPSG:4326', projection)
-
-    let radius = Math.abs(position[1] - secondPosition[1])
-
-    return new ol.geom.Circle(position, radius)
-  }
 }

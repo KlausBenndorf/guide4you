@@ -78,16 +78,16 @@ export class FeatureTooltip {
     if (map) {
       map.addOverlay(this.overlay_)
 
-      let interaction = map.getDefaultInteractions('pointermove')[0]
-      interaction.on('select', e => {
-        let selected = e.selected.filter(FeatureTooltip.canDisplay)
-        if (selected.length) {
-          let feature = selected[0]
+      const interaction = map.getDefaultInteractions('pointermove')[0]
+      interaction.on('interaction', e => {
+        const interacted = e.interacted.filter(({ feature }) => FeatureTooltip.canDisplay(feature))
+        if (interacted.length) {
+          let { feature } = interacted[0]
           if (feature.get('features')) {
             feature = feature.get('features')[0]
           }
-          this.setFeature(feature, e.mapBrowserEvent.coordinate)
-        } else if (e.deselected.length && e.deselected.some(f => f === this.getFeature())) {
+          this.setFeature(feature, e.coordinate)
+        } else {
           this.setFeature(null)
         }
       })

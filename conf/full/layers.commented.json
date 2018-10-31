@@ -13,6 +13,7 @@
       "type": "OSM",
       "source": {
         "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "projection": "EPSG:4326",
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
