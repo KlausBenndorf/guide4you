@@ -98,6 +98,21 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
           findContainedControls(this.configControls_.mobileControls.contains)
         }
       }
+
+      if (documentationLocalized.hasOwnProperty('help-header') && documentationLocalized['help-header']) {
+        descrData = documentationLocalized['help-header'].descr || ''
+        joinWith = documentationLocalized['help-header'].joinWith || ''
+        $row = $('<tr>').addClass(this.className_ + '-header')
+        $td = $('<td>').addClass(this.className_ + '-descr').attr('colspan', 2)
+        if ($.isArray(descrData)) {
+          $td.append(descrData.join('<p>'))
+        } else {
+          $td.append(descrData)
+        }
+        $row.append($td)
+        $table.append($row)
+      }
+
       for (id in documentationLocalized) {
         if (documentationLocalized.hasOwnProperty(id) && documentationLocalized[id]) {
           imgData = documentationLocalized[id].img
@@ -128,8 +143,8 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
               $td.append(descrData)
             }
             $row.append($td)
+            $table.append($row)
           }
-          $table.append($row)
         }
       }
       return $table
