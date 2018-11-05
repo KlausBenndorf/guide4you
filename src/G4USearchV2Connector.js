@@ -8,7 +8,7 @@ export class G4USearchV2Connector extends SearchConnector {
     super(options)
 
     this.autocompleteUrl_ = this.serviceURL.clone()
-    this.autocompleteUrl_.url += '/Autocomplete.ashx?term={searchstring}'
+    this.autocompleteUrl_.url += '/autocomplete.ashx?term={searchstring}'
     this.fuzzyUrl_ = this.serviceURL.clone()
     this.fuzzyUrl_.url += '/findall.ashx?option=2&term={searchstring}'
     this.byHandleUrl_ = this.serviceURL.clone()
