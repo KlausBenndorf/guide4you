@@ -53,6 +53,7 @@
     "wait-on": "3.1.0"
   },
   "scripts": {
+    "grab": "g4u-grab guide4you-builder",
     "dist": "rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js",
     "dev:simple": "cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js",
     "prod:simple": "rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js",

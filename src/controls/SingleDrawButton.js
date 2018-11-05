@@ -1,4 +1,3 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import { Control } from './Control'
@@ -9,6 +8,8 @@ import '../../less/singledrawbutton.less'
 import { mixin } from '../utilities'
 import { Dropdown } from '../html/Dropdown'
 import { ActivatableMixin } from './ActivatableMixin'
+import Draw from 'ol/interaction/Draw'
+import VectorSource from 'ol/source/Vector'
 
 /**
  * @typedef {g4uControlOptions} DrawButtonsOptions
@@ -112,7 +113,7 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
   addInteraction (mode) {
     const map = this.getMap()
 
-    this.interaction_ = new ol.interaction.Draw({
+    this.interaction_ = new Draw({
       source: this.layer_.getSource(),
       type: mode,
       style: map.get('styling').getStyle(this.editStyle_)
@@ -154,7 +155,7 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
        * @private
        */
       this.layer_ = new VectorLayer({
-        source: new ol.source.Vector(),
+        source: new VectorSource(),
         visible: true
       })
 

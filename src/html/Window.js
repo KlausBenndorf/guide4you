@@ -1,11 +1,10 @@
-import ol from 'ol'
 import $ from 'jquery'
+import BScroll from 'better-scroll'
+import BaseObject from 'ol/Object'
 
 import { offset } from '../utilities'
 import { getInFront } from './html'
 import { cssClasses } from '../globals'
-
-import BScroll from 'better-scroll'
 
 import '../../less/window.less'
 
@@ -23,7 +22,7 @@ import '../../less/window.less'
 /**
  * A HTML Window
  */
-export class Window extends ol.Object {
+export class Window extends BaseObject {
   /**
    * @param {WindowOptions} options
    */

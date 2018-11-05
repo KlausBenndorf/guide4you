@@ -1,8 +1,12 @@
-import ol from 'ol'
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
 import isFunction from 'lodash/isFunction'
 import isArray from 'lodash/isArray'
+import { getCenter } from 'ol/extent'
+import Point from 'ol/geom/Point'
+import BaseObject from 'ol/Object'
+import Overlay from 'ol/Overlay'
+import Icon from 'ol/style/Icon'
 
 import { ListenerOrganizerMixin } from './ListenerOrganizerMixin'
 import { Window } from './html/Window'
@@ -15,7 +19,7 @@ import '../less/featurepopup.less'
  * @typedef {object} FeaturePopupOptions
  * @property {string} [className='g4u-featurepopup']
  * @property {number[]} [offset=[0,0]]
- * @property {ol.OverlayPositioning} [positioning='center-center']
+ * @property {OverlayPositioning} [positioning='center-center']
  * @property {number[]} [iconSizedOffset=[0,0]]
  * @property {boolean} [centerOnPopup=false]
  * @property {boolean} [animated=true]
@@ -26,7 +30,7 @@ import '../less/featurepopup.less'
 /**
  * Displays a Popup bound to a geographical position via an ol.Overlay
  */
-export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
+export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * @param {FeaturePopupOptions} options
    */
@@ -121,7 +125,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @type {ol.Overlay}
      * @private
      */
-    this.overlay_ = new ol.Overlay({
+    this.overlay_ = new Overlay({
       element: this.$element_.get(0),
       offset: this.pixelOffset_,
       positioning: options.hasOwnProperty('positioning') ? options.positioning : 'center-center',
@@ -458,8 +462,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     let oldValue = this.feature_
     if (feature) {
       let coordinate = clickCoordinate
-      if (feature.getGeometry() instanceof ol.geom.Point || !clickCoordinate) {
-        coordinate = ol.extent.getCenter(feature.getGeometry().getExtent())
+      if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+        coordinate = getCenter(feature.getGeometry().getExtent())
       }
       this.overlay_.setPosition(coordinate)
     }
@@ -475,8 +479,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       }
       this.geometryChangeHandler_ = () => {
         let coordinate = clickCoordinate
-        if (feature.getGeometry() instanceof ol.geom.Point || !clickCoordinate) {
-          coordinate = ol.extent.getCenter(feature.getGeometry().getExtent())
+        if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+          coordinate = getCenter(feature.getGeometry().getExtent())
         }
         this.overlay_.setPosition(coordinate)
         if (this.getVisible()) {
@@ -548,7 +552,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         }
         if (style) {
           let imageStyle = style.getImage()
-          if (imageStyle instanceof ol.style.Icon) {
+          if (imageStyle instanceof Icon) {
             (new Promise(resolve => {
               let img = imageStyle.getImage()
               if (img.complete && img.src) {

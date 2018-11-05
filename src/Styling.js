@@ -1,5 +1,11 @@
-import ol from 'ol'
 import $ from 'jquery'
+import Circle from 'ol/style/Circle'
+import Fill from 'ol/style/Fill'
+import Icon from 'ol/style/Icon'
+import RegularShape from 'ol/style/RegularShape'
+import Stroke from 'ol/style/Stroke'
+import Style from 'ol/style/Style'
+import Text from 'ol/style/Text'
 
 import { copyDeep, copy } from './utilitiesObject'
 import { checkFor } from './utilities'
@@ -142,7 +148,7 @@ export class Styling {
       }
     }
 
-    this.nullStyle_ = new ol.style.Style({
+    this.nullStyle_ = new Style({
       image: null
     })
 
@@ -179,15 +185,15 @@ export class Styling {
       let preparedOptions = copy(subStyleConf)
 
       if (checkFor(subStyleConf, 'fill')) {
-        preparedOptions.fill = new ol.style.Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
+        preparedOptions.fill = new Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
       } else {
-        preparedOptions.fill = new ol.style.Fill(filledStyleConf.fill)
+        preparedOptions.fill = new Fill(filledStyleConf.fill)
       }
 
       if (checkFor(subStyleConf, 'stroke')) {
-        preparedOptions.stroke = new ol.style.Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
+        preparedOptions.stroke = new Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
       } else {
-        preparedOptions.stroke = new ol.style.Stroke(filledStyleConf.stroke)
+        preparedOptions.stroke = new Stroke(filledStyleConf.stroke)
       }
 
       return preparedOptions
@@ -195,20 +201,20 @@ export class Styling {
 
     let styleOptions = addFillsAndStrokes(filledStyleConf)
 
-    styleOptions.text = new ol.style.Text(addFillsAndStrokes(filledStyleConf.text))
+    styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))
 
     let scalable = false
 
     if (filledStyleConf.hasOwnProperty('image')) {
       if (filledStyleConf.image.type === 'icon' &&
         (filledStyleConf.image.hasOwnProperty('src')) && filledStyleConf.image.src) {
-        styleOptions.image = new ol.style.Icon(filledStyleConf.image)
+        styleOptions.image = new Icon(filledStyleConf.image)
         scalable = true
       } else if (filledStyleConf.image.type === 'circle') {
-        styleOptions.image = new ol.style.Circle(addFillsAndStrokes(filledStyleConf.image))
+        styleOptions.image = new Circle(addFillsAndStrokes(filledStyleConf.image))
         scalable = true
       } else if (filledStyleConf.image.type === 'regularShape') {
-        styleOptions.image = new ol.style.RegularShape(addFillsAndStrokes(filledStyleConf.image))
+        styleOptions.image = new RegularShape(addFillsAndStrokes(filledStyleConf.image))
         scalable = true
       }
 
@@ -217,7 +223,7 @@ export class Styling {
       }
     }
 
-    return new ol.style.Style(styleOptions)
+    return new Style(styleOptions)
   }
 
   getConfigFromStyle (style) {
@@ -260,7 +266,7 @@ export class Styling {
   getStyle (data) {
     if (data === undefined) {
       return this.getStyleById('#defaultStyle')
-    } else if (data instanceof ol.style.Style || isFunction(data)) {
+    } else if (data instanceof Style || isFunction(data)) {
       return data
     } else if (isArray(data)) {
       return data.map(d => this.getStyle(d))

@@ -1,9 +1,20 @@
-import ol from 'ol'
+import { sortBy } from 'lodash/collection'
+import Point from 'ol/geom/Point'
+import MultiPoint from 'ol/geom/MultiPoint'
+import LineString from 'ol/geom/LineString'
+import MultiLineString from 'ol/geom/MultiLineString'
 
 import { MapEventInteraction } from './MapEventInteraction'
-import { sortBy } from 'lodash/collection'
+
+/**
+ * @typedef {MapEventInteractionOptions} FeatureInteractionOptions
+ * @property {number} [hitTolerance=0]
+ */
 
 export class FeatureInteraction extends MapEventInteraction {
+  /**
+   * @param {FeatureInteractionOptions} options
+   */
   constructor (options = {}) {
     super(options)
     this.hitTolerance_ = options.hitTolerance || 0
@@ -17,10 +28,10 @@ export class FeatureInteraction extends MapEventInteraction {
     }, { hitTolerance: this.hitTolerance_ })
 
     interacted = sortBy(interacted, ({ feature }) => {
-      if ((feature.getGeometry() instanceof ol.geom.Point) || (feature.getGeometry() instanceof ol.geom.MultiPoint)) {
+      if ((feature.getGeometry() instanceof Point) || (feature.getGeometry() instanceof MultiPoint)) {
         return 1
-      } else if ((feature.getGeometry() instanceof ol.geom.LineString) ||
-        (feature.getGeometry() instanceof ol.geom.MultiLineString)) {
+      } else if ((feature.getGeometry() instanceof LineString) ||
+        (feature.getGeometry() instanceof MultiLineString)) {
         return 2
       } else {
         return 3

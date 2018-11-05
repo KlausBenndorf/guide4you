@@ -1,5 +1,6 @@
-import ol from 'ol'
 import $ from 'jquery'
+import { getCenter } from 'ol/extent'
+import Overlay from 'ol/Overlay'
 
 import { cssClasses } from './globals'
 
@@ -38,7 +39,7 @@ export class FeatureTooltip {
      * @type {ol.Overlay}
      * @private
      */
-    this.overlay_ = new ol.Overlay({
+    this.overlay_ = new Overlay({
       element: this.$element_.get(0),
       offset: (options.hasOwnProperty('offset')) ? options.offset : [0, 0],
       positioning: (options.hasOwnProperty('positioning')) ? options.positioning : 'center-center',
@@ -127,7 +128,7 @@ export class FeatureTooltip {
         })
       if (!coordinate) {
         let geometry = feature.getGeometry()
-        coordinate = ol.extent.getCenter(geometry.getExtent())
+        coordinate = getCenter(geometry.getExtent())
       }
       this.overlay_.setPosition(coordinate)
     } else {

@@ -1,5 +1,4 @@
-import ol from 'ol'
-
+import { get as getProj } from 'ol/proj'
 import { GroupLayer } from '../layers/GroupLayer'
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
@@ -138,7 +137,7 @@ export class LayerConfigurator {
     this.map_.set('layerIds', []) // in layerIds all ids are stored to check if one is double.
 
     this.layerFactory_.setMapConfigProjection(
-      mapConfig.hasOwnProperty('mapProjection') ? ol.proj.get(mapConfig.mapProjection) : null
+      mapConfig.hasOwnProperty('mapProjection') ? getProj(mapConfig.mapProjection) : null
     )
 
     this.map_.set('loadingStrategy',
@@ -215,7 +214,7 @@ export class LayerConfigurator {
     }
 
     // if no baselayer had a given projection, choose 'EPSG:3857'
-    this.map_.set('mapProjection', this.layerFactory_.getMapProjection() || ol.proj.get('EPSG:3857'))
+    this.map_.set('mapProjection', this.layerFactory_.getMapProjection() || getProj('EPSG:3857'))
 
     // //////////////////////////////////////////////////////////////////////////////////////////
     //                                    FeatureLayers                                       //

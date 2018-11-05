@@ -1,4 +1,7 @@
-import ol from 'ol'
+import { boundingExtent, buffer, extend, getHeight, getWidth, intersects } from 'ol/extent'
+import { fromExtent } from 'ol/geom/Polygon'
+import { transformExtent } from 'ol/proj'
+import View from 'ol/View'
 
 /**
  * @typedef {object} MoveOptions
@@ -11,7 +14,7 @@ import ol from 'ol'
  */
 
 /**
- * @typedef {olx.view.FitOptions} SingleMoveOptions
+ * @typedef {FitOptions} SingleMoveOptions
  * @property {boolean} [animated] if specified overwrites the default settings
  * @property {number[]|string} [padding] can be set to 'default' to use the default settings
  */
@@ -77,12 +80,12 @@ export class Move {
   }
 
   /**
-   * @param {ol.Coordinate} point
+   * @param {Coordinate} point
    * @param {SingleMoveOptions} [options={}]
    */
   toPoint (point, options = {}) {
     // calculate extent
-    let tmpView = new ol.View({
+    let tmpView = new View({
       projection: this.map_.getView().getProjection(),
       center: point,
       resolution: this.map_.getView().getResolution()
@@ -115,7 +118,7 @@ export class Move {
    * @param {SingleMoveOptions} [options={}]
    */
   zoomToPoint (point, options = {}) {
-    this.toExtent(ol.extent.boundingExtent([point]), options)
+    this.toExtent(boundingExtent([point]), options)
   }
 
   /**
@@ -125,11 +128,11 @@ export class Move {
    */
   bufferUpToMinSize_ (extent) {
     // TODO: maybe use something more precise than transforming into 3857 to get meter size.
-    let extentInMeters = ol.proj.transformExtent(extent, this.map_.getView().getProjection(), 'EPSG:3857')
-    let smallerSize = Math.min(ol.extent.getWidth(extentInMeters), ol.extent.getHeight(extentInMeters))
+    let extentInMeters = transformExtent(extent, this.map_.getView().getProjection(), 'EPSG:3857')
+    let smallerSize = Math.min(getWidth(extentInMeters), getHeight(extentInMeters))
     if (smallerSize < this.meterMinSize_) {
-      extentInMeters = ol.extent.buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2)
-      return ol.proj.transformExtent(extentInMeters, 'EPSG:3857', this.map_.getView().getProjection())
+      extentInMeters = buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2)
+      return transformExtent(extentInMeters, 'EPSG:3857', this.map_.getView().getProjection())
     } else {
       return extent
     }
@@ -148,7 +151,7 @@ export class Move {
     // options.constrainResolution = false
 
     // using fit's padding option
-    this.map_.getView().fit(ol.geom.Polygon.fromExtent(extent), this.map_.getSize(), options)
+    this.map_.getView().fit(fromExtent(extent), this.map_.getSize(), options)
   }
 
   /**
@@ -164,9 +167,9 @@ export class Move {
 
     let startExtent = view.calculateExtent(size)
 
-    let moveExtent = ol.extent.extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
+    let moveExtent = extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
 
-    if (this.bouncing_ && !ol.extent.intersects(startExtent, endExtent)) {
+    if (this.bouncing_ && !intersects(startExtent, endExtent)) {
       let moveOptions = Object.assign({
         duration: this.animationDuration_ / 2
       }, options)

@@ -1,5 +1,15 @@
-import ol from 'ol'
 import $ from 'jquery'
+
+import DoubleClickZoom from 'ol/interaction/DoubleClickZoom'
+import DragPan from 'ol/interaction/DragPan'
+import DragRotate from 'ol/interaction/DragRotate'
+import Kinetic from 'ol/Kinetic'
+import DragZoom from 'ol/interaction/DragZoom'
+import KeyboardPan from 'ol/interaction/KeyboardPan'
+import KeyboardZoom from 'ol/interaction/KeyboardZoom'
+import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
+import PinchRotate from 'ol/interaction/PinchRotate'
+import PinchZoom from 'ol/interaction/PinchZoom'
 
 import { Positioning } from './Positioning'
 
@@ -418,7 +428,7 @@ export class UIConfigurator {
 
         if (checkFor(mapConfigCopy, 'interactions')) {
           if (checkFor(mapConfigCopy.interactions, 'doubleClickZoom')) {
-            this.map_.addDefaultInteraction('dblclick', new ol.interaction.DoubleClickZoom())
+            this.map_.addDefaultInteraction('dblclick', new DoubleClickZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'dragPan')) {
@@ -431,42 +441,42 @@ export class UIConfigurator {
                 minVelocity = mapConfigCopy.kinetic.minVelocity || minVelocity
                 delay = mapConfigCopy.kinetic.delay || delay
               }
-              this.map_.addDefaultInteraction('drag', new ol.interaction.DragPan({
-                kinetic: new ol.Kinetic(decay, minVelocity, delay)
+              this.map_.addDefaultInteraction('drag', new DragPan({
+                kinetic: new Kinetic(decay, minVelocity, delay)
               }))
             } else {
-              this.map_.addDefaultInteraction('drag', new ol.interaction.DragPan())
+              this.map_.addDefaultInteraction('drag', new DragPan())
             }
           }
 
           if (checkFor(mapConfigCopy.interactions, 'dragRotate')) {
             // using default condition: ol.events.condition.altShiftKeysOnly
-            this.map_.addDefaultInteraction('altShiftDrag', new ol.interaction.DragRotate())
+            this.map_.addDefaultInteraction('altShiftDrag', new DragRotate())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'dragZoom')) {
             // using default condition: ol.events.condition.shiftKeyOnly
-            this.map_.addDefaultInteraction('shiftDrag', new ol.interaction.DragZoom())
+            this.map_.addDefaultInteraction('shiftDrag', new DragZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'keyboardPan')) {
-            this.map_.addDefaultInteraction('keyboard', new ol.interaction.KeyboardPan())
+            this.map_.addDefaultInteraction('keyboard', new KeyboardPan())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'keyboardZoom')) {
-            this.map_.addDefaultInteraction('keyboard', new ol.interaction.KeyboardZoom())
+            this.map_.addDefaultInteraction('keyboard', new KeyboardZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'mouseWheelZoom')) {
-            this.map_.addDefaultInteraction('mouseWheel', new ol.interaction.MouseWheelZoom())
+            this.map_.addDefaultInteraction('mouseWheel', new MouseWheelZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'pinchRotate')) {
-            this.map_.addDefaultInteraction('pinchRotate', new ol.interaction.PinchRotate())
+            this.map_.addDefaultInteraction('pinchRotate', new PinchRotate())
           }
 
           if (checkFor(mapConfigCopy.interactions, 'pinchZoom')) {
-            this.map_.addDefaultInteraction('pinchZoom', new ol.interaction.PinchZoom())
+            this.map_.addDefaultInteraction('pinchZoom', new PinchZoom())
           }
         }
 

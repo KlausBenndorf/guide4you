@@ -1,5 +1,5 @@
-import ol from 'ol'
 import $ from 'jquery'
+import Observable from 'ol/Observable'
 
 import stripJsonComments from 'strip-json-comments'
 import { Debug } from './Debug'
@@ -21,7 +21,7 @@ import { URL } from './URLHelper'
  * This class localizes texts by either selecting one from a dictionary (asynchron loaded JSON File) or choosing the
  * right string from a selection.
  */
-export class L10N extends ol.Observable {
+export class L10N extends Observable {
   /**
    * @param {L10NOptions} options
    */

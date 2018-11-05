@@ -1,4 +1,3 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import '../images/g4u-logo.png'
@@ -24,10 +23,6 @@ export function createMapInternal (element, clientConfPath, layerConfPath, optio
         if (+v[0] < 2 && +v[1] < 9) {
           Debug.error('You are using an outdated version of jQuery. Please use version 1.9 or higher.')
         }
-      }
-
-      if (!ol) {
-        reject(new Error('OpenLayers not available.'))
       }
 
       $(element).empty()

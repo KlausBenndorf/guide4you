@@ -1,16 +1,16 @@
-import ol from 'ol'
 import $ from 'jquery'
 import proj4 from 'proj4/dist/proj4'
+import { register } from 'ol/proj/proj4'
+import { getTransform, get as getProj, transform, transformExtent } from 'ol/proj'
+import { applyTransform } from 'ol/extent'
+import View from 'ol/View'
 
 import { Styling } from '../Styling'
 import { LayerConfigurator } from './LayerConfigurator'
 import { UIConfigurator } from './UIConfigurator'
-
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
-
 import { API } from '../API'
-
 import { Debug } from '../Debug'
 
 /**
@@ -215,12 +215,12 @@ export class MapConfigurator {
     }
 
     if (additionalProjectionsConf.length > 0) {
-      ol.proj.proj4.register(proj4)
+      register(proj4)
     }
 
     if (checkFor(mapConfigCopy, 'measurementProjection')) {
       try {
-        this.map_.set('measurementProjection', ol.proj.get(mapConfigCopy.measurementProjection))
+        this.map_.set('measurementProjection', getProj(mapConfigCopy.measurementProjection))
       } catch (e) {
         throw new Error('measurementProjection is not available, check for spelling or try to add it to' +
           ' additionalProjections with a proj4 definition.')
@@ -243,13 +243,13 @@ export class MapConfigurator {
     viewOptions.projection = mapProjection
 
     if (checkFor(mapConfigCopy.view, 'center')) {
-      viewOptions.center = ol.proj.transform(mapConfigCopy.view.center, interfaceProjection, mapProjection)
+      viewOptions.center = transform(mapConfigCopy.view.center, interfaceProjection, mapProjection)
     }
 
     if (checkFor(mapConfigCopy.view, 'extent')) {
-      viewOptions.extent = ol.extent.applyTransform(
+      viewOptions.extent = applyTransform(
         mapConfigCopy.view.extent,
-        ol.proj.getTransform(interfaceProjection, mapProjection)
+        getTransform(interfaceProjection, mapProjection)
       )
     }
 
@@ -261,11 +261,11 @@ export class MapConfigurator {
     }
 
     // creating the view
-    let view = new ol.View(viewOptions)
+    let view = new View(viewOptions)
 
     // setting the extent overwrites any settings about zoom and start coordinates
     if (!oldView && checkFor(mapConfigCopy.view, 'fit')) {
-      view.fit(ol.proj.transformExtent(mapConfigCopy.view.fit, interfaceProjection, mapProjection), {
+      view.fit(transformExtent(mapConfigCopy.view.fit, interfaceProjection, mapProjection), {
         size: this.map_.getSize()
       })
     }

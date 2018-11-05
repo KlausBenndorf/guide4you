@@ -1,7 +1,12 @@
-import ol from 'ol'
-import { Debug } from '../Debug'
+import OlClusterSource from 'ol/source/Cluster'
 
-export class ClusterSource extends ol.source.Cluster {
+import { Debug } from '../Debug'
+import Point from 'ol/geom/Point'
+import LineString from 'ol/geom/LineString'
+import { getCenter } from 'ol/extent'
+import Polygon from 'ol/geom/Polygon'
+
+export class ClusterSource extends OlClusterSource {
   /**
    * @param {ol.source.Vector} source
    * @param {olx.} options
@@ -14,12 +19,10 @@ export class ClusterSource extends ol.source.Cluster {
 
   static defaultGeometryFunction (feature) {
     let geom = feature.getGeometry()
-    if (geom instanceof ol.geom.Point) {
+    if (geom instanceof Point) {
       return geom
-    } else if (geom instanceof ol.geom.LineString) {
-      return new ol.geom.Point(ol.extent.getCenter(geom.getExtent()))
-    } else if (geom instanceof ol.geom.Polygon) {
-      return new ol.geom.Point(ol.extent.getCenter(geom.getExtent()))
+    } else if (geom instanceof LineString || geom instanceof Polygon) {
+      return new Point(getCenter(geom.getExtent()))
     } else if (geom instanceof ol.geom.Circle) {
       return new ol.Point(geom.getCenter())
     } else {
