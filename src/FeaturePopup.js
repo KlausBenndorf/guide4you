@@ -362,7 +362,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       this.window_.get$Body().prop('dir', undefined)
     }
 
-    this.getMap().get('popupModifiers').apply({
+    return this.getMap().get('popupModifiers').apply({
       name: this.getFeature().get('name'),
       description: this.getFeature().get('description')
     }, this.currentPopupModifiers_)
@@ -381,9 +381,11 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
           this.$description_.addClass(cssClasses.hidden)
         }
 
-        this.updateSize()
-
         this.dispatchEvent('update:content')
+        return finishAllImages(this.$description_)
+      })
+      .then(() => {
+        this.updateSize()
       })
   }
 
@@ -397,37 +399,38 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       this.$name_.empty()
       this.$description_.empty()
 
-      this.updateContent() // this produces one unnecessary call to window.updateSize()
-
-      if (!feature.get('observedByPopup')) {
-        feature.on('change:name', () => this.updateContent())
-        feature.on('change:description', () => this.updateContent())
-        feature.set('observedByPopup', true)
-      }
-
-      this.once('change:feature', () => {
-        feature.un('change:name', () => this.updateContent())
-        feature.un('change:description', () => this.updateContent())
-        feature.set('observedByPopup', false)
-      })
-
-      if (!this.getMap().get('mobile')) {
-        let resolution = this.getMap().getView().getResolution()
-
-        this.addIconSizedOffset(this.getFeature(), style, resolution)
-      }
-
-      for (let layer of this.referencingVisibleLayers_) {
-        if (layer.get('addClass')) {
-          this.window_.get$Element().addClass(layer.get('addClass'))
+      // this produces one unnecessary call to window.updateSize()
+      this.updateContent().then(() => {
+        if (!feature.get('observedByPopup')) {
+          feature.on('change:name', () => this.updateContent())
+          feature.on('change:description', () => this.updateContent())
+          feature.set('observedByPopup', true)
         }
-      }
 
-      // apply default offset
+        this.once('change:feature', () => {
+          feature.un('change:name', () => this.updateContent())
+          feature.un('change:description', () => this.updateContent())
+          feature.set('observedByPopup', false)
+        })
 
-      if (this.getVisible()) {
-        setTimeout(() => this.window_.updateSize(), 0)
-      }
+        if (!this.getMap().get('mobile')) {
+          let resolution = this.getMap().getView().getResolution()
+
+          this.addIconSizedOffset(this.getFeature(), style, resolution)
+        }
+
+        for (let layer of this.referencingVisibleLayers_) {
+          if (layer.get('addClass')) {
+            this.window_.get$Element().addClass(layer.get('addClass'))
+          }
+        }
+
+        // apply default offset
+
+        if (this.getVisible()) {
+          setTimeout(() => this.window_.updateSize(), 0)
+        }
+      })
     }
   }
 
