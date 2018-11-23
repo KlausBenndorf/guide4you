@@ -51,13 +51,6 @@ module.exports = {
     'ar': 'مصدر'
   },
 
-  'CloseWindowButton label': {
-    'de': 'Schlie&szlig;en / Zur&uuml;ck',
-    'en': 'Close / Back',
-    'pl': 'Zamknij',
-    'ar': 'إغلاق / رجوع'
-  },
-
   'Dropdown noEntries': {
     'de': 'Keine Eintr&auml;ge',
     'en': 'No entries',
