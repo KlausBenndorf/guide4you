@@ -5,7 +5,7 @@ import { Control } from 'guide4you/src/controls/Control'
 import { cssClasses } from 'guide4you/src/globals'
 import { Debug } from 'guide4you/src/Debug'
 
-import '../less/linkgeneratorbutton.less'
+import '../../less/linkgeneratorbutton.less'
 import { filterText, restoreText } from 'guide4you/src/xssprotection'
 
 /**

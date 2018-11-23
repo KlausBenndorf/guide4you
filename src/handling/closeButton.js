@@ -7,6 +7,7 @@ export const closeButtonParam = {
   setToMap: (map, query) => {
     if (query.isTrue('clsbtn')) {
       map.get('UIConfigurator').controlFactory.addControlTo(map, 'closeWindowButton')
+      map.get('history').setOnLeave(() => window.close())
     }
   }
   // get is not supported (closeButton does only work if the map was opened programmatically, it makes no sense to

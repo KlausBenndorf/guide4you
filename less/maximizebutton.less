@@ -1,0 +1,25 @@
+@import "~guide4you/less/lengths";
+@import "~guide4you/less/controlgenerics";
+@import "~guide4you/less/colors";
+
+@g4u-maximize-icon: url("../images/enlarge.svg");
+
+.g4u-desktop {
+  .ol-overlaycontainer-stopevent > .g4u-maximize-button .g4u-control-mainbutton {
+    border-radius: @g4u-desktop-small-border-radius;
+  }
+
+  .g4u-maximize-button {
+    &.g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-maximize-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-maximize-button {
+    &.g4u-control-mainbutton {
+      .buttonSquaredWithIcon(@g4u-maximize-icon; @g4u-mobile-button-size; @g4u-mobile-huge-fontsize);
+    }
+  }
+}

@@ -57,9 +57,8 @@
       "scaleLine",
       "zoom",
       "mobileControls",
-      "linkGeneratorButton",
-      "distanceMeasurementButton", // this one is only needed for tests
-      "helpButton"
+      "toolbox",
+      "closeWindowButton"
     ],
     "helpButton": {
       "float": [
@@ -69,7 +68,6 @@
       "fileName": "files/helptext.json"
     },
     "linkGeneratorButton": {
-      "float": [ "top", "left" ]
     },
     "toolbox": {
       "float": [
@@ -77,7 +75,10 @@
         "left"
       ],
       "contains": [
-        "linkGeneratorButton"
+        "distanceMeasurementButton", // this one is only needed for tests
+        "linkGeneratorButton",
+        "maximizeButton",
+        "helpButton"
       ]
     },
     "mobileControls": {
@@ -102,6 +103,9 @@
         "baseLayerSelector",
         "featureLayerSelector"
       ]
+    },
+    "maximizeButton": {
+      "pageTitle": "Maximized Guide4You"
     },
     "mobileLayerMenu": {
       "controlType": "layerMenu",

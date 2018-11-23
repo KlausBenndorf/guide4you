@@ -3,6 +3,13 @@
 var merge = require('lodash/merge')
 
 module.exports = merge(require('guide4you/files/l10n.json.js'), {
+  'CloseWindowButton label': {
+    'de': 'Schlie&szlig;en / Zur&uuml;ck',
+    'en': 'Close / Back',
+    'pl': 'Zamknij',
+    'ar': 'إغلاق / رجوع'
+  },
+
   'LinkGenerator afterLinkText': {
     'de': ' um Karte in neuem Fenster anzuzeigen.',
     'en': ' to show map in a new window.',
@@ -57,5 +64,10 @@ module.exports = merge(require('guide4you/files/l10n.json.js'), {
     'en': 'Link',
     'pl': 'Link',
     'ar': 'حلقة الوصل'
+  },
+
+  'MaximizeButton tipLabel': {
+    'de': 'Karte maximieren',
+    'en': 'Maximize Map'
   }
 })

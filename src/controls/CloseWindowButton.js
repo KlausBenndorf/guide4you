@@ -2,7 +2,7 @@ import $ from 'jquery'
 
 import { Control } from 'guide4you/src/controls/Control'
 
-import '../less/closewindowbutton.less'
+import '../../less/closewindowbutton.less'
 
 /**
  * @typedef {g4uControlOptions} CloseWindowButtonOptions

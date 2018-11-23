@@ -5,9 +5,10 @@ import { URLAPI } from './URLAPI'
 import { Marker } from './Marker'
 
 import { WindowDecorator } from 'guide4you/src/controls/WindowDecorator'
-import { LinkGeneratorButton } from './LinkGeneratorButton'
+import { LinkGeneratorButton } from './controls/LinkGeneratorButton'
 import { LinkGenerator } from './LinkGenerator'
-import { CloseWindowButton } from './CloseWindowButton'
+import { CloseWindowButton } from './controls/CloseWindowButton'
+import { MaximizeButton } from './controls/MaximizeButton'
 
 /**
  * The URLAPI module provides a possibility to control the map with various parameters from the URL. this contains a
@@ -84,6 +85,8 @@ export class URLAPIModule extends Module {
         return new LinkGenerator(options)
       case 'closeWindowButton':
         return new CloseWindowButton(options)
+      case 'maximizeButton':
+        return new MaximizeButton(options)
     }
   }
 }
