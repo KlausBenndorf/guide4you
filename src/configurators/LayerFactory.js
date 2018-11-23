@@ -778,13 +778,17 @@ export class LayerFactory {
       success: data => {
         const wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
         const capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
-        capOptions.urls = capOptions.urls.map(newUrl => {
-          const u = url.clone()
-          u.url = newUrl
-          return u.finalize()
-        })
-        sourceOptions = mergeDeep(sourceOptions, capOptions)
-        layer.setSource(new ol.source.WMTS(sourceOptions))
+        if (capOptions === null) {
+          Debug.error(`wmts layer not found or not set for layer with id "${layer.get('id')}"`)
+        } else {
+          capOptions.urls = capOptions.urls.map(newUrl => {
+            const u = url.clone()
+            u.url = newUrl
+            return u.finalize()
+          })
+          sourceOptions = mergeDeep(sourceOptions, capOptions)
+          layer.setSource(new ol.source.WMTS(sourceOptions))
+        }
       }
     })
     layer.setSource(new ol.source.ImageCanvas({
