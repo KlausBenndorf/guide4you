@@ -203,7 +203,7 @@ export class SourceServerVector extends ol.source.Vector {
         }
 
         if (this.doClear_) {
-          this.clear()
+          this.clear(true)
           this.doClear_ = false
         }
 
