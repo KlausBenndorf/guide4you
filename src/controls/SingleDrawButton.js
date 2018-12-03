@@ -84,7 +84,12 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
     ])
 
     this.dropdown_.on('select', () => {
-      this.setActive(true)
+      const mode = this.dropdown_.getValue()
+      if (mode === 'Delete') {
+        this.layer_.getSource().clear()
+      } else {
+        this.setActive(true)
+      }
     })
 
     this.get$Element().append(this.dropdown_.get$Element())
@@ -93,11 +98,7 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
   setActive (active) {
     if (active) {
       const mode = this.dropdown_.getValue()
-      if (mode === 'Delete') {
-        this.layer_.getSource().clear()
-      } else {
-        this.addInteraction(mode)
-      }
+      this.addInteraction(mode)
       this.dropdown_.slideUp()
     } else if (this.interaction_) {
       this.removeInteraction()
