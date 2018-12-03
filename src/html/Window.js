@@ -163,6 +163,14 @@ export class Window extends ol.Object {
   }
 
   /**
+   * Reset the dragged state
+   * @private
+   */
+  resetDragged () {
+    this.$element_.css('position', '')
+  }
+
+  /**
    * Makes the Window draggable
    * @private
    */

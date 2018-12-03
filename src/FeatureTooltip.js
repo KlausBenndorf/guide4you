@@ -64,7 +64,7 @@ export class FeatureTooltip {
     if (feature.get('features') && feature.get('features').length === 1) {
       feature = feature.get('features')[0]
     }
-    return !feature.get('disabled') && feature.get('name')
+    return !feature.get('disabled') && !feature.get('tooltip.disabled') && feature.get('name')
   }
 
   /**

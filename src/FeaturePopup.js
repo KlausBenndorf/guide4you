@@ -20,6 +20,7 @@ import '../less/featurepopup.less'
  * @property {boolean} [centerOnPopup=false]
  * @property {boolean} [animated=true]
  * @property {string[]} [popupModifier] default popupModifiers to use
+ * @property {boolean} [draggable=false]
  */
 
 /**
@@ -134,6 +135,12 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     this.defaultPopupModifiers_ = options.popupModifier || []
 
     /**
+     * @type {boolean}
+     * @private
+     */
+    this.draggable_ = options.draggable || false
+
+    /**
      * @type {string[]}
      * @private
      */
@@ -174,7 +181,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     }
 
     if (map) {
-      this.window_ = new Window({ draggable: false, fixedPosition: true, map: map })
+      this.window_ = new Window({ draggable: this.draggable_, fixedPosition: true, map: map })
 
       this.window_.get$Body().append(this.$name_).append(this.$description_)
 
@@ -506,6 +513,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       } else {
         this.$element_.addClass(cssClasses.hidden)
         this.window_.setVisible(false)
+        this.window_.resetDragged()
       }
 
       this.visible_ = visible
