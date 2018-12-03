@@ -135,7 +135,7 @@ export class Styling {
       if (!style) {
         style = this.getStyle('#defaultStyle')
       }
-      if ($.isArray(style)) {
+      if (isArray(style)) {
         return style.map(s => this.adjustStyle_(feature, s))
       } else {
         return this.adjustStyle_(feature, style)
@@ -263,9 +263,13 @@ export class Styling {
     } else if (data instanceof ol.style.Style || isFunction(data)) {
       return data
     } else if (isArray(data)) {
-      return this.getConditionalStyleFromConfig(data)
+      return data.map(d => this.getStyle(d))
     } else if (isObject(data)) {
-      return this.getStyleFromConfig(data)
+      if (data.hasOwnProperty('conditional')) {
+        return this.getConditionalStyleFromConfig(data.conditional)
+      } else {
+        return this.getStyleFromConfig(data)
+      }
     } else {
       return this.getStyleById(data)
     }
@@ -383,7 +387,7 @@ export class Styling {
           if (!style) {
             style = this.getStyle('#defaultStyle')
           }
-          if ($.isArray(style)) {
+          if (isArray(style)) {
             return style.map(s => this.adjustStyle_(feature, s))
           } else {
             return this.adjustStyle_(feature, style)
