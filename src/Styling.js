@@ -7,7 +7,7 @@ import { Debug } from './Debug'
 
 import { parseCSSColor } from 'csscolorparser'
 
-import {isFunction, isObject, isArray} from 'lodash/lang'
+import { isFunction, isObject, isArray } from 'lodash/lang'
 
 /**
  * @typedef {string|StyleObject|ol.style.Style} StyleLike

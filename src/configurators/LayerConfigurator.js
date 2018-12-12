@@ -6,7 +6,7 @@ import { checkFor } from '../utilities'
 import { Debug } from '../Debug'
 import { LayerFactory } from './LayerFactory'
 import { Attributions } from '../Attributions'
-import {LayerSelector} from '../controls/LayerSelector'
+import { LayerSelector } from '../controls/LayerSelector'
 
 /**
  * @typedef {Object} LayerConfig
