@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "3.2.0",
+  "version": "3.4.0",
   "description": "A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -42,7 +42,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "guide4you-builder": "3.4.0",
+    "guide4you-builder": "3.5.0",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "0.11.1",
     "jquery": "3.3.1",
@@ -64,9 +64,10 @@
     "lint": "eslint src/ tests/",
     "version": "(npm run test && npm run doc && git add -A) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
-    "buildTests": "concurrently \"g4u-buildTests tests\" \"npm run dist\"",
+    "buildTests": "g4u-buildTests tests",
+    "buildTestAndEnv": "concurrently \"npm run buildTests\" \"npm run dist\"",
     "runTests": " concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
-    "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
+    "test": "npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   },
   "main": "./dist/g4u.js",

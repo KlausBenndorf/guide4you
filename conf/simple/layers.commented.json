@@ -86,6 +86,7 @@
       "id": 6,
       "title": "historische Orthophotos 1988 - 1994",
       "type": "WMS",
+      "minZoom": 16,
       "source": {
         "url": {
           "url": "http://www.wms.nrw.de/geobasis/wms_nw_histortho_1988-1994",

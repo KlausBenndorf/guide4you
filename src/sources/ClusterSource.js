@@ -5,6 +5,7 @@ import Point from 'ol/geom/Point'
 import LineString from 'ol/geom/LineString'
 import { getCenter } from 'ol/extent'
 import Polygon from 'ol/geom/Polygon'
+import Circle from 'ol/geom/Circle'
 
 export class ClusterSource extends OlClusterSource {
   /**
@@ -23,8 +24,8 @@ export class ClusterSource extends OlClusterSource {
       return geom
     } else if (geom instanceof LineString || geom instanceof Polygon) {
       return new Point(getCenter(geom.getExtent()))
-    } else if (geom instanceof ol.geom.Circle) {
-      return new ol.Point(geom.getCenter())
+    } else if (geom instanceof Circle) {
+      return new Point(geom.getCenter())
     } else {
       Debug.warn('Trying to cluster unsupported geometry type.')
       return null

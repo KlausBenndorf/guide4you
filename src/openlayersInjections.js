@@ -30,7 +30,7 @@ BaseObject.prototype.asSoonAs = function (propName, value, cb) {
  * @param {*} value
  * @param {function} cb
  */
-ol.Object.prototype.onAvailable = function (propName, cb) {
+BaseObject.prototype.onAvailable = function (propName, cb) {
   if (!$.isFunction(cb)) {
     throw new Error('You need to provide a callback to asSoonAs.')
   }

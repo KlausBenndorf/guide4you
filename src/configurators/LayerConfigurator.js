@@ -101,8 +101,12 @@ export class LayerConfigurator {
     }
 
     this.map_.get('featureLayers').recursiveForEach(forFeatureLayers)
-    this.map_.get('fixedFeatureLayers').recursiveForEach(forFeatureLayers)
-    this.map_.get('queryLayers').recursiveForEach(forFeatureLayers)
+    if (this.map_.get('fixedFeatureLayers')) {
+      this.map_.get('fixedFeatureLayers').recursiveForEach(forFeatureLayers)
+    }
+    if (this.map_.get('queryLayers')) {
+      this.map_.get('queryLayers').recursiveForEach(forFeatureLayers)
+    }
 
     for (let layerSelector of this.map_.getControlsByType(LayerSelector)) {
       layerSelector.updateDisabledButtons()

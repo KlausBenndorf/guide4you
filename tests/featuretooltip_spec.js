@@ -1,5 +1,5 @@
 import { By, until } from 'selenium-webdriver'
-import phantomDriver from './customPhantomDriver'
+import customDriver from './customDriver'
 import { describe, before, after, it } from 'selenium-webdriver/testing/'
 import config from './config.js'
 import assert from 'selenium-webdriver/testing/assert.js'
@@ -7,57 +7,60 @@ import assert from 'selenium-webdriver/testing/assert.js'
 import { stringifyFunctionCall, waitUntilMapReady } from './testUtils'
 
 // globals in browser
-var map, ol
+var map
 
 function addLayerWithPointAtMapCenter (name, description) {
-  map.addLayer(new ol.layer.Vector({
-    source: new ol.source.Vector({
-      features: [new ol.Feature({
-        name: name,
-        description: description,
-        geometry: new ol.geom.Point(map.getView().getCenter())
-      })]
-    }),
+  map.getView().setCenter([0, 0])
+  map.get('api').addFeatureLayer({
+    id: 42,
+    type: 'Intern',
+    source: {
+      features: [
+        {
+          name: name,
+          description: description,
+          geometryWKT: 'POINT(0 0)'
+        }
+      ]
+    },
     visible: true
-  }))
+  })
 }
 
-function addLayerWithLineThroughMapCenter (name, description, edgeLength) {
-  let center = map.getView().getCenter()
-  let points = [
-    [center[0] - edgeLength / 2, center[1] - edgeLength / 2],
-    [center[0] + edgeLength / 2, center[1] + edgeLength / 2]
-  ]
-  map.addLayer(new ol.layer.Vector({
-    source: new ol.source.Vector({
-      features: [new ol.Feature({
-        name: name,
-        description: description,
-        geometry: new ol.geom.LineString(points)
-      })]
-    }),
+function addLayerWithLineThroughMapCenter (name, description) {
+  map.getView().setCenter([0, 0])
+  map.get('api').addFeatureLayer({
+    id: 43,
+    type: 'Intern',
+    source: {
+      features: [
+        {
+          name: name,
+          description: description,
+          geometryWKT: 'LINESTRING(-1000 -1000,1000 1000)'
+        }
+      ]
+    },
     visible: true
-  }))
+  })
 }
 
-function addLayerWithPolygonAroundMapCenter (name, description, edgeLength) {
-  let center = map.getView().getCenter()
-  let points = [[
-    [center[0] - edgeLength / 2, center[1] - edgeLength / 2],
-    [center[0] - edgeLength / 2, center[1] + edgeLength / 2],
-    [center[0] + edgeLength / 2, center[1] + edgeLength / 2],
-    [center[0] + edgeLength / 2, center[1] - edgeLength / 2]
-  ]]
-  map.addLayer(new ol.layer.Vector({
-    source: new ol.source.Vector({
-      features: [new ol.Feature({
-        name: name,
-        description: description,
-        geometry: new ol.geom.Polygon(points)
-      })]
-    }),
+function addLayerWithPolygonAroundMapCenter (name, description) {
+  map.getView().setCenter([0, 0])
+  map.get('api').addFeatureLayer({
+    id: 44,
+    type: 'Intern',
+    source: {
+      features: [
+        {
+          name: name,
+          description: description,
+          geometryWKT: 'POLYGON((-1000 -1000,-1000 1000,1000 1000,1000 -1000,-1000 -1000))'
+        }
+      ]
+    },
     visible: true
-  }))
+  })
 }
 
 describe('FeatureTooltip', function () {
@@ -65,7 +68,7 @@ describe('FeatureTooltip', function () {
   let driver
 
   before(function () {
-    driver = phantomDriver()
+    driver = customDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().setTimeouts({
       script: config.seleniumTimeout,
@@ -127,7 +130,7 @@ describe('FeatureTooltip', function () {
     driver.get(config.testClient).then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
-      return driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'name', 'description', 1000))
+      return driver.executeScript(stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'name', 'description'))
     }).then(() => {
       let viewport = driver.findElement(By.className('ol-viewport'))
       let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
@@ -157,7 +160,7 @@ describe('FeatureTooltip', function () {
       return waitUntilMapReady(driver)
     }).then(() => {
       return driver.executeScript(
-        stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'name', 'description', 1000))
+        stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'name', 'description'))
     }).then(() => {
       let viewport = driver.findElement(By.className('ol-viewport'))
       let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
@@ -187,7 +190,7 @@ describe('FeatureTooltip', function () {
         return driver.executeScript(stringifyFunctionCall(addLayerWithPointAtMapCenter, 'namePoint', 'description'))
       }).then(() => {
         return driver.executeScript(
-          stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
+          stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description'))
       }).then(() => {
         let viewport = driver.findElement(By.className('ol-viewport'))
         let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))
@@ -219,10 +222,10 @@ describe('FeatureTooltip', function () {
     driver.get(config.testClient).then(() => {
       waitUntilMapReady(driver).then(() => {
         return driver.executeScript(
-          stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'nameLine', 'description', 1000))
+          stringifyFunctionCall(addLayerWithLineThroughMapCenter, 'nameLine', 'description'))
       }).then(() => {
         return driver.executeScript(
-          stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description', 1000))
+          stringifyFunctionCall(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description'))
       }).then(() => {
         let viewport = driver.findElement(By.className('ol-viewport'))
         let featureTooltip = driver.findElement(By.className('g4u-featuretooltip'))

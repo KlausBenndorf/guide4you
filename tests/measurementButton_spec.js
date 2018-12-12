@@ -1,5 +1,5 @@
 import webdriver from 'selenium-webdriver'
-import phantomDriver from './customPhantomDriver'
+import customDriver from './customDriver'
 import test from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
 
@@ -11,8 +11,7 @@ let By = webdriver.By
 let ActionSequence = webdriver.ActionSequence
 
 function getPixelFromCoordinate (coordinate) {
-  return window.map.getPixelFromCoordinate(
-    window.ol.proj.transform(coordinate, 'EPSG:4326', window.map.getView().getProjection()))
+  return window.map.getPixelFromCoordinate(coordinate)
 }
 
 test.describe('measurementButton', function () {
@@ -22,7 +21,7 @@ test.describe('measurementButton', function () {
 
   test.before(function () {
     this.timeout(config.mochaTimeout)
-    driver = phantomDriver()
+    driver = customDriver()
     driver.manage().window().setSize(1200, 800)
   })
 
@@ -129,9 +128,9 @@ test.describe('measurementButton', function () {
           .findElement(By.css('.g4u-distance-measurement .g4u-window'))
           .isDisplayed()
         assert(visible, 'distance measurement window should be visible').isEqualTo(true)
-        driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [6.94817, 50.94129]))
+        driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [773466.7463450996, 6610915.166693036]))
           .then(function (point1) {
-            driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [6.96837, 50.94129]))
+            driver.executeScript(stringifyFunctionCall(getPixelFromCoordinate, [775715.4000591239, 6610915.166693036]))
               .then(function (point2) {
                 return driver.findElement(By.className('ol-viewport'))
                   .then(function (element) {
