@@ -2,12 +2,14 @@ import $ from 'jquery'
 
 import { Control } from 'guide4you/src/controls/Control'
 import { cssClasses } from 'guide4you/src/globals'
+import { URL } from 'guide4you/src/URLHelper'
 
 import '../../less/maximizebutton.less'
 
 /**
  * @typedef {g4uControlOptions} MaximizeButtonOptions
- * @property {string} [pageTitle]
+ * @property {URLLike} [baseURL]
+ * @property {object.<string, string>} [URLParameters]
  */
 
 /**
@@ -19,28 +21,39 @@ export class MaximizeButton extends Control {
    */
   constructor (options = {}) {
     options.className = options.className || 'g4u-maximize-button'
-    options.element = $('<button>').get(0)
-    options.singleButton = true
+    options.element = $('<div>').get(0)
 
     super(options)
 
     this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary('MaximizeButton tipLabel'))
 
-    this.get$Element()
+    $('<button>')
       .addClass(cssClasses.mainButton)
       .on('click', () => {
         this.handleClick_()
       })
+      .appendTo(this.get$Element())
 
-    this.newPageTitle_ = options.pageTitle
+    this.parameters_ = options.URLParameters
+    this.baseURL_ = URL.extractFromConfig(options, 'baseURL')
+  }
+
+  setMap (map) {
+    if (map && this.baseURL_) {
+      this.baseURL_.extractParamsFromMap(map)
+    }
+    super.setMap(map)
   }
 
   handleClick_ () {
+    const parameters = Object.assign({
+      clsBtn: true
+    }, this.parameters_)
+    const baseURL = (this.baseURL_ !== undefined) ? this.baseURL_.finalize() : undefined
     const url = this.getMap().get('urlApi').makeURL({
-      additionalParameters: {
-        clsBtn: true
-      }
+      baseURL,
+      parameters
     })
-    window.open(url, this.newPageTitle_)
+    window.open(url)
   }
 }

@@ -231,7 +231,7 @@ export class URLAPI {
    * Create query string from map and optional name of config file
    * @param {object} [options={}]
    * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
-   * @param {object} [additionalParameters=undefined] additional paramters to add to the url.
+   * @param {object} [options.parameters=undefined] additional parameters to add to the url.
    * @returns {string} Query string
    */
   makeURL (options = {}) {
@@ -245,9 +245,9 @@ export class URLAPI {
       assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(values[key]))
     }
 
-    if (options.additionalParameters !== undefined) {
-      for (let key in options.additionalParameters) {
-        assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.additionalParameters[key]))
+    if (options.parameters !== undefined) {
+      for (let key in options.parameters) {
+        assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.parameters[key]))
       }
     }
 

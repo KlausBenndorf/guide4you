@@ -1,3 +1,7 @@
+import $ from 'jquery'
+
+import { cssClasses } from 'guide4you/src/globals'
+
 /**
  * @type {URLParameter}
  */
@@ -8,6 +12,7 @@ export const closeButtonParam = {
     if (query.isTrue('clsbtn')) {
       map.get('UIConfigurator').controlFactory.addControlTo(map, 'closeWindowButton')
       map.get('history').setOnLeave(() => window.close())
+      $(map.getViewport()).find('.g4u-maximize-button').addClass(cssClasses.hidden)
     }
   }
   // get is not supported (closeButton does only work if the map was opened programmatically, it makes no sense to
