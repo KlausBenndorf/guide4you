@@ -1,6 +1,6 @@
-import ol from 'ol'
 import { Debug } from 'guide4you/src/Debug'
 import { restoreText } from 'guide4you/src/xssprotection'
+import { transform } from 'ol/src/ol/proj'
 
 /**
  * @type {URLParameter}
@@ -23,7 +23,7 @@ export const markerParam = {
         coords = map.getView().getCenter()
         fromProjection = map.getView().getProjection()
       }
-      marker.setPosition(ol.proj.transform(coords, fromProjection, map.get('mapProjection')))
+      marker.setPosition(transform(coords, fromProjection, map.get('mapProjection')))
 
       if (query.isSet('marklat') || query.isSet('marklon') || query.isSet('markx') || query.isSet('marky')) {
         marker.setActive(true)
@@ -51,7 +51,7 @@ export const markerParam = {
         srid: map.get('interfaceProjection')
       }
 
-      let xy = ol.proj.transform(
+      let xy = transform(
         marker.getPosition(), map.get('mapProjection'), map.get('interfaceProjection'))
       let text = restoreText(marker.getText())
       let popvis = marker.getPopupVisible()

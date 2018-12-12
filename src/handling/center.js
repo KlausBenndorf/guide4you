@@ -1,4 +1,4 @@
-import ol from 'ol'
+import { get as getProj, transform } from 'ol/proj'
 
 /**
  * @type {URLParameter}
@@ -17,9 +17,9 @@ export const centerParam = {
 
       if (!isNaN(x) && !isNaN(y)) {
         let view = map.getView()
-        if (ol.proj.get(srId)) {
+        if (getProj(srId)) {
           view.setCenter(view.constrainCenter(
-            ol.proj.transform([x, y], srId, view.getProjection())
+            transform([x, y], srId, view.getProjection())
           ))
         } else {
           console.error(`Unknown Projection '${srId}'`)
@@ -33,14 +33,14 @@ export const centerParam = {
         let view = map.getView()
 
         view.setCenter(view.constrainCenter(
-          ol.proj.transform([lon, lat], 'EPSG:4326', view.getProjection())
+          transform([lon, lat], 'EPSG:4326', view.getProjection())
         ))
       }
     }
   },
   getFromMap: (map, query) => {
     let view = map.getView()
-    let coordinate = ol.proj.transform(
+    let coordinate = transform(
       view.getCenter(),
       view.getProjection(),
       map.get('interfaceProjection')

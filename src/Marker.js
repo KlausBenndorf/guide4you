@@ -1,6 +1,7 @@
-import ol from 'ol'
-
 import { VectorLayer } from 'guide4you/src/layers/VectorLayer'
+import Feature from 'ol/src/ol/Feature'
+import { Vector } from 'ol/src/ol/source'
+import Point from 'ol/src/ol/geom/Point'
 
 /**
  * @typedef {object} MarkerOptions
@@ -46,17 +47,17 @@ export class Marker {
       this.map_ = map // must happen in the beginning
 
       /**
-       * @type {ol.Feature}
+       * @type {Feature}
        * @private
        */
-      this.feature_ = new ol.Feature()
+      this.feature_ = new Feature()
 
       /**
        * @type {VectorLayer}
        * @private
        */
       this.vectorLayer_ = new VectorLayer({
-        source: new ol.source.Vector({ features: [this.feature_] }),
+        source: Vector({ features: [this.feature_] }),
         visible: false
       })
 
@@ -144,7 +145,7 @@ export class Marker {
    * @param {ol.Coordinate} coords
    */
   setPosition (coords) {
-    let point = new ol.geom.Point(coords)
+    let point = new Point(coords)
     this.feature_.setGeometry(point) // triggers the repositioning of the marker
   }
 

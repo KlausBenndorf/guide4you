@@ -1,4 +1,3 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import { Control } from 'guide4you/src/controls/Control'
@@ -7,6 +6,8 @@ import { Debug } from 'guide4you/src/Debug'
 
 import '../../less/linkgeneratorbutton.less'
 import { filterText, restoreText } from 'guide4you/src/xssprotection'
+import Collection from 'ol/src/ol/Collection'
+import Draw from 'ol/src/ol/interaction/Draw'
 
 /**
  * @typedef {g4uControlOptions} LinkGeneratorButtonOptions
@@ -214,13 +215,13 @@ export class LinkGeneratorButton extends Control {
        */
       this.shield_ = map.get('shield')
 
-      let collection = new ol.Collection()
+      let collection = new Collection()
 
       /**
-       * @type {ol.interaction.Draw}
+       * @type {Draw}
        * @private
        */
-      this.drawPoint_ = new ol.interaction.Draw({
+      this.drawPoint_ = new Draw({
         features: collection,
         type: 'Point',
         style: map.get('styling').getStyle(this.style_)
@@ -234,7 +235,7 @@ export class LinkGeneratorButton extends Control {
 
   /**
    * Let the user draw a point for the marker.
-   * @returns {Promise.<ol.Feature>}
+   * @returns {Promise.<Feature>}
    */
   drawMarkerPoint () {
     return new Promise(resolve => {

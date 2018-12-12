@@ -1,5 +1,5 @@
-import ol from 'ol'
 import { Debug } from 'guide4you/src/Debug'
+import { get as getProj, transform } from 'ol/proj'
 
 /**
  * @type {URLParameter}
@@ -17,7 +17,7 @@ export const fitRectangleParam = {
         let options = {}
         if (query.isSet('srid')) {
           let srId = query.getSanitizedVal('srid')
-          if (ol.proj.get(srId)) {
+          if (getProj(srId)) {
             options.srId = srId
           } else {
             Debug.error(`Unknown Projection '${srId}'`)
@@ -36,7 +36,7 @@ export const fitRectangleParam = {
   },
   getFromMap: (map, query) => {
     let view = map.getView()
-    let coordinate = ol.proj.transform(
+    let coordinate = transform(
       view.getCenter(),
       view.getProjection(),
       map.get('interfaceProjection')
