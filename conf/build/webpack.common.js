@@ -21,7 +21,8 @@ mustacheLoader.setTemplateVars({
     'a.tile.openstreetmap.org',
     'b.tile.openstreetmap.org',
     'c.tile.openstreetmap.org',
-    'nominatim.openstreetmap.org'
+    'nominatim.openstreetmap.org',
+    'stadtplan.bonn.de'
   ]
 })
 
