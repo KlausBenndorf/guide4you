@@ -55,18 +55,18 @@
     },
     {
       "id": "b5",
-      "title": "DOP20 (NRW) WMS",
+      "title": "DOP (NRW) WMS",
       "type": "WMS",
       "source": {
         "url": {
           "useProxy": true,
-          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop"
         },
         "params": {
           "FORMAT": "image/jpeg",
           "VERSION": "1.3.0",
           "LAYERS": [
-            "nw_dop20"
+            "nw_dop_rgb"
           ]
         },
         "attribution": "&copy; Geobasis NRW 2016"
@@ -80,7 +80,7 @@
       "source": {
         "url": {
           "useProxy": true,
-          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop"
         },
         "params": {
           "FORMAT": "image/jpeg",
