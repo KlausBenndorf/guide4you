@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,8 +207,18 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/configurators/UIConfigurator.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+
+import DoubleClickZoom from &apos;ol/interaction/DoubleClickZoom&apos;
+import DragPan from &apos;ol/interaction/DragPan&apos;
+import DragRotate from &apos;ol/interaction/DragRotate&apos;
+import Kinetic from &apos;ol/Kinetic&apos;
+import DragZoom from &apos;ol/interaction/DragZoom&apos;
+import KeyboardPan from &apos;ol/interaction/KeyboardPan&apos;
+import KeyboardZoom from &apos;ol/interaction/KeyboardZoom&apos;
+import MouseWheelZoom from &apos;ol/interaction/MouseWheelZoom&apos;
+import PinchRotate from &apos;ol/interaction/PinchRotate&apos;
+import PinchZoom from &apos;ol/interaction/PinchZoom&apos;
 
 import { Positioning } from &apos;./Positioning&apos;
 
@@ -627,7 +637,7 @@ export class UIConfigurator {
 
         if (checkFor(mapConfigCopy, &apos;interactions&apos;)) {
           if (checkFor(mapConfigCopy.interactions, &apos;doubleClickZoom&apos;)) {
-            this.map_.addDefaultInteraction(&apos;dblclick&apos;, new ol.interaction.DoubleClickZoom())
+            this.map_.addDefaultInteraction(&apos;dblclick&apos;, new DoubleClickZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;dragPan&apos;)) {
@@ -640,42 +650,42 @@ export class UIConfigurator {
                 minVelocity = mapConfigCopy.kinetic.minVelocity || minVelocity
                 delay = mapConfigCopy.kinetic.delay || delay
               }
-              this.map_.addDefaultInteraction(&apos;drag&apos;, new ol.interaction.DragPan({
-                kinetic: new ol.Kinetic(decay, minVelocity, delay)
+              this.map_.addDefaultInteraction(&apos;drag&apos;, new DragPan({
+                kinetic: new Kinetic(decay, minVelocity, delay)
               }))
             } else {
-              this.map_.addDefaultInteraction(&apos;drag&apos;, new ol.interaction.DragPan())
+              this.map_.addDefaultInteraction(&apos;drag&apos;, new DragPan())
             }
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;dragRotate&apos;)) {
             // using default condition: ol.events.condition.altShiftKeysOnly
-            this.map_.addDefaultInteraction(&apos;altShiftDrag&apos;, new ol.interaction.DragRotate())
+            this.map_.addDefaultInteraction(&apos;altShiftDrag&apos;, new DragRotate())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;dragZoom&apos;)) {
             // using default condition: ol.events.condition.shiftKeyOnly
-            this.map_.addDefaultInteraction(&apos;shiftDrag&apos;, new ol.interaction.DragZoom())
+            this.map_.addDefaultInteraction(&apos;shiftDrag&apos;, new DragZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;keyboardPan&apos;)) {
-            this.map_.addDefaultInteraction(&apos;keyboard&apos;, new ol.interaction.KeyboardPan())
+            this.map_.addDefaultInteraction(&apos;keyboard&apos;, new KeyboardPan())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;keyboardZoom&apos;)) {
-            this.map_.addDefaultInteraction(&apos;keyboard&apos;, new ol.interaction.KeyboardZoom())
+            this.map_.addDefaultInteraction(&apos;keyboard&apos;, new KeyboardZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;mouseWheelZoom&apos;)) {
-            this.map_.addDefaultInteraction(&apos;mouseWheel&apos;, new ol.interaction.MouseWheelZoom())
+            this.map_.addDefaultInteraction(&apos;mouseWheel&apos;, new MouseWheelZoom())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;pinchRotate&apos;)) {
-            this.map_.addDefaultInteraction(&apos;pinchRotate&apos;, new ol.interaction.PinchRotate())
+            this.map_.addDefaultInteraction(&apos;pinchRotate&apos;, new PinchRotate())
           }
 
           if (checkFor(mapConfigCopy.interactions, &apos;pinchZoom&apos;)) {
-            this.map_.addDefaultInteraction(&apos;pinchZoom&apos;, new ol.interaction.PinchZoom())
+            this.map_.addDefaultInteraction(&apos;pinchZoom&apos;, new PinchZoom())
           }
         }
 

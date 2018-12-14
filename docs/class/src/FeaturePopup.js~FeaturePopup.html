@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,13 +207,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {FeaturePopup} from &apos;<span><a href="file/src/FeaturePopup.js.html#lineNumber28">guide4you/src/FeaturePopup.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {FeaturePopup} from &apos;<span><a href="file/src/FeaturePopup.js.html#lineNumber33">guide4you/src/FeaturePopup.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/FeaturePopup.js.html#lineNumber28">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/FeaturePopup.js.html#lineNumber33">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -221,7 +221,7 @@
 
   
 
-  <div class="expression-extends" data-ice="expressionExtends"><h4>Expression Extends:</h4><pre class="prettyprint"><code data-ice="expressionExtendsCode">class FeaturePopup extends mixin(ol.<span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, <span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span>)</code></pre></div>
+  <div class="expression-extends" data-ice="expressionExtends"><h4>Expression Extends:</h4><pre class="prettyprint"><code data-ice="expressionExtendsCode">class FeaturePopup extends mixin(<span>BaseObject</span>, <span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span>)</code></pre></div>
   
   
   
@@ -650,6 +650,34 @@
           
           
           <span class="code" data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html#instance-member-defaultPopupModifiers_">defaultPopupModifiers_</a></span></span><span class="code" data-ice="signature">: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span><span>[]</span></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html#instance-member-draggable_">draggable_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
         </p>
       </div>
       <div>
@@ -1221,7 +1249,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html#instance-method-updateContent">updateContent</a></span></span><span class="code" data-ice="signature">()</span>
+          <span class="code" data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html#instance-method-updateContent">updateContent</a></span></span><span class="code" data-ice="signature">(): <span>*</span></span>
         </p>
       </div>
       <div>
@@ -1346,7 +1374,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber159">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber170">source</a></span></span>
     </span>
   </h3>
 
@@ -1420,7 +1448,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
@@ -1482,7 +1510,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber466">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber480">source</a></span></span>
     </span>
   </h3>
 
@@ -1527,7 +1555,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber63">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber68">source</a></span></span>
     </span>
   </h3>
 
@@ -1570,7 +1598,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber117">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber122">source</a></span></span>
     </span>
   </h3>
 
@@ -1613,7 +1641,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber57">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber62">source</a></span></span>
     </span>
   </h3>
 
@@ -1656,7 +1684,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber111">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber116">source</a></span></span>
     </span>
   </h3>
 
@@ -1699,7 +1727,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber105">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber110">source</a></span></span>
     </span>
   </h3>
 
@@ -1742,7 +1770,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber99">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber104">source</a></span></span>
     </span>
   </h3>
 
@@ -1785,7 +1813,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber51">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber56">source</a></span></span>
     </span>
   </h3>
 
@@ -1828,7 +1856,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber45">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber50">source</a></span></span>
     </span>
   </h3>
 
@@ -1871,7 +1899,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber39">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber44">source</a></span></span>
     </span>
   </h3>
 
@@ -1914,7 +1942,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber140">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber151">source</a></span></span>
     </span>
   </h3>
 
@@ -1957,7 +1985,50 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber134">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber139">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-draggable_">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">draggable_</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber145">source</a></span></span>
     </span>
   </h3>
 
@@ -2000,7 +2071,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber69">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber74">source</a></span></span>
     </span>
   </h3>
 
@@ -2043,7 +2114,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber93">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber98">source</a></span></span>
     </span>
   </h3>
 
@@ -2086,7 +2157,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber152">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber163">source</a></span></span>
     </span>
   </h3>
 
@@ -2129,7 +2200,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber123">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber128">source</a></span></span>
     </span>
   </h3>
 
@@ -2172,7 +2243,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber87">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber92">source</a></span></span>
     </span>
   </h3>
 
@@ -2215,7 +2286,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber81">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber86">source</a></span></span>
     </span>
   </h3>
 
@@ -2258,7 +2329,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber75">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber80">source</a></span></span>
     </span>
   </h3>
 
@@ -2301,7 +2372,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber146">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber157">source</a></span></span>
     </span>
   </h3>
 
@@ -2347,7 +2418,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber529">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber544">source</a></span></span>
     </span>
   </h3>
 
@@ -2419,7 +2490,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber571">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber586">source</a></span></span>
     </span>
   </h3>
 
@@ -2479,7 +2550,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber595">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber610">source</a></span></span>
     </span>
   </h3>
 
@@ -2537,7 +2608,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber347">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber358">source</a></span></span>
     </span>
   </h3>
 
@@ -2592,7 +2663,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber354">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber365">source</a></span></span>
     </span>
   </h3>
 
@@ -2647,7 +2718,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber340">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber351">source</a></span></span>
     </span>
   </h3>
 
@@ -2702,7 +2773,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber490">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber504">source</a></span></span>
     </span>
   </h3>
 
@@ -2757,7 +2828,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber447">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber461">source</a></span></span>
     </span>
   </h3>
 
@@ -2836,7 +2907,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber170">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber181">source</a></span></span>
     </span>
   </h3>
 
@@ -2895,7 +2966,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber497">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber511">source</a></span></span>
     </span>
   </h3>
 
@@ -2954,7 +3025,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber393">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber406">source</a></span></span>
     </span>
   </h3>
 
@@ -3010,11 +3081,11 @@ This does only work if the popup is already visible!</p>
     
     
     
-    <span class="code" data-ice="name">updateContent</span><span class="code" data-ice="signature">()</span>
+    <span class="code" data-ice="name">updateContent</span><span class="code" data-ice="signature">(): <span>*</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber358">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber369">source</a></span></span>
     </span>
   </h3>
 
@@ -3028,7 +3099,19 @@ This does only work if the popup is already visible!</p>
   <div data-ice="properties">
 </div>
 
-  
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span>*</span></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
 
   
 
@@ -3057,7 +3140,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber434">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber448">source</a></span></span>
     </span>
   </h3>
 
@@ -3102,7 +3185,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber303">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber314">source</a></span></span>
     </span>
   </h3>
 
@@ -3173,7 +3256,7 @@ This does only work if the popup is already visible!</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber330">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/FeaturePopup.js.html#lineNumber341">source</a></span></span>
     </span>
   </h3>
 

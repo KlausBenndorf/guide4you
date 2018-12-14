@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 397,
+  "end": 417,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 397,
+    "end": 417,
     "loc": {
       "start": {
         "line": 1,
@@ -31,7 +31,7 @@
       {
         "type": "ImportDeclaration",
         "start": 0,
-        "end": 19,
+        "end": 41,
         "loc": {
           "start": {
             "line": 1,
@@ -39,14 +39,14 @@
           },
           "end": {
             "line": 1,
-            "column": 19
+            "column": 41
           }
         },
         "specifiers": [
           {
             "type": "ImportDefaultSpecifier",
             "start": 7,
-            "end": 9,
+            "end": 19,
             "loc": {
               "start": {
                 "line": 1,
@@ -54,13 +54,13 @@
               },
               "end": {
                 "line": 1,
-                "column": 9
+                "column": 19
               }
             },
             "local": {
               "type": "Identifier",
               "start": 7,
-              "end": 9,
+              "end": 19,
               "loc": {
                 "start": {
                   "line": 1,
@@ -68,39 +68,39 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 9
+                  "column": 19
                 },
-                "identifierName": "ol"
+                "identifierName": "OlImageLayer"
               },
-              "name": "ol"
+              "name": "OlImageLayer"
             }
           }
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 15,
-          "end": 19,
+          "start": 25,
+          "end": 41,
           "loc": {
             "start": {
               "line": 1,
-              "column": 15
+              "column": 25
             },
             "end": {
               "line": 1,
-              "column": 19
+              "column": 41
             }
           },
           "extra": {
-            "rawValue": "ol",
-            "raw": "'ol'"
+            "rawValue": "ol/layer/Image",
+            "raw": "'ol/layer/Image'"
           },
-          "value": "ol"
+          "value": "ol/layer/Image"
         }
       },
       {
         "type": "ImportDeclaration",
-        "start": 21,
-        "end": 94,
+        "start": 43,
+        "end": 116,
         "loc": {
           "start": {
             "line": 3,
@@ -114,8 +114,8 @@
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 30,
-            "end": 56,
+            "start": 52,
+            "end": 78,
             "loc": {
               "start": {
                 "line": 3,
@@ -128,8 +128,8 @@
             },
             "imported": {
               "type": "Identifier",
-              "start": 30,
-              "end": 56,
+              "start": 52,
+              "end": 78,
               "loc": {
                 "start": {
                   "line": 3,
@@ -145,8 +145,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 30,
-              "end": 56,
+              "start": 52,
+              "end": 78,
               "loc": {
                 "start": {
                   "line": 3,
@@ -164,8 +164,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 64,
-          "end": 94,
+          "start": 86,
+          "end": 116,
           "loc": {
             "start": {
               "line": 3,
@@ -185,8 +185,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 95,
-        "end": 144,
+        "start": 117,
+        "end": 166,
         "loc": {
           "start": {
             "line": 4,
@@ -200,8 +200,8 @@
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 104,
-            "end": 118,
+            "start": 126,
+            "end": 140,
             "loc": {
               "start": {
                 "line": 4,
@@ -214,8 +214,8 @@
             },
             "imported": {
               "type": "Identifier",
-              "start": 104,
-              "end": 118,
+              "start": 126,
+              "end": 140,
               "loc": {
                 "start": {
                   "line": 4,
@@ -231,8 +231,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 104,
-              "end": 118,
+              "start": 126,
+              "end": 140,
               "loc": {
                 "start": {
                   "line": 4,
@@ -250,8 +250,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 126,
-          "end": 144,
+          "start": 148,
+          "end": 166,
           "loc": {
             "start": {
               "line": 4,
@@ -271,8 +271,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 145,
-        "end": 181,
+        "start": 167,
+        "end": 203,
         "loc": {
           "start": {
             "line": 5,
@@ -286,8 +286,8 @@
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 154,
-            "end": 159,
+            "start": 176,
+            "end": 181,
             "loc": {
               "start": {
                 "line": 5,
@@ -300,8 +300,8 @@
             },
             "imported": {
               "type": "Identifier",
-              "start": 154,
-              "end": 159,
+              "start": 176,
+              "end": 181,
               "loc": {
                 "start": {
                   "line": 5,
@@ -317,8 +317,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 154,
-              "end": 159,
+              "start": 176,
+              "end": 181,
               "loc": {
                 "start": {
                   "line": 5,
@@ -336,8 +336,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 167,
-          "end": 181,
+          "start": 189,
+          "end": 203,
           "loc": {
             "start": {
               "line": 5,
@@ -357,8 +357,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 182,
-        "end": 233,
+        "start": 204,
+        "end": 255,
         "loc": {
           "start": {
             "line": 6,
@@ -372,8 +372,8 @@
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 191,
-            "end": 206,
+            "start": 213,
+            "end": 228,
             "loc": {
               "start": {
                 "line": 6,
@@ -386,8 +386,8 @@
             },
             "imported": {
               "type": "Identifier",
-              "start": 191,
-              "end": 206,
+              "start": 213,
+              "end": 228,
               "loc": {
                 "start": {
                   "line": 6,
@@ -403,8 +403,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 191,
-              "end": 206,
+              "start": 213,
+              "end": 228,
               "loc": {
                 "start": {
                   "line": 6,
@@ -422,8 +422,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 214,
-          "end": 233,
+          "start": 236,
+          "end": 255,
           "loc": {
             "start": {
               "line": 6,
@@ -443,8 +443,8 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 235,
-        "end": 331,
+        "start": 257,
+        "end": 351,
         "loc": {
           "start": {
             "line": 8,
@@ -452,15 +452,15 @@
           },
           "end": {
             "line": 8,
-            "column": 96
+            "column": 94
           }
         },
         "specifiers": [],
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 242,
-          "end": 331,
+          "start": 264,
+          "end": 351,
           "loc": {
             "start": {
               "line": 8,
@@ -468,14 +468,14 @@
             },
             "end": {
               "line": 8,
-              "column": 96
+              "column": 94
             }
           },
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 248,
-              "end": 331,
+              "start": 270,
+              "end": 351,
               "loc": {
                 "start": {
                   "line": 8,
@@ -483,13 +483,13 @@
                 },
                 "end": {
                   "line": 8,
-                  "column": 96
+                  "column": 94
                 }
               },
               "id": {
                 "type": "Identifier",
-                "start": 248,
-                "end": 258,
+                "start": 270,
+                "end": 280,
                 "loc": {
                   "start": {
                     "line": 8,
@@ -505,8 +505,8 @@
               },
               "init": {
                 "type": "CallExpression",
-                "start": 261,
-                "end": 331,
+                "start": 283,
+                "end": 351,
                 "loc": {
                   "start": {
                     "line": 8,
@@ -514,13 +514,13 @@
                   },
                   "end": {
                     "line": 8,
-                    "column": 96
+                    "column": 94
                   }
                 },
                 "callee": {
                   "type": "Identifier",
-                  "start": 261,
-                  "end": 266,
+                  "start": 283,
+                  "end": 288,
                   "loc": {
                     "start": {
                       "line": 8,
@@ -536,9 +536,9 @@
                 },
                 "arguments": [
                   {
-                    "type": "MemberExpression",
-                    "start": 267,
-                    "end": 281,
+                    "type": "Identifier",
+                    "start": 289,
+                    "end": 301,
                     "loc": {
                       "start": {
                         "line": 8,
@@ -546,105 +546,39 @@
                       },
                       "end": {
                         "line": 8,
-                        "column": 46
-                      }
+                        "column": 44
+                      },
+                      "identifierName": "OlImageLayer"
                     },
-                    "object": {
-                      "type": "MemberExpression",
-                      "start": 267,
-                      "end": 275,
-                      "loc": {
-                        "start": {
-                          "line": 8,
-                          "column": 32
-                        },
-                        "end": {
-                          "line": 8,
-                          "column": 40
-                        }
-                      },
-                      "object": {
-                        "type": "Identifier",
-                        "start": 267,
-                        "end": 269,
-                        "loc": {
-                          "start": {
-                            "line": 8,
-                            "column": 32
-                          },
-                          "end": {
-                            "line": 8,
-                            "column": 34
-                          },
-                          "identifierName": "ol"
-                        },
-                        "name": "ol"
-                      },
-                      "property": {
-                        "type": "Identifier",
-                        "start": 270,
-                        "end": 275,
-                        "loc": {
-                          "start": {
-                            "line": 8,
-                            "column": 35
-                          },
-                          "end": {
-                            "line": 8,
-                            "column": 40
-                          },
-                          "identifierName": "layer"
-                        },
-                        "name": "layer"
-                      },
-                      "computed": false
-                    },
-                    "property": {
-                      "type": "Identifier",
-                      "start": 276,
-                      "end": 281,
-                      "loc": {
-                        "start": {
-                          "line": 8,
-                          "column": 41
-                        },
-                        "end": {
-                          "line": 8,
-                          "column": 46
-                        },
-                        "identifierName": "Image"
-                      },
-                      "name": "Image"
-                    },
-                    "computed": false
+                    "name": "OlImageLayer"
                   },
                   {
                     "type": "ArrayExpression",
-                    "start": 283,
-                    "end": 330,
+                    "start": 303,
+                    "end": 350,
                     "loc": {
                       "start": {
                         "line": 8,
-                        "column": 48
+                        "column": 46
                       },
                       "end": {
                         "line": 8,
-                        "column": 95
+                        "column": 93
                       }
                     },
                     "elements": [
                       {
                         "type": "Identifier",
-                        "start": 285,
-                        "end": 300,
+                        "start": 305,
+                        "end": 320,
                         "loc": {
                           "start": {
                             "line": 8,
-                            "column": 50
+                            "column": 48
                           },
                           "end": {
                             "line": 8,
-                            "column": 65
+                            "column": 63
                           },
                           "identifierName": "ProvideMapMixin"
                         },
@@ -652,16 +586,16 @@
                       },
                       {
                         "type": "Identifier",
-                        "start": 302,
-                        "end": 328,
+                        "start": 322,
+                        "end": 348,
                         "loc": {
                           "start": {
                             "line": 8,
-                            "column": 67
+                            "column": 65
                           },
                           "end": {
                             "line": 8,
-                            "column": 93
+                            "column": 91
                           },
                           "identifierName": "LayerLoadProcessCountMixin"
                         },
@@ -680,8 +614,8 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 333,
-        "end": 396,
+        "start": 353,
+        "end": 416,
         "loc": {
           "start": {
             "line": 10,
@@ -696,8 +630,8 @@
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 340,
-          "end": 396,
+          "start": 360,
+          "end": 416,
           "loc": {
             "start": {
               "line": 10,
@@ -711,8 +645,8 @@
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 346,
-              "end": 396,
+              "start": 366,
+              "end": 416,
               "loc": {
                 "start": {
                   "line": 10,
@@ -725,8 +659,8 @@
               },
               "id": {
                 "type": "Identifier",
-                "start": 346,
-                "end": 360,
+                "start": 366,
+                "end": 380,
                 "loc": {
                   "start": {
                     "line": 10,
@@ -742,8 +676,8 @@
               },
               "init": {
                 "type": "CallExpression",
-                "start": 363,
-                "end": 396,
+                "start": 383,
+                "end": 416,
                 "loc": {
                   "start": {
                     "line": 10,
@@ -756,8 +690,8 @@
                 },
                 "callee": {
                   "type": "Identifier",
-                  "start": 363,
-                  "end": 368,
+                  "start": 383,
+                  "end": 388,
                   "loc": {
                     "start": {
                       "line": 10,
@@ -774,8 +708,8 @@
                 "arguments": [
                   {
                     "type": "Identifier",
-                    "start": 369,
-                    "end": 379,
+                    "start": 389,
+                    "end": 399,
                     "loc": {
                       "start": {
                         "line": 10,
@@ -791,8 +725,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 381,
-                    "end": 395,
+                    "start": 401,
+                    "end": 415,
                     "loc": {
                       "start": {
                         "line": 10,
@@ -860,9 +794,9 @@
         "postfix": false,
         "binop": null
       },
-      "value": "ol",
+      "value": "OlImageLayer",
       "start": 7,
-      "end": 9,
+      "end": 19,
       "loc": {
         "start": {
           "line": 1,
@@ -870,7 +804,7 @@
         },
         "end": {
           "line": 1,
-          "column": 9
+          "column": 19
         }
       }
     },
@@ -887,16 +821,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 10,
-      "end": 14,
+      "start": 20,
+      "end": 24,
       "loc": {
         "start": {
           "line": 1,
-          "column": 10
+          "column": 20
         },
         "end": {
           "line": 1,
-          "column": 14
+          "column": 24
         }
       }
     },
@@ -913,17 +847,17 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "ol",
-      "start": 15,
-      "end": 19,
+      "value": "ol/layer/Image",
+      "start": 25,
+      "end": 41,
       "loc": {
         "start": {
           "line": 1,
-          "column": 15
+          "column": 25
         },
         "end": {
           "line": 1,
-          "column": 19
+          "column": 41
         }
       }
     },
@@ -942,8 +876,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 21,
-      "end": 27,
+      "start": 43,
+      "end": 49,
       "loc": {
         "start": {
           "line": 3,
@@ -967,8 +901,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 28,
-      "end": 29,
+      "start": 50,
+      "end": 51,
       "loc": {
         "start": {
           "line": 3,
@@ -993,8 +927,8 @@
         "binop": null
       },
       "value": "LayerLoadProcessCountMixin",
-      "start": 30,
-      "end": 56,
+      "start": 52,
+      "end": 78,
       "loc": {
         "start": {
           "line": 3,
@@ -1018,8 +952,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 57,
-      "end": 58,
+      "start": 79,
+      "end": 80,
       "loc": {
         "start": {
           "line": 3,
@@ -1044,8 +978,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 59,
-      "end": 63,
+      "start": 81,
+      "end": 85,
       "loc": {
         "start": {
           "line": 3,
@@ -1071,8 +1005,8 @@
         "updateContext": null
       },
       "value": "./LayerLoadProcessCountMixin",
-      "start": 64,
-      "end": 94,
+      "start": 86,
+      "end": 116,
       "loc": {
         "start": {
           "line": 3,
@@ -1099,8 +1033,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 95,
-      "end": 101,
+      "start": 117,
+      "end": 123,
       "loc": {
         "start": {
           "line": 4,
@@ -1124,8 +1058,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 102,
-      "end": 103,
+      "start": 124,
+      "end": 125,
       "loc": {
         "start": {
           "line": 4,
@@ -1150,8 +1084,8 @@
         "binop": null
       },
       "value": "BaseLayerMixin",
-      "start": 104,
-      "end": 118,
+      "start": 126,
+      "end": 140,
       "loc": {
         "start": {
           "line": 4,
@@ -1175,8 +1109,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 119,
-      "end": 120,
+      "start": 141,
+      "end": 142,
       "loc": {
         "start": {
           "line": 4,
@@ -1201,8 +1135,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 121,
-      "end": 125,
+      "start": 143,
+      "end": 147,
       "loc": {
         "start": {
           "line": 4,
@@ -1228,8 +1162,8 @@
         "updateContext": null
       },
       "value": "./BaseLayerMixin",
-      "start": 126,
-      "end": 144,
+      "start": 148,
+      "end": 166,
       "loc": {
         "start": {
           "line": 4,
@@ -1256,8 +1190,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 145,
-      "end": 151,
+      "start": 167,
+      "end": 173,
       "loc": {
         "start": {
           "line": 5,
@@ -1281,8 +1215,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 152,
-      "end": 153,
+      "start": 174,
+      "end": 175,
       "loc": {
         "start": {
           "line": 5,
@@ -1307,8 +1241,8 @@
         "binop": null
       },
       "value": "mixin",
-      "start": 154,
-      "end": 159,
+      "start": 176,
+      "end": 181,
       "loc": {
         "start": {
           "line": 5,
@@ -1332,8 +1266,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 160,
-      "end": 161,
+      "start": 182,
+      "end": 183,
       "loc": {
         "start": {
           "line": 5,
@@ -1358,8 +1292,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 162,
-      "end": 166,
+      "start": 184,
+      "end": 188,
       "loc": {
         "start": {
           "line": 5,
@@ -1385,8 +1319,8 @@
         "updateContext": null
       },
       "value": "../utilities",
-      "start": 167,
-      "end": 181,
+      "start": 189,
+      "end": 203,
       "loc": {
         "start": {
           "line": 5,
@@ -1413,8 +1347,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 182,
-      "end": 188,
+      "start": 204,
+      "end": 210,
       "loc": {
         "start": {
           "line": 6,
@@ -1438,8 +1372,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 189,
-      "end": 190,
+      "start": 211,
+      "end": 212,
       "loc": {
         "start": {
           "line": 6,
@@ -1464,8 +1398,8 @@
         "binop": null
       },
       "value": "ProvideMapMixin",
-      "start": 191,
-      "end": 206,
+      "start": 213,
+      "end": 228,
       "loc": {
         "start": {
           "line": 6,
@@ -1489,8 +1423,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 207,
-      "end": 208,
+      "start": 229,
+      "end": 230,
       "loc": {
         "start": {
           "line": 6,
@@ -1515,8 +1449,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 209,
-      "end": 213,
+      "start": 231,
+      "end": 235,
       "loc": {
         "start": {
           "line": 6,
@@ -1542,8 +1476,8 @@
         "updateContext": null
       },
       "value": "./ProvideMapMixin",
-      "start": 214,
-      "end": 233,
+      "start": 236,
+      "end": 255,
       "loc": {
         "start": {
           "line": 6,
@@ -1570,8 +1504,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 235,
-      "end": 241,
+      "start": 257,
+      "end": 263,
       "loc": {
         "start": {
           "line": 8,
@@ -1598,8 +1532,8 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 242,
-      "end": 247,
+      "start": 264,
+      "end": 269,
       "loc": {
         "start": {
           "line": 8,
@@ -1624,8 +1558,8 @@
         "binop": null
       },
       "value": "ImageLayer",
-      "start": 248,
-      "end": 258,
+      "start": 270,
+      "end": 280,
       "loc": {
         "start": {
           "line": 8,
@@ -1651,8 +1585,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 259,
-      "end": 260,
+      "start": 281,
+      "end": 282,
       "loc": {
         "start": {
           "line": 8,
@@ -1677,8 +1611,8 @@
         "binop": null
       },
       "value": "mixin",
-      "start": 261,
-      "end": 266,
+      "start": 283,
+      "end": 288,
       "loc": {
         "start": {
           "line": 8,
@@ -1702,8 +1636,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 266,
-      "end": 267,
+      "start": 288,
+      "end": 289,
       "loc": {
         "start": {
           "line": 8,
@@ -1727,9 +1661,9 @@
         "postfix": false,
         "binop": null
       },
-      "value": "ol",
-      "start": 267,
-      "end": 269,
+      "value": "OlImageLayer",
+      "start": 289,
+      "end": 301,
       "loc": {
         "start": {
           "line": 8,
@@ -1737,111 +1671,7 @@
         },
         "end": {
           "line": 8,
-          "column": 34
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ".",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 269,
-      "end": 270,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 34
-        },
-        "end": {
-          "line": 8,
-          "column": 35
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "layer",
-      "start": 270,
-      "end": 275,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 35
-        },
-        "end": {
-          "line": 8,
-          "column": 40
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ".",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 275,
-      "end": 276,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 40
-        },
-        "end": {
-          "line": 8,
-          "column": 41
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "Image",
-      "start": 276,
-      "end": 281,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 41
-        },
-        "end": {
-          "line": 8,
-          "column": 46
+          "column": 44
         }
       }
     },
@@ -1858,16 +1688,16 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 281,
-      "end": 282,
+      "start": 301,
+      "end": 302,
       "loc": {
         "start": {
           "line": 8,
-          "column": 46
+          "column": 44
         },
         "end": {
           "line": 8,
-          "column": 47
+          "column": 45
         }
       }
     },
@@ -1884,16 +1714,16 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 283,
-      "end": 284,
+      "start": 303,
+      "end": 304,
       "loc": {
         "start": {
           "line": 8,
-          "column": 48
+          "column": 46
         },
         "end": {
           "line": 8,
-          "column": 49
+          "column": 47
         }
       }
     },
@@ -1910,16 +1740,16 @@
         "binop": null
       },
       "value": "ProvideMapMixin",
-      "start": 285,
-      "end": 300,
+      "start": 305,
+      "end": 320,
       "loc": {
         "start": {
           "line": 8,
-          "column": 50
+          "column": 48
         },
         "end": {
           "line": 8,
-          "column": 65
+          "column": 63
         }
       }
     },
@@ -1936,16 +1766,16 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 300,
-      "end": 301,
+      "start": 320,
+      "end": 321,
       "loc": {
         "start": {
           "line": 8,
-          "column": 65
+          "column": 63
         },
         "end": {
           "line": 8,
-          "column": 66
+          "column": 64
         }
       }
     },
@@ -1962,16 +1792,16 @@
         "binop": null
       },
       "value": "LayerLoadProcessCountMixin",
-      "start": 302,
-      "end": 328,
+      "start": 322,
+      "end": 348,
       "loc": {
         "start": {
           "line": 8,
-          "column": 67
+          "column": 65
         },
         "end": {
           "line": 8,
-          "column": 93
+          "column": 91
         }
       }
     },
@@ -1988,16 +1818,16 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 329,
-      "end": 330,
+      "start": 349,
+      "end": 350,
       "loc": {
         "start": {
           "line": 8,
-          "column": 94
+          "column": 92
         },
         "end": {
           "line": 8,
-          "column": 95
+          "column": 93
         }
       }
     },
@@ -2013,16 +1843,16 @@
         "postfix": false,
         "binop": null
       },
-      "start": 330,
-      "end": 331,
+      "start": 350,
+      "end": 351,
       "loc": {
         "start": {
           "line": 8,
-          "column": 95
+          "column": 93
         },
         "end": {
           "line": 8,
-          "column": 96
+          "column": 94
         }
       }
     },
@@ -2041,8 +1871,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 333,
-      "end": 339,
+      "start": 353,
+      "end": 359,
       "loc": {
         "start": {
           "line": 10,
@@ -2069,8 +1899,8 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 340,
-      "end": 345,
+      "start": 360,
+      "end": 365,
       "loc": {
         "start": {
           "line": 10,
@@ -2095,8 +1925,8 @@
         "binop": null
       },
       "value": "BaseLayerImage",
-      "start": 346,
-      "end": 360,
+      "start": 366,
+      "end": 380,
       "loc": {
         "start": {
           "line": 10,
@@ -2122,8 +1952,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 361,
-      "end": 362,
+      "start": 381,
+      "end": 382,
       "loc": {
         "start": {
           "line": 10,
@@ -2148,8 +1978,8 @@
         "binop": null
       },
       "value": "mixin",
-      "start": 363,
-      "end": 368,
+      "start": 383,
+      "end": 388,
       "loc": {
         "start": {
           "line": 10,
@@ -2173,8 +2003,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 368,
-      "end": 369,
+      "start": 388,
+      "end": 389,
       "loc": {
         "start": {
           "line": 10,
@@ -2199,8 +2029,8 @@
         "binop": null
       },
       "value": "ImageLayer",
-      "start": 369,
-      "end": 379,
+      "start": 389,
+      "end": 399,
       "loc": {
         "start": {
           "line": 10,
@@ -2225,8 +2055,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 379,
-      "end": 380,
+      "start": 399,
+      "end": 400,
       "loc": {
         "start": {
           "line": 10,
@@ -2251,8 +2081,8 @@
         "binop": null
       },
       "value": "BaseLayerMixin",
-      "start": 381,
-      "end": 395,
+      "start": 401,
+      "end": 415,
       "loc": {
         "start": {
           "line": 10,
@@ -2276,8 +2106,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 395,
-      "end": 396,
+      "start": 415,
+      "end": 416,
       "loc": {
         "start": {
           "line": 10,
@@ -2302,8 +2132,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 397,
-      "end": 397,
+      "start": 417,
+      "end": 417,
       "loc": {
         "start": {
           "line": 11,

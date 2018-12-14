@@ -114,12 +114,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/interactions/featureinteraction.js~featureinteraction",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html",
-    "<span>FeatureInteraction</span> <span class=\"search-result-import-path\">guide4you/src/interactions/FeatureInteraction.js</span>",
-    "class"
-  ],
-  [
     "guide4you/src/featurepopup.js~featurepopup",
     "class/src/FeaturePopup.js~FeaturePopup.html",
     "<span>FeaturePopup</span> <span class=\"search-result-import-path\">guide4you/src/FeaturePopup.js</span>",
@@ -243,12 +237,6 @@ window.esdocSearchIndex = [
     "guide4you/src/configurators/mapconfigurator.js~mapconfigurator",
     "class/src/configurators/MapConfigurator.js~MapConfigurator.html",
     "<span>MapConfigurator</span> <span class=\"search-result-import-path\">guide4you/src/configurators/MapConfigurator.js</span>",
-    "class"
-  ],
-  [
-    "guide4you/src/interactions/mapeventinteraction.js~mapeventinteraction",
-    "class/src/interactions/MapEventInteraction.js~MapEventInteraction.html",
-    "<span>MapEventInteraction</span> <span class=\"search-result-import-path\">guide4you/src/interactions/MapEventInteraction.js</span>",
     "class"
   ],
   [
@@ -1164,6 +1152,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/featurepopup.js~featurepopup#draggable_",
+    "class/src/FeaturePopup.js~FeaturePopup.html#instance-member-draggable_",
+    "src/FeaturePopup.js~FeaturePopup#draggable_",
+    "member"
+  ],
+  [
     "src/featurepopup.js~featurepopup#feature_",
     "class/src/FeaturePopup.js~FeaturePopup.html#instance-member-feature_",
     "src/FeaturePopup.js~FeaturePopup#feature_",
@@ -1467,6 +1461,12 @@ window.esdocSearchIndex = [
     "src/g4umap.js~g4umap#getcontrolsbyname",
     "class/src/G4UMap.js~G4UMap.html#instance-method-getControlsByName",
     "src/G4UMap.js~G4UMap#getControlsByName",
+    "method"
+  ],
+  [
+    "src/g4umap.js~g4umap#getcontrolsbytype",
+    "class/src/G4UMap.js~G4UMap.html#instance-method-getControlsByType",
+    "src/G4UMap.js~G4UMap#getControlsByType",
     "method"
   ],
   [
@@ -2058,6 +2058,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/styling.js~styling#getconditionalstylefromconfig",
+    "class/src/Styling.js~Styling.html#instance-method-getConditionalStyleFromConfig",
+    "src/Styling.js~Styling#getConditionalStyleFromConfig",
+    "method"
+  ],
+  [
     "src/styling.js~styling#getconfigbyid",
     "class/src/Styling.js~Styling.html#instance-method-getConfigById",
     "src/Styling.js~Styling#getConfigById",
@@ -2314,6 +2320,12 @@ window.esdocSearchIndex = [
     "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-member-map_",
     "src/configurators/LayerConfigurator.js~LayerConfigurator#map_",
     "member"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~layerconfigurator#onresolutionchange",
+    "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-method-onResolutionChange",
+    "src/configurators/LayerConfigurator.js~LayerConfigurator#onResolutionChange",
+    "method"
   ],
   [
     "src/configurators/layerfactory.js",
@@ -3714,6 +3726,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/controls/layerselector.js~layerselector#updatedisabledbuttons",
+    "class/src/controls/LayerSelector.js~LayerSelector.html#instance-method-updateDisabledButtons",
+    "src/controls/LayerSelector.js~LayerSelector#updateDisabledButtons",
+    "method"
+  ],
+  [
     "src/controls/layerselector.js~layerselector#visible_",
     "class/src/controls/LayerSelector.js~LayerSelector.html#instance-member-visible_",
     "src/controls/LayerSelector.js~LayerSelector#visible_",
@@ -4614,6 +4632,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/html/history.js~history#onleave_",
+    "class/src/html/History.js~History.html#instance-member-onLeave_",
+    "src/html/History.js~History#onLeave_",
+    "member"
+  ],
+  [
     "src/html/history.js~history#pop",
     "class/src/html/History.js~History.html#instance-method-pop",
     "src/html/History.js~History#pop",
@@ -4623,6 +4647,12 @@ window.esdocSearchIndex = [
     "src/html/history.js~history#push",
     "class/src/html/History.js~History.html#instance-method-push",
     "src/html/History.js~History#push",
+    "method"
+  ],
+  [
+    "src/html/history.js~history#setonleave",
+    "class/src/html/History.js~History.html#instance-method-setOnLeave",
+    "src/html/History.js~History#setOnLeave",
     "method"
   ],
   [
@@ -4836,6 +4866,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/html/window.js~window#resetdragged",
+    "class/src/html/Window.js~Window.html#instance-method-resetDragged",
+    "src/html/Window.js~Window#resetDragged",
+    "method"
+  ],
+  [
     "src/html/window.js~window#scroll_",
     "class/src/html/Window.js~Window.html#instance-member-scroll_",
     "src/html/Window.js~Window#scroll_",
@@ -4890,40 +4926,10 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/interactions/featureinteraction.js~featureinteraction#constructor",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-constructor-constructor",
-    "src/interactions/FeatureInteraction.js~FeatureInteraction#constructor",
-    "method"
-  ],
-  [
-    "src/interactions/featureinteraction.js~featureinteraction#gethittolerance",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-getHitTolerance",
-    "src/interactions/FeatureInteraction.js~FeatureInteraction#getHitTolerance",
-    "method"
-  ],
-  [
-    "src/interactions/featureinteraction.js~featureinteraction#handlemapevent",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-handleMapEvent",
-    "src/interactions/FeatureInteraction.js~FeatureInteraction#handleMapEvent",
-    "method"
-  ],
-  [
-    "src/interactions/featureinteraction.js~featureinteraction#hittolerance_",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-member-hitTolerance_",
-    "src/interactions/FeatureInteraction.js~FeatureInteraction#hitTolerance_",
-    "member"
-  ],
-  [
-    "src/interactions/featureinteraction.js~featureinteraction#sethittolerance",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-setHitTolerance",
-    "src/interactions/FeatureInteraction.js~FeatureInteraction#setHitTolerance",
-    "method"
-  ],
-  [
-    "src/interactions/featureinteraction.js~featureinteraction#triggeremptymapevent",
-    "class/src/interactions/FeatureInteraction.js~FeatureInteraction.html#instance-method-triggerEmptyMapEvent",
-    "src/interactions/FeatureInteraction.js~FeatureInteraction#triggerEmptyMapEvent",
-    "method"
+    "src/interactions/featureinteraction.js~featureinteractionoptions",
+    "typedef/index.html#static-typedef-FeatureInteractionOptions",
+    "src/interactions/FeatureInteraction.js~FeatureInteractionOptions",
+    "typedef"
   ],
   [
     "src/interactions/mapeventinteraction.js",
@@ -4932,16 +4938,10 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/interactions/mapeventinteraction.js~mapeventinteraction#constructor",
-    "class/src/interactions/MapEventInteraction.js~MapEventInteraction.html#instance-constructor-constructor",
-    "src/interactions/MapEventInteraction.js~MapEventInteraction#constructor",
-    "method"
-  ],
-  [
-    "src/interactions/mapeventinteraction.js~mapeventinteraction#handlemapevent",
-    "class/src/interactions/MapEventInteraction.js~MapEventInteraction.html#instance-method-handleMapEvent",
-    "src/interactions/MapEventInteraction.js~MapEventInteraction#handleMapEvent",
-    "method"
+    "src/interactions/mapeventinteraction.js~mapeventinteractionoptions",
+    "typedef/index.html#static-typedef-MapEventInteractionOptions",
+    "src/interactions/MapEventInteraction.js~MapEventInteractionOptions",
+    "typedef"
   ],
   [
     "src/layers/baselayermixin.js",

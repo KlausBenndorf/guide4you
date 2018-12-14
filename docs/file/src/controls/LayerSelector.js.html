@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -286,7 +286,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       layerButton: this.getClassName() + &apos;-layerbutton&apos;,
       active: this.getClassName() + &apos;-active&apos;,
       featureInfo: this.getClassName() + &apos;-info&apos;,
-      featureInfoActive: this.getClassName() + &apos;-info-active&apos;
+      featureInfoActive: this.getClassName() + &apos;-info-active&apos;,
+      disabled: this.getClassName() + &apos;-disabled&apos;
     }
 
     /**
@@ -393,6 +394,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     })
   }
 
+  updateDisabledButtons () {
+    this.dispatchEvent(&apos;update:disabled&apos;)
+  }
+
   /**
    * this method builds a button for a layer. It toggles visibility if you click on it
    * @param {ol.layer.Base} layer
@@ -408,6 +413,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       if (layer.get(&apos;addClass&apos;)) {
         $button.addClass(layer.get(&apos;addClass&apos;))
       }
+
+      if (layer.get(&apos;disabled&apos;)) {
+        $button.addClass(this.classNames_.disabled)
+      }
+
+      this.on(&apos;update:disabled&apos;, () =&gt; {
+        $button.toggleClass(this.classNames_.disabled, layer.get(&apos;disabled&apos;))
+      })
 
       if (this.getMap().get(&apos;localiser&apos;).isRtl()) {
         $button.prop(&apos;dir&apos;, &apos;rtl&apos;)
@@ -610,6 +623,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           addTooltip($toggleFeatureInfo,
             this.getLocaliser().localiseUsingDictionary(&apos;LayerSelector featureInfo show&apos;))
 
+          if (wmsLayer.get(&apos;disabled&apos;)) {
+            $button.addClass(this.classNames_.disabled)
+          }
+
+          this.on(&apos;update:disabled&apos;, () =&gt; {
+            $button.toggleClass(this.classNames_.disabled, wmsLayer.get(&apos;disabled&apos;))
+          })
+
           $target.append($button)
 
           let toggleButtonActive, setCheckboxActive
@@ -755,6 +776,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         if (wmsLayer.get(&apos;addClass&apos;)) {
           $button.addClass(wmsLayer.get(&apos;addClass&apos;))
         }
+
+        if (wmsLayer.get(&apos;disabled&apos;)) {
+          $button.addClass(this.classNames_.disabled)
+        }
+
+        this.on(&apos;update:disabled&apos;, () =&gt; {
+          $button.toggleClass(this.classNames_.disabled, wmsLayer.get(&apos;disabled&apos;))
+        })
 
         let $toggleFeatureInfo = $(&apos;&lt;span&gt;&apos;)
           .addClass(this.classNames_.featureInfo)

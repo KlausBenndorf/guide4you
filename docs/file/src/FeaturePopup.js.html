@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,11 +207,15 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/FeaturePopup.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
 import flatten from &apos;lodash/flatten&apos;
 import isFunction from &apos;lodash/isFunction&apos;
 import isArray from &apos;lodash/isArray&apos;
+import { getCenter } from &apos;ol/extent&apos;
+import Point from &apos;ol/geom/Point&apos;
+import BaseObject from &apos;ol/Object&apos;
+import Overlay from &apos;ol/Overlay&apos;
+import Icon from &apos;ol/style/Icon&apos;
 
 import { ListenerOrganizerMixin } from &apos;./ListenerOrganizerMixin&apos;
 import { Window } from &apos;./html/Window&apos;
@@ -224,17 +228,18 @@ import &apos;../less/featurepopup.less&apos;
  * @typedef {object} FeaturePopupOptions
  * @property {string} [className=&apos;g4u-featurepopup&apos;]
  * @property {number[]} [offset=[0,0]]
- * @property {ol.OverlayPositioning} [positioning=&apos;center-center&apos;]
+ * @property {OverlayPositioning} [positioning=&apos;center-center&apos;]
  * @property {number[]} [iconSizedOffset=[0,0]]
  * @property {boolean} [centerOnPopup=false]
  * @property {boolean} [animated=true]
  * @property {string[]} [popupModifier] default popupModifiers to use
+ * @property {boolean} [draggable=false]
  */
 
 /**
  * Displays a Popup bound to a geographical position via an ol.Overlay
  */
-export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
+export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * @param {FeaturePopupOptions} options
    */
@@ -329,7 +334,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @type {ol.Overlay}
      * @private
      */
-    this.overlay_ = new ol.Overlay({
+    this.overlay_ = new Overlay({
       element: this.$element_.get(0),
       offset: this.pixelOffset_,
       positioning: options.hasOwnProperty(&apos;positioning&apos;) ? options.positioning : &apos;center-center&apos;,
@@ -341,6 +346,12 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @private
      */
     this.defaultPopupModifiers_ = options.popupModifier || []
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.draggable_ = options.draggable || false
 
     /**
      * @type {string[]}
@@ -383,7 +394,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     }
 
     if (map) {
-      this.window_ = new Window({ draggable: false, fixedPosition: true, map: map })
+      this.window_ = new Window({ draggable: this.draggable_, fixedPosition: true, map: map })
 
       this.window_.get$Body().append(this.$name_).append(this.$description_)
 
@@ -571,7 +582,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       this.window_.get$Body().prop(&apos;dir&apos;, undefined)
     }
 
-    this.getMap().get(&apos;popupModifiers&apos;).apply({
+    return this.getMap().get(&apos;popupModifiers&apos;).apply({
       name: this.getFeature().get(&apos;name&apos;),
       description: this.getFeature().get(&apos;description&apos;)
     }, this.currentPopupModifiers_)
@@ -590,9 +601,11 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
           this.$description_.addClass(cssClasses.hidden)
         }
 
-        this.updateSize()
-
         this.dispatchEvent(&apos;update:content&apos;)
+        return finishAllImages(this.$description_)
+      })
+      .then(() =&gt; {
+        this.updateSize()
       })
   }
 
@@ -606,37 +619,38 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       this.$name_.empty()
       this.$description_.empty()
 
-      this.updateContent() // this produces one unnecessary call to window.updateSize()
-
-      if (!feature.get(&apos;observedByPopup&apos;)) {
-        feature.on(&apos;change:name&apos;, () =&gt; this.updateContent())
-        feature.on(&apos;change:description&apos;, () =&gt; this.updateContent())
-        feature.set(&apos;observedByPopup&apos;, true)
-      }
-
-      this.once(&apos;change:feature&apos;, () =&gt; {
-        feature.un(&apos;change:name&apos;, () =&gt; this.updateContent())
-        feature.un(&apos;change:description&apos;, () =&gt; this.updateContent())
-        feature.set(&apos;observedByPopup&apos;, false)
-      })
-
-      if (!this.getMap().get(&apos;mobile&apos;)) {
-        let resolution = this.getMap().getView().getResolution()
-
-        this.addIconSizedOffset(this.getFeature(), style, resolution)
-      }
-
-      for (let layer of this.referencingVisibleLayers_) {
-        if (layer.get(&apos;addClass&apos;)) {
-          this.window_.get$Element().addClass(layer.get(&apos;addClass&apos;))
+      // this produces one unnecessary call to window.updateSize()
+      this.updateContent().then(() =&gt; {
+        if (!feature.get(&apos;observedByPopup&apos;)) {
+          feature.on(&apos;change:name&apos;, () =&gt; this.updateContent())
+          feature.on(&apos;change:description&apos;, () =&gt; this.updateContent())
+          feature.set(&apos;observedByPopup&apos;, true)
         }
-      }
 
-      // apply default offset
+        this.once(&apos;change:feature&apos;, () =&gt; {
+          feature.un(&apos;change:name&apos;, () =&gt; this.updateContent())
+          feature.un(&apos;change:description&apos;, () =&gt; this.updateContent())
+          feature.set(&apos;observedByPopup&apos;, false)
+        })
 
-      if (this.getVisible()) {
-        setTimeout(() =&gt; this.window_.updateSize(), 0)
-      }
+        if (!this.getMap().get(&apos;mobile&apos;)) {
+          let resolution = this.getMap().getView().getResolution()
+
+          this.addIconSizedOffset(this.getFeature(), style, resolution)
+        }
+
+        for (let layer of this.referencingVisibleLayers_) {
+          if (layer.get(&apos;addClass&apos;)) {
+            this.window_.get$Element().addClass(layer.get(&apos;addClass&apos;))
+          }
+        }
+
+        // apply default offset
+
+        if (this.getVisible()) {
+          setTimeout(() =&gt; this.window_.updateSize(), 0)
+        }
+      })
     }
   }
 
@@ -657,8 +671,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     let oldValue = this.feature_
     if (feature) {
       let coordinate = clickCoordinate
-      if (feature.getGeometry() instanceof ol.geom.Point || !clickCoordinate) {
-        coordinate = ol.extent.getCenter(feature.getGeometry().getExtent())
+      if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+        coordinate = getCenter(feature.getGeometry().getExtent())
       }
       this.overlay_.setPosition(coordinate)
     }
@@ -674,8 +688,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       }
       this.geometryChangeHandler_ = () =&gt; {
         let coordinate = clickCoordinate
-        if (feature.getGeometry() instanceof ol.geom.Point || !clickCoordinate) {
-          coordinate = ol.extent.getCenter(feature.getGeometry().getExtent())
+        if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+          coordinate = getCenter(feature.getGeometry().getExtent())
         }
         this.overlay_.setPosition(coordinate)
         if (this.getVisible()) {
@@ -712,6 +726,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       } else {
         this.$element_.addClass(cssClasses.hidden)
         this.window_.setVisible(false)
+        this.window_.resetDragged()
       }
 
       this.visible_ = visible
@@ -746,7 +761,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         }
         if (style) {
           let imageStyle = style.getImage()
-          if (imageStyle instanceof ol.style.Icon) {
+          if (imageStyle instanceof Icon) {
             (new Promise(resolve =&gt; {
               let img = imageStyle.getImage()
               if (img.complete &amp;&amp; img.src) {

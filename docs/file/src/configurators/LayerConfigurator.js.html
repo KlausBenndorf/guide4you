@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,14 +207,14 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/configurators/LayerConfigurator.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { get as getProj } from &apos;ol/proj&apos;
 import { GroupLayer } from &apos;../layers/GroupLayer&apos;
 import { copyDeep } from &apos;../utilitiesObject&apos;
 import { checkFor } from &apos;../utilities&apos;
 import { Debug } from &apos;../Debug&apos;
 import { LayerFactory } from &apos;./LayerFactory&apos;
 import { Attributions } from &apos;../Attributions&apos;
+import { LayerSelector } from &apos;../controls/LayerSelector&apos;
 
 /**
  * @typedef {Object} LayerConfig
@@ -245,6 +245,81 @@ export class LayerConfigurator {
      * @private
      */
     this.layerFactory_ = new LayerFactory(map)
+
+    this.map_.on(&apos;ready&apos;, () =&gt; {
+      this.onResolutionChange()
+      this.map_.getView().on(&apos;change:resolution&apos;, () =&gt; this.onResolutionChange())
+    })
+  }
+
+  onResolutionChange () {
+    const zoom = this.map_.getView().getZoom()
+
+    const layerIsViewable = layer =&gt; {
+      if (layer.get(&apos;minZoom&apos;) &amp;&amp; zoom &lt; layer.get(&apos;minZoom&apos;)) {
+        return false
+      } else if (layer.get(&apos;maxZoom&apos;) &amp;&amp; zoom &gt; layer.get(&apos;maxZoom&apos;)) {
+        return false
+      } else {
+        return true
+      }
+    }
+
+    let activateNext = false
+    this.map_.get(&apos;baseLayers&apos;).recursiveForEach(layer =&gt; {
+      if (!(layer instanceof GroupLayer)) {
+        if (layerIsViewable(layer)) {
+          layer.set(&apos;disabled&apos;, false)
+          if (activateNext) {
+            layer.setVisible(true)
+            activateNext = false
+          }
+        } else {
+          layer.set(&apos;disabled&apos;, true)
+          if (layer.getVisible()) {
+            activateNext = true
+          }
+        }
+      }
+    })
+
+    if (activateNext) {
+      this.map_.get(&apos;baseLayers&apos;).recursiveForEach(layer =&gt; {
+        if (!(layer instanceof GroupLayer)) {
+          if (layerIsViewable(layer)) {
+            if (activateNext) {
+              layer.setVisible(true)
+              activateNext = false
+            }
+          }
+        }
+      })
+    }
+
+    const forFeatureLayers = layer =&gt; {
+      if (!(layer instanceof GroupLayer)) {
+        if (layerIsViewable(layer)) {
+          layer.set(&apos;disabled&apos;, false)
+        } else {
+          layer.set(&apos;disabled&apos;, true)
+          if (layer.getVisible()) {
+            layer.setVisible(false)
+          }
+        }
+      }
+    }
+
+    this.map_.get(&apos;featureLayers&apos;).recursiveForEach(forFeatureLayers)
+    if (this.map_.get(&apos;fixedFeatureLayers&apos;)) {
+      this.map_.get(&apos;fixedFeatureLayers&apos;).recursiveForEach(forFeatureLayers)
+    }
+    if (this.map_.get(&apos;queryLayers&apos;)) {
+      this.map_.get(&apos;queryLayers&apos;).recursiveForEach(forFeatureLayers)
+    }
+
+    for (let layerSelector of this.map_.getControlsByType(LayerSelector)) {
+      layerSelector.updateDisabledButtons()
+    }
   }
 
   /**
@@ -275,7 +350,7 @@ export class LayerConfigurator {
     this.map_.set(&apos;layerIds&apos;, []) // in layerIds all ids are stored to check if one is double.
 
     this.layerFactory_.setMapConfigProjection(
-      mapConfig.hasOwnProperty(&apos;mapProjection&apos;) ? ol.proj.get(mapConfig.mapProjection) : null
+      mapConfig.hasOwnProperty(&apos;mapProjection&apos;) ? getProj(mapConfig.mapProjection) : null
     )
 
     this.map_.set(&apos;loadingStrategy&apos;,
@@ -352,7 +427,7 @@ export class LayerConfigurator {
     }
 
     // if no baselayer had a given projection, choose &apos;EPSG:3857&apos;
-    this.map_.set(&apos;mapProjection&apos;, this.layerFactory_.getMapProjection() || ol.proj.get(&apos;EPSG:3857&apos;))
+    this.map_.set(&apos;mapProjection&apos;, this.layerFactory_.getMapProjection() || getProj(&apos;EPSG:3857&apos;))
 
     // //////////////////////////////////////////////////////////////////////////////////////////
     //                                    FeatureLayers                                       //

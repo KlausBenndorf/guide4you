@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,8 +207,13 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/sources/SourceServerVector.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+import { containsExtent } from &apos;ol/extent&apos;
+import GeoJSON from &apos;ol/format/GeoJSON&apos;
+import KML from &apos;ol/format/KML&apos;
+import { transformExtent } from &apos;ol/proj&apos;
+import VectorSource from &apos;ol/source/Vector&apos;
+import { all } from &apos;ol/loadingstrategy&apos;
 
 import { copy, take } from &apos;../utilitiesObject&apos;
 import { Debug } from &apos;../Debug&apos;
@@ -241,7 +246,7 @@ import { Debug } from &apos;../Debug&apos;
  *
  * This class defines a custom loader function which makes it possible to use different loading strategies.
  */
-export class SourceServerVector extends ol.source.Vector {
+export class SourceServerVector extends VectorSource {
   /**
    * @param {SourceServerVectorOptions} [options={}]
    */
@@ -266,7 +271,7 @@ export class SourceServerVector extends ol.source.Vector {
       let lastScaledExtent = [0, 0, 0, 0]
 
       parentOptions.strategy = (extent) =&gt; {
-        if (ol.extent.containsExtent(lastScaledExtent, extent)) {
+        if (containsExtent(lastScaledExtent, extent)) {
           return [extent]
         } else {
           let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
@@ -283,7 +288,7 @@ export class SourceServerVector extends ol.source.Vector {
         }
       }
     } else {
-      parentOptions.strategy = ol.loadingstrategy.all
+      parentOptions.strategy = all
     }
 
     super(parentOptions)
@@ -327,11 +332,11 @@ export class SourceServerVector extends ol.source.Vector {
     switch (this.type_) {
       case &apos;KML&apos;:
         formatOptions.showPointNames = false
-        this.format_ = new ol.format.KML(formatOptions)
+        this.format_ = new KML(formatOptions)
         this.dataType_ = &apos;text xml&apos; // for $.ajax (GET-request)
         break
       case &apos;GeoJSON&apos;:
-        this.format_ = new ol.format.GeoJSON(formatOptions)
+        this.format_ = new GeoJSON(formatOptions)
         this.dataType_ = &apos;text json&apos; // for $.ajax (GET-request)
         break
       default:
@@ -376,7 +381,7 @@ export class SourceServerVector extends ol.source.Vector {
     let url = this.urlTemplate.clone()
 
     if (this.loadingStrategy_ === &apos;BBOX&apos;) {
-      let transformedExtent = ol.proj.transformExtent(extent, projection, this.bboxProjection_)
+      let transformedExtent = transformExtent(extent, projection, this.bboxProjection_)
 
       url.expandTemplate(&apos;bboxleft&apos;, transformedExtent[0].toString())
         .expandTemplate(&apos;bboxbottom&apos;, transformedExtent[1].toString())
@@ -412,7 +417,7 @@ export class SourceServerVector extends ol.source.Vector {
         }
 
         if (this.doClear_) {
-          this.clear()
+          this.clear(true)
           this.doClear_ = false
         }
 

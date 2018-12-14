@@ -1,1 +1,21 @@
-[]
+[
+  {
+    "name": "onAvailable",
+    "filePath": "src/openlayersInjections.js",
+    "lines": [
+      {
+        "lineNumber": 32,
+        "line": "BaseObject.prototype.onAvailable = function (propName, cb) {"
+      }
+    ],
+    "codeParams": [
+      "propName",
+      "cb"
+    ],
+    "docParams": [
+      "propName",
+      "value",
+      "cb"
+    ]
+  }
+]

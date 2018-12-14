@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,14 +207,22 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/Styling.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+import Circle from &apos;ol/style/Circle&apos;
+import Fill from &apos;ol/style/Fill&apos;
+import Icon from &apos;ol/style/Icon&apos;
+import RegularShape from &apos;ol/style/RegularShape&apos;
+import Stroke from &apos;ol/style/Stroke&apos;
+import Style from &apos;ol/style/Style&apos;
+import Text from &apos;ol/style/Text&apos;
 
 import { copyDeep, copy } from &apos;./utilitiesObject&apos;
 import { checkFor } from &apos;./utilities&apos;
 import { Debug } from &apos;./Debug&apos;
 
 import { parseCSSColor } from &apos;csscolorparser&apos;
+
+import { isFunction, isObject, isArray } from &apos;lodash/lang&apos;
 
 /**
  * @typedef {string|StyleObject|ol.style.Style} StyleLike
@@ -342,14 +350,14 @@ export class Styling {
       if (!style) {
         style = this.getStyle(&apos;#defaultStyle&apos;)
       }
-      if ($.isArray(style)) {
+      if (isArray(style)) {
         return style.map(s =&gt; this.adjustStyle_(feature, s))
       } else {
         return this.adjustStyle_(feature, style)
       }
     }
 
-    this.nullStyle_ = new ol.style.Style({
+    this.nullStyle_ = new Style({
       image: null
     })
 
@@ -386,15 +394,15 @@ export class Styling {
       let preparedOptions = copy(subStyleConf)
 
       if (checkFor(subStyleConf, &apos;fill&apos;)) {
-        preparedOptions.fill = new ol.style.Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
+        preparedOptions.fill = new Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
       } else {
-        preparedOptions.fill = new ol.style.Fill(filledStyleConf.fill)
+        preparedOptions.fill = new Fill(filledStyleConf.fill)
       }
 
       if (checkFor(subStyleConf, &apos;stroke&apos;)) {
-        preparedOptions.stroke = new ol.style.Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
+        preparedOptions.stroke = new Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
       } else {
-        preparedOptions.stroke = new ol.style.Stroke(filledStyleConf.stroke)
+        preparedOptions.stroke = new Stroke(filledStyleConf.stroke)
       }
 
       return preparedOptions
@@ -402,20 +410,20 @@ export class Styling {
 
     let styleOptions = addFillsAndStrokes(filledStyleConf)
 
-    styleOptions.text = new ol.style.Text(addFillsAndStrokes(filledStyleConf.text))
+    styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))
 
     let scalable = false
 
     if (filledStyleConf.hasOwnProperty(&apos;image&apos;)) {
       if (filledStyleConf.image.type === &apos;icon&apos; &amp;&amp;
         (filledStyleConf.image.hasOwnProperty(&apos;src&apos;)) &amp;&amp; filledStyleConf.image.src) {
-        styleOptions.image = new ol.style.Icon(filledStyleConf.image)
+        styleOptions.image = new Icon(filledStyleConf.image)
         scalable = true
       } else if (filledStyleConf.image.type === &apos;circle&apos;) {
-        styleOptions.image = new ol.style.Circle(addFillsAndStrokes(filledStyleConf.image))
+        styleOptions.image = new Circle(addFillsAndStrokes(filledStyleConf.image))
         scalable = true
       } else if (filledStyleConf.image.type === &apos;regularShape&apos;) {
-        styleOptions.image = new ol.style.RegularShape(addFillsAndStrokes(filledStyleConf.image))
+        styleOptions.image = new RegularShape(addFillsAndStrokes(filledStyleConf.image))
         scalable = true
       }
 
@@ -424,7 +432,7 @@ export class Styling {
       }
     }
 
-    return new ol.style.Style(styleOptions)
+    return new Style(styleOptions)
   }
 
   getConfigFromStyle (style) {
@@ -467,10 +475,16 @@ export class Styling {
   getStyle (data) {
     if (data === undefined) {
       return this.getStyleById(&apos;#defaultStyle&apos;)
-    } else if (data instanceof ol.style.Style || $.isFunction(data)) {
+    } else if (data instanceof Style || isFunction(data)) {
       return data
-    } else if (typeof data === &apos;object&apos;) {
-      return this.getStyleFromConfig(data)
+    } else if (isArray(data)) {
+      return data.map(d =&gt; this.getStyle(d))
+    } else if (isObject(data)) {
+      if (data.hasOwnProperty(&apos;conditional&apos;)) {
+        return this.getConditionalStyleFromConfig(data.conditional)
+      } else {
+        return this.getStyleFromConfig(data)
+      }
     } else {
       return this.getStyleById(data)
     }
@@ -588,7 +602,7 @@ export class Styling {
           if (!style) {
             style = this.getStyle(&apos;#defaultStyle&apos;)
           }
-          if ($.isArray(style)) {
+          if (isArray(style)) {
             return style.map(s =&gt; this.adjustStyle_(feature, s))
           } else {
             return this.adjustStyle_(feature, style)
@@ -603,6 +617,50 @@ export class Styling {
       layer.getSource().on(&apos;addfeature&apos;, e =&gt; {
         this.manageFeature(e.feature)
       })
+    }
+  }
+
+  getConditionalStyleFromConfig (configArr) {
+    const styles = configArr.map(o =&gt; this.getStyle(o.style))
+    return (feature, resolution) =&gt; {
+      for (let i = 0; i &lt; configArr.length; i++) {
+        if (!configArr[i][&apos;condition&apos;]) {
+          return styles[i]
+        }
+        const cond = configArr[i][&apos;condition&apos;]
+        switch (cond[1]) {
+          case &apos;=&apos;:
+            if (feature.get(cond[0]) === cond[2]) {
+              return styles[i]
+            }
+            break
+          case &apos;!=&apos;:
+            if (feature.get(cond[0]) !== cond[2]) {
+              return styles[i]
+            }
+            break
+          case &apos;&lt;&apos;:
+            if (feature.get(cond[0]) &lt; cond[2]) {
+              return styles[i]
+            }
+            break
+          case &apos;&gt;&apos;:
+            if (feature.get(cond[0]) &gt; cond[2]) {
+              return styles[i]
+            }
+            break
+          case &apos;&lt;=&apos;:
+            if (feature.get(cond[0]) &lt;= cond[2]) {
+              return styles[i]
+            }
+            break
+          case &apos;&gt;=&apos;:
+            if (feature.get(cond[0]) &gt;= cond[2]) {
+              return styles[i]
+            }
+            break
+        }
+      }
     }
   }
 }

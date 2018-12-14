@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureInteraction.js~FeatureInteraction.html">FeatureInteraction</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,8 +207,22 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/configurators/LayerFactory.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+
+import Collection from &apos;ol/Collection&apos;
+import VectorSource from &apos;ol/source/Vector&apos;
+import XYZ from &apos;ol/source/XYZ&apos;
+import OSM from &apos;ol/source/OSM&apos;
+import Stamen from &apos;ol/source/Stamen&apos;
+import BingMaps from &apos;ol/source/BingMaps&apos;
+import { createXYZ } from &apos;ol/tilegrid&apos;
+import TileGrid from &apos;ol/tilegrid/TileGrid&apos;
+import WMTSTileGrid from &apos;ol/tilegrid/WMTS&apos;
+import WKT from &apos;ol/format/WKT&apos;
+import Feature from &apos;ol/Feature&apos;
+import WMTSCapabilities from &apos;ol/format/WMTSCapabilities&apos;
+import WMTS from &apos;ol/source/WMTS&apos;
+import ImageCanvas from &apos;ol/source/ImageCanvas&apos;
 
 import { BaseLayerImage, ImageLayer } from &apos;../layers/ImageLayer&apos;
 import { EmptyBaseLayer } from &apos;../layers/EmptyBaseLayer&apos;
@@ -500,7 +514,7 @@ export class LayerFactory {
         layerGroup.getLayers().push(layer)
       }
 
-      if (layer instanceof ol.Collection) {
+      if (layer instanceof Collection) {
         layer.forEach(forEachLayer)
       } else {
         forEachLayer(layer)
@@ -608,13 +622,13 @@ export class LayerFactory {
         if (superType === SuperType.BASELAYER) {
           layer = new EmptyBaseLayer(optionsCopy)
         } else {
-          optionsCopy.source = new ol.source.Vector()
+          optionsCopy.source = new VectorSource()
           layer = new VectorLayer(optionsCopy)
         }
         break
       case LayerType.XYZ:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_).finalize()
-        optionsCopy.source = new ol.source.XYZ(optionsCopy.source)
+        optionsCopy.source = new XYZ(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -624,7 +638,7 @@ export class LayerFactory {
         break
       case LayerType.OSM:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_).finalize()
-        optionsCopy.source = new ol.source.OSM(optionsCopy.source)
+        optionsCopy.source = new OSM(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -633,7 +647,7 @@ export class LayerFactory {
         }
         break
       case LayerType.STAMEN:
-        optionsCopy.source = new ol.source.Stamen(optionsCopy.source)
+        optionsCopy.source = new Stamen(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -642,7 +656,7 @@ export class LayerFactory {
         }
         break
       case LayerType.BING:
-        optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
+        optionsCopy.source = new BingMaps(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -680,10 +694,10 @@ export class LayerFactory {
         break
       case LayerType.TILEWMS:
         if (optionsCopy.source.tileSize) {
-          optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
+          optionsCopy.source.tileGrid = createXYZ({ tileSize: optionsCopy.source.tileSize })
           delete optionsCopy.source.tileSize
         } else if (optionsCopy.source.tileGrid) {
-          optionsCopy.source.tileGrid = new ol.tilegrid.TileGrid(optionsCopy.source.tileGrid)
+          optionsCopy.source.tileGrid = new TileGrid(optionsCopy.source.tileGrid)
         }
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
@@ -717,7 +731,7 @@ export class LayerFactory {
             throw new Error(&apos;You have to provide either a tileGrid or use autoConfig for WMTS Source&apos;)
           }
 
-          sourceOptions.tileGrid = new ol.tilegrid.WMTS(sourceOptions.tileGrid)
+          sourceOptions.tileGrid = new WMTSTileGrid(sourceOptions.tileGrid)
 
           sourceOptions.url = URL.extractFromConfig(sourceOptions, &apos;url&apos;, undefined, this.map_) // not finalized
 
@@ -797,7 +811,7 @@ export class LayerFactory {
           }
         }
 
-        optionsCopy.source = new ol.source.Vector(optionsCopy.source)
+        optionsCopy.source = new VectorSource(optionsCopy.source)
 
         if (superType === SuperType.QUERYLAYER) {
           this.superTypeNotSupported(layerType, superType)
@@ -959,12 +973,12 @@ export class LayerFactory {
 
     let style = take(featureConfCopy, &apos;style&apos;)
 
-    let format = new ol.format.WKT()
+    let format = new WKT()
     let wkt = take(featureConfCopy, &apos;geometryWKT&apos;) || take(featureConfCopy, &apos;geographyWKT&apos;)
     featureConfCopy.geometry = format.readGeometry(wkt)
       .transform(this.map_.get(&apos;interfaceProjection&apos;), this.map_.get(&apos;mapProjection&apos;))
 
-    let feature = new ol.Feature(featureConfCopy)
+    let feature = new Feature(featureConfCopy)
 
     if (style) {
       this.map_.get(&apos;styling&apos;).styleFeature(feature, style)
@@ -985,18 +999,22 @@ export class LayerFactory {
       dataType: &apos;text xml&apos;,
       crossDomain: true,
       success: data =&gt; {
-        const wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
-        const capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, &apos;config&apos;))
-        capOptions.urls = capOptions.urls.map(newUrl =&gt; {
-          const u = url.clone()
-          u.url = newUrl
-          return u.finalize()
-        })
-        sourceOptions = mergeDeep(sourceOptions, capOptions)
-        layer.setSource(new ol.source.WMTS(sourceOptions))
+        const wmtsCap = (new WMTSCapabilities()).read(data)
+        const capOptions = WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, &apos;config&apos;))
+        if (capOptions === null) {
+          Debug.error(`wmts layer not found or not set for layer with id &quot;${layer.get(&apos;id&apos;)}&quot;`)
+        } else {
+          capOptions.urls = capOptions.urls.map(newUrl =&gt; {
+            const u = url.clone()
+            u.url = newUrl
+            return u.finalize()
+          })
+          sourceOptions = mergeDeep(sourceOptions, capOptions)
+          layer.setSource(new WMTS(sourceOptions))
+        }
       }
     })
-    layer.setSource(new ol.source.ImageCanvas({
+    layer.setSource(new ImageCanvas({
       state: &apos;ready&apos;,
       canvasFunction: () =&gt; {} // not loading any canvas
     }))
