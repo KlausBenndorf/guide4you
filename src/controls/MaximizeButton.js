@@ -49,7 +49,7 @@ export class MaximizeButton extends Control {
     const parameters = Object.assign({
       clsBtn: true
     }, this.parameters_)
-    const baseURL = (this.baseURL_ !== undefined) ? this.baseURL_.finalize() : undefined
+    const baseURL = (this.baseURL_ !== null) ? this.baseURL_.finalize() : undefined
     const url = this.getMap().get('urlApi').makeURL({
       baseURL,
       parameters
