@@ -27,8 +27,7 @@ describe('LayerSelector', function () {
   before(function () {
     driver = customDriver()
     driver.manage().window().setSize(1200, 800)
-    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
-    driver.manage().timeouts().pageLoadTimeout(config.seleniumTimeout)
+    driver.manage().setTimeouts(config.seleniumTimeouts)
   })
 
   after(function () {

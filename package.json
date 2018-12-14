@@ -65,9 +65,10 @@
     "version": "(npm run test && npm run doc && git add -A) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
     "buildTests": "g4u-buildTests tests",
-    "buildTestAndEnv": "concurrently \"npm run buildTests\" \"npm run dist\"",
-    "runTests": " concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
+    "buildTestsAndEnv": "concurrently \"npm run buildTests\" \"npm run dist\"",
+    "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
     "test": "npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \"Tests completed successfully\"",
+    "test:fast": "npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   },
   "main": "./dist/g4u.js",

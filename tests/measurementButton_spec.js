@@ -23,6 +23,7 @@ test.describe('measurementButton', function () {
     this.timeout(config.mochaTimeout)
     driver = customDriver()
     driver.manage().window().setSize(1200, 800)
+    driver.manage().setTimeouts(config.seleniumTimeouts)
   })
 
   test.after(function () {
