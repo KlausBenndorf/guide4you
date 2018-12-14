@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,11 +207,18 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/API.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+import { get as getProj, transform } from &apos;ol/proj&apos;
+import BaseObject from &apos;ol/Object&apos;
+import Collection from &apos;ol/Collection&apos;
+import Draw from &apos;ol/interaction/Draw&apos;
+import Modify from &apos;ol/interaction/Modify&apos;
+import { boundingExtent } from &apos;ol/extent&apos;
+import WKT from &apos;ol/format/WKT&apos;
 
 import { cssClasses, keyCodes } from &apos;./globals&apos;
 import { Debug } from &apos;./Debug&apos;
+import { FeatureInteraction } from &apos;./interactions/FeatureInteraction&apos;
 
 /**
  * @typedef {object} APIMapInteraction
@@ -228,7 +235,7 @@ import { Debug } from &apos;./Debug&apos;
  * @property {StyleLike} [drawStyle=&apos;#drawStyle&apos;]
  */
 
-export class API extends ol.Object {
+export class API extends BaseObject {
   /**
    * @param {G4UMap} map
    * @param {object} options
@@ -252,7 +259,7 @@ export class API extends ol.Object {
      * @type {ol.format.WKT}
      * @private
      */
-    this.wktParser_ = new ol.format.WKT()
+    this.wktParser_ = new WKT()
 
     /**
      * @type {G4UMap}
@@ -315,7 +322,7 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    let collection = new ol.Collection()
+    let collection = new Collection()
 
     let styleConf = (options.style || this.drawStyle_) || {}
 
@@ -323,7 +330,7 @@ export class API extends ol.Object {
 
     this.map_.get(&apos;styling&apos;).manageFeatureCollection(collection)
 
-    this.featureManipulationInteraction_ = new ol.interaction.Draw({
+    this.featureManipulationInteraction_ = new Draw({
       features: collection,
       type: options.type || &apos;Point&apos;,
       style: style
@@ -360,16 +367,16 @@ export class API extends ol.Object {
     if (!opt.hasOwnProperty(&apos;padding&apos;)) {
       opt.padding = [0, 0, 0, 0]
     }
-    if (ol.proj.get(opt.srId)) {
+    if (getProj(opt.srId)) {
       this.map_.getView().fit(
-        ol.extent.boundingExtent(
+        boundingExtent(
           [
-            ol.proj.transform(
+            transform(
               [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
               opt.srId,
               this.map_.get(&apos;mapProjection&apos;).getCode()
             ),
-            ol.proj.transform(
+            transform(
               [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
               opt.srId,
               this.map_.get(&apos;mapProjection&apos;).getCode()
@@ -406,7 +413,9 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    this.featureManipulationInteraction_ = new ol.interaction.Select()
+    this.featureManipulationInteraction_ = new FeatureInteraction({
+      type: &apos;singleclick&apos;
+    })
 
     this.map_.addSupersedingInteraction(&apos;singleclick&apos;, this.featureManipulationInteraction_)
 
@@ -420,9 +429,11 @@ export class API extends ol.Object {
         this.endFeatureManipulationInternal_()
       },
       result: new Promise((resolve) =&gt; {
-        this.featureManipulationInteraction_.getFeatures().on(&apos;add&apos;, /** ol.CollectionEvent */ e =&gt; {
-          resolve(e.element)
-          this.endFeatureManipulationInternal_()
+        this.featureManipulationInteraction_.on(&apos;interaction&apos;, e =&gt; {
+          if (e.interacted.length) {
+            resolve(e.interacted[0].feature, e.interacted[0].layer)
+            this.endFeatureManipulationInternal_()
+          }
         })
       })
     }
@@ -436,7 +447,7 @@ export class API extends ol.Object {
    * @returns {APIMapInteraction}
    */
   modifyFeature (feature, options = {}) {
-    options.features = new ol.Collection([feature])
+    options.features = new Collection([feature])
 
     if (this.featureManipulationActive_) {
       this.endFeatureManipulationInternal_(false)
@@ -448,7 +459,7 @@ export class API extends ol.Object {
       options.style = this.map_.get(&apos;styling&apos;).getStyle(options.style)
     }
 
-    this.featureManipulationInteraction_ = new ol.interaction.Modify(options)
+    this.featureManipulationInteraction_ = new Modify(options)
 
     this.map_.addSupersedingInteraction(&apos;singleclick dblclick pointermove&apos;, this.featureManipulationInteraction_)
 

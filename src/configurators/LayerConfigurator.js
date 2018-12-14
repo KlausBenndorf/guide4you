@@ -1,11 +1,11 @@
-import ol from 'ol'
-
+import { get as getProj } from 'ol/proj'
 import { GroupLayer } from '../layers/GroupLayer'
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
 import { Debug } from '../Debug'
 import { LayerFactory } from './LayerFactory'
 import { Attributions } from '../Attributions'
+import { LayerSelector } from '../controls/LayerSelector'
 
 /**
  * @typedef {Object} LayerConfig
@@ -36,6 +36,81 @@ export class LayerConfigurator {
      * @private
      */
     this.layerFactory_ = new LayerFactory(map)
+
+    this.map_.on('ready', () => {
+      this.onResolutionChange()
+      this.map_.getView().on('change:resolution', () => this.onResolutionChange())
+    })
+  }
+
+  onResolutionChange () {
+    const zoom = this.map_.getView().getZoom()
+
+    const layerIsViewable = layer => {
+      if (layer.get('minZoom') && zoom < layer.get('minZoom')) {
+        return false
+      } else if (layer.get('maxZoom') && zoom > layer.get('maxZoom')) {
+        return false
+      } else {
+        return true
+      }
+    }
+
+    let activateNext = false
+    this.map_.get('baseLayers').recursiveForEach(layer => {
+      if (!(layer instanceof GroupLayer)) {
+        if (layerIsViewable(layer)) {
+          layer.set('disabled', false)
+          if (activateNext) {
+            layer.setVisible(true)
+            activateNext = false
+          }
+        } else {
+          layer.set('disabled', true)
+          if (layer.getVisible()) {
+            activateNext = true
+          }
+        }
+      }
+    })
+
+    if (activateNext) {
+      this.map_.get('baseLayers').recursiveForEach(layer => {
+        if (!(layer instanceof GroupLayer)) {
+          if (layerIsViewable(layer)) {
+            if (activateNext) {
+              layer.setVisible(true)
+              activateNext = false
+            }
+          }
+        }
+      })
+    }
+
+    const forFeatureLayers = layer => {
+      if (!(layer instanceof GroupLayer)) {
+        if (layerIsViewable(layer)) {
+          layer.set('disabled', false)
+        } else {
+          layer.set('disabled', true)
+          if (layer.getVisible()) {
+            layer.setVisible(false)
+          }
+        }
+      }
+    }
+
+    this.map_.get('featureLayers').recursiveForEach(forFeatureLayers)
+    if (this.map_.get('fixedFeatureLayers')) {
+      this.map_.get('fixedFeatureLayers').recursiveForEach(forFeatureLayers)
+    }
+    if (this.map_.get('queryLayers')) {
+      this.map_.get('queryLayers').recursiveForEach(forFeatureLayers)
+    }
+
+    for (let layerSelector of this.map_.getControlsByType(LayerSelector)) {
+      layerSelector.updateDisabledButtons()
+    }
   }
 
   /**
@@ -66,7 +141,7 @@ export class LayerConfigurator {
     this.map_.set('layerIds', []) // in layerIds all ids are stored to check if one is double.
 
     this.layerFactory_.setMapConfigProjection(
-      mapConfig.hasOwnProperty('mapProjection') ? ol.proj.get(mapConfig.mapProjection) : null
+      mapConfig.hasOwnProperty('mapProjection') ? getProj(mapConfig.mapProjection) : null
     )
 
     this.map_.set('loadingStrategy',
@@ -143,7 +218,7 @@ export class LayerConfigurator {
     }
 
     // if no baselayer had a given projection, choose 'EPSG:3857'
-    this.map_.set('mapProjection', this.layerFactory_.getMapProjection() || ol.proj.get('EPSG:3857'))
+    this.map_.set('mapProjection', this.layerFactory_.getMapProjection() || getProj('EPSG:3857'))
 
     // //////////////////////////////////////////////////////////////////////////////////////////
     //                                    FeatureLayers                                       //

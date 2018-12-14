@@ -1,4 +1,5 @@
-import ol from 'ol'
+import OlOverviewMap from 'ol/control/OverviewMap'
+
 import { RewireMixin } from './RewireMixin'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
@@ -14,7 +15,7 @@ import '../../less/overviewmap.less'
 /**
  * @extends Control
  */
-export class OverviewMap extends mixin(mixin(ol.control.OverviewMap, RewireMixin), ListenerOrganizerMixin) {
+export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), ListenerOrganizerMixin) {
   /**
    * @param {OverviewMapOptions} [options={}]
    */

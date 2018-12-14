@@ -1,8 +1,15 @@
-import ol from 'ol'
 import $ from 'jquery'
+import { get as getProj, transform } from 'ol/proj'
+import BaseObject from 'ol/Object'
+import Collection from 'ol/Collection'
+import Draw from 'ol/interaction/Draw'
+import Modify from 'ol/interaction/Modify'
+import { boundingExtent } from 'ol/extent'
+import WKT from 'ol/format/WKT'
 
 import { cssClasses, keyCodes } from './globals'
 import { Debug } from './Debug'
+import { FeatureInteraction } from './interactions/FeatureInteraction'
 
 /**
  * @typedef {object} APIMapInteraction
@@ -19,7 +26,7 @@ import { Debug } from './Debug'
  * @property {StyleLike} [drawStyle='#drawStyle']
  */
 
-export class API extends ol.Object {
+export class API extends BaseObject {
   /**
    * @param {G4UMap} map
    * @param {object} options
@@ -43,7 +50,7 @@ export class API extends ol.Object {
      * @type {ol.format.WKT}
      * @private
      */
-    this.wktParser_ = new ol.format.WKT()
+    this.wktParser_ = new WKT()
 
     /**
      * @type {G4UMap}
@@ -106,7 +113,7 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    let collection = new ol.Collection()
+    let collection = new Collection()
 
     let styleConf = (options.style || this.drawStyle_) || {}
 
@@ -114,7 +121,7 @@ export class API extends ol.Object {
 
     this.map_.get('styling').manageFeatureCollection(collection)
 
-    this.featureManipulationInteraction_ = new ol.interaction.Draw({
+    this.featureManipulationInteraction_ = new Draw({
       features: collection,
       type: options.type || 'Point',
       style: style
@@ -151,16 +158,16 @@ export class API extends ol.Object {
     if (!opt.hasOwnProperty('padding')) {
       opt.padding = [0, 0, 0, 0]
     }
-    if (ol.proj.get(opt.srId)) {
+    if (getProj(opt.srId)) {
       this.map_.getView().fit(
-        ol.extent.boundingExtent(
+        boundingExtent(
           [
-            ol.proj.transform(
+            transform(
               [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
               opt.srId,
               this.map_.get('mapProjection').getCode()
             ),
-            ol.proj.transform(
+            transform(
               [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
               opt.srId,
               this.map_.get('mapProjection').getCode()
@@ -197,7 +204,9 @@ export class API extends ol.Object {
 
     this.featureManipulationActive_ = true
 
-    this.featureManipulationInteraction_ = new ol.interaction.Select()
+    this.featureManipulationInteraction_ = new FeatureInteraction({
+      type: 'singleclick'
+    })
 
     this.map_.addSupersedingInteraction('singleclick', this.featureManipulationInteraction_)
 
@@ -211,9 +220,11 @@ export class API extends ol.Object {
         this.endFeatureManipulationInternal_()
       },
       result: new Promise((resolve) => {
-        this.featureManipulationInteraction_.getFeatures().on('add', /** ol.CollectionEvent */ e => {
-          resolve(e.element)
-          this.endFeatureManipulationInternal_()
+        this.featureManipulationInteraction_.on('interaction', e => {
+          if (e.interacted.length) {
+            resolve(e.interacted[0].feature, e.interacted[0].layer)
+            this.endFeatureManipulationInternal_()
+          }
         })
       })
     }
@@ -227,7 +238,7 @@ export class API extends ol.Object {
    * @returns {APIMapInteraction}
    */
   modifyFeature (feature, options = {}) {
-    options.features = new ol.Collection([feature])
+    options.features = new Collection([feature])
 
     if (this.featureManipulationActive_) {
       this.endFeatureManipulationInternal_(false)
@@ -239,7 +250,7 @@ export class API extends ol.Object {
       options.style = this.map_.get('styling').getStyle(options.style)
     }
 
-    this.featureManipulationInteraction_ = new ol.interaction.Modify(options)
+    this.featureManipulationInteraction_ = new Modify(options)
 
     this.map_.addSupersedingInteraction('singleclick dblclick pointermove', this.featureManipulationInteraction_)
 

@@ -1,5 +1,5 @@
-import ol from 'ol'
 import $ from 'jquery'
+import Observable, { unByKey } from 'ol/Observable'
 
 class DOMListener {
   constructor (element) {
@@ -64,7 +64,7 @@ class OLListener {
   }
 
   detach () {
-    ol.Observable.unByKey(this.key_)
+    unByKey(this.key_)
   }
 }
 
@@ -74,7 +74,7 @@ export class ListenerOrganizerMixin {
   }
 
   static getTypeListener (element) {
-    if (element instanceof ol.Observable) {
+    if (element instanceof Observable) {
       return new OLListener(element)
     }
     if (element instanceof $) {

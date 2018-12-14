@@ -1,5 +1,5 @@
-import ol from 'ol'
 import $ from 'jquery'
+import BaseObject from 'ol/Object'
 
 import { cssClasses, keyCodes } from '../globals'
 import { getInFront } from './html'
@@ -28,7 +28,7 @@ import '../../less/shield.less'
  * A shield that sets itself in front of all other elements in a context if activated, hides itself if deactivated.
  * It can get another element in front of it (Attention: it gets removed from its context temporarly)
  */
-export class Shield extends ol.Object {
+export class Shield extends BaseObject {
   /**
    * @param {ShieldOptions} options
    */

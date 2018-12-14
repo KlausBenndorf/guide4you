@@ -1,12 +1,14 @@
-import ol from 'ol'
-import { ProvideMapMixin } from './ProvideMapMixin'
+import Group from 'ol/layer/Group'
+import { unByKey } from 'ol/Observable'
 import { mixin } from '../utilities'
+
+import { ProvideMapMixin } from './ProvideMapMixin'
 
 /**
  * This Class is a Wrap around {ol.layer.Group} providing some extra functionality. This class is normally used for a
  * category of layers containing them.
  */
-export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
+export class GroupLayer extends mixin(Group, ProvideMapMixin) {
   /**
    * @param {object} [options={}]
    */
@@ -15,7 +17,7 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
 
     let listenerKeys = new WeakMap()
 
-    this.getLayers().on('add', /** ol.CollectionEvent */ e => {
+    this.getLayers().on('add', /** CollectionEvent */ e => {
       let layer = e.element
       if (layer.provideMap) {
         layer.provideMap(this.getProvidedMap())
@@ -28,12 +30,12 @@ export class GroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
       }))
     })
 
-    this.getLayers().on('remove', /** ol.CollectionEvent */ e => {
+    this.getLayers().on('remove', /** CollectionEvent */ e => {
       let layer = e.element
       if (layer.provideMap) {
         layer.provideMap(null)
       }
-      ol.Observable.unByKey(listenerKeys.get(layer))
+      unByKey(listenerKeys.get(layer))
       listenerKeys.delete(layer)
     })
   }

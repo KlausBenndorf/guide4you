@@ -1,6 +1,12 @@
-import ol from 'ol'
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
+import isFunction from 'lodash/isFunction'
+import isArray from 'lodash/isArray'
+import { getCenter } from 'ol/extent'
+import Point from 'ol/geom/Point'
+import BaseObject from 'ol/Object'
+import Overlay from 'ol/Overlay'
+import Icon from 'ol/style/Icon'
 
 import { ListenerOrganizerMixin } from './ListenerOrganizerMixin'
 import { Window } from './html/Window'
@@ -13,17 +19,18 @@ import '../less/featurepopup.less'
  * @typedef {object} FeaturePopupOptions
  * @property {string} [className='g4u-featurepopup']
  * @property {number[]} [offset=[0,0]]
- * @property {ol.OverlayPositioning} [positioning='center-center']
+ * @property {OverlayPositioning} [positioning='center-center']
  * @property {number[]} [iconSizedOffset=[0,0]]
  * @property {boolean} [centerOnPopup=false]
  * @property {boolean} [animated=true]
  * @property {string[]} [popupModifier] default popupModifiers to use
+ * @property {boolean} [draggable=false]
  */
 
 /**
  * Displays a Popup bound to a geographical position via an ol.Overlay
  */
-export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
+export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * @param {FeaturePopupOptions} options
    */
@@ -118,7 +125,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @type {ol.Overlay}
      * @private
      */
-    this.overlay_ = new ol.Overlay({
+    this.overlay_ = new Overlay({
       element: this.$element_.get(0),
       offset: this.pixelOffset_,
       positioning: options.hasOwnProperty('positioning') ? options.positioning : 'center-center',
@@ -130,6 +137,12 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @private
      */
     this.defaultPopupModifiers_ = options.popupModifier || []
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.draggable_ = options.draggable || false
 
     /**
      * @type {string[]}
@@ -158,8 +171,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     if (feature.get('features') && feature.get('features').length === 1) {
       feature = feature.get('features')[0]
     }
-    return !feature.get('disabled') &&
-      (feature.get('name') || (feature.get('description') && $(feature.get('description')).text().match(/\S/)))
+    return !feature.get('disabled') && (feature.get('name') ||
+      (feature.get('description') && $('<span>').html(feature.get('description')).text().match(/\S/)))
   }
 
   /**
@@ -172,7 +185,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     }
 
     if (map) {
-      this.window_ = new Window({ draggable: false, fixedPosition: true, map: map })
+      this.window_ = new Window({ draggable: this.draggable_, fixedPosition: true, map: map })
 
       this.window_.get$Body().append(this.$name_).append(this.$description_)
 
@@ -186,23 +199,21 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
       // feature click
 
-      this.listenAt(map.getDefaultInteractions('singleclick')[ 0 ]).on('select', e => {
-        let selected = e.selected.filter(FeaturePopup.canDisplay)
-        if (selected.length) {
-          this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
-          e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
-          e.target.changed()
+      this.listenAt(map.getDefaultInteractions('singleclick')[ 0 ]).on('interaction', e => {
+        let interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
+        if (interacted.length) {
+          const { feature, layer } = interacted[0]
+          this.onFeatureClick_(feature, layer, e.coordinate)
         }
       })
 
       // feature hover
 
-      this.listenAt(map.getDefaultInteractions('pointermove')[ 0 ]).on('select', e => {
-        let selected = e.selected.filter(FeaturePopup.canDisplay)
-        let deselected = e.deselected.filter(FeaturePopup.canDisplay)
-        if (selected.length) {
+      this.listenAt(map.getDefaultInteractions('pointermove')[ 0 ]).on('interaction', e => {
+        const interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
+        if (interacted.length) {
           $(map.getViewport()).addClass(cssClasses.clickable)
-        } else if (deselected.length) {
+        } else {
           $(map.getViewport()).removeClass(cssClasses.clickable)
         }
       })
@@ -296,10 +307,11 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
   /**
    * @param {ol.Feature} feature
+   * @param {ol.layer.Vector} layer
    * @param {ol.Coordinate} coordinate
    * @private
    */
-  onFeatureClick_ (feature, coordinate = null) {
+  onFeatureClick_ (feature, layer, coordinate = null) {
     if (feature.get('features')) {
       feature = feature.get('features')[0]
     }
@@ -314,7 +326,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       }
     })
 
-    this.setFeature(feature, coordinate)
+    this.setFeature(feature, feature.getStyle() || layer.getStyle(), coordinate)
     this.setVisible(true)
 
     if (this.centerOnPopup_) {
@@ -361,7 +373,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       this.window_.get$Body().prop('dir', undefined)
     }
 
-    this.getMap().get('popupModifiers').apply({
+    return this.getMap().get('popupModifiers').apply({
       name: this.getFeature().get('name'),
       description: this.getFeature().get('description')
     }, this.currentPopupModifiers_)
@@ -380,53 +392,56 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
           this.$description_.addClass(cssClasses.hidden)
         }
 
-        this.updateSize()
-
         this.dispatchEvent('update:content')
+        return finishAllImages(this.$description_)
+      })
+      .then(() => {
+        this.updateSize()
       })
   }
 
   /**
    * Update the Popup. Call this if something in the feature has changed
    */
-  update () {
+  update (style) {
     if (this.getFeature()) {
       const feature = this.getFeature()
 
       this.$name_.empty()
       this.$description_.empty()
 
-      this.updateContent() // this produces one unnecessary call to window.updateSize()
-
-      if (!feature.get('observedByPopup')) {
-        feature.on('change:name', () => this.updateContent())
-        feature.on('change:description', () => this.updateContent())
-        feature.set('observedByPopup', true)
-      }
-
-      this.once('change:feature', () => {
-        feature.un('change:name', () => this.updateContent())
-        feature.un('change:description', () => this.updateContent())
-        feature.set('observedByPopup', false)
-      })
-
-      if (!this.getMap().get('mobile')) {
-        let resolution = this.getMap().getView().getResolution()
-
-        this.addIconSizedOffset(this.getFeature(), resolution)
-      }
-
-      for (let layer of this.referencingVisibleLayers_) {
-        if (layer.get('addClass')) {
-          this.window_.get$Element().addClass(layer.get('addClass'))
+      // this produces one unnecessary call to window.updateSize()
+      this.updateContent().then(() => {
+        if (!feature.get('observedByPopup')) {
+          feature.on('change:name', () => this.updateContent())
+          feature.on('change:description', () => this.updateContent())
+          feature.set('observedByPopup', true)
         }
-      }
 
-      // apply default offset
+        this.once('change:feature', () => {
+          feature.un('change:name', () => this.updateContent())
+          feature.un('change:description', () => this.updateContent())
+          feature.set('observedByPopup', false)
+        })
 
-      if (this.getVisible()) {
-        setTimeout(() => this.window_.updateSize(), 0)
-      }
+        if (!this.getMap().get('mobile')) {
+          let resolution = this.getMap().getView().getResolution()
+
+          this.addIconSizedOffset(this.getFeature(), style, resolution)
+        }
+
+        for (let layer of this.referencingVisibleLayers_) {
+          if (layer.get('addClass')) {
+            this.window_.get$Element().addClass(layer.get('addClass'))
+          }
+        }
+
+        // apply default offset
+
+        if (this.getVisible()) {
+          setTimeout(() => this.window_.updateSize(), 0)
+        }
+      })
     }
   }
 
@@ -439,13 +454,18 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
-   * @param {ol.Coordinate} coordinate
+   * @param {ol.style.Style} style
+   * @param {ol.Coordinate} clickCoordinate
    * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, coordinate = null, optPopupModifiers = []) {
+  setFeature (feature, style, clickCoordinate = null, optPopupModifiers = []) {
     let oldValue = this.feature_
     if (feature) {
-      this.overlay_.setPosition(coordinate || ol.extent.getCenter(feature.getGeometry().getExtent()))
+      let coordinate = clickCoordinate
+      if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+        coordinate = getCenter(feature.getGeometry().getExtent())
+      }
+      this.overlay_.setPosition(coordinate)
     }
 
     if (oldValue !== feature) {
@@ -458,9 +478,13 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get('popupModifiers')))
       }
       this.geometryChangeHandler_ = () => {
-        this.overlay_.setPosition(coordinate || ol.extent.getCenter(this.feature_.getGeometry().getExtent()))
+        let coordinate = clickCoordinate
+        if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+          coordinate = getCenter(feature.getGeometry().getExtent())
+        }
+        this.overlay_.setPosition(coordinate)
         if (this.getVisible()) {
-          this.update()
+          this.update(style)
         }
       }
       this.feature_.on('change:geometry', this.geometryChangeHandler_)
@@ -470,7 +494,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         key: 'feature'
       })
 
-      this.update()
+      this.update(style)
     }
   }
 
@@ -493,6 +517,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
       } else {
         this.$element_.addClass(cssClasses.hidden)
         this.window_.setVisible(false)
+        this.window_.resetDragged()
       }
 
       this.visible_ = visible
@@ -512,17 +537,22 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
   /**
    * calculates iconSized Offset and applies it
    * @param {ol.Feature} feature
+   * @param {ol.style.Style} style
    * @param {number} resolution
    */
 
-  addIconSizedOffset (feature, resolution) {
+  addIconSizedOffset (feature, style, resolution) {
     if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
-      let featureStyleFunction = feature.getStyleFunction()
-      if (featureStyleFunction) {
-        let style = featureStyleFunction(feature, resolution)[ 0 ]
+      if (style) {
+        if (isFunction(style)) {
+          style = style(feature, resolution)
+        }
+        if (isArray(style)) {
+          style = style[ 0 ]
+        }
         if (style) {
           let imageStyle = style.getImage()
-          if (imageStyle instanceof ol.style.Icon) {
+          if (imageStyle instanceof Icon) {
             (new Promise(resolve => {
               let img = imageStyle.getImage()
               if (img.complete && img.src) {

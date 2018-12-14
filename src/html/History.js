@@ -14,10 +14,17 @@ export class History {
           cb.call()
           window.history.forward()
         } else {
+          if (this.onLeave_ !== undefined) {
+            this.onLeave_.call()
+          }
           window.history.back()
         }
       }
     })
+  }
+
+  setOnLeave (cb) {
+    this.onLeave_ = cb
   }
 
   push (callback) {

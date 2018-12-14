@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,15 +207,17 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/html/Dropdown.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
-import { cssClasses, keyCodes } from &apos;../globals&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+
+import BaseObject from &apos;ol/Object&apos;
 
 import &apos;polyfill!Array.prototype.findIndex,Array.prototype.find&apos;
 
-import &apos;../../less/dropdown.less&apos;
+import { cssClasses, keyCodes } from &apos;../globals&apos;
 import { ListenerOrganizerMixin } from &apos;../ListenerOrganizerMixin&apos;
 import { mixin } from &apos;../utilities&apos;
+
+import &apos;../../less/dropdown.less&apos;
 
 /**
  * @typedef {object} DropdownOptions
@@ -247,7 +249,7 @@ $.extend($.easing, {
  * @fires &apos;close&apos; dropdown closing without select
  * @fires &apos;select&apos; dropdown closing with select
  */
-export class Dropdown extends mixin(ol.Object, ListenerOrganizerMixin) {
+export class Dropdown extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * @param {DropdownOptions} [options={}]
    */

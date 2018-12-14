@@ -1,5 +1,6 @@
-import ol from 'ol'
 import $ from 'jquery'
+import ImageWMS from 'ol/source/ImageWMS'
+import TileWMS from 'ol/source/TileWMS'
 
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
@@ -133,7 +134,7 @@ export class WMSFeatureInfoMixin {
  * @property {WMSFeatureInfoOptions} featureInfo
  */
 
-export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixin) {
+export class ImageWMSSource extends mixin(ImageWMS, WMSFeatureInfoMixin) {
   constructor (options) {
     const originalUrl = options.url
     options.url = '_' // dummy value that gets sliced out
@@ -146,7 +147,7 @@ export class ImageWMSSource extends mixin(ol.source.ImageWMS, WMSFeatureInfoMixi
   }
 }
 
-export class TileWMSSource extends mixin(ol.source.TileWMS, WMSFeatureInfoMixin) {
+export class TileWMSSource extends mixin(TileWMS, WMSFeatureInfoMixin) {
   constructor (options) {
     const origUrl = options.url
     options.url = '_' // dummy value that gets sliced out

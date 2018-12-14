@@ -1,11 +1,11 @@
 import { groupBy, map } from 'lodash/collection'
-import { ListenerOrganizerMixin } from './ListenerOrganizerMixin'
-import { GroupLayer } from './layers/GroupLayer'
 import { uniq } from 'lodash/array'
 import { debounce } from 'lodash/function'
-import { mixin } from './utilities'
+import Observable from 'ol/Observable'
 
-import ol from 'ol'
+import { ListenerOrganizerMixin } from './ListenerOrganizerMixin'
+import { GroupLayer } from './layers/GroupLayer'
+import { mixin } from './utilities'
 
 function groupByChain (col) {
   return {
@@ -24,7 +24,7 @@ function groupByChain (col) {
   }
 }
 
-export class Attributions extends mixin(ol.Observable, ListenerOrganizerMixin) {
+export class Attributions extends mixin(Observable, ListenerOrganizerMixin) {
   constructor () {
     super()
     /**

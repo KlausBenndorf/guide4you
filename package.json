@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "3.1.0",
+  "version": "3.3.0",
   "description": "A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -21,7 +21,7 @@
   },
   "peerDependencies": {
     "jquery": "3.3.1",
-    "ol": "github:KlausBenndorf/ol3#g4u3_v5.2.0"
+    "ol": "5.2.0"
   },
   "dependencies": {
     "better-scroll": "1.13.2",
@@ -42,17 +42,18 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "guide4you-builder": "3.4.0",
+    "guide4you-builder": "3.5.0",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "0.11.1",
     "jquery": "3.3.1",
     "mocha": "5.2.0",
-    "ol": "github:KlausBenndorf/ol3#g4u3_v5.2.0",
+    "ol": "5.2.0",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
     "wait-on": "3.1.0"
   },
   "scripts": {
+    "grab": "g4u-grab guide4you-builder",
     "dist": "rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js",
     "dev:simple": "cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js",
     "prod:simple": "rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js",
@@ -63,9 +64,11 @@
     "lint": "eslint src/ tests/",
     "version": "(npm run test && npm run doc && git add -A) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
-    "buildTests": "concurrently \"g4u-buildTests tests\" \"npm run dist\"",
-    "runTests": " concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
-    "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
+    "buildTests": "g4u-buildTests tests",
+    "buildTestsAndEnv": "concurrently \"npm run buildTests\" \"npm run dist\"",
+    "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
+    "test": "npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \"Tests completed successfully\"",
+    "test:fast": "npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   },
   "main": "./dist/g4u.js",

@@ -77,7 +77,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       layerButton: this.getClassName() + '-layerbutton',
       active: this.getClassName() + '-active',
       featureInfo: this.getClassName() + '-info',
-      featureInfoActive: this.getClassName() + '-info-active'
+      featureInfoActive: this.getClassName() + '-info-active',
+      disabled: this.getClassName() + '-disabled'
     }
 
     /**
@@ -184,6 +185,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     })
   }
 
+  updateDisabledButtons () {
+    this.dispatchEvent('update:disabled')
+  }
+
   /**
    * this method builds a button for a layer. It toggles visibility if you click on it
    * @param {ol.layer.Base} layer
@@ -199,6 +204,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       if (layer.get('addClass')) {
         $button.addClass(layer.get('addClass'))
       }
+
+      if (layer.get('disabled')) {
+        $button.addClass(this.classNames_.disabled)
+      }
+
+      this.on('update:disabled', () => {
+        $button.toggleClass(this.classNames_.disabled, layer.get('disabled'))
+      })
 
       if (this.getMap().get('localiser').isRtl()) {
         $button.prop('dir', 'rtl')
@@ -401,6 +414,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           addTooltip($toggleFeatureInfo,
             this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
 
+          if (wmsLayer.get('disabled')) {
+            $button.addClass(this.classNames_.disabled)
+          }
+
+          this.on('update:disabled', () => {
+            $button.toggleClass(this.classNames_.disabled, wmsLayer.get('disabled'))
+          })
+
           $target.append($button)
 
           let toggleButtonActive, setCheckboxActive
@@ -546,6 +567,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         if (wmsLayer.get('addClass')) {
           $button.addClass(wmsLayer.get('addClass'))
         }
+
+        if (wmsLayer.get('disabled')) {
+          $button.addClass(this.classNames_.disabled)
+        }
+
+        this.on('update:disabled', () => {
+          $button.toggleClass(this.classNames_.disabled, wmsLayer.get('disabled'))
+        })
 
         let $toggleFeatureInfo = $('<span>')
           .addClass(this.classNames_.featureInfo)

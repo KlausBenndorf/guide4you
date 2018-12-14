@@ -1,8 +1,9 @@
-import ol from 'ol'
+import WMTS from 'ol/source/WMTS'
+
 import { asyncImageLoad } from '../utilities'
 import { Debug } from '../Debug'
 
-export class WMTSSource extends ol.source.WMTS {
+export class WMTSSource extends WMTS {
   constructor (options) {
     const origUrl = options.url
     options.url = '_' // dummy value that gets sliced out

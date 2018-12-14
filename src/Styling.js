@@ -1,11 +1,19 @@
-import ol from 'ol'
 import $ from 'jquery'
+import Circle from 'ol/style/Circle'
+import Fill from 'ol/style/Fill'
+import Icon from 'ol/style/Icon'
+import RegularShape from 'ol/style/RegularShape'
+import Stroke from 'ol/style/Stroke'
+import Style from 'ol/style/Style'
+import Text from 'ol/style/Text'
 
 import { copyDeep, copy } from './utilitiesObject'
 import { checkFor } from './utilities'
 import { Debug } from './Debug'
 
 import { parseCSSColor } from 'csscolorparser'
+
+import { isFunction, isObject, isArray } from 'lodash/lang'
 
 /**
  * @typedef {string|StyleObject|ol.style.Style} StyleLike
@@ -133,14 +141,14 @@ export class Styling {
       if (!style) {
         style = this.getStyle('#defaultStyle')
       }
-      if ($.isArray(style)) {
+      if (isArray(style)) {
         return style.map(s => this.adjustStyle_(feature, s))
       } else {
         return this.adjustStyle_(feature, style)
       }
     }
 
-    this.nullStyle_ = new ol.style.Style({
+    this.nullStyle_ = new Style({
       image: null
     })
 
@@ -177,15 +185,15 @@ export class Styling {
       let preparedOptions = copy(subStyleConf)
 
       if (checkFor(subStyleConf, 'fill')) {
-        preparedOptions.fill = new ol.style.Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
+        preparedOptions.fill = new Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
       } else {
-        preparedOptions.fill = new ol.style.Fill(filledStyleConf.fill)
+        preparedOptions.fill = new Fill(filledStyleConf.fill)
       }
 
       if (checkFor(subStyleConf, 'stroke')) {
-        preparedOptions.stroke = new ol.style.Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
+        preparedOptions.stroke = new Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
       } else {
-        preparedOptions.stroke = new ol.style.Stroke(filledStyleConf.stroke)
+        preparedOptions.stroke = new Stroke(filledStyleConf.stroke)
       }
 
       return preparedOptions
@@ -193,20 +201,20 @@ export class Styling {
 
     let styleOptions = addFillsAndStrokes(filledStyleConf)
 
-    styleOptions.text = new ol.style.Text(addFillsAndStrokes(filledStyleConf.text))
+    styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))
 
     let scalable = false
 
     if (filledStyleConf.hasOwnProperty('image')) {
       if (filledStyleConf.image.type === 'icon' &&
         (filledStyleConf.image.hasOwnProperty('src')) && filledStyleConf.image.src) {
-        styleOptions.image = new ol.style.Icon(filledStyleConf.image)
+        styleOptions.image = new Icon(filledStyleConf.image)
         scalable = true
       } else if (filledStyleConf.image.type === 'circle') {
-        styleOptions.image = new ol.style.Circle(addFillsAndStrokes(filledStyleConf.image))
+        styleOptions.image = new Circle(addFillsAndStrokes(filledStyleConf.image))
         scalable = true
       } else if (filledStyleConf.image.type === 'regularShape') {
-        styleOptions.image = new ol.style.RegularShape(addFillsAndStrokes(filledStyleConf.image))
+        styleOptions.image = new RegularShape(addFillsAndStrokes(filledStyleConf.image))
         scalable = true
       }
 
@@ -215,7 +223,7 @@ export class Styling {
       }
     }
 
-    return new ol.style.Style(styleOptions)
+    return new Style(styleOptions)
   }
 
   getConfigFromStyle (style) {
@@ -258,10 +266,16 @@ export class Styling {
   getStyle (data) {
     if (data === undefined) {
       return this.getStyleById('#defaultStyle')
-    } else if (data instanceof ol.style.Style || $.isFunction(data)) {
+    } else if (data instanceof Style || isFunction(data)) {
       return data
-    } else if (typeof data === 'object') {
-      return this.getStyleFromConfig(data)
+    } else if (isArray(data)) {
+      return data.map(d => this.getStyle(d))
+    } else if (isObject(data)) {
+      if (data.hasOwnProperty('conditional')) {
+        return this.getConditionalStyleFromConfig(data.conditional)
+      } else {
+        return this.getStyleFromConfig(data)
+      }
     } else {
       return this.getStyleById(data)
     }
@@ -379,7 +393,7 @@ export class Styling {
           if (!style) {
             style = this.getStyle('#defaultStyle')
           }
-          if ($.isArray(style)) {
+          if (isArray(style)) {
             return style.map(s => this.adjustStyle_(feature, s))
           } else {
             return this.adjustStyle_(feature, style)
@@ -394,6 +408,50 @@ export class Styling {
       layer.getSource().on('addfeature', e => {
         this.manageFeature(e.feature)
       })
+    }
+  }
+
+  getConditionalStyleFromConfig (configArr) {
+    const styles = configArr.map(o => this.getStyle(o.style))
+    return (feature, resolution) => {
+      for (let i = 0; i < configArr.length; i++) {
+        if (!configArr[i]['condition']) {
+          return styles[i]
+        }
+        const cond = configArr[i]['condition']
+        switch (cond[1]) {
+          case '=':
+            if (feature.get(cond[0]) === cond[2]) {
+              return styles[i]
+            }
+            break
+          case '!=':
+            if (feature.get(cond[0]) !== cond[2]) {
+              return styles[i]
+            }
+            break
+          case '<':
+            if (feature.get(cond[0]) < cond[2]) {
+              return styles[i]
+            }
+            break
+          case '>':
+            if (feature.get(cond[0]) > cond[2]) {
+              return styles[i]
+            }
+            break
+          case '<=':
+            if (feature.get(cond[0]) <= cond[2]) {
+              return styles[i]
+            }
+            break
+          case '>=':
+            if (feature.get(cond[0]) >= cond[2]) {
+              return styles[i]
+            }
+            break
+        }
+      }
     }
   }
 }

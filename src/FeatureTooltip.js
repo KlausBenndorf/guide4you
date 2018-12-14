@@ -1,5 +1,6 @@
-import ol from 'ol'
 import $ from 'jquery'
+import { getCenter } from 'ol/extent'
+import Overlay from 'ol/Overlay'
 
 import { cssClasses } from './globals'
 
@@ -38,7 +39,7 @@ export class FeatureTooltip {
      * @type {ol.Overlay}
      * @private
      */
-    this.overlay_ = new ol.Overlay({
+    this.overlay_ = new Overlay({
       element: this.$element_.get(0),
       offset: (options.hasOwnProperty('offset')) ? options.offset : [0, 0],
       positioning: (options.hasOwnProperty('positioning')) ? options.positioning : 'center-center',
@@ -64,7 +65,7 @@ export class FeatureTooltip {
     if (feature.get('features') && feature.get('features').length === 1) {
       feature = feature.get('features')[0]
     }
-    return !feature.get('disabled') && feature.get('name')
+    return !feature.get('disabled') && !feature.get('tooltip.disabled') && feature.get('name')
   }
 
   /**
@@ -78,16 +79,16 @@ export class FeatureTooltip {
     if (map) {
       map.addOverlay(this.overlay_)
 
-      let interaction = map.getDefaultInteractions('pointermove')[0]
-      interaction.on('select', e => {
-        let selected = e.selected.filter(FeatureTooltip.canDisplay)
-        if (selected.length) {
-          let feature = selected[0]
+      const interaction = map.getDefaultInteractions('pointermove')[0]
+      interaction.on('interaction', e => {
+        const interacted = e.interacted.filter(({ feature }) => FeatureTooltip.canDisplay(feature))
+        if (interacted.length) {
+          let { feature } = interacted[0]
           if (feature.get('features')) {
             feature = feature.get('features')[0]
           }
-          this.setFeature(feature, e.mapBrowserEvent.coordinate)
-        } else if (e.deselected.length && e.deselected.some(f => f === this.getFeature())) {
+          this.setFeature(feature, e.coordinate)
+        } else {
           this.setFeature(null)
         }
       })
@@ -127,7 +128,7 @@ export class FeatureTooltip {
         })
       if (!coordinate) {
         let geometry = feature.getGeometry()
-        coordinate = ol.extent.getCenter(geometry.getExtent())
+        coordinate = getCenter(geometry.getExtent())
       }
       this.overlay_.setPosition(coordinate)
     } else {

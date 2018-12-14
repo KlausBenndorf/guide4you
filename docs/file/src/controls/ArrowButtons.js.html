@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,14 +207,14 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/controls/ArrowButtons.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
 
 import { merge } from &apos;../utilitiesObject&apos;
-import {Control} from &apos;./Control&apos;
-import {addTooltip} from &apos;../html/html&apos;
+import { Control } from &apos;./Control&apos;
+import { addTooltip } from &apos;../html/html&apos;
 
 import &apos;../../less/arrowbuttons.less&apos;
+import { rotate } from &apos;ol/coordinate&apos;
 
 /**
  * @typedef {g4uControlOptions} ArrowButtonOptions
@@ -288,7 +288,7 @@ export class ArrowButtons extends Control {
      * @type {{left: number[], up: number[], right: number[], down: number[]}}
      * @private
      */
-    this.vectors_ = {left: [-1, 0], up: [0, 1], right: [1, 0], down: [0, -1]}
+    this.vectors_ = { left: [-1, 0], up: [0, 1], right: [1, 0], down: [0, -1] }
 
     /**
      * @type {{up: string, right: string, down: string, left: string, center: string}}
@@ -359,7 +359,7 @@ export class ArrowButtons extends Control {
       let delta = [dirVec[0] * resolution * this.pixelDelta_, dirVec[1] * resolution * this.pixelDelta_]
 
       // this rotates if needed
-      ol.coordinate.rotate(delta, rotation)
+      rotate(delta, rotation)
 
       let oldPosition = view.getCenter()
 

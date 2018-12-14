@@ -1,5 +1,10 @@
-import ol from 'ol'
 import $ from 'jquery'
+import { containsExtent } from 'ol/extent'
+import GeoJSON from 'ol/format/GeoJSON'
+import KML from 'ol/format/KML'
+import { transformExtent } from 'ol/proj'
+import VectorSource from 'ol/source/Vector'
+import { all } from 'ol/loadingstrategy'
 
 import { copy, take } from '../utilitiesObject'
 import { Debug } from '../Debug'
@@ -32,7 +37,7 @@ import { Debug } from '../Debug'
  *
  * This class defines a custom loader function which makes it possible to use different loading strategies.
  */
-export class SourceServerVector extends ol.source.Vector {
+export class SourceServerVector extends VectorSource {
   /**
    * @param {SourceServerVectorOptions} [options={}]
    */
@@ -57,7 +62,7 @@ export class SourceServerVector extends ol.source.Vector {
       let lastScaledExtent = [0, 0, 0, 0]
 
       parentOptions.strategy = (extent) => {
-        if (ol.extent.containsExtent(lastScaledExtent, extent)) {
+        if (containsExtent(lastScaledExtent, extent)) {
           return [extent]
         } else {
           let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
@@ -74,7 +79,7 @@ export class SourceServerVector extends ol.source.Vector {
         }
       }
     } else {
-      parentOptions.strategy = ol.loadingstrategy.all
+      parentOptions.strategy = all
     }
 
     super(parentOptions)
@@ -118,11 +123,11 @@ export class SourceServerVector extends ol.source.Vector {
     switch (this.type_) {
       case 'KML':
         formatOptions.showPointNames = false
-        this.format_ = new ol.format.KML(formatOptions)
+        this.format_ = new KML(formatOptions)
         this.dataType_ = 'text xml' // for $.ajax (GET-request)
         break
       case 'GeoJSON':
-        this.format_ = new ol.format.GeoJSON(formatOptions)
+        this.format_ = new GeoJSON(formatOptions)
         this.dataType_ = 'text json' // for $.ajax (GET-request)
         break
       default:
@@ -167,7 +172,7 @@ export class SourceServerVector extends ol.source.Vector {
     let url = this.urlTemplate.clone()
 
     if (this.loadingStrategy_ === 'BBOX') {
-      let transformedExtent = ol.proj.transformExtent(extent, projection, this.bboxProjection_)
+      let transformedExtent = transformExtent(extent, projection, this.bboxProjection_)
 
       url.expandTemplate('bboxleft', transformedExtent[0].toString())
         .expandTemplate('bboxbottom', transformedExtent[1].toString())
@@ -203,7 +208,7 @@ export class SourceServerVector extends ol.source.Vector {
         }
 
         if (this.doClear_) {
-          this.clear()
+          this.clear(true)
           this.doClear_ = false
         }
 

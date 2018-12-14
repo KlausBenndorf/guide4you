@@ -1,5 +1,8 @@
-import ol from 'ol'
 import $ from 'jquery'
+
+import { getTransform } from 'ol/proj'
+import VectorSource from 'ol/source/Vector'
+import Draw from 'ol/interaction/Draw'
 
 import { Control } from './Control'
 import { cssClasses, keyCodes } from '../globals'
@@ -132,13 +135,13 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
        * @type {ol.TransformFunction}
        * @private
        */
-      this.measurementTransform_ = ol.proj.getTransform(map.getView().getProjection(), this.measurementProjection_)
+      this.measurementTransform_ = getTransform(map.getView().getProjection(), this.measurementProjection_)
 
       /**
        * @type {ol.source.Vector}
        * @private
        */
-      this.source_ = new ol.source.Vector({
+      this.source_ = new VectorSource({
         projection: this.measurementProjection_
       })
 
@@ -159,7 +162,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
        * @type {ol.interaction.Draw}
        * @private
        */
-      this.drawInteraction_ = new ol.interaction.Draw({
+      this.drawInteraction_ = new Draw({
         source: this.source_,
         type: this.type_,
         style: map.get('styling').getStyle(this.style_)

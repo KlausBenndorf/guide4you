@@ -257,7 +257,9 @@ export class URL {
     return new URL({
       useProxy: this.useProxy,
       proxy: this.proxy,
-      url: otherUrl
+      url: otherUrl,
+      localiser: this.localiser,
+      globalProxy: this.globalProxy
     })
   }
 

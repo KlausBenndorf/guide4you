@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,25 +207,21 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/G4UMap.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import $ from &apos;jquery&apos;
-
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+import OlMap from &apos;ol/Map&apos;
 import stripJsonComments from &apos;strip-json-comments&apos;
 
-import {MapConfigurator} from &apos;./configurators/MapConfigurator&apos;
+import { MapConfigurator } from &apos;./configurators/MapConfigurator&apos;
+import { Debug } from &apos;./Debug&apos;
+import { defaults } from &apos;./defaultconfig&apos;
+import { cssClasses } from &apos;./globals&apos;
+import { L10N } from &apos;./L10N&apos;
+import { getRegisteredModules } from &apos;./moduleRegistration&apos;
 import &apos;./openlayersInjections&apos;
-import {L10N} from &apos;./L10N&apos;
-
-import {mergeWithDefaults} from &apos;./utilitiesObject&apos;
-import {cssClasses} from &apos;./globals&apos;
-
-import {defaults} from &apos;./defaultconfig&apos;
-
-import {Debug} from &apos;./Debug&apos;
+import { PopupModifierManager } from &apos;./PopupModifierManager&apos;
+import { mergeWithDefaults } from &apos;./utilitiesObject&apos;
 
 import &apos;../less/map.less&apos;
-import { getRegisteredModules } from &apos;./moduleRegistration&apos;
-import { PopupModifierManager } from &apos;./PopupModifierManager&apos;
 
 /**
  * @typedef {object} G4UMapOptions
@@ -249,7 +245,7 @@ import { PopupModifierManager } from &apos;./PopupModifierManager&apos;
  * @fires &apos;change:ready:ui&apos;
  * @fires &apos;change:ready:layers&apos;
  */
-export class G4UMap extends ol.Map {
+export class G4UMap extends OlMap {
   /**
    * @param {HTMLElement|jQuery|string} target element or id of an element
    * @param {MapConfig|string} configOrFileName
@@ -296,7 +292,7 @@ export class G4UMap extends ol.Map {
 
     this.set(&apos;ready&apos;, false)
 
-    this.on([ &apos;change:ready&apos;, &apos;change:ready:ui&apos;, &apos;change:ready:layers&apos; ], /** ol.ObjectEvent */ e =&gt; {
+    this.on([&apos;change:ready&apos;, &apos;change:ready:ui&apos;, &apos;change:ready:layers&apos;], /** ol.ObjectEvent */ e =&gt; {
       if (this.get(e.key)) {
         this.dispatchEvent(e.key)
       }
@@ -319,7 +315,7 @@ export class G4UMap extends ol.Map {
 
     // Setting the target of the map
 
-    if (typeof target === &apos;string&apos; &amp;&amp; target[ 0 ] !== &apos;#&apos;) {
+    if (typeof target === &apos;string&apos; &amp;&amp; target[0] !== &apos;#&apos;) {
       this.setTarget($(&apos;#&apos; + target).get(0))
     } else {
       this.setTarget($(target).get(0))
@@ -408,10 +404,10 @@ export class G4UMap extends ol.Map {
         loading++
 
         this.oldMapConfigs_ = this.oldMapConfigs_ || {}
-        this.oldMapConfigs_[ e.oldValue ] = this.get(&apos;mapConfig&apos;)
+        this.oldMapConfigs_[e.oldValue] = this.get(&apos;mapConfig&apos;)
 
         if (this.oldMapConfigs_.hasOwnProperty(this.get(&apos;configFileName&apos;))) {
-          this.set(&apos;mapConfig&apos;, this.oldMapConfigs_[ this.get(&apos;configFileName&apos;) ])
+          this.set(&apos;mapConfig&apos;, this.oldMapConfigs_[this.get(&apos;configFileName&apos;)])
         } else {
           this.set(&apos;mapConfigReady&apos;, false)
           loadConfigFile(this.get(&apos;configFileName&apos;)).then((data) =&gt; {
@@ -432,10 +428,10 @@ export class G4UMap extends ol.Map {
         loading++
 
         this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
-        this.oldLayerConfigs_[ e.oldValue ] = this.get(&apos;layerConfig&apos;)
+        this.oldLayerConfigs_[e.oldValue] = this.get(&apos;layerConfig&apos;)
 
         if (this.oldLayerConfigs_.hasOwnProperty(this.get(&apos;layerConfigFileName&apos;))) {
-          this.set(&apos;layerConfig&apos;, this.oldLayerConfigs_[ this.get(&apos;layerConfigFileName&apos;) ])
+          this.set(&apos;layerConfig&apos;, this.oldLayerConfigs_[this.get(&apos;layerConfigFileName&apos;)])
         } else {
           this.set(&apos;layerConfigReady&apos;, false)
           loadConfigFile(this.get(&apos;layerConfigFileName&apos;))
@@ -517,7 +513,7 @@ export class G4UMap extends ol.Map {
           this.set(&apos;ready&apos;, true)
         }
 
-        this.on([ &apos;change:ready:ui&apos;, &apos;change:ready:layers&apos; ], /** ol.ObjectEvent */ e =&gt; {
+        this.on([&apos;change:ready:ui&apos;, &apos;change:ready:layers&apos;], /** ol.ObjectEvent */ e =&gt; {
           if (!this.get(e.key)) {
             this.set(&apos;ready&apos;, false)
           }
@@ -536,7 +532,15 @@ export class G4UMap extends ol.Map {
    * @returns {Control[]}
    */
   getControlsByName (name) {
-    return this.controlsByName[ name ] || []
+    return this.controlsByName[name] || []
+  }
+
+  getControlsByType (type) {
+    let matched = []
+    for (const controls of Object.values(this.controlsByName)) {
+      matched = matched.concat(controls.filter(c =&gt; c instanceof type))
+    }
+    return matched
   }
 
   /**
@@ -622,7 +626,7 @@ export class G4UMap extends ol.Map {
       if (this.defaultInteractions_.has(eventtype)) {
         this.defaultInteractions_.get(eventtype).push(interaction)
       } else {
-        this.defaultInteractions_.set(eventtype, [ interaction ])
+        this.defaultInteractions_.set(eventtype, [interaction])
       }
     }
 
@@ -704,7 +708,7 @@ export class G4UMap extends ol.Map {
       if (this.supersedingInteractions_.has(eventType)) {
         this.supersedingInteractions_.get(eventType).push(interaction)
       } else {
-        this.supersedingInteractions_.set(eventType, [ interaction ])
+        this.supersedingInteractions_.set(eventType, [interaction])
       }
     }
 
