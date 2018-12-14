@@ -22,6 +22,7 @@ import { GEOLOCATION } from 'ol/has'
  * @property {boolean} [animated] if the move on the map to the geoposition should be animated
  * @property {StyleLike} [style='#defaultStyle']
  * @property {number} [maxZoom]
+ * @property {boolean} [followLocation=false]
  * @property {boolean} [active=false]
  */
 
