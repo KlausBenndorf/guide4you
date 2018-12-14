@@ -158,12 +158,12 @@ export class LinkGeneratorButton extends Control {
 
   updateDescription () {
     let text = filterText(this.$markerDescriptionTextArea_.val())
+    this.marker_.setText(text)
     if (text) {
       this.marker_.setPopupVisible(true)
     } else {
       this.marker_.setPopupVisible(false)
     }
-    this.marker_.setText(text) // has to be done after setVisible
     this.updateURL()
   }
 
