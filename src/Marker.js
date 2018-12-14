@@ -1,7 +1,7 @@
 import { VectorLayer } from 'guide4you/src/layers/VectorLayer'
-import Feature from 'ol/src/ol/Feature'
-import { Vector } from 'ol/src/ol/source'
-import Point from 'ol/src/ol/geom/Point'
+import Feature from 'ol/Feature'
+import { Vector as VectorSource } from 'ol/source'
+import Point from 'ol/geom/Point'
 
 /**
  * @typedef {object} MarkerOptions
@@ -57,7 +57,7 @@ export class Marker {
        * @private
        */
       this.vectorLayer_ = new VectorLayer({
-        source: Vector({ features: [this.feature_] }),
+        source: new VectorSource({ features: [this.feature_] }),
         visible: false
       })
 

@@ -6,8 +6,8 @@ import { Debug } from 'guide4you/src/Debug'
 
 import '../../less/linkgeneratorbutton.less'
 import { filterText, restoreText } from 'guide4you/src/xssprotection'
-import Collection from 'ol/src/ol/Collection'
-import Draw from 'ol/src/ol/interaction/Draw'
+import Collection from 'ol/Collection'
+import Draw from 'ol/interaction/Draw'
 
 /**
  * @typedef {g4uControlOptions} LinkGeneratorButtonOptions

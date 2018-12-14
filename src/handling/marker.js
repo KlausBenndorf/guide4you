@@ -1,6 +1,6 @@
 import { Debug } from 'guide4you/src/Debug'
 import { restoreText } from 'guide4you/src/xssprotection'
-import { transform } from 'ol/src/ol/proj'
+import { transform } from 'ol/proj'
 
 /**
  * @type {URLParameter}
