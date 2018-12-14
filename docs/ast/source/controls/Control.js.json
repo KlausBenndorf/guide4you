@@ -91,10 +91,10 @@
             }
           },
           "extra": {
-            "rawValue": "ol/control/control",
-            "raw": "'ol/control/control'"
+            "rawValue": "ol/control/Control",
+            "raw": "'ol/control/Control'"
           },
-          "value": "ol/control/control"
+          "value": "ol/control/Control"
         }
       },
       {
@@ -642,7 +642,7 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "ol/control/control",
+      "value": "ol/control/Control",
       "start": 22,
       "end": 42,
       "loc": {
