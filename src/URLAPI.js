@@ -216,7 +216,8 @@ export class URLAPI {
         for (let key in keyValuePairs) {
           if (keyValuePairs.hasOwnProperty(key) && keyValuePairs[ key ] !== undefined) {
             // check if the value differs from the initial Value
-            if (!(this.initialValues_.hasOwnProperty(key) && equal(this.initialValues_[ key ], keyValuePairs[ key ]))) {
+            if (this.query_.isSet(key) ||
+                !(this.initialValues_.hasOwnProperty(key) && equal(this.initialValues_[ key ], keyValuePairs[ key ]))) {
               values[key] = keyValuePairs[ key ].toString()
             }
           }

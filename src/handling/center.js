@@ -7,6 +7,19 @@ export const centerParam = {
   keys: ['lon', 'lat', 'x', 'y', 'srid'],
   setEvent: 'afterConfiguring',
   setToMap: (map, query) => {
+    if (query.isSet('lon') && query.isSet('lat') && Math.abs(parseFloat(query.getSanitizedVal('lat'))) < 90) {
+      let lon = parseFloat(query.getSanitizedVal('lon'))
+      let lat = parseFloat(query.getSanitizedVal('lat'))
+
+      if (!isNaN(lon) && !isNaN(lat)) {
+        query.setUrlValue('x', lon.toString())
+        query.setUrlValue('y', lat.toString())
+        query.setUrlValue('srid', 'EPSG:4326')
+        query.setJsValue('x', lon)
+        query.setJsValue('y', lat)
+        query.setJsValue('srid', 'EPSG:4326')
+      }
+    }
     if (query.isSet('x') && query.isSet('y')) {
       let x = parseFloat(query.getSanitizedVal('x'))
       let y = parseFloat(query.getSanitizedVal('y'))
@@ -24,17 +37,6 @@ export const centerParam = {
         } else {
           console.error(`Unknown Projection '${srId}'`)
         }
-      }
-    } else if (query.isSet('lon') && query.isSet('lat') && Math.abs(parseFloat(query.getSanitizedVal('lat'))) < 90) {
-      let lon = parseFloat(query.getSanitizedVal('lon'))
-      let lat = parseFloat(query.getSanitizedVal('lat'))
-
-      if (!isNaN(lon) && !isNaN(lat)) {
-        let view = map.getView()
-
-        view.setCenter(view.constrainCenter(
-          transform([lon, lat], 'EPSG:4326', view.getProjection())
-        ))
       }
     }
   },
