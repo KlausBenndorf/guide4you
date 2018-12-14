@@ -1,4 +1,4 @@
-import OlControl from 'ol/control/control'
+import OlControl from 'ol/control/Control'
 
 import { mixin } from '../utilities'
 import { ControlLogicMixin } from './ControlLogicMixin'

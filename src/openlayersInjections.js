@@ -24,10 +24,9 @@ BaseObject.prototype.asSoonAs = function (propName, value, cb) {
 }
 
 /**
- * extends the openlayers ol.Object class. Waits till a property is set to a specific value and calls the given
- * callback function. If the value already has the desired value the callback is called immediately.
+ * extends the openlayers ol.Object class. Waits till a property is set and calls the given
+ * callback function. If the value is already set the callback is called immediately.
  * @param {string} propName
- * @param {*} value
  * @param {function} cb
  */
 BaseObject.prototype.onAvailable = function (propName, cb) {
