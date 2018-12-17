@@ -56,9 +56,11 @@
     "lint": "eslint src/ tests/",
     "version": "(npm run test && git add -A) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
-    "buildTests": "concurrently \"g4u-buildTests node_modules/guide4you tests\" \"npm run dist\"",
+    "buildTests": "g4u-buildTests node_modules/guide4you/tests tests",
+    "buildTestsAndEnv": "concurrently \"npm run buildTests\" \"npm run dist\"",
+    "test": "npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \"Tests completed successfully\"",
+    "test:fast": "npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
-    "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }
 }

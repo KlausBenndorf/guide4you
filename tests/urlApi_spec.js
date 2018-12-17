@@ -1,5 +1,5 @@
 import { By, until } from 'selenium-webdriver'
-import phantomDriver from 'guide4you/tests/customPhantomDriver'
+import customDriver from 'guide4you/tests/customDriver'
 import { describe, before, after, it } from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert'
 import { waitUntilMapReady } from 'guide4you/tests/testUtils'
@@ -7,24 +7,16 @@ import { waitUntilMapReady } from 'guide4you/tests/testUtils'
 import config from './config.js'
 
 // globals in browser
-var map, ol
-
-function getMapCenter () {
-  return ol.proj.transform(map.getView().getCenter(), 'EPSG:3857', 'EPSG:4326')
-}
+var map
 
 describe('URLAPI', function () {
   this.timeout(config.mochaTimeout)
   let driver
 
   before(function () {
-    driver = phantomDriver()
+    driver = customDriver()
     driver.manage().window().setSize(1200, 800)
-    driver.manage().setTimeouts({
-      script: config.seleniumTimeout,
-      implicit: config.seleniumTimeout,
-      pageLoad: config.seleniumTimeout
-    })
+    driver.manage().setTimeouts(config.seleniumTimeouts)
   })
 
   after(function () {
@@ -32,40 +24,39 @@ describe('URLAPI', function () {
   })
 
   it('[lat, lon] should set the center of the map to the with lon and lat specified coordinates', function (done) {
-    driver.get(config.testClient + '?lon=' + config.testVisibleCoordinate[0] + '&lat=' +
-      config.testVisibleCoordinate[1]).then(() => {
+    driver.get(config.testClient + '?lon=0&lat=0').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
-      return driver.executeScript(getMapCenter)
+      return driver.executeScript(() => map.getView().getCenter())
     }).then(center => {
-      assert(center[0]).closeTo(config.testVisibleCoordinate[0], 0.0001)
-      assert(center[1]).closeTo(config.testVisibleCoordinate[1], 0.0001)
+      assert(center[0]).closeTo(0, 0.0001)
+      assert(center[1]).closeTo(0, 0.0001)
       done()
     })
   })
 
   it('[lat, lon] if lon is missing it should not set the center of the map to the specified coordinates',
     function (done) {
-      driver.get(config.testClient + '?lon=' + config.testVisibleCoordinate[0]).then(() => {
+      driver.get(config.testClient + '?lon=0').then(() => {
         return waitUntilMapReady(driver)
       }).then(() => {
-        return driver.executeScript(getMapCenter)
+        return driver.executeScript(() => map.getView().getCenter())
       }).then(center => {
-        assert(Math.abs(center[0] - config.testVisibleCoordinate[0])).atLeast(0.001)
-        assert(Math.abs(center[1] - config.testVisibleCoordinate[1])).atLeast(0.001)
+        assert(Math.abs(center[0])).atLeast(0.001)
+        assert(Math.abs(center[1])).atLeast(0.001)
         done()
       })
     })
 
   it('[lat, lon] if lat is missing it should not set the center of the map to the specified coordinates',
     function (done) {
-      driver.get(config.testClient + '?lat=' + config.testVisibleCoordinate[1]).then(() => {
+      driver.get(config.testClient + '?lat=0').then(() => {
         return waitUntilMapReady(driver)
       }).then(() => {
-        return driver.executeScript(getMapCenter)
+        return driver.executeScript(() => map.getView().getCenter())
       }).then(center => {
-        assert(Math.abs(center[0] - config.testVisibleCoordinate[0])).atLeast(0.001)
-        assert(Math.abs(center[1] - config.testVisibleCoordinate[1])).atLeast(0.001)
+        assert(Math.abs(center[0])).atLeast(0.001)
+        assert(Math.abs(center[1])).atLeast(0.001)
         done()
       })
     })
@@ -74,67 +65,78 @@ describe('URLAPI', function () {
     driver.get(config.testClient + '?rot=0.314').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
-      return driver.executeScript(function () {
-        return map.getView().getRotation()
-      })
+      return driver.executeScript(() => map.getView().getRotation())
     }).then(rotation => {
       assert(rotation).closeTo(Math.PI * (0.314 / 180), 0.001)
       done()
     })
   })
 
-  it('[zoom] should zoom to the specified zoomfactor', function (done) {
-    driver.get(config.testClient + '?zoom=' + config.testZoomBigger10).then(() => {
+  it('[zoom] should zoom to 16', function (done) {
+    driver.get(config.testClient + '?zoom=16').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
-      return driver.executeScript(function () {
-        return window.map.getView().getZoom()
-      })
+      return driver.executeScript(() => window.map.getView().getZoom())
     }).then(zoom => {
-      assert(zoom - 10).equalTo(config.testZoomSmaller10)
+      assert(zoom).equalTo(16)
       done()
     })
   })
 
-  it('[marklat, marklon, marktext] should set the marker active if either marklat, marklon or marktext' +
-    ' are set to something', function (done) {
-    function getMarkerActive () {
-      return driver.executeScript(function () {
-        return map.get('marker').getActive()
-      })
-    }
+  it('[zoom] should zoom to 8', function (done) {
+    driver.get(config.testClient + '?zoom=8').then(() => {
+      return waitUntilMapReady(driver)
+    }).then(() => {
+      return driver.executeScript(() => window.map.getView().getZoom())
+    }).then(zoom => {
+      assert(zoom).equalTo(8)
+      done()
+    })
+  })
 
+  it('[marktext] should set the marker active', function (done) {
     driver.get(config.testClient + '?marktext= text ').then(
       waitUntilMapReady(driver)
     ).then(() => {
-      return assert(getMarkerActive()).equalTo(true)
-    }).then(() => {
-      // Ist das so gewollt? Sollte das nicht analog zu lat/lon nur funktionieren, wenn beide gesetzt sind?
-      return driver.get(config.testClient + '?marklon=' + config.testVisibleCoordinate[0]).then(
-        waitUntilMapReady(driver)
-      ).then(() => {
-        return assert(getMarkerActive()).equalTo(true)
-      })
-    }).then(() => {
-      return driver.get(config.testClient + '?marklat=' + config.testVisibleCoordinate[1]).then(
-        waitUntilMapReady(driver)
-      ).then(() => {
-        return assert(getMarkerActive()).equalTo(true)
-      })
-    }).then(done)
+      return driver.executeScript(() => map.get('marker').getActive())
+    }).then(active => {
+      assert(active).equalTo(true)
+      done()
+    })
+  })
+
+  it('[marklat] should set the marker active', function (done) {
+    driver.get(config.testClient + '?marklat=0').then(
+      waitUntilMapReady(driver)
+    ).then(() => {
+      return driver.executeScript(() => map.get('marker').getActive())
+    }).then(active => {
+      assert(active).equalTo(true)
+      done()
+    })
+  })
+
+  it('[marklon] should set the marker active', function (done) {
+    driver.get(config.testClient + '?marklon=0').then(
+      waitUntilMapReady(driver)
+    ).then(() => {
+      return driver.executeScript(() => map.get('marker').getActive())
+    }).then(active => {
+      assert(active).equalTo(true)
+      done()
+    })
   })
 
   it('[marklat, marklon] should set the position of the marker to the specified coordinate', function (done) {
-    driver.get(config.testClient + '?marklon=' + config.testVisibleCoordinate[0] + '&marklat=' +
-      config.testVisibleCoordinate[1]).then(() => {
+    driver.get(config.testClient + '?marklon=0&marklat=0').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
       return driver.executeScript(function () {
-        return ol.proj.transform(map.get('marker').getPosition(), 'EPSG:3857', 'EPSG:4326')
+        return map.get('marker').getPosition() //, 'EPSG:3857', 'EPSG:4326')
       })
     }).then(markerPos => {
-      assert(markerPos[0]).closeTo(config.testVisibleCoordinate[0], 0.0001)
-      assert(markerPos[1]).closeTo(config.testVisibleCoordinate[1], 0.0001)
+      assert(markerPos[0]).closeTo(0, 0.0001)
+      assert(markerPos[1]).closeTo(0, 0.0001)
       done()
     })
   })
@@ -158,8 +160,7 @@ describe('URLAPI', function () {
     })
 
   it('[markpop, marktext] should not show a feature popup if marktext is not set (1)', function (done) {
-    driver.get(config.testClient + '?marklon=' + config.testVisibleCoordinate[0] + '&marklat=' +
-      config.testVisibleCoordinate[1]).then(() => {
+    driver.get(config.testClient + '?marklon=0&marklat=0').then(() => {
       return waitUntilMapReady(driver)
     }).then(() => {
       let featurePopup = driver.wait(until.elementLocated(By.className('g4u-featurepopup')))
