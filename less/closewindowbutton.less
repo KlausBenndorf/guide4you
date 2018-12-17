@@ -1,11 +1,20 @@
 @import "~guide4you/less/lengths";
+@import "~guide4you/less/controlgenerics";
 @import "~guide4you/less/colors";
 
 @g4u-close-icon: url("../images/close.svg");
 
 .g4u-desktop {
-  .g4u-close-window-button {
-    display: none;
+  .ol-overlaycontainer-stopevent > .g4u-close-button .g4u-control-mainbutton {
+    border-radius: @g4u-desktop-small-border-radius;
+  }
+
+  .g4u-close-button {
+    .g4u-control-mainbutton {
+      //.buttonWithIcon(@g4u-close-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      padding-left: @g4u-desktop-padding;
+      padding-right: @g4u-desktop-padding;
+    }
   }
 }
 

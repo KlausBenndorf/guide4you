@@ -57,8 +57,7 @@
       "scaleLine",
       "zoom",
       "mobileControls",
-      "toolbox",
-      "closeWindowButton"
+      "toolbox"
     ],
     "helpButton": {
       "float": [
