@@ -38,4 +38,12 @@ export class CloseWindowButton extends Control {
 
     this.get$Element().append($button)
   }
+
+  getFloat () {
+    if (this.getMap().get('mobile')) {
+      return 'fixed'
+    } else {
+      return super.getFloat()
+    }
+  }
 }
