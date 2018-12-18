@@ -113,7 +113,7 @@
       "expectCount": 15,
       "actualCount": 14,
       "undocumentLines": [
-        216
+        228
       ]
     },
     "src/controls/Control.js": {
@@ -132,10 +132,10 @@
       "expectCount": 13,
       "actualCount": 9,
       "undocumentLines": [
-        94,
-        102,
+        95,
         103,
-        140
+        104,
+        141
       ]
     },
     "src/controls/HelpButton.js": {

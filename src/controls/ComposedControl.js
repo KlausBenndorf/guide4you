@@ -184,18 +184,24 @@ export class ComposedControl extends Control {
 
   /**
    * @param {Control} control
+   * @param {boolean} [propagate=true] propagate to map
    */
-  removeControl (control) {
-    if (control.get$Element().hasClass(this.classNameItem_)) {
-      control.get$Element().remove()
-    } else if (control.get$Element().parent().hasClass(this.classNameItem_)) {
-      control.get$Element().parent().remove()
+  removeControl (control, propagate = true) {
+    const index = this.controls_.indexOf(control)
+    if (index > -1) {
+      control.get$Element()
+        .add(control.get$Element().parent())
+        .add(control.get$Target())
+        .filter('.' + this.classNameItem_)
+        .remove()
+
+      this.controls_.splice(index, 1)
+      if (propagate) {
+        this.getMap().removeControl(control)
+      }
+
+      this.changed()
     }
-
-    this.controls_.splice(this.controls_.indexOf(control), 1)
-    this.getMap().removeControl(control)
-
-    this.changed()
   }
 
   /**
@@ -211,6 +217,12 @@ export class ComposedControl extends Control {
     }
 
     super.setMap(map)
+
+    if (map) {
+      map.getControls().on('remove', e => {
+        this.removeControl(e.element, false)
+      })
+    }
   }
 
   updateVisibility () {

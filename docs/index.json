@@ -5160,7 +5160,7 @@
     "__docId__": 216,
     "kind": "file",
     "name": "src/controls/ComposedControl.js",
-    "content": "import $ from 'jquery'\n\nimport { Window } from '../html/Window'\nimport { Control } from './Control'\nimport { cssClasses } from '../globals'\n\nimport '../../less/toolbox.less'\nimport '../../less/layermenu.less'\n\n/**\n * @typedef {g4uControlOptions} ComposedControlOptions\n * @property {string} [containerClassName]\n */\n\n/**\n * This is a class ComposedControl which provides some functionality for controls which are composed out of several\n * other controls. It makes use of the composite pattern.\n */\n\nexport class ComposedControl extends Control {\n  /**\n   * @param {ComposedControlOptions} [options={}]\n   */\n  constructor (options = {}) {\n    let $container = $('<div>')\n\n    if (options.hasOwnProperty('element')) {\n      $(options.element).append($container)\n    } else {\n      options.element = $container.get(0)\n    }\n\n    options.singleButton = false\n\n    super(options)\n\n    /**\n     * @type {Control[]}\n     * @private\n     */\n    this.controls_ = []\n\n    /**\n     * @type {jQuery}\n     * @private\n     */\n    this.$container_ = $container\n\n    if (options.hasOwnProperty('containerClassName')) {\n      this.$container_.addClass(options.containerClassName)\n    }\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNameItem_ = this.getClassName() + '-item'\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNameItemFirst_ = this.classNameItem_ + '-first'\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNameItemLast_ = this.classNameItem_ + '-last'\n  }\n\n  /**\n   * @returns {Control[]}\n   */\n  getControls () {\n    return this.controls_\n  }\n\n  /**\n   * @returns {jQuery}\n   */\n  get$Container () {\n    return this.$container_\n  }\n\n  /**\n   * @param {Control} control\n   * @private\n   */\n  setWindowForControl_ (control) {\n    let aWindow = new Window({ $context: $(this.getMap().getViewport()) })\n    control.setWindow(aWindow, true)\n  }\n\n  /**\n   * This method adds some helping css classes to the items\n   * @param {jQuery} $item\n   * @returns {jQuery}\n   * @private\n   */\n  addClasses_ ($item) {\n    $item.addClass(this.classNameItemLast_)\n\n    if (this.$container_.children().length === 0) {\n      $item.addClass(this.classNameItemFirst_)\n    } else {\n      this.$container_.children(':last-child').removeClass(this.classNameItemLast_)\n    }\n\n    return $item\n  }\n\n  /**\n   *\n   * @param {Control} control\n   * @param {Object} options\n   * @param {Boolean} [options.claim=true] if claim is set to false the control won't add anything to the container\n   * @param {Boolean} [options.wrap=true] if wrap is set to true a span will be put arround the element\n   *    if set to false the element of the control will be inserted directly\n   * @param {Boolean} [options.cssPosition=true] if this is set to true the wrap or the element will get css classes\n   *    indicating its position inside the container\n   * @param {HTMLElement} [options.element] if this is set it will be put inside the container instead calling\n   *    control.set$Target()\n   */\n  addControl (control, options = {}) {\n    let map = this.getMap()\n    if (map) {\n      map.addControl(control)\n    } else {\n      throw new Error('composed controls needs to be added to the map before they can get any controls')\n    }\n\n    if (control.setWindow) {\n      this.setWindowForControl_(control)\n    }\n\n    if (!(options.hasOwnProperty('claim')) || !options.claim) {\n      if (!(options.hasOwnProperty('wrap')) || options.wrap) {\n        let $wrap = $('<div>')\n\n        if (options.hasOwnProperty('element')) {\n          $wrap.append($(options.element))\n        } else {\n          control.set$Target($wrap)\n        }\n\n        $wrap.addClass(this.classNameItem_)\n\n        if (!(options.hasOwnProperty('cssPosition')) || options.cssPosition) {\n          this.addClasses_($wrap)\n        }\n\n        if (!control.getVisible()) {\n          $wrap.addClass(cssClasses.hidden)\n        }\n\n        control.on('change:visible', () => {\n          $wrap.toggleClass(cssClasses.hidden, !control.getVisible())\n        })\n\n        this.$container_.append($wrap)\n      } else {\n        $(options.element).addClass(this.classNameItem_)\n\n        if (!(options.hasOwnProperty('cssPosition')) || options.cssPosition) {\n          this.addClasses_($(options.element))\n        }\n\n        if (options.hasOwnProperty('element')) {\n          this.$container_.append($(options.element))\n        } else {\n          control.set$Target(this.$container_)\n        }\n      }\n    }\n\n    control.on('change:visible', () => this.updateVisibility())\n    control.on('change', e => this.dispatchEvent(e))\n    control.on('change:size', e => this.dispatchEvent(e))\n\n    this.controls_.push(control)\n\n    this.changed()\n    this.updateVisibility()\n  }\n\n  /**\n   * @param {Control} control\n   */\n  removeControl (control) {\n    if (control.get$Element().hasClass(this.classNameItem_)) {\n      control.get$Element().remove()\n    } else if (control.get$Element().parent().hasClass(this.classNameItem_)) {\n      control.get$Element().parent().remove()\n    }\n\n    this.controls_.splice(this.controls_.indexOf(control), 1)\n    this.getMap().removeControl(control)\n\n    this.changed()\n  }\n\n  /**\n   * @param {G4UMap} map\n   */\n  setMap (map) {\n    if (this.getMap()) {\n      this.controls_.forEach(control => {\n        this.getMap().removeControl(control)\n      })\n\n      this.controls_ = []\n    }\n\n    super.setMap(map)\n  }\n\n  updateVisibility () {\n    this.setVisible(this.controls_.some(c => c.getVisible()))\n  }\n}\n",
+    "content": "import $ from 'jquery'\n\nimport { Window } from '../html/Window'\nimport { Control } from './Control'\nimport { cssClasses } from '../globals'\n\nimport '../../less/toolbox.less'\nimport '../../less/layermenu.less'\n\n/**\n * @typedef {g4uControlOptions} ComposedControlOptions\n * @property {string} [containerClassName]\n */\n\n/**\n * This is a class ComposedControl which provides some functionality for controls which are composed out of several\n * other controls. It makes use of the composite pattern.\n */\n\nexport class ComposedControl extends Control {\n  /**\n   * @param {ComposedControlOptions} [options={}]\n   */\n  constructor (options = {}) {\n    let $container = $('<div>')\n\n    if (options.hasOwnProperty('element')) {\n      $(options.element).append($container)\n    } else {\n      options.element = $container.get(0)\n    }\n\n    options.singleButton = false\n\n    super(options)\n\n    /**\n     * @type {Control[]}\n     * @private\n     */\n    this.controls_ = []\n\n    /**\n     * @type {jQuery}\n     * @private\n     */\n    this.$container_ = $container\n\n    if (options.hasOwnProperty('containerClassName')) {\n      this.$container_.addClass(options.containerClassName)\n    }\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNameItem_ = this.getClassName() + '-item'\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNameItemFirst_ = this.classNameItem_ + '-first'\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNameItemLast_ = this.classNameItem_ + '-last'\n  }\n\n  /**\n   * @returns {Control[]}\n   */\n  getControls () {\n    return this.controls_\n  }\n\n  /**\n   * @returns {jQuery}\n   */\n  get$Container () {\n    return this.$container_\n  }\n\n  /**\n   * @param {Control} control\n   * @private\n   */\n  setWindowForControl_ (control) {\n    let aWindow = new Window({ $context: $(this.getMap().getViewport()) })\n    control.setWindow(aWindow, true)\n  }\n\n  /**\n   * This method adds some helping css classes to the items\n   * @param {jQuery} $item\n   * @returns {jQuery}\n   * @private\n   */\n  addClasses_ ($item) {\n    $item.addClass(this.classNameItemLast_)\n\n    if (this.$container_.children().length === 0) {\n      $item.addClass(this.classNameItemFirst_)\n    } else {\n      this.$container_.children(':last-child').removeClass(this.classNameItemLast_)\n    }\n\n    return $item\n  }\n\n  /**\n   *\n   * @param {Control} control\n   * @param {Object} options\n   * @param {Boolean} [options.claim=true] if claim is set to false the control won't add anything to the container\n   * @param {Boolean} [options.wrap=true] if wrap is set to true a span will be put arround the element\n   *    if set to false the element of the control will be inserted directly\n   * @param {Boolean} [options.cssPosition=true] if this is set to true the wrap or the element will get css classes\n   *    indicating its position inside the container\n   * @param {HTMLElement} [options.element] if this is set it will be put inside the container instead calling\n   *    control.set$Target()\n   */\n  addControl (control, options = {}) {\n    let map = this.getMap()\n    if (map) {\n      map.addControl(control)\n    } else {\n      throw new Error('composed controls needs to be added to the map before they can get any controls')\n    }\n\n    if (control.setWindow) {\n      this.setWindowForControl_(control)\n    }\n\n    if (!(options.hasOwnProperty('claim')) || !options.claim) {\n      if (!(options.hasOwnProperty('wrap')) || options.wrap) {\n        let $wrap = $('<div>')\n\n        if (options.hasOwnProperty('element')) {\n          $wrap.append($(options.element))\n        } else {\n          control.set$Target($wrap)\n        }\n\n        $wrap.addClass(this.classNameItem_)\n\n        if (!(options.hasOwnProperty('cssPosition')) || options.cssPosition) {\n          this.addClasses_($wrap)\n        }\n\n        if (!control.getVisible()) {\n          $wrap.addClass(cssClasses.hidden)\n        }\n\n        control.on('change:visible', () => {\n          $wrap.toggleClass(cssClasses.hidden, !control.getVisible())\n        })\n\n        this.$container_.append($wrap)\n      } else {\n        $(options.element).addClass(this.classNameItem_)\n\n        if (!(options.hasOwnProperty('cssPosition')) || options.cssPosition) {\n          this.addClasses_($(options.element))\n        }\n\n        if (options.hasOwnProperty('element')) {\n          this.$container_.append($(options.element))\n        } else {\n          control.set$Target(this.$container_)\n        }\n      }\n    }\n\n    control.on('change:visible', () => this.updateVisibility())\n    control.on('change', e => this.dispatchEvent(e))\n    control.on('change:size', e => this.dispatchEvent(e))\n\n    this.controls_.push(control)\n\n    this.changed()\n    this.updateVisibility()\n  }\n\n  /**\n   * @param {Control} control\n   * @param {boolean} [propagate=true] propagate to map\n   */\n  removeControl (control, propagate = true) {\n    const index = this.controls_.indexOf(control)\n    if (index > -1) {\n      control.get$Element()\n        .add(control.get$Element().parent())\n        .add(control.get$Target())\n        .filter('.' + this.classNameItem_)\n        .remove()\n\n      this.controls_.splice(index, 1)\n      if (propagate) {\n        this.getMap().removeControl(control)\n      }\n\n      this.changed()\n    }\n  }\n\n  /**\n   * @param {G4UMap} map\n   */\n  setMap (map) {\n    if (this.getMap()) {\n      this.controls_.forEach(control => {\n        this.getMap().removeControl(control)\n      })\n\n      this.controls_ = []\n    }\n\n    super.setMap(map)\n\n    if (map) {\n      map.getControls().on('remove', e => {\n        this.removeControl(e.element, false)\n      })\n    }\n  }\n\n  updateVisibility () {\n    this.setVisible(this.controls_.some(c => c.getVisible()))\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/controls/ComposedControl.js",
     "access": "public",
@@ -5550,7 +5550,7 @@
     "longname": "src/controls/ComposedControl.js~ComposedControl#removeControl",
     "access": "public",
     "description": "",
-    "lineNumber": 188,
+    "lineNumber": 189,
     "params": [
       {
         "nullable": null,
@@ -5561,6 +5561,18 @@
         "optional": false,
         "name": "control",
         "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "true",
+        "defaultRaw": true,
+        "name": "propagate",
+        "description": "propagate to map"
       }
     ],
     "return": null
@@ -5576,7 +5588,7 @@
     "longname": "src/controls/ComposedControl.js~ComposedControl#setMap",
     "access": "public",
     "description": "",
-    "lineNumber": 204,
+    "lineNumber": 210,
     "params": [
       {
         "nullable": null,
@@ -5602,7 +5614,7 @@
     "longname": "src/controls/ComposedControl.js~ComposedControl#updateVisibility",
     "access": "public",
     "description": null,
-    "lineNumber": 216,
+    "lineNumber": 228,
     "undocument": true,
     "params": [],
     "return": null
@@ -5611,7 +5623,7 @@
     "__docId__": 234,
     "kind": "file",
     "name": "src/controls/Control.js",
-    "content": "import OlControl from 'ol/control/control'\n\nimport { mixin } from '../utilities'\nimport { ControlLogicMixin } from './ControlLogicMixin'\n\n/**\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n */\n\n/**\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n */\n\nexport const Control = mixin(OlControl, ControlLogicMixin)\n",
+    "content": "import OlControl from 'ol/control/Control'\n\nimport { mixin } from '../utilities'\nimport { ControlLogicMixin } from './ControlLogicMixin'\n\n/**\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n */\n\n/**\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n */\n\nexport const Control = mixin(OlControl, ControlLogicMixin)\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/controls/Control.js",
     "access": "public",
@@ -6514,7 +6526,7 @@
     "__docId__": 271,
     "kind": "file",
     "name": "src/controls/GeoLocationButton.js",
-    "content": "import $ from 'jquery'\nimport Feature from 'ol/Feature'\n\nimport Geolocation from 'ol/Geolocation'\nimport Point from 'ol/geom/Point'\nimport VectorSource from 'ol/source/Vector'\n\nimport { Control } from './Control'\nimport { addTooltip } from '../html/html'\nimport { VectorLayer } from '../layers/VectorLayer'\nimport { MessageDisplay } from '../MessageDisplay'\nimport { cssClasses } from '../globals'\n\nimport '../../less/geolocation.less'\nimport { ActivatableMixin } from './ActivatableMixin'\nimport { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'\nimport { mixin } from '../utilities'\nimport { GEOLOCATION } from 'ol/has'\n\n/**\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [active=false]\n */\n\n/**\n * This class provides a button to center the view on your current geoposition.\n */\nexport class GeolocationButton extends mixin(Control, [ActivatableMixin, ListenerOrganizerMixin]) {\n  /**\n   * @param {GeoLocationButtonOptions} [options={}]\n   */\n  constructor (options = {}) {\n    options.className = options.className || 'g4u-geolocation'\n    options.singleButton = true\n    options.element = $('<button>').get(0)\n\n    super(options)\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNamePushed_ = this.className_ + '-pushed'\n\n    /**\n     * @type {boolean}\n     * @private\n     */\n    this.animated_ = options.animated\n\n    /**\n     * @type {StyleLike}\n     * @private\n     */\n    this.style_ = options.style || '#defaultStyle'\n\n    /**\n     * @type {number}\n     * @private\n     */\n    this.maxZoom_ = options.maxZoom\n\n    this.setTitle(this.getTitle() || this.getLocaliser().localiseUsingDictionary('GeolocationButton title'))\n\n    this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary('GeolocationButton tipLabel'))\n\n    this.get$Element()\n      .addClass(this.className_)\n      .addClass(cssClasses.mainButton)\n      .html(this.getTitle())\n\n    addTooltip(this.get$Element(), this.getTipLabel())\n\n    /**\n     * @type {MessageDisplay}\n     * @private\n     */\n    this.buttonMessageDisplay_ = new MessageDisplay(this.get$Element())\n\n    this.get$Element().on('click touch', () => {\n      if (GEOLOCATION) {\n        this.setActive(!this.getActive())\n      } else {\n        this.buttonMessageDisplay_.error(\n          this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),\n          this.getMap().get('mobile') ? { position: 'top middle' } : {}\n        )\n      }\n    })\n\n    this.layer_ = null\n    let geolocationOptions = { tracking: false }\n    if (options.hasOwnProperty('trackingOptions')) {\n      geolocationOptions.trackingOptions = options.trackingOptions\n    }\n    if (options.hasOwnProperty('projection')) {\n      geolocationOptions.projection = options.projection\n    }\n    this.followLocation_ = options.followLocation || false\n    this.geolocation_ = new Geolocation(geolocationOptions)\n    this.geolocation_.on('error', () => {\n      this.buttonMessageDisplay_.error(\n        this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),\n        this.getMap().get('mobile') ? { position: 'top middle' } : {}\n      )\n      this.setActive(false)\n    })\n\n    this.on('change:active', e => this.activeChangeHandler_(e))\n  }\n\n  /**\n   * @param {G4UMap} map\n   */\n  setMap (map) {\n    if (this.getMap()) {\n      this.getMap().getLayers().remove(this.layer_)\n    }\n\n    super.setMap(map)\n\n    if (map) {\n      let projection = map.getView().getProjection()\n      this.geolocation_.setProjection(projection)\n\n      let layerOptions = { source: new VectorSource({ projection: projection }), visible: true }\n      this.layer_ = new VectorLayer(layerOptions)\n\n      this.layer_.setStyle(map.get('styling').getStyle(this.style_))\n      map.get('styling').manageLayer(this.layer_)\n      map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are\n\n      this.activateOnMapChange()\n    }\n  }\n\n  changeHandler_ (options) {\n    let source = this.layer_.getSource()\n    source.clear()\n    let position = this.geolocation_.getPosition()\n    source.addFeature(new Feature({ geometry: new Point(position) }))\n\n    let circle = this.geolocation_.getAccuracyGeometry()\n    source.addFeature(new Feature({ geometry: circle }))\n    if (options.hasOwnProperty('initialRun') && options.initialRun) {\n      this.getMap().get('move').toExtent(circle.getExtent(), { animated: this.animated_, maxZoom: this.maxZoom_ })\n    } else {\n      if (this.animated_) {\n        this.getMap().getView().animate({ 'center': position })\n      } else {\n        this.getMap().getView().setCenter(position)\n      }\n    }\n    if (options.hasOwnProperty('stopTracking')) {\n      this.geolocation_.setTracking(!options.stopTracking)\n    }\n  }\n\n  /**\n   * Show/Hide the geolocation on the map as point with a circle in the size of the accuracy around\n   */\n  activeChangeHandler_ () {\n    let active = this.getActive()\n    this.get$Element().toggleClass(this.classNamePushed_, active)\n    if (active) {\n      this.geolocation_.setTracking(true)\n      let position = this.geolocation_.getPosition()\n      if (position) {\n        this.changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true })\n        if (this.followLocation_) {\n          this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))\n        }\n      } else {\n        this.listenAt(this.geolocation_).once('change', () => {\n          this.changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true })\n          if (this.followLocation_) {\n            this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))\n          }\n        })\n      }\n    } else {\n      this.layer_.getSource().clear()\n      this.detachFrom(this.geolocation_, 'change')\n      this.geolocation_.setTracking(false)\n    }\n  }\n}\n",
+    "content": "import $ from 'jquery'\nimport Feature from 'ol/Feature'\n\nimport Geolocation from 'ol/Geolocation'\nimport Point from 'ol/geom/Point'\nimport VectorSource from 'ol/source/Vector'\n\nimport { Control } from './Control'\nimport { addTooltip } from '../html/html'\nimport { VectorLayer } from '../layers/VectorLayer'\nimport { MessageDisplay } from '../MessageDisplay'\nimport { cssClasses } from '../globals'\n\nimport '../../less/geolocation.less'\nimport { ActivatableMixin } from './ActivatableMixin'\nimport { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'\nimport { mixin } from '../utilities'\nimport { GEOLOCATION } from 'ol/has'\n\n/**\n * @typedef {g4uControlOptions} GeoLocationButtonOptions\n * @property {boolean} [animated] if the move on the map to the geoposition should be animated\n * @property {StyleLike} [style='#defaultStyle']\n * @property {number} [maxZoom]\n * @property {boolean} [followLocation=false]\n * @property {boolean} [active=false]\n */\n\n/**\n * This class provides a button to center the view on your current geoposition.\n */\nexport class GeolocationButton extends mixin(Control, [ActivatableMixin, ListenerOrganizerMixin]) {\n  /**\n   * @param {GeoLocationButtonOptions} [options={}]\n   */\n  constructor (options = {}) {\n    options.className = options.className || 'g4u-geolocation'\n    options.singleButton = true\n    options.element = $('<button>').get(0)\n\n    super(options)\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.classNamePushed_ = this.className_ + '-pushed'\n\n    /**\n     * @type {boolean}\n     * @private\n     */\n    this.animated_ = options.animated\n\n    /**\n     * @type {StyleLike}\n     * @private\n     */\n    this.style_ = options.style || '#defaultStyle'\n\n    /**\n     * @type {number}\n     * @private\n     */\n    this.maxZoom_ = options.maxZoom\n\n    this.setTitle(this.getTitle() || this.getLocaliser().localiseUsingDictionary('GeolocationButton title'))\n\n    this.setTipLabel(this.getTipLabel() || this.getLocaliser().localiseUsingDictionary('GeolocationButton tipLabel'))\n\n    this.get$Element()\n      .addClass(this.className_)\n      .addClass(cssClasses.mainButton)\n      .html(this.getTitle())\n\n    addTooltip(this.get$Element(), this.getTipLabel())\n\n    /**\n     * @type {MessageDisplay}\n     * @private\n     */\n    this.buttonMessageDisplay_ = new MessageDisplay(this.get$Element())\n\n    this.get$Element().on('click touch', () => {\n      if (GEOLOCATION) {\n        this.setActive(!this.getActive())\n      } else {\n        this.buttonMessageDisplay_.error(\n          this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),\n          this.getMap().get('mobile') ? { position: 'top middle' } : {}\n        )\n      }\n    })\n\n    this.layer_ = null\n    let geolocationOptions = { tracking: false }\n    if (options.hasOwnProperty('trackingOptions')) {\n      geolocationOptions.trackingOptions = options.trackingOptions\n    }\n    if (options.hasOwnProperty('projection')) {\n      geolocationOptions.projection = options.projection\n    }\n    this.followLocation_ = options.followLocation || false\n    this.geolocation_ = new Geolocation(geolocationOptions)\n    this.geolocation_.on('error', () => {\n      this.buttonMessageDisplay_.error(\n        this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),\n        this.getMap().get('mobile') ? { position: 'top middle' } : {}\n      )\n      this.setActive(false)\n    })\n\n    this.on('change:active', e => this.activeChangeHandler_(e))\n  }\n\n  /**\n   * @param {G4UMap} map\n   */\n  setMap (map) {\n    if (this.getMap()) {\n      this.getMap().getLayers().remove(this.layer_)\n    }\n\n    super.setMap(map)\n\n    if (map) {\n      let projection = map.getView().getProjection()\n      this.geolocation_.setProjection(projection)\n\n      let layerOptions = { source: new VectorSource({ projection: projection }), visible: true }\n      this.layer_ = new VectorLayer(layerOptions)\n\n      this.layer_.setStyle(map.get('styling').getStyle(this.style_))\n      map.get('styling').manageLayer(this.layer_)\n      map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are\n\n      this.activateOnMapChange()\n    }\n  }\n\n  changeHandler_ (options) {\n    let source = this.layer_.getSource()\n    source.clear()\n    let position = this.geolocation_.getPosition()\n    source.addFeature(new Feature({ geometry: new Point(position) }))\n\n    let circle = this.geolocation_.getAccuracyGeometry()\n    source.addFeature(new Feature({ geometry: circle }))\n    if (options.hasOwnProperty('initialRun') && options.initialRun) {\n      this.getMap().get('move').toExtent(circle.getExtent(), { animated: this.animated_, maxZoom: this.maxZoom_ })\n    } else {\n      if (this.animated_) {\n        this.getMap().getView().animate({ 'center': position })\n      } else {\n        this.getMap().getView().setCenter(position)\n      }\n    }\n    if (options.hasOwnProperty('stopTracking')) {\n      this.geolocation_.setTracking(!options.stopTracking)\n    }\n  }\n\n  /**\n   * Show/Hide the geolocation on the map as point with a circle in the size of the accuracy around\n   */\n  activeChangeHandler_ () {\n    let active = this.getActive()\n    this.get$Element().toggleClass(this.classNamePushed_, active)\n    if (active) {\n      this.geolocation_.setTracking(true)\n      let position = this.geolocation_.getPosition()\n      if (position) {\n        this.changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true })\n        if (this.followLocation_) {\n          this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))\n        }\n      } else {\n        this.listenAt(this.geolocation_).once('change', () => {\n          this.changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true })\n          if (this.followLocation_) {\n            this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))\n          }\n        })\n      }\n    } else {\n      this.layer_.getSource().clear()\n      this.detachFrom(this.geolocation_, 'change')\n      this.geolocation_.setTracking(false)\n    }\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/controls/GeoLocationButton.js",
     "access": "public",
@@ -6572,6 +6584,18 @@
         "optional": true,
         "defaultValue": "false",
         "defaultRaw": false,
+        "name": "followLocation",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
         "name": "active",
         "description": ""
       }
@@ -6596,7 +6620,7 @@
     "importPath": "guide4you/src/controls/GeoLocationButton.js",
     "importStyle": "{GeolocationButton}",
     "description": "This class provides a button to center the view on your current geoposition.",
-    "lineNumber": 31,
+    "lineNumber": 32,
     "interface": false,
     "expressionExtends": "mixin(Control, [ActivatableMixin, ListenerOrganizerMixin])"
   },
@@ -6611,7 +6635,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#constructor",
     "access": "public",
     "description": "",
-    "lineNumber": 35,
+    "lineNumber": 36,
     "params": [
       {
         "nullable": null,
@@ -6636,7 +6660,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#classNamePushed_",
     "access": "private",
     "description": "",
-    "lineNumber": 46,
+    "lineNumber": 47,
     "type": {
       "nullable": null,
       "types": [
@@ -6655,7 +6679,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#animated_",
     "access": "private",
     "description": "",
-    "lineNumber": 52,
+    "lineNumber": 53,
     "type": {
       "nullable": null,
       "types": [
@@ -6674,7 +6698,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#style_",
     "access": "private",
     "description": "",
-    "lineNumber": 58,
+    "lineNumber": 59,
     "type": {
       "nullable": null,
       "types": [
@@ -6693,7 +6717,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#maxZoom_",
     "access": "private",
     "description": "",
-    "lineNumber": 64,
+    "lineNumber": 65,
     "type": {
       "nullable": null,
       "types": [
@@ -6712,7 +6736,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#buttonMessageDisplay_",
     "access": "private",
     "description": "",
-    "lineNumber": 81,
+    "lineNumber": 82,
     "type": {
       "nullable": null,
       "types": [
@@ -6731,7 +6755,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#layer_",
     "access": "public",
     "description": null,
-    "lineNumber": 94,
+    "lineNumber": 95,
     "undocument": true,
     "type": {
       "types": [
@@ -6748,7 +6772,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#followLocation_",
     "access": "public",
     "description": null,
-    "lineNumber": 102,
+    "lineNumber": 103,
     "undocument": true,
     "type": {
       "types": [
@@ -6765,7 +6789,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#geolocation_",
     "access": "public",
     "description": null,
-    "lineNumber": 103,
+    "lineNumber": 104,
     "undocument": true,
     "type": {
       "types": [
@@ -6784,7 +6808,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#setMap",
     "access": "public",
     "description": "",
-    "lineNumber": 118,
+    "lineNumber": 119,
     "params": [
       {
         "nullable": null,
@@ -6810,7 +6834,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#changeHandler_",
     "access": "public",
     "description": null,
-    "lineNumber": 140,
+    "lineNumber": 141,
     "undocument": true,
     "params": [
       {
@@ -6833,7 +6857,7 @@
     "longname": "src/controls/GeoLocationButton.js~GeolocationButton#activeChangeHandler_",
     "access": "public",
     "description": "Show/Hide the geolocation on the map as point with a circle in the size of the accuracy around",
-    "lineNumber": 165,
+    "lineNumber": 166,
     "params": [],
     "return": null
   },
@@ -20369,7 +20393,7 @@
     "__docId__": 891,
     "kind": "file",
     "name": "src/openlayersInjections.js",
-    "content": "import $ from 'jquery'\nimport BaseObject from 'ol/Object'\n\n/**\n * extends the openlayers ol.Object class. Waits till a property is set to a specific value and calls the given\n * callback function. If the value already has the desired value the callback is called immediately.\n * @param {string} propName\n * @param {*} value\n * @param {function} cb\n */\nBaseObject.prototype.asSoonAs = function (propName, value, cb) {\n  if (!$.isFunction(cb)) {\n    throw new Error('You need to provide a callback to asSoonAs.')\n  }\n  if (this.get(propName) === value) {\n    // run callback\n    cb()\n  } else {\n    this.once('change:' + propName, () => {\n      // recursive call\n      this.asSoonAs(propName, value, cb)\n    })\n  }\n}\n\n/**\n * extends the openlayers ol.Object class. Waits till a property is set to a specific value and calls the given\n * callback function. If the value already has the desired value the callback is called immediately.\n * @param {string} propName\n * @param {*} value\n * @param {function} cb\n */\nBaseObject.prototype.onAvailable = function (propName, cb) {\n  if (!$.isFunction(cb)) {\n    throw new Error('You need to provide a callback to asSoonAs.')\n  }\n  if (this.get(propName) !== undefined) {\n    // run callback\n    cb()\n  } else {\n    this.once('change:' + propName, () => {\n      // recursive call\n      this.onAvailable(propName, cb)\n    })\n  }\n}\n",
+    "content": "import $ from 'jquery'\nimport BaseObject from 'ol/Object'\n\n/**\n * extends the openlayers ol.Object class. Waits till a property is set to a specific value and calls the given\n * callback function. If the value already has the desired value the callback is called immediately.\n * @param {string} propName\n * @param {*} value\n * @param {function} cb\n */\nBaseObject.prototype.asSoonAs = function (propName, value, cb) {\n  if (!$.isFunction(cb)) {\n    throw new Error('You need to provide a callback to asSoonAs.')\n  }\n  if (this.get(propName) === value) {\n    // run callback\n    cb()\n  } else {\n    this.once('change:' + propName, () => {\n      // recursive call\n      this.asSoonAs(propName, value, cb)\n    })\n  }\n}\n\n/**\n * extends the openlayers ol.Object class. Waits till a property is set and calls the given\n * callback function. If the value is already set the callback is called immediately.\n * @param {string} propName\n * @param {function} cb\n */\nBaseObject.prototype.onAvailable = function (propName, cb) {\n  if (!$.isFunction(cb)) {\n    throw new Error('You need to provide a callback to asSoonAs.')\n  }\n  if (this.get(propName) !== undefined) {\n    // run callback\n    cb()\n  } else {\n    this.once('change:' + propName, () => {\n      // recursive call\n      this.onAvailable(propName, cb)\n    })\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/openlayersInjections.js",
     "access": "public",
@@ -20439,8 +20463,8 @@
     "export": false,
     "importPath": "guide4you/src/openlayersInjections.js",
     "importStyle": null,
-    "description": "extends the openlayers ol.Object class. Waits till a property is set to a specific value and calls the given\ncallback function. If the value already has the desired value the callback is called immediately.",
-    "lineNumber": 33,
+    "description": "extends the openlayers ol.Object class. Waits till a property is set and calls the given\ncallback function. If the value is already set the callback is called immediately.",
+    "lineNumber": 32,
     "params": [
       {
         "nullable": null,
@@ -20450,16 +20474,6 @@
         "spread": false,
         "optional": false,
         "name": "propName",
-        "description": ""
-      },
-      {
-        "nullable": null,
-        "types": [
-          "*"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "value",
         "description": ""
       },
       {
@@ -24154,7 +24168,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"guide4you\",\n  \"version\": \"3.5.0\",\n  \"description\": \"A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.\",\n  \"keywords\": [\n    \"map\",\n    \"map client\",\n    \"openlayers\"\n  ],\n  \"author\": \"Klaus Benndorf\",\n  \"homepage\": \"https://github.com/KlausBenndorf/guide4you\",\n  \"license\": \"MIT\",\n  \"contributors\": [\n    \"Sascha Klemenjak <sascha.klemenjak@benndorf.de>\",\n    \"Josef Schugt <josef.schugt@benndorf.de>\",\n    \"Simon Seyock <simonseyock@gmail.com>\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/KlausBenndorf/guide4you\"\n  },\n  \"peerDependencies\": {\n    \"jquery\": \"3.3.1\",\n    \"ol\": \"5.2.0\"\n  },\n  \"dependencies\": {\n    \"better-scroll\": \"1.13.2\",\n    \"csscolorparser\": \"1.0.3\",\n    \"lodash\": \"4.17.11\",\n    \"notifyjs-browser\": \"0.4.2\",\n    \"proj4\": \"2.5.0\",\n    \"strip-json-comments\": \"2.0.1\"\n  },\n  \"devDependencies\": {\n    \"babel-polyfill\": \"6.26.0\",\n    \"concurrently\": \"4.0.1\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"5.7.0\",\n    \"eslint-config-standard\": \"^12.0.0\",\n    \"eslint-plugin-import\": \"^2.14.0\",\n    \"eslint-plugin-node\": \"^7.0.1\",\n    \"eslint-plugin-promise\": \"^4.0.1\",\n    \"eslint-plugin-standard\": \"^4.0.0\",\n    \"guide4you-builder\": \"3.5.0\",\n    \"guide4you-proxy\": \"github:KlausBenndorf/guide4you-proxy#v1.1.0\",\n    \"http-server\": \"0.11.1\",\n    \"jquery\": \"3.3.1\",\n    \"mocha\": \"5.2.0\",\n    \"ol\": \"5.2.0\",\n    \"phantomjs-prebuilt\": \"2.1.14\",\n    \"selenium-webdriver\": \"3.6.0\",\n    \"wait-on\": \"3.1.0\"\n  },\n  \"scripts\": {\n    \"grab\": \"g4u-grab guide4you-builder\",\n    \"dist\": \"rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js\",\n    \"dev:simple\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js\",\n    \"prod:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"debug:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"dev:full\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/full/webpack.dev.js\",\n    \"prod:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"debug:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"lint\": \"eslint src/ tests/\",\n    \"version\": \"(npm run test && npm run doc && git add -A) || git checkout .\",\n    \"server\": \"http-server ./ -p 8089 -s\",\n    \"buildTests\": \"g4u-buildTests tests\",\n    \"buildTestsAndEnv\": \"concurrently \\\"npm run buildTests\\\" \\\"npm run dist\\\"\",\n    \"runTests\": \"concurrently --kill-others --success first \\\"npm run server\\\" \\\"wait-on -l http-get://localhost:8089 && mocha build/tests/*\\\"\",\n    \"test\": \"npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"test:fast\": \"npm run buildTests && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"doc\": \"esdoc -c esdoc.json\"\n  },\n  \"main\": \"./dist/g4u.js\",\n  \"module\": \"./config/dist/entry.js\",\n  \"types\": \"./dist/g4u.d.ts\"\n}\n",
+    "content": "{\n  \"name\": \"guide4you\",\n  \"version\": \"3.3.1\",\n  \"description\": \"A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.\",\n  \"keywords\": [\n    \"map\",\n    \"map client\",\n    \"openlayers\"\n  ],\n  \"author\": \"Klaus Benndorf\",\n  \"homepage\": \"https://github.com/KlausBenndorf/guide4you\",\n  \"license\": \"MIT\",\n  \"contributors\": [\n    \"Sascha Klemenjak <sascha.klemenjak@benndorf.de>\",\n    \"Josef Schugt <josef.schugt@benndorf.de>\",\n    \"Simon Seyock <simonseyock@gmail.com>\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/KlausBenndorf/guide4you\"\n  },\n  \"peerDependencies\": {\n    \"jquery\": \"3.3.1\",\n    \"ol\": \"5.2.0\"\n  },\n  \"dependencies\": {\n    \"better-scroll\": \"1.13.2\",\n    \"csscolorparser\": \"1.0.3\",\n    \"lodash\": \"4.17.11\",\n    \"notifyjs-browser\": \"0.4.2\",\n    \"proj4\": \"2.5.0\",\n    \"strip-json-comments\": \"2.0.1\"\n  },\n  \"devDependencies\": {\n    \"babel-polyfill\": \"6.26.0\",\n    \"concurrently\": \"4.0.1\",\n    \"cross-env\": \"^5.2.0\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"5.7.0\",\n    \"eslint-config-standard\": \"^12.0.0\",\n    \"eslint-plugin-import\": \"^2.14.0\",\n    \"eslint-plugin-node\": \"^7.0.1\",\n    \"eslint-plugin-promise\": \"^4.0.1\",\n    \"eslint-plugin-standard\": \"^4.0.0\",\n    \"guide4you-builder\": \"3.5.1\",\n    \"guide4you-proxy\": \"github:KlausBenndorf/guide4you-proxy#v1.1.0\",\n    \"http-server\": \"0.11.1\",\n    \"jquery\": \"3.3.1\",\n    \"mocha\": \"5.2.0\",\n    \"ol\": \"5.2.0\",\n    \"phantomjs-prebuilt\": \"2.1.14\",\n    \"selenium-webdriver\": \"3.6.0\",\n    \"wait-on\": \"3.1.0\"\n  },\n  \"scripts\": {\n    \"grab\": \"g4u-grab guide4you-builder\",\n    \"dist\": \"rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js\",\n    \"dev:simple\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js\",\n    \"prod:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"debug:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"dev:full\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/full/webpack.dev.js\",\n    \"prod:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"debug:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"lint\": \"eslint src/ tests/\",\n    \"version\": \"(npm run test && npm run doc && git add -A) || git checkout .\",\n    \"server\": \"http-server ./ -p 8089 -s\",\n    \"buildTests\": \"g4u-buildTests tests\",\n    \"buildTestsAndEnv\": \"concurrently \\\"npm run buildTests\\\" \\\"npm run dist\\\"\",\n    \"runTests\": \"concurrently --kill-others --success first \\\"npm run server\\\" \\\"wait-on -l http-get://localhost:8089 && mocha build/tests/*\\\"\",\n    \"test\": \"npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"test:fast\": \"npm run buildTests && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"doc\": \"esdoc -c esdoc.json\"\n  },\n  \"main\": \"./dist/g4u.js\",\n  \"module\": \"./config/dist/entry.js\",\n  \"types\": \"./dist/g4u.d.ts\"\n}\n",
     "longname": "D:\\xampp\\htdocs\\guide4you\\package.json",
     "name": "package.json",
     "static": true,
