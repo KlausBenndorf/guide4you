@@ -1,4 +1,5 @@
-import ol from 'ol'
+import View from 'ol/View'
+import { transform } from 'ol/proj'
 
 import { Attribution } from '../controls/Attribution'
 import { ComposedControl } from '../controls/ComposedControl'
@@ -141,7 +142,7 @@ export class ControlFactory {
         return new MobileControls(options)
       case 'overviewMap':
         let projection = options.projection || this.map_.get('mapProjection')
-        options.view = new ol.View({ projection: projection })
+        options.view = new View({ projection: projection })
         return new OverviewMap(options)
       case 'infoButton':
         return new WindowDecorator({
@@ -151,7 +152,7 @@ export class ControlFactory {
         let mapConfig = this.map_.get('mapConfig')
         if (mapConfig.view) {
           if (mapConfig.view.center) {
-            options.initCenter = ol.proj.transform(mapConfig.view.center,
+            options.initCenter = transform(mapConfig.view.center,
               this.map_.get('interfaceProjection'), this.map_.get('mapProjection'))
           }
           if (mapConfig.view.zoom) {

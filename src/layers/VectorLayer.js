@@ -1,4 +1,4 @@
-import ol from 'ol'
+import OlVectorLayer from 'ol/layer/Vector'
 
 import { LayerLoadProcessCountMixin } from './LayerLoadProcessCountMixin'
 import { mixin } from '../utilities'
@@ -9,7 +9,7 @@ import { ProvideMapMixin } from './ProvideMapMixin'
  * @property {string[]} [mutators=[]] list of mutators (changes featurepopup content) to use for this layer.
  */
 
-export class VectorLayer extends mixin(mixin(ol.layer.Vector, ProvideMapMixin), LayerLoadProcessCountMixin) {
+export class VectorLayer extends mixin(mixin(OlVectorLayer, ProvideMapMixin), LayerLoadProcessCountMixin) {
   constructor (options = {}) {
     super(options)
 

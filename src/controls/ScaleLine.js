@@ -1,4 +1,5 @@
-import ol from 'ol'
+import OlScaleLine from 'ol/control/ScaleLine'
+
 import { mixin } from '../utilities'
 import { RewireMixin } from './RewireMixin'
 
@@ -8,7 +9,7 @@ import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 /**
  * @extends Control
  */
-export class ScaleLine extends mixin(mixin(ol.control.ScaleLine, RewireMixin), ListenerOrganizerMixin) {
+export class ScaleLine extends mixin(mixin(OlScaleLine, RewireMixin), ListenerOrganizerMixin) {
   /**
    * @param {g4uControlOptions} [options={}]
    */

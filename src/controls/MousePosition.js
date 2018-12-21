@@ -1,4 +1,4 @@
-import ol from 'ol'
+import OlMousePosition from 'ol/control/MousePosition'
 
 import { mixin } from '../utilities'
 import { RewireMixin } from './RewireMixin'
@@ -13,7 +13,7 @@ import '../../less/mouseposition.less'
 /**
  * @extends Control
  */
-export class MousePosition extends mixin(ol.control.MousePosition, RewireMixin) {
+export class MousePosition extends mixin(OlMousePosition, RewireMixin) {
   /**
    * @param {MousePositionOptions} [options={}]
    */

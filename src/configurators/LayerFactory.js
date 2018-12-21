@@ -1,5 +1,19 @@
-import ol from 'ol'
 import $ from 'jquery'
+
+import Collection from 'ol/Collection'
+import VectorSource from 'ol/source/Vector'
+import XYZ from 'ol/source/XYZ'
+import OSM from 'ol/source/OSM'
+import Stamen from 'ol/source/Stamen'
+import BingMaps from 'ol/source/BingMaps'
+import { createXYZ } from 'ol/tilegrid'
+import TileGrid from 'ol/tilegrid/TileGrid'
+import WMTSTileGrid from 'ol/tilegrid/WMTS'
+import WKT from 'ol/format/WKT'
+import Feature from 'ol/Feature'
+import WMTSCapabilities from 'ol/format/WMTSCapabilities'
+import WMTS from 'ol/source/WMTS'
+import ImageCanvas from 'ol/source/ImageCanvas'
 
 import { BaseLayerImage, ImageLayer } from '../layers/ImageLayer'
 import { EmptyBaseLayer } from '../layers/EmptyBaseLayer'
@@ -291,7 +305,7 @@ export class LayerFactory {
         layerGroup.getLayers().push(layer)
       }
 
-      if (layer instanceof ol.Collection) {
+      if (layer instanceof Collection) {
         layer.forEach(forEachLayer)
       } else {
         forEachLayer(layer)
@@ -399,13 +413,13 @@ export class LayerFactory {
         if (superType === SuperType.BASELAYER) {
           layer = new EmptyBaseLayer(optionsCopy)
         } else {
-          optionsCopy.source = new ol.source.Vector()
+          optionsCopy.source = new VectorSource()
           layer = new VectorLayer(optionsCopy)
         }
         break
       case LayerType.XYZ:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()
-        optionsCopy.source = new ol.source.XYZ(optionsCopy.source)
+        optionsCopy.source = new XYZ(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -415,7 +429,7 @@ export class LayerFactory {
         break
       case LayerType.OSM:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()
-        optionsCopy.source = new ol.source.OSM(optionsCopy.source)
+        optionsCopy.source = new OSM(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -424,7 +438,7 @@ export class LayerFactory {
         }
         break
       case LayerType.STAMEN:
-        optionsCopy.source = new ol.source.Stamen(optionsCopy.source)
+        optionsCopy.source = new Stamen(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -433,7 +447,7 @@ export class LayerFactory {
         }
         break
       case LayerType.BING:
-        optionsCopy.source = new ol.source.BingMaps(optionsCopy.source)
+        optionsCopy.source = new BingMaps(optionsCopy.source)
 
         if (superType === SuperType.BASELAYER) {
           layer = new BaseTileLayer(optionsCopy)
@@ -471,10 +485,10 @@ export class LayerFactory {
         break
       case LayerType.TILEWMS:
         if (optionsCopy.source.tileSize) {
-          optionsCopy.source.tileGrid = ol.tilegrid.createXYZ({ tileSize: optionsCopy.source.tileSize })
+          optionsCopy.source.tileGrid = createXYZ({ tileSize: optionsCopy.source.tileSize })
           delete optionsCopy.source.tileSize
         } else if (optionsCopy.source.tileGrid) {
-          optionsCopy.source.tileGrid = new ol.tilegrid.TileGrid(optionsCopy.source.tileGrid)
+          optionsCopy.source.tileGrid = new TileGrid(optionsCopy.source.tileGrid)
         }
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
@@ -508,7 +522,7 @@ export class LayerFactory {
             throw new Error('You have to provide either a tileGrid or use autoConfig for WMTS Source')
           }
 
-          sourceOptions.tileGrid = new ol.tilegrid.WMTS(sourceOptions.tileGrid)
+          sourceOptions.tileGrid = new WMTSTileGrid(sourceOptions.tileGrid)
 
           sourceOptions.url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_) // not finalized
 
@@ -588,7 +602,7 @@ export class LayerFactory {
           }
         }
 
-        optionsCopy.source = new ol.source.Vector(optionsCopy.source)
+        optionsCopy.source = new VectorSource(optionsCopy.source)
 
         if (superType === SuperType.QUERYLAYER) {
           this.superTypeNotSupported(layerType, superType)
@@ -750,12 +764,12 @@ export class LayerFactory {
 
     let style = take(featureConfCopy, 'style')
 
-    let format = new ol.format.WKT()
+    let format = new WKT()
     let wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')
     featureConfCopy.geometry = format.readGeometry(wkt)
       .transform(this.map_.get('interfaceProjection'), this.map_.get('mapProjection'))
 
-    let feature = new ol.Feature(featureConfCopy)
+    let feature = new Feature(featureConfCopy)
 
     if (style) {
       this.map_.get('styling').styleFeature(feature, style)
@@ -776,18 +790,22 @@ export class LayerFactory {
       dataType: 'text xml',
       crossDomain: true,
       success: data => {
-        const wmtsCap = (new ol.format.WMTSCapabilities()).read(data)
-        const capOptions = ol.source.WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
-        capOptions.urls = capOptions.urls.map(newUrl => {
-          const u = url.clone()
-          u.url = newUrl
-          return u.finalize()
-        })
-        sourceOptions = mergeDeep(sourceOptions, capOptions)
-        layer.setSource(new ol.source.WMTS(sourceOptions))
+        const wmtsCap = (new WMTSCapabilities()).read(data)
+        const capOptions = WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
+        if (capOptions === null) {
+          Debug.error(`wmts layer not found or not set for layer with id "${layer.get('id')}"`)
+        } else {
+          capOptions.urls = capOptions.urls.map(newUrl => {
+            const u = url.clone()
+            u.url = newUrl
+            return u.finalize()
+          })
+          sourceOptions = mergeDeep(sourceOptions, capOptions)
+          layer.setSource(new WMTS(sourceOptions))
+        }
       }
     })
-    layer.setSource(new ol.source.ImageCanvas({
+    layer.setSource(new ImageCanvas({
       state: 'ready',
       canvasFunction: () => {} // not loading any canvas
     }))

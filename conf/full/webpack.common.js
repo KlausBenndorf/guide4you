@@ -50,13 +50,11 @@ module.exports = webpackMerge.smartStrategy({ plugins: 'prepend' })(
         title: 'Full Guide4You'
       }),
       new CopyWebpackPlugin([
-        { from: 'node_modules/jquery/dist/jquery.min.js', to: 'js/jquery.min.js' },
-        { from: 'node_modules/openlayers/dist/ol.js', to: 'js/ol.js' }
+        { from: 'node_modules/jquery/dist/jquery.min.js', to: 'js/jquery.min.js' }
       ]),
       new HtmlWebpackIncludeAssetsPlugin({
         assets: [
-          'js/jquery.min.js',
-          'js/ol.js'
+          'js/jquery.min.js'
         ],
         append: false
       })

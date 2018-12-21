@@ -1,5 +1,7 @@
-import ol from 'ol'
 import $ from 'jquery'
+
+import OlZoom from 'ol/control/Zoom'
+import OlZoomSlider from 'ol/control/ZoomSlider'
 
 import { ComposedControl } from './ComposedControl'
 import { cssClasses } from '../globals'
@@ -138,7 +140,7 @@ export class CombinedZoom extends ComposedControl {
 /**
  * @extends Control
  */
-export class Zoom extends mixin(ol.control.Zoom, RewireMixin) {
+export class Zoom extends mixin(OlZoom, RewireMixin) {
   /**
    * @param {g4uControlOptions} [options={}]
    */
@@ -160,7 +162,7 @@ export class Zoom extends mixin(ol.control.Zoom, RewireMixin) {
 /**
  * @extends Control
  */
-export class ZoomSlider extends mixin(ol.control.ZoomSlider, RewireMixin) {
+export class ZoomSlider extends mixin(OlZoomSlider, RewireMixin) {
   /**
    * @param {g4uControlOptions} [options={}]
    */

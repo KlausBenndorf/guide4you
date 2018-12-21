@@ -1,12 +1,14 @@
-import ol from 'ol'
 import $ from 'jquery'
-import { cssClasses, keyCodes } from '../globals'
+
+import BaseObject from 'ol/Object'
 
 import 'polyfill!Array.prototype.findIndex,Array.prototype.find'
 
-import '../../less/dropdown.less'
+import { cssClasses, keyCodes } from '../globals'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
+
+import '../../less/dropdown.less'
 
 /**
  * @typedef {object} DropdownOptions
@@ -38,7 +40,7 @@ $.extend($.easing, {
  * @fires 'close' dropdown closing without select
  * @fires 'select' dropdown closing with select
  */
-export class Dropdown extends mixin(ol.Object, ListenerOrganizerMixin) {
+export class Dropdown extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * @param {DropdownOptions} [options={}]
    */

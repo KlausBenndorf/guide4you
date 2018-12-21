@@ -1,4 +1,3 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import { merge } from '../utilitiesObject'
@@ -6,6 +5,7 @@ import { Control } from './Control'
 import { addTooltip } from '../html/html'
 
 import '../../less/arrowbuttons.less'
+import { rotate } from 'ol/coordinate'
 
 /**
  * @typedef {g4uControlOptions} ArrowButtonOptions
@@ -150,7 +150,7 @@ export class ArrowButtons extends Control {
       let delta = [dirVec[0] * resolution * this.pixelDelta_, dirVec[1] * resolution * this.pixelDelta_]
 
       // this rotates if needed
-      ol.coordinate.rotate(delta, rotation)
+      rotate(delta, rotation)
 
       let oldPosition = view.getCenter()
 

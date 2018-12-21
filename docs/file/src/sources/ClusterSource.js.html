@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,10 +207,16 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/sources/ClusterSource.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
-import { Debug } from &apos;../Debug&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import OlClusterSource from &apos;ol/source/Cluster&apos;
 
-export class ClusterSource extends ol.source.Cluster {
+import { Debug } from &apos;../Debug&apos;
+import Point from &apos;ol/geom/Point&apos;
+import LineString from &apos;ol/geom/LineString&apos;
+import { getCenter } from &apos;ol/extent&apos;
+import Polygon from &apos;ol/geom/Polygon&apos;
+import Circle from &apos;ol/geom/Circle&apos;
+
+export class ClusterSource extends OlClusterSource {
   /**
    * @param {ol.source.Vector} source
    * @param {olx.} options
@@ -223,14 +229,12 @@ export class ClusterSource extends ol.source.Cluster {
 
   static defaultGeometryFunction (feature) {
     let geom = feature.getGeometry()
-    if (geom instanceof ol.geom.Point) {
+    if (geom instanceof Point) {
       return geom
-    } else if (geom instanceof ol.geom.LineString) {
-      return new ol.geom.Point(ol.extent.getCenter(geom.getExtent()))
-    } else if (geom instanceof ol.geom.Polygon) {
-      return new ol.geom.Point(ol.extent.getCenter(geom.getExtent()))
-    } else if (geom instanceof ol.geom.Circle) {
-      return new ol.Point(geom.getCenter())
+    } else if (geom instanceof LineString || geom instanceof Polygon) {
+      return new Point(getCenter(geom.getExtent()))
+    } else if (geom instanceof Circle) {
+      return new Point(geom.getCenter())
     } else {
       Debug.warn(&apos;Trying to cluster unsupported geometry type.&apos;)
       return null

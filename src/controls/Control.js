@@ -1,4 +1,5 @@
-import ol from 'ol'
+import OlControl from 'ol/control/Control'
+
 import { mixin } from '../utilities'
 import { ControlLogicMixin } from './ControlLogicMixin'
 
@@ -28,4 +29,4 @@ import { ControlLogicMixin } from './ControlLogicMixin'
  * @extends {ol.control.Control}
  */
 
-export const Control = mixin(ol.control.Control, ControlLogicMixin)
+export const Control = mixin(OlControl, ControlLogicMixin)

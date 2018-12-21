@@ -175,8 +175,8 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/FeatureSelect.js~FeatureSelect.html">FeatureSelect</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/MapEventInteraction.js~MapEventInteraction.html">MapEventInteraction</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html">EmptyBaseLayer</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
@@ -207,7 +207,10 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/Move.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;ol&apos;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { boundingExtent, buffer, extend, getHeight, getWidth, intersects } from &apos;ol/extent&apos;
+import { fromExtent } from &apos;ol/geom/Polygon&apos;
+import { transformExtent } from &apos;ol/proj&apos;
+import View from &apos;ol/View&apos;
 
 /**
  * @typedef {object} MoveOptions
@@ -220,7 +223,7 @@
  */
 
 /**
- * @typedef {olx.view.FitOptions} SingleMoveOptions
+ * @typedef {FitOptions} SingleMoveOptions
  * @property {boolean} [animated] if specified overwrites the default settings
  * @property {number[]|string} [padding] can be set to &apos;default&apos; to use the default settings
  */
@@ -286,12 +289,12 @@ export class Move {
   }
 
   /**
-   * @param {ol.Coordinate} point
+   * @param {Coordinate} point
    * @param {SingleMoveOptions} [options={}]
    */
   toPoint (point, options = {}) {
     // calculate extent
-    let tmpView = new ol.View({
+    let tmpView = new View({
       projection: this.map_.getView().getProjection(),
       center: point,
       resolution: this.map_.getView().getResolution()
@@ -324,7 +327,7 @@ export class Move {
    * @param {SingleMoveOptions} [options={}]
    */
   zoomToPoint (point, options = {}) {
-    this.toExtent(ol.extent.boundingExtent([point]), options)
+    this.toExtent(boundingExtent([point]), options)
   }
 
   /**
@@ -334,11 +337,11 @@ export class Move {
    */
   bufferUpToMinSize_ (extent) {
     // TODO: maybe use something more precise than transforming into 3857 to get meter size.
-    let extentInMeters = ol.proj.transformExtent(extent, this.map_.getView().getProjection(), &apos;EPSG:3857&apos;)
-    let smallerSize = Math.min(ol.extent.getWidth(extentInMeters), ol.extent.getHeight(extentInMeters))
+    let extentInMeters = transformExtent(extent, this.map_.getView().getProjection(), &apos;EPSG:3857&apos;)
+    let smallerSize = Math.min(getWidth(extentInMeters), getHeight(extentInMeters))
     if (smallerSize &lt; this.meterMinSize_) {
-      extentInMeters = ol.extent.buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2)
-      return ol.proj.transformExtent(extentInMeters, &apos;EPSG:3857&apos;, this.map_.getView().getProjection())
+      extentInMeters = buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2)
+      return transformExtent(extentInMeters, &apos;EPSG:3857&apos;, this.map_.getView().getProjection())
     } else {
       return extent
     }
@@ -357,7 +360,7 @@ export class Move {
     // options.constrainResolution = false
 
     // using fit&apos;s padding option
-    this.map_.getView().fit(ol.geom.Polygon.fromExtent(extent), this.map_.getSize(), options)
+    this.map_.getView().fit(fromExtent(extent), this.map_.getSize(), options)
   }
 
   /**
@@ -373,9 +376,9 @@ export class Move {
 
     let startExtent = view.calculateExtent(size)
 
-    let moveExtent = ol.extent.extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
+    let moveExtent = extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
 
-    if (this.bouncing_ &amp;&amp; !ol.extent.intersects(startExtent, endExtent)) {
+    if (this.bouncing_ &amp;&amp; !intersects(startExtent, endExtent)) {
       let moveOptions = Object.assign({
         duration: this.animationDuration_ / 2
       }, options)

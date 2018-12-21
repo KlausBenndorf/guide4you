@@ -1,10 +1,13 @@
-import ol from 'ol'
 import $ from 'jquery'
-
-import { VectorLayer } from './layers/VectorLayer'
-import { MapEventInteraction } from './interactions/MapEventInteraction'
+import Feature from 'ol/Feature'
+import Point from 'ol/geom/Point'
+import { unByKey } from 'ol/Observable'
+import VectorSource from 'ol/source/Vector'
 import { FeaturePopup } from './FeaturePopup'
 import { cssClasses } from './globals'
+import { MapEventInteraction } from './interactions/MapEventInteraction'
+
+import { VectorLayer } from './layers/VectorLayer'
 
 /**
  * @typedef {Object} ShowWMSFeatureInfoOptions
@@ -52,8 +55,8 @@ export class ShowWMSFeatureInfo {
             if (data !== '') {
               if (!feature) {
                 this.utilitySource_.clear()
-                feature = new ol.Feature({
-                  geometry: new ol.geom.Point(coordinate),
+                feature = new Feature({
+                  geometry: new Point(coordinate),
                   description: data,
                   style: map.get('styling').getStyle(this.style_)
                 })
@@ -107,8 +110,8 @@ export class ShowWMSFeatureInfo {
                   .then(data => {
                     if (data !== '') {
                       if (!feature) {
-                        feature = new ol.Feature({
-                          geometry: new ol.geom.Point(coordinate),
+                        feature = new Feature({
+                          geometry: new Point(coordinate),
                           description: data
                         })
                         featureTooltip.setFeature(feature, coordinate,
@@ -146,12 +149,12 @@ export class ShowWMSFeatureInfo {
 
     if (this.getMap()) {
       this.getMap().un('change:mobile', onMapChangeMobile)
-      ol.Observable.unByKey(this.listenerKey_)
+      unByKey(this.listenerKey_)
     }
 
     this.map_ = map
     if (map) {
-      this.utilitySource_ = new ol.source.Vector()
+      this.utilitySource_ = new VectorSource()
       this.utilityLayer_ = new VectorLayer({
         visible: false,
         source: this.utilitySource_

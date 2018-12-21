@@ -1,22 +1,18 @@
-import ol from 'ol'
 import $ from 'jquery'
-
+import OlMap from 'ol/Map'
 import stripJsonComments from 'strip-json-comments'
 
 import { MapConfigurator } from './configurators/MapConfigurator'
-import './openlayersInjections'
-import { L10N } from './L10N'
-
-import { mergeWithDefaults } from './utilitiesObject'
-import { cssClasses } from './globals'
-
-import { defaults } from './defaultconfig'
-
 import { Debug } from './Debug'
+import { defaults } from './defaultconfig'
+import { cssClasses } from './globals'
+import { L10N } from './L10N'
+import { getRegisteredModules } from './moduleRegistration'
+import './openlayersInjections'
+import { PopupModifierManager } from './PopupModifierManager'
+import { mergeWithDefaults } from './utilitiesObject'
 
 import '../less/map.less'
-import { getRegisteredModules } from './moduleRegistration'
-import { PopupModifierManager } from './PopupModifierManager'
 
 /**
  * @typedef {object} G4UMapOptions
@@ -40,7 +36,7 @@ import { PopupModifierManager } from './PopupModifierManager'
  * @fires 'change:ready:ui'
  * @fires 'change:ready:layers'
  */
-export class G4UMap extends ol.Map {
+export class G4UMap extends OlMap {
   /**
    * @param {HTMLElement|jQuery|string} target element or id of an element
    * @param {MapConfig|string} configOrFileName
@@ -87,7 +83,7 @@ export class G4UMap extends ol.Map {
 
     this.set('ready', false)
 
-    this.on([ 'change:ready', 'change:ready:ui', 'change:ready:layers' ], /** ol.ObjectEvent */ e => {
+    this.on(['change:ready', 'change:ready:ui', 'change:ready:layers'], /** ol.ObjectEvent */ e => {
       if (this.get(e.key)) {
         this.dispatchEvent(e.key)
       }
@@ -110,7 +106,7 @@ export class G4UMap extends ol.Map {
 
     // Setting the target of the map
 
-    if (typeof target === 'string' && target[ 0 ] !== '#') {
+    if (typeof target === 'string' && target[0] !== '#') {
       this.setTarget($('#' + target).get(0))
     } else {
       this.setTarget($(target).get(0))
@@ -199,10 +195,10 @@ export class G4UMap extends ol.Map {
         loading++
 
         this.oldMapConfigs_ = this.oldMapConfigs_ || {}
-        this.oldMapConfigs_[ e.oldValue ] = this.get('mapConfig')
+        this.oldMapConfigs_[e.oldValue] = this.get('mapConfig')
 
         if (this.oldMapConfigs_.hasOwnProperty(this.get('configFileName'))) {
-          this.set('mapConfig', this.oldMapConfigs_[ this.get('configFileName') ])
+          this.set('mapConfig', this.oldMapConfigs_[this.get('configFileName')])
         } else {
           this.set('mapConfigReady', false)
           loadConfigFile(this.get('configFileName')).then((data) => {
@@ -223,10 +219,10 @@ export class G4UMap extends ol.Map {
         loading++
 
         this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
-        this.oldLayerConfigs_[ e.oldValue ] = this.get('layerConfig')
+        this.oldLayerConfigs_[e.oldValue] = this.get('layerConfig')
 
         if (this.oldLayerConfigs_.hasOwnProperty(this.get('layerConfigFileName'))) {
-          this.set('layerConfig', this.oldLayerConfigs_[ this.get('layerConfigFileName') ])
+          this.set('layerConfig', this.oldLayerConfigs_[this.get('layerConfigFileName')])
         } else {
           this.set('layerConfigReady', false)
           loadConfigFile(this.get('layerConfigFileName'))
@@ -308,7 +304,7 @@ export class G4UMap extends ol.Map {
           this.set('ready', true)
         }
 
-        this.on([ 'change:ready:ui', 'change:ready:layers' ], /** ol.ObjectEvent */ e => {
+        this.on(['change:ready:ui', 'change:ready:layers'], /** ol.ObjectEvent */ e => {
           if (!this.get(e.key)) {
             this.set('ready', false)
           }
@@ -327,7 +323,15 @@ export class G4UMap extends ol.Map {
    * @returns {Control[]}
    */
   getControlsByName (name) {
-    return this.controlsByName[ name ] || []
+    return this.controlsByName[name] || []
+  }
+
+  getControlsByType (type) {
+    let matched = []
+    for (const controls of Object.values(this.controlsByName)) {
+      matched = matched.concat(controls.filter(c => c instanceof type))
+    }
+    return matched
   }
 
   /**
@@ -413,7 +417,7 @@ export class G4UMap extends ol.Map {
       if (this.defaultInteractions_.has(eventtype)) {
         this.defaultInteractions_.get(eventtype).push(interaction)
       } else {
-        this.defaultInteractions_.set(eventtype, [ interaction ])
+        this.defaultInteractions_.set(eventtype, [interaction])
       }
     }
 
@@ -495,7 +499,7 @@ export class G4UMap extends ol.Map {
       if (this.supersedingInteractions_.has(eventType)) {
         this.supersedingInteractions_.get(eventType).push(interaction)
       } else {
-        this.supersedingInteractions_.set(eventType, [ interaction ])
+        this.supersedingInteractions_.set(eventType, [interaction])
       }
     }
 
