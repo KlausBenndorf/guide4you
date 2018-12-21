@@ -13,7 +13,6 @@
  * @property {string} [ghostentry] text to be seen in the dropdown if the autocomplete or search didn't find
  * @property {string} [deactivateMobileSearch='exactResult']  other possible values are 'never' and 'anyResult'
  */
-import ol from 'ol'
 import $ from 'jquery'
 
 import { addTooltip } from 'guide4you/src/html/html'
@@ -26,6 +25,7 @@ import { SearchView } from './SearchView'
 import 'polyfill!Element.prototype.placeholder'
 
 import '../less/searchcontrol.less'
+import Feature from 'ol/Feature'
 
 const DeactivateMobileSearch = {
   NEVER: 'never',
@@ -314,7 +314,7 @@ export class SearchControl extends Control {
 
     this.updateDropdown_([], [])
 
-    if (dropdownData instanceof ol.Feature) {
+    if (dropdownData instanceof Feature) {
       this.onSearchEnd_([dropdownData])
     } else {
       this.searchConnector_.getByHandle(dropdownData)

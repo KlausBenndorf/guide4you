@@ -1,5 +1,8 @@
-import ol from 'ol'
 import { VectorLayer } from 'guide4you/src/layers/VectorLayer'
+import { Vector as VectorSource } from 'ol/source'
+import { extend, isEmpty } from 'ol/extent'
+import Point from 'ol/geom/Point'
+import MultiPoint from 'ol/geom/MultiPoint'
 
 /**
  * @typedef {Object} SearchViewOptions
@@ -51,7 +54,7 @@ export class SearchView {
       this.olStyle_ = map.get('styling').getStyle(this.style_)
 
       this.searchlayerBottom_ = new VectorLayer({
-        source: new ol.source.Vector({
+        source: new VectorSource({
           projection: map.getView().getProjection()
         })
       })
@@ -60,7 +63,7 @@ export class SearchView {
       map.get('styling').manageLayer(this.searchlayerBottom_)
 
       this.searchlayerTop_ = new VectorLayer({
-        source: new ol.source.Vector({
+        source: new VectorSource({
           projection: map.getView().getProjection()
         })
       })
@@ -74,7 +77,7 @@ export class SearchView {
     return this.map_
   }
 
-  getStyle() {
+  getStyle () {
     return this.olStyle_
   }
 
@@ -83,12 +86,12 @@ export class SearchView {
    */
   centerOnSearchlayer () {
     if (this.searchlayerBottom_.getVisible()) {
-      let extent = ol.extent.extend(
+      let extent = extend(
         this.searchlayerBottom_.getSource().getExtent(),
         this.searchlayerTop_.getSource().getExtent()
       )
 
-      if (!ol.extent.isEmpty(extent)) {
+      if (!isEmpty(extent)) {
         this.getMap().get('move').toExtent(extent, { animated: this.animated_ })
       }
     }
@@ -112,7 +115,7 @@ export class SearchView {
 
     features.forEach(function (feature) {
       if (feature.getGeometry()) {
-        if (feature.getGeometry() instanceof ol.geom.Point || feature.getGeometry() instanceof ol.geom.MultiPoint) {
+        if (feature.getGeometry() instanceof Point || feature.getGeometry() instanceof MultiPoint) {
           sourceTop.addFeature(feature)
         } else {
           sourceBottom.addFeature(feature)

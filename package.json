@@ -21,12 +21,13 @@
     "url": "https://github.com/KlausBenndorf/guide4you-module-search"
   },
   "peerDependencies": {
-    "guide4you": "3.1.*",
+    "guide4you": "3.3.*",
     "jquery": "3.3.1",
     "ol": "5.2.0"
   },
   "devDependencies": {
     "concurrently": "4.0.1",
+    "cross-env": "^5.2.0",
     "esdoc": "1.1.0",
     "esdoc-standard-plugin": "1.0.0",
     "eslint": "5.7.0",
@@ -35,8 +36,8 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "guide4you": "3.1.*",
-    "guide4you-builder": "3.4.0",
+    "guide4you": "3.3.*",
+    "guide4you-builder": "3.5.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "0.11.1",
     "jquery": "3.3.1",
@@ -55,9 +56,11 @@
     "lint": "eslint src/ tests/",
     "version": "(npm run test && git add -A) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
-    "buildTests": "concurrently \"g4u-buildTests node_modules/guide4you/tests tests\" \"npm run dist\"",
+    "buildTests": "g4u-buildTests node_modules/guide4you/tests tests",
+    "buildTestsAndEnv": "concurrently \"npm run buildTests\" \"npm run dist\"",
+    "test": "npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \"Tests completed successfully\"",
+    "test:fast": "npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha build/tests/*\"",
-    "test": "npm run lint && npm run buildTests && npm run runTests && echo \"Tests completed successfully\"",
     "doc": "esdoc -c esdoc.json"
   }
 }

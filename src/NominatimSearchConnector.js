@@ -1,8 +1,11 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import { Debug } from 'guide4you/src/Debug'
 import { SearchConnector } from './SearchConnector'
+import { transform, transformExtent } from 'ol/proj'
+import Polygon from 'ol/geom/Polygon'
+import Point from 'ol/geom/Point'
+import Feature from 'ol/Feature'
 
 export class NominatimSearchConnector extends SearchConnector {
   constructor (options) {
@@ -17,7 +20,7 @@ export class NominatimSearchConnector extends SearchConnector {
     if (map) {
       let extent = map.getView().calculateExtent(map.getSize())
 
-      let extentString = ol.proj.transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
+      let extentString = transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
 
       this.serviceURL.addParam(
         'format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=' + extentString +
@@ -49,7 +52,7 @@ export class NominatimSearchConnector extends SearchConnector {
 
   /**
    * @param {object} data
-   * @returns {[string, ol.Feature]}
+   * @returns {[string, Feature]}
    * @protected
    */
   readFeature_ (data) {
@@ -179,22 +182,22 @@ export class NominatimSearchConnector extends SearchConnector {
         polygonpoints.push([parseFloat(data.polygonpoints[i][0]), parseFloat(data.polygonpoints[i][1])])
       }
       if (this.featureProjection) {
-        ol.proj.transform(polygonpoints, this.dataProjection, this.featureProjection)
+        transform(polygonpoints, this.dataProjection, this.featureProjection)
       }
 
-      featureOptions.geometry = new ol.geom.Polygon(polygonpoints)
+      featureOptions.geometry = new Polygon(polygonpoints)
     } else if ((data.hasOwnProperty('lon')) && (data.hasOwnProperty('lat'))) {
       let point = [parseFloat(data.lon), parseFloat(data.lat)]
 
       if (this.featureProjection) {
         let coords = [parseFloat(data.lon), parseFloat(data.lat)]
-        point = ol.proj.transform(coords, this.dataProjection, this.featureProjection)
+        point = transform(coords, this.dataProjection, this.featureProjection)
       }
 
-      featureOptions.geometry = new ol.geom.Point(point)
+      featureOptions.geometry = new Point(point)
     }
 
-    let feature = new ol.Feature(featureOptions)
+    let feature = new Feature(featureOptions)
 
     if (data.hasOwnProperty('icon')) {
       feature.set('iconStyle', data.icon)

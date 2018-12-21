@@ -1,5 +1,5 @@
 import { By, until } from 'selenium-webdriver'
-import phantomDriver from 'guide4you/tests/customPhantomDriver'
+import customDriver from 'guide4you/tests/customDriver'
 import { describe, before, after, it } from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert'
 
@@ -12,9 +12,9 @@ describe('Search', function () {
 
   before(function () {
     this.timeout(config.mochaTimeout)
-    driver = phantomDriver()
+    driver = customDriver()
     driver.manage().window().setSize(1200, 800)
-    driver.manage().timeouts().implicitlyWait(config.seleniumTimeout)
+    driver.manage().timeouts(config.seleniumTimeouts)
   })
 
   after(function () {
