@@ -204,6 +204,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
   return new _seleniumWebdriver2.default.Builder().withCapabilities(customPhantom).build();
+  // return new webdriver.Builder().forBrowser('firefox').build()
 };
 
 var _seleniumWebdriver = __webpack_require__(0);
@@ -237,8 +238,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   testClient: 'http://localhost:8089/dist/',
-  mochaTimeout: 5000,
-  seleniumTimeout: 5000
+  mochaTimeout: 10000,
+  seleniumTimeouts: {
+    script: 1000,
+    implicit: 1000,
+    pageLoad: 1000
+  }
 };
 
 /***/ }),
@@ -255,9 +260,9 @@ var _seleniumWebdriver = __webpack_require__(0);
 
 var _seleniumWebdriver2 = _interopRequireDefault(_seleniumWebdriver);
 
-var _customPhantomDriver = __webpack_require__(5);
+var _customDriver = __webpack_require__(5);
 
-var _customPhantomDriver2 = _interopRequireDefault(_customPhantomDriver);
+var _customDriver2 = _interopRequireDefault(_customDriver);
 
 var _testing = __webpack_require__(3);
 
@@ -279,7 +284,7 @@ var By = _seleniumWebdriver2.default.By;
 var ActionSequence = _seleniumWebdriver2.default.ActionSequence;
 
 function getPixelFromCoordinate(coordinate) {
-  return window.map.getPixelFromCoordinate(window.ol.proj.transform(coordinate, 'EPSG:4326', window.map.getView().getProjection()));
+  return window.map.getPixelFromCoordinate(coordinate);
 }
 
 _testing2.default.describe('measurementButton', function () {
@@ -289,8 +294,9 @@ _testing2.default.describe('measurementButton', function () {
 
   _testing2.default.before(function () {
     this.timeout(_config2.default.mochaTimeout);
-    driver = (0, _customPhantomDriver2.default)();
+    driver = (0, _customDriver2.default)();
     driver.manage().window().setSize(1200, 800);
+    driver.manage().setTimeouts(_config2.default.seleniumTimeouts);
   });
 
   _testing2.default.after(function () {
@@ -390,8 +396,8 @@ _testing2.default.describe('measurementButton', function () {
     }).then(function () {
       var visible = driver.findElement(By.css('.g4u-distance-measurement .g4u-window')).isDisplayed();
       (0, _assert2.default)(visible, 'distance measurement window should be visible').isEqualTo(true);
-      driver.executeScript((0, _testUtils.stringifyFunctionCall)(getPixelFromCoordinate, [6.94817, 50.94129])).then(function (point1) {
-        driver.executeScript((0, _testUtils.stringifyFunctionCall)(getPixelFromCoordinate, [6.96837, 50.94129])).then(function (point2) {
+      driver.executeScript((0, _testUtils.stringifyFunctionCall)(getPixelFromCoordinate, [773466.7463450996, 6610915.166693036])).then(function (point1) {
+        driver.executeScript((0, _testUtils.stringifyFunctionCall)(getPixelFromCoordinate, [775715.4000591239, 6610915.166693036])).then(function (point2) {
           return driver.findElement(By.className('ol-viewport')).then(function (element) {
             // console.log(point1)
             // console.log(point2)

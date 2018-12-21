@@ -204,6 +204,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
   return new _seleniumWebdriver2.default.Builder().withCapabilities(customPhantom).build();
+  // return new webdriver.Builder().forBrowser('firefox').build()
 };
 
 var _seleniumWebdriver = __webpack_require__(0);
@@ -233,8 +234,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   mochaTimeout: 10000,
-  seleniumTimeout: 5000,
-  testClient: 'http://localhost:8089/dist'
+  testClient: 'http://localhost:8089/dist',
+  seleniumTimeouts: {
+    script: 1000,
+    implicit: 1000,
+    pageLoad: 5000
+  }
 };
 
 /***/ }),
@@ -252,9 +257,9 @@ module.exports = require("selenium-webdriver/testing/assert");
 
 var _seleniumWebdriver = __webpack_require__(0);
 
-var _customPhantomDriver = __webpack_require__(5);
+var _customDriver = __webpack_require__(5);
 
-var _customPhantomDriver2 = _interopRequireDefault(_customPhantomDriver);
+var _customDriver2 = _interopRequireDefault(_customDriver);
 
 var _testing = __webpack_require__(3);
 
@@ -275,9 +280,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
   (0, _testing.before)(function () {
     this.timeout(_config2.default.mochaTimeout);
-    driver = (0, _customPhantomDriver2.default)();
+    driver = (0, _customDriver2.default)();
     driver.manage().window().setSize(1200, 800);
-    driver.manage().timeouts().implicitlyWait(_config2.default.seleniumTimeout);
+    driver.manage().timeouts(_config2.default.seleniumTimeouts);
   });
 
   (0, _testing.after)(function () {

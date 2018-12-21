@@ -204,6 +204,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
   return new _seleniumWebdriver2.default.Builder().withCapabilities(customPhantom).build();
+  // return new webdriver.Builder().forBrowser('firefox').build()
 };
 
 var _seleniumWebdriver = __webpack_require__(0);
@@ -237,8 +238,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   testClient: 'http://localhost:8089/dist/',
-  mochaTimeout: 5000,
-  seleniumTimeout: 5000
+  mochaTimeout: 10000,
+  seleniumTimeouts: {
+    script: 1000,
+    implicit: 1000,
+    pageLoad: 1000
+  }
 };
 
 /***/ }),
@@ -254,9 +259,9 @@ exports.default = {
 
 var _seleniumWebdriver = __webpack_require__(0);
 
-var _customPhantomDriver = __webpack_require__(5);
+var _customDriver = __webpack_require__(5);
 
-var _customPhantomDriver2 = _interopRequireDefault(_customPhantomDriver);
+var _customDriver2 = _interopRequireDefault(_customDriver);
 
 var _testing = __webpack_require__(3);
 
@@ -291,10 +296,9 @@ function waitUntilSetFeatureLayers(driver, featureLayers) {
   var driver = void 0;
 
   (0, _testing.before)(function () {
-    driver = (0, _customPhantomDriver2.default)();
+    driver = (0, _customDriver2.default)();
     driver.manage().window().setSize(1200, 800);
-    driver.manage().timeouts().implicitlyWait(_config2.default.seleniumTimeout);
-    driver.manage().timeouts().pageLoadTimeout(_config2.default.seleniumTimeout);
+    driver.manage().setTimeouts(_config2.default.seleniumTimeouts);
   });
 
   (0, _testing.after)(function () {
