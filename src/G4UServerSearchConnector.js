@@ -1,13 +1,13 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import { SearchConnector } from 'guide4you-module-search/src/SearchConnector'
+import KML from 'ol/format/KML'
 
 export class G4UServerSearchConnector extends SearchConnector {
   constructor (options) {
     super(options)
     this.serviceURL.url += '/Search/{searchstring}'
-    this.format_ = new ol.format.KML({ showPointNames: false })
+    this.format_ = new KML({ showPointNames: false })
   }
 
   getAutoComplete (input) {

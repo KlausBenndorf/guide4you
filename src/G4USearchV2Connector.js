@@ -1,7 +1,10 @@
-import ol from 'ol'
 import $ from 'jquery'
 
 import { SearchConnector } from 'guide4you-module-search/src/SearchConnector'
+import { transform } from 'ol/proj'
+import Point from 'ol/geom/Point'
+import Feature from 'ol/Feature'
+import WKT from 'ol/format/WKT'
 
 export class G4USearchV2Connector extends SearchConnector {
   constructor (options) {
@@ -16,7 +19,7 @@ export class G4USearchV2Connector extends SearchConnector {
 
     this.dataProjection = 'EPSG:4326'
 
-    this.wktParser_ = new ol.format.WKT()
+    this.wktParser_ = new WKT()
   }
 
   setMap (map) {
@@ -123,13 +126,13 @@ export class G4USearchV2Connector extends SearchConnector {
       let point = [parseFloat(data.lon), parseFloat(data.lat)]
 
       if (this.featureProjection) {
-        point = ol.proj.transform(point, this.dataProjection, this.featureProjection)
+        point = transform(point, this.dataProjection, this.featureProjection)
       }
 
-      featureOptions.geometry = new ol.geom.Point(point)
+      featureOptions.geometry = new Point(point)
     }
 
-    return new ol.Feature(featureOptions)
+    return new Feature(featureOptions)
   }
 
   /**
