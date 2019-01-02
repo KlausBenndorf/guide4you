@@ -191,13 +191,13 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
         })
 
         if (!parentMeta) {
-          metaElem.float = metaElem.control.getFloat() || ['top', 'left']
+          const float = metaElem.control.getFloat() || ['top', 'left']
 
-          if (metaElem.float === 'fixed') {
+          if (float === 'fixed') {
             return
           }
 
-          this.getArray_(metaElem.float).push(metaElem)
+          this.getArray_(float).push(metaElem)
 
           this.all_.push(metaElem)
 
