@@ -577,24 +577,12 @@ export class UIConfigurator {
             })
           })
 
-          this.map_.get('baseLayers').getLayers().forEach(function (layer) {
+          this.map_.getLayers().getLayers().forEach(function (layer) {
             layer.on('change:visible', function () {
               if (layer.getVisible()) { // only if changed to visible
                 map.dispatchEvent({
                   type: 'userActionTracking',
-                  action: 'baseLayerChange',
-                  value: layer.get('title')
-                })
-              }
-            })
-          })
-
-          this.map_.get('featureLayers').recursiveForEach(function (layer) {
-            layer.on('change:visible', function () {
-              if (layer.getVisible()) { // only if changed to visible
-                map.dispatchEvent({
-                  type: 'userActionTracking',
-                  action: 'featureLayerChange',
+                  action: 'layerChange',
                   value: layer.get('title')
                 })
               }

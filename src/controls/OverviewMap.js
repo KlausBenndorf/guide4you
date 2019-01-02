@@ -41,7 +41,7 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
     if (map) {
       const view = map.getView()
 
-      this.getOverviewMap().setLayerGroup(map.get('baseLayers'))
+      this.getOverviewMap().setLayerGroup(map.getLayerGroup())
 
       let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
 
