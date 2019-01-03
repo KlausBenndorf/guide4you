@@ -24,7 +24,7 @@
     "ol": "5.2.0"
   },
   "dependencies": {
-    "better-scroll": "1.13.2",
+    "better-scroll": "1.13.3",
     "csscolorparser": "1.0.3",
     "lodash": "4.17.11",
     "notifyjs-browser": "0.4.2",
