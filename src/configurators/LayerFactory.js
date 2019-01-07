@@ -342,13 +342,11 @@ export class LayerFactory {
         optionsCopy.source = new ImageWMSSource(optionsCopy.source)
         layer = new ImageLayer(optionsCopy)
 
-        if (layer.getSource().hasFeatureInfo()) {
-          this.map_.asSoonAs('ready:ui', true, () => {
-            if (this.map_.get('showWMSFeatureInfo')) {
-              this.map_.get('showWMSFeatureInfo').addLayer(layer)
-            }
-          })
-        }
+        this.map_.asSoonAs('ready:ui', true, () => {
+          if (this.map_.get('showWMSFeatureInfo')) {
+            this.map_.get('showWMSFeatureInfo').addLayer(layer)
+          }
+        })
 
         break
       case LayerType.TILEWMS:
@@ -369,13 +367,11 @@ export class LayerFactory {
         optionsCopy.source = new TileWMSSource(optionsCopy.source)
         layer = new TileLayer(optionsCopy)
 
-        if (layer.getSource().hasFeatureInfo()) {
-          this.map_.asSoonAs('ready:ui', true, () => {
-            if (this.map_.get('showWMSFeatureInfo')) {
-              this.map_.get('showWMSFeatureInfo').addLayer(layer)
-            }
-          })
-        }
+        this.map_.asSoonAs('ready:ui', true, () => {
+          if (this.map_.get('showWMSFeatureInfo')) {
+            this.map_.get('showWMSFeatureInfo').addLayer(layer)
+          }
+        })
 
         break
       case LayerType.WMTS:

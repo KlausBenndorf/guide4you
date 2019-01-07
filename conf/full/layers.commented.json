@@ -6,29 +6,79 @@
   "menus": {
     "baseLayers": [
       {
-        "type": "layer",
-        "refId": "b1"
+        "type": "group",
+        "groupButton": "noButton",
+        "items": "exclusive",
+        "buttons": [
+          {
+            "type": "layer",
+            "refId": "b1"
+          },
+          {
+            "type": "layer",
+            "refId": "b2"
+          }
+        ]
       }
     ],
     "featureLayers": [
       {
         "type": "layer",
         "refId": "f1"
+      },
+      {
+        "type": "group",
+        "title": {
+          "de": "Essen und Schlafen in Bonn",
+          "en": "Eating and sleeping in Bonn"
+        },
+        "buttons": [
+          {
+            "type": "layer",
+            "refId": "f1"
+          },
+          {
+            "type": "layer",
+            "refId": "f2"
+          }
+        ]
+      },
+      {
+        "type": "group",
+        "title": "Verwaltungsgrenzen NRW",
+        "buttons": [
+          {
+            "type": "WMS",
+            "refId": "verw",
+            "title": "Landesgrenzen",
+            "LAYERS": ["nw_dvg_bld"]
+          },
+          {
+            "type": "WMS",
+            "refId": "verw",
+            "title": "Regierungsbezirke",
+            "LAYERS": ["nw_dvg_rbz", "nw_dvg_rbz_namen"]
+          },
+          {
+            "type": "WMS",
+            "refId": "verw",
+            "title": "Kreise",
+            "LAYERS": ["nw_dvg_krs", "nw_dvg_krs_namen"]
+          },
+          {
+            "type": "WMS",
+            "refId": "verw",
+            "title": "Gemeinden",
+            "LAYERS": ["nw_dvg_gem", "nw_dvg_gem_namen"]
+          },
+          {
+            "type": "WMS",
+            "refId": "verw",
+            "title": "Gemeinden Gesamt",
+            "LAYERS": ["nw_dvg_gem_gesamt", "nw_dvg_gem_gesamt_namen"]
+          }
+        ]
       }
-//      ,
-//      {
-//        "type": "group",
-//        "title": {
-//          "de": "Essen und Schlafen in Bonn",
-//          "en": "Eating and sleeping in Bonn"
-//        },
-//        "layers": [
-//          {
-//            "type": "layer",
-//            "refId": "f1"
-//          }
-//        ]
-//      }
     ]
   },
 
@@ -96,25 +146,25 @@
 //        "attribution": "&copy; Geobasis NRW 2017"
 //      }
 //    },
-//    {
-//      "id": "b5",
-//      "title": "DOP20 (NRW) WMS",
-//      "type": "WMS",
-//      "source": {
-//        "url": {
-//          "useProxy": true,
-//          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
-//        },
-//        "params": {
-//          "FORMAT": "image/jpeg",
-//          "VERSION": "1.3.0",
-//          "LAYERS": [
-//            "nw_dop20"
-//          ]
-//        },
-//        "attribution": "&copy; Geobasis NRW 2016"
-//      }
-//    },
+    {
+      "id": "b5",
+      "title": "DOP20 (NRW) WMS",
+      "type": "WMS",
+      "source": {
+        "url": {
+          "useProxy": true,
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
+        },
+        "params": {
+          "FORMAT": "image/jpeg",
+          "VERSION": "1.3.0",
+          "LAYERS": [
+            "nw_dop20"
+          ]
+        },
+        "attribution": "&copy; Geobasis NRW 2016"
+      }
+    },
     {
       "id": "f0",
       "title": {
@@ -200,6 +250,19 @@
         "attribution": "<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de'>Creative Commons Zero (CC0)</a>"
       },
       "style": "#defaultStyle"
+    },
+    {
+      "id": "verw",
+      "title": "Verwaltungsgrenzen NRW",
+      "type": "WMS",
+      "source": {
+        "url": "http://www.wms.nrw.de/geobasis/wms_nw_dvg",
+        "params": {
+          "FORMAT": "image/png",
+          "VERSION": "1.3.0"
+        },
+        "attribution": "Geobasis NRW 2016"
+      }
     }
   ]
 }

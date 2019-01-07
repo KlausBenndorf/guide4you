@@ -1,9 +1,12 @@
 import $ from 'jquery'
 import { Control } from '../controls/Control'
 import { ButtonBox } from '../html/ButtonBox'
+import { addTooltip, changeTooltip } from '../html/html'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
 import { isObject, isArray } from 'lodash/lang'
+
+import '../../less/layerselector.less'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -42,11 +45,11 @@ import { isObject, isArray } from 'lodash/lang'
  * @typedef {ButtonConfig} GroupButtonConfig
  * @property {"group"} type
  * @property {Localizable} title
- * @property {string} [buttonBehaviour="noButton"] can be "noButton", "onlyMenu" or "activateAll"
+ * @property {string} [groupButton="onlyMenu"] can be "noButton", "onlyMenu" or "activateAll"
  *    "noButton": the group itself will have no button, the contained buttons are displayed on the same level
  *    "onlyMenu": the group has a button which can be clicked to open/close the submenu with the contained layers
  *    "activateAll": the group has 2 buttons. One will open/close the submenu, the other will de-/activate all layers
- * @property {string} [itemBehaviour="normal"] can be "normal" or "exclusive"
+ * @property {string} [items="normal"] can be "normal" or "exclusive"
  *    "normal": all contained layers can be activated independently
  *    "exclusive": activating one layer in this group will deactivate the others.
  * @property {boolean} [collapsible=true]
@@ -165,21 +168,17 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
   build () {
     const menuConfig = this.layerController_.getMenuConfig(this.menuName_)
+    let count = 0
     if (isArray(menuConfig)) {
-      if (menuConfig.length >= this.minLayerAmount_) {
-        for (const buttonConfig of menuConfig) {
-          this.chooseButtonBuilder(buttonConfig, this.menu_.get$Body())
-        }
-      } else {
-        this.setVisible(false)
+      for (const buttonConfig of menuConfig) {
+        count += this.chooseButtonBuilder(buttonConfig, this.menu_.get$Body()).count()
       }
     } else if (isObject(menuConfig)) {
-      if (this.minLayerAmount_ <= 1 ||
-          (menuConfig.type === 'group' && menuConfig.layers.length >= this.minLayerAmount_)) {
-        this.chooseButtonBuilder(menuConfig, this.menu_.get$Body())
-      } else {
-        this.setVisible(false)
-      }
+      count += this.chooseButtonBuilder(menuConfig, this.menu_.get$Body()).count()
+    }
+
+    if (count < this.minLayerAmount_) {
+      this.setVisible(false)
     }
   }
 
@@ -187,71 +186,164 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    * This method chooses the right builder function. Intended to be overwritten for special button types
    * @param {ButtonConfig} buttonConfig
    * @param {jQuery} $target
+   * @param {GroupButtonController} [group]
    */
-  chooseButtonBuilder (buttonConfig, $target) {
+  chooseButtonBuilder (buttonConfig, $target, group) {
     if (buttonConfig.type === 'group') {
-      return this.buildGroupButton(buttonConfig, $target)
+      return this.buildGroupButton(buttonConfig, $target, group)
     } else if (buttonConfig.type === 'WMS') {
-      return this.buildWMSButton(buttonConfig, $target)
+      return this.buildWMSButton(buttonConfig, $target, group)
     } else if (buttonConfig.type === 'layer') {
-      return this.buildLayerButton(buttonConfig, $target)
+      return this.buildLayerButton(buttonConfig, $target, group)
     }
   }
 
   /**
    * this method builds a button for a layer. It toggles visibility if you click on it
-   * @param {LayerButtonConfig} buttonConfig
-   * @param {jQuery} $target
+   * @param {ButtonConfig} buttonConfig
    */
-  buildBasicButton (buttonConfig, $target) {
+  buildBasicButton (buttonConfig) {
+    let $button = $('<span>')
+      .addClass('button')
+      .addClass(this.classNames_.layerButton)
+      .attr('id', buttonConfig.refId)
+
+    if (buttonConfig.hasOwnProperty('class')) {
+      $button.addClass(buttonConfig.class)
+    }
+
+    if (this.getMap().get('localiser').isRtl()) {
+      $button.prop('dir', 'rtl')
+    }
+
+    if (buttonConfig.hasOwnProperty('window')) {
+      this.addWindowToButton($button, buttonConfig) // TODO: add method to class
+    }
+
+    return $button
+  }
+
+  buildLayerButton (buttonConfig, $target, group) {
     const layer = this.layerController_.getLayer(buttonConfig.refId)
     if (layer && layer.get('available')) {
-      let $button = $('<button>')
-        .addClass(this.classNames_.layerButton)
-        .attr('id', buttonConfig.refId)
+      const $button = this.buildBasicButton(buttonConfig)
         .html(buttonConfig.title ? buttonConfig.title : layer.get('title'))
 
-      if (buttonConfig.hasOwnProperty('class')) {
-        $button.addClass(buttonConfig.class)
+      let activeClassName = this.classNames_.menu + '-active'
+
+      const buttonController = this.layerController_.registerLayerButton(buttonConfig, group)
+
+      const updateButton = () => {
+        $button.toggleClass(activeClassName, buttonController.getActive())
+        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
       }
 
-      if (this.getMap().get('localiser').isRtl()) {
-        $button.prop('dir', 'rtl')
-      }
+      buttonController.on('change', updateButton)
+      updateButton()
 
-      if (buttonConfig.hasOwnProperty('window')) {
-        this.addWindowToButton($button, layer) // TODO: add method to class
-      }
+      this.listenAt($button).on('click', () => {
+        buttonController.activeToggle()
+      })
 
       $target.append($button)
 
-      return $button
+      return buttonController
     }
   }
 
-  buildLayerButton (buttonConfig, $target) {
-    const $button = this.buildBasicButton(buttonConfig, $target)
+  buildGroupButton (buttonConfig, $target, group) {
+    // TODO: available for group buttons
 
-    if ($button) {
+    const groupController = this.layerController_.registerGroupButton(buttonConfig, group)
+
+    if (buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'noButton') {
+      for (const childConfig of buttonConfig.buttons) {
+        this.chooseButtonBuilder(childConfig, $target, groupController)
+      }
+    } else {
+      const activateChildren = buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'activateAll'
+      // TODO: manage collapsed
+      // TODO: where is categoryLayer.get('collapsed') used (or 'change:collapsed')
+
+      const menu = new ButtonBox({
+        className: this.classNames_.menu,
+        title: this.getLocaliser().selectL10N(buttonConfig.title),
+        rtl: this.getMap().get('localiser').isRtl(),
+        titleButton: activateChildren,
+        collapsed: false,
+        addClass: buttonConfig.addClass
+      })
+
+      const updateMenu = () => {
+        menu.setCollapseButtonActive(groupController.getActive())
+        if (activateChildren) {
+          menu.setTitleButtonActive(groupController.getAllActive())
+        }
+      }
+
+      groupController.on('change', updateMenu)
+
+      $target.append(menu.get$Element())
+
+      for (const childConfig of buttonConfig.buttons) {
+        this.chooseButtonBuilder(childConfig, menu.get$Body(), groupController)
+      }
+
+      updateMenu()
+    }
+
+    return groupController
+  }
+
+  buildWMSButton (buttonConfig, $target, group) {
+    const layer = this.layerController_.getLayer(buttonConfig.refId)
+    if (layer && layer.get('available')) {
+      const $button = this.buildBasicButton(buttonConfig)
+        .html(buttonConfig.title ? buttonConfig.title : layer.get('title'))
+
+      let $toggleFeatureInfo = $('<span>')
+        .addClass(this.classNames_.featureInfo)
+      addTooltip($toggleFeatureInfo,
+        this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
+
       let activeClassName = this.classNames_.menu + '-active'
 
-      const dispatcher = this.layerController_.registerLayerButton(buttonConfig, {
-        toggleActive: (act) => {
-          $button.toggleClass(activeClassName, act)
-        },
-        toggleLoading: (loading) => {
-          $button.toggleClass('g4u-layer-loading', loading)
-        },
-        toggleDisabled: (disabled) => {
-          $button.toggleClass(this.classNames_.disabled, disabled)
+      const buttonController = this.layerController_.registerWmsLayerButton(buttonConfig, group)
+
+      const updateButton = () => {
+        $button.toggleClass(activeClassName, buttonController.getActive())
+        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+        if (buttonController.getFeatureInfoActive()) {
+          $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, true)
+          changeTooltip($toggleFeatureInfo,
+            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'))
+        } else {
+          $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, false)
+          changeTooltip($toggleFeatureInfo,
+            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
         }
-      })
+      }
+
+      buttonController.on('change', updateButton)
+      updateButton()
+
+      if (buttonConfig.QUERY_LAYERS !== undefined) {
+        $button.append($toggleFeatureInfo)
+        this.listenAt($toggleFeatureInfo).on('click', e => {
+          buttonController.featureInfoToggle()
+          e.stopPropagation()
+        })
+      }
 
       this.listenAt($button).on('click', () => {
-        dispatcher.notifyActiveToggle()
+        buttonController.activeToggle()
       })
 
-      return $button
+      $target.append($button)
+
+      return buttonController
     }
   }
 
