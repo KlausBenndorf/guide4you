@@ -1,8 +1,4 @@
 {
-/*
- * This software uses strip-json-comments so you can comment in any JSON-file.
- */
-// Beware of breaking the JSON-syntax!
   "menus": {
     "baseLayers": [
       {
@@ -17,6 +13,10 @@
           {
             "type": "layer",
             "refId": "b2"
+          },
+          {
+            "type": "layer",
+            "refId": "b4"
           }
         ]
       }
@@ -82,6 +82,10 @@
     ]
   },
 
+  "queryLayers": [
+
+  ],
+
   "layers": [
     {
       "id": "b1",
@@ -130,22 +134,22 @@
         }
       }
     },
-//    {
-//      "id": "b4",
-//      "title": "Luftbilder WMTS",
-//      "type": "WMTS",
-//      "source": {
-//        "autoConfig": true,
-//        "url": {
-//          "url": "http://www.wmts.nrw.de/geobasis/wmts_nw_dop20",
-//          "useProxy": true
-//        },
-//        "config": {
-//          "layer": "nw_dop20"
-//        },
-//        "attribution": "&copy; Geobasis NRW 2017"
-//      }
-//    },
+    {
+      "id": "b4",
+      "title": "Luftbilder WMTS",
+      "type": "WMTS",
+      "source": {
+        "autoConfig": true,
+        "url": {
+          "url": "http://www.wmts.nrw.de/geobasis/wmts_nw_dop",
+          "useProxy": true
+        },
+        "config": {
+          "layer": "nw_dop_rgb"
+        },
+        "attribution": "&copy; Geobasis NRW 2017"
+      }
+    },
     {
       "id": "b5",
       "title": "DOP20 (NRW) WMS",

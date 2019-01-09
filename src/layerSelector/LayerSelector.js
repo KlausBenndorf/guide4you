@@ -45,10 +45,10 @@ import '../../less/layerselector.less'
  * @typedef {ButtonConfig} GroupButtonConfig
  * @property {"group"} type
  * @property {Localizable} title
- * @property {string} [groupButton="onlyMenu"] can be "noButton", "onlyMenu" or "activateAll"
+ * @property {string} [groupButton="onlyMenu"] can be "noButton", "onlyMenu" or "activate"
  *    "noButton": the group itself will have no button, the contained buttons are displayed on the same level
  *    "onlyMenu": the group has a button which can be clicked to open/close the submenu with the contained layers
- *    "activateAll": the group has 2 buttons. One will open/close the submenu, the other will de-/activate all layers
+ *    "activate": the group has 2 buttons. One will open/close the submenu, the other will de-/activate all layers
  * @property {string} [items="normal"] can be "normal" or "exclusive"
  *    "normal": all contained layers can be activated independently
  *    "exclusive": activating one layer in this group will deactivate the others.
@@ -262,7 +262,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         this.chooseButtonBuilder(childConfig, $target, groupController)
       }
     } else {
-      const activateChildren = buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'activateAll'
+      const activateChildren = buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'activate'
       // TODO: manage collapsed
       // TODO: where is categoryLayer.get('collapsed') used (or 'change:collapsed')
 
