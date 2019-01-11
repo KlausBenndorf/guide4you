@@ -1,6 +1,5 @@
 import $ from 'jquery'
 
-import Collection from 'ol/Collection'
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
 import OSM from 'ol/source/OSM'
@@ -15,40 +14,26 @@ import WMTSCapabilities from 'ol/format/WMTSCapabilities'
 import WMTS from 'ol/source/WMTS'
 import ImageCanvas from 'ol/source/ImageCanvas'
 
-import { BaseLayerImage, ImageLayer } from '../layers/ImageLayer'
-import { EmptyBaseLayer } from '../layers/EmptyBaseLayer'
-import { BaseTileLayer } from '../layers/BaseTileLayer'
+import { ImageLayer } from '../layers/ImageLayer'
+import { EmptyImageLayer } from '../layers/EmptyImageLayer'
 import { TileLayer } from '../layers/TileLayer'
-import { GroupLayer } from '../layers/GroupLayer'
 import { VectorLayer } from '../layers/VectorLayer'
 import { SourceServerVector } from '../sources/SourceServerVector'
-import { QueryVectorSource } from '../sources/QueryVectorSource'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
 import { asObject, checkFor } from '../utilities'
 
 import { Debug } from '../Debug'
 import { ImageWMSSource, TileWMSSource } from '../sources/ImageWMSSource'
-import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
+import { SilentGroupLayer } from '../layers/SilentGroupLayer'
 import { URL } from '../URLHelper'
-import { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'
 import { ClusterSource } from '../sources/ClusterSource'
 import { WMTSSource } from '../sources/WMTSSource'
 
 /**
- * @enum {string}
- */
-export const SuperType = {
-  BASELAYER: 'baseLayer',
-  FEATURELAYER: 'featureLayer',
-  QUERYLAYER: 'queryLayer'
-}
-
-/**
- * @enum {string}
+ * @enum {string} LayerType
  */
 export const LayerType = {
-  CATEGORY: 'Category',
-  SILENTGROUP: 'SilentGroup',
+  GROUP: 'Group',
   GEOJSON: 'GeoJSON',
   KML: 'KML',
   WMS: 'WMS',
@@ -78,113 +63,29 @@ export class LayerFactory {
   }
 
   /**
-   * @param {ol.ProjectionLike} mapConfigProjection
-   */
-  setMapConfigProjection (mapConfigProjection) {
-    this.mapProjection = mapConfigProjection
-  }
-
-  /**
-   * @returns {ol.ProjectionLike}
-   */
-  getMapProjection () {
-    return this.mapProjection
-  }
-
-  /**
-   * Adds multiple layers according to their configs to the given layerGroup
-   * @param {LayerGroup} layerGroup
-   * @param {g4uLayerOptions[]} configs
-   * @param {string} superType
-   * @param {Boolean} skipIdCheck
-   * @returns {ol.Layer.Base[]}
-   */
-  addLayers (layerGroup, configs, superType, skipIdCheck) {
-    return configs.map(config => this.addLayer(layerGroup, config, superType, skipIdCheck))
-  }
-
-  /**
-   * Adds a layer defined by a given config to a given layerGroup
-   * @param {LayerGroup} layerGroup
-   * @param {g4uLayerOptions} options
-   * @param {string} superType
-   * @param {Boolean} skipIdCheck
-   * @returns {ol.layer.Base}
-   */
-  addLayer (layerGroup, options, superType, skipIdCheck) {
-    let layer
-    /**
-     * @type {g4uLayerOptions}
-     */
-    let optionsCopy = copyDeep(options)
-
-    if (skipIdCheck || this.configureLayerIsIdOk_(optionsCopy.id)) {
-      // loading strategy
-
-      if (!optionsCopy.type) {
-        throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)
-      }
-
-      // availability
-      this.configureLayerAvailability_(optionsCopy)
-
-      // the title/name of the layer
-      this.configureLayerTitle_(optionsCopy)
-
-      if (superType === SuperType.BASELAYER) {
-        optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()
-      }
-
-      if (optionsCopy.source) {
-        this.configureLayerSourceAttribution_(optionsCopy.source)
-      }
-
-      // visibility
-      this.configureLayerVisibility_(optionsCopy)
-
-      layer = this.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
-
-      let forEachLayer = layer => {
-        layerGroup.getLayers().push(layer)
-      }
-
-      if (layer instanceof Collection) {
-        layer.forEach(forEachLayer)
-      } else {
-        forEachLayer(layer)
-      }
-    }
-
-    return layer
-  }
-
-  /**
-   * @param {string} type
-   * @param {string} superType
-   */
-  superTypeNotSupported (type, superType) {
-    throw new Error(`${type} is not configured for superType '${superType}'`)
-  }
-
-  /**
    * Creates a layer or a collection of layers from the config
-   * @param {string} layerType
    * @param {g4uLayerOptions} optionsCopy
-   * @param {string} superType
-   * @param {Boolean} skipIdCheck
    * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}
    */
-  createLayer (layerType, optionsCopy, superType, skipIdCheck) {
-    if (superType === SuperType.QUERYLAYER) {
-      if (!optionsCopy.hasOwnProperty('apiKey')) {
-        Debug.error('Each query layer needs to have an apiKey.')
-      }
-      optionsCopy.source.projection = this.mapProjection
+  createLayer (optionsCopy) {
+    if (!optionsCopy.type) {
+      throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)
     }
 
+    const layerType = optionsCopy.type
+
+    // availability
+    this.configureLayerAvailability_(optionsCopy)
+
+    // the title/name of the layer
+    this.configureLayerTitle_(optionsCopy)
+
     if (optionsCopy.source) {
-      optionsCopy.source.localiser = this.map_.get('localiser')
+      this.configureLayerSourceAttribution_(optionsCopy.source)
     }
+
+    // visibility
+    this.configureLayerVisibility_(optionsCopy)
 
     let layer
     let layerConfigs
@@ -202,101 +103,77 @@ export class LayerFactory {
 
         layerConfigs = take(optionsCopy, 'layers')
 
-        if (superType === SuperType.BASELAYER) {
-          layer = new BaseSilentGroupLayer(optionsCopy)
-        } else {
-          layer = new SilentGroupLayer(optionsCopy)
+        layer = new SilentGroupLayer(optionsCopy)
+
+        for (const options of layerConfigs) {
+          options.visible = true
+          layer.getLayers().add(this.createLayer(options))
         }
 
-        this.addLayers(layer, layerConfigs, superType, true)
-
-        layer.getLayers().forEach(childLayer => {
-          childLayer.setVisible(true)
-        })
         break
-      case LayerType.CATEGORY:
-        layerConfigs = take(optionsCopy, 'layers')
-
-        layer = new GroupLayer(optionsCopy)
-
-        this.addLayers(layer, layerConfigs, superType, skipIdCheck)
-
-        // availability & parent ref
-        let childrenAvailable = false
-        layer.getLayers().forEach(childLayer => {
-          childLayer.set('category', layer)
-          childrenAvailable = childrenAvailable || childLayer.get('available')
-        })
-
-        let childrenCount = layer.getLayers().getLength()
-
-        if (childrenAvailable !== false) {
-          if ((layer.get('available') !== false) && (childrenCount > 0)) {
-            // category is shown
-
-            if (childrenAvailable === true) {
-              layer.set('available', true)
-            }
-
-            layer.setVisible(true)
-
-            if (superType === SuperType.BASELAYER) {
-              layer.set('activateChildren', false)
-            }
-
-            return layer
-          } else if (childrenAvailable === true) {
-            // only children are shown
-            return layer.getLayers()
-          }
-          // else neither are shown
-        }
-        break
+      // case LayerType.CATEGORY:
+      //   layerConfigs = take(optionsCopy, 'layers')
+      //
+      //   layer = new GroupLayer(optionsCopy)
+      //
+      //   this.addLayers(layer, layerConfigs, superType, skipIdCheck)
+      //
+      //   // TODO: realize childrenAvailable
+      //   // availability & parent ref
+      //   let childrenAvailable = false
+      //   layer.getLayers().forEach(childLayer => {
+      //     childLayer.set('category', layer)
+      //     childrenAvailable = childrenAvailable || childLayer.get('available')
+      //   })
+      //
+      //   let childrenCount = layer.getLayers().getLength()
+      //
+      //   if (childrenAvailable !== false) {
+      //     if ((layer.get('available') !== false) && (childrenCount > 0)) {
+      //       // category is shown
+      //
+      //       if (childrenAvailable === true) {
+      //         layer.set('available', true)
+      //       }
+      //
+      //       layer.setVisible(true)
+      //
+      //       if (superType === SuperType.BASELAYER) {
+      //         layer.set('activateChildren', false)
+      //       }
+      //
+      //       return layer
+      //     } else if (childrenAvailable === true) {
+      //       // only children are shown
+      //       return layer.getLayers()
+      //     }
+      //     // else neither are shown
+      //   }
+      //   break
       case LayerType.EMPTY:
-        if (superType === SuperType.BASELAYER) {
-          layer = new EmptyBaseLayer(optionsCopy)
-        } else {
-          optionsCopy.source = new VectorSource()
-          layer = new VectorLayer(optionsCopy)
-        }
+        layer = new EmptyImageLayer(optionsCopy)
         break
       case LayerType.XYZ:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()
         optionsCopy.source = new XYZ(optionsCopy.source)
 
-        if (superType === SuperType.BASELAYER) {
-          layer = new BaseTileLayer(optionsCopy)
-        } else {
-          layer = new TileLayer(optionsCopy)
-        }
+        layer = new TileLayer(optionsCopy)
         break
       case LayerType.OSM:
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()
         optionsCopy.source = new OSM(optionsCopy.source)
 
-        if (superType === SuperType.BASELAYER) {
-          layer = new BaseTileLayer(optionsCopy)
-        } else {
-          layer = new TileLayer(optionsCopy)
-        }
+        layer = new TileLayer(optionsCopy)
         break
       case LayerType.STAMEN:
         optionsCopy.source = new Stamen(optionsCopy.source)
 
-        if (superType === SuperType.BASELAYER) {
-          layer = new BaseTileLayer(optionsCopy)
-        } else {
-          layer = new TileLayer(optionsCopy)
-        }
+        layer = new TileLayer(optionsCopy)
         break
       case LayerType.BING:
         optionsCopy.source = new BingMaps(optionsCopy.source)
 
-        if (superType === SuperType.BASELAYER) {
-          layer = new BaseTileLayer(optionsCopy)
-        } else {
-          layer = new TileLayer(optionsCopy)
-        }
+        layer = new TileLayer(optionsCopy)
         break
       case LayerType.WMS:
         if (optionsCopy.categoryButtons) {
@@ -305,25 +182,14 @@ export class LayerFactory {
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
 
-        if (superType === SuperType.BASELAYER) {
-          optionsCopy.source = new ImageWMSSource(optionsCopy.source)
-          layer = new BaseLayerImage(optionsCopy)
-        } else if (superType === SuperType.QUERYLAYER) {
-          optionsCopy.visible = false
-          optionsCopy.source = new QueryImageWMSSource(optionsCopy.source)
-          layer = new ImageLayer(optionsCopy)
-        } else {
-          optionsCopy.source = new ImageWMSSource(optionsCopy.source)
-          layer = new ImageLayer(optionsCopy)
-        }
+        optionsCopy.source = new ImageWMSSource(optionsCopy.source)
+        layer = new ImageLayer(optionsCopy)
 
-        if (layer.getSource().hasFeatureInfo()) {
-          this.map_.asSoonAs('ready:ui', true, () => {
-            if (this.map_.get('showWMSFeatureInfo')) {
-              this.map_.get('showWMSFeatureInfo').addLayer(layer)
-            }
-          })
-        }
+        this.map_.asSoonAs('ready:ui', true, () => {
+          if (this.map_.get('showWMSFeatureInfo')) {
+            this.map_.get('showWMSFeatureInfo').addLayer(layer)
+          }
+        })
 
         break
       case LayerType.TILEWMS:
@@ -336,25 +202,19 @@ export class LayerFactory {
 
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
 
-        if (superType === SuperType.BASELAYER) {
-          optionsCopy.source = new TileWMSSource(optionsCopy.source)
-          layer = new BaseTileLayer(optionsCopy)
-        } else if (superType === SuperType.QUERYLAYER) {
-          optionsCopy.visible = false
-          optionsCopy.source = new QueryTileWMSSource(optionsCopy.source)
-          layer = new TileLayer(optionsCopy)
-        } else {
-          optionsCopy.source = new TileWMSSource(optionsCopy.source)
-          layer = new TileLayer(optionsCopy)
-        }
+        // // TODO: wms query layer
+        // optionsCopy.visible = false
+        // optionsCopy.source = new QueryTileWMSSource(optionsCopy.source)
+        // layer = new TileLayer(optionsCopy)
 
-        if (layer.getSource().hasFeatureInfo()) {
-          this.map_.asSoonAs('ready:ui', true, () => {
-            if (this.map_.get('showWMSFeatureInfo')) {
-              this.map_.get('showWMSFeatureInfo').addLayer(layer)
-            }
-          })
-        }
+        optionsCopy.source = new TileWMSSource(optionsCopy.source)
+        layer = new TileLayer(optionsCopy)
+
+        this.map_.asSoonAs('ready:ui', true, () => {
+          if (this.map_.get('showWMSFeatureInfo')) {
+            this.map_.get('showWMSFeatureInfo').addLayer(layer)
+          }
+        })
 
         break
       case LayerType.WMTS:
@@ -373,11 +233,7 @@ export class LayerFactory {
         }
         // url gets extracted in setWMTSSourceFromCapabilities
 
-        if (superType === SuperType.BASELAYER) {
-          layer = new BaseTileLayer(optionsCopy)
-        } else {
-          layer = new TileLayer(optionsCopy)
-        }
+        layer = new TileLayer(optionsCopy)
 
         if (sourceOptions.autoConfig) {
           this.setWMTSSourceFromCapabilities(layer, sourceOptions)
@@ -398,12 +254,7 @@ export class LayerFactory {
 
         clusterOptions = take(optionsCopy.source, 'cluster')
 
-        if (superType === SuperType.QUERYLAYER) {
-          optionsCopy.visible = false
-          optionsCopy.source = new QueryVectorSource(optionsCopy.source)
-        } else {
-          optionsCopy.source = new SourceServerVector(optionsCopy.source)
-        }
+        optionsCopy.source = new SourceServerVector(optionsCopy.source)
 
         if (clusterOptions) {
           clusterOptions = asObject(clusterOptions)
@@ -425,12 +276,7 @@ export class LayerFactory {
 
         clusterOptions = take(optionsCopy.source, 'cluster')
 
-        if (superType === SuperType.QUERYLAYER) {
-          optionsCopy.visible = false
-          optionsCopy.source = new QueryVectorSource(optionsCopy.source)
-        } else {
-          optionsCopy.source = new SourceServerVector(optionsCopy.source)
-        }
+        optionsCopy.source = new SourceServerVector(optionsCopy.source)
 
         if (clusterOptions) {
           optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))
@@ -447,11 +293,7 @@ export class LayerFactory {
 
         optionsCopy.source = new VectorSource(optionsCopy.source)
 
-        if (superType === SuperType.QUERYLAYER) {
-          this.superTypeNotSupported(layerType, superType)
-        } else {
-          layer = new VectorLayer(optionsCopy)
-        }
+        layer = new VectorLayer(optionsCopy)
         break
     }
 
@@ -459,7 +301,7 @@ export class LayerFactory {
       if (layer) {
         break
       }
-      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)
+      layer = module.createLayer(optionsCopy)
     }
 
     if (!layer) {
@@ -472,54 +314,12 @@ export class LayerFactory {
       this.map_.get('styling').manageLayer(layer)
     }
 
-    // if layer is a baselayer, check for mapProjection
-    if (superType === SuperType.BASELAYER && optionsCopy.source) {
-      if (layer.getSource().getProjection()) {
-        if (!this.mapProjection) {
-          this.mapProjection = layer.getSource().getProjection()
-        } else if (this.mapProjection && this.mapProjection !== layer.getSource().getProjection()) {
-          Debug.warn('The baseLayers are not in mapProjection or a baseLayers has a different projection than' +
-             ' another! This might cause reprojection issues.')
-        }
-      }
-    } else if (superType === SuperType.QUERYLAYER) {
-      this.map_.get('urlApi').addApiLayer(layer, optionsCopy.apiKey)
-    }
-
     // if layer is being localised, refresh on language change
     if (localised) {
       this.map_.get('localiser').on('change:language', () => layer.getSource().refresh())
     }
 
     return layer
-  }
-
-  /**
-   * A function that checks if a layer id is setted and not a duplicate of another.
-   * Throws an error if this is the case.
-   * @param {string|number} id
-   * @private
-   */
-  configureLayerIsIdOk_ (id) {
-    /**
-     * @type {string[]|number[]}
-     */
-    let layerIds = this.map_.get('layerIds')
-
-    if (id === 0 || (id && (typeof id === 'string' || !isNaN(id)))) {
-      for (let j = 0, jj = layerIds.length; j < jj; j++) {
-        if (id === layerIds[j]) {
-          Debug.error(`Each layer needs a unique id! Otherwise the layer won't be shown. Layer id: ${id}`)
-          return false
-        }
-      }
-      layerIds.push(id)
-      this.map_.set('layerIds', layerIds)
-      return true
-    } else {
-      Debug.error(`Each layer needs a unique id! Otherwise the layer won't be shown. Layer id: ${id}`)
-      return false
-    }
   }
 
   /**

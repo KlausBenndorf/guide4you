@@ -174,12 +174,6 @@ export class MapConfigurator {
 
     this.map_.set('userActionTracking', mapConfigCopy.userActionTracking)
 
-    let interfaceProjection = mapConfigCopy.hasOwnProperty('interfaceProjection')
-      ? mapConfigCopy.interfaceProjection
-      : 'EPSG:4326'
-
-    this.map_.set('interfaceProjection', interfaceProjection)
-
     // //////////////////////////////////////////////////////////////////////////////////////// //
     //                                       Styling                                            //
     // //////////////////////////////////////////////////////////////////////////////////////// //
@@ -218,6 +212,21 @@ export class MapConfigurator {
       register(proj4)
     }
 
+    let mapProjection
+    if (!mapConfigCopy.hasOwnProperty('mapProjection')) {
+      Debug.warn('map should have set a `mapProjection`. Assuming default `EPSG:3857`.')
+      mapProjection = getProj('EPSG:3857')
+    } else {
+      mapProjection = getProj(mapConfigCopy.mapProjection)
+    }
+    this.map_.set('mapProjection', mapProjection)
+
+    let interfaceProjection = mapConfigCopy.hasOwnProperty('interfaceProjection')
+      ? mapConfigCopy.interfaceProjection
+      : 'EPSG:4326'
+
+    this.map_.set('interfaceProjection', interfaceProjection)
+
     if (checkFor(mapConfigCopy, 'measurementProjection')) {
       try {
         this.map_.set('measurementProjection', getProj(mapConfigCopy.measurementProjection))
@@ -228,8 +237,6 @@ export class MapConfigurator {
     }
 
     this.configureLayers()
-
-    let mapProjection = this.map_.get('mapProjection') // mapProjection is determined by the baseLayers
 
     // //////////////////////////////////////////////////////////////////////////////////////// //
     //                                    Creating View                                         //

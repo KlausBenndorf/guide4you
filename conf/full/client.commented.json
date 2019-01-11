@@ -55,6 +55,7 @@
       20
     ]
   },
+  "showWMSFeatureInfo": true,
   "interactions": {
     "doubleClickZoom": true,
     "dragPan": true,
@@ -196,7 +197,7 @@
     },
     "baseLayerSelector": {
       "controlType": "layerSelector",
-      "layerGroupName": "baseLayers",
+      "menuName": "baseLayers",
       "minLayerAmount": 2,
       "title": {
         "de": "Karten",
@@ -207,7 +208,7 @@
     },
     "featureLayerSelector": {
       "controlType": "layerSelector",
-      "layerGroupName": "featureLayers",
+      "menuName": "featureLayers",
       "minLayerAmount": 1,
       "title": {
         "de": "Infos",

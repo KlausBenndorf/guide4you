@@ -7,6 +7,7 @@ import { Debug } from './Debug'
 import { defaults } from './defaultconfig'
 import { cssClasses } from './globals'
 import { L10N } from './L10N'
+import { layerConfigConverter } from './layerSelector/layerConfigConverter'
 import { getRegisteredModules } from './moduleRegistration'
 import './openlayersInjections'
 import { PopupModifierManager } from './PopupModifierManager'
@@ -185,7 +186,7 @@ export class G4UMap extends OlMap {
       config = mergeWithDefaults(config, defaults.config)
 
       this.set('mapConfig', config)
-      this.set('layerConfig', layerConfig)
+      this.set('layerConfig', layerConfigConverter(layerConfig))
 
       let loading = 0
 
@@ -228,7 +229,7 @@ export class G4UMap extends OlMap {
           loadConfigFile(this.get('layerConfigFileName'))
             .then((data) => {
               this.set('layerConfigReady', true)
-              this.set('layerConfig', data)
+              this.set('layerConfig', layerConfigConverter(data))
             })
             .always(() => {
               loading--

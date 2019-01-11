@@ -181,9 +181,11 @@ export class API extends BaseObject {
     }
   }
 
-  setVisibleBaseLayer (id) {
-    this.map_.get('baseLayers').recursiveForEach((layer) => {
-      layer.setVisible(layer.get('id') === id)
+  setVisibleLayer (id) {
+    this.map_.getLayerGroup().recursiveForEach((layer) => {
+      if (layer.get('id')) {
+        layer.setVisible(true)
+      }
     })
   }
 
@@ -285,31 +287,16 @@ export class API extends BaseObject {
   /**
    * This function creates a layer from the given layerOptions and adds it the map
    * @param {g4uLayerOptions} layerOptions
+   * @param {boolean} [atBottom=false] specifies if layer is added at bottom or top
    * @returns {VectorLayer}
    */
-  addFeatureLayer (layerOptions) {
-    return this.layerConfigurator_.getFactory()
-      .addLayer(this.map_.get('featureLayers'), layerOptions, 'featureLayer', true)
-  }
-
-  /**
-   * This function creates a layer from the given layerOptions and adds it as a fixedFeatureLayer to the map
-   * @param {g4uLayerOptions} layerOptions
-   * @returns {VectorLayer}
-   */
-  addFixedFeatureLayer (layerOptions) {
-    return this.layerConfigurator_.getFactory()
-      .addLayer(this.map_.get('fixedFeatureLayers'), layerOptions, 'featureLayer', true)
-  }
-
-  /**
-   * This function creates a base layer from the given layerOptions and adds it to the map
-   * @param {g4uLayerOptions} layerOptions
-   * @returns {ol.layer.Base}
-   */
-  addBaseLayer (layerOptions) {
-    return this.layerConfigurator_.getFactory()
-      .addLayer(this.map_.get('baseLayers'), layerOptions, 'baseLayer', true)
+  addLayer (layerOptions, atBottom = false) {
+    const layer = this.layerConfigurator_.getFactory().createLayer(layerOptions)
+    if (!atBottom) {
+      this.map_.addLayer(layer)
+    } else {
+      this.map_.getLayers().insertAt(0, layer)
+    }
   }
 
   /**
@@ -324,7 +311,7 @@ export class API extends BaseObject {
     layerOptions.source = layerOptions.source || {}
 
     let promise = new Promise((resolve, reject) => {
-      let layer = this.addFeatureLayer(layerOptions)
+      let layer = this.addLayer(layerOptions)
       let source = layer.getSource()
       let loadEndHandler = () => {
         source.un('vectorloadend', loadErrorHandler)

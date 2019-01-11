@@ -674,20 +674,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     }
   }
 
-  /**
-   * @param {G4UMap} map
-   */
-  setMap (map) {
-    if (this.getMap()) {
-      this.clear()
-    }
 
-    super.setMap(map)
-
-    if (map) {
-      this.build()
-    }
-  }
 
   clear () {
     this.detachAllListeners()

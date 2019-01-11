@@ -1,8 +1,8 @@
 import ImageCanvas from 'ol/source/ImageCanvas'
 
-import { BaseLayerImage } from './ImageLayer'
+import { ImageLayer } from './ImageLayer'
 
-export class EmptyBaseLayer extends BaseLayerImage {
+export class EmptyImageLayer extends ImageLayer {
   /**
    * @param {object} [options={}]
    */
