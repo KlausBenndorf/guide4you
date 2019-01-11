@@ -152,8 +152,7 @@ class WMSLayerController extends Observable {
 
   activeToggle (active) {
     this.wmsLayersActive_ = active === undefined ? !this.wmsLayersActive_ : active
-    this.layer_.getSource().updateLayers()
-    this.layer_.setVisible(true)
+    this.layer_.setVisible(this.layer_.getSource().updateLayers())
   }
 
   featureInfoToggle (active) {

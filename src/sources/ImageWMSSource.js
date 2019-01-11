@@ -70,6 +70,7 @@ export class WMSMixin {
     }
     this.dispatchEvent('change:layers')
     this.changed()
+    return wmsLayers.length > 0
   }
 
   updateFeatureInfoParams (newParams) {

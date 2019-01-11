@@ -1,6 +1,6 @@
 import { Debug } from '../Debug'
 
-function parseLayerEntry(layerEntry, menu, layers) {
+function parseLayerEntry (layerEntry, menu, layers) {
   if (layerEntry.type === 'Category') {
     const groupEntry = {
       type: 'group',
@@ -16,6 +16,7 @@ function parseLayerEntry(layerEntry, menu, layers) {
     }
     menu.push(groupEntry)
   } else if (layerEntry.type === 'WMS' || layerEntry.type === 'TileWMS') {
+    // TODO: parse featureInfo.checkable
     layers.push(layerEntry)
     if (layerEntry.buttons) {
       const groupEntry = {

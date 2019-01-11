@@ -55,6 +55,7 @@
       20
     ]
   },
+  "showWMSFeatureInfo": true,
   "interactions": {
     "doubleClickZoom": true,
     "dragPan": true,

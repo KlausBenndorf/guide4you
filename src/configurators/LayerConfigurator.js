@@ -6,7 +6,7 @@ import { LayerFactory } from './LayerFactory'
 import { Attributions } from '../Attributions'
 
 /**
- * @typedef {Object} LayerConfig
+ * @typedef {object} LayerConfig
  * @property {object.<string, ButtonConfig>} menus
  * @property {AnyLayerConfig[]} layers
  */

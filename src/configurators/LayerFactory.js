@@ -30,7 +30,7 @@ import { ClusterSource } from '../sources/ClusterSource'
 import { WMTSSource } from '../sources/WMTSSource'
 
 /**
- * @enum {string}
+ * @enum {string} LayerType
  */
 export const LayerType = {
   GROUP: 'Group',

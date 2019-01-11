@@ -16,7 +16,7 @@
           },
           {
             "type": "layer",
-            "refId": "b4"
+            "refId": "fzk"
           }
         ]
       }
@@ -264,6 +264,30 @@
         "params": {
           "FORMAT": "image/png",
           "VERSION": "1.3.0"
+        },
+        "attribution": "Geobasis NRW 2016"
+      }
+    },
+    {
+      "id": "fzk",
+      "title": "Freizeitkatasters NRW",
+      "type": "WMS",
+      "source": {
+        "url": {
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_fzk",
+          "useProxy": true
+        },
+        "params": {
+          "VERSION": "1.3.0",
+          "LAYERS": [
+            "nw_fzk"
+          ]
+        },
+        "featureInfo": {
+          "params": {
+            "FORMAT": "image/png",
+            "QUERY_LAYERS": ["nw_fzk_info"]
+          }
         },
         "attribution": "Geobasis NRW 2016"
       }
