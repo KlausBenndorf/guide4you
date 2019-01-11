@@ -82,6 +82,7 @@
       "layerMenu",
       "scaleLine",
       "zoom",
+      "searchControl",
       "mobileControls",
       "toolbox",
       "printLogo"
@@ -110,6 +111,7 @@
         "geolocationButton",
         "mobileLayerMenu",
         "languageSwitcherMenu",
+        "searchControl",
         "infoButton"
       ]
     },
@@ -151,6 +153,24 @@
         "left",
         "bottom"
       ]
+    },
+    "searchControl": {
+      "float": [
+        "top",
+        "left"
+      ],
+      "connector": {
+        "type": "nominatim",
+        "serviceURL": {
+          "url": "http://nominatim.openstreetmap.org/search?",
+          "useProxy": true
+        }
+      },
+      "closePageOnSearchEnd": false,
+      "style": "#defaultStyle",
+      "amountDropdownEntries": 6,
+      "animated": true,
+      "placeholder": "Search ..."
     },
     "singleDrawButton": {
       "editStyle": "#red",

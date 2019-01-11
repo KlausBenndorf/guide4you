@@ -5,7 +5,8 @@
   "keywords": [
     "map",
     "map client",
-    "openlayers"
+    "openlayers",
+    "search"
   ],
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you",

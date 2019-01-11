@@ -259,6 +259,25 @@ module.exports = {
     'ar': 'G4U3 نافذة الطباعة'
   },
 
+  'SearchControl noSearchResults': {
+    'de': 'Keine Suchergebnisse',
+    'en': 'No search results',
+    'pl': 'Brak wynik&oacute;w wyszukiwania',
+    'ar': 'ل يوجد نتائج للبحث'
+  },
+  'SearchControl placeholder': {
+    'de': 'Bitte Suche eingeben',
+    'en': 'Please enter search',
+    'pl': 'Wprowad&zacute; dane do wyszukiwania',
+    'ar': 'ادخل رجاء ما تبحث عنه'
+  },
+  'SearchControl searchButton': {
+    'de': 'Suchen',
+    'en': 'Search',
+    'pl': 'Szukaj',
+    'ar': 'البحث'
+  },
+
   'SingleDrawButton title': {
     'de': 'Zeichen',
     'en': 'Draw'
