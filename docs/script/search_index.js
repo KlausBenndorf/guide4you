@@ -2274,6 +2274,60 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/configurators/layerconfigurator.js~anylayerconfig",
+    "typedef/index.html#static-typedef-AnyLayerConfig",
+    "src/configurators/LayerConfigurator.js~AnyLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~binglayerconfig",
+    "typedef/index.html#static-typedef-BingLayerConfig",
+    "src/configurators/LayerConfigurator.js~BingLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~categorylayerconfig",
+    "typedef/index.html#static-typedef-CategoryLayerConfig",
+    "src/configurators/LayerConfigurator.js~CategoryLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~emptylayerconfig",
+    "typedef/index.html#static-typedef-EmptyLayerConfig",
+    "src/configurators/LayerConfigurator.js~EmptyLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~featureconfig",
+    "typedef/index.html#static-typedef-FeatureConfig",
+    "src/configurators/LayerConfigurator.js~FeatureConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~geojsonlayerconfig",
+    "typedef/index.html#static-typedef-GeoJSONLayerConfig",
+    "src/configurators/LayerConfigurator.js~GeoJSONLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~internallayerconfig",
+    "typedef/index.html#static-typedef-InternalLayerConfig",
+    "src/configurators/LayerConfigurator.js~InternalLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~internalsourceconfig",
+    "typedef/index.html#static-typedef-InternalSourceConfig",
+    "src/configurators/LayerConfigurator.js~InternalSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~kmllayerconfig",
+    "typedef/index.html#static-typedef-KMLLayerConfig",
+    "src/configurators/LayerConfigurator.js~KMLLayerConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~layerconfig",
     "typedef/index.html#static-typedef-LayerConfig",
     "src/configurators/LayerConfigurator.js~LayerConfig",
@@ -2326,6 +2380,72 @@ window.esdocSearchIndex = [
     "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-method-onResolutionChange",
     "src/configurators/LayerConfigurator.js~LayerConfigurator#onResolutionChange",
     "method"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~osmlayerconfig",
+    "typedef/index.html#static-typedef-OSMLayerConfig",
+    "src/configurators/LayerConfigurator.js~OSMLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~silentgrouplayerconfig",
+    "typedef/index.html#static-typedef-SilentGroupLayerConfig",
+    "src/configurators/LayerConfigurator.js~SilentGroupLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~sourceconfig",
+    "typedef/index.html#static-typedef-SourceConfig",
+    "src/configurators/LayerConfigurator.js~SourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~stamenlayerconfig",
+    "typedef/index.html#static-typedef-StamenLayerConfig",
+    "src/configurators/LayerConfigurator.js~StamenLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~tilewmslayerconfig",
+    "typedef/index.html#static-typedef-TileWMSLayerConfig",
+    "src/configurators/LayerConfigurator.js~TileWMSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~vectorsourceconfig",
+    "typedef/index.html#static-typedef-VectorSourceConfig",
+    "src/configurators/LayerConfigurator.js~VectorSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~wmslayerconfig",
+    "typedef/index.html#static-typedef-WMSLayerConfig",
+    "src/configurators/LayerConfigurator.js~WMSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~wmtslayerconfig",
+    "typedef/index.html#static-typedef-WMTSLayerConfig",
+    "src/configurators/LayerConfigurator.js~WMTSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~wmtsssourceconfig",
+    "typedef/index.html#static-typedef-WMTSSSourceConfig",
+    "src/configurators/LayerConfigurator.js~WMTSSSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~xyzlayerconfig",
+    "typedef/index.html#static-typedef-XYZLayerConfig",
+    "src/configurators/LayerConfigurator.js~XYZLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~g4ulayeroptions",
+    "typedef/index.html#static-typedef-g4uLayerOptions",
+    "src/configurators/LayerConfigurator.js~g4uLayerOptions",
+    "typedef"
   ],
   [
     "src/configurators/layerfactory.js",
