@@ -16,6 +16,165 @@ import { LayerSelector } from '../controls/LayerSelector'
  */
 
 /**
+ * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig
+ *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig
+ *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig
+ */
+
+/**
+ * Common config for all layers.
+ * @public
+ * @typedef {Object} g4uLayerOptions
+ * @property {LayerType} type The layer type.
+ * @property {string|number} id unique in the whole config
+ * @property {string} [title]
+ * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.
+ * @property {Boolean} [availableMobile] overwrites available in mobile mode
+ * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.
+ * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * The silent group can display a group of layers which appears as a single in the layer selector.
+ * @typedef {g4uLayerOptions} SilentGroupLayerConfig
+ * @property {"SilentGroup"} type
+ * @property {AnyLayerConfig[]} layers
+ */
+
+/**
+ * The category contains other layer(s) and will appear as a category in the layer selector.
+ * @typedef {g4uLayerOptions} CategoryLayerConfig
+ * @property {"Category"} type
+ * @property {AnyLayerConfig[]} layers
+ */
+
+/**
+ * The empty layer will show nothing (in case of a base layer a white background).
+ * @typedef {g4uLayerOptions} EmptyLayerConfig
+ * @property {"Empty"} type
+ */
+
+/**
+ * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).
+ * @typedef {g4uLayerOptions} XYZLayerConfig
+ * @property {"XYZ"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).
+ * @typedef {g4uLayerOptions} OSMLayerConfig
+ * @property {"OSM"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).
+ * @typedef {g4uLayerOptions} StamenLayerConfig
+ * @property {"Stamen"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).
+ * @typedef {g4uLayerOptions} BingLayerConfig
+ * @property {"Bing"} type
+ * @property {SourceConfig} source
+ */
+
+/**
+ * A WMTS Layer. Check the {WMTSSSourceConfig}.
+ * @typedef {g4uLayerOptions} WMTSLayerConfig
+ * @property {"WMTS"} type
+ * @property {WMTSSSourceConfig} source
+ */
+
+/**
+ * A WMS Layer. Check the {{WMSSSourceConfig}}.
+ * @typedef {g4uLayerOptions} WMSLayerConfig
+ * @property {"WMS"} type
+ * @property {WMSSSourceConfig} source
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
+ *    appear as a category or not.
+ */
+
+/**
+ * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.
+ * @typedef {g4uLayerOptions} TileWMSLayerConfig
+ * @property {"TileWMS"} type
+ * @property {WMSSSourceConfig} source
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
+ *    appear as a category or not.
+ */
+
+/**
+ * A GeoJSON Layer.
+ * @typedef {g4uLayerOptions} GeoJSONLayerConfig
+ * @property {"GeoJSON"} type
+ * @property {VectorSourceConfig} source
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A KML Layer.
+ * @typedef {g4uLayerOptions} KMLLayerConfig
+ * @property {"KML"} type
+ * @property {VectorSourceConfig} source
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A layer whichs contents are completly defined in the config file.
+ * @typedef {g4uLayerOptions} InternalLayerConfig
+ * @property {"Intern"} type
+ * @property {InternalSourceConfig} source
+ * @property {StyleLike} [style]
+ */
+
+/**
+ * A source config.
+ * @typedef {Object} SourceConfig
+ * @property {Localizable} [attribution]
+ * @property {URLLike} url
+ */
+
+/**
+ * A vector source config.
+ * @typedef {SourceConfig} VectorSourceConfig
+ * @property {string} [loadingStrategy] "BBOX" or "ALL"
+ * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
+ *    loaded around a bbox.
+ * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
+ */
+
+/**
+ * A wmts source config.
+ * @typedef {SourceConfig} WMTSSSourceConfig
+ * @property {object} config Needs to contain a `layer` parameter. For other parameters see:
+ *    https://openlayers.org/en/latest/apidoc/module-ol_source_WMTS.html#.optionsFromCapabilities. required.
+ * @property {boolean} [autoConfig=false] if autoConfig is set to true, guide4you makes a GetCapabilities-Request to
+ *    automatically configure the WMTS. If not set a tileGrid has to be provided. See
+ *    https://openlayers.org/en/latest/apidoc/module-ol_source_WMTS-WMTS.html.
+ */
+
+/**
+ * An internal source whose features are defined directly in the config file.
+ * @typedef {SourceConfig} InternalSourceConfig
+ * @property {FeatureConfig[]} features
+ */
+
+/**
+ * @typedef {Object} FeatureConfig
+ * @property {string|number} id
+ * @property {StyleLike} [style]
+ * @property {string} [geometryWKT]
+ * @property {Geometry} [geometry]
+ */
+
+/**
  * This is part of the MapConfigurator class
  */
 export class LayerConfigurator {
