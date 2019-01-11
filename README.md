@@ -65,7 +65,7 @@ or
 git clone https://github.com/KlausBenndorf/guide4you.git
 ```
 
-To find out what is needed to include GUIDE4YOU intoe a webpage check out the index.html in the dist folder. It contains everything that is needed to get you started. 
+To find out what is needed to include GUIDE4YOU intoe a webpage check out the index.html in the dist folder. It contains everything that is needed to get you started.
 
 The crucial part is:
 ```
@@ -95,9 +95,12 @@ npm run dev conf/simple
 
 ## Documentation
 
-A german documentation can be found here: [GUIDE4YOU Benutzerhandbuch](https://github.com/KlausBenndorf/guide4you/wiki/GUIDE4YOU-Benutzerhandbuch)
+An API-documentation can be found here: [https://klausbenndorf.github.io/guide4you/index.html](https://klausbenndorf.github.io/guide4you/index.html).
 
-An API-Documentation can be found here: [https://klausbenndorf.github.io/guide4you/index.html](https://klausbenndorf.github.io/guide4you/index.html).
+Part of the API-documentation is a documentation of the [map configuration](https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-MapConfig)
+and [layer configuration](https://klausbenndorf.github.io/guide4you/typedef/index.html#static-typedef-LayerConfig) JSON-objects.
+
+(A german not up-to-date documentation can be found here: [GUIDE4YOU Benutzerhandbuch](https://github.com/KlausBenndorf/guide4you/wiki/GUIDE4YOU-Benutzerhandbuch))
 
 ## Support
 
