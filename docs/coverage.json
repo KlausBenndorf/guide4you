@@ -30,7 +30,7 @@
       "expectCount": 9,
       "actualCount": 8,
       "undocumentLines": [
-        46
+        205
       ]
     },
     "src/configurators/LayerFactory.js": {
@@ -38,9 +38,9 @@
       "actualCount": 16,
       "undocumentLines": [
         49,
-        225,
-        241,
-        785
+        68,
+        84,
+        628
       ]
     },
     "src/configurators/MapConfigurator.js": {
