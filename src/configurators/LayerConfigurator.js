@@ -23,15 +23,16 @@ import { LayerSelector } from '../controls/LayerSelector'
 
 /**
  * Common config for all layers.
- * @public
  * @typedef {Object} g4uLayerOptions
  * @property {LayerType} type The layer type.
  * @property {string|number} id unique in the whole config
- * @property {string} [title]
+ * @property {Localizable} [title]
  * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.
  * @property {Boolean} [availableMobile] overwrites available in mobile mode
  * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.
  * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable
+ * @property {number} [minZoom] the minimal zoom from where the layer should be enabled
+ * @property {number} [maxZoom] the minimal zoom from where the layer should be enabled
  * @property {StyleLike} [style]
  */
 
@@ -84,7 +85,7 @@ import { LayerSelector } from '../controls/LayerSelector'
  */
 
 /**
- * A WMTS Layer. Check the {WMTSSSourceConfig}.
+ * A WMTS Layer. Check the {{WMTSSSourceConfig}}.
  * @typedef {g4uLayerOptions} WMTSLayerConfig
  * @property {"WMTS"} type
  * @property {WMTSSSourceConfig} source
@@ -105,7 +106,7 @@ import { LayerSelector } from '../controls/LayerSelector'
  * @typedef {g4uLayerOptions} TileWMSLayerConfig
  * @property {"TileWMS"} type
  * @property {WMSSSourceConfig} source
- * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector
+ * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in the layerselector
  * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should
  *    appear as a category or not.
  */
@@ -151,7 +152,7 @@ import { LayerSelector } from '../controls/LayerSelector'
  */
 
 /**
- * A wmts source config.
+ * A wmts source config. See https://openlayers.org/en/latest/apidoc/module-ol_source_WMTS-WMTS.html.
  * @typedef {SourceConfig} WMTSSSourceConfig
  * @property {object} config Needs to contain a `layer` parameter. For other parameters see:
  *    https://openlayers.org/en/latest/apidoc/module-ol_source_WMTS.html#.optionsFromCapabilities. required.
