@@ -1,6 +1,11 @@
 import { createMapInternal } from '../../src/main'
 import { registerModule } from '../../src/moduleRegistration'
 
+import { SearchModule } from 'src/search/SearchModule'
+import { NominatimSearchConnector } from 'src/search/NominatimSearchConnector'
+
+import { URLAPIModule } from 'src/urlapi/URLAPIModule'
+
 import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
 import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.commented.json'
 
@@ -34,6 +39,8 @@ import '../../images/doc/overviewmap-collapsed.png'
 import '../../images/doc/scaleline.png'
 import '../../images/doc/zoom.png'
 
+import 'images/doc/button-link.png'
+
 import '../../images/doc/search-active.png'
 import '../../images/doc/search-inactive-de.png'
 import '../../images/doc/search-inactive-en.png'
@@ -41,12 +48,22 @@ import '../../images/doc/search-inactive-en.png'
 import 'file-loader?name=proxy/[name].[ext]!mustache-loader!guide4you-proxy/proxy.php'
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
-import { SearchModule } from 'src/search/SearchModule'
-import { NominatimSearchConnector } from 'src/search/NominatimSearchConnector'
-
 registerModule(new SearchModule({
   connectors: { nominatim: NominatimSearchConnector }
 }))
+
+registerModule(new URLAPIModule(
+  /* {
+   moduleParameters': [
+   {
+   'keys': [ 'lorem', 'ipsum', 'dolor', 'sit', 'amet' ],
+   'setEvent': 'afterConfiguring',
+   'setToMap': (that) => { },
+   'getFromMap': (that) => { }
+   }
+   ]
+   } */
+))
 
 export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf, options) {
   return createMapInternal(target, clientConf, layerConf, options)

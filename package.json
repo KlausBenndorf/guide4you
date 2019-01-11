@@ -6,7 +6,8 @@
     "map",
     "map client",
     "openlayers",
-    "search"
+    "search",
+    "urlapi"
   ],
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you",

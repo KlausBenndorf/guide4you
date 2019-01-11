@@ -65,6 +65,9 @@
     "dragRotate": true,
     "pinchRotate": true
   },
+  "marker": {
+    "style": "#defaultStyle"
+  },
   "move": {
     "animationDuration": 2000,
     "pixelPadding": 60,
@@ -94,6 +97,8 @@
         "distanceMeasurementButton",
         "areaMeasurementButton",
         "languageSwitcherMenu",
+        "linkGeneratorButton",
+        "maximizeButton",
         "printButton",
         "infoButton",
         "singleDrawButton",
@@ -124,6 +129,11 @@
         "baseLayerSelector",
         "featureLayerSelector"
       ]
+    },
+    "linkGeneratorButton": {
+    },
+    "maximizeButton": {
+      "pageTitle": "Maximized Guide4You"
     },
     "mobileLayerMenu": {
       "controlType": "layerMenu",

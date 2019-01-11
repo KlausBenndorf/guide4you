@@ -33,6 +33,10 @@ module.exports = {
         'Klicken Sie auf das Dreiecks&shy;symbol vor <strong>Karten</strong> oder <strong>Infos,</strong> um die entsprechenden Men&uuml;s ein- oder auszuklappen.'
       ]
     },
+    'linkGeneratorButton': {
+      'img': ['button-link.png'],
+      'descr': ['Mit dieser Schalt&shy;fl&auml;che zeigen Sie einen Link (Verweis) auf die aktuell dargestellte Karten&shy;ansicht an.']
+    },
     'geolocationButton': {
       'img': [
         'button-geolocation-inactive.png',
@@ -153,6 +157,10 @@ module.exports = {
         'Click the triangle symbol in front of <strong>Maps</strong> or <strong>Information</strong> to collapse or expand the corresponding menu.'
       ]
     },
+    'linkGeneratorButton': {
+      'img': ['button-link.png'],
+      'descr': ['Use this button to display a link to the current view of the map.']
+    },
     'geolocationButton': {
       'img': [
         'button-geolocation-inactive.png',
@@ -272,6 +280,10 @@ module.exports = {
         'وسيتم إبراز الخريطة الأساسية الفعالة والمعلومات التكميلية',
         ' انقر على رمز المثلت امام <strong>المخطط</strong> او <strong>المعلومات</strong> الى القوائم المقابلة او للاكتشاف '
       ]
+    },
+    'linkGeneratorButton': {
+      'img': ['button-link.png'],
+      'descr': ['استخدم هذا الزر لعرض رابط إلى العرض الحالي للخريطة']
     },
     'geolocationButton': {
       'img': [
