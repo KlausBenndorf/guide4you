@@ -21,6 +21,7 @@ import { keyCodes } from 'guide4you/src/globals'
 import { html2Text } from 'guide4you/src/utilities'
 import { Control } from 'guide4you/src/controls/Control'
 import { SearchView } from './SearchView'
+import { filterText } from 'guide4you/src/xssprotection'
 
 import 'polyfill!Element.prototype.placeholder'
 
@@ -333,7 +334,7 @@ export class SearchControl extends Control {
     clearTimeout(this.autocompleteTimeout_)
     this.autocompleteTimeout_ = setTimeout(() => {
       // checking if autocomplete search should be performed and perform it
-      let searchtext = encodeURIComponent(this.$textfield_.val())
+      let searchtext = this.$textfield_.val()
       if (this.autocompleteStart_ >= 0 && searchtext.length >= this.autocompleteStart_) {
         this.searchConnector_.getAutoComplete(searchtext)
           .then(([dropdownTexts, data]) => {
@@ -352,7 +353,6 @@ export class SearchControl extends Control {
     let searchstring = this.$textfield_.val()
 
     if (!this.dropdown_.getValue() || searchstring !== html2Text(this.dropdown_.getText())) {
-      searchstring = encodeURIComponent(searchstring)
       this.searchView_.hideSearchResults()
 
       if (searchstring !== '') {
@@ -392,7 +392,7 @@ export class SearchControl extends Control {
       this.dispatchEvent({
         type: 'searchEnd',
         success: true,
-        searchTerm: this.getSearchValue()
+        searchTerm: this.getSanitizedSearchValue()
       })
     } else {
       this.dropdown_.showGhostEntry()
@@ -400,7 +400,7 @@ export class SearchControl extends Control {
       this.dispatchEvent({
         type: 'searchEnd',
         success: false,
-        searchTerm: this.getSearchValue()
+        searchTerm: this.getSanitizedSearchValue()
       })
     }
   }
@@ -408,8 +408,8 @@ export class SearchControl extends Control {
   /**
    * @returns {string}
    */
-  getSearchValue () {
-    return encodeURIComponent(this.$textfield_.val())
+  getSanitizedSearchValue () {
+    return filterText(this.$textfield_.val())
   }
 
   /**
