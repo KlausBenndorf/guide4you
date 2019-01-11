@@ -4,7 +4,7 @@ import Polygon from 'ol/geom/Polygon'
 import Point from 'ol/geom/Point'
 import Feature from 'ol/Feature'
 
-import { Debug } from '../Debug'
+import { Debug } from '../../Debug'
 import { SearchConnector } from './SearchConnector'
 
 export class NominatimSearchConnector extends SearchConnector {

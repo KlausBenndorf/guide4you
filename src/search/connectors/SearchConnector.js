@@ -1,6 +1,6 @@
 import zip from 'lodash/zip'
 
-import { URL } from '../URLHelper'
+import { URL } from '../../URLHelper'
 
 /**
  * @typedef {Object} SearchConnectorOptions

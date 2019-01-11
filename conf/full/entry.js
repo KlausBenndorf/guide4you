@@ -2,7 +2,7 @@ import { createMapInternal } from '../../src/main'
 import { registerModule } from '../../src/moduleRegistration'
 
 import { SearchModule } from 'src/search/SearchModule'
-import { NominatimSearchConnector } from 'src/search/NominatimSearchConnector'
+import { NominatimSearchConnector } from 'src/search/connectors/NominatimSearchConnector'
 
 import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
