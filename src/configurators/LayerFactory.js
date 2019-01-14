@@ -12,7 +12,7 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS'
 import WKT from 'ol/format/WKT'
 import Feature from 'ol/Feature'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
-import WMTS from 'ol/source/WMTS'
+import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import ImageCanvas from 'ol/source/ImageCanvas'
 
 import { ImageLayer } from '../layers/ImageLayer'
@@ -444,7 +444,7 @@ export class LayerFactory extends Observable {
       crossDomain: true,
       success: data => {
         const wmtsCap = (new WMTSCapabilities()).read(data)
-        const capOptions = WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
+        const capOptions = optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
         if (capOptions === null) {
           Debug.error(`wmts layer not found or not set for layer with id "${layer.get('id')}"`)
         } else {
