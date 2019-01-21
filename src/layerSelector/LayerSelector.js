@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { Control } from '../controls/Control'
+import { Debug } from '../Debug'
 import { ButtonBox } from '../html/ButtonBox'
 import { addTooltip, changeTooltip } from '../html/html'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
@@ -29,6 +30,7 @@ import '../../less/layerselector.less'
  * @property {"layer"} type
  * @property {Localizable} [title] if not set, the title of the layer will be chosen
  * @property {string|number} refId the id of the layer
+ * @property {string} exclusive all layers with the same exclusive value are mutually exclusive active
  */
 
 /**
@@ -195,6 +197,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       return this.buildWMSButton(buttonConfig, $target, group)
     } else if (buttonConfig.type === 'layer') {
       return this.buildLayerButton(buttonConfig, $target, group)
+    } else {
+      Debug.error(`Unknown button type '${buttonConfig.type}'`)
     }
   }
 
@@ -243,7 +247,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       updateButton()
 
       this.listenAt($button).on('click', () => {
-        buttonController.activeToggle()
+        buttonController.toggleActive()
       })
 
       $target.append($button)
@@ -263,7 +267,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       }
     } else {
       const activateChildren = buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'activate'
-      // TODO: manage collapsed
       // TODO: where is categoryLayer.get('collapsed') used (or 'change:collapsed')
 
       const menu = new ButtonBox({
@@ -271,7 +274,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         title: this.getLocaliser().selectL10N(buttonConfig.title),
         rtl: this.getMap().get('localiser').isRtl(),
         titleButton: activateChildren,
-        collapsed: false,
+        collapsed: buttonConfig.collapsed !== false,
         addClass: buttonConfig.addClass
       })
 
@@ -332,13 +335,13 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       if (buttonConfig.QUERY_LAYERS !== undefined) {
         $button.append($toggleFeatureInfo)
         this.listenAt($toggleFeatureInfo).on('click', e => {
-          buttonController.featureInfoToggle()
+          buttonController.toggleFeatureInfo()
           e.stopPropagation()
         })
       }
 
       this.listenAt($button).on('click', () => {
-        buttonController.activeToggle()
+        buttonController.toggleActive()
       })
 
       $target.append($button)

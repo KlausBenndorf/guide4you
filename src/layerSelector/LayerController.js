@@ -40,12 +40,17 @@ class LayerButtonController extends Observable {
     return this.layer_.get('disabled')
   }
 
-  activeToggle (active) {
+  toggleActive (active) {
     this.layer_.setVisible(active === undefined ? !this.layer_.getVisible() : active)
+    this.dispatchEvent('toggle')
   }
 
   count () {
     return 1
+  }
+
+  controlsSame (controller) {
+    return controller.layer_ && controller.layer_ === this.layer_
   }
 }
 
@@ -58,11 +63,11 @@ class GroupButtonController extends Observable {
 
   addChild (controller) {
     this.children_.push(controller)
-    controller.on('change', () => {
+    controller.on('toggle', () => {
       if (this.exclusive_ && controller.getActive()) {
         for (const other of this.children_) {
-          if (other !== controller) {
-            other.activeToggle(false)
+          if (!controller.controlsSame(other) && other.getActive()) {
+            other.toggleActive(false)
           }
         }
       }
@@ -78,15 +83,20 @@ class GroupButtonController extends Observable {
     return this.children_.every(c => c.getActive())
   }
 
-  activeToggle (active) {
+  toggleActive (active) {
     active = active === undefined ? !this.getAllActive() : active
     for (const child of this.children_) {
-      child.activeToggle(active)
+      child.toggleActive(active)
     }
+    this.dispatchEvent('toggle')
   }
 
   count () {
     return this.children_.reduce((p, n) => p + n.count(), 0)
+  }
+
+  controlsSame (controller) {
+    return controller.children_ && controller.children_.every(c => this.children_.includes(c))
   }
 }
 
@@ -94,9 +104,6 @@ class WMSLayerController extends Observable {
   constructor (layer, wmsLayers, queryLayers) {
     super()
     this.layer_ = layer
-    this.layer_.getSource().registerWmsLayerController(this)
-    this.wmsLayersActive_ = false
-    this.queryLayersActive_ = false
     this.wmsLayers_ = wmsLayers
     this.queryLayers_ = queryLayers
     this.loading_ = false
@@ -121,17 +128,17 @@ class WMSLayerController extends Observable {
       this.dispatchEvent('change')
     })
 
-    layer.getSource().on('change:layers', () => {
+    layer.getSource().on('change', () => {
       this.dispatchEvent('change')
     })
   }
 
   getActive () {
-    return this.wmsLayersActive_
+    return this.layer_.getSource().areLayersActive(this.wmsLayers_)
   }
 
   getLoading () {
-    return this.loading_
+    return this.getActive() && this.loading_
   }
 
   getDisabled () {
@@ -139,29 +146,34 @@ class WMSLayerController extends Observable {
   }
 
   getFeatureInfoActive () {
-    return this.queryLayersActive_
+    return this.layer_.getSource().areQueryLayersActive(this.queryLayers_)
   }
 
-  getActiveWmsLayers () {
-    return this.wmsLayersActive_ ? this.wmsLayers_ : []
+  toggleActive (active) {
+    if (active === undefined ? !this.getActive() : active) {
+      this.layer_.getSource().activateLayers(this.wmsLayers_)
+    } else {
+      this.layer_.getSource().deactivateLayers(this.wmsLayers_)
+    }
+    this.layer_.setVisible(this.layer_.getSource().anyLayerActive())
+    this.dispatchEvent('toggle')
   }
 
-  getActiveQueryLayers () {
-    return this.queryLayersActive_ ? this.queryLayers_ : []
-  }
-
-  activeToggle (active) {
-    this.wmsLayersActive_ = active === undefined ? !this.wmsLayersActive_ : active
-    this.layer_.setVisible(this.layer_.getSource().updateLayers())
-  }
-
-  featureInfoToggle (active) {
-    this.queryLayersActive_ = active === undefined ? !this.queryLayersActive_ : active
-    this.activeToggle(true)
+  toggleFeatureInfo (active) {
+    if (active === undefined ? !this.getFeatureInfoActive() : active) {
+      this.layer_.getSource().activateQueryLayers(this.queryLayers_)
+    } else {
+      this.layer_.getSource().deactivateQueryLayers(this.queryLayers_)
+    }
+    this.toggleActive(true)
   }
 
   count () {
     return 1
+  }
+
+  controlsSame (controller) {
+    return controller.wmsLayers_ && controller.wmsLayers_.every(w => this.wmsLayers_.includes(w))
   }
 }
 
@@ -171,6 +183,15 @@ export class LayerController {
     // this.buttons_ = []
     this.layers_ = {}
     this.menuConfigs_ = layerConfig['menus']
+    this.addGroups_ = {}
+  }
+
+  registerAdditionalGroup (value, controller) {
+    if (!this.addGroups_[value]) {
+      this.addGroups_[value] = new GroupButtonController(true)
+    }
+    const groupController = this.addGroups_[value]
+    groupController.addChild(controller)
   }
 
   /**
@@ -184,14 +205,21 @@ export class LayerController {
     if (group) {
       group.addChild(controller)
     }
+    if (options.addGroup) {
+      this.registerAdditionalGroup(options.addGroup, controller)
+    }
     return controller
   }
 
   registerGroupButton (options, group) {
     const exclusive = options.items === 'exclusive'
-    const controller = new GroupButtonController(exclusive)
+    const oneActive = options.alwaysActive === true // TODO
+    const controller = new GroupButtonController(exclusive, oneActive)
     if (group) {
       group.addChild(controller)
+    }
+    if (options.addGroup) {
+      this.registerAdditionalGroup(options.addGroup, controller)
     }
     return controller
   }
@@ -201,6 +229,9 @@ export class LayerController {
     const controller = new WMSLayerController(layer, options['LAYERS'], options['QUERY_LAYERS'])
     if (group) {
       group.addChild(controller)
+    }
+    if (options.addGroup) {
+      this.registerAdditionalGroup(options.addGroup, controller)
     }
     return controller
   }

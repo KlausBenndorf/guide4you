@@ -1,5 +1,6 @@
 import $ from 'jquery'
-import { flatten, uniq } from 'lodash/array'
+import { concat, difference } from 'lodash/array'
+import { isEmpty } from 'lodash/lang'
 import ImageWMS from 'ol/source/ImageWMS'
 import TileWMS from 'ol/source/TileWMS'
 
@@ -24,20 +25,20 @@ export class WMSMixin {
    */
   initialize (options) {
     this.featureInfo_ = options.featureInfo !== undefined
-
-    if (this.featureInfo_) {
-      this.featureInfoParams_ = options.featureInfo.params || {}
-      this.featureInfoMutators_ = options.featureInfo.mutators
-      this.queryLayers_ = this.featureInfoParams_['QUERY_LAYERS'] || []
+    this.featureInfoParams_ = {
+      QUERY_LAYERS: []
     }
 
-    this.wmsLayers_ = this.getParams()['LAYERS'] || []
+    if (this.featureInfo_) {
+      Object.assign(this.featureInfoParams_, options.featureInfo.params)
+      this.featureInfoMutators_ = options.featureInfo.mutators
+    }
 
-    this.controllers_ = []
-  }
-
-  getFeatureInfoParams () {
-    return this.featureInfoParams_
+    if (!this.getParams()['LAYERS']) {
+      this.updateParams({
+        LAYERS: []
+      })
+    }
   }
 
   getQueryable () {
@@ -53,24 +54,48 @@ export class WMSMixin {
     return this.featureInfo_
   }
 
-  registerWmsLayerController (controller) {
-    this.controllers_.push(controller)
+  activateLayers (layers) {
+    this.updateParams({
+      LAYERS: concat(this.getParams()['LAYERS'], layers)
+    })
+    this.changed()
   }
 
-  updateLayers () {
-    const active = this.controllers_.filter(c => c.getActive())
-    const wmsLayers = uniq(this.wmsLayers_.concat(flatten(active.map(c => c.getActiveWmsLayers()))))
+  deactivateLayers (layers) {
     this.updateParams({
-      LAYERS: wmsLayers
+      LAYERS: difference(this.getParams()['LAYERS'], layers)
     })
-    if (this.featureInfo_) {
-      this.updateFeatureInfoParams({
-        QUERY_LAYERS: uniq(flatten(active.map(c => c.getActiveQueryLayers())))
-      })
-    }
-    this.dispatchEvent('change:layers')
     this.changed()
-    return wmsLayers.length > 0
+  }
+
+  areLayersActive (layers) {
+    return isEmpty(difference(layers, this.getParams()['LAYERS']))
+  }
+
+  anyLayerActive () {
+    return !isEmpty(this.getParams()['LAYERS'])
+  }
+
+  activateQueryLayers (layers) {
+    this.updateFeatureInfoParams({
+      QUERY_LAYERS: concat(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+    })
+    this.changed()
+  }
+
+  deactivateQueryLayers (layers) {
+    this.updateFeatureInfoParams({
+      QUERY_LAYERS: difference(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+    })
+    this.changed()
+  }
+
+  areQueryLayersActive (layers) {
+    return isEmpty(difference(layers, this.getFeatureInfoParams()['QUERY_LAYERS']))
+  }
+
+  getFeatureInfoParams () {
+    return this.featureInfoParams_
   }
 
   updateFeatureInfoParams (newParams) {
