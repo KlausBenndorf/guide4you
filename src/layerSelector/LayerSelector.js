@@ -237,14 +237,19 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       const buttonController = this.layerController_.registerLayerButton(buttonConfig, group)
 
-      const updateButton = () => {
-        $button.toggleClass(activeClassName, buttonController.getActive())
-        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
-        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
-      }
+      $button.toggleClass(activeClassName, buttonController.getActive())
+      $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+      $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
 
-      buttonController.on('change', updateButton)
-      updateButton()
+      buttonController.on('change:active', () => {
+        $button.toggleClass(activeClassName, buttonController.getActive())
+      })
+      buttonController.on('change:loading', () => {
+        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+      })
+      buttonController.on('change:disabled', () => {
+        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+      })
 
       this.listenAt($button).on('click', () => {
         buttonController.toggleActive()
@@ -285,7 +290,9 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         }
       }
 
-      groupController.on('change', updateMenu)
+      groupController.on('change:active', updateMenu)
+
+      // TODO: menu set disabled ?
 
       $target.append(menu.get$Element())
 
@@ -314,10 +321,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       const buttonController = this.layerController_.registerWmsLayerButton(buttonConfig, group)
 
-      const updateButton = () => {
-        $button.toggleClass(activeClassName, buttonController.getActive())
-        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
-        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+      $button.toggleClass(activeClassName, buttonController.getActive())
+      $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+      $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+      const updateFeatureInfoActive = () => {
         if (buttonController.getFeatureInfoActive()) {
           $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, true)
           changeTooltip($toggleFeatureInfo,
@@ -328,9 +335,18 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
         }
       }
+      updateFeatureInfoActive()
 
-      buttonController.on('change', updateButton)
-      updateButton()
+      buttonController.on('change:active', () => {
+        $button.toggleClass(activeClassName, buttonController.getActive())
+      })
+      buttonController.on('change:loading', () => {
+        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+      })
+      buttonController.on('change:disabled', () => {
+        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+      })
+      buttonController.on('change:featureInfoActive', updateFeatureInfoActive)
 
       if (buttonConfig.QUERY_LAYERS !== undefined) {
         $button.append($toggleFeatureInfo)

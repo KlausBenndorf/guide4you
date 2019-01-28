@@ -1,6 +1,6 @@
 import { Debug } from '../Debug'
 
-function parseLayerEntry (layerEntry, menu, layers) {
+function parseLayerEntry (layerEntry, menu, layers, baseLayer = false) {
   if (layerEntry.type === 'Category') {
     const groupEntry = {
       type: 'group',
@@ -12,7 +12,7 @@ function parseLayerEntry (layerEntry, menu, layers) {
       delete layerEntry.activateChildren
     }
     for (const childLayerEntry of layerEntry.layers) {
-      parseLayerEntry(childLayerEntry, groupEntry.buttons, layers)
+      parseLayerEntry(childLayerEntry, groupEntry.buttons, layers, baseLayer)
     }
     menu.push(groupEntry)
   } else if (layerEntry.type === 'WMS' || layerEntry.type === 'TileWMS') {
@@ -72,6 +72,7 @@ export function layerConfigConverter (layerConfig) {
       layers: []
     }
     for (const layerEntry of layerConfig.baseLayers) {
+      layerEntry.overview = true
       parseLayerEntry(layerEntry, newLayerConfig.menus.baseLayers[0].buttons, newLayerConfig.layers)
     }
     for (const layerEntry of layerConfig.featureLayers) {

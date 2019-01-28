@@ -26,6 +26,7 @@ BaseObject.prototype.asSoonAs = function (propName, value, cb) {
 /**
  * extends the openlayers ol.Object class. Waits till a property is set and calls the given
  * callback function. If the value is already set the callback is called immediately.
+ * The value of the property is given as a callback parameter
  * @param {string} propName
  * @param {function} cb
  */
@@ -35,7 +36,7 @@ BaseObject.prototype.onAvailable = function (propName, cb) {
   }
   if (this.get(propName) !== undefined) {
     // run callback
-    cb()
+    cb(this.get(propName))
   } else {
     this.once('change:' + propName, () => {
       // recursive call

@@ -58,14 +58,14 @@ export class WMSMixin {
     this.updateParams({
       LAYERS: concat(this.getParams()['LAYERS'], layers)
     })
-    this.changed()
+    this.dispatchEvent('change:layers')
   }
 
   deactivateLayers (layers) {
     this.updateParams({
       LAYERS: difference(this.getParams()['LAYERS'], layers)
     })
-    this.changed()
+    this.dispatchEvent('change:layers')
   }
 
   areLayersActive (layers) {
@@ -80,14 +80,14 @@ export class WMSMixin {
     this.updateFeatureInfoParams({
       QUERY_LAYERS: concat(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
     })
-    this.changed()
+    this.dispatchEvent('change:queryLayers')
   }
 
   deactivateQueryLayers (layers) {
     this.updateFeatureInfoParams({
       QUERY_LAYERS: difference(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
     })
-    this.changed()
+    this.dispatchEvent('change:queryLayers')
   }
 
   areQueryLayersActive (layers) {
@@ -100,6 +100,7 @@ export class WMSMixin {
 
   updateFeatureInfoParams (newParams) {
     Object.assign(this.featureInfoParams_, newParams)
+    this.changed()
   }
 
   getFeatureInfo (coordinate, resolution, projection) {

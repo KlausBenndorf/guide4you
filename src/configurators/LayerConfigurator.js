@@ -193,10 +193,12 @@ export class LayerConfigurator {
      */
     this.layerFactory_ = new LayerFactory(map)
 
+    map.set('layerFactory', this.layerFactory_)
+
     this.map_.on('ready', () => {
-      this.layerController_.upadateDisabledLayers(this.map_.getView().getZoom())
+      this.layerController_.updateDisabledLayers(this.map_.getView().getZoom())
       this.map_.getView().on('change:resolution', () => {
-        this.layerController_.upadateDisabledLayers(this.map_.getView().getZoom())
+        this.layerController_.updateDisabledLayers(this.map_.getView().getZoom())
       })
     })
   }
@@ -247,12 +249,10 @@ export class LayerConfigurator {
         /**
          * @type {g4uLayerOptions}
          */
-        let optionsCopy = copyDeep(options)
-
-        if (this.configureLayerIsIdOk_(optionsCopy.id)) {
-          const layer = this.layerFactory_.createLayer(optionsCopy)
+        if (this.configureLayerIsIdOk_(options.id)) {
+          const layer = this.layerFactory_.createLayer(options)
           this.map_.addLayer(layer)
-          this.layerController_.registerLayer(optionsCopy.id, layer)
+          this.layerController_.registerLayer(options.id, layer)
         }
       }
     })

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import Observable from 'ol/Observable'
 
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
@@ -50,11 +51,12 @@ export const LayerType = {
 /**
  * This class constructs a layer according to the given {{LayerOptions}}
  */
-export class LayerFactory {
+export class LayerFactory extends Observable {
   /**
    * @param {G4UMap} map
    */
   constructor (map) {
+    super()
     /**
      * @type {G4UMap}
      * @private
@@ -67,7 +69,9 @@ export class LayerFactory {
    * @param {g4uLayerOptions} optionsCopy
    * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}
    */
-  createLayer (optionsCopy) {
+  createLayer (options) {
+    let optionsCopy = copyDeep(options)
+
     if (!optionsCopy.type) {
       throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)
     }
@@ -318,6 +322,12 @@ export class LayerFactory {
     if (localised) {
       this.map_.get('localiser').on('change:language', () => layer.getSource().refresh())
     }
+
+    this.dispatchEvent({
+      type: 'created:layer',
+      layer: layer,
+      options: options
+    })
 
     return layer
   }

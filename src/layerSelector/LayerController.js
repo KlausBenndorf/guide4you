@@ -1,30 +1,57 @@
-import Observable from 'ol/Observable'
+import BaseObject from 'ol/Object'
 
-class LayerButtonController extends Observable {
-  constructor (layer) {
-    super()
+class ButtonController extends BaseObject {
+  constructor (props) {
+    super(props)
+
+    this.disabled_ = false
+  }
+
+  getDisabled () {
+    return this.disabled_
+  }
+
+  updateDisabled (zoom) {
+    const disable = (this.get('minZoom') && zoom < this.get('minZoom')) ||
+      (this.get('maxZoom') && zoom > this.get('maxZoom'))
+    if (disable && !this.disabled_) {
+      this.disabled_ = true
+      if (this.getActive()) {
+        this.toggleActive(false)
+      }
+      this.dispatchEvent('change:disabled')
+    } else if (!disable && this.disabled_) {
+      this.disabled_ = false
+      this.dispatchEvent('change:disabled')
+    }
+  }
+}
+
+class LayerButtonController extends ButtonController {
+  constructor (layer, props) {
+    super(props)
     this.layer_ = layer
 
     this.loading_ = false
 
     layer.on('change:visible', () => {
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:active')
     })
 
     layer.on('loadcountstart', () => {
       this.loading_ = true
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:loading')
     })
 
     // TODO: use listener manager mixin
     // this.listenAt(layer).on('loadcountend', () => {
     layer.on('loadcountend', () => {
       this.loading_ = false
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:loading')
     })
 
     layer.on('change:disabled', () => {
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:disabled')
     })
   }
 
@@ -37,12 +64,11 @@ class LayerButtonController extends Observable {
   }
 
   getDisabled () {
-    return this.layer_.get('disabled')
+    return this.layer_.get('disabled') || super.getDisabled()
   }
 
   toggleActive (active) {
     this.layer_.setVisible(active === undefined ? !this.layer_.getVisible() : active)
-    this.dispatchEvent('toggle')
   }
 
   count () {
@@ -54,24 +80,23 @@ class LayerButtonController extends Observable {
   }
 }
 
-class GroupButtonController extends Observable {
-  constructor (exclusive) {
-    super()
-    this.exclusive_ = exclusive
+class GroupButtonController extends ButtonController {
+  constructor (props) {
+    super(props)
     this.children_ = []
   }
 
   addChild (controller) {
     this.children_.push(controller)
-    controller.on('toggle', () => {
-      if (this.exclusive_ && controller.getActive()) {
+    controller.on('change:active', () => {
+      if (this.get('exclusive') && controller.getActive()) {
         for (const other of this.children_) {
           if (!controller.controlsSame(other) && other.getActive()) {
             other.toggleActive(false)
           }
         }
       }
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:active')
     })
   }
 
@@ -88,7 +113,7 @@ class GroupButtonController extends Observable {
     for (const child of this.children_) {
       child.toggleActive(active)
     }
-    this.dispatchEvent('toggle')
+    this.dispatchEvent('change:active')
   }
 
   count () {
@@ -100,41 +125,43 @@ class GroupButtonController extends Observable {
   }
 }
 
-class WMSLayerController extends Observable {
-  constructor (layer, wmsLayers, queryLayers) {
-    super()
+class WMSLayerController extends ButtonController {
+  constructor (layer, props) {
+    super(props)
     this.layer_ = layer
-    this.wmsLayers_ = wmsLayers
-    this.queryLayers_ = queryLayers
     this.loading_ = false
 
     layer.on('change:visible', () => {
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:active')
     })
 
     layer.on('loadcountstart', () => {
       this.loading_ = true
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:loading')
     })
 
     // TODO: use listener manager mixin
     // this.listenAt(layer).on('loadcountend', () => {
     layer.on('loadcountend', () => {
       this.loading_ = false
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:loading')
     })
 
     layer.on('change:disabled', () => {
-      this.dispatchEvent('change')
+      this.dispatchEvent('change:disabled')
     })
 
-    layer.getSource().on('change', () => {
-      this.dispatchEvent('change')
+    layer.getSource().on('change:layers', () => {
+      this.dispatchEvent('change:active')
+    })
+
+    layer.getSource().on('change:queryLayers', () => {
+      this.dispatchEvent('change:featureInfoActive')
     })
   }
 
   getActive () {
-    return this.layer_.getSource().areLayersActive(this.wmsLayers_)
+    return this.layer_.getSource().areLayersActive(this.get('wmsLayers'))
   }
 
   getLoading () {
@@ -142,28 +169,27 @@ class WMSLayerController extends Observable {
   }
 
   getDisabled () {
-    return this.layer_.get('disabled')
+    return this.layer_.get('disabled') || super.getDisabled()
   }
 
   getFeatureInfoActive () {
-    return this.layer_.getSource().areQueryLayersActive(this.queryLayers_)
+    return this.layer_.getSource().areQueryLayersActive(this.get('queryLayers'))
   }
 
   toggleActive (active) {
     if (active === undefined ? !this.getActive() : active) {
-      this.layer_.getSource().activateLayers(this.wmsLayers_)
+      this.layer_.getSource().activateLayers(this.get('wmsLayers'))
     } else {
-      this.layer_.getSource().deactivateLayers(this.wmsLayers_)
+      this.layer_.getSource().deactivateLayers(this.get('wmsLayers'))
     }
     this.layer_.setVisible(this.layer_.getSource().anyLayerActive())
-    this.dispatchEvent('toggle')
   }
 
   toggleFeatureInfo (active) {
     if (active === undefined ? !this.getFeatureInfoActive() : active) {
-      this.layer_.getSource().activateQueryLayers(this.queryLayers_)
+      this.layer_.getSource().activateQueryLayers(this.get('queryLayers'))
     } else {
-      this.layer_.getSource().deactivateQueryLayers(this.queryLayers_)
+      this.layer_.getSource().deactivateQueryLayers(this.get('queryLayers'))
     }
     this.toggleActive(true)
   }
@@ -173,7 +199,8 @@ class WMSLayerController extends Observable {
   }
 
   controlsSame (controller) {
-    return controller.wmsLayers_ && controller.wmsLayers_.every(w => this.wmsLayers_.includes(w))
+    return controller.get('wmsLayers') && controller.get('wmsLayers')
+      .every(w => this.get('wmsLayers').includes(w))
   }
 }
 
@@ -184,11 +211,13 @@ export class LayerController {
     this.layers_ = {}
     this.menuConfigs_ = layerConfig['menus']
     this.addGroups_ = {}
+    this.controllers_ = []
   }
 
   registerAdditionalGroup (value, controller) {
     if (!this.addGroups_[value]) {
-      this.addGroups_[value] = new GroupButtonController(true)
+      this.addGroups_[value] = new GroupButtonController({ exclusive: true })
+      this.controllers_.push(this.addGroups_[value])
     }
     const groupController = this.addGroups_[value]
     groupController.addChild(controller)
@@ -201,38 +230,52 @@ export class LayerController {
    */
   registerLayerButton (options, group) {
     const layer = this.layers_[options.refId]
-    const controller = new LayerButtonController(layer)
+    const controller = new LayerButtonController(layer, {
+      minZoom: options.minZoom,
+      maxZoom: options.maxZoom
+    })
     if (group) {
       group.addChild(controller)
     }
     if (options.addGroup) {
       this.registerAdditionalGroup(options.addGroup, controller)
     }
+    this.controllers_.push(controller)
     return controller
   }
 
   registerGroupButton (options, group) {
-    const exclusive = options.items === 'exclusive'
-    const oneActive = options.alwaysActive === true // TODO
-    const controller = new GroupButtonController(exclusive, oneActive)
+    const controller = new GroupButtonController({
+      minZoom: options.minZoom,
+      maxZoom: options.maxZoom,
+      exclusive: options.items === 'exclusive',
+      oneActive: options.alwaysActive === true // TODO
+    })
     if (group) {
       group.addChild(controller)
     }
     if (options.addGroup) {
       this.registerAdditionalGroup(options.addGroup, controller)
     }
+    this.controllers_.push(controller)
     return controller
   }
 
   registerWmsLayerButton (options, group) {
     const layer = this.layers_[options.refId]
-    const controller = new WMSLayerController(layer, options['LAYERS'], options['QUERY_LAYERS'])
+    const controller = new WMSLayerController(layer, {
+      minZoom: options.minZoom,
+      maxZoom: options.maxZoom,
+      wmsLayers: options['LAYERS'],
+      queryLayers: options['QUERY_LAYERS']
+    })
     if (group) {
       group.addChild(controller)
     }
     if (options.addGroup) {
       this.registerAdditionalGroup(options.addGroup, controller)
     }
+    this.controllers_.push(controller)
     return controller
   }
 
@@ -252,17 +295,7 @@ export class LayerController {
     return this.layers_[id]
   }
 
-  upadateDisabledLayers (zoom) {
-    const layerIsViewable = layer => {
-      if (layer.get('minZoom') && zoom < layer.get('minZoom')) {
-        return false
-      } else if (layer.get('maxZoom') && zoom > layer.get('maxZoom')) {
-        return false
-      } else {
-        return true
-      }
-    }
-
+  updateDisabledLayers (zoom) {
     // TODO: implement behaviour for new layer structure
     // let activateNext = false
     // this.map_.get('baseLayers').forEach(layer => {
@@ -295,15 +328,8 @@ export class LayerController {
     //   })
     // }
 
-    this.map_.getLayers().forEach(layer => {
-      if (layerIsViewable(layer)) {
-        layer.set('disabled', false)
-      } else {
-        layer.set('disabled', true)
-        if (layer.getVisible()) {
-          layer.setVisible(false)
-        }
-      }
-    })
+    for (const controller of this.controllers_) {
+      controller.updateDisabled(zoom)
+    }
   }
 }
