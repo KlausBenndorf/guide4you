@@ -379,4 +379,19 @@ export class API extends BaseObject {
   removeLayer (layer) {
     this.map_.getLayerGroup().removeLayer(layer)
   }
+
+  /**
+   * Updates the layers parameter of a WMS Layer
+   * @param {string|number} layerId
+   * @param {string[]} layers
+   */
+  updateWmsLayer (layerId, layers) {
+    this.map_.getLayerGroup().recursiveForEach(layer => {
+      if (layer.get('id') === layerId) {
+        layer.getSource().updateParams({
+          LAYERS: layers
+        })
+      }
+    })
+  }
 }
