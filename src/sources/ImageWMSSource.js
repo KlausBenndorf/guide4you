@@ -3,6 +3,7 @@ import { concat, difference } from 'lodash/array'
 import { isEmpty } from 'lodash/lang'
 import ImageWMS from 'ol/source/ImageWMS'
 import TileWMS from 'ol/source/TileWMS'
+import { appendParams } from 'ol/uri'
 
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
@@ -118,6 +119,16 @@ export class WMSMixin {
         })
       }
     })
+  }
+
+  getGetLegendGraphicUrl (params) {
+    const baseParams = {
+      'REQUEST': 'GetLegendGraphic',
+      'FORMAT': 'image/png'
+    }
+    Object.assign(baseParams, this.getParams(), params)
+
+    return appendParams(this.getUrl(), baseParams)
   }
 
   // toggleArrayEntries_ (obj, prop, names, toggle) {
