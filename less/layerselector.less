@@ -102,6 +102,18 @@
         }
       }
 
+      .g4u-layerselector-spacer {
+        box-sizing: border-box;
+        display: block;
+        height: @g4u-desktop-padding;
+        margin-top: @g4u-desktop-padding;
+        left: 0;
+        right: 0;
+        border-radius: 0;
+        padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+        background: fade(@g4u-disabled-color, @g4u-not-so-opaque);
+      }
+
       .g4u-layerselector-layerbutton {
         .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
         height: auto; // hotfix
@@ -132,10 +144,6 @@
           pointer-events: none;
         }
 
-        &.g4u-layerselector-spacing {
-          //margin-top: 2 * @g4u-desktop-padding;
-        }
-
         &.g4u-layerselector-checkbox {
           .changeIconBefore(@g4u-checkbox-unchecked, @g4u-desktop-normal-fontsize);
           &.g4u-layerselector-menu-active {
@@ -148,18 +156,6 @@
           &.g4u-layerselector-menu-active {
             .changeIconBefore(@g4u-radio-checked, @g4u-desktop-normal-fontsize);
           }
-        }
-
-        &.g4u-layerselector-group-1 {
-          border-right: solid 6px green;
-        }
-
-        &.g4u-layerselector-group-2 {
-          border-right: solid 6px purple;
-        }
-
-        &.g4u-layerselector-group-3 {
-          border-right: solid 6px red;
         }
       }
 

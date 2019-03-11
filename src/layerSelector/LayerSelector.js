@@ -4,7 +4,7 @@ import { Debug } from '../Debug'
 import { ButtonBox } from '../html/ButtonBox'
 import { addTooltip, changeTooltip } from '../html/html'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
-import { mixin } from '../utilities'
+import { mixin, offset } from '../utilities'
 import { isObject, isArray } from 'lodash/lang'
 
 import '../../less/layerselector.less'
@@ -113,7 +113,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       featureInfo: this.getClassName() + '-info',
       featureInfoActive: this.getClassName() + '-info-active',
       disabled: this.getClassName() + '-disabled',
-      spacing: this.getClassName() + '-spacing',
+      spacer: this.getClassName() + '-spacer',
       checkbox: this.getClassName() + '-checkbox',
       radio: this.getClassName() + '-radio'
     }
@@ -130,7 +130,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       collapsed: this.collapsed_
     })
 
-    this.menu_.on('change:collapsed', () => this.dispatchEvent('change:size'))
+    this.listenAt(this.menu_).on('change:collapsed', () => this.dispatchEvent('change:size'))
 
     this.get$Element().append(this.menu_.get$Element())
 
@@ -250,13 +250,13 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
       $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
 
-      buttonController.on('change:active', () => {
+      this.listenAt(buttonController).on('change:active', () => {
         $button.toggleClass(activeClassName, buttonController.getActive())
       })
-      buttonController.on('change:loading', () => {
+      this.listenAt(buttonController).on('change:loading', () => {
         $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
       })
-      buttonController.on('change:disabled', () => {
+      this.listenAt(buttonController).on('change:disabled', () => {
         $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
       })
 
@@ -292,6 +292,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         addClass: buttonConfig.addClass
       })
 
+      this.listenAt(menu).on('change:collapsed', () => {
+        this.dispatchEvent('change:size')
+      })
+
       const updateMenu = () => {
         menu.setCollapseButtonActive(groupController.getActive())
         if (activateChildren) {
@@ -299,7 +303,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         }
       }
 
-      groupController.on('change:active', updateMenu)
+      this.listenAt(groupController).on('change:active', updateMenu)
 
       // TODO: menu set disabled ?
 
@@ -346,16 +350,16 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       }
       updateFeatureInfoActive()
 
-      buttonController.on('change:active', () => {
+      this.listenAt(buttonController).on('change:active', () => {
         $button.toggleClass(activeClassName, buttonController.getActive())
       })
-      buttonController.on('change:loading', () => {
+      this.listenAt(buttonController).on('change:loading', () => {
         $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
       })
-      buttonController.on('change:disabled', () => {
+      this.listenAt(buttonController).on('change:disabled', () => {
         $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
       })
-      buttonController.on('change:featureInfoActive', updateFeatureInfoActive)
+      this.listenAt(buttonController).on('change:featureInfoActive', updateFeatureInfoActive)
 
       if (buttonConfig.QUERY_LAYERS !== undefined) {
         $button.append($toggleFeatureInfo)
@@ -392,7 +396,11 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       $target.append(menu.get$Element())
 
-      multiController.on('change:active', () => {
+      this.listenAt(menu).on('change:collapsed', () => {
+        this.dispatchEvent('change:size')
+      })
+
+      this.listenAt(multiController).on('change:active', () => {
         menu.setCollapseButtonActive(multiController.getActive())
       })
 
@@ -402,42 +410,30 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     const activeClassName = this.classNames_.menu + '-active'
 
     let lastName
-    let groupNumber
     for (const subConfig of buttonConfig.buttons) {
       const $button = this.buildBasicButton(subConfig)
         .html(subConfig.title)
-      $target.append($button)
       if (lastName === undefined) {
         lastName = subConfig.name
-        groupNumber = 1
+        multiController.setDefault(subConfig.name, subConfig.value)
       } else if (lastName !== subConfig.name) {
         lastName = subConfig.name
-        groupNumber++
-        $button.addClass(this.classNames_.spacing)
+        multiController.setDefault(subConfig.name, subConfig.value)
+        $target.append($('<span>').addClass(this.classNames_.spacer).html('&nbsp;'))
       }
 
-      $button.addClass(this.getClassName() + '-group-' + groupNumber)
+      $target.append($button)
 
-      if (subConfig.type === 'checkbox') {
-        $button.addClass(this.classNames_.checkbox)
-      } else if (subConfig.type === 'radio') {
-        $button.addClass(this.classNames_.radio)
-      }
-
-      $button.on('click', () => {
-        multiController.setParam(subConfig.name, subConfig.value, subConfig.type === 'radio')
+      this.listenAt($button).on('click', () => {
+        multiController.setParam(subConfig.name, subConfig.value)
       })
 
       const updateButton = () => {
         const currentParams = multiController.getParams()
-        if (isArray(currentParams[subConfig.name])) {
-          $button.toggleClass(activeClassName, currentParams[subConfig.name].includes(subConfig.value))
-        } else {
-          $button.toggleClass(activeClassName, currentParams[subConfig.name] === subConfig.value)
-        }
+        $button.toggleClass(activeClassName, currentParams[subConfig.name] === subConfig.value)
       }
 
-      multiController.on('change:params', updateButton)
+      this.listenAt(multiController).on('change:params', updateButton)
       updateButton()
     }
 
@@ -467,6 +463,65 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   setCollapsed (collapsed, silent) {
     if (collapsed !== this.menu_.getCollapsed()) {
       this.menu_.setCollapsed(collapsed, silent)
+    }
+  }
+
+  /**
+   * Returns true if the control is squeezable in the given dimension. Used by Positioning.
+   * @param {string} dimension
+   * @returns {boolean}
+   */
+  isSqueezable (dimension) {
+    return dimension === 'height'
+  }
+
+  /**
+   * Squeezes the control in the given dimension by the provided value. Used by Positioning
+   * Returns the value the control could get squeezed by.
+   * @param {string} dimension
+   * @param {number} value
+   * @returns {number}
+   */
+  squeezeBy (dimension, value) {
+    if (dimension === 'height') {
+      let $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
+      let $buttons = $contentBox.find('button:visible')
+        .filter(`.${this.getClassName()}-layerbutton,.${this.getClassName()}-menu-titlebutton`)
+
+      if ($buttons.length > 1) {
+        let height = $contentBox.height()
+        let buttonHeight = offset($buttons.eq(1), $buttons.eq(0)).top
+
+        let newHeight = Math.max(buttonHeight * this.minVisibleButtons_, height - value)
+
+        if (height > newHeight) {
+          $contentBox.css('max-height', newHeight)
+          return height - newHeight
+        }
+      }
+    }
+
+    return 0
+  }
+
+  beforePositioning () {
+    this.scrolled_ = this.menu_.get$Body().scrollTop()
+  }
+
+  /**
+   * used by positioning
+   */
+  afterPositioning () {
+    this.menu_.get$Body().scrollTop(this.scrolled_)
+  }
+
+  /**
+   * Removes the squeeze. Used by Positioning.
+   * @param {string} dimension
+   */
+  release (dimension) {
+    if (dimension === 'height') {
+      this.get$Element().find(`.${this.getClassName()}-content`).css('max-height', '')
     }
   }
 }

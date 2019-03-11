@@ -1,4 +1,4 @@
-  import { ButtonController } from './ButtonController'
+import { ButtonController } from './ButtonController'
 
 export class LayerButtonController extends ButtonController {
   constructor (layer, props) {
@@ -16,8 +16,6 @@ export class LayerButtonController extends ButtonController {
       this.dispatchEvent('change:loading')
     })
 
-    // TODO: use listener manager mixin
-    // this.listenAt(layer).on('loadcountend', () => {
     layer.on('loadcountend', () => {
       this.loading_ = false
       this.dispatchEvent('change:loading')

@@ -1,5 +1,4 @@
-import { difference, xor } from 'lodash/array'
-import { isArray, isEmpty } from 'lodash/lang'
+import { isEmpty } from 'lodash/lang'
 import { ButtonController } from './ButtonController'
 
 export class MultiController extends ButtonController {
@@ -10,16 +9,33 @@ export class MultiController extends ButtonController {
     this.loading_ = false
     this.configs_ = configs
     this.currentConfig_ = {}
+    this.lastActiveParams_ = {}
     this.settedParams_ = {}
   }
 
-  setParam (name, value, radio) {
-    if (radio) {
+  setDefault (param, value) {
+    this.lastActiveParams_[param] = value
+  }
+
+  initParams () {
+    Object.assign(this.settedParams_, this.lastActiveParams_)
+  }
+
+  saveParams () {
+    Object.assign(this.lastActiveParams_, this.settedParams_)
+  }
+
+  setParam (name, value) {
+    if (isEmpty(this.settedParams_) || this.settedParams_[name] !== value) {
+      if (isEmpty(this.settedParams_)) {
+        this.initParams()
+      }
       this.settedParams_[name] = value
+      this.saveParams()
+      this.updateConfig()
     } else {
-      this.settedParams_[name] = xor(this.settedParams_[name], [value])
+      this.clearParams()
     }
-    this.updateConfig()
     this.dispatchEvent('change:params')
   }
 
@@ -65,16 +81,7 @@ export class MultiController extends ButtonController {
       if (!this.settedParams_[name]) {
         return false
       }
-      if (isArray(condition[name])) {
-        if (condition[name].length !== this.settedParams_[name].length) {
-          return false
-        }
-        for (const value of condition[name]) {
-          if (!this.settedParams_[name].includes(value)) {
-            return false
-          }
-        }
-      } else if (condition[name] !== this.settedParams_[name]) {
+      if (condition[name] !== this.settedParams_[name]) {
         return false
       }
     }
