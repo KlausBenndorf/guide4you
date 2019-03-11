@@ -10,6 +10,10 @@
 @g4u-layerselector-info-green: url("../images/icons/info-circle-green.svg");
 @g4u-whitespace-icon: url("../images/icons/plusminus-nothing.svg");
 @g4u-load-animation: url("../images/icons/load-animation.svg");
+@g4u-checkbox-unchecked: url("../images/icons/checkbox-unchecked.svg");
+@g4u-checkbox-checked: url("../images/icons/checkbox-checked.svg");
+@g4u-radio-unchecked: url("../images/icons/radio-unchecked.svg");
+@g4u-radio-checked: url("../images/icons/radio-checked.svg");
 
 .g4u-desktop {
   .g4u-layerselector.ol-unselectable.ol-control {
@@ -126,6 +130,36 @@
         &.g4u-layerselector-disabled {
           background: fade(@g4u-disabled-color, @g4u-not-so-opaque);
           pointer-events: none;
+        }
+
+        &.g4u-layerselector-spacing {
+          //margin-top: 2 * @g4u-desktop-padding;
+        }
+
+        &.g4u-layerselector-checkbox {
+          .changeIconBefore(@g4u-checkbox-unchecked, @g4u-desktop-normal-fontsize);
+          &.g4u-layerselector-menu-active {
+            .changeIconBefore(@g4u-checkbox-checked, @g4u-desktop-normal-fontsize);
+          }
+        }
+
+        &.g4u-layerselector-radio {
+          .changeIconBefore(@g4u-radio-unchecked, @g4u-desktop-normal-fontsize);
+          &.g4u-layerselector-menu-active {
+            .changeIconBefore(@g4u-radio-checked, @g4u-desktop-normal-fontsize);
+          }
+        }
+
+        &.g4u-layerselector-group-1 {
+          border-right: solid 6px green;
+        }
+
+        &.g4u-layerselector-group-2 {
+          border-right: solid 6px purple;
+        }
+
+        &.g4u-layerselector-group-3 {
+          border-right: solid 6px red;
         }
       }
 
@@ -346,6 +380,10 @@
         // styling of active buttons
         &.g4u-layerselector-menu-active {
           background: @g4u-active-normal-button-color;
+        }
+
+        &.g4u-layerselector-spacing {
+          margin-top: 2 * @g4u-mobile-padding;
         }
       }
 

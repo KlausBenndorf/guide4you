@@ -54,6 +54,7 @@ import '../../less/layerselector.less'
  * @property {string} [items="normal"] can be "normal" or "exclusive"
  *    "normal": all contained layers can be activated independently
  *    "exclusive": activating one layer in this group will deactivate the others.
+ * @property {boolean} [unselectable=true] specifies if a button can be unselected
  * @property {boolean} [collapsible=true]
  * @property {boolean} [collapsed=true]
   */
@@ -111,7 +112,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       active: this.getClassName() + '-active',
       featureInfo: this.getClassName() + '-info',
       featureInfoActive: this.getClassName() + '-info-active',
-      disabled: this.getClassName() + '-disabled'
+      disabled: this.getClassName() + '-disabled',
+      spacing: this.getClassName() + '-spacing',
+      checkbox: this.getClassName() + '-checkbox',
+      radio: this.getClassName() + '-radio'
     }
 
     /**
@@ -197,6 +201,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       return this.buildWMSButton(buttonConfig, $target, group)
     } else if (buttonConfig.type === 'layer') {
       return this.buildLayerButton(buttonConfig, $target, group)
+    } else if (buttonConfig.type === 'multi') {
+      return this.buildMultiControl(buttonConfig, $target, group)
     } else {
       Debug.error(`Unknown button type '${buttonConfig.type}'`)
     }
@@ -210,7 +216,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     let $button = $('<span>')
       .addClass('button')
       .addClass(this.classNames_.layerButton)
-      .attr('id', buttonConfig.refId)
+
+    if (buttonConfig.refId) {
+      $button.attr('id', buttonConfig.refId)
+    }
 
     if (buttonConfig.hasOwnProperty('class')) {
       $button.addClass(buttonConfig.class)
@@ -364,6 +373,77 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       return buttonController
     }
+  }
+
+  buildMultiControl (buttonConfig, $target, group) {
+    // TODO: available for group buttons ??
+
+    const multiController = this.layerController_.registerMultiControl(buttonConfig, group)
+
+    if (buttonConfig.title !== undefined) {
+      const menu = new ButtonBox({
+        className: this.classNames_.menu,
+        title: this.getLocaliser().selectL10N(buttonConfig.title),
+        rtl: this.getMap().get('localiser').isRtl(),
+        titleButton: false,
+        collapsed: buttonConfig.collapsed !== false,
+        addClass: buttonConfig.addClass
+      })
+
+      $target.append(menu.get$Element())
+
+      multiController.on('change:active', () => {
+        menu.setCollapseButtonActive(multiController.getActive())
+      })
+
+      $target = menu.get$Body()
+    }
+
+    const activeClassName = this.classNames_.menu + '-active'
+
+    let lastName
+    let groupNumber
+    for (const subConfig of buttonConfig.buttons) {
+      const $button = this.buildBasicButton(subConfig)
+        .html(subConfig.title)
+      $target.append($button)
+      if (lastName === undefined) {
+        lastName = subConfig.name
+        groupNumber = 1
+      } else if (lastName !== subConfig.name) {
+        lastName = subConfig.name
+        groupNumber++
+        $button.addClass(this.classNames_.spacing)
+      }
+
+      $button.addClass(this.getClassName() + '-group-' + groupNumber)
+
+      if (subConfig.type === 'checkbox') {
+        $button.addClass(this.classNames_.checkbox)
+      } else if (subConfig.type === 'radio') {
+        $button.addClass(this.classNames_.radio)
+      }
+
+      $button.on('click', () => {
+        multiController.setParam(subConfig.name, subConfig.value, subConfig.type === 'radio')
+      })
+
+      const updateButton = () => {
+        const currentParams = multiController.getParams()
+        if (isArray(currentParams[subConfig.name])) {
+          $button.toggleClass(activeClassName, currentParams[subConfig.name].includes(subConfig.value))
+        } else {
+          $button.toggleClass(activeClassName, currentParams[subConfig.name] === subConfig.value)
+        }
+      }
+
+      multiController.on('change:params', updateButton)
+      updateButton()
+    }
+
+    // TODO: menu set disabled ?
+
+    return multiController
   }
 
   /**

@@ -154,10 +154,11 @@ export class URLAPI {
     } else if (key.toLowerCase() !== key) {
       Debug.error('Key should be lowercase.')
     } else {
+      key = decodeURIComponent(key)
       let queryString = window.location.search
       let match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'))
       if (match) {
-        let value = match[ 2 ]
+        let value = decodeURIComponent(match[2]).trim()
         this.query_.setUrlValue(key, value)
       }
 
