@@ -112,8 +112,6 @@ export class MultiController extends ButtonController {
       })
     })
 
-    // TODO: use listener manager mixin
-    // this.listenAt(layer).on('loadcountend', () => {
     layer.on('loadcountend', () => {
       this.loading_ = false
       this.dispatchEvent({
