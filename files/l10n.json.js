@@ -51,6 +51,13 @@ module.exports = {
     'ar': 'مصدر'
   },
 
+  'CloseWindowButton label': {
+    'de': 'Schlie&szlig;en / Zur&uuml;ck',
+    'en': 'Close / Back',
+    'pl': 'Zamknij',
+    'ar': 'إغلاق / رجوع'
+  },
+
   'Dropdown noEntries': {
     'de': 'Keine Eintr&auml;ge',
     'en': 'No entries',
@@ -170,6 +177,67 @@ module.exports = {
     'ar': 'منزل'
   },
 
+  'LinkGenerator afterLinkText': {
+    'de': ' um Karte in neuem Fenster anzuzeigen.',
+    'en': ' to show map in a new window.',
+    'pl': ' aby pokaza&cacute; map&eogon; w nowym oknie.',
+    'ar': 'لمشاهدة الخريطة في نافذة العرض الجديدة'
+  },
+  'LinkGenerator beforeLinkText': {
+    'de': '',
+    'en': '',
+    'pl': '',
+    'ar': ''
+  },
+  'LinkGenerator linkText': {
+    'de': 'Hier klicken',
+    'en': 'Click here',
+    'pl': 'Kliknij tutaj',
+    'ar': 'اضغط هنا'
+  },
+
+  'LinkGeneratorButton hint': {
+    'de': 'Benutzen Sie Strg-C oder das Kontextmen&uuml; um den Link zu kopieren',
+    'en': 'Use Ctrl-C or context menu to copy link',
+    'pl': 'U&zdot;yj Ctrl-C lub menu kontekstowego, aby skopiowa&cacute; link',
+    'ar': 'استخدم Ctrl-C أو قائمة السياق لنسخ الرابط'
+  },
+  'LinkGeneratorButton markerText': {
+    'de': '',
+    'en': '',
+    'pl': '',
+    'ar': ''
+  },
+  'LinkGeneratorButton setMarkerText': {
+    'de': 'Marker platzieren (optional)',
+    'en': 'Place marker (optional)',
+    'pl': 'Umie&sacute;&cacute; znacznik',
+    'ar': 'علامة المكان (اختياري)'
+  },
+  'LinkGeneratorButton setMarkerTextBoxText': {
+    'de': 'Text eingeben:',
+    'en': 'Insert text:',
+    'pl': 'Dodaj tekst:',
+    'ar': 'إدخال نص'
+  },
+  'LinkGeneratorButton tipLabel': {
+    'de': 'Link zur aktuellen Ansicht',
+    'en': 'Link to current view',
+    'pl': 'Link do bie&zdot;&aogon;cego widoku',
+    'ar': 'رابط إلى العرض الحالي'
+  },
+  'LinkGeneratorButton title': {
+    'de': 'Link',
+    'en': 'Link',
+    'pl': 'Link',
+    'ar': 'حلقة الوصل'
+  },
+
+  'MaximizeButton tipLabel': {
+    'de': 'Karte maximieren',
+    'en': 'Maximize Map'
+  },
+
   'MeasurementButton dim1 measured': {
     'de': 'Gemessene Strecke: ',
     'en': 'Measured distance: ',
@@ -257,6 +325,25 @@ module.exports = {
     'en': 'G4U3 print window',
     'pl': 'G4U3 - Wydruk',
     'ar': 'G4U3 نافذة الطباعة'
+  },
+
+  'SearchControl noSearchResults': {
+    'de': 'Keine Suchergebnisse',
+    'en': 'No search results',
+    'pl': 'Brak wynik&oacute;w wyszukiwania',
+    'ar': 'ل يوجد نتائج للبحث'
+  },
+  'SearchControl placeholder': {
+    'de': 'Bitte Suche eingeben',
+    'en': 'Please enter search',
+    'pl': 'Wprowad&zacute; dane do wyszukiwania',
+    'ar': 'ادخل رجاء ما تبحث عنه'
+  },
+  'SearchControl searchButton': {
+    'de': 'Suchen',
+    'en': 'Search',
+    'pl': 'Szukaj',
+    'ar': 'البحث'
   },
 
   'SingleDrawButton title': {

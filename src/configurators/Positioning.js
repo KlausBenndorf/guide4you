@@ -553,8 +553,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       for (let elem of elems) {
         if (elem.control.isSqueezable && elem.control.isSqueezable(side)) {
           insert(elem)
-        }
-        if (elem.hideableChildren) {
+        } else if (elem.hideableChildren) {
           findSqueezables(elem.hideableChildren)
         }
       }

@@ -1,6 +1,9 @@
 import $ from 'jquery'
+import { concat, difference } from 'lodash/array'
+import { isEmpty } from 'lodash/lang'
 import ImageWMS from 'ol/source/ImageWMS'
 import TileWMS from 'ol/source/TileWMS'
+import { appendParams } from 'ol/uri'
 
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
@@ -16,28 +19,32 @@ import { Debug } from '../Debug'
  *    specifies if the feature info button appears activated or not.
  */
 
-export class WMSFeatureInfoMixin {
+export class WMSMixin {
   /**
    * @param {object} options
    * @param {WMSFeatureInfoOptions} options.featureInfo
    */
   initialize (options) {
     this.featureInfo_ = options.featureInfo !== undefined
+    this.featureInfoParams_ = {
+      QUERY_LAYERS: []
+    }
 
     if (this.featureInfo_) {
-      this.featureInfoParams_ = options.featureInfo.params || {}
-      this.featureInfoCheckable_ = options.featureInfo.checkable
+      Object.assign(this.featureInfoParams_, options.featureInfo.params)
       this.featureInfoMutators_ = options.featureInfo.mutators
-      this.featureInfoChecked_ = options.featureInfo.checked
+    }
+
+    if (!this.getParams()['LAYERS']) {
+      this.updateParams({
+        LAYERS: []
+      })
     }
   }
 
-  getFeatureInfoParams () {
-    return this.featureInfoParams_
-  }
-
   getQueryable () {
-    return this.featureInfoParams_['QUERY_LAYERS'] && this.featureInfoParams_['QUERY_LAYERS'].length
+    return this.featureInfo_ &&
+      this.featureInfoParams_['QUERY_LAYERS'] && this.featureInfoParams_['QUERY_LAYERS'].length
   }
 
   getFeatureInfoMutators () {
@@ -48,16 +55,53 @@ export class WMSFeatureInfoMixin {
     return this.featureInfo_
   }
 
-  isFeatureInfoCheckable () {
-    return this.featureInfoCheckable_
+  activateLayers (layers) {
+    this.updateParams({
+      LAYERS: concat(this.getParams()['LAYERS'], layers)
+    })
+    this.dispatchEvent('change:layers')
   }
 
-  isFeatureInfoChecked () {
-    return this.featureInfoChecked_
+  deactivateLayers (layers) {
+    this.updateParams({
+      LAYERS: difference(this.getParams()['LAYERS'], layers)
+    })
+    this.dispatchEvent('change:layers')
+  }
+
+  areLayersActive (layers) {
+    return isEmpty(difference(layers, this.getParams()['LAYERS']))
+  }
+
+  anyLayerActive () {
+    return !isEmpty(this.getParams()['LAYERS'])
+  }
+
+  activateQueryLayers (layers) {
+    this.updateFeatureInfoParams({
+      QUERY_LAYERS: concat(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+    })
+    this.dispatchEvent('change:queryLayers')
+  }
+
+  deactivateQueryLayers (layers) {
+    this.updateFeatureInfoParams({
+      QUERY_LAYERS: difference(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+    })
+    this.dispatchEvent('change:queryLayers')
+  }
+
+  areQueryLayersActive (layers) {
+    return isEmpty(difference(layers, this.getFeatureInfoParams()['QUERY_LAYERS']))
+  }
+
+  getFeatureInfoParams () {
+    return this.featureInfoParams_
   }
 
   updateFeatureInfoParams (newParams) {
     Object.assign(this.featureInfoParams_, newParams)
+    this.changed()
   }
 
   getFeatureInfo (coordinate, resolution, projection) {
@@ -77,53 +121,63 @@ export class WMSFeatureInfoMixin {
     })
   }
 
-  toggleArrayEntries_ (obj, prop, names, toggle) {
-    let arr = obj[prop] || []
-    if (toggle) {
-      // the call of toggleWMSLayers in TemplatePrintControl causes an polyfill error in
-      // internet explorer / microsoft edge related to Symbol.iterator which is used for
-      // the for-of loop
-      names.forEach(name => {
-        if (arr.indexOf(name) < 0) {
-          arr.push(name)
-        }
-      })
-      // for (let name of names) {
-      //   if (arr.indexOf(name) < 0) {
-      //     arr.push(name)
-      //   }
-      // }
-    } else {
-      for (let name of names) {
-        let index = arr.indexOf(name)
-        if (index >= 0) {
-          arr.splice(index, 1)
-        }
-      }
+  getGetLegendGraphicUrl (params) {
+    const baseParams = {
+      'REQUEST': 'GetLegendGraphic',
+      'FORMAT': 'image/png'
     }
-    obj[prop] = arr
-    return obj
+    Object.assign(baseParams, this.getParams(), params)
+
+    return appendParams(this.getUrl(), baseParams)
   }
 
-  toggleWMSLayers (names, toggle) {
-    this.updateParams(this.toggleArrayEntries_(this.getParams(), 'LAYERS', names, toggle))
-  }
-
-  toggleWMSQueryLayers (names, toggle) {
-    this.updateFeatureInfoParams(this.toggleArrayEntries_(this.featureInfoParams_, 'QUERY_LAYERS', names, toggle))
-  }
-
-  arrayContainsAll (arr, contains) {
-    return contains.every(needle => arr.indexOf(needle) >= 0)
-  }
-
-  getWMSLayersVisible (names) {
-    return this.arrayContainsAll(this.getParams().LAYERS || [], names)
-  }
-
-  getWMSQueryLayersVisible (names) {
-    return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)
-  }
+  // toggleArrayEntries_ (obj, prop, names, toggle) {
+  //   let arr = obj[prop] || []
+  //   if (toggle) {
+  //     // the call of toggleWMSLayers in TemplatePrintControl causes an polyfill error in
+  //     // internet explorer / microsoft edge related to Symbol.iterator which is used for
+  //     // the for-of loop
+  //     names.forEach(name => {
+  //       if (arr.indexOf(name) < 0) {
+  //         arr.push(name)
+  //       }
+  //     })
+  //     // for (let name of names) {
+  //     //   if (arr.indexOf(name) < 0) {
+  //     //     arr.push(name)
+  //     //   }
+  //     // }
+  //   } else {
+  //     for (let name of names) {
+  //       let index = arr.indexOf(name)
+  //       if (index >= 0) {
+  //         arr.splice(index, 1)
+  //       }
+  //     }
+  //   }
+  //   obj[prop] = arr
+  //   return obj
+  // }
+  //
+  // toggleWMSLayers (names, toggle) {
+  //   this.updateParams(this.toggleArrayEntries_(this.getParams(), 'LAYERS', names, toggle))
+  // }
+  //
+  // toggleWMSQueryLayers (names, toggle) {
+  //   this.updateFeatureInfoParams(this.toggleArrayEntries_(this.featureInfoParams_, 'QUERY_LAYERS', names, toggle))
+  // }
+  //
+  // arrayContainsAll (arr, contains) {
+  //   return contains.every(needle => arr.indexOf(needle) >= 0)
+  // }
+  //
+  // getWMSLayersVisible (names) {
+  //   return this.arrayContainsAll(this.getParams().LAYERS || [], names)
+  // }
+  //
+  // getWMSQueryLayersVisible (names) {
+  //   return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)
+  // }
 }
 
 /**
@@ -134,7 +188,7 @@ export class WMSFeatureInfoMixin {
  * @property {WMSFeatureInfoOptions} featureInfo
  */
 
-export class ImageWMSSource extends mixin(ImageWMS, WMSFeatureInfoMixin) {
+export class ImageWMSSource extends mixin(ImageWMS, WMSMixin) {
   constructor (options) {
     const originalUrl = options.url
     options.url = '_' // dummy value that gets sliced out
@@ -147,7 +201,7 @@ export class ImageWMSSource extends mixin(ImageWMS, WMSFeatureInfoMixin) {
   }
 }
 
-export class TileWMSSource extends mixin(TileWMS, WMSFeatureInfoMixin) {
+export class TileWMSSource extends mixin(TileWMS, WMSMixin) {
   constructor (options) {
     const origUrl = options.url
     options.url = '_' // dummy value that gets sliced out

@@ -1,23 +1,23 @@
-import { By, until } from 'selenium-webdriver'
-import customDriver from './customDriver'
-import { describe, before, after, it } from 'selenium-webdriver/testing/'
-import assert from 'selenium-webdriver/testing/assert.js'
-import config from './config.js'
-import { executeFunctionInPage, waitUntilMapReady } from './testUtils'
+const selenium = require('selenium-webdriver')
+const By = selenium.By
+const until = selenium.until
+const customDriver = require('./customDriver')
+const testing = require('selenium-webdriver/testing/')
+const describe = testing.describe
+const before = testing.before
+const after = testing.after
+const it = testing.it
+const config = require('./config.js')
+const assert = require('selenium-webdriver/testing/assert.js')
+const waitUntilMapReady = require('./testUtils').waitUntilMapReady
 
 // globals in browser
 var map
 
-function waitUntilSetFeatureLayers (driver, featureLayers) {
-  function setFeatureLayers (_featureLayers) {
-    var layerConf = map.get('layerConfig')
-    layerConf.baseLayers = []
-    layerConf.featureLayers = _featureLayers
-    map.get('configurator').configureMap()
-  }
-
-  return executeFunctionInPage(driver, setFeatureLayers, featureLayers)
-    .then(waitUntilMapReady(driver))
+function setLayerConfig (config, callback) {
+  map.set('layerConfig', config)
+  map.get('configurator').configureUI()
+  map.asSoonAs('ready:ui', true, callback)
 }
 
 describe('LayerSelector', function () {
@@ -34,68 +34,70 @@ describe('LayerSelector', function () {
     driver.quit()
   })
 
-  it('should show a layerSelector', function (done) {
-    driver.get(config.testClient).then(
-      waitUntilMapReady(driver)
-    ).then(
-      waitUntilSetFeatureLayers(driver, [
-        {
-          id: 0,
-          title: 'layer1',
-          type: 'Intern',
-          source: {}
-        }
-      ])
-    ).then(
-      driver.wait(until.elementLocated(By.className('g4u-layerselector')), config.seleniumTimeout,
-        'layerSelector should be visible in time')
-    ).then(function () {
-      var layerButton = driver.findElement(By.className('g4u-layerselector-layerbutton'))
-      assert(layerButton.getText()).equalTo('layer1')
-    }).then(
-      done
-    )
+  it('should show a layerSelector', async function (done) {
+    await driver.get(config.testClient)
+    await waitUntilMapReady(driver)
+    await driver.executeAsyncScript(setLayerConfig, {
+      menus: {
+        baseLayers: [],
+        featureLayers: [{
+          type: 'layer',
+          refId: 0
+        }]
+      },
+      layers: [{
+        id: 0,
+        title: 'layer1',
+        type: 'Intern'
+      }]
+    })
+    await driver.wait(until.elementLocated(By.className('g4u-layerselector')), config.seleniumTimeouts.script,
+      'layerSelector should be visible in time')
+    const layerButton = await driver.findElement(By.className('g4u-layerselector-layerbutton'))
+    assert(await layerButton.getText()).equalTo('layer1')
+    done()
   })
 
-  it('should show a category button', function (done) {
-    driver.get(config.testClient).then(
-      waitUntilMapReady(driver)
-    ).then(
-      waitUntilSetFeatureLayers(driver, [
-        {
-          id: 0,
+  it('should show a category button', async function (done) {
+    await driver.get(config.testClient)
+    await waitUntilMapReady(driver)
+    await driver.executeAsyncScript(setLayerConfig, {
+      menus: {
+        baseLayers: [],
+        featureLayers: {
+          type: 'group',
           title: 'cat1',
-          type: 'Category',
-          layers: [
+          buttons: [
             {
-              id: 1,
-              title: 'layer1',
-              type: 'Intern',
-              source: {}
+              type: 'layer',
+              refId: 0
             }
           ]
         }
-      ])
-    ).then(
-      driver.wait(until.elementLocated(By.className('g4u-layerselector')), config.seleniumTimeout,
-        'layerSelector should be visible in time')
-    ).then(function () {
-      var category = driver.findElement(By.className('g4u-layerselector-menu'))
-      var titleButton = category.findElement(By.className('g4u-layerselector-menu-titlebutton'))
-      assert(titleButton.isDisplayed()).equalTo(true)
-      assert(titleButton.getText()).equalTo('cat1')
-      var collapseButton = category.findElement(By.className('g4u-layerselector-menu-collapsebutton'))
-      assert(collapseButton.isDisplayed()).equalTo(true)
-      return collapseButton.click().then(function () {
-        var layerButton = category.findElement(By.className('g4u-layerselector-layerbutton'))
-        assert(layerButton.isDisplayed()).equalTo(true)
-        assert(layerButton.getText()).equalTo('layer1')
-        return layerButton.click().then(function () {
-          assert(layerButton.getAttribute('class')).contains('g4u-layerselector-menu-active')
-        })
-      })
-    }).then(
-      done
-    )
+      },
+      layers: [{
+        id: 0,
+        title: 'layer1',
+        type: 'Intern'
+      }]
+    })
+
+    await driver.wait(until.elementLocated(By.className('g4u-layerselector')), config.seleniumTimeouts.script,
+      'layerSelector should be visible in time')
+
+    const category = await driver.findElement(By.className('g4u-layerselector-menu'))
+    const titleButton = await category.findElement(By.className('g4u-layerselector-menu-titlebutton'))
+    assert(await titleButton.isDisplayed()).equalTo(true)
+    assert(await titleButton.getText()).equalTo('cat1')
+    const collapseButton = await category.findElement(By.className('g4u-layerselector-menu-collapsebutton'))
+    assert(await collapseButton.isDisplayed()).equalTo(true)
+    await collapseButton.click()
+    const layerButton = await category.findElement(By.className('g4u-layerselector-layerbutton'))
+    assert(await layerButton.isDisplayed()).equalTo(true)
+    assert(await layerButton.getText()).equalTo('layer1')
+    await layerButton.click()
+    assert(await layerButton.getAttribute('class')).contains('g4u-layerselector-menu-active')
+
+    done()
   })
 })

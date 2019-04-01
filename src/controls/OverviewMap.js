@@ -1,4 +1,5 @@
 import OlOverviewMap from 'ol/control/OverviewMap'
+import LayerGroup from 'ol/layer/Group'
 
 import { RewireMixin } from './RewireMixin'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
@@ -41,7 +42,11 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
     if (map) {
       const view = map.getView()
 
-      this.getOverviewMap().setLayerGroup(map.get('baseLayers'))
+      const groupLayer = new LayerGroup({
+        layers: map.getLayers().getArray().filter(l => l.get('overview'))
+      })
+
+      this.getOverviewMap().setLayerGroup(groupLayer)
 
       let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
 

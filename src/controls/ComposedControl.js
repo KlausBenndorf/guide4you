@@ -10,6 +10,8 @@ import '../../less/layermenu.less'
 /**
  * @typedef {g4uControlOptions} ComposedControlOptions
  * @property {string} [containerClassName]
+ * @property {boolean} [squeeze=false]
+ * @property {number} [minHeight=50]
  */
 
 /**
@@ -65,6 +67,9 @@ export class ComposedControl extends Control {
      * @private
      */
     this.classNameItemLast_ = this.classNameItem_ + '-last'
+
+    this.squeeze_ = options.squeeze === true
+    this.minHeight_ = options.minHeight === undefined ? 50 : options.minHeight
   }
 
   /**
@@ -227,5 +232,55 @@ export class ComposedControl extends Control {
 
   updateVisibility () {
     this.setVisible(this.controls_.some(c => c.getVisible()))
+  }
+
+  /**
+   * Returns true if the control is squeezable in the given dimension. Used by Positioning.
+   * @param {string} dimension
+   * @returns {boolean}
+   */
+  isSqueezable (dimension) {
+    return this.squeeze_ && dimension === 'height'
+  }
+
+  /**
+   * Squeezes the control in the given dimension by the provided value. Used by Positioning
+   * Returns the value the control could get squeezed by.
+   * @param {string} dimension
+   * @param {number} value
+   * @returns {number}
+   */
+  squeezeBy (dimension, value) {
+    if (this.squeeze_ && dimension === 'height') {
+      const height = this.$container_.height()
+      const newHeight = Math.max(this.minHeight_, height - value)
+      if (height > newHeight) {
+        this.$container_.css('max-height', newHeight)
+        return height - newHeight
+      }
+    }
+
+    return 0
+  }
+
+  beforePositioning () {
+    this.scrolled_ = this.$container_.scrollTop()
+  }
+
+  /**
+   * used by positioning
+   */
+  afterPositioning () {
+    this.$container_.scrollTop(this.scrolled_)
+  }
+
+  /**
+   * Removes the squeeze. Used by Positioning.
+   * @param {string} dimension
+   */
+  release (dimension) {
+    if (dimension === 'height') {
+      this.$container_.css('max-height', '')
+    }
   }
 }

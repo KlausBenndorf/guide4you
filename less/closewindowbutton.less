@@ -1,0 +1,56 @@
+@import "./lengths";
+@import "./controlgenerics";
+@import "./colors";
+
+@g4u-close-icon: url("../images/close.svg");
+
+.g4u-desktop {
+  .ol-overlaycontainer-stopevent > .g4u-close-button .g4u-control-mainbutton {
+    border-radius: @g4u-desktop-small-border-radius;
+  }
+
+  .g4u-close-button {
+    .g4u-control-mainbutton {
+      //.buttonWithIcon(@g4u-close-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+      padding-left: @g4u-desktop-padding;
+      padding-right: @g4u-desktop-padding;
+    }
+  }
+}
+
+.g4u-mobile {
+  .g4u-close-window-button {
+    display: initial !important;
+    width: 100%;
+    top: @g4u-mobile-padding;
+    left: 0;
+    padding: 0;
+
+    button {
+      position: relative;
+      margin-left: auto;
+      margin-right: auto;
+      display: table;
+      height: @g4u-mobile-button-size;
+      width: 5*@g4u-mobile-button-size + (8 * @g4u-tiny);
+      border: (2 * @g4u-tiny) solid @g4u-darker-main-color;
+      border-radius: @g4u-mobile-small-border-radius;
+      color: white;
+      background: @g4u-dark-main-color;
+      padding: 0;
+      padding-left: 3*@g4u-mobile-padding;
+      font-size: @g4u-mobile-small-fontsize;
+
+      &:after {
+        position: absolute;
+        top: round((@g4u-mobile-button-size - @g4u-mobile-huge-fontsize)/2);
+        right: round((@g4u-mobile-button-size - @g4u-mobile-huge-fontsize)/2);
+        content: @g4u-close-icon;
+        width: @g4u-mobile-huge-fontsize;
+        height: @g4u-mobile-huge-fontsize;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+  }
+}

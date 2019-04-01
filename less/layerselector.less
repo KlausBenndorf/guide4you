@@ -10,6 +10,10 @@
 @g4u-layerselector-info-green: url("../images/icons/info-circle-green.svg");
 @g4u-whitespace-icon: url("../images/icons/plusminus-nothing.svg");
 @g4u-load-animation: url("../images/icons/load-animation.svg");
+@g4u-checkbox-unchecked: url("../images/icons/checkbox-unchecked.svg");
+@g4u-checkbox-checked: url("../images/icons/checkbox-checked.svg");
+@g4u-radio-unchecked: url("../images/icons/radio-unchecked.svg");
+@g4u-radio-checked: url("../images/icons/radio-checked.svg");
 
 .g4u-desktop {
   .g4u-layerselector.ol-unselectable.ol-control {
@@ -41,7 +45,7 @@
         border-top-left-radius: @g4u-desktop-small-border-radius;
       }
 
-      .g4u-layerselector-collapsed {
+      &.g4u-layerselector-collapsed {
         .g4u-layerselector-titlebutton {
           .changeIconBefore(@g4u-layerselector-group-expanded-icon);
           border-bottom-right-radius: @g4u-desktop-small-border-radius;
@@ -98,6 +102,18 @@
         }
       }
 
+      .g4u-layerselector-spacer {
+        box-sizing: border-box;
+        display: block;
+        height: @g4u-desktop-padding;
+        margin-top: @g4u-desktop-padding;
+        left: 0;
+        right: 0;
+        border-radius: 0;
+        padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+        background: fade(@g4u-disabled-color, @g4u-not-so-opaque);
+      }
+
       .g4u-layerselector-layerbutton {
         .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
         height: auto; // hotfix
@@ -126,6 +142,20 @@
         &.g4u-layerselector-disabled {
           background: fade(@g4u-disabled-color, @g4u-not-so-opaque);
           pointer-events: none;
+        }
+
+        &.g4u-layerselector-checkbox {
+          .changeIconBefore(@g4u-checkbox-unchecked, @g4u-desktop-normal-fontsize);
+          &.g4u-layerselector-menu-active {
+            .changeIconBefore(@g4u-checkbox-checked, @g4u-desktop-normal-fontsize);
+          }
+        }
+
+        &.g4u-layerselector-radio {
+          .changeIconBefore(@g4u-radio-unchecked, @g4u-desktop-normal-fontsize);
+          &.g4u-layerselector-menu-active {
+            .changeIconBefore(@g4u-radio-checked, @g4u-desktop-normal-fontsize);
+          }
         }
       }
 
@@ -346,6 +376,10 @@
         // styling of active buttons
         &.g4u-layerselector-menu-active {
           background: @g4u-active-normal-button-color;
+        }
+
+        &.g4u-layerselector-spacing {
+          margin-top: 2 * @g4u-mobile-padding;
         }
       }
 

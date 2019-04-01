@@ -1,10 +1,10 @@
-import webdriver from 'selenium-webdriver'
-import phantomjs from 'phantomjs-prebuilt'
+const webdriver = require('selenium-webdriver')
+const phantomjs = require('phantomjs-prebuilt')
 
-let customPhantom = webdriver.Capabilities.phantomjs()
+const customPhantom = webdriver.Capabilities.phantomjs()
 customPhantom.set('phantomjs.binary.path', phantomjs.path)
 
-export default function () {
+module.exports = function () {
   return new webdriver.Builder().withCapabilities(customPhantom).build()
-  // return new webdriver.Builder().forBrowser('firefox').build()
+  // return new webdriver.Builder().forBrowser('chrome').build()
 }

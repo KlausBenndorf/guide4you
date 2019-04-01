@@ -33,6 +33,10 @@ module.exports = {
         'Klicken Sie auf das Dreiecks&shy;symbol vor <strong>Karten</strong> oder <strong>Infos,</strong> um die entsprechenden Men&uuml;s ein- oder auszuklappen.'
       ]
     },
+    'linkGeneratorButton': {
+      'img': ['button-link.png'],
+      'descr': ['Mit dieser Schalt&shy;fl&auml;che zeigen Sie einen Link (Verweis) auf die aktuell dargestellte Karten&shy;ansicht an.']
+    },
     'geolocationButton': {
       'img': [
         'button-geolocation-inactive.png',
@@ -108,6 +112,18 @@ module.exports = {
         'Dieses Element zeigt die Quellen&shy;angabe des Karten&shy;materials an. Durch Klicken auf das Info&shy;symbol klappen Sie die Quellen&shy;angabe aus, durch Klicken auf das Dreiecks&shy;symbols klappen Sie sie ein.',
         'Die obere Abbildung zeigt die Quellen&shy;angabe in ausgeklapptem, die untere in eingeklapptem Zustand.'
       ]
+    },
+    'searchControl': {
+      'img': [
+        'search-inactive-de.png',
+        'search-active.png'
+      ],
+      'joinWith': '<br>&nbsp;<br>',
+      'descr': [
+        'Mit diesem Element suchen Sie nach Adressen, Orten, und &Auml;hnlichem. Tippen Sie den Such&shy;begriff in das Such&shy;feld ein.',
+        'W&auml;hlen Sie mit der Maus oder den Pfeil&shy;tasten aus den angezeigten Vorschl&auml;gen aus oder geben Sie den Such&shy;begriff vollst&auml;ndig ein. F&uuml;hren Sie die Suche aus, indem Sie die Enter-Taste bet&auml;tigen oder auf das Lupen&shy;symbol klicken.',
+        'Die obere Abbildung zeigt die Suche im inaktiven Zustand, die untere mit Vorschl&auml;gen.'
+      ]
     }
   },
   // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,6 +156,10 @@ module.exports = {
         'The active base map and additional information are being highlighted by means of color.',
         'Click the triangle symbol in front of <strong>Maps</strong> or <strong>Information</strong> to collapse or expand the corresponding menu.'
       ]
+    },
+    'linkGeneratorButton': {
+      'img': ['button-link.png'],
+      'descr': ['Use this button to display a link to the current view of the map.']
     },
     'geolocationButton': {
       'img': [
@@ -216,6 +236,18 @@ module.exports = {
         'This element shows the attribution information of the current map. By clicking the triangle symbol you collapse the attribution, by clicking the info symbol you expand it.',
         'The upper image shows the attribution in expanded state, the lower image in collapsed state.'
       ]
+    },
+    'searchControl': {
+      'img': [
+        'search-inactive-en.png',
+        'search-active.png'
+      ],
+      'joinWith': '<br>&nbsp;<br>',
+      'descr': [
+        'Use this element to search for addresses, places and the like.',
+        'Type a search term into the search field. Choose among the suggestions using the mouse or the arrow buttons or enter the full search term. Execute the search by pressing the Enter button or clicking the magnifying glass symbol.',
+        'The upper image shows the search in inactive state, the lower image with suggestions being displayed.'
+      ]
     }
   },
   'ar': {
@@ -248,6 +280,10 @@ module.exports = {
         'وسيتم إبراز الخريطة الأساسية الفعالة والمعلومات التكميلية',
         ' انقر على رمز المثلت امام <strong>المخطط</strong> او <strong>المعلومات</strong> الى القوائم المقابلة او للاكتشاف '
       ]
+    },
+    'linkGeneratorButton': {
+      'img': ['button-link.png'],
+      'descr': ['استخدم هذا الزر لعرض رابط إلى العرض الحالي للخريطة']
     },
     'geolocationButton': {
       'img': [
@@ -323,6 +359,18 @@ module.exports = {
       'descr': [
         ' هذا الملف يظهر لك ذكر مصادر الإقتباس للمخطط عندما تريدين فتحه يجب عليك الضغط على اشارة التعجب . وعندما تقومين بالضغط على رمز المثلث يتم حفظها ',
         ' الرسوم التوضيحية تظهر لك ذكر مصادر الاقتباس او كيفية اغلاقه وفتحه '
+      ]
+    },
+    'searchControl': {
+      'img': [
+        'search-inactive-ar.png',
+        'search-active.png'
+      ],
+      'joinWith': '<br>&nbsp;<br>',
+      'descr': [
+        'استخدم هذا العنصر للبحث عن العناوين والأماكن وما شابه ذلك',
+        'اكتب عبارة بحث في حقل البحث. اختر من بين الاقتراحات باستخدام الماوس أو أزرار الأسهم أو أدخل عبارة البحث بالكامل. قم بتنفيذ البحث عن طريق الضغط على زر إنتر أو النقر فوق رمز العدسة المكبرة.',
+        'تظهر الصورة العليا البحث في حالة غير نشطة، الصورة السفلى مع الاقتراحات التي يتم عرضها.'
       ]
     }
   }

@@ -71,14 +71,15 @@
           "VERSION": "1.3.0",
           "LAYERS": [
             "nw_fzk"
-          ]
+          ],
+          "QUERY_LAYERS": ["nw_fzk_info"]
         },
-//        "featureInfo": {
-//          "params": {
-//            "FORMAT": "text/html"
-//            // "text/plain", "application/vnd.ogc.gml"
-//          }
-//        },
+        "featureInfo": {
+          "params": {
+            "FORMAT": "text/html"
+            // "text/plain", "application/vnd.ogc.gml"
+          }
+        },
         "attribution": "Geobasis NRW 2016"
       }
     },

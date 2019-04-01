@@ -24,7 +24,8 @@ mustacheLoader.setTemplateVars({
     'c.tile.openstreetmap.org',
     'stadtplan.bonn.de',
     'www.wmts.nrw.de',
-    'www.wms.nrw.de'
+    'www.wms.nrw.de',
+    'nominatim.openstreetmap.org'
   ]
 })
 
