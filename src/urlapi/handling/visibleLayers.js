@@ -1,5 +1,3 @@
-import { GroupLayer } from '../../layers/GroupLayer'
-
 /**
  * @type {URLParameter}
  */

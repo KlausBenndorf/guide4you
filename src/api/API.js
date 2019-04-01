@@ -2,7 +2,6 @@ import $ from 'jquery'
 import { get as getProj, transform, transformExtent } from 'ol/proj'
 import BaseObject from 'ol/Object'
 import { boundingExtent } from 'ol/extent'
-import WKT from 'ol/format/WKT'
 
 import { cssClasses, keyCodes } from '../globals'
 import { Debug } from '../Debug'

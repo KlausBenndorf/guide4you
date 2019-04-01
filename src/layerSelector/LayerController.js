@@ -17,7 +17,7 @@ export class LayerController {
 
   registerAdditionalGroup (value, controller) {
     if (!this.addGroups_[value]) {
-      this.addGroups_[value] = new GroupButtonController({exclusive: true})
+      this.addGroups_[value] = new GroupButtonController({ exclusive: true })
       this.controllers_[this.id_++] = this.addGroups_[value]
     }
     const groupController = this.addGroups_[value]

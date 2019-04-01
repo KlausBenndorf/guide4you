@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   testClient: 'http://localhost:8089/dist/',
   mochaTimeout: 10000,
   testLayerIds: [ 0 ],

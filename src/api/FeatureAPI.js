@@ -125,8 +125,6 @@ export class FeatureAPI {
 
     $(this.map_.getViewport()).addClass(cssClasses.crosshair)
 
-    let ended = false
-
     this.mainAPI_.once('cancelInteractions', () => {
       $(this.map_.getViewport()).removeClass(cssClasses.crosshair)
       interaction.setActive(false)

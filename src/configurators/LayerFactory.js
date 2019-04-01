@@ -289,7 +289,7 @@ export class LayerFactory extends Observable {
         break
       case LayerType.INTERN:
 
-        if (optionsCopy.source.hasOwnProperty('features')) {
+        if (optionsCopy.source && optionsCopy.source.hasOwnProperty('features')) {
           for (let i = 0; i < optionsCopy.source.features.length; i++) {
             optionsCopy.source.features[i] = this.createFeature(optionsCopy.source.features[i])
           }

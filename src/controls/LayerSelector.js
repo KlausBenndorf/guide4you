@@ -674,8 +674,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     }
   }
 
-
-
   clear () {
     this.detachAllListeners()
     this.menu_.get$Body().empty()
