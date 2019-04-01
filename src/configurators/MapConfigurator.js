@@ -10,7 +10,7 @@ import { LayerConfigurator } from './LayerConfigurator'
 import { UIConfigurator } from './UIConfigurator'
 import { copyDeep } from '../utilitiesObject'
 import { checkFor } from '../utilities'
-import { API } from '../API'
+import { API } from '../api/API'
 import { Debug } from '../Debug'
 
 /**

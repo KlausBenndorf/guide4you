@@ -294,4 +294,13 @@ export class URL {
     newUrl.url += extension
     return newUrl
   }
+
+  beforeSend () {
+    return xhr => {
+      if (this.username && this.password) {
+        const auth = window.btoa(`${this.username}:${this.password}`)
+        xhr.setRequestHeader('Authorization', 'Basic ' + auth)
+      }
+    }
+  }
 }
