@@ -162,7 +162,7 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
       this.layer_.setStyle(map.get('styling').getStyle(this.finishedStyle_))
       map.get('styling').manageLayer(this.layer_)
 
-      map.getLayers().insertAt(1, this.layer_) // at 0 the baselayers are
+      map.addLayer(this.layer_) // at 0 the baselayers are
 
       $(map.getViewport()).parent().on('keydown', e => {
         if (e.which === keyCodes.ESCAPE && this.interaction_) {

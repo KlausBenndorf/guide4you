@@ -59,7 +59,7 @@ export class SearchView {
           projection: map.getView().getProjection()
         })
       })
-      map.getLayers().insertAt(1, this.searchlayerBottom_)
+      map.addLayer(this.searchlayerBottom_)
       this.searchlayerBottom_.setStyle(this.olStyle_)
       map.get('styling').manageLayer(this.searchlayerBottom_)
 

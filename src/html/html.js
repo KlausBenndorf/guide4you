@@ -14,7 +14,9 @@ import { cssClasses } from '../globals'
 export function getInFront ($element, $context) {
   let highest = 0
 
-  $context = $context || $(document)
+  if (!$context) {
+    throw new Error('no context for getInFront provided')
+  }
 
   let foundAbsolute = false
 
@@ -24,7 +26,10 @@ export function getInFront ($element, $context) {
         foundAbsolute = true
         getInFront($(el), $context)
         getInFront($element, $(el))
+        return false
       }
+    } else {
+      return false
     }
   })
 

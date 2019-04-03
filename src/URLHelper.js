@@ -295,12 +295,11 @@ export class URL {
     return newUrl
   }
 
-  beforeSend () {
-    return xhr => {
-      if (this.username && this.password) {
-        const auth = window.btoa(`${this.username}:${this.password}`)
-        xhr.setRequestHeader('Authorization', 'Basic ' + auth)
-      }
+  setAuth (xhr) {
+    if (this.username && this.password) {
+      const auth = window.btoa(`${this.username}:${this.password}`)
+      xhr.withCredentials = true
+      xhr.setRequestHeader(this.useProxy ? 'X-Proxy-Forward-Authorization' : 'Authorization', 'Basic ' + auth)
     }
   }
 }

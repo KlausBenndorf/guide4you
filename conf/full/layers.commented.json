@@ -183,6 +183,12 @@
         "attribution": "<a href='https://creativecommons.org/publicdomain/zero/1.0/deed.de'>Creative Commons Zero (CC0)</a>"
       },
       "style": "#defaultStyle"
+    },
+    {
+      "id": "f5",
+      "title": "rest",
+      "type": "Intern",
+      "source": {}
     }
   ]
 }

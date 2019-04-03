@@ -156,7 +156,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
       this.layer_.setStyle(map.get('styling').getStyle(this.style_))
       map.get('styling').manageLayer(this.layer_)
 
-      map.getLayers().insertAt(1, this.layer_) // at 0 the baselayers are
+      map.addLayer(this.layer_)
 
       /**
        * @type {ol.interaction.Draw}

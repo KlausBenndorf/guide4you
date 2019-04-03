@@ -132,7 +132,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
 
       this.layer_.setStyle(map.get('styling').getStyle(this.style_))
       map.get('styling').manageLayer(this.layer_)
-      map.getLayers().insertAt(1, this.layer_) // 0 is where the baseLayers are
+      map.addLayer(this.layer_)
 
       this.activateOnMapChange()
     }

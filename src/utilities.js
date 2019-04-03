@@ -96,13 +96,10 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
       image.src = finalUrl
     } else {
       let xhr = new XMLHttpRequest() // eslint-disable-line no-undef
-      // xhr.open('GET', url, true, username, password)
       xhr.open('GET', finalUrl, true)
       xhr.responseType = 'blob'
-      xhr.withCredentials = true
 
-      xhr.setRequestHeader(origUrl.useProxy ? 'X-Proxy-Forward-Authorization' : 'Authorization',
-        'Basic ' + btoa(origUrl.username + ':' + origUrl.password)) // eslint-disable-line no-undef
+      origUrl.setAuth(xhr)
 
       xhr.addEventListener('load', function (e) {
         if (this.status === 200) {
