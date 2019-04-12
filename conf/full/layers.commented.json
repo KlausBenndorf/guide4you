@@ -1,9 +1,76 @@
 {
-/*
- * This software uses strip-json-comments so you can comment in any JSON-file.
- */
-// Beware of breaking the JSON-syntax!
-  "baseLayers": [
+  "menus": {
+    "baseLayers": [
+      {
+        "type": "group",
+        "items": "exclusive",
+        "groupButton": "noButton",
+        "buttons": [
+          {
+            "type": "layer",
+            "refId": "b1"
+          },
+          {
+            "type": "layer",
+            "refId": "b2"
+          },
+          {
+            "type": "layer",
+            "refId": "b3"
+          },
+          {
+            "type": "layer",
+            "refId": "b4"
+          },
+          {
+            "type": "layer",
+            "refId": "b5"
+          }
+        ]
+      }
+    ],
+    "featureLayers": [
+      {
+        "type": "layer",
+        "refId": "f0",
+        "context": [
+          "transparency"
+        ]
+      },
+      {
+        "type": "group",
+        "title": {
+          "de": "Essen und Schlafen in Bonn",
+          "en": "Eating and sleeping in Bonn"
+        },
+        "groupButton": "activate",
+        "buttons": [
+          {
+            "type": "layer",
+            "refId": "f1"
+          },
+          {
+            "type": "layer",
+            "refId": "f2"
+          }
+        ]
+      },
+      {
+        "type": "layer",
+        "refId": "f3"
+      },
+      {
+        "type": "layer",
+        "refId": "f4"
+      },
+      {
+        "type": "layer",
+        "refId": "f5"
+      }
+    ]
+  },
+  "queryLayers": [],
+  "layers": [
     {
       "id": "b1",
       "title": {
@@ -19,7 +86,8 @@
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
       },
-      "visible": true
+      "visible": true,
+      "overview": true
     },
     {
       "id": "b2",
@@ -34,7 +102,8 @@
           "en": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Kartendaten <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
-      }
+      },
+      "overview": true
     },
     {
       "id": "b3",
@@ -49,7 +118,8 @@
           "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
         }
-      }
+      },
+      "overview": true
     },
     {
       "id": "b4",
@@ -65,7 +135,8 @@
           "layer": "nw_dop20"
         },
         "attribution": "&copy; Geobasis NRW 2017"
-      }
+      },
+      "overview": true
     },
     {
       "id": "b5",
@@ -84,10 +155,9 @@
           ]
         },
         "attribution": "&copy; Geobasis NRW 2016"
-      }
-    }
-  ],
-  "featureLayers": [
+      },
+      "overview": true
+    },
     {
       "id": "f0",
       "title": {
@@ -105,52 +175,42 @@
       "visible": false
     },
     {
-      "id": "c1",
+      "id": "f1",
       "title": {
-        "de": "Essen und Schlafen in Bonn",
-        "en": "Eating and sleeping in Bonn"
+        "en": "Hotels in Bonn",
+        "de": "Hotels in Bonn"
       },
-      "type": "Category",
-      "layers": [
-        {
-          "id": "f1",
-          "title": {
-            "en": "Hotels in Bonn",
-            "de": "Hotels in Bonn"
-          },
-          "type": "KML",
-          "source": {
-            "loadingStrategy": "BBOX",
-            "bboxRatio": 1.2,
-            "url": "files/hotelsbonn.kml?bbox={bboxleft},{bboxbottom},{bboxright},{bboxtop}",
-            "cluster": true,
-            "attribution": {
-              "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
-              "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
-            }
-          },
-          "style": "#defaultStyle"
-        },
-        {
-          "id": "f2",
-          "title": {
-            "en": "Restaurants in Bonn",
-            "de": "Restaurants in Bonn"
-          },
-          "type": "KML",
-          "source": {
-            "cluster": {
-              "distance": 100
-            },
-            "url": "files/restaurantsbonn.kml",
-            "attribution": {
-              "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
-              "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
-            }
-          },
-          "style": "#iconStyle"
+      "type": "KML",
+      "source": {
+        "loadingStrategy": "BBOX",
+        "bboxRatio": 1.2,
+        "url": "files/hotelsbonn.kml?bbox={bboxleft},{bboxbottom},{bboxright},{bboxtop}",
+        "cluster": true,
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         }
-      ]
+      },
+      "style": "#defaultStyle"
+    },
+    {
+      "id": "f2",
+      "title": {
+        "en": "Restaurants in Bonn",
+        "de": "Restaurants in Bonn"
+      },
+      "type": "KML",
+      "source": {
+        "cluster": {
+          "distance": 100
+        },
+        "url": "files/restaurantsbonn.kml",
+        "attribution": {
+          "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
+          "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
+        }
+      },
+      "style": "#iconStyle"
     },
     {
       "id": "f3",

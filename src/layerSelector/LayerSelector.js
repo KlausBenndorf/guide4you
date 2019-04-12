@@ -8,6 +8,7 @@ import { mixin, offset } from '../utilities'
 import { isObject, isArray } from 'lodash/lang'
 
 import '../../less/layerselector.less'
+import { LayerSelectorContextMenu } from './LayerSelectorContextMenu'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -23,6 +24,7 @@ import '../../less/layerselector.less'
  * @typedef {object} ButtonConfig
  * @property {object} [window] open a window if the button gets clicked
  * @property {string} [class] add a css class to the button
+ * @property {[]} [context] contextmenu items
  */
 
 /**
@@ -212,7 +214,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    * this method builds a button for a layer. It toggles visibility if you click on it
    * @param {ButtonConfig} buttonConfig
    */
-  buildBasicButton (buttonConfig) {
+  buildBasicButton (title, buttonConfig, controller, $target) {
     let $button = $('<span>')
       .addClass('button')
       .addClass(this.classNames_.layerButton)
@@ -229,6 +231,19 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       $button.prop('dir', 'rtl')
     }
 
+    $button.html(title)
+    const $wrap = $('<div>')
+      .addClass('g4u-layerselector-button-frame')
+      .append($button)
+
+    $target.append($wrap)
+
+    if (buttonConfig.context) {
+      const context = new LayerSelectorContextMenu(buttonConfig.context, controller)
+      $wrap.append(context.get$Element())
+      $button.addClass('g4u-layerbutton-with-context')
+    }
+
     if (buttonConfig.hasOwnProperty('window')) {
       this.addWindowToButton($button, buttonConfig) // TODO: add method to class
     }
@@ -239,12 +254,12 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   buildLayerButton (buttonConfig, $target, group) {
     const layer = this.layerController_.getLayer(buttonConfig.refId)
     if (layer && layer.get('available')) {
-      const $button = this.buildBasicButton(buttonConfig)
-        .html(buttonConfig.title ? buttonConfig.title : layer.get('title'))
+      const buttonController = this.layerController_.registerLayerButton(buttonConfig, group)
+
+      const $button = this.buildBasicButton(buttonConfig.title ? buttonConfig.title : layer.get('title'),
+        buttonConfig, buttonController, $target)
 
       let activeClassName = this.classNames_.menu + '-active'
-
-      const buttonController = this.layerController_.registerLayerButton(buttonConfig, group)
 
       $button.toggleClass(activeClassName, buttonController.getActive())
       $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
@@ -263,8 +278,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       this.listenAt($button).on('click', () => {
         buttonController.toggleActive()
       })
-
-      $target.append($button)
 
       return buttonController
     }
@@ -322,8 +335,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   buildWMSButton (buttonConfig, $target, group) {
     const layer = this.layerController_.getLayer(buttonConfig.refId)
     if (layer && layer.get('available')) {
-      const $button = this.buildBasicButton(buttonConfig)
-        .html(buttonConfig.title ? buttonConfig.title : layer.get('title'))
+      const buttonController = this.layerController_.registerWmsLayerButton(buttonConfig, group)
+
+      const $button = this.buildBasicButton(buttonConfig.title ? buttonConfig.title : layer.get('title'),
+        buttonConfig, buttonController, $target)
 
       let $toggleFeatureInfo = $('<span>')
         .addClass(this.classNames_.featureInfo)
@@ -331,8 +346,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
 
       let activeClassName = this.classNames_.menu + '-active'
-
-      const buttonController = this.layerController_.registerWmsLayerButton(buttonConfig, group)
 
       $button.toggleClass(activeClassName, buttonController.getActive())
       $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
@@ -373,8 +386,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         buttonController.toggleActive()
       })
 
-      $target.append($button)
-
       return buttonController
     }
   }
@@ -411,8 +422,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
     let lastName
     for (const subConfig of buttonConfig.buttons) {
-      const $button = this.buildBasicButton(subConfig)
-        .html(subConfig.title)
       if (lastName === undefined) {
         lastName = subConfig.name
         multiController.setDefault(subConfig.name, subConfig.value)
@@ -422,7 +431,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         $target.append($('<span>').addClass(this.classNames_.spacer).html('&nbsp;'))
       }
 
-      $target.append($button)
+      const $button = this.buildBasicButton(subConfig.title, subConfig, multiController, $target)
 
       this.listenAt($button).on('click', () => {
         multiController.setParam(subConfig.name, subConfig.value)

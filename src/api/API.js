@@ -99,11 +99,6 @@ export class API extends BaseObject {
         update: this.kmlAPI_.update.bind(this.kmlAPI_),
         remove: this.kmlAPI_.remove.bind(this.kmlAPI_)
       },
-      // 'feature': {
-      //   'cancelManipulation': this.cancelFeatureManipulation,
-      //   'create': this.createFeature,
-      //
-      // },
       // 'userInteraction': {
       //   'get': {
       //     'position': function (callback, options) {

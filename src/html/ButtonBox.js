@@ -97,6 +97,7 @@ export class ButtonBox extends BaseObject {
        */
       this.$title_ = $('<div>')
         .addClass(this.classNames_.title)
+        .addClass('g4u-layerselector-button-frame')
 
       this.$element_.append(this.$title_)
 
@@ -110,7 +111,8 @@ export class ButtonBox extends BaseObject {
         })
 
         if (this.titleButton_) {
-          let $titleButton = $('<button>')
+          let $titleButton = $('<span>')
+            .addClass('button')
             .addClass(this.classNames_.titleButton)
             .on('click', () => {
               this.dispatchEvent('title:click')
