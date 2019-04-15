@@ -163,6 +163,10 @@ module.exports = {
     'de': 'Deaktiviere FeatureInfo',
     'en': 'Deactivate FeatureInfo'
   },
+  'LayerSelectorAccordion transparency': {
+    'de': 'Transparenz',
+    'en': 'Transparency'
+  },
 
   'LinkButton title': {
     'de': 'Home',

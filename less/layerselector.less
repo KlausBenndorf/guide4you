@@ -125,10 +125,6 @@
         left:0;
         right: 0;
 
-        &.g4u-layerbutton-with-context {
-          right: @g4u-desktop-button-size;
-        }
-
         &.g4u-layerselector-menu-active {
           background: @g4u-active-normal-button-color; // k
           &:hover {
@@ -158,17 +154,6 @@
           &.g4u-layerselector-menu-active {
             .changeIconBefore(@g4u-radio-checked, @g4u-desktop-normal-fontsize);
           }
-        }
-      }
-
-      .g4u-layerselector-context-button {
-        .buttonSquaredWithIcon(@arrow-down-outline, @g4u-desktop-button-size, @g4u-desktop-huge-fontsize);
-        position: absolute;
-        top: 0;
-        right: 0;
-
-        &.g4u-active {
-          .changeIcon(@arrow-down-filled);
         }
       }
 
@@ -221,15 +206,6 @@
         border-bottom-right-radius: @g4u-desktop-small-border-radius;
       }
     }
-  }
-
-  .g4u-layerselector-context-menu {
-    position: absolute;
-    right: 0;
-    top: @g4u-desktop-button-size + @g4u-desktop-padding;
-    background-color: white;
-    color: black;
-    z-index: 1;
   }
 
   .g4u-layerselector-info {

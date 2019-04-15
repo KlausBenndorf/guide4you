@@ -24,6 +24,18 @@ export class LayerButtonController extends ButtonController {
     layer.on('change:disabled', () => {
       this.dispatchEvent('change:disabled')
     })
+
+    layer.on('change:opacity', () => {
+      this.dispatchEvent('change:opacity')
+    })
+  }
+
+  getOpacity () {
+    return this.layer_.getOpacity()
+  }
+
+  setOpacity (opacity) {
+    this.layer_.setOpacity(opacity)
   }
 
   getActive () {

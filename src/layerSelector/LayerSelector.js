@@ -8,7 +8,7 @@ import { mixin, offset } from '../utilities'
 import { isObject, isArray } from 'lodash/lang'
 
 import '../../less/layerselector.less'
-import { LayerSelectorContextMenu } from './LayerSelectorContextMenu'
+import { LayerSelectorAccordionMenu } from './LayerSelectorAccordionMenu'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -239,9 +239,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     $target.append($wrap)
 
     if (buttonConfig.context) {
-      const context = new LayerSelectorContextMenu(buttonConfig.context, controller)
-      $wrap.append(context.get$Element())
-      $button.addClass('g4u-layerbutton-with-context')
+      const context = new LayerSelectorAccordionMenu(buttonConfig.context, this.getLocaliser(), controller)
+      context.appendTo($wrap)
     }
 
     if (buttonConfig.hasOwnProperty('window')) {

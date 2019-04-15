@@ -8,7 +8,10 @@
         "buttons": [
           {
             "type": "layer",
-            "refId": "b1"
+            "refId": "b1",
+            "context": [
+              "transparency"
+            ]
           },
           {
             "type": "layer",
@@ -20,11 +23,17 @@
           },
           {
             "type": "layer",
-            "refId": "b4"
+            "refId": "b4",
+            "context": [
+              "transparency"
+            ]
           },
           {
             "type": "layer",
-            "refId": "b5"
+            "refId": "b5",
+            "context": [
+              "transparency"
+            ]
           }
         ]
       }
@@ -32,10 +41,7 @@
     "featureLayers": [
       {
         "type": "layer",
-        "refId": "f0",
-        "context": [
-          "transparency"
-        ]
+        "refId": "f0"
       },
       {
         "type": "group",
@@ -57,11 +63,17 @@
       },
       {
         "type": "layer",
-        "refId": "f3"
+        "refId": "f3",
+        "context": [
+          "transparency"
+        ]
       },
       {
         "type": "layer",
-        "refId": "f4"
+        "refId": "f4",
+        "context": [
+          "transparency"
+        ]
       },
       {
         "type": "layer",

@@ -1,0 +1,28 @@
+@import "./colors";
+
+.g4u-slider {
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 90%;
+  height: 4px;
+  background: #d3d3d3;
+  outline: none;
+}
+
+.g4u-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: @g4u-theme-dark-background;
+  cursor: pointer;
+}
+
+.g4u-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: @g4u-theme-dark-background;
+  cursor: pointer;
+}

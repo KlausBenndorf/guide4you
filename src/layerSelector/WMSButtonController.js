@@ -30,9 +30,21 @@ export class WMSButtonController extends ButtonController {
       this.dispatchEvent('change:active')
     })
 
+    layer.on('change:opacity', () => {
+      this.dispatchEvent('change:opacity')
+    })
+
     layer.getSource().on('change:queryLayers', () => {
       this.dispatchEvent('change:featureInfoActive')
     })
+  }
+
+  getOpacity () {
+    return this.layer_.getOpacity()
+  }
+
+  setOpacity (opacity) {
+    this.layer_.setOpacity(opacity)
   }
 
   getActive () {
