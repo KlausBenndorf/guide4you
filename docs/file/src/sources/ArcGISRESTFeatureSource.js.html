@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/controls/ScaleLine.js | guide4you</title>
+  <title data-ice="title">src/sources/ArcGISRESTFeatureSource.js | guide4you</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -207,35 +207,112 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/controls/ScaleLine.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import OlScaleLine from &apos;ol/control/ScaleLine&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">src/sources/ArcGISRESTFeatureSource.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+import EsriJSON from &apos;ol/format/EsriJSON&apos;
 
-import { mixin } from &apos;../utilities&apos;
-import { RewireMixin } from &apos;./RewireMixin&apos;
-
-import &apos;../../less/scaleline.less&apos;
-import { ListenerOrganizerMixin } from &apos;../ListenerOrganizerMixin&apos;
+import VectorSource from &apos;ol/source/Vector&apos;
+import { get as getProj, transformExtent } from &apos;ol/proj&apos;
+import { Debug } from &apos;../Debug&apos;
+import { take } from &apos;../utilitiesObject&apos;
 
 /**
- * @extends Control
+ * Please note that a &apos;BBOX&apos; or &apos;TILE&apos; loadingStrategy is required
+ * @typedef {module:ol/source/Vector~Options} ArcGISRESTFeatureSourceOptions
+ * @property {object} [params] the params to be passed to the ArcGIS REST Feature Service. The params f, returnGeometry,
+ *    geometry, geometryType, inSR and outSr can not be set as they are filled automatically. The SR parameters will
+ *    be set to the projection of the source if one is given. geometry and geometryType will always be an
+ *    &apos;esriGeometryEnvelope&apos;. f will be json and returnGeometry true.
+ *    The parameters spatialRel and outFields can be altered and default to &apos;esriSpatialRelIntersects&apos; and &apos;*&apos;.
+ * @property {string} [dataType=json] can be json or jsonp
  */
-export class ScaleLine extends mixin(mixin(OlScaleLine, RewireMixin), ListenerOrganizerMixin) {
-  /**
-   * @param {g4uControlOptions} [options={}]
-   */
-  constructor (options = {}) {
-    options.className = (options.hasOwnProperty(&apos;className&apos;)) ? options.className : &apos;g4u-scale-line&apos;
+
+export class ArcGISRESTFeatureSource extends VectorSource {
+  constructor (options) {
+    if (options.loadingStrategyType === &apos;ALL&apos;) {
+      Debug.error(&apos;ArcRESTFeatureSource does not support loading strategy &quot;ALL&quot;. Please use BBOX or TILE&apos;)
+    }
+
+    const url = take(options, &apos;url&apos;)
+    const params = take(options, &apos;params&apos;)
+    // const geometrySR = take(options, &apos;geometrySR&apos;)
+
+    options.loader = (...args) =&gt; this.loader(...args)
+
     super(options)
+
+    this.url_ = url
+    this.params_ = params || {}
+    this.projection_ = options.projection ? getProj(options.projection) : undefined
+    this.format_ = new EsriJSON()
+    this.dataType_ = options.dataType || &apos;json&apos;
   }
 
-  setMap (map) {
-    if (this.getMap()) {
-      this.detachAllListeners()
+  /**
+   * @param {module:ol/extent~Extent} extent
+   * @param {number} resolution
+   * @param {module:ol/proj/Projection} projection
+   */
+  loader (extent, resolution, projection) {
+    let sr
+    if (this.projection_) {
+      extent = transformExtent(extent, projection, this.projection_)
+      sr = parseInt(this.projection_.getCode().split(&apos;:&apos;)[1])
     }
-    super.setMap(map)
-    if (map) {
-      this.listenAt(map.getView()).on(&apos;change:resolution&apos;, () =&gt; this.dispatchEvent(&apos;change:size&apos;))
+
+    const geometry = {
+      xmin: extent[0],
+      ymin: extent[1],
+      xmax: extent[2],
+      ymax: extent[3]
     }
+    if (this.projection_) {
+      geometry.spatialReference = {
+        wkid: sr
+      }
+    }
+
+    const params = Object.assign({
+      spatialRel: &apos;esriSpatialRelIntersects&apos;,
+      outFields: &apos;*&apos;
+    }, this.params_, {
+      f: &apos;json&apos;,
+      returnGeometry: &apos;true&apos;,
+      geometry: JSON.stringify(geometry),
+      geometryType: &apos;esriGeometryEnvelope&apos;
+    })
+
+    if (this.projection_) {
+      params.inSR = sr
+      params.outSR = sr
+    }
+
+    const url = this.url_.clone()
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        url.addParam(`${key}=${params[key]}`)
+      }
+    }
+
+    $.ajax({
+      url: url.finalize(),
+      dataType: this.dataType_,
+      success: response =&gt; {
+        if (response.error) {
+          Debug.error(response.error.message + &apos;\n&apos; +
+            response.error.details.join(&apos;\n&apos;))
+        } else {
+          // dataProjection will be read from document
+          var features = this.format_.readFeatures(response, {
+            dataProjection: this.projection_,
+            featureProjection: projection
+          })
+          if (features.length &gt; 0) {
+            this.addFeatures(features)
+          }
+        }
+      }
+    })
   }
 }
 </code></pre>

@@ -1826,7 +1826,7 @@
     "__docId__": 95,
     "kind": "file",
     "name": "src/configurators/LayerFactory.js",
-    "content": "import $ from 'jquery'\n\nimport Collection from 'ol/Collection'\nimport VectorSource from 'ol/source/Vector'\nimport XYZ from 'ol/source/XYZ'\nimport OSM from 'ol/source/OSM'\nimport Stamen from 'ol/source/Stamen'\nimport BingMaps from 'ol/source/BingMaps'\nimport { createXYZ } from 'ol/tilegrid'\nimport TileGrid from 'ol/tilegrid/TileGrid'\nimport WMTSTileGrid from 'ol/tilegrid/WMTS'\nimport WKT from 'ol/format/WKT'\nimport Feature from 'ol/Feature'\nimport WMTSCapabilities from 'ol/format/WMTSCapabilities'\nimport WMTS from 'ol/source/WMTS'\nimport ImageCanvas from 'ol/source/ImageCanvas'\n\nimport { BaseLayerImage, ImageLayer } from '../layers/ImageLayer'\nimport { EmptyBaseLayer } from '../layers/EmptyBaseLayer'\nimport { BaseTileLayer } from '../layers/BaseTileLayer'\nimport { TileLayer } from '../layers/TileLayer'\nimport { GroupLayer } from '../layers/GroupLayer'\nimport { VectorLayer } from '../layers/VectorLayer'\nimport { SourceServerVector } from '../sources/SourceServerVector'\nimport { QueryVectorSource } from '../sources/QueryVectorSource'\nimport { copyDeep, mergeDeep, take } from '../utilitiesObject'\nimport { asObject, checkFor } from '../utilities'\n\nimport { Debug } from '../Debug'\nimport { ImageWMSSource, TileWMSSource } from '../sources/ImageWMSSource'\nimport { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'\nimport { URL } from '../URLHelper'\nimport { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'\nimport { ClusterSource } from '../sources/ClusterSource'\nimport { WMTSSource } from '../sources/WMTSSource'\n\n/**\n * @enum {string}\n */\nexport const SuperType = {\n  BASELAYER: 'baseLayer',\n  FEATURELAYER: 'featureLayer',\n  QUERYLAYER: 'queryLayer'\n}\n\n/**\n * @enum {string}\n */\nexport const LayerType = {\n  CATEGORY: 'Category',\n  SILENTGROUP: 'SilentGroup',\n  GEOJSON: 'GeoJSON',\n  KML: 'KML',\n  WMS: 'WMS',\n  TILEWMS: 'TileWMS',\n  WMTS: 'WMTS',\n  OSM: 'OSM',\n  STAMEN: 'Stamen',\n  INTERN: 'Intern',\n  EMPTY: 'Empty',\n  XYZ: 'XYZ',\n  BING: 'Bing'\n}\n\n/**\n * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig\n *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig\n *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig\n */\n\n/**\n * Common config for all layers.\n * @public\n * @typedef {Object} g4uLayerOptions\n * @property {LayerType} type The layer type.\n * @property {string|number} id unique in the whole config\n * @property {string} [title]\n * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.\n * @property {Boolean} [availableMobile] overwrites available in mobile mode\n * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.\n * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable\n * @property {StyleLike} [style]\n */\n\n/**\n * The silent group can display a group of layers which appears as a single in the layer selector.\n * @typedef {g4uLayerOptions} SilentGroupLayerConfig\n * @property {\"SilentGroup\"} type\n * @property {AnyLayerConfig[]} layers\n */\n\n/**\n * The category contains other layer(s) and will appear as a category in the layer selector.\n * @typedef {g4uLayerOptions} CategoryLayerConfig\n * @property {\"Category\"} type\n * @property {AnyLayerConfig[]} layers\n */\n\n/**\n * The empty layer will show nothing (in case of a base layer a white background).\n * @typedef {g4uLayerOptions} EmptyLayerConfig\n * @property {\"Empty\"} type\n */\n\n/**\n * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).\n * @typedef {g4uLayerOptions} XYZLayerConfig\n * @property {\"XYZ\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).\n * @typedef {g4uLayerOptions} OSMLayerConfig\n * @property {\"OSM\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).\n * @typedef {g4uLayerOptions} StamenLayerConfig\n * @property {\"Stamen\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).\n * @typedef {g4uLayerOptions} BingLayerConfig\n * @property {\"Bing\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * A WMTS Layer. Check the {WMTSSSourceConfig}.\n * @typedef {g4uLayerOptions} WMTSLayerConfig\n * @property {\"WMTS\"} type\n * @property {WMTSSSourceConfig} source\n */\n\n/**\n * A WMS Layer. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} WMSLayerConfig\n * @property {\"WMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n */\n\n/**\n * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} TileWMSLayerConfig\n * @property {\"TileWMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n */\n\n/**\n * A GeoJSON Layer.\n * @typedef {g4uLayerOptions} GeoJSONLayerConfig\n * @property {\"GeoJSON\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n */\n\n/**\n * A KML Layer.\n * @typedef {g4uLayerOptions} KMLLayerConfig\n * @property {\"KML\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n */\n\n/**\n * A layer whichs contents are completly defined in the config file.\n * @typedef {g4uLayerOptions} InternalLayerConfig\n * @property {\"Intern\"} type\n * @property {InternalSourceConfig} source\n * @property {StyleLike} [style]\n */\n\n/**\n * A source config.\n * @typedef {Object} SourceConfig\n * @property {Localizable} [attribution]\n * @property {URLLike} url\n */\n\n/**\n * A vector source config.\n * @typedef {SourceConfig} VectorSourceConfig\n * @property {string} [loadingStrategy] \"BBOX\" or \"ALL\"\n * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be\n *    loaded around a bbox.\n * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.\n */\n\n/**\n * A wmts source config. The config must contain a `config` object that must contain a `layer`` parameter. For other\n *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities. All other\n *    needed Parameters will be obtained automatically.\n * @typedef {SourceConfig} WMTSSSourceConfig\n * @property {object} config\n */\n\n/**\n * An internal source whose features are defined directly in the config file.\n * @typedef {SourceConfig} InternalSourceConfig\n * @property {FeatureConfig[]} features\n */\n\n/**\n * @typedef {Object} FeatureConfig\n * @property {string|number} id\n * @property {StyleLike} [style]\n * @property {string} [geometryWKT]\n * @property {ol.geom.Geometry} [geometry]\n */\n\n/**\n * This class constructs a layer according to the given {{LayerOptions}}\n */\nexport class LayerFactory {\n  /**\n   * @param {G4UMap} map\n   */\n  constructor (map) {\n    /**\n     * @type {G4UMap}\n     * @private\n     */\n    this.map_ = map\n  }\n\n  /**\n   * @param {ol.ProjectionLike} mapConfigProjection\n   */\n  setMapConfigProjection (mapConfigProjection) {\n    this.mapProjection = mapConfigProjection\n  }\n\n  /**\n   * @returns {ol.ProjectionLike}\n   */\n  getMapProjection () {\n    return this.mapProjection\n  }\n\n  /**\n   * Adds multiple layers according to their configs to the given layerGroup\n   * @param {LayerGroup} layerGroup\n   * @param {g4uLayerOptions[]} configs\n   * @param {string} superType\n   * @param {Boolean} skipIdCheck\n   * @returns {ol.Layer.Base[]}\n   */\n  addLayers (layerGroup, configs, superType, skipIdCheck) {\n    return configs.map(config => this.addLayer(layerGroup, config, superType, skipIdCheck))\n  }\n\n  /**\n   * Adds a layer defined by a given config to a given layerGroup\n   * @param {LayerGroup} layerGroup\n   * @param {g4uLayerOptions} options\n   * @param {string} superType\n   * @param {Boolean} skipIdCheck\n   * @returns {ol.layer.Base}\n   */\n  addLayer (layerGroup, options, superType, skipIdCheck) {\n    let layer\n    /**\n     * @type {g4uLayerOptions}\n     */\n    let optionsCopy = copyDeep(options)\n\n    if (skipIdCheck || this.configureLayerIsIdOk_(optionsCopy.id)) {\n      // loading strategy\n\n      if (!optionsCopy.type) {\n        throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)\n      }\n\n      // availability\n      this.configureLayerAvailability_(optionsCopy)\n\n      // the title/name of the layer\n      this.configureLayerTitle_(optionsCopy)\n\n      if (superType === SuperType.BASELAYER) {\n        optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()\n      }\n\n      if (optionsCopy.source) {\n        this.configureLayerSourceAttribution_(optionsCopy.source)\n      }\n\n      // visibility\n      this.configureLayerVisibility_(optionsCopy)\n\n      layer = this.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)\n\n      let forEachLayer = layer => {\n        layerGroup.getLayers().push(layer)\n      }\n\n      if (layer instanceof Collection) {\n        layer.forEach(forEachLayer)\n      } else {\n        forEachLayer(layer)\n      }\n    }\n\n    return layer\n  }\n\n  /**\n   * @param {string} type\n   * @param {string} superType\n   */\n  superTypeNotSupported (type, superType) {\n    throw new Error(`${type} is not configured for superType '${superType}'`)\n  }\n\n  /**\n   * Creates a layer or a collection of layers from the config\n   * @param {string} layerType\n   * @param {g4uLayerOptions} optionsCopy\n   * @param {string} superType\n   * @param {Boolean} skipIdCheck\n   * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}\n   */\n  createLayer (layerType, optionsCopy, superType, skipIdCheck) {\n    if (superType === SuperType.QUERYLAYER) {\n      if (!optionsCopy.hasOwnProperty('apiKey')) {\n        Debug.error('Each query layer needs to have an apiKey.')\n      }\n      optionsCopy.source.projection = this.mapProjection\n    }\n\n    if (optionsCopy.source) {\n      optionsCopy.source.localiser = this.map_.get('localiser')\n    }\n\n    let layer\n    let layerConfigs\n    let clusterOptions\n    let localised = false\n    if (optionsCopy.source) {\n      optionsCopy.source.localiser = this.map_.get('localiser')\n      localised = optionsCopy.source.localised\n    }\n\n    let style = take(optionsCopy, 'style')\n\n    switch (layerType) {\n      case LayerType.SILENTGROUP:\n\n        layerConfigs = take(optionsCopy, 'layers')\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseSilentGroupLayer(optionsCopy)\n        } else {\n          layer = new SilentGroupLayer(optionsCopy)\n        }\n\n        this.addLayers(layer, layerConfigs, superType, true)\n\n        layer.getLayers().forEach(childLayer => {\n          childLayer.setVisible(true)\n        })\n        break\n      case LayerType.CATEGORY:\n        layerConfigs = take(optionsCopy, 'layers')\n\n        layer = new GroupLayer(optionsCopy)\n\n        this.addLayers(layer, layerConfigs, superType, skipIdCheck)\n\n        // availability & parent ref\n        let childrenAvailable = false\n        layer.getLayers().forEach(childLayer => {\n          childLayer.set('category', layer)\n          childrenAvailable = childrenAvailable || childLayer.get('available')\n        })\n\n        let childrenCount = layer.getLayers().getLength()\n\n        if (childrenAvailable !== false) {\n          if ((layer.get('available') !== false) && (childrenCount > 0)) {\n            // category is shown\n\n            if (childrenAvailable === true) {\n              layer.set('available', true)\n            }\n\n            layer.setVisible(true)\n\n            if (superType === SuperType.BASELAYER) {\n              layer.set('activateChildren', false)\n            }\n\n            return layer\n          } else if (childrenAvailable === true) {\n            // only children are shown\n            return layer.getLayers()\n          }\n          // else neither are shown\n        }\n        break\n      case LayerType.EMPTY:\n        if (superType === SuperType.BASELAYER) {\n          layer = new EmptyBaseLayer(optionsCopy)\n        } else {\n          optionsCopy.source = new VectorSource()\n          layer = new VectorLayer(optionsCopy)\n        }\n        break\n      case LayerType.XYZ:\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()\n        optionsCopy.source = new XYZ(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.OSM:\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()\n        optionsCopy.source = new OSM(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.STAMEN:\n        optionsCopy.source = new Stamen(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.BING:\n        optionsCopy.source = new BingMaps(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.WMS:\n        if (optionsCopy.categoryButtons) {\n          optionsCopy.source.params.LAYERS = []\n        }\n\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        if (superType === SuperType.BASELAYER) {\n          optionsCopy.source = new ImageWMSSource(optionsCopy.source)\n          layer = new BaseLayerImage(optionsCopy)\n        } else if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryImageWMSSource(optionsCopy.source)\n          layer = new ImageLayer(optionsCopy)\n        } else {\n          optionsCopy.source = new ImageWMSSource(optionsCopy.source)\n          layer = new ImageLayer(optionsCopy)\n        }\n\n        if (layer.getSource().hasFeatureInfo()) {\n          this.map_.asSoonAs('ready:ui', true, () => {\n            if (this.map_.get('showWMSFeatureInfo')) {\n              this.map_.get('showWMSFeatureInfo').addLayer(layer)\n            }\n          })\n        }\n\n        break\n      case LayerType.TILEWMS:\n        if (optionsCopy.source.tileSize) {\n          optionsCopy.source.tileGrid = createXYZ({ tileSize: optionsCopy.source.tileSize })\n          delete optionsCopy.source.tileSize\n        } else if (optionsCopy.source.tileGrid) {\n          optionsCopy.source.tileGrid = new TileGrid(optionsCopy.source.tileGrid)\n        }\n\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        if (superType === SuperType.BASELAYER) {\n          optionsCopy.source = new TileWMSSource(optionsCopy.source)\n          layer = new BaseTileLayer(optionsCopy)\n        } else if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryTileWMSSource(optionsCopy.source)\n          layer = new TileLayer(optionsCopy)\n        } else {\n          optionsCopy.source = new TileWMSSource(optionsCopy.source)\n          layer = new TileLayer(optionsCopy)\n        }\n\n        if (layer.getSource().hasFeatureInfo()) {\n          this.map_.asSoonAs('ready:ui', true, () => {\n            if (this.map_.get('showWMSFeatureInfo')) {\n              this.map_.get('showWMSFeatureInfo').addLayer(layer)\n            }\n          })\n        }\n\n        break\n      case LayerType.WMTS:\n        let sourceOptions = take(optionsCopy, 'source')\n\n        if (!sourceOptions.autoConfig) {\n          if (!sourceOptions.tileGrid) {\n            throw new Error('You have to provide either a tileGrid or use autoConfig for WMTS Source')\n          }\n\n          sourceOptions.tileGrid = new WMTSTileGrid(sourceOptions.tileGrid)\n\n          sourceOptions.url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_) // not finalized\n\n          optionsCopy.source = new WMTSSource(sourceOptions)\n        }\n        // url gets extracted in setWMTSSourceFromCapabilities\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n\n        if (sourceOptions.autoConfig) {\n          this.setWMTSSourceFromCapabilities(layer, sourceOptions)\n        }\n\n        break\n      case LayerType.GEOJSON:\n        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')\n\n        optionsCopy.source.type = 'GeoJSON'\n\n        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')\n\n        optionsCopy.source.styling = this.map_.get('styling')\n\n        clusterOptions = take(optionsCopy.source, 'cluster')\n\n        if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryVectorSource(optionsCopy.source)\n        } else {\n          optionsCopy.source = new SourceServerVector(optionsCopy.source)\n        }\n\n        if (clusterOptions) {\n          clusterOptions = asObject(clusterOptions)\n          optionsCopy.source = new ClusterSource(optionsCopy.source, clusterOptions)\n        }\n        layer = new VectorLayer(optionsCopy)\n        break\n      case LayerType.KML:\n        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')\n\n        optionsCopy.source.type = 'KML'\n\n        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')\n\n        optionsCopy.source.styling = this.map_.get('styling')\n\n        clusterOptions = take(optionsCopy.source, 'cluster')\n\n        if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryVectorSource(optionsCopy.source)\n        } else {\n          optionsCopy.source = new SourceServerVector(optionsCopy.source)\n        }\n\n        if (clusterOptions) {\n          optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))\n        }\n        layer = new VectorLayer(optionsCopy)\n        break\n      case LayerType.INTERN:\n\n        if (optionsCopy.source.hasOwnProperty('features')) {\n          for (let i = 0; i < optionsCopy.source.features.length; i++) {\n            optionsCopy.source.features[i] = this.createFeature(optionsCopy.source.features[i])\n          }\n        }\n\n        optionsCopy.source = new VectorSource(optionsCopy.source)\n\n        if (superType === SuperType.QUERYLAYER) {\n          this.superTypeNotSupported(layerType, superType)\n        } else {\n          layer = new VectorLayer(optionsCopy)\n        }\n        break\n    }\n\n    for (let module of this.map_.getModules()) {\n      if (layer) {\n        break\n      }\n      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)\n    }\n\n    if (!layer) {\n      throw new Error(`layer with type '${optionsCopy.type}' could not be created.`)\n    }\n\n    // styling\n    if (layer.setStyle) {\n      layer.setStyle(this.map_.get('styling').getStyle(style))\n      this.map_.get('styling').manageLayer(layer)\n    }\n\n    // if layer is a baselayer, check for mapProjection\n    if (superType === SuperType.BASELAYER && optionsCopy.source) {\n      if (layer.getSource().getProjection()) {\n        if (!this.mapProjection) {\n          this.mapProjection = layer.getSource().getProjection()\n        } else if (this.mapProjection && this.mapProjection !== layer.getSource().getProjection()) {\n          Debug.warn('The baseLayers are not in mapProjection or a baseLayers has a different projection than' +\n             ' another! This might cause reprojection issues.')\n        }\n      }\n    } else if (superType === SuperType.QUERYLAYER) {\n      this.map_.get('urlApi').addApiLayer(layer, optionsCopy.apiKey)\n    }\n\n    // if layer is being localised, refresh on language change\n    if (localised) {\n      this.map_.get('localiser').on('change:language', () => layer.getSource().refresh())\n    }\n\n    return layer\n  }\n\n  /**\n   * A function that checks if a layer id is setted and not a duplicate of another.\n   * Throws an error if this is the case.\n   * @param {string|number} id\n   * @private\n   */\n  configureLayerIsIdOk_ (id) {\n    /**\n     * @type {string[]|number[]}\n     */\n    let layerIds = this.map_.get('layerIds')\n\n    if (id === 0 || (id && (typeof id === 'string' || !isNaN(id)))) {\n      for (let j = 0, jj = layerIds.length; j < jj; j++) {\n        if (id === layerIds[j]) {\n          Debug.error(`Each layer needs a unique id! Otherwise the layer won't be shown. Layer id: ${id}`)\n          return false\n        }\n      }\n      layerIds.push(id)\n      this.map_.set('layerIds', layerIds)\n      return true\n    } else {\n      Debug.error(`Each layer needs a unique id! Otherwise the layer won't be shown. Layer id: ${id}`)\n      return false\n    }\n  }\n\n  /**\n   * @param {g4uLayerOptions} config\n   * @returns {g4uLayerOptions}\n   * @private\n   */\n  configureLayerAvailability_ (config) {\n    // if available is set to false explicitely, the layer won't be available\n    config.available = (config.available !== false)\n\n    if (!config.alwaysVisible) {\n      config.available = config.hasOwnProperty('availableMobile') ? config.availableMobile : config.available\n      if (this.map_.get('ignoreLayerAvailability')) {\n        config.available = true\n      }\n    }\n    return config\n  }\n\n  /**\n   * @param {SourceConfig} sourceConfig\n   * @returns {SourceConfig}\n   * @private\n   */\n  configureLayerSourceAttribution_ (sourceConfig) {\n    if (checkFor(sourceConfig, 'attribution')) {\n      sourceConfig.attributions = [this.map_.get('localiser').selectL10N(sourceConfig.attribution)]\n    }\n    return sourceConfig\n  }\n\n  /**\n   * @param {SourceConfig} sourceConfig\n   * @returns {SourceConfig}\n   * @private\n   */\n  configureLayerSourceLoadingStrategy_ (sourceConfig) {\n    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')\n      ? sourceConfig.loadingStrategy\n      : this.map_.get('loadingStrategy')\n    return sourceConfig\n  }\n\n  /**\n   * @param {g4uLayerOptions} config\n   * @returns {g4uLayerOptions}\n   * @private\n   */\n  configureLayerTitle_ (config) {\n    if (!config.hasOwnProperty('title')) {\n      config.title = 'No title given'\n    } else {\n      config.title = this.map_.get('localiser').selectL10N(config.title)\n    }\n    return config\n  }\n\n  /**\n   * @param {g4uLayerOptions} config\n   * @returns {g4uLayerOptions}\n   * @private\n   */\n  configureLayerVisibility_ (config) {\n    if (config.alwaysVisible === true) {\n      config.visible = true\n    } else {\n      config.visible = (config.visible === true)\n    }\n\n    return config\n  }\n\n  /**\n   * @param {FeatureConfig} featureConf\n   * @returns {ol.Feature}\n   */\n  createFeature (featureConf) {\n    /**\n     * @type {FeatureConfig}\n     */\n    let featureConfCopy = copyDeep(featureConf)\n\n    let id = take(featureConfCopy, 'id')\n\n    let style = take(featureConfCopy, 'style')\n\n    let format = new WKT()\n    let wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')\n    featureConfCopy.geometry = format.readGeometry(wkt)\n      .transform(this.map_.get('interfaceProjection'), this.map_.get('mapProjection'))\n\n    let feature = new Feature(featureConfCopy)\n\n    if (style) {\n      this.map_.get('styling').styleFeature(feature, style)\n    }\n\n    if (id) {\n      feature.setId(id)\n    }\n\n    return feature\n  }\n\n  setWMTSSourceFromCapabilities (layer, sourceOptions) {\n    const url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_)\n    const capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities')\n    $.ajax({\n      url: capUrl.finalize(),\n      dataType: 'text xml',\n      crossDomain: true,\n      success: data => {\n        const wmtsCap = (new WMTSCapabilities()).read(data)\n        const capOptions = WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))\n        if (capOptions === null) {\n          Debug.error(`wmts layer not found or not set for layer with id \"${layer.get('id')}\"`)\n        } else {\n          capOptions.urls = capOptions.urls.map(newUrl => {\n            const u = url.clone()\n            u.url = newUrl\n            return u.finalize()\n          })\n          sourceOptions = mergeDeep(sourceOptions, capOptions)\n          layer.setSource(new WMTS(sourceOptions))\n        }\n      }\n    })\n    layer.setSource(new ImageCanvas({\n      state: 'ready',\n      canvasFunction: () => {} // not loading any canvas\n    }))\n  }\n}\n",
+    "content": "import $ from 'jquery'\n\nimport Collection from 'ol/Collection'\nimport { containsExtent } from 'ol/extent'\nimport { all, tile } from 'ol/loadingstrategy'\nimport VectorSource from 'ol/source/Vector'\nimport XYZ from 'ol/source/XYZ'\nimport OSM from 'ol/source/OSM'\nimport Stamen from 'ol/source/Stamen'\nimport BingMaps from 'ol/source/BingMaps'\nimport { createXYZ } from 'ol/tilegrid'\nimport TileGrid from 'ol/tilegrid/TileGrid'\nimport WMTSTileGrid from 'ol/tilegrid/WMTS'\nimport WKT from 'ol/format/WKT'\nimport Feature from 'ol/Feature'\nimport WMTSCapabilities from 'ol/format/WMTSCapabilities'\nimport WMTS from 'ol/source/WMTS'\nimport ImageCanvas from 'ol/source/ImageCanvas'\n\nimport { BaseLayerImage, ImageLayer } from '../layers/ImageLayer'\nimport { EmptyBaseLayer } from '../layers/EmptyBaseLayer'\nimport { BaseTileLayer } from '../layers/BaseTileLayer'\nimport { TileLayer } from '../layers/TileLayer'\nimport { GroupLayer } from '../layers/GroupLayer'\nimport { VectorLayer } from '../layers/VectorLayer'\nimport { ArcGISRESTFeatureSource } from '../sources/ArcGISRESTFeatureSource'\nimport { SourceServerVector } from '../sources/SourceServerVector'\nimport { QueryVectorSource } from '../sources/QueryVectorSource'\nimport { copyDeep, mergeDeep, take } from '../utilitiesObject'\nimport { asObject, checkFor } from '../utilities'\n\nimport { Debug } from '../Debug'\nimport { ImageWMSSource, TileWMSSource } from '../sources/ImageWMSSource'\nimport { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'\nimport { URL } from '../URLHelper'\nimport { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'\nimport { ClusterSource } from '../sources/ClusterSource'\nimport { WMTSSource } from '../sources/WMTSSource'\n\n/**\n * @enum {string}\n */\nexport const SuperType = {\n  BASELAYER: 'baseLayer',\n  FEATURELAYER: 'featureLayer',\n  QUERYLAYER: 'queryLayer'\n}\n\n/**\n * @enum {string}\n */\nexport const LayerType = {\n  CATEGORY: 'Category',\n  SILENTGROUP: 'SilentGroup',\n  GEOJSON: 'GeoJSON',\n  KML: 'KML',\n  WMS: 'WMS',\n  TILEWMS: 'TileWMS',\n  WMTS: 'WMTS',\n  OSM: 'OSM',\n  STAMEN: 'Stamen',\n  INTERN: 'Intern',\n  EMPTY: 'Empty',\n  XYZ: 'XYZ',\n  BING: 'Bing',\n  ARCGISRESTFEATURE: 'ArcGISRESTFeature'\n}\n\n/**\n * @typedef {SilentGroupLayerConfig|CategoryLayerConfig|EmptyLayerConfig|XYZLayerConfig|OSMLayerConfig\n *    |StamenLayerConfig|BingLayerConfig|WMTSLayerConfig|WMSLayerConfig|TileWMSLayerConfig|GeoJSONLayerConfig\n *    |KMLLayerConfig|InternalLayerConfig} AnyLayerConfig\n */\n\n/**\n * Common config for all layers.\n * @public\n * @typedef {Object} g4uLayerOptions\n * @property {LayerType} type The layer type.\n * @property {string|number} id unique in the whole config\n * @property {string} [title]\n * @property {Boolean} [available] if set to false, the layer will not appear on the map or the layer selector.\n * @property {Boolean} [availableMobile] overwrites available in mobile mode\n * @property {Boolean} [visible=false] If set to `true` the layer will be visible on startup.\n * @property {Boolean} [alwaysVisible] overwrites visible, available and mobileAvailable\n * @property {StyleLike} [style]\n */\n\n/**\n * The silent group can display a group of layers which appears as a single in the layer selector.\n * @typedef {g4uLayerOptions} SilentGroupLayerConfig\n * @property {\"SilentGroup\"} type\n * @property {AnyLayerConfig[]} layers\n */\n\n/**\n * The category contains other layer(s) and will appear as a category in the layer selector.\n * @typedef {g4uLayerOptions} CategoryLayerConfig\n * @property {\"Category\"} type\n * @property {AnyLayerConfig[]} layers\n */\n\n/**\n * The empty layer will show nothing (in case of a base layer a white background).\n * @typedef {g4uLayerOptions} EmptyLayerConfig\n * @property {\"Empty\"} type\n */\n\n/**\n * A XYZ Layer (See http://openlayers.org/en/latest/apidoc/ol.source.XYZ.html).\n * @typedef {g4uLayerOptions} XYZLayerConfig\n * @property {\"XYZ\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * An OSM Layer (See http://openlayers.org/en/latest/apidoc/ol.source.OSM.html).\n * @typedef {g4uLayerOptions} OSMLayerConfig\n * @property {\"OSM\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * A stamen Layer (See http://openlayers.org/en/latest/apidoc/ol.source.Stamen.html).\n * @typedef {g4uLayerOptions} StamenLayerConfig\n * @property {\"Stamen\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * A bing maps Layer (See http://openlayers.org/en/latest/apidoc/ol.source.BingMaps.html).\n * @typedef {g4uLayerOptions} BingLayerConfig\n * @property {\"Bing\"} type\n * @property {SourceConfig} source\n */\n\n/**\n * A WMTS Layer. Check the {WMTSSSourceConfig}.\n * @typedef {g4uLayerOptions} WMTSLayerConfig\n * @property {\"WMTS\"} type\n * @property {WMTSSSourceConfig} source\n */\n\n/**\n * A WMS Layer. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} WMSLayerConfig\n * @property {\"WMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n */\n\n/**\n * A WMS Layer which is called like a tiled layer. Good for performance. Check the {{WMSSSourceConfig}}.\n * @typedef {g4uLayerOptions} TileWMSLayerConfig\n * @property {\"TileWMS\"} type\n * @property {WMSSSourceConfig} source\n * @property {LayerButton[]} [buttons] If this is set, the layer appears as multiple buttons in th layerselector\n * @property {boolean} [categoryButton=false] If the buttons option is set, this options specifies if the buttons should\n *    appear as a category or not.\n */\n\n/**\n * A GeoJSON Layer.\n * @typedef {g4uLayerOptions} GeoJSONLayerConfig\n * @property {\"GeoJSON\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n */\n\n/**\n * A KML Layer.\n * @typedef {g4uLayerOptions} KMLLayerConfig\n * @property {\"KML\"} type\n * @property {VectorSourceConfig} source\n * @property {StyleLike} [style]\n */\n\n/**\n * A layer whichs contents are completly defined in the config file.\n * @typedef {g4uLayerOptions} InternalLayerConfig\n * @property {\"Intern\"} type\n * @property {InternalSourceConfig} source\n * @property {StyleLike} [style]\n */\n\n/**\n * A source config.\n * @typedef {Object} SourceConfig\n * @property {Localizable} [attribution]\n * @property {URLLike} url\n */\n\n/**\n * A vector source config.\n * @typedef {SourceConfig} VectorSourceConfig\n * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'\n *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.\n * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor\n * @property {number} [tileSize=512] If set the tile loading strategy will use tiles of this size\n * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.\n *    defaults to the sourceProjection\n * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.\n */\n\n/**\n * A wmts source config. The config must contain a `config` object that must contain a `layer`` parameter. For other\n *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.WMTS.html#.optionsFromCapabilities. All other\n *    needed Parameters will be obtained automatically.\n * @typedef {SourceConfig} WMTSSSourceConfig\n * @property {object} config\n */\n\n/**\n * An internal source whose features are defined directly in the config file.\n * @typedef {SourceConfig} InternalSourceConfig\n * @property {FeatureConfig[]} features\n */\n\n/**\n * @typedef {Object} FeatureConfig\n * @property {string|number} id\n * @property {StyleLike} [style]\n * @property {string} [geometryWKT]\n * @property {ol.geom.Geometry} [geometry]\n */\n\n/**\n * This class constructs a layer according to the given {{LayerOptions}}\n */\nexport class LayerFactory {\n  /**\n   * @param {G4UMap} map\n   */\n  constructor (map) {\n    /**\n     * @type {G4UMap}\n     * @private\n     */\n    this.map_ = map\n  }\n\n  /**\n   * @param {ol.ProjectionLike} mapConfigProjection\n   */\n  setMapConfigProjection (mapConfigProjection) {\n    this.mapProjection = mapConfigProjection\n  }\n\n  /**\n   * @returns {ol.ProjectionLike}\n   */\n  getMapProjection () {\n    return this.mapProjection\n  }\n\n  /**\n   * Adds multiple layers according to their configs to the given layerGroup\n   * @param {LayerGroup} layerGroup\n   * @param {g4uLayerOptions[]} configs\n   * @param {string} superType\n   * @param {Boolean} skipIdCheck\n   * @returns {ol.Layer.Base[]}\n   */\n  addLayers (layerGroup, configs, superType, skipIdCheck) {\n    return configs.map(config => this.addLayer(layerGroup, config, superType, skipIdCheck))\n  }\n\n  /**\n   * Adds a layer defined by a given config to a given layerGroup\n   * @param {LayerGroup} layerGroup\n   * @param {g4uLayerOptions} options\n   * @param {string} superType\n   * @param {Boolean} skipIdCheck\n   * @returns {ol.layer.Base}\n   */\n  addLayer (layerGroup, options, superType, skipIdCheck) {\n    let layer\n    /**\n     * @type {g4uLayerOptions}\n     */\n    let optionsCopy = copyDeep(options)\n\n    if (skipIdCheck || this.configureLayerIsIdOk_(optionsCopy.id)) {\n      // loading strategy\n\n      if (!optionsCopy.type) {\n        throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)\n      }\n\n      // availability\n      this.configureLayerAvailability_(optionsCopy)\n\n      // the title/name of the layer\n      this.configureLayerTitle_(optionsCopy)\n\n      if (superType === SuperType.BASELAYER) {\n        optionsCopy.groupLayer = this.map_.get('layerConfigurator').getBaseLayerGroup()\n      }\n\n      if (optionsCopy.source) {\n        this.configureLayerSourceAttribution_(optionsCopy.source)\n      }\n\n      // visibility\n      this.configureLayerVisibility_(optionsCopy)\n\n      layer = this.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)\n\n      let forEachLayer = layer => {\n        layerGroup.getLayers().push(layer)\n      }\n\n      if (layer instanceof Collection) {\n        layer.forEach(forEachLayer)\n      } else {\n        forEachLayer(layer)\n      }\n    }\n\n    return layer\n  }\n\n  /**\n   * @param {string} type\n   * @param {string} superType\n   */\n  superTypeNotSupported (type, superType) {\n    throw new Error(`${type} is not configured for superType '${superType}'`)\n  }\n\n  /**\n   * Creates a layer or a collection of layers from the config\n   * @param {string} layerType\n   * @param {g4uLayerOptions} optionsCopy\n   * @param {string} superType\n   * @param {Boolean} skipIdCheck\n   * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}\n   */\n  createLayer (layerType, optionsCopy, superType, skipIdCheck) {\n    if (superType === SuperType.QUERYLAYER) {\n      if (!optionsCopy.hasOwnProperty('apiKey')) {\n        Debug.error('Each query layer needs to have an apiKey.')\n      }\n      optionsCopy.source.projection = this.mapProjection\n    }\n\n    if (optionsCopy.source) {\n      optionsCopy.source.localiser = this.map_.get('localiser')\n    }\n\n    let layer\n    let layerConfigs\n    let clusterOptions\n    let localised = false\n    if (optionsCopy.source) {\n      optionsCopy.source.localiser = this.map_.get('localiser')\n      localised = optionsCopy.source.localised\n    }\n\n    let style = take(optionsCopy, 'style')\n\n    switch (layerType) {\n      case LayerType.SILENTGROUP:\n\n        layerConfigs = take(optionsCopy, 'layers')\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseSilentGroupLayer(optionsCopy)\n        } else {\n          layer = new SilentGroupLayer(optionsCopy)\n        }\n\n        this.addLayers(layer, layerConfigs, superType, true)\n\n        layer.getLayers().forEach(childLayer => {\n          childLayer.setVisible(true)\n        })\n        break\n      case LayerType.CATEGORY:\n        layerConfigs = take(optionsCopy, 'layers')\n\n        layer = new GroupLayer(optionsCopy)\n\n        this.addLayers(layer, layerConfigs, superType, skipIdCheck)\n\n        // availability & parent ref\n        let childrenAvailable = false\n        layer.getLayers().forEach(childLayer => {\n          childLayer.set('category', layer)\n          childrenAvailable = childrenAvailable || childLayer.get('available')\n        })\n\n        let childrenCount = layer.getLayers().getLength()\n\n        if (childrenAvailable !== false) {\n          if ((layer.get('available') !== false) && (childrenCount > 0)) {\n            // category is shown\n\n            if (childrenAvailable === true) {\n              layer.set('available', true)\n            }\n\n            layer.setVisible(true)\n\n            if (superType === SuperType.BASELAYER) {\n              layer.set('activateChildren', false)\n            }\n\n            return layer\n          } else if (childrenAvailable === true) {\n            // only children are shown\n            return layer.getLayers()\n          }\n          // else neither are shown\n        }\n        break\n      case LayerType.EMPTY:\n        if (superType === SuperType.BASELAYER) {\n          layer = new EmptyBaseLayer(optionsCopy)\n        } else {\n          optionsCopy.source = new VectorSource()\n          layer = new VectorLayer(optionsCopy)\n        }\n        break\n      case LayerType.XYZ:\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()\n        optionsCopy.source = new XYZ(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.OSM:\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_).finalize()\n        optionsCopy.source = new OSM(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.STAMEN:\n        optionsCopy.source = new Stamen(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.BING:\n        optionsCopy.source = new BingMaps(optionsCopy.source)\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n        break\n      case LayerType.WMS:\n        if (optionsCopy.categoryButtons) {\n          optionsCopy.source.params.LAYERS = []\n        }\n\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        if (superType === SuperType.BASELAYER) {\n          optionsCopy.source = new ImageWMSSource(optionsCopy.source)\n          layer = new BaseLayerImage(optionsCopy)\n        } else if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryImageWMSSource(optionsCopy.source)\n          layer = new ImageLayer(optionsCopy)\n        } else {\n          optionsCopy.source = new ImageWMSSource(optionsCopy.source)\n          layer = new ImageLayer(optionsCopy)\n        }\n\n        if (layer.getSource().hasFeatureInfo()) {\n          this.map_.asSoonAs('ready:ui', true, () => {\n            if (this.map_.get('showWMSFeatureInfo')) {\n              this.map_.get('showWMSFeatureInfo').addLayer(layer)\n            }\n          })\n        }\n\n        break\n      case LayerType.TILEWMS:\n        if (optionsCopy.source.tileSize) {\n          optionsCopy.source.tileGrid = createXYZ({ tileSize: optionsCopy.source.tileSize })\n          delete optionsCopy.source.tileSize\n        } else if (optionsCopy.source.tileGrid) {\n          optionsCopy.source.tileGrid = new TileGrid(optionsCopy.source.tileGrid)\n        }\n\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        if (superType === SuperType.BASELAYER) {\n          optionsCopy.source = new TileWMSSource(optionsCopy.source)\n          layer = new BaseTileLayer(optionsCopy)\n        } else if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryTileWMSSource(optionsCopy.source)\n          layer = new TileLayer(optionsCopy)\n        } else {\n          optionsCopy.source = new TileWMSSource(optionsCopy.source)\n          layer = new TileLayer(optionsCopy)\n        }\n\n        if (layer.getSource().hasFeatureInfo()) {\n          this.map_.asSoonAs('ready:ui', true, () => {\n            if (this.map_.get('showWMSFeatureInfo')) {\n              this.map_.get('showWMSFeatureInfo').addLayer(layer)\n            }\n          })\n        }\n\n        break\n      case LayerType.WMTS:\n        let sourceOptions = take(optionsCopy, 'source')\n\n        if (!sourceOptions.autoConfig) {\n          if (!sourceOptions.tileGrid) {\n            throw new Error('You have to provide either a tileGrid or use autoConfig for WMTS Source')\n          }\n\n          sourceOptions.tileGrid = new WMTSTileGrid(sourceOptions.tileGrid)\n\n          sourceOptions.url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_) // not finalized\n\n          optionsCopy.source = new WMTSSource(sourceOptions)\n        }\n        // url gets extracted in setWMTSSourceFromCapabilities\n\n        if (superType === SuperType.BASELAYER) {\n          layer = new BaseTileLayer(optionsCopy)\n        } else {\n          layer = new TileLayer(optionsCopy)\n        }\n\n        if (sourceOptions.autoConfig) {\n          this.setWMTSSourceFromCapabilities(layer, sourceOptions)\n        }\n\n        break\n      case LayerType.GEOJSON:\n        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')\n\n        optionsCopy.source.type = 'GeoJSON'\n\n        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')\n\n        optionsCopy.source.styling = this.map_.get('styling')\n\n        clusterOptions = take(optionsCopy.source, 'cluster')\n\n        if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryVectorSource(optionsCopy.source)\n        } else {\n          optionsCopy.source = new SourceServerVector(optionsCopy.source)\n        }\n\n        if (clusterOptions) {\n          clusterOptions = asObject(clusterOptions)\n          optionsCopy.source = new ClusterSource(optionsCopy.source, clusterOptions)\n        }\n        layer = new VectorLayer(optionsCopy)\n        break\n      case LayerType.KML:\n        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        optionsCopy.source.defaultStyle = this.map_.get('styling').getStyle(style || '#defaultStyle')\n\n        optionsCopy.source.type = 'KML'\n\n        optionsCopy.source.bboxProjection = optionsCopy.source.bboxProjection || this.map_.get('interfaceProjection')\n\n        optionsCopy.source.styling = this.map_.get('styling')\n\n        clusterOptions = take(optionsCopy.source, 'cluster')\n\n        if (superType === SuperType.QUERYLAYER) {\n          optionsCopy.visible = false\n          optionsCopy.source = new QueryVectorSource(optionsCopy.source)\n        } else {\n          optionsCopy.source = new SourceServerVector(optionsCopy.source)\n        }\n\n        if (clusterOptions) {\n          optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))\n        }\n        layer = new VectorLayer(optionsCopy)\n        break\n      case LayerType.ARCGISRESTFEATURE:\n        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)\n        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized\n\n        if (superType === SuperType.QUERYLAYER) {\n          this.superTypeNotSupported(layerType, superType)\n        } else {\n          optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)\n        }\n\n        layer = new VectorLayer(optionsCopy)\n        break\n      case LayerType.INTERN:\n\n        if (optionsCopy.source.hasOwnProperty('features')) {\n          for (let i = 0; i < optionsCopy.source.features.length; i++) {\n            optionsCopy.source.features[i] = this.createFeature(optionsCopy.source.features[i])\n          }\n        }\n\n        optionsCopy.source = new VectorSource(optionsCopy.source)\n\n        if (superType === SuperType.QUERYLAYER) {\n          this.superTypeNotSupported(layerType, superType)\n        } else {\n          layer = new VectorLayer(optionsCopy)\n        }\n        break\n    }\n\n    for (let module of this.map_.getModules()) {\n      if (layer) {\n        break\n      }\n      layer = module.createLayer(optionsCopy.type, optionsCopy, superType, skipIdCheck)\n    }\n\n    if (!layer) {\n      throw new Error(`layer with type '${optionsCopy.type}' could not be created.`)\n    }\n\n    // styling\n    if (layer.setStyle) {\n      layer.setStyle(this.map_.get('styling').getStyle(style))\n      this.map_.get('styling').manageLayer(layer)\n    }\n\n    // if layer is a baselayer, check for mapProjection\n    if (superType === SuperType.BASELAYER && optionsCopy.source) {\n      if (layer.getSource().getProjection()) {\n        if (!this.mapProjection) {\n          this.mapProjection = layer.getSource().getProjection()\n        } else if (this.mapProjection && this.mapProjection !== layer.getSource().getProjection()) {\n          Debug.warn('The baseLayers are not in mapProjection or a baseLayers has a different projection than' +\n             ' another! This might cause reprojection issues.')\n        }\n      }\n    } else if (superType === SuperType.QUERYLAYER) {\n      this.map_.get('urlApi').addApiLayer(layer, optionsCopy.apiKey)\n    }\n\n    // if layer is being localised, refresh on language change\n    if (localised) {\n      this.map_.get('localiser').on('change:language', () => layer.getSource().refresh())\n    }\n\n    return layer\n  }\n\n  /**\n   * A function that checks if a layer id is setted and not a duplicate of another.\n   * Throws an error if this is the case.\n   * @param {string|number} id\n   * @private\n   */\n  configureLayerIsIdOk_ (id) {\n    /**\n     * @type {string[]|number[]}\n     */\n    let layerIds = this.map_.get('layerIds')\n\n    if (id === 0 || (id && (typeof id === 'string' || !isNaN(id)))) {\n      for (let j = 0, jj = layerIds.length; j < jj; j++) {\n        if (id === layerIds[j]) {\n          Debug.error(`Each layer needs a unique id! Otherwise the layer won't be shown. Layer id: ${id}`)\n          return false\n        }\n      }\n      layerIds.push(id)\n      this.map_.set('layerIds', layerIds)\n      return true\n    } else {\n      Debug.error(`Each layer needs a unique id! Otherwise the layer won't be shown. Layer id: ${id}`)\n      return false\n    }\n  }\n\n  /**\n   * @param {g4uLayerOptions} config\n   * @returns {g4uLayerOptions}\n   * @private\n   */\n  configureLayerAvailability_ (config) {\n    // if available is set to false explicitely, the layer won't be available\n    config.available = (config.available !== false)\n\n    if (!config.alwaysVisible) {\n      config.available = config.hasOwnProperty('availableMobile') ? config.availableMobile : config.available\n      if (this.map_.get('ignoreLayerAvailability')) {\n        config.available = true\n      }\n    }\n    return config\n  }\n\n  /**\n   * @param {SourceConfig} sourceConfig\n   * @returns {SourceConfig}\n   * @private\n   */\n  configureLayerSourceAttribution_ (sourceConfig) {\n    if (checkFor(sourceConfig, 'attribution')) {\n      sourceConfig.attributions = [this.map_.get('localiser').selectL10N(sourceConfig.attribution)]\n    }\n    return sourceConfig\n  }\n\n  /**\n   * @param {SourceConfig} sourceConfig\n   * @returns {SourceConfig}\n   * @private\n   */\n  configureLayerSourceLoadingStrategy_ (sourceConfig) {\n    const loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')\n      ? sourceConfig.loadingStrategy\n      : this.map_.get('loadingStrategy')\n\n    if (loadingStrategy === 'BBOX') {\n      let bboxRatio = sourceConfig.bboxRatio || 1\n\n      if (bboxRatio < 1) {\n        throw new Error('The bboxRatio should not be smaller than 1')\n      }\n\n      let lastScaledExtent = [0, 0, 0, 0]\n\n      sourceConfig.strategy = (extent) => {\n        if (containsExtent(lastScaledExtent, extent)) {\n          return [extent]\n        } else {\n          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)\n          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)\n\n          lastScaledExtent = [\n            extent[0] - deltaX,\n            extent[1] - deltaY,\n            extent[2] + deltaX,\n            extent[3] + deltaY\n          ]\n\n          return [lastScaledExtent]\n        }\n      }\n    } else if (loadingStrategy === 'TILE') {\n      sourceConfig.strategy = tile(createXYZ({\n        tileSize: sourceConfig.tileSize || 512\n      }))\n    } else {\n      sourceConfig.strategy = all\n    }\n\n    sourceConfig.loadingStrategyType = loadingStrategy\n\n    return sourceConfig\n  }\n\n  /**\n   * @param {g4uLayerOptions} config\n   * @returns {g4uLayerOptions}\n   * @private\n   */\n  configureLayerTitle_ (config) {\n    if (!config.hasOwnProperty('title')) {\n      config.title = 'No title given'\n    } else {\n      config.title = this.map_.get('localiser').selectL10N(config.title)\n    }\n    return config\n  }\n\n  /**\n   * @param {g4uLayerOptions} config\n   * @returns {g4uLayerOptions}\n   * @private\n   */\n  configureLayerVisibility_ (config) {\n    if (config.alwaysVisible === true) {\n      config.visible = true\n    } else {\n      config.visible = (config.visible === true)\n    }\n\n    return config\n  }\n\n  /**\n   * @param {FeatureConfig} featureConf\n   * @returns {ol.Feature}\n   */\n  createFeature (featureConf) {\n    /**\n     * @type {FeatureConfig}\n     */\n    let featureConfCopy = copyDeep(featureConf)\n\n    let id = take(featureConfCopy, 'id')\n\n    let style = take(featureConfCopy, 'style')\n\n    let format = new WKT()\n    let wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')\n    featureConfCopy.geometry = format.readGeometry(wkt)\n      .transform(this.map_.get('interfaceProjection'), this.map_.get('mapProjection'))\n\n    let feature = new Feature(featureConfCopy)\n\n    if (style) {\n      this.map_.get('styling').styleFeature(feature, style)\n    }\n\n    if (id) {\n      feature.setId(id)\n    }\n\n    return feature\n  }\n\n  setWMTSSourceFromCapabilities (layer, sourceOptions) {\n    const url = URL.extractFromConfig(sourceOptions, 'url', undefined, this.map_)\n    const capUrl = url.clone().addParam('Service=WMTS').addParam('Request=GetCapabilities')\n    $.ajax({\n      url: capUrl.finalize(),\n      dataType: 'text xml',\n      crossDomain: true,\n      success: data => {\n        const wmtsCap = (new WMTSCapabilities()).read(data)\n        const capOptions = WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))\n        if (capOptions === null) {\n          Debug.error(`wmts layer not found or not set for layer with id \"${layer.get('id')}\"`)\n        } else {\n          capOptions.urls = capOptions.urls.map(newUrl => {\n            const u = url.clone()\n            u.url = newUrl\n            return u.finalize()\n          })\n          sourceOptions = mergeDeep(sourceOptions, capOptions)\n          layer.setSource(new WMTS(sourceOptions))\n        }\n      }\n    })\n    layer.setSource(new ImageCanvas({\n      state: 'ready',\n      canvasFunction: () => {} // not loading any canvas\n    }))\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/configurators/LayerFactory.js",
     "access": "public",
@@ -1845,7 +1845,7 @@
     "importPath": "guide4you/src/configurators/LayerFactory.js",
     "importStyle": "{SuperType}",
     "description": "",
-    "lineNumber": 40,
+    "lineNumber": 43,
     "unknown": [
       {
         "tagName": "@enum",
@@ -1870,11 +1870,11 @@
     "importPath": "guide4you/src/configurators/LayerFactory.js",
     "importStyle": "{LayerType}",
     "description": null,
-    "lineNumber": 49,
+    "lineNumber": 52,
     "undocument": true,
     "type": {
       "types": [
-        "{\"CATEGORY\": string, \"SILENTGROUP\": string, \"GEOJSON\": string, \"KML\": string, \"WMS\": string, \"TILEWMS\": string, \"WMTS\": string, \"OSM\": string, \"STAMEN\": string, \"INTERN\": string, \"EMPTY\": string, \"XYZ\": string, \"BING\": string}"
+        "{\"CATEGORY\": string, \"SILENTGROUP\": string, \"GEOJSON\": string, \"KML\": string, \"WMS\": string, \"TILEWMS\": string, \"WMTS\": string, \"OSM\": string, \"STAMEN\": string, \"INTERN\": string, \"EMPTY\": string, \"XYZ\": string, \"BING\": string, \"ARCGISRESTFEATURE\": string}"
       ]
     }
   },
@@ -1890,7 +1890,7 @@
     "importPath": "guide4you/src/configurators/LayerFactory.js",
     "importStyle": "{LayerFactory}",
     "description": null,
-    "lineNumber": 225,
+    "lineNumber": 232,
     "undocument": true,
     "interface": false
   },
@@ -1905,7 +1905,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#constructor",
     "access": "public",
     "description": "",
-    "lineNumber": 229,
+    "lineNumber": 236,
     "params": [
       {
         "nullable": null,
@@ -1928,7 +1928,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#map_",
     "access": "private",
     "description": "",
-    "lineNumber": 234,
+    "lineNumber": 241,
     "type": {
       "nullable": null,
       "types": [
@@ -1949,7 +1949,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#setMapConfigProjection",
     "access": "public",
     "description": "",
-    "lineNumber": 240,
+    "lineNumber": 247,
     "params": [
       {
         "nullable": null,
@@ -1973,7 +1973,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#mapProjection",
     "access": "public",
     "description": null,
-    "lineNumber": 241,
+    "lineNumber": 248,
     "undocument": true,
     "type": {
       "types": [
@@ -1992,7 +1992,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#getMapProjection",
     "access": "public",
     "description": "",
-    "lineNumber": 247,
+    "lineNumber": 254,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2020,7 +2020,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#addLayers",
     "access": "public",
     "description": "Adds multiple layers according to their configs to the given layerGroup",
-    "lineNumber": 259,
+    "lineNumber": 266,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2089,7 +2089,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#addLayer",
     "access": "public",
     "description": "Adds a layer defined by a given config to a given layerGroup",
-    "lineNumber": 271,
+    "lineNumber": 278,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2158,7 +2158,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#superTypeNotSupported",
     "access": "public",
     "description": "",
-    "lineNumber": 322,
+    "lineNumber": 329,
     "params": [
       {
         "nullable": null,
@@ -2194,7 +2194,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#createLayer",
     "access": "public",
     "description": "Creates a layer or a collection of layers from the config",
-    "lineNumber": 334,
+    "lineNumber": 341,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2264,7 +2264,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#configureLayerIsIdOk_",
     "access": "private",
     "description": "A function that checks if a layer id is setted and not a duplicate of another.\nThrows an error if this is the case.",
-    "lineNumber": 660,
+    "lineNumber": 679,
     "params": [
       {
         "nullable": null,
@@ -2295,7 +2295,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#configureLayerAvailability_",
     "access": "private",
     "description": "",
-    "lineNumber": 687,
+    "lineNumber": 706,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2334,7 +2334,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#configureLayerSourceAttribution_",
     "access": "private",
     "description": "",
-    "lineNumber": 705,
+    "lineNumber": 724,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2373,7 +2373,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#configureLayerSourceLoadingStrategy_",
     "access": "private",
     "description": "",
-    "lineNumber": 717,
+    "lineNumber": 736,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2412,7 +2412,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#configureLayerTitle_",
     "access": "private",
     "description": "",
-    "lineNumber": 729,
+    "lineNumber": 785,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2451,7 +2451,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#configureLayerVisibility_",
     "access": "private",
     "description": "",
-    "lineNumber": 743,
+    "lineNumber": 799,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2490,7 +2490,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#createFeature",
     "access": "public",
     "description": "",
-    "lineNumber": 757,
+    "lineNumber": 813,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2529,7 +2529,7 @@
     "longname": "src/configurators/LayerFactory.js~LayerFactory#setWMTSSourceFromCapabilities",
     "access": "public",
     "description": null,
-    "lineNumber": 785,
+    "lineNumber": 841,
     "undocument": true,
     "params": [
       {
@@ -20766,6 +20766,59 @@
   {
     "__docId__": 904,
     "kind": "file",
+    "name": "src/sources/ArcGISRESTFeatureSource.js",
+    "content": "import $ from 'jquery'\r\nimport EsriJSON from 'ol/format/EsriJSON'\r\n\r\nimport VectorSource from 'ol/source/Vector'\r\nimport { get as getProj, transformExtent } from 'ol/proj'\r\nimport { Debug } from '../Debug'\r\nimport { take } from '../utilitiesObject'\r\n\r\n/**\r\n * Please note that a 'BBOX' or 'TILE' loadingStrategy is required\r\n * @typedef {module:ol/source/Vector~Options} ArcGISRESTFeatureSourceOptions\r\n * @property {object} [params] the params to be passed to the ArcGIS REST Feature Service. The params f, returnGeometry,\r\n *    geometry, geometryType, inSR and outSr can not be set as they are filled automatically. The SR parameters will\r\n *    be set to the projection of the source if one is given. geometry and geometryType will always be an\r\n *    'esriGeometryEnvelope'. f will be json and returnGeometry true.\r\n *    The parameters spatialRel and outFields can be altered and default to 'esriSpatialRelIntersects' and '*'.\r\n * @property {string} [dataType=json] can be json or jsonp\r\n */\r\n\r\nexport class ArcGISRESTFeatureSource extends VectorSource {\r\n  constructor (options) {\r\n    if (options.loadingStrategyType === 'ALL') {\r\n      Debug.error('ArcRESTFeatureSource does not support loading strategy \"ALL\". Please use BBOX or TILE')\r\n    }\r\n\r\n    const url = take(options, 'url')\r\n    const params = take(options, 'params')\r\n    // const geometrySR = take(options, 'geometrySR')\r\n\r\n    options.loader = (...args) => this.loader(...args)\r\n\r\n    super(options)\r\n\r\n    this.url_ = url\r\n    this.params_ = params || {}\r\n    this.projection_ = options.projection ? getProj(options.projection) : undefined\r\n    this.format_ = new EsriJSON()\r\n    this.dataType_ = options.dataType || 'json'\r\n  }\r\n\r\n  /**\r\n   * @param {module:ol/extent~Extent} extent\r\n   * @param {number} resolution\r\n   * @param {module:ol/proj/Projection} projection\r\n   */\r\n  loader (extent, resolution, projection) {\r\n    let sr\r\n    if (this.projection_) {\r\n      extent = transformExtent(extent, projection, this.projection_)\r\n      sr = parseInt(this.projection_.getCode().split(':')[1])\r\n    }\r\n\r\n    const geometry = {\r\n      xmin: extent[0],\r\n      ymin: extent[1],\r\n      xmax: extent[2],\r\n      ymax: extent[3]\r\n    }\r\n    if (this.projection_) {\r\n      geometry.spatialReference = {\r\n        wkid: sr\r\n      }\r\n    }\r\n\r\n    const params = Object.assign({\r\n      spatialRel: 'esriSpatialRelIntersects',\r\n      outFields: '*'\r\n    }, this.params_, {\r\n      f: 'json',\r\n      returnGeometry: 'true',\r\n      geometry: JSON.stringify(geometry),\r\n      geometryType: 'esriGeometryEnvelope'\r\n    })\r\n\r\n    if (this.projection_) {\r\n      params.inSR = sr\r\n      params.outSR = sr\r\n    }\r\n\r\n    const url = this.url_.clone()\r\n    for (const key in params) {\r\n      if (params.hasOwnProperty(key)) {\r\n        url.addParam(`${key}=${params[key]}`)\r\n      }\r\n    }\r\n\r\n    $.ajax({\r\n      url: url.finalize(),\r\n      dataType: this.dataType_,\r\n      success: response => {\r\n        if (response.error) {\r\n          Debug.error(response.error.message + '\\n' +\r\n            response.error.details.join('\\n'))\r\n        } else {\r\n          // dataProjection will be read from document\r\n          var features = this.format_.readFeatures(response, {\r\n            dataProjection: this.projection_,\r\n            featureProjection: projection\r\n          })\r\n          if (features.length > 0) {\r\n            this.addFeatures(features)\r\n          }\r\n        }\r\n      }\r\n    })\r\n  }\r\n}\r\n",
+    "static": true,
+    "longname": "D:/xampp/htdocs/guide4you/src/sources/ArcGISRESTFeatureSource.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 905,
+    "kind": "typedef",
+    "name": "ArcGISRESTFeatureSourceOptions",
+    "memberof": "src/sources/ArcGISRESTFeatureSource.js",
+    "static": true,
+    "longname": "src/sources/ArcGISRESTFeatureSource.js~ArcGISRESTFeatureSourceOptions",
+    "access": "public",
+    "description": "Please note that a 'BBOX' or 'TILE' loadingStrategy is required",
+    "lineNumber": 20,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "params",
+        "description": "the params to be passed to the ArcGIS REST Feature Service. The params f, returnGeometry,\n   geometry, geometryType, inSR and outSr can not be set as they are filled automatically. The SR parameters will\n   be set to the projection of the source if one is given. geometry and geometryType will always be an\n   'esriGeometryEnvelope'. f will be json and returnGeometry true.\n   The parameters spatialRel and outFields can be altered and default to 'esriSpatialRelIntersects' and '*'."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "json",
+        "defaultRaw": "json",
+        "name": "dataType",
+        "description": "can be json or jsonp"
+      }
+    ],
+    "type": {
+      "types": [
+        "module:ol/source/Vector~Options"
+      ],
+      "optional": false,
+      "name": "ArcGISRESTFeatureSourceOptions"
+    }
+  },
+  {
+    "__docId__": 906,
+    "kind": "file",
     "name": "src/sources/ClusterSource.js",
     "content": "import OlClusterSource from 'ol/source/Cluster'\n\nimport { Debug } from '../Debug'\nimport Point from 'ol/geom/Point'\nimport LineString from 'ol/geom/LineString'\nimport { getCenter } from 'ol/extent'\nimport Polygon from 'ol/geom/Polygon'\nimport Circle from 'ol/geom/Circle'\n\nexport class ClusterSource extends OlClusterSource {\n  /**\n   * @param {ol.source.Vector} source\n   * @param {olx.} options\n   */\n  constructor (source, options) {\n    options.source = source\n    options.geometryFunction = options.geometryFunction || ClusterSource.defaultGeometryFunction\n    super(options)\n  }\n\n  static defaultGeometryFunction (feature) {\n    let geom = feature.getGeometry()\n    if (geom instanceof Point) {\n      return geom\n    } else if (geom instanceof LineString || geom instanceof Polygon) {\n      return new Point(getCenter(geom.getExtent()))\n    } else if (geom instanceof Circle) {\n      return new Point(geom.getCenter())\n    } else {\n      Debug.warn('Trying to cluster unsupported geometry type.')\n      return null\n    }\n  }\n}\n",
     "static": true,
@@ -20775,7 +20828,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 905,
+    "__docId__": 907,
     "kind": "class",
     "name": "ClusterSource",
     "memberof": "src/sources/ClusterSource.js",
@@ -20794,7 +20847,7 @@
     ]
   },
   {
-    "__docId__": 906,
+    "__docId__": 908,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/sources/ClusterSource.js~ClusterSource",
@@ -20829,7 +20882,7 @@
     ]
   },
   {
-    "__docId__": 907,
+    "__docId__": 909,
     "kind": "method",
     "name": "defaultGeometryFunction",
     "memberof": "src/sources/ClusterSource.js~ClusterSource",
@@ -20856,7 +20909,7 @@
     }
   },
   {
-    "__docId__": 908,
+    "__docId__": 910,
     "kind": "file",
     "name": "src/sources/ImageWMSSource.js",
     "content": "import $ from 'jquery'\nimport ImageWMS from 'ol/source/ImageWMS'\nimport TileWMS from 'ol/source/TileWMS'\n\nimport { asyncImageLoad, mixin } from '../utilities'\nimport { Debug } from '../Debug'\n\n/**\n * @typedef {object} WMSFeatureInfoOptions\n * @property {object.<string, string>} [params] the params to be used with the GetFeatureInfo call.\n *    Needs to include INFO_FORMAT.\n *    If the layer does not use the buttons options than needs to include QUERY_LAYERS.\n * @property {boolean} [checkable=false] If the layer does not use the buttons options, this options specifies if an\n *    extra button on the layer button appears to toggle the feature info.\n * @property {boolean} [checked=true] If the layer does not use the buttons options and checkable is true, this option\n *    specifies if the feature info button appears activated or not.\n */\n\nexport class WMSFeatureInfoMixin {\n  /**\n   * @param {object} options\n   * @param {WMSFeatureInfoOptions} options.featureInfo\n   */\n  initialize (options) {\n    this.featureInfo_ = options.featureInfo !== undefined\n\n    if (this.featureInfo_) {\n      this.featureInfoParams_ = options.featureInfo.params || {}\n      this.featureInfoCheckable_ = options.featureInfo.checkable\n      this.featureInfoMutators_ = options.featureInfo.mutators\n      this.featureInfoChecked_ = options.featureInfo.checked\n    }\n  }\n\n  getFeatureInfoParams () {\n    return this.featureInfoParams_\n  }\n\n  getQueryable () {\n    return this.featureInfoParams_['QUERY_LAYERS'] && this.featureInfoParams_['QUERY_LAYERS'].length\n  }\n\n  getFeatureInfoMutators () {\n    return this.featureInfoMutators_ || []\n  }\n\n  hasFeatureInfo () {\n    return this.featureInfo_\n  }\n\n  isFeatureInfoCheckable () {\n    return this.featureInfoCheckable_\n  }\n\n  isFeatureInfoChecked () {\n    return this.featureInfoChecked_\n  }\n\n  updateFeatureInfoParams (newParams) {\n    Object.assign(this.featureInfoParams_, newParams)\n  }\n\n  getFeatureInfo (coordinate, resolution, projection) {\n    return new Promise((resolve, reject) => {\n      let params = this.featureInfoParams_\n      if (!params['QUERY_LAYERS'] || params['QUERY_LAYERS'].length === 0) {\n        resolve('')\n      } else {\n        const gfiExt = this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)\n        $.ajax({\n          url: this.originalUrlObject.extend(gfiExt).finalize(),\n          success: resolve,\n          error: reject,\n          dataType: 'text'\n        })\n      }\n    })\n  }\n\n  toggleArrayEntries_ (obj, prop, names, toggle) {\n    let arr = obj[prop] || []\n    if (toggle) {\n      // the call of toggleWMSLayers in TemplatePrintControl causes an polyfill error in\n      // internet explorer / microsoft edge related to Symbol.iterator which is used for\n      // the for-of loop\n      names.forEach(name => {\n        if (arr.indexOf(name) < 0) {\n          arr.push(name)\n        }\n      })\n      // for (let name of names) {\n      //   if (arr.indexOf(name) < 0) {\n      //     arr.push(name)\n      //   }\n      // }\n    } else {\n      for (let name of names) {\n        let index = arr.indexOf(name)\n        if (index >= 0) {\n          arr.splice(index, 1)\n        }\n      }\n    }\n    obj[prop] = arr\n    return obj\n  }\n\n  toggleWMSLayers (names, toggle) {\n    this.updateParams(this.toggleArrayEntries_(this.getParams(), 'LAYERS', names, toggle))\n  }\n\n  toggleWMSQueryLayers (names, toggle) {\n    this.updateFeatureInfoParams(this.toggleArrayEntries_(this.featureInfoParams_, 'QUERY_LAYERS', names, toggle))\n  }\n\n  arrayContainsAll (arr, contains) {\n    return contains.every(needle => arr.indexOf(needle) >= 0)\n  }\n\n  getWMSLayersVisible (names) {\n    return this.arrayContainsAll(this.getParams().LAYERS || [], names)\n  }\n\n  getWMSQueryLayersVisible (names) {\n    return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)\n  }\n}\n\n/**\n * A wms source config.\n * @typedef {SourceConfig} WMSSSourceConfig\n * @property {object} params required. needs to contain a `LAYERS` parameter. For other\n *    parameters see: http://openlayers.org/en/latest/apidoc/ol.source.ImageWMS.html -> Constructor options -> params\n * @property {WMSFeatureInfoOptions} featureInfo\n */\n\nexport class ImageWMSSource extends mixin(ImageWMS, WMSFeatureInfoMixin) {\n  constructor (options) {\n    const originalUrl = options.url\n    options.url = '_' // dummy value that gets sliced out\n    options.imageLoadFunction = (image, src) => {\n      asyncImageLoad(image.getImage(), this.originalUrlObject.extend(src.slice(1)))\n        .catch(err => Debug.error(err))\n    }\n    super(options)\n    this.originalUrlObject = originalUrl\n  }\n}\n\nexport class TileWMSSource extends mixin(TileWMS, WMSFeatureInfoMixin) {\n  constructor (options) {\n    const origUrl = options.url\n    options.url = '_' // dummy value that gets sliced out\n    options.tileLoadFunction = (tile, src) => {\n      asyncImageLoad(tile.getImage(), this.originalUrlObject.extend(src.slice(1)))\n        .catch(err => Debug.error(err))\n    }\n    super(options)\n    this.originalUrlObject = origUrl\n  }\n}\n",
@@ -20867,7 +20920,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 909,
+    "__docId__": 911,
     "kind": "typedef",
     "name": "WMSFeatureInfoOptions",
     "memberof": "src/sources/ImageWMSSource.js",
@@ -20921,7 +20974,7 @@
     }
   },
   {
-    "__docId__": 910,
+    "__docId__": 912,
     "kind": "typedef",
     "name": "WMSSSourceConfig",
     "memberof": "src/sources/ImageWMSSource.js",
@@ -20961,7 +21014,7 @@
     }
   },
   {
-    "__docId__": 911,
+    "__docId__": 913,
     "kind": "class",
     "name": "TileWMSSource",
     "memberof": "src/sources/ImageWMSSource.js",
@@ -20981,7 +21034,7 @@
     ]
   },
   {
-    "__docId__": 912,
+    "__docId__": 914,
     "kind": "file",
     "name": "src/sources/QueryVectorSource.js",
     "content": "import { SourceServerVector } from './SourceServerVector'\n\n/**\n * @typedef {SourceServerVectorOptions} QuerySourceOptions\n * @property {String[]} [queryValues=[]]\n */\n\n/**\n * A source for a VectorLayer which address is controlled by the urlapi and which is not shown in the LayerSelector\n */\nexport class QueryVectorSource extends SourceServerVector {\n  /**\n   * @param {QuerySourceOptions} options\n   */\n  constructor (options = {}) {\n    super(options)\n\n    /**\n     * @type {number}\n     * @private\n     */\n    this.changedQueryValuesCount_ = 0\n\n    this.setQueryValues(options.queryValues || [])\n  }\n\n  /**\n   * @param {string[]} values\n   */\n  setQueryValues (values) {\n    /**\n     * @type {string[]}\n     * @private\n     */\n    this.queryValues_ = values\n    this.urlTemplate.expandTemplate('apiValue', this.queryValues_, true)\n\n    this.changedQueryValuesCount_++\n    this.changed()\n  }\n\n  addFeatures (features) {\n    if (this.changedQueryValuesCount_ > 0) {\n      this.changedQueryValuesCount_--\n      this.clear()\n    }\n    super.addFeatures(features)\n  }\n\n  /**\n   * @returns {string[]}\n   */\n  getQueryValues () {\n    return this.queryValues_\n  }\n}\n",
@@ -20992,7 +21045,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 913,
+    "__docId__": 915,
     "kind": "typedef",
     "name": "QuerySourceOptions",
     "memberof": "src/sources/QueryVectorSource.js",
@@ -21023,7 +21076,7 @@
     }
   },
   {
-    "__docId__": 914,
+    "__docId__": 916,
     "kind": "class",
     "name": "QueryVectorSource",
     "memberof": "src/sources/QueryVectorSource.js",
@@ -21041,7 +21094,7 @@
     ]
   },
   {
-    "__docId__": 915,
+    "__docId__": 917,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/sources/QueryVectorSource.js~QueryVectorSource",
@@ -21066,7 +21119,7 @@
     ]
   },
   {
-    "__docId__": 916,
+    "__docId__": 918,
     "kind": "member",
     "name": "changedQueryValuesCount_",
     "memberof": "src/sources/QueryVectorSource.js~QueryVectorSource",
@@ -21085,7 +21138,7 @@
     }
   },
   {
-    "__docId__": 917,
+    "__docId__": 919,
     "kind": "method",
     "name": "setQueryValues",
     "memberof": "src/sources/QueryVectorSource.js~QueryVectorSource",
@@ -21111,7 +21164,7 @@
     "return": null
   },
   {
-    "__docId__": 918,
+    "__docId__": 920,
     "kind": "member",
     "name": "queryValues_",
     "memberof": "src/sources/QueryVectorSource.js~QueryVectorSource",
@@ -21130,7 +21183,7 @@
     }
   },
   {
-    "__docId__": 919,
+    "__docId__": 921,
     "kind": "method",
     "name": "addFeatures",
     "memberof": "src/sources/QueryVectorSource.js~QueryVectorSource",
@@ -21153,7 +21206,7 @@
     "return": null
   },
   {
-    "__docId__": 920,
+    "__docId__": 922,
     "kind": "method",
     "name": "getQueryValues",
     "memberof": "src/sources/QueryVectorSource.js~QueryVectorSource",
@@ -21181,7 +21234,7 @@
     "params": []
   },
   {
-    "__docId__": 921,
+    "__docId__": 923,
     "kind": "file",
     "name": "src/sources/QueryWMSSource.js",
     "content": "import { mixin } from '../utilities'\nimport { ImageWMSSource, TileWMSSource } from './ImageWMSSource'\n\n/**\n * A source for a VectorLayer which address is controlled by the urlapi and which is not shown in the LayerSelector\n */\nexport class QueryWMSMixin {\n  initialize (options) {\n    this.setQueryValues(options.queryValues || [])\n  }\n\n  /**\n   * @param {string[]} values\n   */\n  setQueryValues (values) {\n    /**\n     * @type {string[]}\n     * @private\n     */\n    this.queryValues_ = values\n\n    this.updateParams(Object.assign({}, this.getParams(), { LAYERS: values }))\n\n    this.changed()\n  }\n\n  /**\n   * @returns {string[]}\n   */\n  getQueryValues () {\n    return this.queryValues_\n  }\n}\n\nexport const QueryImageWMSSource = mixin(ImageWMSSource, QueryWMSMixin)\n\nexport const QueryTileWMSSource = mixin(TileWMSSource, QueryWMSMixin)\n",
@@ -21192,7 +21245,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 922,
+    "__docId__": 924,
     "kind": "class",
     "name": "QueryWMSMixin",
     "memberof": "src/sources/QueryWMSSource.js",
@@ -21207,7 +21260,7 @@
     "interface": false
   },
   {
-    "__docId__": 923,
+    "__docId__": 925,
     "kind": "method",
     "name": "initialize",
     "memberof": "src/sources/QueryWMSSource.js~QueryWMSMixin",
@@ -21230,7 +21283,7 @@
     "return": null
   },
   {
-    "__docId__": 924,
+    "__docId__": 926,
     "kind": "method",
     "name": "setQueryValues",
     "memberof": "src/sources/QueryWMSSource.js~QueryWMSMixin",
@@ -21256,7 +21309,7 @@
     "return": null
   },
   {
-    "__docId__": 925,
+    "__docId__": 927,
     "kind": "member",
     "name": "queryValues_",
     "memberof": "src/sources/QueryWMSSource.js~QueryWMSMixin",
@@ -21275,7 +21328,7 @@
     }
   },
   {
-    "__docId__": 926,
+    "__docId__": 928,
     "kind": "method",
     "name": "getQueryValues",
     "memberof": "src/sources/QueryWMSSource.js~QueryWMSMixin",
@@ -21303,7 +21356,7 @@
     "params": []
   },
   {
-    "__docId__": 927,
+    "__docId__": 929,
     "kind": "variable",
     "name": "QueryImageWMSSource",
     "memberof": "src/sources/QueryWMSSource.js",
@@ -21323,7 +21376,7 @@
     }
   },
   {
-    "__docId__": 928,
+    "__docId__": 930,
     "kind": "variable",
     "name": "QueryTileWMSSource",
     "memberof": "src/sources/QueryWMSSource.js",
@@ -21343,10 +21396,10 @@
     }
   },
   {
-    "__docId__": 929,
+    "__docId__": 931,
     "kind": "file",
     "name": "src/sources/SourceServerVector.js",
-    "content": "import $ from 'jquery'\nimport { containsExtent } from 'ol/extent'\nimport GeoJSON from 'ol/format/GeoJSON'\nimport KML from 'ol/format/KML'\nimport { transformExtent } from 'ol/proj'\nimport VectorSource from 'ol/source/Vector'\nimport { all } from 'ol/loadingstrategy'\n\nimport { copy, take } from '../utilitiesObject'\nimport { Debug } from '../Debug'\n\n/**\n * @typedef {olx.source.VectorOptions} SourceServerVectorOptions\n * @property {string} type the format to use\n * @property {URLLike} url\n * @property {StyleLike} [defaultStyle] a default style to fallback to\n * @property {boolean} [extractStyles=true] if styles should get extracted from the KML\n * @property {string} [loadingStrategy='ALL'] Either 'BBOX' or 'ALL' (Synonym: 'FIXED').\n *    If BBOX the given url has to contain the parameters {bboxleft}, {bboxbottom}, {bboxright}, {bboxtop}.\n * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor\n * @property {ol.ProjectionLike} [bboxProjection] coordinates will be inserted into the url in this format. defaults to\n *    the interfaceProjection\n * @property {boolean} [cache=] true, false for dataType 'script' and 'jsonp'\n * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)\n * @property {L10N} localiser\n * @property {boolean} localised\n * @property {Styling} styling\n */\n\n/**\n * A custom Source class handling Vector Sources.\n *\n * Let you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.\n *\n * **IMPORTANT:** You can't set the projection of the source! This is **always** determined by the data received. If you\n * set projection here you force the source to assume that this is the projection of the view.\n *\n * This class defines a custom loader function which makes it possible to use different loading strategies.\n */\nexport class SourceServerVector extends VectorSource {\n  /**\n   * @param {SourceServerVectorOptions} [options={}]\n   */\n  constructor (options = {}) {\n    const parentOptions = copy(options)\n\n    let urlTemplate = take(options, 'url')\n\n    const type = take(options, 'type') || ''\n\n    parentOptions.loader = (...args) => this.loader(...args)\n\n    const loadingStrategy = options.loadingStrategy || 'ALL'\n\n    if (loadingStrategy === 'BBOX') {\n      let bboxRatio = options.bboxRatio || 1\n\n      if (bboxRatio < 1) {\n        throw new Error('The bboxRatio should not be smaller than 1')\n      }\n\n      let lastScaledExtent = [0, 0, 0, 0]\n\n      parentOptions.strategy = (extent) => {\n        if (containsExtent(lastScaledExtent, extent)) {\n          return [extent]\n        } else {\n          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)\n          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)\n\n          lastScaledExtent = [\n            extent[0] - deltaX,\n            extent[1] - deltaY,\n            extent[2] + deltaX,\n            extent[3] + deltaY\n          ]\n\n          return [lastScaledExtent]\n        }\n      }\n    } else {\n      parentOptions.strategy = all\n    }\n\n    super(parentOptions)\n\n    /**\n     * @type {L10N}\n     * @private\n     */\n    this.localiser_ = options.localiser\n\n    this.localised_ = options.localised || false\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.loadingStrategy_ = loadingStrategy\n\n    /**\n     * @type {URL}\n     * @protected\n     */\n    this.urlTemplate = urlTemplate\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.type_ = type\n\n    let formatOptions = {}\n\n    if (options.hasOwnProperty('defaultStyle')) {\n      formatOptions.defaultStyle = options.defaultStyle\n    }\n\n    if (options.hasOwnProperty('extractStyles')) {\n      formatOptions.extractStyles = options.extractStyles\n    }\n\n    switch (this.type_) {\n      case 'KML':\n        formatOptions.showPointNames = false\n        this.format_ = new KML(formatOptions)\n        this.dataType_ = 'text xml' // for $.ajax (GET-request)\n        break\n      case 'GeoJSON':\n        this.format_ = new GeoJSON(formatOptions)\n        this.dataType_ = 'text json' // for $.ajax (GET-request)\n        break\n      default:\n        throw new Error(`${this.type_} is not supported by SourceServerVector!`)\n    }\n\n    /**\n     * @type {number}\n     * @private\n     */\n    this.refresh_ = 0\n\n    if (options.hasOwnProperty('refresh')) {\n      this.setRefresh(options.refresh)\n    }\n\n    this.refreshTimeoutId_ = null\n\n    /**\n     * indicates if the source needs to be emptied\n     * @type {boolean}\n     * @private\n     */\n    this.doClear_ = false\n\n    /**\n     * @type {ol.ProjectionLike}\n     * @private\n     */\n    this.bboxProjection_ = options.bboxProjection\n  }\n\n  /**\n   * This method returns a promise which is triggered after the loader successfully loaded a source.\n   * @param {ol.Extent} extent\n   * @param {number} resolution\n   * @param {ol.ProjectionLike} projection\n   */\n  loader (extent, resolution, projection) {\n    // Problem with BBOX: if features are already in the layer, they shouldn't be added. Not trivial\n\n    let url = this.urlTemplate.clone()\n\n    if (this.loadingStrategy_ === 'BBOX') {\n      let transformedExtent = transformExtent(extent, projection, this.bboxProjection_)\n\n      url.expandTemplate('bboxleft', transformedExtent[0].toString())\n        .expandTemplate('bboxbottom', transformedExtent[1].toString())\n        .expandTemplate('bboxright', transformedExtent[2].toString())\n        .expandTemplate('bboxtop', transformedExtent[3].toString())\n        .expandTemplate('resolution', resolution.toString(), false)\n    }\n\n    if (this.refresh_) {\n      if (this.refreshTimeoutId_) {\n        clearTimeout(this.refreshTimeoutId_)\n      }\n      this.refreshTimeoutId_ = setTimeout(() => {\n        this.doClear_ = true // clears the source\n        this.loader(extent, resolution, projection) // calls the loader recursively\n      }, this.refresh_)\n    }\n\n    if (this.localised_) {\n      url.cache = false\n    }\n\n    let finalUrl = url.finalize()\n\n    $.ajax({\n      url: finalUrl,\n      dataType: this.dataType_,\n      beforeSend: () => this.dispatchEvent('vectorloadstart'),\n      success: (response) => {\n        // processing urls in the xml-Data (e.g. for images)\n        if (url.useProxy && /xml$/.test(this.dataType_)) {\n          response = this.addProxyToHrefTags(response)\n        }\n\n        if (this.doClear_) {\n          this.clear(true)\n          this.doClear_ = false\n        }\n\n        let features = this.format_.readFeatures(response, { featureProjection: projection })\n\n        this.addFeatures(features)\n\n        this.dispatchEvent('vectorloadend')\n      },\n      error: () => {\n        Debug.error(`Getting Feature resource failed with url ${finalUrl}`)\n        this.dispatchEvent('vectorloaderror')\n      },\n      headers: this.localiser_ ? {\n        'Accept-Language': this.localiser_.getCurrentLang()\n      } : {}\n    })\n  }\n\n  /**\n   * This sets the refresh rate. A value of 0 or smaller turns refresh off.\n   * @param {number} refresh\n   */\n  setRefresh (refresh) {\n    this.refresh_ = (refresh > 0) ? refresh : 0\n  }\n\n  /**\n   * makes all urls in href-tags inside of a xmlDocument use the proxy address.\n   * this function needs to extended with all Tags which could contain urls\n   * @param {HTMLElement} text an xml-Document\n   * @returns {HTMLElement} the xmlDocument\n   */\n  addProxyToHrefTags (text) {\n    let hrefTags = text.getElementsByTagName('href') // not working in IE11\n\n    let i, ii\n    for (i = 0, ii = hrefTags.length; i < ii; i++) {\n      if (hrefTags[i].textContent) {\n        hrefTags[i].textContent = this.urlTemplate.useProxyFor(hrefTags[i].textContent.trim()).finalize()\n      } else if (hrefTags[i].innerHTML) {\n        hrefTags[i].innerHTML = this.urlTemplate.useProxyFor(hrefTags[i].innerHTML.trim()).finalize()\n      } else {\n        throw new Error(\"Can't prepend proxy inside KML (textContent and innerHTML missing)\")\n      }\n    }\n\n    return text\n  }\n\n  /**\n   * @returns {URL}\n   */\n  getUrlTemplate () {\n    return this.urlTemplate\n  }\n\n  /**\n   * @param {URL} urlTemplate\n   */\n  setUrlTemplate (urlTemplate) {\n    this.urlTemplate = urlTemplate\n  }\n}\n",
+    "content": "import $ from 'jquery'\nimport GeoJSON from 'ol/format/GeoJSON'\nimport KML from 'ol/format/KML'\nimport { transformExtent } from 'ol/proj'\nimport VectorSource from 'ol/source/Vector'\n\nimport { copy, take } from '../utilitiesObject'\nimport { Debug } from '../Debug'\n\n/**\n * @typedef {module:ol/source/Vector~Options} SourceServerVectorOptions\n * @property {string} type the format to use\n * @property {URLLike} url\n * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.\n *    defaults to the sourceProjection\n * @property {StyleLike} [defaultStyle] a default style to fallback to\n * @property {boolean} [extractStyles=true] if styles should get extracted from the KML\n * @property {boolean} [cache=] true, false for dataType 'script' and 'jsonp'\n * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)\n * @property {L10N} localiser\n * @property {boolean} localised\n * @property {Styling} styling\n */\n\n/**\n * A custom Source class handling Vector Sources.\n *\n * Let you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.\n *\n * This class defines a custom loader function which makes it possible to use different loading strategies.\n */\nexport class SourceServerVector extends VectorSource {\n  /**\n   * @param {SourceServerVectorOptions} [options={}]\n   */\n  constructor (options = {}) {\n    const parentOptions = copy(options)\n\n    let urlTemplate = take(options, 'url')\n\n    const type = take(options, 'type') || ''\n\n    parentOptions.loader = (...args) => this.loader(...args)\n\n    super(parentOptions)\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.strategyType_ = options.loadingStrategyType\n\n    /**\n     * @type {L10N}\n     * @private\n     */\n    this.localiser_ = options.localiser\n\n    this.localised_ = options.localised || false\n\n    /**\n     * @type {URL}\n     * @protected\n     */\n    this.urlTemplate = urlTemplate\n\n    /**\n     * @type {string}\n     * @private\n     */\n    this.type_ = type\n\n    let formatOptions = {}\n\n    if (options.hasOwnProperty('defaultStyle')) {\n      formatOptions.defaultStyle = options.defaultStyle\n    }\n\n    if (options.hasOwnProperty('extractStyles')) {\n      formatOptions.extractStyles = options.extractStyles\n    }\n\n    let formatProjection\n    switch (this.type_) {\n      case 'KML':\n        formatOptions.showPointNames = false\n        this.format_ = new KML(formatOptions)\n        this.dataType_ = 'text xml' // for $.ajax (GET-request)\n        formatProjection = 'EPSG:4326'\n        break\n      case 'GeoJSON':\n        this.format_ = new GeoJSON(formatOptions)\n        this.dataType_ = 'text json' // for $.ajax (GET-request)\n        formatProjection = 'EPSG:4326'\n        break\n      default:\n        throw new Error(`${this.type_} is not supported by SourceServerVector!`)\n    }\n\n    /**\n     * @type {number}\n     * @private\n     */\n    this.refresh_ = 0\n\n    if (options.hasOwnProperty('refresh')) {\n      this.setRefresh(options.refresh)\n    }\n\n    this.refreshTimeoutId_ = null\n\n    /**\n     * indicates if the source needs to be emptied\n     * @type {boolean}\n     * @private\n     */\n    this.doClear_ = false\n\n    /**\n     * @type {module:ol/proj~ProjectionLike}\n     * @private\n     */\n    this.urlProjection_ = options.urlProjection || formatProjection\n  }\n\n  /**\n   * @param {module:ol/extent~Extent} extent\n   * @param {number} resolution\n   * @param {module:ol/proj~Projection} projection\n   */\n  loader (extent, resolution, projection) {\n    let url = this.urlTemplate.clone()\n\n    if (this.strategyType_ === 'BBOX' || this.strategyType_ === 'TILE') {\n      let transformedExtent = transformExtent(extent, projection, this.urlProjection_)\n\n      url.expandTemplate('minx', transformedExtent[0].toString())\n        .expandTemplate('miny', transformedExtent[1].toString())\n        .expandTemplate('maxx', transformedExtent[2].toString())\n        .expandTemplate('maxy', transformedExtent[3].toString())\n        .expandTemplate('resolution', resolution.toString(), false)\n    }\n\n    if (this.refresh_) {\n      if (this.refreshTimeoutId_) {\n        clearTimeout(this.refreshTimeoutId_)\n      }\n      this.refreshTimeoutId_ = setTimeout(() => {\n        this.doClear_ = true // clears the source\n        this.loader(extent, resolution, projection) // calls the loader recursively\n      }, this.refresh_)\n    }\n\n    if (this.localised_) {\n      url.cache = false\n    }\n\n    let finalUrl = url.finalize()\n\n    $.ajax({\n      url: finalUrl,\n      dataType: this.dataType_,\n      beforeSend: () => this.dispatchEvent('vectorloadstart'),\n      success: (response) => {\n        // processing urls in the xml-Data (e.g. for images)\n        if (url.useProxy && /xml$/.test(this.dataType_)) {\n          response = this.addProxyToHrefTags(response)\n        }\n\n        if (this.doClear_) {\n          this.clear(true)\n          this.doClear_ = false\n        }\n\n        let features = this.format_.readFeatures(response, { featureProjection: projection })\n\n        this.addFeatures(features)\n\n        this.dispatchEvent('vectorloadend')\n      },\n      error: () => {\n        Debug.error(`Getting Feature resource failed with url ${finalUrl}`)\n        this.dispatchEvent('vectorloaderror')\n      },\n      headers: this.localiser_ ? {\n        'Accept-Language': this.localiser_.getCurrentLang()\n      } : {}\n    })\n  }\n\n  /**\n   * This sets the refresh rate. A value of 0 or smaller turns refresh off.\n   * @param {number} refresh\n   */\n  setRefresh (refresh) {\n    this.refresh_ = (refresh > 0) ? refresh : 0\n  }\n\n  /**\n   * makes all urls in href-tags inside of a xmlDocument use the proxy address.\n   * this function needs to extended with all Tags which could contain urls\n   * @param {HTMLElement} text an xml-Document\n   * @returns {HTMLElement} the xmlDocument\n   */\n  addProxyToHrefTags (text) {\n    let hrefTags = text.getElementsByTagName('href') // not working in IE11\n\n    let i, ii\n    for (i = 0, ii = hrefTags.length; i < ii; i++) {\n      if (hrefTags[i].textContent) {\n        hrefTags[i].textContent = this.urlTemplate.useProxyFor(hrefTags[i].textContent.trim()).finalize()\n      } else if (hrefTags[i].innerHTML) {\n        hrefTags[i].innerHTML = this.urlTemplate.useProxyFor(hrefTags[i].innerHTML.trim()).finalize()\n      } else {\n        throw new Error(\"Can't prepend proxy inside KML (textContent and innerHTML missing)\")\n      }\n    }\n\n    return text\n  }\n\n  /**\n   * @returns {URL}\n   */\n  getUrlTemplate () {\n    return this.urlTemplate\n  }\n\n  /**\n   * @param {URL} urlTemplate\n   */\n  setUrlTemplate (urlTemplate) {\n    this.urlTemplate = urlTemplate\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/sources/SourceServerVector.js",
     "access": "public",
@@ -21354,7 +21407,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 930,
+    "__docId__": 932,
     "kind": "typedef",
     "name": "SourceServerVectorOptions",
     "memberof": "src/sources/SourceServerVector.js",
@@ -21386,6 +21439,16 @@
       {
         "nullable": null,
         "types": [
+          "module:ol/proj~ProjectionLike"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "urlProjection",
+        "description": "coordinates will be inserted into the url in this format.\n   defaults to the sourceProjection"
+      },
+      {
+        "nullable": null,
+        "types": [
           "StyleLike"
         ],
         "spread": false,
@@ -21404,40 +21467,6 @@
         "defaultRaw": true,
         "name": "extractStyles",
         "description": "if styles should get extracted from the KML"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "string"
-        ],
-        "spread": false,
-        "optional": true,
-        "defaultValue": "'ALL'",
-        "defaultRaw": "'ALL'",
-        "name": "loadingStrategy",
-        "description": "Either 'BBOX' or 'ALL' (Synonym: 'FIXED').\n   If BBOX the given url has to contain the parameters {bboxleft}, {bboxbottom}, {bboxright}, {bboxtop}."
-      },
-      {
-        "nullable": null,
-        "types": [
-          "number"
-        ],
-        "spread": false,
-        "optional": true,
-        "defaultValue": "1",
-        "defaultRaw": 1,
-        "name": "bboxRatio",
-        "description": "If set the bbox loading strategy will increase the load extent by this factor"
-      },
-      {
-        "nullable": null,
-        "types": [
-          "ol.ProjectionLike"
-        ],
-        "spread": false,
-        "optional": true,
-        "name": "bboxProjection",
-        "description": "coordinates will be inserted into the url in this format. defaults to\n   the interfaceProjection"
       },
       {
         "nullable": null,
@@ -21494,14 +21523,14 @@
     ],
     "type": {
       "types": [
-        "olx.source.VectorOptions"
+        "module:ol/source/Vector~Options"
       ],
       "optional": false,
       "name": "SourceServerVectorOptions"
     }
   },
   {
-    "__docId__": 931,
+    "__docId__": 933,
     "kind": "class",
     "name": "SourceServerVector",
     "memberof": "src/sources/SourceServerVector.js",
@@ -21511,15 +21540,15 @@
     "export": true,
     "importPath": "guide4you/src/sources/SourceServerVector.js",
     "importStyle": "{SourceServerVector}",
-    "description": "A custom Source class handling Vector Sources.\n\nLet you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.\n\n**IMPORTANT:** You can't set the projection of the source! This is **always** determined by the data received. If you\nset projection here you force the source to assume that this is the projection of the view.\n\nThis class defines a custom loader function which makes it possible to use different loading strategies.",
-    "lineNumber": 40,
+    "description": "A custom Source class handling Vector Sources.\n\nLet you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.\n\nThis class defines a custom loader function which makes it possible to use different loading strategies.",
+    "lineNumber": 32,
     "interface": false,
     "extends": [
       "ol/source/Vector~VectorSource"
     ]
   },
   {
-    "__docId__": 932,
+    "__docId__": 934,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21529,7 +21558,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#constructor",
     "access": "public",
     "description": "",
-    "lineNumber": 44,
+    "lineNumber": 36,
     "params": [
       {
         "nullable": null,
@@ -21546,51 +21575,15 @@
     ]
   },
   {
-    "__docId__": 933,
-    "kind": "member",
-    "name": "localiser_",
-    "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
-    "static": false,
-    "longname": "src/sources/SourceServerVector.js~SourceServerVector#localiser_",
-    "access": "private",
-    "description": "",
-    "lineNumber": 91,
-    "type": {
-      "nullable": null,
-      "types": [
-        "L10N"
-      ],
-      "spread": false,
-      "description": null
-    }
-  },
-  {
-    "__docId__": 934,
-    "kind": "member",
-    "name": "localised_",
-    "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
-    "static": false,
-    "longname": "src/sources/SourceServerVector.js~SourceServerVector#localised_",
-    "access": "public",
-    "description": null,
-    "lineNumber": 93,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
     "__docId__": 935,
     "kind": "member",
-    "name": "loadingStrategy_",
+    "name": "strategyType_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
     "static": false,
-    "longname": "src/sources/SourceServerVector.js~SourceServerVector#loadingStrategy_",
+    "longname": "src/sources/SourceServerVector.js~SourceServerVector#strategyType_",
     "access": "private",
     "description": "",
-    "lineNumber": 99,
+    "lineNumber": 51,
     "type": {
       "nullable": null,
       "types": [
@@ -21603,13 +21596,49 @@
   {
     "__docId__": 936,
     "kind": "member",
+    "name": "localiser_",
+    "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
+    "static": false,
+    "longname": "src/sources/SourceServerVector.js~SourceServerVector#localiser_",
+    "access": "private",
+    "description": "",
+    "lineNumber": 57,
+    "type": {
+      "nullable": null,
+      "types": [
+        "L10N"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 937,
+    "kind": "member",
+    "name": "localised_",
+    "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
+    "static": false,
+    "longname": "src/sources/SourceServerVector.js~SourceServerVector#localised_",
+    "access": "public",
+    "description": null,
+    "lineNumber": 59,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 938,
+    "kind": "member",
     "name": "urlTemplate",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
     "static": false,
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#urlTemplate",
     "access": "protected",
     "description": "",
-    "lineNumber": 105,
+    "lineNumber": 65,
     "type": {
       "nullable": null,
       "types": [
@@ -21620,7 +21649,7 @@
     }
   },
   {
-    "__docId__": 937,
+    "__docId__": 939,
     "kind": "member",
     "name": "type_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21628,7 +21657,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#type_",
     "access": "private",
     "description": "",
-    "lineNumber": 111,
+    "lineNumber": 71,
     "type": {
       "nullable": null,
       "types": [
@@ -21639,7 +21668,7 @@
     }
   },
   {
-    "__docId__": 938,
+    "__docId__": 940,
     "kind": "member",
     "name": "format_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21647,7 +21676,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#format_",
     "access": "public",
     "description": null,
-    "lineNumber": 126,
+    "lineNumber": 87,
     "undocument": true,
     "type": {
       "types": [
@@ -21656,7 +21685,7 @@
     }
   },
   {
-    "__docId__": 939,
+    "__docId__": 941,
     "kind": "member",
     "name": "dataType_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21664,7 +21693,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#dataType_",
     "access": "public",
     "description": null,
-    "lineNumber": 127,
+    "lineNumber": 88,
     "undocument": true,
     "type": {
       "types": [
@@ -21673,7 +21702,7 @@
     }
   },
   {
-    "__docId__": 942,
+    "__docId__": 944,
     "kind": "member",
     "name": "refresh_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21681,7 +21710,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#refresh_",
     "access": "private",
     "description": "",
-    "lineNumber": 141,
+    "lineNumber": 104,
     "type": {
       "nullable": null,
       "types": [
@@ -21692,7 +21721,7 @@
     }
   },
   {
-    "__docId__": 943,
+    "__docId__": 945,
     "kind": "member",
     "name": "refreshTimeoutId_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21700,7 +21729,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#refreshTimeoutId_",
     "access": "public",
     "description": null,
-    "lineNumber": 147,
+    "lineNumber": 110,
     "undocument": true,
     "type": {
       "types": [
@@ -21709,7 +21738,7 @@
     }
   },
   {
-    "__docId__": 944,
+    "__docId__": 946,
     "kind": "member",
     "name": "doClear_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21717,7 +21746,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#doClear_",
     "access": "private",
     "description": "indicates if the source needs to be emptied",
-    "lineNumber": 154,
+    "lineNumber": 117,
     "type": {
       "nullable": null,
       "types": [
@@ -21728,26 +21757,26 @@
     }
   },
   {
-    "__docId__": 945,
+    "__docId__": 947,
     "kind": "member",
-    "name": "bboxProjection_",
+    "name": "urlProjection_",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
     "static": false,
-    "longname": "src/sources/SourceServerVector.js~SourceServerVector#bboxProjection_",
+    "longname": "src/sources/SourceServerVector.js~SourceServerVector#urlProjection_",
     "access": "private",
     "description": "",
-    "lineNumber": 160,
+    "lineNumber": 123,
     "type": {
       "nullable": null,
       "types": [
-        "ol.ProjectionLike"
+        "module:ol/proj~ProjectionLike"
       ],
       "spread": false,
       "description": null
     }
   },
   {
-    "__docId__": 946,
+    "__docId__": 948,
     "kind": "method",
     "name": "loader",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21756,13 +21785,13 @@
     "static": false,
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#loader",
     "access": "public",
-    "description": "This method returns a promise which is triggered after the loader successfully loaded a source.",
-    "lineNumber": 169,
+    "description": "",
+    "lineNumber": 131,
     "params": [
       {
         "nullable": null,
         "types": [
-          "ol.Extent"
+          "module:ol/extent~Extent"
         ],
         "spread": false,
         "optional": false,
@@ -21782,7 +21811,7 @@
       {
         "nullable": null,
         "types": [
-          "ol.ProjectionLike"
+          "module:ol/proj~Projection"
         ],
         "spread": false,
         "optional": false,
@@ -21793,7 +21822,7 @@
     "return": null
   },
   {
-    "__docId__": 950,
+    "__docId__": 952,
     "kind": "method",
     "name": "setRefresh",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21803,7 +21832,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#setRefresh",
     "access": "public",
     "description": "This sets the refresh rate. A value of 0 or smaller turns refresh off.",
-    "lineNumber": 235,
+    "lineNumber": 195,
     "params": [
       {
         "nullable": null,
@@ -21819,7 +21848,7 @@
     "return": null
   },
   {
-    "__docId__": 952,
+    "__docId__": 954,
     "kind": "method",
     "name": "addProxyToHrefTags",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21829,7 +21858,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#addProxyToHrefTags",
     "access": "public",
     "description": "makes all urls in href-tags inside of a xmlDocument use the proxy address.\nthis function needs to extended with all Tags which could contain urls",
-    "lineNumber": 245,
+    "lineNumber": 205,
     "unknown": [
       {
         "tagName": "@returns",
@@ -21858,7 +21887,7 @@
     }
   },
   {
-    "__docId__": 953,
+    "__docId__": 955,
     "kind": "method",
     "name": "getUrlTemplate",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21868,7 +21897,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#getUrlTemplate",
     "access": "public",
     "description": "",
-    "lineNumber": 265,
+    "lineNumber": 225,
     "unknown": [
       {
         "tagName": "@returns",
@@ -21886,7 +21915,7 @@
     "params": []
   },
   {
-    "__docId__": 954,
+    "__docId__": 956,
     "kind": "method",
     "name": "setUrlTemplate",
     "memberof": "src/sources/SourceServerVector.js~SourceServerVector",
@@ -21896,7 +21925,7 @@
     "longname": "src/sources/SourceServerVector.js~SourceServerVector#setUrlTemplate",
     "access": "public",
     "description": "",
-    "lineNumber": 272,
+    "lineNumber": 232,
     "params": [
       {
         "nullable": null,
@@ -21912,7 +21941,7 @@
     "return": null
   },
   {
-    "__docId__": 956,
+    "__docId__": 958,
     "kind": "file",
     "name": "src/sources/WMTSSource.js",
     "content": "import WMTS from 'ol/source/WMTS'\n\nimport { asyncImageLoad } from '../utilities'\nimport { Debug } from '../Debug'\n\nexport class WMTSSource extends WMTS {\n  constructor (options) {\n    const origUrl = options.url\n    options.url = '_' // dummy value that gets sliced out\n    options.tileLoadFunction = (tile, src) => {\n      asyncImageLoad(tile.getImage(), this.originalUrlObject.extend(src.slice(1)))\n        .catch(err => Debug.error(err))\n    }\n    super(options)\n    this.originalUrlObject = origUrl\n  }\n}\n",
@@ -21923,7 +21952,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 957,
+    "__docId__": 959,
     "kind": "class",
     "name": "WMTSSource",
     "memberof": "src/sources/WMTSSource.js",
@@ -21942,7 +21971,7 @@
     ]
   },
   {
-    "__docId__": 958,
+    "__docId__": 960,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/sources/WMTSSource.js~WMTSSource",
@@ -21956,7 +21985,7 @@
     "undocument": true
   },
   {
-    "__docId__": 959,
+    "__docId__": 961,
     "kind": "member",
     "name": "originalUrlObject",
     "memberof": "src/sources/WMTSSource.js~WMTSSource",
@@ -21973,7 +22002,7 @@
     }
   },
   {
-    "__docId__": 960,
+    "__docId__": 962,
     "kind": "file",
     "name": "src/Styling.js",
     "content": "import $ from 'jquery'\nimport Circle from 'ol/style/Circle'\nimport Fill from 'ol/style/Fill'\nimport Icon from 'ol/style/Icon'\nimport RegularShape from 'ol/style/RegularShape'\nimport Stroke from 'ol/style/Stroke'\nimport Style from 'ol/style/Style'\nimport Text from 'ol/style/Text'\n\nimport { copyDeep, copy } from './utilitiesObject'\nimport { checkFor } from './utilities'\nimport { Debug } from './Debug'\n\nimport { parseCSSColor } from 'csscolorparser'\n\nimport { isFunction, isObject, isArray } from 'lodash/lang'\n\n/**\n * @typedef {string|StyleObject|ol.style.Style} StyleLike\n */\n\n/**\n * @typedef {Object} StyleObject\n */\n\n/**\n * merges two style configs\n * @param {StyleObject} configTarget\n * @param {StyleObject} configSource\n * @returns {StyleObject}\n */\nfunction mergeStyleConfigs (configTarget, configSource) {\n  let mergedConf = copyDeep(configTarget)\n  if (configSource) {\n    for (let k of Object.keys(configSource)) {\n      let sourceProp = configSource[k]\n\n      if (configTarget.hasOwnProperty(k)) {\n        let targetProp = configTarget[k]\n\n        if (typeof targetProp === 'object' && !(targetProp instanceof Array)) {\n          // if it is another object, merge recursively\n          let targetProp = configTarget[k]\n\n          if (targetProp.hasOwnProperty('type')) {\n            if (sourceProp.hasOwnProperty('type')) {\n              if (configTarget[k].type === sourceProp.type) {\n                mergedConf[k] = mergeStyleConfigs(targetProp, sourceProp)\n              }\n            }\n          } else {\n            mergedConf[k] = mergeStyleConfigs(targetProp, sourceProp)\n          }\n        }\n      } else {\n        // copy over if it doesn't exist in the target\n        if (typeof sourceProp === 'object' && !(sourceProp instanceof Array)) {\n          mergedConf[k] = copyDeep(sourceProp)\n        } else {\n          mergedConf[k] = sourceProp\n        }\n      }\n    }\n  }\n  return mergedConf\n}\n\n/**\n * This class coordinates the styling.\n */\nexport class Styling {\n  /**\n   * @param {Object} [options]\n   * @param {Object} [options.styleConfigMap]\n   * @param {number} [options.scaleIcons]\n   * @param {boolean} [options.manageStyles=true]\n   */\n  constructor (options = {}) {\n    /**\n     * @type {Map.<string,StyleObject>}\n     * @private\n     */\n    this.styleConfigMap_ = new Map()\n\n    if (!this.styleConfigMap_.has('#defaultStyle')) {\n      // FallbackStyle\n      this.styleConfigMap_.set('#defaultStyle', {\n        'stroke': {\n          'color': 'rgba(0,0,0,0.9)',\n          'width': 2\n        },\n        'fill': {\n          'color': 'rgba(0,0,0,0.3)'\n        },\n        'image': {\n          'type': 'circle',\n          'stroke': {\n            'color': 'rgba(0,0,0,0.9)',\n            'width': 2\n          },\n          'fill': {\n            'color': 'rgba(0,0,0,0.3)'\n          }\n        }\n      })\n    }\n\n    if (options.styleConfigMap) {\n      for (let k of Object.keys(options.styleConfigMap)) {\n        this.styleConfigMap_.set(k, options.styleConfigMap[k])\n      }\n    }\n\n    /**\n     * @type {Map.<string,ol.style.Style>}\n     * @private\n     */\n    this.styleMap_ = new Map()\n\n    /**\n     * @type {Set.<ol.style.Style>}\n     * @private\n     */\n    this.allStyles_ = new Set()\n\n    if (options.scaleIcons) {\n      this.setGlobalIconScale(options.scaleIcons)\n    }\n\n    /**\n     * @param {ol.Feature} feature\n     * @param {number} resolution\n     * @returns {*}\n     * @private\n     */\n    this.managingFeatureStyle_ = (feature, resolution) => {\n      let style = feature.get('managedStyle')\n      if ($.isFunction(style)) {\n        style = style(feature, resolution)\n      }\n      if (!style) {\n        style = this.getStyle('#defaultStyle')\n      }\n      if (isArray(style)) {\n        return style.map(s => this.adjustStyle_(feature, s))\n      } else {\n        return this.adjustStyle_(feature, style)\n      }\n    }\n\n    this.nullStyle_ = new Style({\n      image: null\n    })\n\n    this.manageStyles_ = options.manageStyles !== false\n  }\n\n  /**\n   * @param {number} scale\n   */\n  setGlobalIconScale (scale) {\n    /**\n     * @type {number}\n     * @private\n     */\n    this.globalIconScale_ = scale\n  }\n\n  /**\n   * @returns {number}\n   */\n  getGlobalIconScale () {\n    return this.globalIconScale_ || 1\n  }\n\n  /**\n   * @param {StyleObject} styleConf\n   * @returns {ol.style.Style}\n   */\n  getStyleFromConfig (styleConf) {\n    let filledStyleConf = mergeStyleConfigs(styleConf, this.styleConfigMap_.get('#default'))\n\n    function addFillsAndStrokes (subStyleConf) {\n      subStyleConf = subStyleConf || {}\n      let preparedOptions = copy(subStyleConf)\n\n      if (checkFor(subStyleConf, 'fill')) {\n        preparedOptions.fill = new Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))\n      } else {\n        preparedOptions.fill = new Fill(filledStyleConf.fill)\n      }\n\n      if (checkFor(subStyleConf, 'stroke')) {\n        preparedOptions.stroke = new Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))\n      } else {\n        preparedOptions.stroke = new Stroke(filledStyleConf.stroke)\n      }\n\n      return preparedOptions\n    }\n\n    let styleOptions = addFillsAndStrokes(filledStyleConf)\n\n    styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))\n\n    let scalable = false\n\n    if (filledStyleConf.hasOwnProperty('image')) {\n      if (filledStyleConf.image.type === 'icon' &&\n        (filledStyleConf.image.hasOwnProperty('src')) && filledStyleConf.image.src) {\n        styleOptions.image = new Icon(filledStyleConf.image)\n        scalable = true\n      } else if (filledStyleConf.image.type === 'circle') {\n        styleOptions.image = new Circle(addFillsAndStrokes(filledStyleConf.image))\n        scalable = true\n      } else if (filledStyleConf.image.type === 'regularShape') {\n        styleOptions.image = new RegularShape(addFillsAndStrokes(filledStyleConf.image))\n        scalable = true\n      }\n\n      if (scalable) {\n        styleOptions.image.setScale((styleOptions.image.getScale() || 1) * this.getGlobalIconScale())\n      }\n    }\n\n    return new Style(styleOptions)\n  }\n\n  getConfigFromStyle (style) {\n    throw new Error('Not implemented yet')\n  }\n\n  /**\n   * @param {string} id\n   * @returns {ol.style.Style}\n   */\n  getStyleById (id) {\n    if (!this.styleMap_.has(id)) {\n      if (this.styleConfigMap_.has(id)) {\n        this.styleMap_.set(id, this.getStyleFromConfig(this.getConfigById(id)))\n      } else {\n        Debug.error('No style found for id ' + id + '. Using default style.')\n        return this.styleMap_.get('#defaultStyle')\n      }\n    }\n    return this.styleMap_.get(id)\n  }\n\n  /**\n   * @param {string} id\n   * @returns {StyleObject}\n   */\n  getConfigById (id) {\n    if (this.styleConfigMap_.has(id)) {\n      return this.styleConfigMap_.get(id)\n    } else {\n      Debug.error('No style config found for id ' + id + '. Using default style.')\n      return this.styleConfigMap_.get('#defaultStyle')\n    }\n  }\n\n  /**\n   * @param {StyleLike} data\n   * @returns {ol.style.Style}\n   */\n  getStyle (data) {\n    if (data === undefined) {\n      return this.getStyleById('#defaultStyle')\n    } else if (data instanceof Style || isFunction(data)) {\n      return data\n    } else if (isArray(data)) {\n      return data.map(d => this.getStyle(d))\n    } else if (isObject(data)) {\n      if (data.hasOwnProperty('conditional')) {\n        return this.getConditionalStyleFromConfig(data.conditional)\n      } else {\n        return this.getStyleFromConfig(data)\n      }\n    } else {\n      return this.getStyleById(data)\n    }\n  }\n\n  /**\n   * This internal method is called to adjust each style to current global and feature settings\n   * @param feature\n   * @param style\n   * @returns {ol.style.Style}\n   * @private\n   */\n  adjustStyle_ (feature, style) {\n    if (!feature.get('hidden')) {\n      let clone = style.clone()\n      this.scaleStyle_(clone)\n      if (feature.get('opacity') !== undefined) {\n        this.changeColorOpacity_(clone, feature.get('opacity'))\n      }\n      return clone\n    } else {\n      return this.nullStyle_\n    }\n  }\n\n  /**\n   * This method adjusts the scale of a style\n   * @param style\n   * @private\n   */\n  scaleStyle_ (style) {\n    let image = style.getImage()\n    if (image) {\n      let origScale = style.getImage().getScale() || 1\n      image.setScale(origScale * this.getGlobalIconScale())\n    }\n  }\n\n  /**\n   * adjust the styles opacity by a given value\n   * @param {ol.style.Style} style\n   * @param {number} opacity between 0 and 1\n   * @returns {ol.style.Style}\n   */\n  changeColorOpacity_ (style, opacity) {\n    let adjustColor = (style, opacity) => {\n      let color = style.getColor()\n      if (color !== null) {\n        if (!(color instanceof Array)) {\n          if (typeof color === 'string') {\n            color = parseCSSColor(color)\n          } else {\n            throw new Error('Type not supported')\n          }\n        }\n\n        color[3] = color[3] * opacity\n      }\n      style.setColor(color)\n    }\n\n    if (style.getImage()) {\n      style.getImage().setOpacity(opacity)\n    }\n    if (style.getFill()) {\n      adjustColor(style.getFill(), opacity)\n    }\n    if (style.getStroke()) {\n      adjustColor(style.getStroke(), opacity)\n    }\n    if (style.getText()) {\n      if (style.getText().getFill()) {\n        adjustColor(style.getText().getFill(), opacity)\n      }\n      if (style.getText().getStroke()) {\n        adjustColor(style.getText().getStroke(), opacity)\n      }\n    }\n  }\n\n  manageFeature (feature) {\n    if (this.manageStyles_) {\n      let style = feature.getStyle()\n      if (style && !feature.get('managedStyle')) {\n        feature.set('managedStyle', style)\n        feature.setStyle(this.managingFeatureStyle_)\n      }\n    }\n  }\n\n  manageFeatureCollection (collection) {\n    if (this.manageStyles_) {\n      collection.forEach(feature => {\n        this.manageFeature(feature)\n      })\n\n      collection.on('add', e => {\n        this.manageFeature(e.element)\n      })\n    }\n  }\n\n  manageLayer (layer) {\n    if (this.manageStyles_) {\n      let style = layer.getStyle()\n\n      if (style && !layer.get('managedStyle')) {\n        layer.set('managedStyle', layer.getStyle())\n\n        layer.setStyle((feature, resolution) => {\n          let style = layer.get('managedStyle')\n          if ($.isFunction(style)) {\n            style = style(feature, resolution)\n          }\n          if (!style) {\n            style = this.getStyle('#defaultStyle')\n          }\n          if (isArray(style)) {\n            return style.map(s => this.adjustStyle_(feature, s))\n          } else {\n            return this.adjustStyle_(feature, style)\n          }\n        })\n      }\n\n      layer.getSource().getFeatures().forEach(feature => {\n        this.manageFeature(feature)\n      })\n\n      layer.getSource().on('addfeature', e => {\n        this.manageFeature(e.feature)\n      })\n    }\n  }\n\n  getConditionalStyleFromConfig (configArr) {\n    const styles = configArr.map(o => this.getStyle(o.style))\n    return (feature, resolution) => {\n      for (let i = 0; i < configArr.length; i++) {\n        if (!configArr[i]['condition']) {\n          return styles[i]\n        }\n        const cond = configArr[i]['condition']\n        switch (cond[1]) {\n          case '=':\n            if (feature.get(cond[0]) === cond[2]) {\n              return styles[i]\n            }\n            break\n          case '!=':\n            if (feature.get(cond[0]) !== cond[2]) {\n              return styles[i]\n            }\n            break\n          case '<':\n            if (feature.get(cond[0]) < cond[2]) {\n              return styles[i]\n            }\n            break\n          case '>':\n            if (feature.get(cond[0]) > cond[2]) {\n              return styles[i]\n            }\n            break\n          case '<=':\n            if (feature.get(cond[0]) <= cond[2]) {\n              return styles[i]\n            }\n            break\n          case '>=':\n            if (feature.get(cond[0]) >= cond[2]) {\n              return styles[i]\n            }\n            break\n        }\n      }\n    }\n  }\n}\n",
@@ -21984,7 +22013,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 961,
+    "__docId__": 963,
     "kind": "typedef",
     "name": "StyleLike",
     "memberof": "src/Styling.js",
@@ -22003,7 +22032,7 @@
     }
   },
   {
-    "__docId__": 962,
+    "__docId__": 964,
     "kind": "typedef",
     "name": "StyleObject",
     "memberof": "src/Styling.js",
@@ -22020,7 +22049,7 @@
     }
   },
   {
-    "__docId__": 963,
+    "__docId__": 965,
     "kind": "function",
     "name": "mergeStyleConfigs",
     "memberof": "src/Styling.js",
@@ -22073,7 +22102,7 @@
     "ignore": true
   },
   {
-    "__docId__": 964,
+    "__docId__": 966,
     "kind": "class",
     "name": "Styling",
     "memberof": "src/Styling.js",
@@ -22088,7 +22117,7 @@
     "interface": false
   },
   {
-    "__docId__": 965,
+    "__docId__": 967,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/Styling.js~Styling",
@@ -22145,7 +22174,7 @@
     ]
   },
   {
-    "__docId__": 966,
+    "__docId__": 968,
     "kind": "member",
     "name": "styleConfigMap_",
     "memberof": "src/Styling.js~Styling",
@@ -22164,7 +22193,7 @@
     }
   },
   {
-    "__docId__": 967,
+    "__docId__": 969,
     "kind": "member",
     "name": "styleMap_",
     "memberof": "src/Styling.js~Styling",
@@ -22183,7 +22212,7 @@
     }
   },
   {
-    "__docId__": 968,
+    "__docId__": 970,
     "kind": "member",
     "name": "allStyles_",
     "memberof": "src/Styling.js~Styling",
@@ -22202,7 +22231,7 @@
     }
   },
   {
-    "__docId__": 969,
+    "__docId__": 971,
     "kind": "member",
     "name": "managingFeatureStyle_",
     "memberof": "src/Styling.js~Styling",
@@ -22254,7 +22283,7 @@
     }
   },
   {
-    "__docId__": 970,
+    "__docId__": 972,
     "kind": "member",
     "name": "nullStyle_",
     "memberof": "src/Styling.js~Styling",
@@ -22271,7 +22300,7 @@
     }
   },
   {
-    "__docId__": 971,
+    "__docId__": 973,
     "kind": "member",
     "name": "manageStyles_",
     "memberof": "src/Styling.js~Styling",
@@ -22288,7 +22317,7 @@
     }
   },
   {
-    "__docId__": 972,
+    "__docId__": 974,
     "kind": "method",
     "name": "setGlobalIconScale",
     "memberof": "src/Styling.js~Styling",
@@ -22314,7 +22343,7 @@
     "return": null
   },
   {
-    "__docId__": 973,
+    "__docId__": 975,
     "kind": "member",
     "name": "globalIconScale_",
     "memberof": "src/Styling.js~Styling",
@@ -22333,7 +22362,7 @@
     }
   },
   {
-    "__docId__": 974,
+    "__docId__": 976,
     "kind": "method",
     "name": "getGlobalIconScale",
     "memberof": "src/Styling.js~Styling",
@@ -22361,7 +22390,7 @@
     "params": []
   },
   {
-    "__docId__": 975,
+    "__docId__": 977,
     "kind": "method",
     "name": "getStyleFromConfig",
     "memberof": "src/Styling.js~Styling",
@@ -22400,7 +22429,7 @@
     }
   },
   {
-    "__docId__": 976,
+    "__docId__": 978,
     "kind": "method",
     "name": "getConfigFromStyle",
     "memberof": "src/Styling.js~Styling",
@@ -22423,7 +22452,7 @@
     "return": null
   },
   {
-    "__docId__": 977,
+    "__docId__": 979,
     "kind": "method",
     "name": "getStyleById",
     "memberof": "src/Styling.js~Styling",
@@ -22462,7 +22491,7 @@
     }
   },
   {
-    "__docId__": 978,
+    "__docId__": 980,
     "kind": "method",
     "name": "getConfigById",
     "memberof": "src/Styling.js~Styling",
@@ -22501,7 +22530,7 @@
     }
   },
   {
-    "__docId__": 979,
+    "__docId__": 981,
     "kind": "method",
     "name": "getStyle",
     "memberof": "src/Styling.js~Styling",
@@ -22540,7 +22569,7 @@
     }
   },
   {
-    "__docId__": 980,
+    "__docId__": 982,
     "kind": "method",
     "name": "adjustStyle_",
     "memberof": "src/Styling.js~Styling",
@@ -22589,7 +22618,7 @@
     }
   },
   {
-    "__docId__": 981,
+    "__docId__": 983,
     "kind": "method",
     "name": "scaleStyle_",
     "memberof": "src/Styling.js~Styling",
@@ -22615,7 +22644,7 @@
     "return": null
   },
   {
-    "__docId__": 982,
+    "__docId__": 984,
     "kind": "method",
     "name": "changeColorOpacity_",
     "memberof": "src/Styling.js~Styling",
@@ -22664,7 +22693,7 @@
     }
   },
   {
-    "__docId__": 983,
+    "__docId__": 985,
     "kind": "method",
     "name": "manageFeature",
     "memberof": "src/Styling.js~Styling",
@@ -22687,7 +22716,7 @@
     "return": null
   },
   {
-    "__docId__": 984,
+    "__docId__": 986,
     "kind": "method",
     "name": "manageFeatureCollection",
     "memberof": "src/Styling.js~Styling",
@@ -22710,7 +22739,7 @@
     "return": null
   },
   {
-    "__docId__": 985,
+    "__docId__": 987,
     "kind": "method",
     "name": "manageLayer",
     "memberof": "src/Styling.js~Styling",
@@ -22733,7 +22762,7 @@
     "return": null
   },
   {
-    "__docId__": 986,
+    "__docId__": 988,
     "kind": "method",
     "name": "getConditionalStyleFromConfig",
     "memberof": "src/Styling.js~Styling",
@@ -22760,10 +22789,10 @@
     }
   },
   {
-    "__docId__": 987,
+    "__docId__": 989,
     "kind": "file",
     "name": "src/URLHelper.js",
-    "content": "import $ from 'jquery'\nimport { Debug } from './Debug'\n\n/**\n * @typedef {object} URLConfig\n * @property {Localizable} url\n * @property {boolean} [useProxy]\n * @property {string} [proxy]\n * @property {boolean} [cache=true]\n * @property {string} [username] only implemented for wms at the moment\n * @property {string} [password] only implemented for wms at the moment\n */\n\n/**\n * @typedef {URLConfig|Localizable|URL} URLLike\n */\n\nexport class URL {\n  /**\n   * @param {URLLike} urlLike\n   * @param {G4UMap|null} map\n   */\n  constructor (urlLike, map) {\n    if ($.type(urlLike) === 'string' || !urlLike.hasOwnProperty('url')) {\n      /**\n       * @type {string}\n       */\n      this.url = urlLike\n      /**\n       * @type {boolean}\n       */\n      this.useProxy = false\n      /**\n       * @type {boolean}\n       */\n      this.cache = true\n      this.params = []\n      this.expand = []\n    } else {\n      /**\n       * @type {Localizable}\n       */\n      this.url = urlLike.url\n      /**\n       * @type {boolean}\n       */\n      this.useProxy = urlLike.useProxy\n      /**\n       * @type {string}\n       */\n      this.proxy = urlLike.proxy\n      /**\n       * @type {boolean}\n       */\n      this.cache = urlLike.cache === undefined ? true : urlLike.cache\n      /**\n       * @type {string}\n       */\n      this.username = urlLike.username\n      /**\n       * @type {string}\n       */\n      this.password = urlLike.password\n      if (urlLike.params) {\n        this.params = urlLike.params.slice(0)\n      } else {\n        this.params = []\n      }\n      if (urlLike.expand) {\n        this.expand = urlLike.expand.slice(0)\n      } else {\n        this.expand = []\n      }\n\n      /**\n       * @type {string}\n       */\n      this.globalProxy = urlLike.globalProxy\n      /**\n       * {L10N}\n       */\n      this.localiser = urlLike.localiser\n    }\n\n    if (map) {\n      this.extractParamsFromMap(map)\n    }\n  }\n\n  /**\n   * @param {G4UMap} map\n   */\n  extractParamsFromMap (map) {\n    /**\n     * @type {string}\n     */\n    this.globalProxy = this.globalProxy || map.get('proxy')\n    /**\n     * {L10N}\n     */\n    this.localiser = this.localiser || map.get('localiser')\n  }\n\n  /**\n   * @param {object} config\n   * @param {string} paramName\n   * @param {string} [defaultValue]\n   * @param {G4UMap} [map]\n   * @returns {URL}\n   */\n  static extractFromConfig (config, paramName, defaultValue, map) {\n    if (!config.hasOwnProperty(paramName)) {\n      return null\n    }\n    if (config.hasOwnProperty('useProxy') || config.hasOwnProperty('proxy') || config.hasOwnProperty('cache')) {\n      Debug.warn('Using the parameters \\'useProxy\\' \\'proxy\\' \\'cache\\' directly inside a config object is considered' +\n        ' deprecated. Please use a URLConfig object')\n      return new URL({\n        url: config[paramName] || defaultValue,\n        useProxy: config.useProxy,\n        proxy: config.proxy,\n        cache: config.cache\n      }, map)\n    } else if ($.isPlainObject(config[paramName]) && !config[paramName].hasOwnProperty('url')) {\n      Debug.warn('The url config object is missing an \"url\" parameter. The software is assuming the' +\n        ' parameter is a Localizable.')\n      return new URL({\n        url: config[paramName]\n      }, map)\n    } else {\n      return new URL(config[paramName], map)\n    }\n  }\n\n  /**\n   * @returns {URL}\n   */\n  clone () {\n    return new URL(this)\n  }\n\n  /**\n   * @returns {string}\n   */\n  finalize () {\n    let url = this\n    if (!this.cache) {\n      url = this.clone().addParam(Math.random().toString(36).substring(7))\n    }\n\n    let urlAsString = this.localiser ? this.localiser.selectL10N(url.url) : url.url\n\n    if (url.params.length) {\n      if (urlAsString.search(/\\?/) === -1) {\n        urlAsString += '?'\n      } else {\n        urlAsString += '&'\n      }\n      urlAsString += url.params.join('&')\n    }\n\n    for (let expand of url.expand) {\n      urlAsString = URL.expandTemplate_(urlAsString, expand)\n    }\n\n    if (url.useProxy === true || (url.useProxy === undefined && !!url.proxy)) {\n      let proxy = url.proxy || this.globalProxy\n      if (!proxy) {\n        throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' +\n          ' useProxy.')\n      }\n\n      return URL.expandTemplate_(proxy,\n        { paramName: 'url', paramValue: URL.encodeTemplate_(urlAsString), required: true })\n    } else {\n      return urlAsString\n    }\n  }\n\n  /*\n * this function will add an parameter to the url\n * @param {string} param\n * @returns {URL)\n */\n  addParam (param) {\n    this.params.push(param)\n    return this\n  }\n\n  /**\n   * replaces a param enclosed in {} in a (url) template with a value. If the value is an array it will take any string\n   * not containing a '}' after the paramName to join the array, default ','.\n   * @param {string} template an (url) template\n   * @param {object} expand\n   * @param {string} expand.paramName the parameter that will be replaced (given without {}) f.e. 'example' will\n   *    replace any occurancy of '{example}' (after the word 'example' there might be given a string join an\n   *    array value i.e. '{example+}')\n   * @param {string|string[]|number} expand.paramValue the value(s) which will be inserted\n   * @param {boolean} expand.required\n   * @returns {string} the expanded string\n   */\n  static expandTemplate_ (template, expand) {\n    let regexp = new RegExp('{' + expand.paramName + '([^}]*)}')\n    let match = template.match(regexp)\n    if (match) {\n      if ($.type(expand.paramValue) === 'string') {\n        return template.replace(regexp, expand.paramValue)\n      } else if ($.type(expand.paramValue) === 'array') {\n        let joinString = match[1] || ','\n        return template.replace(regexp, expand.paramValue.join(joinString))\n      } else if ($.type(expand.paramValue) === 'number') {\n        let valReg = new RegExp('(?::|,)([^,])', 'g')\n        let nextMatch = valReg.exec(match[1])\n        for (let i = 0; i < expand.paramValue; i++) {\n          nextMatch = valReg.exec(match[1])\n        }\n        return template.replace(regexp, nextMatch[1])\n      }\n    } else if (expand.required) {\n      throw new Error('required parameter ' + expand.paramName + ' (enclosed in {}) not found in string ' + template)\n    } else {\n      return template\n    }\n  }\n\n  /**\n   * expand the target template. automatically encodes the value\n   * @param {string} paramName\n   * @param paramValue\n   * @param {boolean} [required=true]\n   * @returns {URL}\n   */\n  expandTemplate (paramName, paramValue, required = true) {\n    let index = this.expand.findIndex(e => e.paramName === paramName)\n    if (index >= 0) {\n      this.expand.splice(index, 1)\n    }\n    let encode = val => {\n      if ($.type(val) === 'string') {\n        return encodeURIComponent(val)\n      } else if ($.type(paramValue) === 'array') {\n        return val.map(v => encode(v))\n      } else {\n        return val\n      }\n    }\n    paramValue = encode(paramValue)\n    this.expand.push({ paramName, paramValue, required })\n    return this\n  }\n\n  /**\n   * @param {string} otherUrl\n   * @returns {URL}\n   */\n  useProxyFor (otherUrl) {\n    return new URL({\n      useProxy: this.useProxy,\n      proxy: this.proxy,\n      url: otherUrl,\n      localiser: this.localiser,\n      globalProxy: this.globalProxy\n    })\n  }\n\n  /**\n   * this function takes an (url) template and encodes everything except for the templated elements.\n   * @param {string} template an (url) template\n   * @returns {string} the encoded (url) template\n   */\n  static encodeTemplate_ (template) {\n    let parts = template.split('}')\n\n    let encodedTemplate = ''\n\n    let i\n    for (i = 0; i < parts.length - 1; i += 1) {\n      let partedParts = parts[i].split('{')\n      encodedTemplate += encodeURIComponent(partedParts[0]) + '{' + partedParts[1] + '}'\n    }\n\n    encodedTemplate += encodeURIComponent(parts[i])\n\n    return encodedTemplate\n  }\n\n  /**\n   * this method returns a new URL extend by the provided string\n   * @param {string} extension\n   * @returns {URL}\n   */\n  extend (extension) {\n    const newUrl = this.clone()\n    newUrl.url += extension\n    return newUrl\n  }\n}\n",
+    "content": "import $ from 'jquery'\nimport { Debug } from './Debug'\n\n/**\n * @typedef {object} URLConfig\n * @property {Localizable} url\n * @property {boolean} [useProxy]\n * @property {string} [proxy]\n * @property {boolean} [cache=true]\n * @property {string} [username] only implemented for wms at the moment\n * @property {string} [password] only implemented for wms at the moment\n */\n\n/**\n * @typedef {URLConfig|Localizable|URL} URLLike\n */\n\nexport class URL {\n  /**\n   * @param {URLLike} urlLike\n   * @param {G4UMap|null} map\n   */\n  constructor (urlLike, map) {\n    if ($.type(urlLike) === 'string' || !urlLike.hasOwnProperty('url')) {\n      /**\n       * @type {string}\n       */\n      this.url = urlLike\n      /**\n       * @type {boolean}\n       */\n      this.useProxy = false\n      /**\n       * @type {boolean}\n       */\n      this.cache = true\n      this.params = []\n      this.expand = []\n    } else {\n      /**\n       * @type {Localizable}\n       */\n      this.url = urlLike.url\n      /**\n       * @type {boolean}\n       */\n      this.useProxy = urlLike.useProxy\n      /**\n       * @type {string}\n       */\n      this.proxy = urlLike.proxy\n      /**\n       * @type {boolean}\n       */\n      this.cache = urlLike.cache === undefined ? true : urlLike.cache\n      /**\n       * @type {string}\n       */\n      this.username = urlLike.username\n      /**\n       * @type {string}\n       */\n      this.password = urlLike.password\n      if (urlLike.params) {\n        this.params = urlLike.params.slice(0)\n      } else {\n        this.params = []\n      }\n      if (urlLike.expand) {\n        this.expand = urlLike.expand.slice(0)\n      } else {\n        this.expand = []\n      }\n\n      /**\n       * @type {string}\n       */\n      this.globalProxy = urlLike.globalProxy\n      /**\n       * {L10N}\n       */\n      this.localiser = urlLike.localiser\n    }\n\n    if (map) {\n      this.extractParamsFromMap(map)\n    }\n  }\n\n  /**\n   * @param {G4UMap} map\n   */\n  extractParamsFromMap (map) {\n    /**\n     * @type {string}\n     */\n    this.globalProxy = this.globalProxy || map.get('proxy')\n    /**\n     * {L10N}\n     */\n    this.localiser = this.localiser || map.get('localiser')\n  }\n\n  /**\n   * @param {object} config\n   * @param {string} paramName\n   * @param {string} [defaultValue]\n   * @param {G4UMap} [map]\n   * @returns {URL}\n   */\n  static extractFromConfig (config, paramName, defaultValue, map) {\n    if (!config.hasOwnProperty(paramName)) {\n      return null\n    }\n    if (config.hasOwnProperty('useProxy') || config.hasOwnProperty('proxy') || config.hasOwnProperty('cache')) {\n      Debug.warn('Using the parameters \\'useProxy\\' \\'proxy\\' \\'cache\\' directly inside a config object is considered' +\n        ' deprecated. Please use a URLConfig object')\n      return new URL({\n        url: config[paramName] || defaultValue,\n        useProxy: config.useProxy,\n        proxy: config.proxy,\n        cache: config.cache\n      }, map)\n    } else if ($.isPlainObject(config[paramName]) && !config[paramName].hasOwnProperty('url')) {\n      Debug.warn('The url config object is missing an \"url\" parameter. The software is assuming the' +\n        ' parameter is a Localizable.')\n      return new URL({\n        url: config[paramName]\n      }, map)\n    } else {\n      return new URL(config[paramName], map)\n    }\n  }\n\n  /**\n   * @returns {URL}\n   */\n  clone () {\n    return new URL(this)\n  }\n\n  /**\n   * @returns {string}\n   */\n  finalize () {\n    let url = this\n    if (!this.cache) {\n      url = this.clone().addParam(Math.random().toString(36).substring(7))\n    }\n\n    let urlAsString = this.localiser ? this.localiser.selectL10N(url.url) : url.url\n\n    if (url.params.length) {\n      if (urlAsString.search(/\\?/) === -1) {\n        urlAsString += '?'\n      } else {\n        urlAsString += '&'\n      }\n      urlAsString += url.params.join('&')\n    }\n\n    for (let expand of url.expand) {\n      urlAsString = URL.expandTemplate_(urlAsString, expand)\n    }\n\n    if (url.useProxy === true || (url.useProxy === undefined && !!url.proxy)) {\n      let proxy = url.proxy || this.globalProxy\n      if (!proxy) {\n        throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' +\n          ' useProxy.')\n      }\n\n      return URL.expandTemplate_(proxy,\n        { paramName: 'url', paramValue: URL.encodeTemplate_(urlAsString), required: true })\n    } else {\n      return urlAsString\n    }\n  }\n\n  /**\n   * this function will add an parameter to the url\n   * @param {string} param\n   * @returns {URL)\n   */\n  addParam (param) {\n    this.params.push(param)\n    return this\n  }\n\n  /**\n   * replaces a param enclosed in {} in a (url) template with a value. If the value is an array it will take any string\n   * not containing a '}' after the paramName to join the array, default ','.\n   * @param {string} template an (url) template\n   * @param {object} expand\n   * @param {string} expand.paramName the parameter that will be replaced (given without {}) f.e. 'example' will\n   *    replace any occurancy of '{example}' (after the word 'example' there might be given a string join an\n   *    array value i.e. '{example+}')\n   * @param {string|string[]|number} expand.paramValue the value(s) which will be inserted\n   * @param {boolean} expand.required\n   * @returns {string} the expanded string\n   */\n  static expandTemplate_ (template, expand) {\n    let regexp = new RegExp('{' + expand.paramName + '([^}]*)}')\n    let match = template.match(regexp)\n    if (match) {\n      if ($.type(expand.paramValue) === 'string') {\n        return template.replace(regexp, expand.paramValue)\n      } else if ($.type(expand.paramValue) === 'array') {\n        let joinString = match[1] || ','\n        return template.replace(regexp, expand.paramValue.join(joinString))\n      } else if ($.type(expand.paramValue) === 'number') {\n        let valReg = new RegExp('(?::|,)([^,])', 'g')\n        let nextMatch = valReg.exec(match[1])\n        for (let i = 0; i < expand.paramValue; i++) {\n          nextMatch = valReg.exec(match[1])\n        }\n        return template.replace(regexp, nextMatch[1])\n      }\n    } else if (expand.required) {\n      throw new Error('required parameter ' + expand.paramName + ' (enclosed in {}) not found in string ' + template)\n    } else {\n      return template\n    }\n  }\n\n  /**\n   * expand the target template. automatically encodes the value\n   * @param {string} paramName\n   * @param paramValue\n   * @param {boolean} [required=true]\n   * @returns {URL}\n   */\n  expandTemplate (paramName, paramValue, required = true) {\n    let index = this.expand.findIndex(e => e.paramName === paramName)\n    if (index >= 0) {\n      this.expand.splice(index, 1)\n    }\n    let encode = val => {\n      if ($.type(val) === 'string') {\n        return encodeURIComponent(val)\n      } else if ($.type(paramValue) === 'array') {\n        return val.map(v => encode(v))\n      } else {\n        return val\n      }\n    }\n    paramValue = encode(paramValue)\n    this.expand.push({ paramName, paramValue, required })\n    return this\n  }\n\n  /**\n   * @param {string} otherUrl\n   * @returns {URL}\n   */\n  useProxyFor (otherUrl) {\n    return new URL({\n      useProxy: this.useProxy,\n      proxy: this.proxy,\n      url: otherUrl,\n      localiser: this.localiser,\n      globalProxy: this.globalProxy\n    })\n  }\n\n  /**\n   * this function takes an (url) template and encodes everything except for the templated elements.\n   * @param {string} template an (url) template\n   * @returns {string} the encoded (url) template\n   */\n  static encodeTemplate_ (template) {\n    let parts = template.split('}')\n\n    let encodedTemplate = ''\n\n    let i\n    for (i = 0; i < parts.length - 1; i += 1) {\n      let partedParts = parts[i].split('{')\n      encodedTemplate += encodeURIComponent(partedParts[0]) + '{' + partedParts[1] + '}'\n    }\n\n    encodedTemplate += encodeURIComponent(parts[i])\n\n    return encodedTemplate\n  }\n\n  /**\n   * this method returns a new URL extend by the provided string\n   * @param {string} extension\n   * @returns {URL}\n   */\n  extend (extension) {\n    const newUrl = this.clone()\n    newUrl.url += extension\n    return newUrl\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/URLHelper.js",
     "access": "public",
@@ -22771,7 +22800,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 988,
+    "__docId__": 990,
     "kind": "typedef",
     "name": "URLConfig",
     "memberof": "src/URLHelper.js",
@@ -22852,7 +22881,7 @@
     }
   },
   {
-    "__docId__": 989,
+    "__docId__": 991,
     "kind": "typedef",
     "name": "URLLike",
     "memberof": "src/URLHelper.js",
@@ -22872,7 +22901,7 @@
     }
   },
   {
-    "__docId__": 990,
+    "__docId__": 992,
     "kind": "file",
     "name": "src/utilities.js",
     "content": "/**\n * @module utilities\n * Helper and misc functions\n */\n\nimport $ from 'jquery'\n\nimport 'polyfill!Object.defineProperty'\nimport 'polyfill!Object.getOwnPropertyNames'\nimport 'polyfill!Object.getOwnPropertyDescriptor'\nimport 'polyfill!Object.getPrototypeOf'\n\nimport { Debug } from './Debug'\n\n/**\n * Checks whether an argument can be interpreted as an even integer\n * @param   {Object}  value A value of any type\n * @returns {Boolean} True when value is numeric, parses as an integer (no matter if decimal, octal or sexadecimal)\n */\nexport function even (value) {\n  if ($.isNumeric(value)) {\n    let valueAsInteger = parseInt(value)\n    if ((value === valueAsInteger) && (valueAsInteger % 2 === 0)) {\n      return true\n    }\n  }\n  return false\n}\n\n/**\n * Checks whether an argument can be interpreted as an even integer\n * @param   {Object}  value A value of any type\n * @returns {Boolean} True when value is numeric, parses as an integer (no matter if decimal, octal or sexadecimal)\n */\nexport function odd (value) {\n  if ($.isNumeric(value)) {\n    let valueAsInteger = parseInt(value)\n    if ((value === valueAsInteger) && (valueAsInteger % 2 === 1)) {\n      return true\n    }\n  }\n  return false\n}\n\n/**\n * Check for a label in a configuration object\n * @param   {Object}  configurationObject a configuration object\n * @param   {String}  label               a label to check for\n * @returns {boolean} true if label present and true, false otherwise\n */\nexport function checkFor (configurationObject, label) {\n  return ((label in configurationObject) && (configurationObject[label]))\n}\n\n/**\n * return argument as object (if it is no object the value is {})\n * @returns {Object}\n */\nexport function asObject (argument) {\n  return (typeof argument === 'object') ? argument : {}\n}\n\n/**\n * Gets the subconfig or an empty object\n * @param {object} config\n * @param {string} name\n * @returns {object}\n */\nexport function getConfig (config, name) {\n  if (config.hasOwnProperty(name) && config[name]) {\n    return asObject(config[name])\n  }\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                      async image load                                                    //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\n/**\n * @param {HTMLImageElement} image\n * @param {URL} origUrl\n * @param {string} [finalUrl]\n * @returns {Promise}\n */\nexport function asyncImageLoad (image, origUrl, finalUrl) {\n  if (!finalUrl) {\n    finalUrl = origUrl.finalize()\n  }\n  return new Promise((resolve, reject) => {\n    function onError () {\n      reject(new Error(`Error loading url ${finalUrl}`))\n    }\n    image.addEventListener('load', resolve)\n    image.addEventListener('error', onError)\n    if (!origUrl.username || !origUrl.password) {\n      image.src = finalUrl\n    } else {\n      let xhr = new XMLHttpRequest() // eslint-disable-line no-undef\n      // xhr.open('GET', url, true, username, password)\n      xhr.open('GET', finalUrl, true)\n      xhr.responseType = 'blob'\n      xhr.withCredentials = true\n\n      xhr.setRequestHeader(origUrl.useProxy ? 'X-Proxy-Forward-Authorization' : 'Authorization',\n        'Basic ' + btoa(origUrl.username + ':' + origUrl.password)) // eslint-disable-line no-undef\n\n      xhr.addEventListener('load', function (e) {\n        if (this.status === 200) {\n          let urlCreator = window.URL || window.webkitURL\n          image.src = urlCreator.createObjectURL(this.response)\n        } else {\n          onError()\n        }\n      })\n\n      xhr.send()\n    }\n  })\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                      finish all ajax requests then continue                              //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\n/**\n * finishs loading all images contained in the given jQuery object.\n * @param {jQuery} $object\n * @returns {Promise}\n */\nexport function finishAllImages ($object) {\n  let imagePromises = []\n\n  let $images = recursiveSelect($object, 'img')\n\n  $images.each(function () {\n    let image = this\n\n    if (!image.complete) {\n      imagePromises.push(new Promise(resolve => {\n        $(image).on('load', resolve)\n        $(image).on('error', resolve)\n      }))\n    }\n  })\n\n  return Promise.all(imagePromises)\n}\n\n/**\n * calculates the distance between one and another jQuery element\n * @param {jQuery} $one\n * @param {jQuery} $other\n * @returns {{top: number, left: number}}\n */\nexport function offset ($one, $other) {\n  let oneOff = $one.offset()\n  let otherOff = $other.offset()\n  return { top: oneOff.top - otherOff.top, left: oneOff.left - otherOff.left }\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////////\n//                                   jQuery Extensions                                    //\n// //////////////////////////////////////////////////////////////////////////////////////////\n\n/**\n * selects all matching elements and child elements\n * @param {jQuery} $elem\n * @param {string} query\n * @returns {jQuery}\n */\nexport function recursiveSelect ($elem, query) {\n  return $elem.filter(query).add($elem.find(query))\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                                Structural Functions                                      //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\nexport function showInteractionActivity (map) {\n  Debug.info('superseding interactions:')\n  let k, i\n  let total\n  let amountActive\n\n  for (k in map.supersedingInteractions_) {\n    total = map.supersedingInteractions_[k].length\n    amountActive = 0\n    for (i = 0; i < total; i++) {\n      if (map.supersedingInteractions_[k][i].getActive()) {\n        amountActive += 1\n      }\n    }\n\n    Debug.info('  ' + k + ': total: ' + total + ' active: ' + amountActive)\n  }\n\n  Debug.info('default interactions:')\n\n  for (k in map.defaultInteractions_) {\n    total = map.defaultInteractions_[k].length\n    amountActive = 0\n    for (i = 0; i < total; i++) {\n      if (map.defaultInteractions_[k][i].getActive()) {\n        amountActive += 1\n      }\n    }\n\n    Debug.info('  ' + k + ': total: ' + total + ' active: ' + amountActive)\n  }\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                                     URL Functions                                        //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\n// the functions are designed to mimic the behaviour of the node path module.\n// differences: dirURLs will end in /'s\n// the are in no way complete and don't claim to be complete\n// NOTE: another way to solve this would be using String.split instead of regular expressions\n\n/**\n * A function that tries to get the dir url of an url\n * @param {string} url\n * @returns {string}\n */\nexport function urlDirname (url) {\n  return url.replace(/\\/([^/]*)(\\?.*)?$/, '/')\n}\n\n/**\n * A function that normalizes a url\n * @param {string} url\n * @returns {string}\n */\nexport function urlNormalize (url) {\n  if (url.match(/^\\.\\//)) {\n    return urlNormalize(url.replace(/^\\.\\//, ''))\n  } else {\n    return url\n  }\n}\n\n/**\n * A function that adds urls\n * @param {string} urlRoot\n * @param {string} urlExt\n * @returns {string}\n */\nexport function urlJoin (urlRoot, urlExt) {\n  let normPathRoot = urlDirname(urlNormalize(urlRoot))\n  let normPathExt = urlNormalize(urlExt)\n\n  let lastPart = /[^/]+\\/$/\n  let leadingDoubleDots = /^\\.\\.\\//\n\n  while (normPathRoot.match(lastPart) && normPathExt.match(leadingDoubleDots)) {\n    normPathRoot = normPathRoot.replace(lastPart, '')\n    normPathExt = normPathExt.replace(leadingDoubleDots, '')\n  }\n\n  return normPathRoot + normPathExt\n}\n\n/**\n * A function that tries to get the relative url between to urles\n * @param {string} source\n * @param {string} target\n * @returns {string}\n */\nexport function urlRelative (source, target) {\n  let sourceNorm = urlDirname(urlNormalize(source))\n  let targetNorm = urlNormalize(target)\n\n  let urlRelative = ''\n\n  let firstPart = /^\\/?((\\/\\/)|[^/])+\\//\n\n  let firstSourcePart\n  let firstTargetPart\n\n  while (sourceNorm.match(firstPart) && targetNorm.match(firstPart)) {\n    firstSourcePart = sourceNorm.match(firstPart)[0]\n    firstTargetPart = targetNorm.match(firstPart)[0]\n\n    if (firstSourcePart.toUpperCase() !== firstTargetPart.toUpperCase()) {\n      break\n    }\n\n    sourceNorm = sourceNorm.replace(firstPart, '')\n    targetNorm = targetNorm.replace(firstPart, '')\n  }\n\n  while (sourceNorm.match(firstPart)) {\n    firstSourcePart = sourceNorm.match(firstPart)[0]\n    sourceNorm = sourceNorm.replace(firstPart, '')\n    urlRelative += '../'\n  }\n\n  return urlRelative + targetNorm\n}\n\n/**\n * @param {string} url\n * @returns {boolean}\n */\nexport function urlIsAbsolute (url) {\n  return !!url.match(/^\\/|.*:\\/\\//)\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                                         Other                                            //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\nfunction getPropertyNamesAndDescriptions (obj) {\n  let props = {}\n\n  do {\n    Object.getOwnPropertyNames(obj).forEach(function (prop) {\n      if (!props.hasOwnProperty(prop)) {\n        props[prop] = Object.getOwnPropertyDescriptor(obj, prop)\n      }\n    })\n    obj = Object.getPrototypeOf(obj)\n  } while (obj !== Object.prototype)\n\n  return props\n}\n\n/**\n * This creates a new class which inherits from the base class and mixes in every method (except any method named\n * 'initialize') from the mixin class. The mixin class may not overwrite any existing method. If it has a method called\n * 'initialize' this will be remembered and called after the constructor of the base class has finished\n * @param baseClass\n * @param mixinClasses\n * @returns {class}\n */\nexport function mixin (baseClass, mixinClasses) {\n  if (!Array.isArray(mixinClasses)) {\n    mixinClasses = [mixinClasses]\n  }\n  let initializes = mixinClasses.map(mC => mC.prototype.initialize)\n\n  let mixed = class extends baseClass {\n    constructor (options) {\n      super(options)\n      for (let initialize of initializes) {\n        if (initialize) {\n          initialize.call(this, options)\n        }\n      }\n    }\n  }\n\n  for (let mixinClass of mixinClasses) {\n    let propsAndDescriptions = getPropertyNamesAndDescriptions(mixinClass.prototype)\n\n    for (let name in propsAndDescriptions) {\n      if (name !== 'constructor' && name !== 'initialize') {\n        if (name in mixed.prototype) {\n          throw new Error('mixins should not overwrite methods')\n        }\n        Object.defineProperty(mixed.prototype, name, propsAndDescriptions[name])\n      }\n    }\n  }\n\n  return mixed\n}\n\n/**\n * This returns a mixin as a normal class.\n * @param mixinClass\n * @returns {class}\n */\nexport function mixinAsClass (mixinClass) {\n  let initialize = mixinClass.prototype.initialize\n\n  let m = class extends mixinClass {\n    constructor (options) {\n      super(options)\n      if (initialize) {\n        initialize.call(this, options)\n      }\n    }\n  }\n\n  return m\n}\n\nlet $p = $('<p>')\n\n/**\n * Takes a string with HTML and returns the containing resulting text.\n * @param stringWithHTML string with encoded HTML entities\n * @returns {string}\n */\nexport function html2Text (stringWithHTML) {\n  return $p.html(stringWithHTML).text()\n}\n",
@@ -22883,7 +22912,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 991,
+    "__docId__": 993,
     "kind": "function",
     "name": "even",
     "memberof": "src/utilities.js",
@@ -22925,7 +22954,7 @@
     }
   },
   {
-    "__docId__": 992,
+    "__docId__": 994,
     "kind": "function",
     "name": "odd",
     "memberof": "src/utilities.js",
@@ -22967,7 +22996,7 @@
     }
   },
   {
-    "__docId__": 993,
+    "__docId__": 995,
     "kind": "function",
     "name": "checkFor",
     "memberof": "src/utilities.js",
@@ -23019,7 +23048,7 @@
     }
   },
   {
-    "__docId__": 994,
+    "__docId__": 996,
     "kind": "function",
     "name": "asObject",
     "memberof": "src/utilities.js",
@@ -23057,7 +23086,7 @@
     ]
   },
   {
-    "__docId__": 995,
+    "__docId__": 997,
     "kind": "function",
     "name": "getConfig",
     "memberof": "src/utilities.js",
@@ -23109,7 +23138,7 @@
     }
   },
   {
-    "__docId__": 996,
+    "__docId__": 998,
     "kind": "function",
     "name": "asyncImageLoad",
     "memberof": "src/utilities.js",
@@ -23171,7 +23200,7 @@
     }
   },
   {
-    "__docId__": 997,
+    "__docId__": 999,
     "kind": "function",
     "name": "finishAllImages",
     "memberof": "src/utilities.js",
@@ -23213,7 +23242,7 @@
     }
   },
   {
-    "__docId__": 998,
+    "__docId__": 1000,
     "kind": "function",
     "name": "offset",
     "memberof": "src/utilities.js",
@@ -23265,7 +23294,7 @@
     }
   },
   {
-    "__docId__": 999,
+    "__docId__": 1001,
     "kind": "function",
     "name": "recursiveSelect",
     "memberof": "src/utilities.js",
@@ -23317,7 +23346,7 @@
     }
   },
   {
-    "__docId__": 1000,
+    "__docId__": 1002,
     "kind": "function",
     "name": "showInteractionActivity",
     "memberof": "src/utilities.js",
@@ -23343,7 +23372,7 @@
     "return": null
   },
   {
-    "__docId__": 1001,
+    "__docId__": 1003,
     "kind": "function",
     "name": "urlDirname",
     "memberof": "src/utilities.js",
@@ -23385,7 +23414,7 @@
     }
   },
   {
-    "__docId__": 1002,
+    "__docId__": 1004,
     "kind": "function",
     "name": "urlNormalize",
     "memberof": "src/utilities.js",
@@ -23427,7 +23456,7 @@
     }
   },
   {
-    "__docId__": 1003,
+    "__docId__": 1005,
     "kind": "function",
     "name": "urlJoin",
     "memberof": "src/utilities.js",
@@ -23479,7 +23508,7 @@
     }
   },
   {
-    "__docId__": 1004,
+    "__docId__": 1006,
     "kind": "function",
     "name": "urlRelative",
     "memberof": "src/utilities.js",
@@ -23531,7 +23560,7 @@
     }
   },
   {
-    "__docId__": 1005,
+    "__docId__": 1007,
     "kind": "function",
     "name": "urlIsAbsolute",
     "memberof": "src/utilities.js",
@@ -23573,7 +23602,7 @@
     }
   },
   {
-    "__docId__": 1006,
+    "__docId__": 1008,
     "kind": "function",
     "name": "getPropertyNamesAndDescriptions",
     "memberof": "src/utilities.js",
@@ -23604,7 +23633,7 @@
     "ignore": true
   },
   {
-    "__docId__": 1007,
+    "__docId__": 1009,
     "kind": "function",
     "name": "mixin",
     "memberof": "src/utilities.js",
@@ -23656,7 +23685,7 @@
     }
   },
   {
-    "__docId__": 1008,
+    "__docId__": 1010,
     "kind": "function",
     "name": "mixinAsClass",
     "memberof": "src/utilities.js",
@@ -23698,7 +23727,7 @@
     }
   },
   {
-    "__docId__": 1009,
+    "__docId__": 1011,
     "kind": "variable",
     "name": "$p",
     "memberof": "src/utilities.js",
@@ -23719,7 +23748,7 @@
     "ignore": true
   },
   {
-    "__docId__": 1010,
+    "__docId__": 1012,
     "kind": "function",
     "name": "html2Text",
     "memberof": "src/utilities.js",
@@ -23761,7 +23790,7 @@
     }
   },
   {
-    "__docId__": 1011,
+    "__docId__": 1013,
     "kind": "file",
     "name": "src/utilitiesObject.js",
     "content": "/**\n * @module utilitiesObject\n * Helper- and Miscfunctions (object related)\n */\n\nimport $ from 'jquery'\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                                     Object Copying                                       //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\n/**\n * Copy an object\n * @param {Object} object\n * @returns {Object}\n */\nexport function copy (object) {\n  if ($.isArray(object)) {\n    return $.extend([], object)\n  } else if ($.isPlainObject(object)) {\n    return $.extend({}, object)\n  } else {\n    return object\n  }\n}\n\n/**\n * Deep copy an object\n * @param {Object} object\n * @returns {Object}\n */\nexport function copyDeep (object) {\n  if ($.isArray(object)) {\n    return $.extend(true, [], object)\n  } else if ($.isPlainObject(object)) {\n    return $.extend(true, {}, object)\n  } else {\n    return object\n  }\n}\n\n// //////////////////////////////////////////////////////////////////////////////////////// //\n//                                    Object Merging                                        //\n// //////////////////////////////////////////////////////////////////////////////////////// //\n\n/**\n * A simple object merge function. merges all keys of obj2 to obj1.\n * @param {Object} obj1 the object which will be merged into\n * @param {Object} obj2 the object that will be merged into obj1\n * @returns {Object}\n */\nexport function merge (obj1, obj2) {\n  return $.extend(obj1, obj2)\n}\n\n/**\n * A simple reverse object merge function. merges all keys of obj2 to obj1.\n * @param {Object} obj1 the object which will be merged into\n * @param {Object} obj2 the object that will be merged into obj1\n * @returns {Object}\n */\nexport function mergeDeep (obj1, obj2) {\n  return $.extend(true, obj1, obj2)\n}\n\n/**\n * basically adds all properties (key, value - pairs) from defaults to config whichs keys aren't keys of config.\n *      (except for keys with 'Element' in their name)\n * if the value is an object (on the left side, config) it is called recursively\n * if the value is an array (on the left side, config) it is called with the key value+'Element' for each element\n *      of the array\n * @param {Object} config the config which should be mergeed with defaults\n * @param {Object} defaults the defaults to be merged with config\n * @returns {Object} the altered config\n */\nexport function mergeWithDefaults (config, defaults) {\n  if (typeof defaults === 'object' && typeof config === 'object') {\n    for (let k of Object.keys(defaults)) {\n      if (!(k in config) && (k.search('Element') < 0)) {\n        config[k] = defaults[k]\n      // order of this branches is important because typeof Array equals object\n      } else if (config[k] instanceof Array) {\n        // if both arrays have the same length, it assumed that every element of the array in default is\n        //      the default for every element in the array in config\n        if (config[k].length === defaults[k].length) {\n          for (let i = 0; i < config[k].length; i += 1) {\n            mergeWithDefaults(config[k][i], defaults[k][i])\n          }\n        } else {\n          // if there exists a key with the name k+'Element' then it is the default for every element of\n          //      the configuration\n          if ((k + 'Element') in defaults) {\n            for (let i = 0; i < config[k].length; i += 1) {\n              mergeWithDefaults(config[k][i], defaults[k + 'Element'])\n            }\n          }\n        }\n      } else if (typeof config[k] === 'object') {\n        mergeWithDefaults(config[k], defaults[k])\n      } else if ((typeof config[k] !== 'object') && (typeof defaults[k] === 'object') && config[k]) {\n        config[k] = {}\n        mergeWithDefaults(config[k], defaults[k])\n      }\n    }\n  } else {\n    if (!config) {\n      config = defaults\n    }\n  }\n  return config\n}\n\n/**\n * Removes a property from an object and returns its value\n * @param {Object} object\n * @param {String} prop\n * @returns {*}\n */\nexport function take (object, prop) {\n  if (object.hasOwnProperty(prop)) {\n    let tmp = object[prop]\n    delete object[prop]\n    return tmp\n  }\n}\n",
@@ -23772,7 +23801,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 1012,
+    "__docId__": 1014,
     "kind": "function",
     "name": "copy",
     "memberof": "src/utilitiesObject.js",
@@ -23814,7 +23843,7 @@
     }
   },
   {
-    "__docId__": 1013,
+    "__docId__": 1015,
     "kind": "function",
     "name": "copyDeep",
     "memberof": "src/utilitiesObject.js",
@@ -23856,7 +23885,7 @@
     }
   },
   {
-    "__docId__": 1014,
+    "__docId__": 1016,
     "kind": "function",
     "name": "merge",
     "memberof": "src/utilitiesObject.js",
@@ -23908,7 +23937,7 @@
     }
   },
   {
-    "__docId__": 1015,
+    "__docId__": 1017,
     "kind": "function",
     "name": "mergeDeep",
     "memberof": "src/utilitiesObject.js",
@@ -23960,7 +23989,7 @@
     }
   },
   {
-    "__docId__": 1016,
+    "__docId__": 1018,
     "kind": "function",
     "name": "mergeWithDefaults",
     "memberof": "src/utilitiesObject.js",
@@ -24012,7 +24041,7 @@
     }
   },
   {
-    "__docId__": 1017,
+    "__docId__": 1019,
     "kind": "function",
     "name": "take",
     "memberof": "src/utilitiesObject.js",
@@ -24064,10 +24093,10 @@
     }
   },
   {
-    "__docId__": 1018,
+    "__docId__": 1020,
     "kind": "file",
     "name": "src/xssprotection.js",
-    "content": "/**\r\n * @module xssprotection\r\n */\r\n\r\n/**\r\n * Filters text from user input\r\n * @param {string} text\r\n * @returns {string}\r\n */\r\nexport function filterText (text) {\r\n  if (text) {\r\n    // escaping following guidelines from owasp.org\r\n    return text\r\n      .replace(/&/g, '&amp;')\r\n      .replace(/</g, '&lt;')\r\n      .replace(/>/g, '&gt;')\r\n      .replace(/\"/g, '&quot;')\r\n      .replace(/'/g, '&#x27;')\r\n      .replace(/\\//g, '&#x2F;')\r\n  } else {\r\n    return text\r\n  }\r\n}\r\n\r\n/**\r\n * Restores the text\r\n * @param {string} text\r\n * @returns {string}\r\n */\r\nexport function restoreText (text) {\r\n  if (text) {\r\n    return text\r\n      .replace(/&amp;/g, '&')\r\n      .replace(/&lt;/g, '<')\r\n      .replace(/&gt;/g, '>')\r\n      .replace(/&quot;/g, '\"')\r\n      .replace(/&#x27;/g, \"'\")\r\n      .replace(/&#x2F;/g, '/')\r\n  } else {\r\n    return text\r\n  }\r\n}\r\n",
+    "content": "/**\n * @module xssprotection\n */\n\n/**\n * Filters text from user input\n * @param {string} text\n * @returns {string}\n */\nexport function filterText (text) {\n  if (text) {\n    // escaping following guidelines from owasp.org\n    return text\n      .replace(/&/g, '&amp;')\n      .replace(/</g, '&lt;')\n      .replace(/>/g, '&gt;')\n      .replace(/\"/g, '&quot;')\n      .replace(/'/g, '&#x27;')\n      .replace(/\\//g, '&#x2F;')\n  } else {\n    return text\n  }\n}\n\n/**\n * Restores the text\n * @param {string} text\n * @returns {string}\n */\nexport function restoreText (text) {\n  if (text) {\n    return text\n      .replace(/&amp;/g, '&')\n      .replace(/&lt;/g, '<')\n      .replace(/&gt;/g, '>')\n      .replace(/&quot;/g, '\"')\n      .replace(/&#x27;/g, \"'\")\n      .replace(/&#x2F;/g, '/')\n  } else {\n    return text\n  }\n}\n",
     "static": true,
     "longname": "D:/xampp/htdocs/guide4you/src/xssprotection.js",
     "access": "public",
@@ -24075,7 +24104,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 1019,
+    "__docId__": 1021,
     "kind": "function",
     "name": "filterText",
     "memberof": "src/xssprotection.js",
@@ -24117,7 +24146,7 @@
     }
   },
   {
-    "__docId__": 1020,
+    "__docId__": 1022,
     "kind": "function",
     "name": "restoreText",
     "memberof": "src/xssprotection.js",
@@ -24168,7 +24197,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"guide4you\",\n  \"version\": \"3.3.1\",\n  \"description\": \"A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.\",\n  \"keywords\": [\n    \"map\",\n    \"map client\",\n    \"openlayers\"\n  ],\n  \"author\": \"Klaus Benndorf\",\n  \"homepage\": \"https://github.com/KlausBenndorf/guide4you\",\n  \"license\": \"MIT\",\n  \"contributors\": [\n    \"Sascha Klemenjak <sascha.klemenjak@benndorf.de>\",\n    \"Josef Schugt <josef.schugt@benndorf.de>\",\n    \"Simon Seyock <simonseyock@gmail.com>\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/KlausBenndorf/guide4you\"\n  },\n  \"peerDependencies\": {\n    \"jquery\": \"3.3.1\",\n    \"ol\": \"5.2.0\"\n  },\n  \"dependencies\": {\n    \"better-scroll\": \"1.13.2\",\n    \"csscolorparser\": \"1.0.3\",\n    \"lodash\": \"4.17.11\",\n    \"notifyjs-browser\": \"0.4.2\",\n    \"proj4\": \"2.5.0\",\n    \"strip-json-comments\": \"2.0.1\"\n  },\n  \"devDependencies\": {\n    \"babel-polyfill\": \"6.26.0\",\n    \"concurrently\": \"4.0.1\",\n    \"cross-env\": \"^5.2.0\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"5.7.0\",\n    \"eslint-config-standard\": \"^12.0.0\",\n    \"eslint-plugin-import\": \"^2.14.0\",\n    \"eslint-plugin-node\": \"^7.0.1\",\n    \"eslint-plugin-promise\": \"^4.0.1\",\n    \"eslint-plugin-standard\": \"^4.0.0\",\n    \"guide4you-builder\": \"3.5.1\",\n    \"guide4you-proxy\": \"github:KlausBenndorf/guide4you-proxy#v1.1.0\",\n    \"http-server\": \"0.11.1\",\n    \"jquery\": \"3.3.1\",\n    \"mocha\": \"5.2.0\",\n    \"ol\": \"5.2.0\",\n    \"phantomjs-prebuilt\": \"2.1.14\",\n    \"selenium-webdriver\": \"3.6.0\",\n    \"wait-on\": \"3.1.0\"\n  },\n  \"scripts\": {\n    \"grab\": \"g4u-grab guide4you-builder\",\n    \"dist\": \"rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js\",\n    \"dev:simple\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js\",\n    \"prod:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"debug:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"dev:full\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/full/webpack.dev.js\",\n    \"prod:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"debug:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"lint\": \"eslint src/ tests/\",\n    \"version\": \"(npm run test && npm run doc && git add -A) || git checkout .\",\n    \"server\": \"http-server ./ -p 8089 -s\",\n    \"buildTests\": \"g4u-buildTests tests\",\n    \"buildTestsAndEnv\": \"concurrently \\\"npm run buildTests\\\" \\\"npm run dist\\\"\",\n    \"runTests\": \"concurrently --kill-others --success first \\\"npm run server\\\" \\\"wait-on -l http-get://localhost:8089 && mocha build/tests/*\\\"\",\n    \"test\": \"npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"test:fast\": \"npm run buildTests && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"doc\": \"esdoc -c esdoc.json\"\n  },\n  \"main\": \"./dist/g4u.js\",\n  \"module\": \"./config/dist/entry.js\",\n  \"types\": \"./dist/g4u.d.ts\"\n}\n",
+    "content": "{\n  \"name\": \"guide4you\",\n  \"version\": \"3.3.2\",\n  \"description\": \"A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.\",\n  \"keywords\": [\n    \"map\",\n    \"map client\",\n    \"openlayers\"\n  ],\n  \"author\": \"Klaus Benndorf\",\n  \"homepage\": \"https://github.com/KlausBenndorf/guide4you\",\n  \"license\": \"MIT\",\n  \"contributors\": [\n    \"Sascha Klemenjak <sascha.klemenjak@benndorf.de>\",\n    \"Josef Schugt <josef.schugt@benndorf.de>\",\n    \"Simon Seyock <simonseyock@gmail.com>\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/KlausBenndorf/guide4you\"\n  },\n  \"peerDependencies\": {\n    \"jquery\": \"3.3.1\",\n    \"ol\": \"5.2.0\"\n  },\n  \"dependencies\": {\n    \"better-scroll\": \"1.13.2\",\n    \"csscolorparser\": \"1.0.3\",\n    \"lodash\": \"4.17.11\",\n    \"notifyjs-browser\": \"0.4.2\",\n    \"proj4\": \"2.5.0\",\n    \"strip-json-comments\": \"2.0.1\"\n  },\n  \"devDependencies\": {\n    \"babel-polyfill\": \"6.26.0\",\n    \"concurrently\": \"4.0.1\",\n    \"cross-env\": \"^5.2.0\",\n    \"esdoc\": \"1.1.0\",\n    \"esdoc-standard-plugin\": \"1.0.0\",\n    \"eslint\": \"5.7.0\",\n    \"eslint-config-standard\": \"^12.0.0\",\n    \"eslint-plugin-import\": \"^2.14.0\",\n    \"eslint-plugin-node\": \"^7.0.1\",\n    \"eslint-plugin-promise\": \"^4.0.1\",\n    \"eslint-plugin-standard\": \"^4.0.0\",\n    \"guide4you-builder\": \"3.5.1\",\n    \"guide4you-proxy\": \"github:KlausBenndorf/guide4you-proxy#v1.1.0\",\n    \"http-server\": \"0.11.1\",\n    \"jquery\": \"3.3.1\",\n    \"mocha\": \"5.2.0\",\n    \"ol\": \"5.2.0\",\n    \"phantomjs-prebuilt\": \"2.1.14\",\n    \"selenium-webdriver\": \"3.6.0\",\n    \"wait-on\": \"3.1.0\"\n  },\n  \"scripts\": {\n    \"grab\": \"g4u-grab guide4you-builder\",\n    \"dist\": \"rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js\",\n    \"dev:simple\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js\",\n    \"prod:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"debug:simple\": \"rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js\",\n    \"dev:full\": \"cross-env-shell DEVELOPMENT=true g4u-build -c conf/full/webpack.dev.js\",\n    \"prod:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"debug:full\": \"rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js\",\n    \"lint\": \"eslint src/ tests/\",\n    \"version\": \"(npm run test && npm run doc && git add -A) || git checkout .\",\n    \"server\": \"http-server ./ -p 8089 -s\",\n    \"buildTests\": \"g4u-buildTests tests\",\n    \"buildTestsAndEnv\": \"concurrently \\\"npm run buildTests\\\" \\\"npm run dist\\\"\",\n    \"runTests\": \"concurrently --kill-others --success first \\\"npm run server\\\" \\\"wait-on -l http-get://localhost:8089 && mocha build/tests/*\\\"\",\n    \"test\": \"npm run lint && npm run buildTestsAndEnv && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"test:fast\": \"npm run buildTests && npm run runTests && echo \\\"Tests completed successfully\\\"\",\n    \"doc\": \"esdoc -c esdoc.json\"\n  },\n  \"main\": \"./dist/g4u.js\",\n  \"module\": \"./config/dist/entry.js\",\n  \"types\": \"./dist/g4u.d.ts\"\n}\n",
     "longname": "D:\\xampp\\htdocs\\guide4you\\package.json",
     "name": "package.json",
     "static": true,

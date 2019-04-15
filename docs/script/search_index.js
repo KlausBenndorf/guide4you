@@ -5244,6 +5244,18 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/sources/arcgisrestfeaturesource.js",
+    "file/src/sources/ArcGISRESTFeatureSource.js.html",
+    "src/sources/ArcGISRESTFeatureSource.js",
+    "file"
+  ],
+  [
+    "src/sources/arcgisrestfeaturesource.js~arcgisrestfeaturesourceoptions",
+    "typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions",
+    "src/sources/ArcGISRESTFeatureSource.js~ArcGISRESTFeatureSourceOptions",
+    "typedef"
+  ],
+  [
     "src/sources/clustersource.js",
     "file/src/sources/ClusterSource.js.html",
     "src/sources/ClusterSource.js",
@@ -5370,12 +5382,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/sources/sourceservervector.js~sourceservervector#bboxprojection_",
-    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-bboxProjection_",
-    "src/sources/SourceServerVector.js~SourceServerVector#bboxProjection_",
-    "member"
-  ],
-  [
     "src/sources/sourceservervector.js~sourceservervector#constructor",
     "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-constructor-constructor",
     "src/sources/SourceServerVector.js~SourceServerVector#constructor",
@@ -5410,12 +5416,6 @@ window.esdocSearchIndex = [
     "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-method-loader",
     "src/sources/SourceServerVector.js~SourceServerVector#loader",
     "method"
-  ],
-  [
-    "src/sources/sourceservervector.js~sourceservervector#loadingstrategy_",
-    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-loadingStrategy_",
-    "src/sources/SourceServerVector.js~SourceServerVector#loadingStrategy_",
-    "member"
   ],
   [
     "src/sources/sourceservervector.js~sourceservervector#localised_",
@@ -5454,9 +5454,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/sources/sourceservervector.js~sourceservervector#strategytype_",
+    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-strategyType_",
+    "src/sources/SourceServerVector.js~SourceServerVector#strategyType_",
+    "member"
+  ],
+  [
     "src/sources/sourceservervector.js~sourceservervector#type_",
     "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-type_",
     "src/sources/SourceServerVector.js~SourceServerVector#type_",
+    "member"
+  ],
+  [
+    "src/sources/sourceservervector.js~sourceservervector#urlprojection_",
+    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-urlProjection_",
+    "src/sources/SourceServerVector.js~SourceServerVector#urlProjection_",
     "member"
   ],
   [

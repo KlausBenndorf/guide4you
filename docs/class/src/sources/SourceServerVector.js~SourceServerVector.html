@@ -198,6 +198,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -207,13 +208,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SourceServerVector} from &apos;<span><a href="file/src/sources/SourceServerVector.js.html#lineNumber40">guide4you/src/sources/SourceServerVector.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {SourceServerVector} from &apos;<span><a href="file/src/sources/SourceServerVector.js.html#lineNumber32">guide4you/src/sources/SourceServerVector.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/src/sources/SourceServerVector.js.html#lineNumber40">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/src/sources/SourceServerVector.js.html#lineNumber32">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -235,8 +236,6 @@
   
   <div class="description" data-ice="description"><p>A custom Source class handling Vector Sources.</p>
 <p>Let you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.</p>
-<p><strong>IMPORTANT:</strong> You can&apos;t set the projection of the source! This is <strong>always</strong> determined by the data received. If you
-set projection here you force the source to assume that this is the projection of the view.</p>
 <p>This class defines a custom loader function which makes it possible to use different loading strategies.</p>
 </div>
   
@@ -457,34 +456,6 @@ set projection here you force the source to assume that this is the projection o
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-bboxProjection_">bboxProjection_</a></span></span><span class="code" data-ice="signature">: <span>ol.ProjectionLike</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-doClear_">doClear_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
         </p>
       </div>
@@ -493,34 +464,6 @@ set projection here you force the source to assume that this is the projection o
         
         <div data-ice="description"><p>indicates if the source needs to be emptied</p>
 </div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-loadingStrategy_">loadingStrategy_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
       </div>
     </td>
     <td>
@@ -598,7 +541,63 @@ set projection here you force the source to assume that this is the projection o
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-strategyType_">strategyType_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-type_">type_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-urlProjection_">urlProjection_</a></span></span><span class="code" data-ice="signature">: <span>module:ol/proj~ProjectionLike</span></span>
         </p>
       </div>
       <div>
@@ -690,14 +689,13 @@ set projection here you force the source to assume that this is the projection o
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-method-loader">loader</a></span></span><span class="code" data-ice="signature">(extent: <span>ol.Extent</span>, resolution: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, projection: <span>ol.ProjectionLike</span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-method-loader">loader</a></span></span><span class="code" data-ice="signature">(extent: <span>module:ol/extent~Extent</span>, resolution: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, projection: <span>module:ol/proj~Projection</span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>This method returns a promise which is triggered after the loader successfully loaded a source.</p>
-</div>
+        
       </div>
     </td>
     <td>
@@ -784,7 +782,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber44">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber36">source</a></span></span>
     </span>
   </h3>
 
@@ -847,7 +845,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber127">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber88">source</a></span></span>
     </span>
   </h3>
 
@@ -890,7 +888,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber126">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber87">source</a></span></span>
     </span>
   </h3>
 
@@ -933,7 +931,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber93">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber59">source</a></span></span>
     </span>
   </h3>
 
@@ -976,7 +974,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber147">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber110">source</a></span></span>
     </span>
   </h3>
 
@@ -1021,7 +1019,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber105">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber65">source</a></span></span>
     </span>
   </h3>
 
@@ -1055,49 +1053,6 @@ set projection here you force the source to assume that this is the projection o
 <h2 data-ice="title">Private Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-bboxProjection_">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">bboxProjection_</span><span class="code" data-ice="signature">: <span>ol.ProjectionLike</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber160">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-doClear_">
     <span class="access" data-ice="access">private</span>
     
@@ -1109,7 +1064,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber154">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber117">source</a></span></span>
     </span>
   </h3>
 
@@ -1118,49 +1073,6 @@ set projection here you force the source to assume that this is the projection o
   
   <div data-ice="description"><p>indicates if the source needs to be emptied</p>
 </div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-loadingStrategy_">
-    <span class="access" data-ice="access">private</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">loadingStrategy_</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber99">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  
 
   
 
@@ -1196,7 +1108,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber91">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber57">source</a></span></span>
     </span>
   </h3>
 
@@ -1239,7 +1151,50 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber141">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber104">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-strategyType_">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">strategyType_</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber51">source</a></span></span>
     </span>
   </h3>
 
@@ -1282,7 +1237,50 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber111">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber71">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-urlProjection_">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">urlProjection_</span><span class="code" data-ice="signature">: <span>module:ol/proj~ProjectionLike</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber123">source</a></span></span>
     </span>
   </h3>
 
@@ -1328,7 +1326,7 @@ set projection here you force the source to assume that this is the projection o
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber245">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber205">source</a></span></span>
     </span>
   </h3>
 
@@ -1403,7 +1401,7 @@ this function needs to extended with all Tags which could contain urls</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber265">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber225">source</a></span></span>
     </span>
   </h3>
 
@@ -1454,19 +1452,18 @@ this function needs to extended with all Tags which could contain urls</p>
     
     
     
-    <span class="code" data-ice="name">loader</span><span class="code" data-ice="signature">(extent: <span>ol.Extent</span>, resolution: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, projection: <span>ol.ProjectionLike</span>)</span>
+    <span class="code" data-ice="name">loader</span><span class="code" data-ice="signature">(extent: <span>module:ol/extent~Extent</span>, resolution: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, projection: <span>module:ol/proj~Projection</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber169">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber131">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>This method returns a promise which is triggered after the loader successfully loaded a source.</p>
-</div>
+  
 
   
 
@@ -1480,7 +1477,7 @@ this function needs to extended with all Tags which could contain urls</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">extent</td>
-      <td data-ice="type" class="code"><span>ol.Extent</span></td>
+      <td data-ice="type" class="code"><span>module:ol/extent~Extent</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
@@ -1492,7 +1489,7 @@ this function needs to extended with all Tags which could contain urls</p>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">projection</td>
-      <td data-ice="type" class="code"><span>ol.ProjectionLike</span></td>
+      <td data-ice="type" class="code"><span>module:ol/proj~Projection</span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"></td>
     </tr>
@@ -1530,7 +1527,7 @@ this function needs to extended with all Tags which could contain urls</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber235">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber195">source</a></span></span>
     </span>
   </h3>
 
@@ -1590,7 +1587,7 @@ this function needs to extended with all Tags which could contain urls</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber272">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/sources/SourceServerVector.js.html#lineNumber232">source</a></span></span>
     </span>
   </h3>
 

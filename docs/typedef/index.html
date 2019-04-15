@@ -198,6 +198,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -260,6 +261,35 @@
         
         
         
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span><span class="code" data-ice="signature">: <span>module:ol/source/Vector~Options</span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Please note that a &apos;BBOX&apos; or &apos;TILE&apos; loadingStrategy is required</p>
+</div>
       </div>
     </td>
     <td>
@@ -1683,7 +1713,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceServerVectorOptions">SourceServerVectorOptions</a></span></span><span class="code" data-ice="signature">: <span>olx.source.VectorOptions</span></span>
+          <span class="code" data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceServerVectorOptions">SourceServerVectorOptions</a></span></span><span class="code" data-ice="signature">: <span>module:ol/source/Vector~Options</span></span>
         </p>
       </div>
       <div>
@@ -2150,6 +2180,79 @@
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: &apos;#drawStyle&apos;</li></ul></td>
       <td data-ice="description"></td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-typedef-ArcGISRESTFeatureSourceOptions">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">ArcGISRESTFeatureSourceOptions</span><span class="code" data-ice="signature">: <span>module:ol/source/Vector~Options</span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/sources/ArcGISRESTFeatureSource.js.html#lineNumber20">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Please note that a &apos;BBOX&apos; or &apos;TILE&apos; loadingStrategy is required</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Properties:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">params</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>the params to be passed to the ArcGIS REST Feature Service. The params f, returnGeometry,
+   geometry, geometryType, inSR and outSr can not be set as they are filled automatically. The SR parameters will
+   be set to the projection of the source if one is given. geometry and geometryType will always be an
+   &apos;esriGeometryEnvelope&apos;. f will be json and returnGeometry true.
+   The parameters spatialRel and outFields can be altered and default to &apos;esriSpatialRelIntersects&apos; and &apos;*&apos;.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">dataType</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: json</li></ul></td>
+      <td data-ice="description"><p>can be json or jsonp</p>
+</td>
     </tr>
 </tbody>
   </table>
@@ -6190,7 +6293,7 @@ positioned via Positioning.</p>
     
     
     
-    <span class="code" data-ice="name">SourceServerVectorOptions</span><span class="code" data-ice="signature">: <span>olx.source.VectorOptions</span></span>
+    <span class="code" data-ice="name">SourceServerVectorOptions</span><span class="code" data-ice="signature">: <span>module:ol/source/Vector~Options</span></span>
     <span class="right-info">
       
       
@@ -6227,6 +6330,14 @@ positioned via Positioning.</p>
       <td data-ice="description"></td>
     </tr>
 <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">urlProjection</td>
+      <td data-ice="type" class="code"><span>module:ol/proj~ProjectionLike</span></td>
+      <td data-ice="appendix"><ul><li>optional</li></ul></td>
+      <td data-ice="description"><p>coordinates will be inserted into the url in this format.
+   defaults to the sourceProjection</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">defaultStyle</td>
       <td data-ice="type" class="code"><span><a href="typedef/index.html#static-typedef-StyleLike">StyleLike</a></span></td>
       <td data-ice="appendix"><ul><li>optional</li></ul></td>
@@ -6239,31 +6350,6 @@ positioned via Positioning.</p>
       <td data-ice="appendix"><ul><li>optional</li>
 <li>default: true</li></ul></td>
       <td data-ice="description"><p>if styles should get extracted from the KML</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">loadingStrategy</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: &apos;ALL&apos;</li></ul></td>
-      <td data-ice="description"><p>Either &apos;BBOX&apos; or &apos;ALL&apos; (Synonym: &apos;FIXED&apos;).
-   If BBOX the given url has to contain the parameters {bboxleft}, {bboxbottom}, {bboxright}, {bboxtop}.</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">bboxRatio</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: 1</li></ul></td>
-      <td data-ice="description"><p>If set the bbox loading strategy will increase the load extent by this factor</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">bboxProjection</td>
-      <td data-ice="type" class="code"><span>ol.ProjectionLike</span></td>
-      <td data-ice="appendix"><ul><li>optional</li></ul></td>
-      <td data-ice="description"><p>coordinates will be inserted into the url in this format. defaults to
-   the interfaceProjection</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">

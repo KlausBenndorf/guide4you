@@ -198,6 +198,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -596,34 +597,6 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-bboxProjection_">bboxProjection_</a></span></span><span class="code" data-ice="signature">: <span>ol.ProjectionLike</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-doClear_">doClear_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></span></span>
         </p>
       </div>
@@ -632,34 +605,6 @@
         
         <div data-ice="description"><p>indicates if the source needs to be emptied</p>
 </div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">private</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-loadingStrategy_">loadingStrategy_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        
       </div>
     </td>
     <td>
@@ -737,7 +682,63 @@
           
           
           
+          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-strategyType_">strategyType_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
           <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-type_">type_</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-urlProjection_">urlProjection_</a></span></span><span class="code" data-ice="signature">: <span>module:ol/proj~ProjectionLike</span></span>
         </p>
       </div>
       <div>
@@ -822,14 +823,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-method-loader">loader</a></span></span><span class="code" data-ice="signature">(extent: <span>ol.Extent</span>, resolution: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, projection: <span>ol.ProjectionLike</span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-method-loader">loader</a></span></span><span class="code" data-ice="signature">(extent: <span>module:ol/extent~Extent</span>, resolution: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span>, projection: <span>module:ol/proj~Projection</span>)</span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>This method returns a promise which is triggered after the loader successfully loaded a source.</p>
-</div>
+        
       </div>
     </td>
     <td>

@@ -37,10 +37,10 @@
       "expectCount": 20,
       "actualCount": 16,
       "undocumentLines": [
-        49,
-        225,
-        241,
-        785
+        52,
+        232,
+        248,
+        841
       ]
     },
     "src/configurators/MapConfigurator.js": {
@@ -576,10 +576,10 @@
       "expectCount": 18,
       "actualCount": 14,
       "undocumentLines": [
-        93,
-        126,
-        127,
-        147
+        59,
+        87,
+        88,
+        110
       ]
     },
     "src/sources/WMTSSource.js": {

@@ -198,6 +198,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -208,27 +209,22 @@
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/sources/SourceServerVector.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
-import { containsExtent } from &apos;ol/extent&apos;
 import GeoJSON from &apos;ol/format/GeoJSON&apos;
 import KML from &apos;ol/format/KML&apos;
 import { transformExtent } from &apos;ol/proj&apos;
 import VectorSource from &apos;ol/source/Vector&apos;
-import { all } from &apos;ol/loadingstrategy&apos;
 
 import { copy, take } from &apos;../utilitiesObject&apos;
 import { Debug } from &apos;../Debug&apos;
 
 /**
- * @typedef {olx.source.VectorOptions} SourceServerVectorOptions
+ * @typedef {module:ol/source/Vector~Options} SourceServerVectorOptions
  * @property {string} type the format to use
  * @property {URLLike} url
+ * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {StyleLike} [defaultStyle] a default style to fallback to
  * @property {boolean} [extractStyles=true] if styles should get extracted from the KML
- * @property {string} [loadingStrategy=&apos;ALL&apos;] Either &apos;BBOX&apos; or &apos;ALL&apos; (Synonym: &apos;FIXED&apos;).
- *    If BBOX the given url has to contain the parameters {bboxleft}, {bboxbottom}, {bboxright}, {bboxtop}.
- * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
- * @property {ol.ProjectionLike} [bboxProjection] coordinates will be inserted into the url in this format. defaults to
- *    the interfaceProjection
  * @property {boolean} [cache=] true, false for dataType &apos;script&apos; and &apos;jsonp&apos;
  * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)
  * @property {L10N} localiser
@@ -240,9 +236,6 @@ import { Debug } from &apos;../Debug&apos;
  * A custom Source class handling Vector Sources.
  *
  * Let you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.
- *
- * **IMPORTANT:** You can&apos;t set the projection of the source! This is **always** determined by the data received. If you
- * set projection here you force the source to assume that this is the projection of the view.
  *
  * This class defines a custom loader function which makes it possible to use different loading strategies.
  */
@@ -259,39 +252,13 @@ export class SourceServerVector extends VectorSource {
 
     parentOptions.loader = (...args) =&gt; this.loader(...args)
 
-    const loadingStrategy = options.loadingStrategy || &apos;ALL&apos;
-
-    if (loadingStrategy === &apos;BBOX&apos;) {
-      let bboxRatio = options.bboxRatio || 1
-
-      if (bboxRatio &lt; 1) {
-        throw new Error(&apos;The bboxRatio should not be smaller than 1&apos;)
-      }
-
-      let lastScaledExtent = [0, 0, 0, 0]
-
-      parentOptions.strategy = (extent) =&gt; {
-        if (containsExtent(lastScaledExtent, extent)) {
-          return [extent]
-        } else {
-          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
-          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
-
-          lastScaledExtent = [
-            extent[0] - deltaX,
-            extent[1] - deltaY,
-            extent[2] + deltaX,
-            extent[3] + deltaY
-          ]
-
-          return [lastScaledExtent]
-        }
-      }
-    } else {
-      parentOptions.strategy = all
-    }
-
     super(parentOptions)
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.strategyType_ = options.loadingStrategyType
 
     /**
      * @type {L10N}
@@ -300,12 +267,6 @@ export class SourceServerVector extends VectorSource {
     this.localiser_ = options.localiser
 
     this.localised_ = options.localised || false
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.loadingStrategy_ = loadingStrategy
 
     /**
      * @type {URL}
@@ -329,15 +290,18 @@ export class SourceServerVector extends VectorSource {
       formatOptions.extractStyles = options.extractStyles
     }
 
+    let formatProjection
     switch (this.type_) {
       case &apos;KML&apos;:
         formatOptions.showPointNames = false
         this.format_ = new KML(formatOptions)
         this.dataType_ = &apos;text xml&apos; // for $.ajax (GET-request)
+        formatProjection = &apos;EPSG:4326&apos;
         break
       case &apos;GeoJSON&apos;:
         this.format_ = new GeoJSON(formatOptions)
         this.dataType_ = &apos;text json&apos; // for $.ajax (GET-request)
+        formatProjection = &apos;EPSG:4326&apos;
         break
       default:
         throw new Error(`${this.type_} is not supported by SourceServerVector!`)
@@ -363,30 +327,27 @@ export class SourceServerVector extends VectorSource {
     this.doClear_ = false
 
     /**
-     * @type {ol.ProjectionLike}
+     * @type {module:ol/proj~ProjectionLike}
      * @private
      */
-    this.bboxProjection_ = options.bboxProjection
+    this.urlProjection_ = options.urlProjection || formatProjection
   }
 
   /**
-   * This method returns a promise which is triggered after the loader successfully loaded a source.
-   * @param {ol.Extent} extent
+   * @param {module:ol/extent~Extent} extent
    * @param {number} resolution
-   * @param {ol.ProjectionLike} projection
+   * @param {module:ol/proj~Projection} projection
    */
   loader (extent, resolution, projection) {
-    // Problem with BBOX: if features are already in the layer, they shouldn&apos;t be added. Not trivial
-
     let url = this.urlTemplate.clone()
 
-    if (this.loadingStrategy_ === &apos;BBOX&apos;) {
-      let transformedExtent = transformExtent(extent, projection, this.bboxProjection_)
+    if (this.strategyType_ === &apos;BBOX&apos; || this.strategyType_ === &apos;TILE&apos;) {
+      let transformedExtent = transformExtent(extent, projection, this.urlProjection_)
 
-      url.expandTemplate(&apos;bboxleft&apos;, transformedExtent[0].toString())
-        .expandTemplate(&apos;bboxbottom&apos;, transformedExtent[1].toString())
-        .expandTemplate(&apos;bboxright&apos;, transformedExtent[2].toString())
-        .expandTemplate(&apos;bboxtop&apos;, transformedExtent[3].toString())
+      url.expandTemplate(&apos;minx&apos;, transformedExtent[0].toString())
+        .expandTemplate(&apos;miny&apos;, transformedExtent[1].toString())
+        .expandTemplate(&apos;maxx&apos;, transformedExtent[2].toString())
+        .expandTemplate(&apos;maxy&apos;, transformedExtent[3].toString())
         .expandTemplate(&apos;resolution&apos;, resolution.toString(), false)
     }
 
