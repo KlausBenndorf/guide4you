@@ -2,7 +2,7 @@ import $ from 'jquery'
 
 import Collection from 'ol/Collection'
 import { containsExtent } from 'ol/extent'
-import { all } from 'ol/loadingstrategy'
+import { all, tile } from 'ol/loadingstrategy'
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
 import OSM from 'ol/source/OSM'
@@ -198,6 +198,7 @@ export const LayerType = {
  * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'
  *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
  * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
+ * @property {number} [tileSize=512] If set the tile loading strategy will use tiles of this size
  * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
  *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
@@ -763,6 +764,10 @@ export class LayerFactory {
           return [lastScaledExtent]
         }
       }
+    } else if (loadingStrategy === 'TILE') {
+      sourceConfig.strategy = tile(createXYZ({
+        tileSize: sourceConfig.tileSize || 512
+      }))
     } else {
       sourceConfig.strategy = all
     }
