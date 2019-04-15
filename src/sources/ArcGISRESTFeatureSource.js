@@ -7,18 +7,22 @@ import { Debug } from '../Debug'
 import { take } from '../utilitiesObject'
 
 /**
- * Please note that a 'BBOX' or 'Tile'
+ * Please note that a 'BBOX' or 'TILE' loadingStrategy is required
  * @typedef {module:ol/source/Vector~Options} ArcGISRESTFeatureSourceOptions
  * @property {object} [params] the params to be passed to the ArcGIS REST Feature Service. The params f, returnGeometry,
  *    geometry, geometryType, inSR and outSr can not be set as they are filled automatically. The SR parameters will
- *    be set to the projection of the source. geometry and geometryType will always be an 'esriGeometryEnvelope'. f will
- *    be json and returnGeometry true.
+ *    be set to the projection of the source if one is given. geometry and geometryType will always be an
+ *    'esriGeometryEnvelope'. f will be json and returnGeometry true.
  *    The parameters spatialRel and outFields can be altered and default to 'esriSpatialRelIntersects' and '*'.
  * @property {string} [dataType=json] can be json or jsonp
  */
 
 export class ArcGISRESTFeatureSource extends VectorSource {
   constructor (options) {
+    if (options.loadingStrategyType === 'ALL') {
+      Debug.error('ArcRESTFeatureSource does not support loading strategy "ALL". Please use BBOX or TILE')
+    }
+
     const url = take(options, 'url')
     const params = take(options, 'params')
     // const geometrySR = take(options, 'geometrySR')

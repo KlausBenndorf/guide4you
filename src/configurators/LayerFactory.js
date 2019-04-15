@@ -2,7 +2,7 @@ import $ from 'jquery'
 import Observable from 'ol/Observable'
 
 import { containsExtent } from 'ol/extent'
-import { all } from 'ol/loadingstrategy'
+import { all, tile } from 'ol/loadingstrategy'
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
 import OSM from 'ol/source/OSM'
@@ -53,6 +53,7 @@ export const LayerType = {
 }
 
 /**
+ * @property {number} [tileSize=512] If set the tile loading strategy will use tiles of this size
  * This class constructs a layer according to the given {{LayerOptions}}
  */
 export class LayerFactory extends Observable {
@@ -414,6 +415,10 @@ export class LayerFactory extends Observable {
           return [lastScaledExtent]
         }
       }
+    } else if (loadingStrategy === 'TILE') {
+      sourceConfig.strategy = tile(createXYZ({
+        tileSize: sourceConfig.tileSize || 512
+      }))
     } else {
       sourceConfig.strategy = all
     }
