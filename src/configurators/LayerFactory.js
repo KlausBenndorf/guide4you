@@ -1,19 +1,20 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {BaseLayerImage, ImageLayer} from '../layers/ImageLayer'
-import {EmptyBaseLayer} from '../layers/EmptyBaseLayer'
-import {BaseTileLayer} from '../layers/BaseTileLayer'
-import {TileLayer} from '../layers/TileLayer'
-import {GroupLayer} from '../layers/GroupLayer'
-import {VectorLayer} from '../layers/VectorLayer'
-import {SourceServerVector} from '../sources/SourceServerVector'
-import {QueryVectorSource} from '../sources/QueryVectorSource'
+import { BaseLayerImage, ImageLayer } from '../layers/ImageLayer'
+import { EmptyBaseLayer } from '../layers/EmptyBaseLayer'
+import { BaseTileLayer } from '../layers/BaseTileLayer'
+import { TileLayer } from '../layers/TileLayer'
+import { GroupLayer } from '../layers/GroupLayer'
+import { VectorLayer } from '../layers/VectorLayer'
+import { ArcGISRESTFeatureSource } from '../sources/ArcGISRESTFeatureSource'
+import { SourceServerVector } from '../sources/SourceServerVector'
+import { QueryVectorSource } from '../sources/QueryVectorSource'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
 import { asObject, checkFor } from '../utilities'
 
-import {Debug} from '../Debug'
-import {ImageWMSSource, TileWMSSource} from '../sources/ImageWMSSource'
+import { Debug } from '../Debug'
+import { ImageWMSSource, TileWMSSource } from '../sources/ImageWMSSource'
 import { BaseSilentGroupLayer, SilentGroupLayer } from '../layers/SilentGroupLayer'
 import { URL } from '../URLHelper'
 import { QueryImageWMSSource, QueryTileWMSSource } from '../sources/QueryWMSSource'
@@ -44,7 +45,8 @@ export const LayerType = {
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
-  BING: 'Bing'
+  BING: 'Bing',
+  ARCGISRESTFEATURE: 'ArcGISRESTFeature'
 }
 
 /**
@@ -176,9 +178,11 @@ export const LayerType = {
 /**
  * A vector source config.
  * @typedef {SourceConfig} VectorSourceConfig
- * @property {string} [loadingStrategy] "BBOX" or "ALL"
- * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
- *    loaded around a bbox.
+ * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'
+ *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
+ * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
+ * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
  */
 
@@ -564,6 +568,18 @@ export class LayerFactory {
         }
         layer = new VectorLayer(optionsCopy)
         break
+      case LayerType.ARCGISRESTFEATURE:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
+
+        if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
+        }
+
+        layer = new VectorLayer(optionsCopy)
+        break
       case LayerType.INTERN:
 
         if (optionsCopy.source.hasOwnProperty('features')) {
@@ -606,7 +622,7 @@ export class LayerFactory {
           this.mapProjection = layer.getSource().getProjection()
         } else if (this.mapProjection && this.mapProjection !== layer.getSource().getProjection()) {
           Debug.warn('The baseLayers are not in mapProjection or a baseLayers has a different projection than' +
-             ' another! This might cause reprojection issues.')
+            ' another! This might cause reprojection issues.')
         }
       }
     } else if (superType === SuperType.QUERYLAYER) {
@@ -689,9 +705,42 @@ export class LayerFactory {
    * @private
    */
   configureLayerSourceLoadingStrategy_ (sourceConfig) {
-    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
+    const loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
       ? sourceConfig.loadingStrategy
       : this.map_.get('loadingStrategy')
+
+    if (loadingStrategy === 'BBOX') {
+      let bboxRatio = sourceConfig.bboxRatio || 1
+
+      if (bboxRatio < 1) {
+        throw new Error('The bboxRatio should not be smaller than 1')
+      }
+
+      let lastScaledExtent = [0, 0, 0, 0]
+
+      sourceConfig.strategy = (extent) => {
+        if (ol.extent.containsExtent(lastScaledExtent, extent)) {
+          return [extent]
+        } else {
+          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
+          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
+
+          lastScaledExtent = [
+            extent[0] - deltaX,
+            extent[1] - deltaY,
+            extent[2] + deltaX,
+            extent[3] + deltaY
+          ]
+
+          return [lastScaledExtent]
+        }
+      }
+    } else {
+      sourceConfig.strategy = ol.loadingstrategy.all
+    }
+
+    sourceConfig.loadingStrategyType = loadingStrategy
+
     return sourceConfig
   }
 

@@ -103,6 +103,18 @@
       "visible": false
     },
     {
+      "id": "arc1",
+      "title": "arcgis rest",
+      "type": "ArcGISRESTFeature",
+      "source": {
+        "url": "https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Petroleum/KSFields/FeatureServer/0/query/",
+        "dataType": "jsonp",
+        "projection": "EPSG:3857",
+        "loadingStrategy": "BBOX"
+      },
+      "visible": false
+    },
+    {
       "id": "c1",
       "title": {
         "de": "Essen und Schlafen in Bonn",
