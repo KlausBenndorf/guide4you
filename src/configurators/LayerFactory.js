@@ -1,6 +1,8 @@
 import $ from 'jquery'
 import Observable from 'ol/Observable'
 
+import { containsExtent } from 'ol/extent'
+import { all } from 'ol/loadingstrategy'
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
 import OSM from 'ol/source/OSM'
@@ -19,6 +21,7 @@ import { ImageLayer } from '../layers/ImageLayer'
 import { EmptyImageLayer } from '../layers/EmptyImageLayer'
 import { TileLayer } from '../layers/TileLayer'
 import { VectorLayer } from '../layers/VectorLayer'
+import { ArcGISRESTFeatureSource } from '../sources/ArcGISRESTFeatureSource'
 import { SourceServerVector } from '../sources/SourceServerVector'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
 import { asObject, checkFor } from '../utilities'
@@ -45,7 +48,8 @@ export const LayerType = {
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
-  BING: 'Bing'
+  BING: 'Bing',
+  ARCGISRESTFEATURE: 'ArcGISRESTFeature'
 }
 
 /**
@@ -287,6 +291,18 @@ export class LayerFactory extends Observable {
         }
         layer = new VectorLayer(optionsCopy)
         break
+      case LayerType.ARCGISRESTFEATURE:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
+
+        if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
+        }
+
+        layer = new VectorLayer(optionsCopy)
+        break
       case LayerType.INTERN:
 
         if (optionsCopy.source && optionsCopy.source.hasOwnProperty('features')) {
@@ -368,9 +384,42 @@ export class LayerFactory extends Observable {
    * @private
    */
   configureLayerSourceLoadingStrategy_ (sourceConfig) {
-    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
+    const loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
       ? sourceConfig.loadingStrategy
       : this.map_.get('loadingStrategy')
+
+    if (loadingStrategy === 'BBOX') {
+      let bboxRatio = sourceConfig.bboxRatio || 1
+
+      if (bboxRatio < 1) {
+        throw new Error('The bboxRatio should not be smaller than 1')
+      }
+
+      let lastScaledExtent = [0, 0, 0, 0]
+
+      sourceConfig.strategy = (extent) => {
+        if (containsExtent(lastScaledExtent, extent)) {
+          return [extent]
+        } else {
+          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
+          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
+
+          lastScaledExtent = [
+            extent[0] - deltaX,
+            extent[1] - deltaY,
+            extent[2] + deltaX,
+            extent[3] + deltaY
+          ]
+
+          return [lastScaledExtent]
+        }
+      }
+    } else {
+      sourceConfig.strategy = all
+    }
+
+    sourceConfig.loadingStrategyType = loadingStrategy
+
     return sourceConfig
   }
 
