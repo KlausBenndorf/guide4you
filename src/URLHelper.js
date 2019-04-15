@@ -177,11 +177,11 @@ export class URL {
     }
   }
 
-  /*
- * this function will add an parameter to the url
- * @param {string} param
- * @returns {URL)
- */
+  /**
+   * this function will add an parameter to the url
+   * @param {string} param
+   * @returns {URL)
+   */
   addParam (param) {
     this.params.push(param)
     return this

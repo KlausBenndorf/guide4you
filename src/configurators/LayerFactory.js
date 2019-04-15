@@ -1,6 +1,8 @@
 import $ from 'jquery'
 
 import Collection from 'ol/Collection'
+import { containsExtent } from 'ol/extent'
+import { all } from 'ol/loadingstrategy'
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
 import OSM from 'ol/source/OSM'
@@ -21,6 +23,7 @@ import { BaseTileLayer } from '../layers/BaseTileLayer'
 import { TileLayer } from '../layers/TileLayer'
 import { GroupLayer } from '../layers/GroupLayer'
 import { VectorLayer } from '../layers/VectorLayer'
+import { ArcGISRESTFeatureSource } from '../sources/ArcGISRESTFeatureSource'
 import { SourceServerVector } from '../sources/SourceServerVector'
 import { QueryVectorSource } from '../sources/QueryVectorSource'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
@@ -59,7 +62,8 @@ export const LayerType = {
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
-  BING: 'Bing'
+  BING: 'Bing',
+  ARCGISRESTFEATURE: 'ArcGISRESTFeature'
 }
 
 /**
@@ -191,9 +195,11 @@ export const LayerType = {
 /**
  * A vector source config.
  * @typedef {SourceConfig} VectorSourceConfig
- * @property {string} [loadingStrategy] "BBOX" or "ALL"
- * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
- *    loaded around a bbox.
+ * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'
+ *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
+ * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
+ * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
  */
 
@@ -594,6 +600,18 @@ export class LayerFactory {
         }
         layer = new VectorLayer(optionsCopy)
         break
+      case LayerType.ARCGISRESTFEATURE:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
+
+        if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
+        }
+
+        layer = new VectorLayer(optionsCopy)
+        break
       case LayerType.INTERN:
 
         if (optionsCopy.source.hasOwnProperty('features')) {
@@ -715,9 +733,42 @@ export class LayerFactory {
    * @private
    */
   configureLayerSourceLoadingStrategy_ (sourceConfig) {
-    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
+    const loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
       ? sourceConfig.loadingStrategy
       : this.map_.get('loadingStrategy')
+
+    if (loadingStrategy === 'BBOX') {
+      let bboxRatio = sourceConfig.bboxRatio || 1
+
+      if (bboxRatio < 1) {
+        throw new Error('The bboxRatio should not be smaller than 1')
+      }
+
+      let lastScaledExtent = [0, 0, 0, 0]
+
+      sourceConfig.strategy = (extent) => {
+        if (containsExtent(lastScaledExtent, extent)) {
+          return [extent]
+        } else {
+          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
+          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
+
+          lastScaledExtent = [
+            extent[0] - deltaX,
+            extent[1] - deltaY,
+            extent[2] + deltaX,
+            extent[3] + deltaY
+          ]
+
+          return [lastScaledExtent]
+        }
+      }
+    } else {
+      sourceConfig.strategy = all
+    }
+
+    sourceConfig.loadingStrategyType = loadingStrategy
+
     return sourceConfig
   }
 
