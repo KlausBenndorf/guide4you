@@ -134,6 +134,14 @@ export class SourceServerVector extends VectorSource {
     if (this.strategyType_ === 'BBOX' || this.strategyType_ === 'TILE') {
       let transformedExtent = transformExtent(extent, projection, this.urlProjection_)
 
+      if (url.url.includes('{bbox')) {
+        Debug.warn('The {bbox...} url parameters are deprecated, please use {minx}, {miny}, {maxx}, {maxy} instead.')
+        url.url.replace(/{bboxleft}/g, '{minx}')
+        url.url.replace(/{bboxbottom}/g, '{miny}')
+        url.url.replace(/{bboxright}/g, '{maxx}')
+        url.url.replace(/{bboxtop}/g, '{maxy}')
+      }
+
       url.expandTemplate('minx', transformedExtent[0].toString())
         .expandTemplate('miny', transformedExtent[1].toString())
         .expandTemplate('maxx', transformedExtent[2].toString())
