@@ -11,9 +11,9 @@ import { take } from '../utilitiesObject'
  * @property {object} [params] the params to be passed to the ArcGIS REST Feature Service. The params f, returnGeometry,
  *    geometry, geometryType, inSR and outSr can not be set as they are filled automatically. The SR parameters will
  *    be set to the projection of the source if one is given. geometry and geometryType will always be an
- *    'esriGeometryEnvelope'. f will be json and returnGeometry true.
+ *    'esriGeometryEnvelope'. f will be 'json' and returnGeometry 'true'.
  *    The parameters spatialRel and outFields can be altered and default to 'esriSpatialRelIntersects' and '*'.
- * @property {string} [dataType=json] can be json or jsonp
+ * @property {string} [dataType=json] can be 'json' or 'jsonp'
  */
 
 export class ArcGISRESTFeatureSource extends ol.source.Vector {
