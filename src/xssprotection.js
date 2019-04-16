@@ -34,7 +34,7 @@ export function restoreText (text) {
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&quot;/g, '"')
-      .replace(/&#x27;/g, "'")
+      .replace(/&#x27;/g, '\'')
       .replace(/&#x2F;/g, '/')
   } else {
     return text

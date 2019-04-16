@@ -630,7 +630,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.layers_ = this.getMap().get(this.layerGroupName_).getLayers()
     if (this.layers_.getLength() >= this.minLayerAmount_) {
       this.setVisible(true)
-      let menuFunctions = new ButtonBox({className: this.classNames_.menu})
+      let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
       for (let layer of this.layers_.getArray()) {
         this.chooseButtonBuilder(layer, this.menu_.get$Body())
       }

@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import ol from 'openlayers'
 
-import { get as getProj, transformExtent } from 'ol/proj'
 import { Debug } from '../Debug'
 import { take } from '../utilitiesObject'
 

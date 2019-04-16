@@ -62,8 +62,7 @@ defaults.config = {
     }
   },
   // (standard-) controls
-  controls: {
-  },
+  controls: {},
   move: {
     animationDuration: 2000,
     pixelPadding: 60,

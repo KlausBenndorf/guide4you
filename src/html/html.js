@@ -4,7 +4,7 @@
  */
 
 import $ from 'jquery'
-import {cssClasses} from '../globals'
+import { cssClasses } from '../globals'
 
 /**
  * This function gets an $element inside a $context in fornt of all of them

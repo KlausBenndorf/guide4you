@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { cssClasses, keyCodes } from '../globals'
-import {VectorLayer} from '../layers/VectorLayer'
+import { VectorLayer } from '../layers/VectorLayer'
 
 import '../../less/drawbuttons.less'
 import { mixin } from '../utilities'
@@ -67,7 +67,7 @@ export class MeasurementButton extends mixin(Control) {
   }
 
   toggleModeNew (value) {
-    this.newInteraction_.setActive(value === undefined) ? !this.modeNew_ : value
+    this.newInteraction_.setActive((value === undefined) ? !this.modeNew_ : value)
     if (this.modeNew_) {
       this.toggleModeEdit(false)
       this.toggleModeErase(false)

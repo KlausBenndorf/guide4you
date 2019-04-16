@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { addTooltip } from '../html/html'
-import {Debug} from '../Debug'
+import { Debug } from '../Debug'
 
 import '../../less/languageControls.less'
 

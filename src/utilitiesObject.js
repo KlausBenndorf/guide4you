@@ -78,7 +78,7 @@ export function mergeWithDefaults (config, defaults) {
     for (let k of Object.keys(defaults)) {
       if (!(k in config) && (k.search('Element') < 0)) {
         config[k] = defaults[k]
-      // order of this branches is important because typeof Array equals object
+        // order of this branches is important because typeof Array equals object
       } else if (config[k] instanceof Array) {
         // if both arrays have the same length, it assumed that every element of the array in default is
         //      the default for every element in the array in config

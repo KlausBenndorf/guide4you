@@ -89,7 +89,7 @@ export class ShowWMSFeatureInfo {
 
   handlePointerMoveEvent (e) {
     let map = this.getMap()
-    if (!map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay, {hitTolerance: 5})) {
+    if (!map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay, { hitTolerance: 5 })) {
       let featureTooltip = map.get('featureTooltip')
       this.lastTooltipPixel_ = e.pixel
 
@@ -160,12 +160,12 @@ export class ShowWMSFeatureInfo {
 
       this.layers_ = []
 
-      let interaction = new MapEventInteraction({type: 'singleclick'})
+      let interaction = new MapEventInteraction({ type: 'singleclick' })
       interaction.on('mapevent', e => this.handleClickEvent(e))
 
       map.addDefaultInteraction('singleclick', interaction)
 
-      let hoverInteraction = new MapEventInteraction({type: 'pointermove'})
+      let hoverInteraction = new MapEventInteraction({ type: 'pointermove' })
       hoverInteraction.on('mapevent', e => this.handlePointerMoveEvent(e))
 
       map.addDefaultInteraction('pointermove', hoverInteraction)

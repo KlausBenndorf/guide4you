@@ -1,6 +1,6 @@
 import ol from 'openlayers'
-import {ProvideMapMixin} from './ProvideMapMixin'
-import {mixin} from '../utilities'
+import { ProvideMapMixin } from './ProvideMapMixin'
+import { mixin } from '../utilities'
 
 /**
  * This Class is a Wrap around {ol.layer.Group} providing some extra functionality. This class is normally used for a

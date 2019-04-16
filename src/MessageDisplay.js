@@ -51,9 +51,9 @@ export class MessageDisplay {
       if (!$.notify.getStyle('benndorf')) {
         $.notify.addStyle('benndorf', {
           html: '<div>' +
-          '<div class="text" data-notify-text />' +
-          '</div>' +
-          '</div>',
+            '<div class="text" data-notify-text />' +
+            '</div>' +
+            '</div>',
           classes: {
             error: {
               'color': '#b94a48',

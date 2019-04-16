@@ -4,7 +4,7 @@ import $ from 'jquery'
 import { cssClasses } from './globals'
 
 import '../less/tooltip.less'
-import {html2Text} from './utilities'
+import { html2Text } from './utilities'
 
 /**
  * @typedef {object} FeatureTooltipOptions
@@ -114,7 +114,7 @@ export class FeatureTooltip {
    */
   setFeature (feature, coordinate = null, optPopupModifiers = []) {
     if (feature) {
-      let currentPopupModifiers = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
+      let currentPopupModifiers = [...this.defaultPopupModifiers_, ...optPopupModifiers]
       this.getMap().get('popupModifiers').apply({
         name: feature.get('name'),
         description: feature.get('description')

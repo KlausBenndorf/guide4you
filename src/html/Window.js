@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {offset} from '../utilities'
-import {getInFront} from './html'
-import {cssClasses} from '../globals'
+import { offset } from '../utilities'
+import { getInFront } from './html'
+import { cssClasses } from '../globals'
 
 import BScroll from 'better-scroll'
 
@@ -373,8 +373,8 @@ export class Window extends ol.Object {
 
         // setting max-height for the scroll bar
         // i assume here there is no margin and no padding on the parent element
-        let padding = parseInt(this.get$Body().css('padding-top').split('px')[ 0 ]) +
-          parseInt(this.get$Body().css('padding-bottom').split('px')[ 0 ])
+        let padding = parseInt(this.get$Body().css('padding-top').split('px')[0]) +
+          parseInt(this.get$Body().css('padding-bottom').split('px')[0])
         this.get$Body().css('max-height', this.get$Element().innerHeight() - this.$button_.outerHeight() - padding)
 
         this.$element_.css('position', position)

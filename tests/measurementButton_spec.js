@@ -5,7 +5,7 @@ import assert from 'selenium-webdriver/testing/assert.js'
 
 import config from './config.js'
 
-import {waitUntilMapReady, stringifyFunctionCall} from './testUtils'
+import { waitUntilMapReady, stringifyFunctionCall } from './testUtils'
 
 let By = webdriver.By
 let ActionSequence = webdriver.ActionSequence
@@ -138,9 +138,9 @@ test.describe('measurementButton', function () {
                     // console.log(point1)
                     // console.log(point2)
                     return new ActionSequence(driver)
-                      .mouseMove(element, {x: point1[0], y: point1[1]})
+                      .mouseMove(element, { x: point1[0], y: point1[1] })
                       .click()
-                      .mouseMove(element, {x: point2[0], y: point2[1]})
+                      .mouseMove(element, { x: point2[0], y: point2[1] })
                       .click()
                       .perform()
                   })

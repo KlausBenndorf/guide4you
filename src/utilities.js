@@ -10,7 +10,7 @@ import 'polyfill!Object.getOwnPropertyNames'
 import 'polyfill!Object.getOwnPropertyDescriptor'
 import 'polyfill!Object.getPrototypeOf'
 
-import {Debug} from './Debug'
+import { Debug } from './Debug'
 
 /**
  * Checks whether an argument can be interpreted as an even integer
@@ -88,8 +88,9 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
   }
   return new Promise((resolve, reject) => {
     function onError () {
-      reject(`Error loading url ${finalUrl}`)
+      reject(new Error(`Error loading url ${finalUrl}`))
     }
+
     image.addEventListener('load', resolve)
     image.addEventListener('error', onError)
     if (!origUrl.username || !origUrl.password) {

@@ -2,9 +2,9 @@ import ol from 'openlayers'
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
 
-import {ListenerOrganizerMixin} from './ListenerOrganizerMixin'
-import {Window} from './html/Window'
-import {cssClasses} from './globals'
+import { ListenerOrganizerMixin } from './ListenerOrganizerMixin'
+import { Window } from './html/Window'
+import { cssClasses } from './globals'
 import { finishAllImages, mixin } from './utilities'
 
 import '../less/featurepopup.less'
@@ -82,13 +82,13 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @type {number[]}
      * @private
      */
-    this.pixelOffset_ = options.hasOwnProperty('offset') ? options.offset : [ 0, 0 ]
+    this.pixelOffset_ = options.hasOwnProperty('offset') ? options.offset : [0, 0]
 
     /**
      * @type {number[]}
      * @private
      */
-    this.iconSizedOffset_ = options.hasOwnProperty('iconSizedOffset') ? options.iconSizedOffset : [ 0, 0 ]
+    this.iconSizedOffset_ = options.hasOwnProperty('iconSizedOffset') ? options.iconSizedOffset : [0, 0]
 
     /**
      * @type {boolean}
@@ -186,18 +186,18 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
       // feature click
 
-      this.listenAt(map.getDefaultInteractions('singleclick')[ 0 ]).on('select', e => {
+      this.listenAt(map.getDefaultInteractions('singleclick')[0]).on('select', e => {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
-          this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
-          e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
+          this.onFeatureClick_(selected[0], e.mapBrowserEvent.coordinate)
+          e.target.getFeatures().remove(selected[0]) // remove feature to be able to select feature again
           e.target.changed()
         }
       })
 
       // feature hover
 
-      this.listenAt(map.getDefaultInteractions('pointermove')[ 0 ]).on('select', e => {
+      this.listenAt(map.getDefaultInteractions('pointermove')[0]).on('select', e => {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         let deselected = e.deselected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
@@ -451,7 +451,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.currentPopupModifiers_ = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
+      this.currentPopupModifiers_ = [...this.defaultPopupModifiers_, ...optPopupModifiers]
       for (let layer of this.referencingVisibleLayers_) {
         this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get('popupModifiers')))
       }
@@ -514,10 +514,10 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    */
 
   addIconSizedOffset (feature, resolution) {
-    if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
+    if (this.iconSizedOffset_[0] !== 0 || this.iconSizedOffset_[1] !== 0) {
       let featureStyleFunction = feature.getStyleFunction()
       if (featureStyleFunction) {
-        let style = featureStyleFunction.call(feature, resolution)[ 0 ]
+        let style = featureStyleFunction.call(feature, resolution)[0]
         if (style) {
           let imageStyle = style.getImage()
           if (imageStyle instanceof ol.style.Icon) {
@@ -536,8 +536,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
               let iconSize = imageStyle.getSize()
 
               let totalOffset = [
-                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * (imageStyle.getScale() || 1),
-                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * (imageStyle.getScale() || 1)
+                this.pixelOffset_[0] + this.iconSizedOffset_[0] * iconSize[0] * (imageStyle.getScale() || 1),
+                this.pixelOffset_[1] + this.iconSizedOffset_[1] * iconSize[1] * (imageStyle.getScale() || 1)
               ]
 
               this.overlay_.setOffset(totalOffset)
@@ -561,7 +561,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
     finishAllImages(this.window_.get$Body()).then(() => {
       // we need to do this trick to find out if map is already visible/started rendering
-      if (this.getMap().getPixelFromCoordinate([ 0, 0 ])) {
+      if (this.getMap().getPixelFromCoordinate([0, 0])) {
         _centerMap()
       } else {
         this.getMap().once('postrender', _centerMap)
@@ -581,8 +581,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     let pixelPosition = this.getMap().getPixelFromCoordinate(this.overlay_.getPosition())
 
     // apply offset
-    pixelPosition[ 0 ] += offset[ 0 ]
-    pixelPosition[ 1 ] += offset[ 1 ]
+    pixelPosition[0] += offset[0]
+    pixelPosition[1] += offset[1]
 
     // applay width/height depending on positioning
     let positioning = this.overlay_.getPositioning().split('-')
@@ -590,18 +590,18 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     let width = this.$element_.outerWidth()
     let height = this.$element_.outerHeight()
 
-    if (positioning[ 1 ] === 'left') {
-      pixelPosition[ 0 ] += width / 2
+    if (positioning[1] === 'left') {
+      pixelPosition[0] += width / 2
     }
-    if (positioning[ 1 ] === 'right') {
-      pixelPosition[ 0 ] -= width / 2
+    if (positioning[1] === 'right') {
+      pixelPosition[0] -= width / 2
     }
 
-    if (positioning[ 0 ] === 'top') {
-      pixelPosition[ 1 ] += height / 2
+    if (positioning[0] === 'top') {
+      pixelPosition[1] += height / 2
     }
-    if (positioning[ 0 ] === 'bottom') {
-      pixelPosition[ 1 ] -= height / 2
+    if (positioning[0] === 'bottom') {
+      pixelPosition[1] -= height / 2
     }
 
     return this.getMap().getCoordinateFromPixel(pixelPosition)

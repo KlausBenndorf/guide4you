@@ -1,6 +1,6 @@
 import ol from 'openlayers'
-import {mixin} from '../utilities'
-import {RewireMixin} from './RewireMixin'
+import { mixin } from '../utilities'
+import { RewireMixin } from './RewireMixin'
 
 import '../../less/scaleline.less'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'

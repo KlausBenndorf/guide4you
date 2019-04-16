@@ -1,32 +1,32 @@
 import ol from 'openlayers'
 
-import {Attribution} from '../controls/Attribution'
-import {ComposedControl} from '../controls/ComposedControl'
-import {ArrowButtons} from '../controls/ArrowButtons'
-import {CombinedZoom} from '../controls/CombinedZoom'
-import {LayerSelector} from '../controls/LayerSelector'
-import {GeolocationButton} from '../controls/GeoLocationButton'
-import {MeasurementButton} from '../controls/MeasurementButton'
-import {LanguageSwitcherButton} from '../controls/LanguageSwitcherButton'
-import {LanguageSwitcherMenu} from '../controls/LanguageSwitcherMenu'
-import {MobileControls} from '../controls/MobileControls'
-import {InfoButton} from '../controls/InfoButton'
-import {LinkButton} from '../controls/LinkButton'
-import {PrintButton} from '../controls/PrintButton'
-import {Logo} from '../controls/Logo'
-import {HelpButton} from '../controls/HelpButton'
-import {WindowDecorator} from '../controls/WindowDecorator'
+import { Attribution } from '../controls/Attribution'
+import { ComposedControl } from '../controls/ComposedControl'
+import { ArrowButtons } from '../controls/ArrowButtons'
+import { CombinedZoom } from '../controls/CombinedZoom'
+import { LayerSelector } from '../controls/LayerSelector'
+import { GeolocationButton } from '../controls/GeoLocationButton'
+import { MeasurementButton } from '../controls/MeasurementButton'
+import { LanguageSwitcherButton } from '../controls/LanguageSwitcherButton'
+import { LanguageSwitcherMenu } from '../controls/LanguageSwitcherMenu'
+import { MobileControls } from '../controls/MobileControls'
+import { InfoButton } from '../controls/InfoButton'
+import { LinkButton } from '../controls/LinkButton'
+import { PrintButton } from '../controls/PrintButton'
+import { Logo } from '../controls/Logo'
+import { HelpButton } from '../controls/HelpButton'
+import { WindowDecorator } from '../controls/WindowDecorator'
 
 import { asObject, checkFor } from '../utilities'
 import { copyDeep } from '../utilitiesObject'
 
-import {G4UMap} from '../G4UMap'
+import { G4UMap } from '../G4UMap'
 
-import {Debug} from '../Debug'
-import {ActiveGroup} from '../controls/ActiveGroup'
-import {MousePosition} from '../controls/MousePosition'
-import {ScaleLine} from '../controls/ScaleLine'
-import {OverviewMap} from '../controls/OverviewMap'
+import { Debug } from '../Debug'
+import { ActiveGroup } from '../controls/ActiveGroup'
+import { MousePosition } from '../controls/MousePosition'
+import { ScaleLine } from '../controls/ScaleLine'
+import { OverviewMap } from '../controls/OverviewMap'
 import { SingleDrawButton } from '../controls/SingleDrawButton'
 
 /**
@@ -141,7 +141,7 @@ export class ControlFactory {
         return new MobileControls(options)
       case 'overviewMap':
         let projection = options.projection || this.map_.get('mapProjection')
-        options.view = new ol.View({projection: projection})
+        options.view = new ol.View({ projection: projection })
         return new OverviewMap(options)
       case 'infoButton':
         return new WindowDecorator({

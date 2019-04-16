@@ -1,11 +1,11 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { addTooltip } from '../html/html'
-import {VectorLayer} from '../layers/VectorLayer'
-import {MessageDisplay} from '../MessageDisplay'
-import {cssClasses} from '../globals'
+import { VectorLayer } from '../layers/VectorLayer'
+import { MessageDisplay } from '../MessageDisplay'
+import { cssClasses } from '../globals'
 
 import '../../less/geolocation.less'
 import { ActivatableMixin } from './ActivatableMixin'
@@ -81,7 +81,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       } else {
         this.buttonMessageDisplay_.error(
           this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
-          this.getMap().get('mobile') ? {position: 'top middle'} : {}
+          this.getMap().get('mobile') ? { position: 'top middle' } : {}
         )
       }
     })
@@ -99,7 +99,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
     this.geolocation_.on('error', () => {
       this.buttonMessageDisplay_.error(
         this.getLocaliser().localiseUsingDictionary('geolocation geolocation-not-possible'),
-        this.getMap().get('mobile') ? {position: 'top middle'} : {}
+        this.getMap().get('mobile') ? { position: 'top middle' } : {}
       )
       this.setActive(false)
     })
@@ -121,7 +121,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       let projection = map.getView().getProjection()
       this.geolocation_.setProjection(projection)
 
-      let layerOptions = {source: new ol.source.Vector({projection: projection}), visible: true}
+      let layerOptions = { source: new ol.source.Vector({ projection: projection }), visible: true }
       this.layer_ = new VectorLayer(layerOptions)
 
       this.layer_.setStyle(map.get('styling').getStyle(this.style_))
@@ -136,15 +136,15 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
     let source = this.layer_.getSource()
     source.clear()
     let position = this.geolocation_.getPosition()
-    source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
+    source.addFeature(new ol.Feature({ geometry: new ol.geom.Point(position) }))
 
     let circle = this.geolocation_.getAccuracyGeometry()
-    source.addFeature(new ol.Feature({geometry: circle}))
+    source.addFeature(new ol.Feature({ geometry: circle }))
     if (options.hasOwnProperty('initialRun') && options.initialRun) {
-      this.getMap().get('move').toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
+      this.getMap().get('move').toExtent(circle.getExtent(), { animated: this.animated_, maxZoom: this.maxZoom_ })
     } else {
       if (this.animated_) {
-        this.getMap().getView().animate({'center': position})
+        this.getMap().getView().animate({ 'center': position })
       } else {
         this.getMap().getView().setCenter(position)
       }
@@ -164,13 +164,13 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       this.geolocation_.setTracking(true)
       let position = this.geolocation_.getPosition()
       if (position) {
-        this.changeHandler_({'stopTracking': !this.followLocation_, 'initialRun': true})
+        this.changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true })
         if (this.followLocation_) {
           this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))
         }
       } else {
         this.listenAt(this.geolocation_).once('change', () => {
-          this.changeHandler_({'stopTracking': !this.followLocation_, 'initialRun': true})
+          this.changeHandler_({ 'stopTracking': !this.followLocation_, 'initialRun': true })
           if (this.followLocation_) {
             this.listenAt(this.geolocation_).on('change', e => this.changeHandler_(e))
           }

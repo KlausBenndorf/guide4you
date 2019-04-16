@@ -1,7 +1,7 @@
 import ol from 'openlayers'
-import {ProvideMapMixin} from './ProvideMapMixin'
-import {BaseLayerMixin} from './BaseLayerMixin'
-import {mixin} from '../utilities'
+import { ProvideMapMixin } from './ProvideMapMixin'
+import { BaseLayerMixin } from './BaseLayerMixin'
+import { mixin } from '../utilities'
 
 export class SilentGroupLayer extends mixin(ol.layer.Group, ProvideMapMixin) {
   /**

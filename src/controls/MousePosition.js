@@ -1,7 +1,7 @@
 import ol from 'openlayers'
 
-import {mixin} from '../utilities'
-import {RewireMixin} from './RewireMixin'
+import { mixin } from '../utilities'
+import { RewireMixin } from './RewireMixin'
 
 import '../../less/mouseposition.less'
 
@@ -21,7 +21,7 @@ export class MousePosition extends mixin(ol.control.MousePosition, RewireMixin) 
     options.className = (options.hasOwnProperty('className')) ? options.className : 'g4u-mouseposition'
 
     let truncateToString = (x, length) => {
-      let lead = x.toString().match(/^[^.]*/)[ 0 ]
+      let lead = x.toString().match(/^[^.]*/)[0]
       if (lead.length >= length) {
         return lead
       } else {

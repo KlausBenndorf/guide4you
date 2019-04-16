@@ -1,9 +1,9 @@
 import ol from 'openlayers'
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { cssClasses, keyCodes } from '../globals'
-import {VectorLayer} from '../layers/VectorLayer'
+import { VectorLayer } from '../layers/VectorLayer'
 
 import '../../less/measurement.less'
 import { mixin } from '../utilities'

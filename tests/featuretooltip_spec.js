@@ -5,9 +5,9 @@ import assert from 'selenium-webdriver/testing/assert.js'
 import config from './config.js'
 import until from 'selenium-webdriver/lib/until'
 
-let By = webdriver.By
+import { stringifyFunctionCall, waitUntilMapReady } from './testUtils'
 
-import {stringifyFunctionCall, waitUntilMapReady} from './testUtils'
+let By = webdriver.By
 
 // globals in browser
 var map, ol

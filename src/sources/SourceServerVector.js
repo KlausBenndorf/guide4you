@@ -217,7 +217,7 @@ export class SourceServerVector extends ol.source.Vector {
       } else if (hrefTags[i].innerHTML) {
         hrefTags[i].innerHTML = this.urlTemplate.useProxyFor(hrefTags[i].innerHTML.trim()).finalize()
       } else {
-        throw new Error("Can't prepend proxy inside KML (textContent and innerHTML missing)")
+        throw new Error('Can\'t prepend proxy inside KML (textContent and innerHTML missing)')
       }
     }
 

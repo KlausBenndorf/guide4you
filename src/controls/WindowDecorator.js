@@ -1,9 +1,9 @@
 import $ from 'jquery'
 
-import {Control} from './Control'
-import {Window} from '../html/Window'
+import { Control } from './Control'
+import { Window } from '../html/Window'
 import { addTooltip } from '../html/html'
-import {cssClasses} from '../globals'
+import { cssClasses } from '../globals'
 
 import '../../less/windowdecorator.less'
 

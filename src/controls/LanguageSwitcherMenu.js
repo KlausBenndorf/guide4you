@@ -1,14 +1,14 @@
 import $ from 'jquery'
 
-import {Dropdown} from '../html/Dropdown'
+import { Dropdown } from '../html/Dropdown'
 import { addTooltip } from '../html/html'
-import {Control} from './Control'
+import { Control } from './Control'
 import { cssClasses } from '../globals'
-import {Debug} from '../Debug'
+import { Debug } from '../Debug'
 
 import '../../less/languageControls.less'
-import {ListenerOrganizerMixin} from '../ListenerOrganizerMixin'
-import {mixin} from '../utilities'
+import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
+import { mixin } from '../utilities'
 import { ActivatableMixin } from './ActivatableMixin'
 
 /**
@@ -49,7 +49,7 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
 
     this.get$Element().append(this.$button_)
 
-    let dropdownOptions = {'className': 'g4u-dropdown'}
+    let dropdownOptions = { 'className': 'g4u-dropdown' }
 
     /**
      * @type {Dropdown}

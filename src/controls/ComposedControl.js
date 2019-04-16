@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import {Window} from '../html/Window'
-import {Control} from './Control'
-import {cssClasses} from '../globals'
+import { Window } from '../html/Window'
+import { Control } from './Control'
+import { cssClasses } from '../globals'
 
 import '../../less/toolbox.less'
 import '../../less/layermenu.less'
@@ -86,7 +86,7 @@ export class ComposedControl extends Control {
    * @private
    */
   setWindowForControl_ (control) {
-    let aWindow = new Window({$context: $(this.getMap().getViewport())})
+    let aWindow = new Window({ $context: $(this.getMap().getViewport()) })
     control.setWindow(aWindow, true)
   }
 

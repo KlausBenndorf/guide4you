@@ -4,10 +4,9 @@ import test from 'selenium-webdriver/testing/'
 import assert from 'selenium-webdriver/testing/assert.js'
 import config from './config.js'
 import until from 'selenium-webdriver/lib/until'
+import { executeFunctionInPage, waitUntilMapReady } from './testUtils'
 
 let By = webdriver.By
-
-import {executeFunctionInPage, waitUntilMapReady} from './testUtils'
 
 // globals in browser
 var map

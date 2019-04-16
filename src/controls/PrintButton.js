@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import {Control} from './Control'
+import { Control } from './Control'
 import { addTooltip } from '../html/html'
-import {cssClasses} from '../globals'
+import { cssClasses } from '../globals'
 
 import '../../less/printbutton.less'
 
@@ -29,8 +29,8 @@ export class PrintButton extends Control {
    */
   onClick_ () {
     let setDivSize = function (div, mapSize) {
-      $(div).innerWidth(mapSize[ 0 ])
-      $(div).innerHeight(mapSize[ 1 ])
+      $(div).innerWidth(mapSize[0])
+      $(div).innerHeight(mapSize[1])
     }
 
     //
@@ -57,7 +57,7 @@ export class PrintButton extends Control {
     let isMapCanvasTainted = function () { // Needs to be looked into
       try {
         let viewport = this.getMap().getViewport()
-        let srcCanvas = viewport.getElementsByTagName('canvas')[ 0 ]
+        let srcCanvas = viewport.getElementsByTagName('canvas')[0]
         srcCanvas.getContext('2d').getImageData(1, 1, 1, 1)
         return false
       } catch (e) {
@@ -87,8 +87,8 @@ export class PrintButton extends Control {
       let viewport = this.getMap().getViewport()
       let mapClone = viewport.parentNode.cloneNode(true)
       setDivSize(mapClone, this.getMap().getSize())
-      let srcCanvas = viewport.getElementsByTagName('canvas')[ 0 ]
-      let destCanvas = mapClone.getElementsByTagName('canvas')[ 0 ]
+      let srcCanvas = viewport.getElementsByTagName('canvas')[0]
+      let destCanvas = mapClone.getElementsByTagName('canvas')[0]
       let destContext = destCanvas.getContext('2d')
       destContext.drawImage(srcCanvas, 0, 0)
       let newdoc = newWindow.document
@@ -116,7 +116,7 @@ export class PrintButton extends Control {
       newdoc.close()
 
       newWindow.onload = function () {
-        newdoc.getElementsByTagName('body')[ 0 ].appendChild(mapClone)
+        newdoc.getElementsByTagName('body')[0].appendChild(mapClone)
       }
 
       newWindow.focus()
