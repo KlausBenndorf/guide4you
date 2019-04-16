@@ -35,10 +35,10 @@
       "expectCount": 20,
       "actualCount": 16,
       "undocumentLines": [
-        34,
-        210,
-        226,
-        759
+        35,
+        215,
+        231,
+        813
       ]
     },
     "src/configurators/MapConfigurator.js": {
@@ -608,10 +608,10 @@
       "expectCount": 18,
       "actualCount": 14,
       "undocumentLines": [
-        88,
-        121,
-        122,
-        142
+        56,
+        84,
+        85,
+        107
       ]
     },
     "src/Styling.js": {
@@ -630,9 +630,9 @@
       "expectCount": 20,
       "actualCount": 17,
       "undocumentLines": [
-        179,
-        314,
-        390
+        180,
+        315,
+        391
       ]
     },
     "src/utilitiesObject.js": {

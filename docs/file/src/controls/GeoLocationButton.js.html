@@ -199,6 +199,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -211,11 +212,11 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;openlayers&apos;
 import $ from &apos;jquery&apos;
 
-import {Control} from &apos;./Control&apos;
+import { Control } from &apos;./Control&apos;
 import { addTooltip } from &apos;../html/html&apos;
-import {VectorLayer} from &apos;../layers/VectorLayer&apos;
-import {MessageDisplay} from &apos;../MessageDisplay&apos;
-import {cssClasses} from &apos;../globals&apos;
+import { VectorLayer } from &apos;../layers/VectorLayer&apos;
+import { MessageDisplay } from &apos;../MessageDisplay&apos;
+import { cssClasses } from &apos;../globals&apos;
 
 import &apos;../../less/geolocation.less&apos;
 import { ActivatableMixin } from &apos;./ActivatableMixin&apos;
@@ -291,7 +292,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       } else {
         this.buttonMessageDisplay_.error(
           this.getLocaliser().localiseUsingDictionary(&apos;geolocation geolocation-not-possible&apos;),
-          this.getMap().get(&apos;mobile&apos;) ? {position: &apos;top middle&apos;} : {}
+          this.getMap().get(&apos;mobile&apos;) ? { position: &apos;top middle&apos; } : {}
         )
       }
     })
@@ -309,7 +310,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
     this.geolocation_.on(&apos;error&apos;, () =&gt; {
       this.buttonMessageDisplay_.error(
         this.getLocaliser().localiseUsingDictionary(&apos;geolocation geolocation-not-possible&apos;),
-        this.getMap().get(&apos;mobile&apos;) ? {position: &apos;top middle&apos;} : {}
+        this.getMap().get(&apos;mobile&apos;) ? { position: &apos;top middle&apos; } : {}
       )
       this.setActive(false)
     })
@@ -331,7 +332,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       let projection = map.getView().getProjection()
       this.geolocation_.setProjection(projection)
 
-      let layerOptions = {source: new ol.source.Vector({projection: projection}), visible: true}
+      let layerOptions = { source: new ol.source.Vector({ projection: projection }), visible: true }
       this.layer_ = new VectorLayer(layerOptions)
 
       this.layer_.setStyle(map.get(&apos;styling&apos;).getStyle(this.style_))
@@ -346,15 +347,15 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
     let source = this.layer_.getSource()
     source.clear()
     let position = this.geolocation_.getPosition()
-    source.addFeature(new ol.Feature({geometry: new ol.geom.Point(position)}))
+    source.addFeature(new ol.Feature({ geometry: new ol.geom.Point(position) }))
 
     let circle = this.geolocation_.getAccuracyGeometry()
-    source.addFeature(new ol.Feature({geometry: circle}))
+    source.addFeature(new ol.Feature({ geometry: circle }))
     if (options.hasOwnProperty(&apos;initialRun&apos;) &amp;&amp; options.initialRun) {
-      this.getMap().get(&apos;move&apos;).toExtent(circle.getExtent(), {animated: this.animated_, maxZoom: this.maxZoom_})
+      this.getMap().get(&apos;move&apos;).toExtent(circle.getExtent(), { animated: this.animated_, maxZoom: this.maxZoom_ })
     } else {
       if (this.animated_) {
-        this.getMap().getView().animate({&apos;center&apos;: position})
+        this.getMap().getView().animate({ &apos;center&apos;: position })
       } else {
         this.getMap().getView().setCenter(position)
       }
@@ -374,13 +375,13 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
       this.geolocation_.setTracking(true)
       let position = this.geolocation_.getPosition()
       if (position) {
-        this.changeHandler_({&apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true})
+        this.changeHandler_({ &apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true })
         if (this.followLocation_) {
           this.listenAt(this.geolocation_).on(&apos;change&apos;, e =&gt; this.changeHandler_(e))
         }
       } else {
         this.listenAt(this.geolocation_).once(&apos;change&apos;, () =&gt; {
-          this.changeHandler_({&apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true})
+          this.changeHandler_({ &apos;stopTracking&apos;: !this.followLocation_, &apos;initialRun&apos;: true })
           if (this.followLocation_) {
             this.listenAt(this.geolocation_).on(&apos;change&apos;, e =&gt; this.changeHandler_(e))
           }
@@ -422,7 +423,7 @@ export class GeolocationButton extends mixin(Control, [ActivatableMixin, Listene
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

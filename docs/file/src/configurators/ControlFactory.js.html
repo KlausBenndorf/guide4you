@@ -199,6 +199,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -210,33 +211,33 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/configurators/ControlFactory.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;openlayers&apos;
 
-import {Attribution} from &apos;../controls/Attribution&apos;
-import {ComposedControl} from &apos;../controls/ComposedControl&apos;
-import {ArrowButtons} from &apos;../controls/ArrowButtons&apos;
-import {CombinedZoom} from &apos;../controls/CombinedZoom&apos;
-import {LayerSelector} from &apos;../controls/LayerSelector&apos;
-import {GeolocationButton} from &apos;../controls/GeoLocationButton&apos;
-import {MeasurementButton} from &apos;../controls/MeasurementButton&apos;
-import {LanguageSwitcherButton} from &apos;../controls/LanguageSwitcherButton&apos;
-import {LanguageSwitcherMenu} from &apos;../controls/LanguageSwitcherMenu&apos;
-import {MobileControls} from &apos;../controls/MobileControls&apos;
-import {InfoButton} from &apos;../controls/InfoButton&apos;
-import {LinkButton} from &apos;../controls/LinkButton&apos;
-import {PrintButton} from &apos;../controls/PrintButton&apos;
-import {Logo} from &apos;../controls/Logo&apos;
-import {HelpButton} from &apos;../controls/HelpButton&apos;
-import {WindowDecorator} from &apos;../controls/WindowDecorator&apos;
+import { Attribution } from &apos;../controls/Attribution&apos;
+import { ComposedControl } from &apos;../controls/ComposedControl&apos;
+import { ArrowButtons } from &apos;../controls/ArrowButtons&apos;
+import { CombinedZoom } from &apos;../controls/CombinedZoom&apos;
+import { LayerSelector } from &apos;../controls/LayerSelector&apos;
+import { GeolocationButton } from &apos;../controls/GeoLocationButton&apos;
+import { MeasurementButton } from &apos;../controls/MeasurementButton&apos;
+import { LanguageSwitcherButton } from &apos;../controls/LanguageSwitcherButton&apos;
+import { LanguageSwitcherMenu } from &apos;../controls/LanguageSwitcherMenu&apos;
+import { MobileControls } from &apos;../controls/MobileControls&apos;
+import { InfoButton } from &apos;../controls/InfoButton&apos;
+import { LinkButton } from &apos;../controls/LinkButton&apos;
+import { PrintButton } from &apos;../controls/PrintButton&apos;
+import { Logo } from &apos;../controls/Logo&apos;
+import { HelpButton } from &apos;../controls/HelpButton&apos;
+import { WindowDecorator } from &apos;../controls/WindowDecorator&apos;
 
 import { asObject, checkFor } from &apos;../utilities&apos;
 import { copyDeep } from &apos;../utilitiesObject&apos;
 
-import {G4UMap} from &apos;../G4UMap&apos;
+import { G4UMap } from &apos;../G4UMap&apos;
 
-import {Debug} from &apos;../Debug&apos;
-import {ActiveGroup} from &apos;../controls/ActiveGroup&apos;
-import {MousePosition} from &apos;../controls/MousePosition&apos;
-import {ScaleLine} from &apos;../controls/ScaleLine&apos;
-import {OverviewMap} from &apos;../controls/OverviewMap&apos;
+import { Debug } from &apos;../Debug&apos;
+import { ActiveGroup } from &apos;../controls/ActiveGroup&apos;
+import { MousePosition } from &apos;../controls/MousePosition&apos;
+import { ScaleLine } from &apos;../controls/ScaleLine&apos;
+import { OverviewMap } from &apos;../controls/OverviewMap&apos;
 import { SingleDrawButton } from &apos;../controls/SingleDrawButton&apos;
 
 /**
@@ -351,7 +352,7 @@ export class ControlFactory {
         return new MobileControls(options)
       case &apos;overviewMap&apos;:
         let projection = options.projection || this.map_.get(&apos;mapProjection&apos;)
-        options.view = new ol.View({projection: projection})
+        options.view = new ol.View({ projection: projection })
         return new OverviewMap(options)
       case &apos;infoButton&apos;:
         return new WindowDecorator({
@@ -514,7 +515,7 @@ export class ControlFactory {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

@@ -199,6 +199,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -213,16 +214,16 @@ import $ from &apos;jquery&apos;
 
 import stripJsonComments from &apos;strip-json-comments&apos;
 
-import {MapConfigurator} from &apos;./configurators/MapConfigurator&apos;
+import { MapConfigurator } from &apos;./configurators/MapConfigurator&apos;
 import &apos;./openlayersInjections&apos;
-import {L10N} from &apos;./L10N&apos;
+import { L10N } from &apos;./L10N&apos;
 
-import {mergeWithDefaults} from &apos;./utilitiesObject&apos;
-import {cssClasses} from &apos;./globals&apos;
+import { mergeWithDefaults } from &apos;./utilitiesObject&apos;
+import { cssClasses } from &apos;./globals&apos;
 
-import {defaults} from &apos;./defaultconfig&apos;
+import { defaults } from &apos;./defaultconfig&apos;
 
-import {Debug} from &apos;./Debug&apos;
+import { Debug } from &apos;./Debug&apos;
 
 import &apos;../less/map.less&apos;
 import { getRegisteredModules } from &apos;./moduleRegistration&apos;
@@ -297,7 +298,7 @@ export class G4UMap extends ol.Map {
 
     this.set(&apos;ready&apos;, false)
 
-    this.on([ &apos;change:ready&apos;, &apos;change:ready:ui&apos;, &apos;change:ready:layers&apos; ], /** ol.ObjectEvent */ e =&gt; {
+    this.on([&apos;change:ready&apos;, &apos;change:ready:ui&apos;, &apos;change:ready:layers&apos;], /** ol.ObjectEvent */ e =&gt; {
       if (this.get(e.key)) {
         this.dispatchEvent(e.key)
       }
@@ -320,7 +321,7 @@ export class G4UMap extends ol.Map {
 
     // Setting the target of the map
 
-    if (typeof target === &apos;string&apos; &amp;&amp; target[ 0 ] !== &apos;#&apos;) {
+    if (typeof target === &apos;string&apos; &amp;&amp; target[0] !== &apos;#&apos;) {
       this.setTarget($(&apos;#&apos; + target).get(0))
     } else {
       this.setTarget($(target).get(0))
@@ -409,10 +410,10 @@ export class G4UMap extends ol.Map {
         loading++
 
         this.oldMapConfigs_ = this.oldMapConfigs_ || {}
-        this.oldMapConfigs_[ e.oldValue ] = this.get(&apos;mapConfig&apos;)
+        this.oldMapConfigs_[e.oldValue] = this.get(&apos;mapConfig&apos;)
 
         if (this.oldMapConfigs_.hasOwnProperty(this.get(&apos;configFileName&apos;))) {
-          this.set(&apos;mapConfig&apos;, this.oldMapConfigs_[ this.get(&apos;configFileName&apos;) ])
+          this.set(&apos;mapConfig&apos;, this.oldMapConfigs_[this.get(&apos;configFileName&apos;)])
         } else {
           this.set(&apos;mapConfigReady&apos;, false)
           loadConfigFile(this.get(&apos;configFileName&apos;)).then((data) =&gt; {
@@ -433,10 +434,10 @@ export class G4UMap extends ol.Map {
         loading++
 
         this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
-        this.oldLayerConfigs_[ e.oldValue ] = this.get(&apos;layerConfig&apos;)
+        this.oldLayerConfigs_[e.oldValue] = this.get(&apos;layerConfig&apos;)
 
         if (this.oldLayerConfigs_.hasOwnProperty(this.get(&apos;layerConfigFileName&apos;))) {
-          this.set(&apos;layerConfig&apos;, this.oldLayerConfigs_[ this.get(&apos;layerConfigFileName&apos;) ])
+          this.set(&apos;layerConfig&apos;, this.oldLayerConfigs_[this.get(&apos;layerConfigFileName&apos;)])
         } else {
           this.set(&apos;layerConfigReady&apos;, false)
           loadConfigFile(this.get(&apos;layerConfigFileName&apos;))
@@ -518,7 +519,7 @@ export class G4UMap extends ol.Map {
           this.set(&apos;ready&apos;, true)
         }
 
-        this.on([ &apos;change:ready:ui&apos;, &apos;change:ready:layers&apos; ], /** ol.ObjectEvent */ e =&gt; {
+        this.on([&apos;change:ready:ui&apos;, &apos;change:ready:layers&apos;], /** ol.ObjectEvent */ e =&gt; {
           if (!this.get(e.key)) {
             this.set(&apos;ready&apos;, false)
           }
@@ -537,7 +538,7 @@ export class G4UMap extends ol.Map {
    * @returns {Control[]}
    */
   getControlsByName (name) {
-    return this.controlsByName[ name ] || []
+    return this.controlsByName[name] || []
   }
 
   /**
@@ -623,7 +624,7 @@ export class G4UMap extends ol.Map {
       if (this.defaultInteractions_.has(eventtype)) {
         this.defaultInteractions_.get(eventtype).push(interaction)
       } else {
-        this.defaultInteractions_.set(eventtype, [ interaction ])
+        this.defaultInteractions_.set(eventtype, [interaction])
       }
     }
 
@@ -705,7 +706,7 @@ export class G4UMap extends ol.Map {
       if (this.supersedingInteractions_.has(eventType)) {
         this.supersedingInteractions_.get(eventType).push(interaction)
       } else {
-        this.supersedingInteractions_.set(eventType, [ interaction ])
+        this.supersedingInteractions_.set(eventType, [interaction])
       }
     }
 
@@ -765,7 +766,7 @@ export class G4UMap extends ol.Map {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

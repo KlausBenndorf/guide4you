@@ -199,6 +199,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -211,19 +212,20 @@
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import ol from &apos;openlayers&apos;
 import $ from &apos;jquery&apos;
 
-import {BaseLayerImage, ImageLayer} from &apos;../layers/ImageLayer&apos;
-import {EmptyBaseLayer} from &apos;../layers/EmptyBaseLayer&apos;
-import {BaseTileLayer} from &apos;../layers/BaseTileLayer&apos;
-import {TileLayer} from &apos;../layers/TileLayer&apos;
-import {GroupLayer} from &apos;../layers/GroupLayer&apos;
-import {VectorLayer} from &apos;../layers/VectorLayer&apos;
-import {SourceServerVector} from &apos;../sources/SourceServerVector&apos;
-import {QueryVectorSource} from &apos;../sources/QueryVectorSource&apos;
+import { BaseLayerImage, ImageLayer } from &apos;../layers/ImageLayer&apos;
+import { EmptyBaseLayer } from &apos;../layers/EmptyBaseLayer&apos;
+import { BaseTileLayer } from &apos;../layers/BaseTileLayer&apos;
+import { TileLayer } from &apos;../layers/TileLayer&apos;
+import { GroupLayer } from &apos;../layers/GroupLayer&apos;
+import { VectorLayer } from &apos;../layers/VectorLayer&apos;
+import { ArcGISRESTFeatureSource } from &apos;../sources/ArcGISRESTFeatureSource&apos;
+import { SourceServerVector } from &apos;../sources/SourceServerVector&apos;
+import { QueryVectorSource } from &apos;../sources/QueryVectorSource&apos;
 import { copyDeep, mergeDeep, take } from &apos;../utilitiesObject&apos;
 import { asObject, checkFor } from &apos;../utilities&apos;
 
-import {Debug} from &apos;../Debug&apos;
-import {ImageWMSSource, TileWMSSource} from &apos;../sources/ImageWMSSource&apos;
+import { Debug } from &apos;../Debug&apos;
+import { ImageWMSSource, TileWMSSource } from &apos;../sources/ImageWMSSource&apos;
 import { BaseSilentGroupLayer, SilentGroupLayer } from &apos;../layers/SilentGroupLayer&apos;
 import { URL } from &apos;../URLHelper&apos;
 import { QueryImageWMSSource, QueryTileWMSSource } from &apos;../sources/QueryWMSSource&apos;
@@ -254,7 +256,8 @@ export const LayerType = {
   INTERN: &apos;Intern&apos;,
   EMPTY: &apos;Empty&apos;,
   XYZ: &apos;XYZ&apos;,
-  BING: &apos;Bing&apos;
+  BING: &apos;Bing&apos;,
+  ARCGISRESTFEATURE: &apos;ArcGISRESTFeature&apos;
 }
 
 /**
@@ -386,9 +389,12 @@ export const LayerType = {
 /**
  * A vector source config.
  * @typedef {SourceConfig} VectorSourceConfig
- * @property {string} [loadingStrategy] &quot;BBOX&quot; or &quot;ALL&quot;
- * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
- *    loaded around a bbox.
+ * @property {string} [loadingStrategy=&apos;ALL&apos;] Either &apos;BBOX&apos;, &apos;ALL&apos; or &apos;TILE&apos;
+ *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
+ * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
+ * @property {number} [tileSize=512] If set the tile loading strategy will use tiles of this size
+ * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
  */
 
@@ -774,6 +780,18 @@ export class LayerFactory {
         }
         layer = new VectorLayer(optionsCopy)
         break
+      case LayerType.ARCGISRESTFEATURE:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, &apos;url&apos;, undefined, this.map_) // not finalized
+
+        if (superType === SuperType.QUERYLAYER) {
+          this.superTypeNotSupported(layerType, superType)
+        } else {
+          optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
+        }
+
+        layer = new VectorLayer(optionsCopy)
+        break
       case LayerType.INTERN:
 
         if (optionsCopy.source.hasOwnProperty(&apos;features&apos;)) {
@@ -816,7 +834,7 @@ export class LayerFactory {
           this.mapProjection = layer.getSource().getProjection()
         } else if (this.mapProjection &amp;&amp; this.mapProjection !== layer.getSource().getProjection()) {
           Debug.warn(&apos;The baseLayers are not in mapProjection or a baseLayers has a different projection than&apos; +
-             &apos; another! This might cause reprojection issues.&apos;)
+            &apos; another! This might cause reprojection issues.&apos;)
         }
       }
     } else if (superType === SuperType.QUERYLAYER) {
@@ -899,9 +917,46 @@ export class LayerFactory {
    * @private
    */
   configureLayerSourceLoadingStrategy_ (sourceConfig) {
-    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty(&apos;loadingStrategy&apos;)
+    const loadingStrategy = sourceConfig.hasOwnProperty(&apos;loadingStrategy&apos;)
       ? sourceConfig.loadingStrategy
       : this.map_.get(&apos;loadingStrategy&apos;)
+
+    if (loadingStrategy === &apos;BBOX&apos;) {
+      let bboxRatio = sourceConfig.bboxRatio || 1
+
+      if (bboxRatio &lt; 1) {
+        throw new Error(&apos;The bboxRatio should not be smaller than 1&apos;)
+      }
+
+      let lastScaledExtent = [0, 0, 0, 0]
+
+      sourceConfig.strategy = (extent) =&gt; {
+        if (ol.extent.containsExtent(lastScaledExtent, extent)) {
+          return [extent]
+        } else {
+          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
+          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
+
+          lastScaledExtent = [
+            extent[0] - deltaX,
+            extent[1] - deltaY,
+            extent[2] + deltaX,
+            extent[3] + deltaY
+          ]
+
+          return [lastScaledExtent]
+        }
+      }
+    } else if (loadingStrategy === &apos;TILE&apos;) {
+      sourceConfig.strategy = ol.loadingstrategy.tile(ol.tilegrid.createXYZ({
+        tileSize: sourceConfig.tileSize || 512
+      }))
+    } else {
+      sourceConfig.strategy = ol.loadingstrategy.all
+    }
+
+    sourceConfig.loadingStrategyType = loadingStrategy
+
     return sourceConfig
   }
 
@@ -996,7 +1051,7 @@ export class LayerFactory {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

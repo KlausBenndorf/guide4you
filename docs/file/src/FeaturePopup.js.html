@@ -199,6 +199,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
@@ -212,9 +213,9 @@
 import $ from &apos;jquery&apos;
 import flatten from &apos;lodash/flatten&apos;
 
-import {ListenerOrganizerMixin} from &apos;./ListenerOrganizerMixin&apos;
-import {Window} from &apos;./html/Window&apos;
-import {cssClasses} from &apos;./globals&apos;
+import { ListenerOrganizerMixin } from &apos;./ListenerOrganizerMixin&apos;
+import { Window } from &apos;./html/Window&apos;
+import { cssClasses } from &apos;./globals&apos;
 import { finishAllImages, mixin } from &apos;./utilities&apos;
 
 import &apos;../less/featurepopup.less&apos;
@@ -292,13 +293,13 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
      * @type {number[]}
      * @private
      */
-    this.pixelOffset_ = options.hasOwnProperty(&apos;offset&apos;) ? options.offset : [ 0, 0 ]
+    this.pixelOffset_ = options.hasOwnProperty(&apos;offset&apos;) ? options.offset : [0, 0]
 
     /**
      * @type {number[]}
      * @private
      */
-    this.iconSizedOffset_ = options.hasOwnProperty(&apos;iconSizedOffset&apos;) ? options.iconSizedOffset : [ 0, 0 ]
+    this.iconSizedOffset_ = options.hasOwnProperty(&apos;iconSizedOffset&apos;) ? options.iconSizedOffset : [0, 0]
 
     /**
      * @type {boolean}
@@ -396,18 +397,18 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
       // feature click
 
-      this.listenAt(map.getDefaultInteractions(&apos;singleclick&apos;)[ 0 ]).on(&apos;select&apos;, e =&gt; {
+      this.listenAt(map.getDefaultInteractions(&apos;singleclick&apos;)[0]).on(&apos;select&apos;, e =&gt; {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
-          this.onFeatureClick_(selected[ 0 ], e.mapBrowserEvent.coordinate)
-          e.target.getFeatures().remove(selected[ 0 ]) // remove feature to be able to select feature again
+          this.onFeatureClick_(selected[0], e.mapBrowserEvent.coordinate)
+          e.target.getFeatures().remove(selected[0]) // remove feature to be able to select feature again
           e.target.changed()
         }
       })
 
       // feature hover
 
-      this.listenAt(map.getDefaultInteractions(&apos;pointermove&apos;)[ 0 ]).on(&apos;select&apos;, e =&gt; {
+      this.listenAt(map.getDefaultInteractions(&apos;pointermove&apos;)[0]).on(&apos;select&apos;, e =&gt; {
         let selected = e.selected.filter(FeaturePopup.canDisplay)
         let deselected = e.deselected.filter(FeaturePopup.canDisplay)
         if (selected.length) {
@@ -661,7 +662,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
         this.feature_.un(&apos;change:geometry&apos;, this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.currentPopupModifiers_ = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
+      this.currentPopupModifiers_ = [...this.defaultPopupModifiers_, ...optPopupModifiers]
       for (let layer of this.referencingVisibleLayers_) {
         this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get(&apos;popupModifiers&apos;)))
       }
@@ -724,10 +725,10 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
    */
 
   addIconSizedOffset (feature, resolution) {
-    if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
+    if (this.iconSizedOffset_[0] !== 0 || this.iconSizedOffset_[1] !== 0) {
       let featureStyleFunction = feature.getStyleFunction()
       if (featureStyleFunction) {
-        let style = featureStyleFunction.call(feature, resolution)[ 0 ]
+        let style = featureStyleFunction.call(feature, resolution)[0]
         if (style) {
           let imageStyle = style.getImage()
           if (imageStyle instanceof ol.style.Icon) {
@@ -746,8 +747,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
               let iconSize = imageStyle.getSize()
 
               let totalOffset = [
-                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * (imageStyle.getScale() || 1),
-                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * (imageStyle.getScale() || 1)
+                this.pixelOffset_[0] + this.iconSizedOffset_[0] * iconSize[0] * (imageStyle.getScale() || 1),
+                this.pixelOffset_[1] + this.iconSizedOffset_[1] * iconSize[1] * (imageStyle.getScale() || 1)
               ]
 
               this.overlay_.setOffset(totalOffset)
@@ -771,7 +772,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 
     finishAllImages(this.window_.get$Body()).then(() =&gt; {
       // we need to do this trick to find out if map is already visible/started rendering
-      if (this.getMap().getPixelFromCoordinate([ 0, 0 ])) {
+      if (this.getMap().getPixelFromCoordinate([0, 0])) {
         _centerMap()
       } else {
         this.getMap().once(&apos;postrender&apos;, _centerMap)
@@ -791,8 +792,8 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     let pixelPosition = this.getMap().getPixelFromCoordinate(this.overlay_.getPosition())
 
     // apply offset
-    pixelPosition[ 0 ] += offset[ 0 ]
-    pixelPosition[ 1 ] += offset[ 1 ]
+    pixelPosition[0] += offset[0]
+    pixelPosition[1] += offset[1]
 
     // applay width/height depending on positioning
     let positioning = this.overlay_.getPositioning().split(&apos;-&apos;)
@@ -800,18 +801,18 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
     let width = this.$element_.outerWidth()
     let height = this.$element_.outerHeight()
 
-    if (positioning[ 1 ] === &apos;left&apos;) {
-      pixelPosition[ 0 ] += width / 2
+    if (positioning[1] === &apos;left&apos;) {
+      pixelPosition[0] += width / 2
     }
-    if (positioning[ 1 ] === &apos;right&apos;) {
-      pixelPosition[ 0 ] -= width / 2
+    if (positioning[1] === &apos;right&apos;) {
+      pixelPosition[0] -= width / 2
     }
 
-    if (positioning[ 0 ] === &apos;top&apos;) {
-      pixelPosition[ 1 ] += height / 2
+    if (positioning[0] === &apos;top&apos;) {
+      pixelPosition[1] += height / 2
     }
-    if (positioning[ 0 ] === &apos;bottom&apos;) {
-      pixelPosition[ 1 ] -= height / 2
+    if (positioning[0] === &apos;bottom&apos;) {
+      pixelPosition[1] -= height / 2
     }
 
     return this.getMap().getCoordinateFromPixel(pixelPosition)
@@ -822,7 +823,7 @@ export class FeaturePopup extends mixin(ol.Object, ListenerOrganizerMixin) {
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

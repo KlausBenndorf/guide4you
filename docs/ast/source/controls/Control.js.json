@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 1412,
+  "end": 1414,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 1412,
+    "end": 1414,
     "loc": {
       "start": {
         "line": 1,
@@ -186,7 +186,7 @@
       {
         "type": "ImportDeclaration",
         "start": 65,
-        "end": 118,
+        "end": 120,
         "loc": {
           "start": {
             "line": 3,
@@ -194,36 +194,36 @@
           },
           "end": {
             "line": 3,
-            "column": 53
+            "column": 55
           }
         },
         "specifiers": [
           {
             "type": "ImportSpecifier",
-            "start": 73,
-            "end": 90,
+            "start": 74,
+            "end": 91,
             "loc": {
               "start": {
                 "line": 3,
-                "column": 8
+                "column": 9
               },
               "end": {
                 "line": 3,
-                "column": 25
+                "column": 26
               }
             },
             "imported": {
               "type": "Identifier",
-              "start": 73,
-              "end": 90,
+              "start": 74,
+              "end": 91,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 8
+                  "column": 9
                 },
                 "end": {
                   "line": 3,
-                  "column": 25
+                  "column": 26
                 },
                 "identifierName": "ControlLogicMixin"
               },
@@ -231,16 +231,16 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 73,
-              "end": 90,
+              "start": 74,
+              "end": 91,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 8
+                  "column": 9
                 },
                 "end": {
                   "line": 3,
-                  "column": 25
+                  "column": 26
                 },
                 "identifierName": "ControlLogicMixin"
               },
@@ -250,16 +250,16 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 97,
-          "end": 118,
+          "start": 99,
+          "end": 120,
           "loc": {
             "start": {
               "line": 3,
-              "column": 32
+              "column": 34
             },
             "end": {
               "line": 3,
-              "column": 53
+              "column": 55
             }
           },
           "extra": {
@@ -274,8 +274,8 @@
           {
             "type": "CommentBlock",
             "value": "*\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n ",
-            "start": 120,
-            "end": 1156,
+            "start": 122,
+            "end": 1158,
             "loc": {
               "start": {
                 "line": 5,
@@ -290,8 +290,8 @@
           {
             "type": "CommentBlock",
             "value": "*\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n ",
-            "start": 1158,
-            "end": 1342,
+            "start": 1160,
+            "end": 1344,
             "loc": {
               "start": {
                 "line": 24,
@@ -307,8 +307,8 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 1344,
-        "end": 1411,
+        "start": 1346,
+        "end": 1413,
         "loc": {
           "start": {
             "line": 31,
@@ -323,8 +323,8 @@
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 1351,
-          "end": 1411,
+          "start": 1353,
+          "end": 1413,
           "loc": {
             "start": {
               "line": 31,
@@ -338,8 +338,8 @@
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 1357,
-              "end": 1411,
+              "start": 1359,
+              "end": 1413,
               "loc": {
                 "start": {
                   "line": 31,
@@ -352,8 +352,8 @@
               },
               "id": {
                 "type": "Identifier",
-                "start": 1357,
-                "end": 1364,
+                "start": 1359,
+                "end": 1366,
                 "loc": {
                   "start": {
                     "line": 31,
@@ -370,8 +370,8 @@
               },
               "init": {
                 "type": "CallExpression",
-                "start": 1367,
-                "end": 1411,
+                "start": 1369,
+                "end": 1413,
                 "loc": {
                   "start": {
                     "line": 31,
@@ -384,8 +384,8 @@
                 },
                 "callee": {
                   "type": "Identifier",
-                  "start": 1367,
-                  "end": 1372,
+                  "start": 1369,
+                  "end": 1374,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -402,8 +402,8 @@
                 "arguments": [
                   {
                     "type": "MemberExpression",
-                    "start": 1373,
-                    "end": 1391,
+                    "start": 1375,
+                    "end": 1393,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -416,8 +416,8 @@
                     },
                     "object": {
                       "type": "MemberExpression",
-                      "start": 1373,
-                      "end": 1383,
+                      "start": 1375,
+                      "end": 1385,
                       "loc": {
                         "start": {
                           "line": 31,
@@ -430,8 +430,8 @@
                       },
                       "object": {
                         "type": "Identifier",
-                        "start": 1373,
-                        "end": 1375,
+                        "start": 1375,
+                        "end": 1377,
                         "loc": {
                           "start": {
                             "line": 31,
@@ -447,8 +447,8 @@
                       },
                       "property": {
                         "type": "Identifier",
-                        "start": 1376,
-                        "end": 1383,
+                        "start": 1378,
+                        "end": 1385,
                         "loc": {
                           "start": {
                             "line": 31,
@@ -466,8 +466,8 @@
                     },
                     "property": {
                       "type": "Identifier",
-                      "start": 1384,
-                      "end": 1391,
+                      "start": 1386,
+                      "end": 1393,
                       "loc": {
                         "start": {
                           "line": 31,
@@ -485,8 +485,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 1393,
-                    "end": 1410,
+                    "start": 1395,
+                    "end": 1412,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -510,8 +510,8 @@
             {
               "type": "CommentBlock",
               "value": "*\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n ",
-              "start": 120,
-              "end": 1156,
+              "start": 122,
+              "end": 1158,
               "loc": {
                 "start": {
                   "line": 5,
@@ -526,8 +526,8 @@
             {
               "type": "CommentBlock",
               "value": "*\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n ",
-              "start": 1158,
-              "end": 1342,
+              "start": 1160,
+              "end": 1344,
               "loc": {
                 "start": {
                   "line": 24,
@@ -546,8 +546,8 @@
           {
             "type": "CommentBlock",
             "value": "*\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n ",
-            "start": 120,
-            "end": 1156,
+            "start": 122,
+            "end": 1158,
             "loc": {
               "start": {
                 "line": 5,
@@ -562,8 +562,8 @@
           {
             "type": "CommentBlock",
             "value": "*\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n ",
-            "start": 1158,
-            "end": 1342,
+            "start": 1160,
+            "end": 1344,
             "loc": {
               "start": {
                 "line": 24,
@@ -584,8 +584,8 @@
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n ",
-      "start": 120,
-      "end": 1156,
+      "start": 122,
+      "end": 1158,
       "loc": {
         "start": {
           "line": 5,
@@ -600,8 +600,8 @@
     {
       "type": "CommentBlock",
       "value": "*\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n ",
-      "start": 1158,
-      "end": 1342,
+      "start": 1160,
+      "end": 1344,
       "loc": {
         "start": {
           "line": 24,
@@ -945,16 +945,16 @@
         "binop": null
       },
       "value": "ControlLogicMixin",
-      "start": 73,
-      "end": 90,
+      "start": 74,
+      "end": 91,
       "loc": {
         "start": {
           "line": 3,
-          "column": 8
+          "column": 9
         },
         "end": {
           "line": 3,
-          "column": 25
+          "column": 26
         }
       }
     },
@@ -970,16 +970,16 @@
         "postfix": false,
         "binop": null
       },
-      "start": 90,
-      "end": 91,
+      "start": 92,
+      "end": 93,
       "loc": {
         "start": {
           "line": 3,
-          "column": 25
+          "column": 27
         },
         "end": {
           "line": 3,
-          "column": 26
+          "column": 28
         }
       }
     },
@@ -996,16 +996,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 92,
-      "end": 96,
+      "start": 94,
+      "end": 98,
       "loc": {
         "start": {
           "line": 3,
-          "column": 27
+          "column": 29
         },
         "end": {
           "line": 3,
-          "column": 31
+          "column": 33
         }
       }
     },
@@ -1023,24 +1023,24 @@
         "updateContext": null
       },
       "value": "./ControlLogicMixin",
-      "start": 97,
-      "end": 118,
+      "start": 99,
+      "end": 120,
       "loc": {
         "start": {
           "line": 3,
-          "column": 32
+          "column": 34
         },
         "end": {
           "line": 3,
-          "column": 53
+          "column": 55
         }
       }
     },
     {
       "type": "CommentBlock",
       "value": "*\n * @typedef {object} g4uControlOptions\n * @property {string} [controlType] the type of the control. If not given the name of the control is used\n * @property {number} [importance] how important the control is on the map. the higher this value is, the longer it\n *    will be kept on the map if the viewport gets smaller.\n * @property {string} [activeGroup] if controls are in the same active group only one of them can be active at the same\n *    time\n * @property {string} [className]\n * @property {HTMLElement} element\n * @property {L10N} localiser the localiser to use by the control.\n * @property {string} controlName the name of the control.\n * @property {boolean} [singleButton=false] if the control only consists of one button\n * @property {String|HTMLElement|jQuery} [target]\n * @property {Localizable} [title] not used by every control\n * @property {Localizable} [tipLabel] not used by every control\n * @property {Float} [float]\n * @property {boolean} [windowed=false] whether the control resides inside a window or not\n ",
-      "start": 120,
-      "end": 1156,
+      "start": 122,
+      "end": 1158,
       "loc": {
         "start": {
           "line": 5,
@@ -1055,8 +1055,8 @@
     {
       "type": "CommentBlock",
       "value": "*\n * This is a customized ol.control.Control class, all logic is in the ol.control.ControlLogic\n * @class Control\n * @extends {ControlLogicMixin}\n * @extends {ol.control.Control}\n ",
-      "start": 1158,
-      "end": 1342,
+      "start": 1160,
+      "end": 1344,
       "loc": {
         "start": {
           "line": 24,
@@ -1083,8 +1083,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 1344,
-      "end": 1350,
+      "start": 1346,
+      "end": 1352,
       "loc": {
         "start": {
           "line": 31,
@@ -1111,8 +1111,8 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 1351,
-      "end": 1356,
+      "start": 1353,
+      "end": 1358,
       "loc": {
         "start": {
           "line": 31,
@@ -1137,8 +1137,8 @@
         "binop": null
       },
       "value": "Control",
-      "start": 1357,
-      "end": 1364,
+      "start": 1359,
+      "end": 1366,
       "loc": {
         "start": {
           "line": 31,
@@ -1164,8 +1164,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 1365,
-      "end": 1366,
+      "start": 1367,
+      "end": 1368,
       "loc": {
         "start": {
           "line": 31,
@@ -1190,8 +1190,8 @@
         "binop": null
       },
       "value": "mixin",
-      "start": 1367,
-      "end": 1372,
+      "start": 1369,
+      "end": 1374,
       "loc": {
         "start": {
           "line": 31,
@@ -1215,8 +1215,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1372,
-      "end": 1373,
+      "start": 1374,
+      "end": 1375,
       "loc": {
         "start": {
           "line": 31,
@@ -1241,8 +1241,8 @@
         "binop": null
       },
       "value": "ol",
-      "start": 1373,
-      "end": 1375,
+      "start": 1375,
+      "end": 1377,
       "loc": {
         "start": {
           "line": 31,
@@ -1267,8 +1267,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1375,
-      "end": 1376,
+      "start": 1377,
+      "end": 1378,
       "loc": {
         "start": {
           "line": 31,
@@ -1293,8 +1293,8 @@
         "binop": null
       },
       "value": "control",
-      "start": 1376,
-      "end": 1383,
+      "start": 1378,
+      "end": 1385,
       "loc": {
         "start": {
           "line": 31,
@@ -1319,8 +1319,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1383,
-      "end": 1384,
+      "start": 1385,
+      "end": 1386,
       "loc": {
         "start": {
           "line": 31,
@@ -1345,8 +1345,8 @@
         "binop": null
       },
       "value": "Control",
-      "start": 1384,
-      "end": 1391,
+      "start": 1386,
+      "end": 1393,
       "loc": {
         "start": {
           "line": 31,
@@ -1371,8 +1371,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1391,
-      "end": 1392,
+      "start": 1393,
+      "end": 1394,
       "loc": {
         "start": {
           "line": 31,
@@ -1397,8 +1397,8 @@
         "binop": null
       },
       "value": "ControlLogicMixin",
-      "start": 1393,
-      "end": 1410,
+      "start": 1395,
+      "end": 1412,
       "loc": {
         "start": {
           "line": 31,
@@ -1422,8 +1422,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1410,
-      "end": 1411,
+      "start": 1412,
+      "end": 1413,
       "loc": {
         "start": {
           "line": 31,
@@ -1448,8 +1448,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1412,
-      "end": 1412,
+      "start": 1414,
+      "end": 1414,
       "loc": {
         "start": {
           "line": 32,
