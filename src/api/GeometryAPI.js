@@ -24,6 +24,8 @@ export class GeometryAPI {
     const style = this.map_.get('styling').getStyle(options.style || this.mainAPI_.getDrawStyle())
     this.map_.get('styling').manageFeatureCollection(collection)
 
+    const format = options.format || 'wkt'
+
     const interaction = new Draw({
       features: collection,
       type: type,
@@ -51,10 +53,20 @@ export class GeometryAPI {
         if (type === 'Circle') {
           geom = fromCircle(geom)
         }
-        resolve(this.wktParser_.writeGeometry(geom, {
-          dataProjection: this.map_.getView().getProjection(),
-          featureProjection: options.srId || undefined
-        }))
+        switch (format) {
+          case 'wkt':
+            resolve(this.wktParser_.writeGeometry(geom, {
+              dataProjection: this.map_.getView().getProjection(),
+              featureProjection: options.srId || undefined
+            }))
+            break
+          case 'array':
+            if (options.srId !== undefined) {
+              geom = geom.transform(this.map_.getView().getProjection(), options.srId)
+            }
+            resolve(geom.getCoordinates())
+            break
+        }
       })
     })
   }
