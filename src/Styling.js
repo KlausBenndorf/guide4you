@@ -190,10 +190,20 @@ export class Styling {
         preparedOptions.fill = new Fill(filledStyleConf.fill)
       }
 
+      if (checkFor(subStyleConf, 'backgroundFill')) {
+        preparedOptions.backgroundFill =
+          new Fill(mergeStyleConfigs(subStyleConf.backgroundFill, filledStyleConf.backgroundFill))
+      }
+
       if (checkFor(subStyleConf, 'stroke')) {
         preparedOptions.stroke = new Stroke(mergeStyleConfigs(subStyleConf.stroke, filledStyleConf.stroke))
       } else {
         preparedOptions.stroke = new Stroke(filledStyleConf.stroke)
+      }
+
+      if (checkFor(subStyleConf, 'backgroundStroke')) {
+        preparedOptions.backgroundStroke =
+          new Stroke(mergeStyleConfigs(subStyleConf.backgroundStroke, filledStyleConf.backgroundStroke))
       }
 
       return preparedOptions
