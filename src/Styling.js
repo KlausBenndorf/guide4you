@@ -239,7 +239,7 @@ export class Styling {
       if (this.styleConfigMap_.has(id)) {
         this.styleMap_.set(id, this.getStyleFromConfig(this.getConfigById(id)))
       } else {
-        Debug.error('No style found for id ' + id + '. Using default style.')
+        Debug.warn('No style found for id ' + id + '. Using default style.')
         return this.styleMap_.get('#defaultStyle')
       }
     }
@@ -254,7 +254,7 @@ export class Styling {
     if (this.styleConfigMap_.has(id)) {
       return this.styleConfigMap_.get(id)
     } else {
-      Debug.error('No style config found for id ' + id + '. Using default style.')
+      Debug.warn('No style config found for id ' + id + '. Using default style.')
       return this.styleConfigMap_.get('#defaultStyle')
     }
   }
