@@ -64,7 +64,8 @@ export class GeometryAPI {
             sketchFeature.getGeometry().getCenter(),
             feature.getGeometry().getCoordinates()
           ])
-          textStyle.setText(getLength(line, { projection: this.map_.getView().getProjection() }).toFixed(1))
+          const length = getLength(line, { projection: this.map_.getView().getProjection() }).toFixed(0)
+          textStyle.setText(`${length} m`)
           return new Style({
             geometry: line,
             stroke: style.getStroke(),
