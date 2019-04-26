@@ -2,7 +2,7 @@ import $ from 'jquery'
 import Collection from 'ol/Collection'
 import WKT from 'ol/format/WKT'
 import { fromCircle } from 'ol/geom/Polygon'
-import Draw from 'ol/interaction/Draw'
+import Draw, { createBox } from 'ol/interaction/Draw'
 import Modify from 'ol/interaction/Modify'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
@@ -26,11 +26,19 @@ export class GeometryAPI {
 
     const format = options.format || 'wkt'
 
-    const interaction = new Draw({
+    const drawOptions = {
       features: collection,
-      type: type,
       style: style
-    })
+    }
+
+    if (type === 'Box') {
+      drawOptions.type = 'Circle'
+      drawOptions.geometryFunction = createBox()
+    } else {
+      drawOptions.type = type
+    }
+
+    const interaction = new Draw(drawOptions)
 
     this.map_.addSupersedingInteraction('singleclick dblclick pointermove', interaction)
 
