@@ -296,11 +296,7 @@ export class LayerFactory extends Observable {
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
 
-        if (superType === SuperType.QUERYLAYER) {
-          this.superTypeNotSupported(layerType, superType)
-        } else {
-          optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
-        }
+        optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
 
         layer = new VectorLayer(optionsCopy)
         break

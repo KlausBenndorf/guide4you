@@ -41,7 +41,6 @@ export class G4UServerSearchConnector extends SearchConnector {
         .expandTemplate('layerconfigid', layerConfigId)
         .finalize()
 
-
       $.ajax({
         url: finalUrl,
         dataType: 'text',

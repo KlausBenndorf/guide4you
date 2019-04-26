@@ -16,11 +16,10 @@ function getPixelFromCoordinate (coordinate) {
 
 describe('measurementButton', function () {
   // before and after ///////////////////////////////////////////////////////
-
+  this.timeout(config.mochaTimeout)
   let driver
 
   before(function () {
-    this.timeout(config.mochaTimeout)
     driver = customDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().setTimeouts(config.seleniumTimeouts)

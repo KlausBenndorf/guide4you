@@ -301,9 +301,11 @@ import { Attributions } from '../Attributions'
 /**
  * A vector source config.
  * @typedef {SourceConfig} VectorSourceConfig
- * @property {string} [loadingStrategy] "BBOX" or "ALL"
- * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
- *    loaded around a bbox.
+ * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'
+ *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
+ * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
+ * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
  */
 
