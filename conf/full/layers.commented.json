@@ -8,10 +8,7 @@
         "buttons": [
           {
             "type": "layer",
-            "refId": "b1",
-            "context": [
-              "transparency"
-            ]
+            "refId": "b1"
           },
           {
             "type": "layer",
@@ -19,30 +16,20 @@
           },
           {
             "type": "layer",
-            "refId": "b3"
+            "refId": "B-esri-world-imagery"
           },
           {
             "type": "layer",
-            "refId": "b4",
-            "context": [
-              "transparency"
-            ]
+            "refId": "B-dop-nw"
           },
           {
             "type": "layer",
-            "refId": "b5",
-            "accordion": [
-              "transparency"
-            ]
+            "refId": "B-topplus-web-open"
           }
         ]
       }
     ],
     "featureLayers": [
-      {
-        "type": "layer",
-        "refId": "f0"
-      },
       {
         "type": "group",
         "title": {
@@ -53,31 +40,33 @@
         "buttons": [
           {
             "type": "layer",
-            "refId": "f1"
+            "refId": "f1",
+            "accordion": [
+              "transparency"
+            ]
           },
           {
             "type": "layer",
-            "refId": "f2"
+            "refId": "f2",
+            "accordion": [
+              "transparency"
+            ]
           }
         ]
       },
       {
         "type": "layer",
         "refId": "f3",
-        "context": [
+        "accordion": [
           "transparency"
         ]
       },
       {
         "type": "layer",
         "refId": "f4",
-        "context": [
+        "accordion": [
           "transparency"
         ]
-      },
-      {
-        "type": "layer",
-        "refId": "f5"
       }
     ]
   },
@@ -118,84 +107,53 @@
       "overview": true
     },
     {
-      "id": "b3",
-      "title": {
-        "en": "OSM in Hydda Style",
-        "de": "OSM im Hydda-Stil"
-      },
+      "id": "B-esri-world-imagery",
+      "title": "World Imagery (ZYX)",
       "type": "OSM",
       "source": {
-        "url": "https://{a-c}.tile.openstreetmap.se/hydda/base/{z}/{x}/{y}.png",
-        "attribution": {
-          "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
-          "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
-        }
-      },
-      "overview": true
-    },
-    {
-      "id": "b4",
-      "title": "Luftbilder WMTS",
-      "type": "WMTS",
-      "source": {
-        "autoConfig": true,
         "url": {
-          "url": "http://www.wmts.nrw.de/geobasis/wmts_nw_dop20",
-          "useProxy": true
+          "url": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         },
-        "config": {
-          "layer": "nw_dop20"
-        },
-        "attribution": "&copy; Geobasis NRW 2017"
+        "attribution": "Kacheln &copy; Esri &ndash; Quellen: Esri, DigitalGlobe, Earthstar Geographics, CNES/Airbus DS, GeoEye, USDA FSA, USGS, Getmapping, Aerogrid, IGN, IGP und GIS Benutzer-Community"
       },
-      "overview": true
+      "visible": false
     },
     {
-      "id": "b5",
-      "title": "DOP20 (NRW) WMS",
+      "id": "B-dop-nw",
+      "title": "DOP NRW (WMS)",
       "type": "WMS",
       "source": {
         "url": {
           "useProxy": true,
-          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop20"
+          "url": "http://www.wms.nrw.de/geobasis/wms_nw_dop"
         },
         "params": {
           "FORMAT": "image/jpeg",
           "VERSION": "1.3.0",
           "LAYERS": [
-            "nw_dop20"
+            "nw_dop_rgb"
           ]
         },
         "attribution": "&copy; Geobasis NRW 2016"
-      },
-      "overview": true
+      }
     },
+
     {
-      "id": "f0",
-      "title": {
-        "en": "Roads and Labels for Hydda",
-        "de": "Straßen und Beschriftungen für Hydda"
-      },
-      "type": "OSM",
+      "id": "B-topplus-web-open",
+      "title": "TopPlus-Web-Open (WMTS)",
+      "type": "WMTS",
       "source": {
-        "url": "https://{a-c}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png",
-        "attribution": {
-          "en": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
-          "de": "&copy; <a href=\"http://openstreetmap.se/\" target=\"_blank\">OpenStreetMap Sweden</a> &mdash; Kartendaten &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> Mitwirkende"
-        }
+        "url": {
+          "url": "http://sg.geodatenzentrum.de/wmts_topplus_web_open/1.0.0/WMTSCapabilities.xml",
+          "useProxy": true
+        },
+        "config": {
+          "layer": "web"
+        },
+        "autoConfig": true,
+        "attribution": "&copy; <a href=\"#\" onclick=\"window.parent.openExternally('http://www.bkg.bund.de/');\">Bundesamt für Kartographie und Geodäsie</a> 2017, <a href=\"#\" onclick=\"window.parent.openExternally('http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf');\">Datenquellen</a>, Lizenz: <a href=\"#\" onclick=\"window.parent.openExternally('http://www.govdata.de/dl-de/by-2-0');\">dl-de/by-2-0</a>"
       },
       "visible": false
-    },
-    {
-      "id": "arc1",
-      "title": "arcgis rest",
-      "type": "ArcGISRESTFeature",
-      "source": {
-        "url": "https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Petroleum/KSFields/FeatureServer/0/query/",
-        "dataType": "jsonp",
-        "projection": "EPSG:3857",
-        "loadingStrategy": "TILE"
-      }
     },
     {
       "id": "f1",
