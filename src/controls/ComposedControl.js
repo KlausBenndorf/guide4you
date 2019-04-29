@@ -91,7 +91,7 @@ export class ComposedControl extends Control {
    * @private
    */
   setWindowForControl_ (control) {
-    let aWindow = new Window({ $context: $(this.getMap().getViewport()) })
+    let aWindow = new Window({ map: this.getMap() })
     control.setWindow(aWindow, true)
   }
 

@@ -238,7 +238,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     $target.append($wrap)
 
     if (buttonConfig.accordion) {
-      const context = new LayerSelectorAccordionMenu(buttonConfig.accordion, this.getLocaliser(), controller)
+      const context = new LayerSelectorAccordionMenu(this.getMap(), buttonConfig.accordion, this.getLocaliser(), controller)
       context.appendTo($wrap)
     }
 

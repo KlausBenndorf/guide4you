@@ -121,7 +121,6 @@ export class WindowDecorator extends Control {
           })
         })
       }
-      this.get$Element().append(this.window_.get$Element())
     }
   }
 

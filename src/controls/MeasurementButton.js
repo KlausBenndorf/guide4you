@@ -134,12 +134,6 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
       }
 
       /**
-       * @type {ol.TransformFunction}
-       * @private
-       */
-      this.measurementTransform_ = getTransform(map.getView().getProjection(), this.measurementProjection_)
-
-      /**
        * @type {ol.source.Vector}
        * @private
        */

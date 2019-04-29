@@ -16,6 +16,8 @@ import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 import 'tojson-file-loader?name=files/[name]!../../files/helptext.json.js'
 import 'file-loader?name=files/[name].[ext]!../../files/infos_de.html'
 import 'file-loader?name=files/[name].[ext]!../../files/infos_en.html'
+import 'file-loader?name=files/[name].[ext]!../../files/osm_info_de.html'
+import 'file-loader?name=files/[name].[ext]!../../files/osm_info_en.html'
 
 import '../../images/doc/arrowbuttons.png'
 import '../../images/doc/attribution-collapsed.png'

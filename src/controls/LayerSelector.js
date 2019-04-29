@@ -141,13 +141,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       map: this.getMap()
     })
 
-    if (!this.$windowContainer_) {
-      this.$windowContainer_ = $('<span>')
-      this.get$Element().append(this.$windowContainer_)
-    }
-
-    this.$windowContainer_.append(window.get$Element())
-
     if (layer.get('addClass')) {
       window.get$Element().addClass(layer.get('addClass'))
     }

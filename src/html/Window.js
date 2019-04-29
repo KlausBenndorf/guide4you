@@ -30,6 +30,12 @@ export class Window extends BaseObject {
     super()
 
     /**
+     * @type {G4UMap}
+     * @private
+     */
+    this.map_ = options.map
+
+    /**
      * @type {string}
      * @private
      */
@@ -85,6 +91,7 @@ export class Window extends BaseObject {
         )
       )
       .addClass(cssClasses.hidden)
+      .appendTo($(this.map_.getViewport()).children('.ol-overlaycontainer-stopevent'))
 
     if (options.hasOwnProperty('id')) {
       this.$element_.attr('id', options.id)
@@ -103,12 +110,6 @@ export class Window extends BaseObject {
      * @private
      */
     this.fixedPosition_ = options.fixedPosition === true
-
-    /**
-     * @type {G4UMap}
-     * @private
-     */
-    this.map_ = options.map
 
     /**
      * @type {jQuery}

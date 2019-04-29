@@ -42,14 +42,44 @@
             "type": "layer",
             "refId": "f1",
             "accordion": [
-              "transparency"
+              {
+                "type": "transparency"
+              },
+              {
+                "type": "window",
+                "title": {
+                  "de": "Layerinformationen",
+                  "en": "Layer informations"
+                },
+                "url": {
+                  "url": {
+                    "de": "files/osm_info_de.html",
+                    "en": "files/osm_info_en.html"
+                  }
+                }
+              }
             ]
           },
           {
             "type": "layer",
             "refId": "f2",
             "accordion": [
-              "transparency"
+              {
+                "type": "transparency"
+              },
+              {
+                "type": "window",
+                "title": {
+                  "de": "Layerinformationen",
+                  "en": "Layer informations"
+                },
+                "url": {
+                  "url": {
+                    "de": "files/osm_info_de.html",
+                    "en": "files/osm_info_en.html"
+                  }
+                }
+              }
             ]
           }
         ]
@@ -58,14 +88,18 @@
         "type": "layer",
         "refId": "f3",
         "accordion": [
-          "transparency"
+          {
+            "type": "transparency"
+          }
         ]
       },
       {
         "type": "layer",
         "refId": "f4",
         "accordion": [
-          "transparency"
+          {
+            "type": "transparency"
+          }
         ]
       }
     ]
