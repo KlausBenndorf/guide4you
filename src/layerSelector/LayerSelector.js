@@ -25,7 +25,7 @@ import { LayerSelectorAccordionMenu } from './LayerSelectorAccordionMenu'
  * @typedef {object} ButtonConfig
  * @property {object} [window] open a window if the button gets clicked
  * @property {string} [class] add a css class to the button
- * @property {[]} [context] contextmenu items
+ * @property {[]} [accordion] accordionmenu items
  */
 
 /**
@@ -237,8 +237,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
     $target.append($wrap)
 
-    if (buttonConfig.context) {
-      const context = new LayerSelectorAccordionMenu(buttonConfig.context, this.getLocaliser(), controller)
+    if (buttonConfig.accordion) {
+      const context = new LayerSelectorAccordionMenu(buttonConfig.accordion, this.getLocaliser(), controller)
       context.appendTo($wrap)
     }
 

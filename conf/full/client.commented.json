@@ -265,6 +265,12 @@
         "color": "rgba( 46, 49, 146, 0.8)",
         "width": 2
       },
+      "text": {
+        "font": "12px sans-serif",
+        "backgroundFill": {
+          "color": "white"
+        }
+      },
       "image": {
         "type": "circle",
         "radius": 7.5,
