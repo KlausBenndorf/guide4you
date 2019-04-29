@@ -32,6 +32,10 @@ export class LayerSelectorAccordionMenu {
       })
     this.$menu_ = $('<div>')
       .addClass('g4u-accordion-menu')
+      .toggleClass('g4u-layer-active', this.layerController_.getActive())
+    this.layerController_.on('change:active', () => {
+      this.$menu_.toggleClass('g4u-layer-active', this.layerController_.getActive())
+    })
     for (const option of this.options_) {
       if (option === 'transparency') {
         const $head = this.get$Line()
@@ -72,11 +76,11 @@ export class LayerSelectorAccordionMenu {
   toggleActive () {
     this.active_ = !this.active_
     if (this.active_) {
-      this.$button_.addClass('g4u-active')
+      this.$button_.addClass('g4u-accordion-active')
       this.$parent_.addClass('g4u-accordion-size-' + this.lines_)
       this.$menu_.show()
     } else {
-      this.$button_.removeClass('g4u-active')
+      this.$button_.removeClass('g4u-accordion-active')
       this.$parent_.removeClass('g4u-accordion-size-' + this.lines_)
       this.$menu_.hide()
     }

@@ -26,7 +26,7 @@
         top: 0;
         right: 0;
 
-        &.g4u-active {
+        &.g4u-accordion-active {
           .changeIcon(@arrow-down-filled);
         }
       }
@@ -38,10 +38,22 @@
         top: @g4u-desktop-button-size;
         .g4u-symbol-colors();
 
+        &.g4u-layer-active {
+          .g4u-accordion-line {
+            background: @g4u-active-normal-button-color;
+          }
+        }
+
         .g4u-accordion-line {
           height: @g4u-desktop-button-size;
           //padding: @g4u-desktop-padding;
           padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+
+          .g4u-accordion-text {
+            height: @g4u-desktop-button-size;
+            display: inline-block;
+            padding-top: @g4u-desktop-padding;
+          }
         }
       }
     }

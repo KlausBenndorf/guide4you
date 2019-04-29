@@ -18,6 +18,7 @@ import { LayerSelectorAccordionMenu } from './LayerSelectorAccordionMenu'
  * @property {string} menuName the name of the layerMenu this selector is connected to. For example 'baseLayers'
  * @property {number} [minLayerAmount=1] the minimum number of layers which should be visible to show this selector
  * @property {LayerController} layerController the layerController will be passed in by the UIConfigurator
+ * @property {boolean} [checkboxes=false] if the layerbuttons should have trailing checkboxes
  */
 
 /**
@@ -142,11 +143,9 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
      */
     this.minVisibleButtons_ = options.minVisibleEntries || 5
 
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.visible_ = true
+    if (options.checkboxes !== false) {
+      this.menu_.get$Element().addClass('g4u-layerselector-with-checkbox')
+    }
   }
 
   /**
