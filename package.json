@@ -35,7 +35,7 @@
     "lodash": "4.17.11",
     "notifyjs-browser": "0.4.2",
     "proj4": "2.5.0",
-    "strip-json-comments": "2.0.1"
+    "strip-json-comments": "3.0.0"
   },
   "devDependencies": {
     "babel-polyfill": "6.26.0",
