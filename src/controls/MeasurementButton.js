@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import LineString from 'ol/geom/LineString'
 
-import { getTransform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import Draw from 'ol/interaction/Draw'
 import { getArea, getLength } from 'ol/sphere'

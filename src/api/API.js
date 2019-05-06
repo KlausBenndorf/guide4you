@@ -9,6 +9,7 @@ import { Debug } from '../Debug'
 import { FeatureAPI } from './FeatureAPI'
 import { GeometryAPI } from './GeometryAPI'
 import { KMLAPI } from './KMLAPI'
+import { MeasureAPI } from './MeasureAPI'
 import { PrintToScaleAPI } from './PrintToScaleAPI'
 
 // NOTE:
@@ -55,6 +56,7 @@ export class API extends BaseObject {
     this.printToScaleAPI_ = new PrintToScaleAPI(this, map)
     this.featureAPI_ = new FeatureAPI(this, map)
     this.kmlAPI_ = new KMLAPI(this, map)
+    this.measureAPI_ = new MeasureAPI(this, map)
 
     this.setApiAccessObject()
   }
@@ -156,6 +158,11 @@ export class API extends BaseObject {
         coordinate: transform,
         extent: transformExtent,
         WKT: this.transformWKT.bind(this)
+      },
+      measure: {
+        getLength: this.measureAPI_.getLength.bind(this.measureAPI_),
+        getArea: this.measureAPI_.getArea.bind(this.measureAPI_),
+        getDistance: this.measureAPI_.getDistance.bind(this.measureAPI_)
       },
       // 'style': {
       //   'collection': styling.styleCollection,

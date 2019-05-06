@@ -117,12 +117,12 @@ export class GeometryAPI {
           case 'wkt':
             resolve(this.wktParser_.writeGeometry(geom, {
               dataProjection: this.map_.getView().getProjection(),
-              featureProjection: options.srId || undefined
+              featureProjection: options.projection || undefined
             }))
             break
           case 'array':
-            if (options.srId !== undefined) {
-              geom = geom.transform(this.map_.getView().getProjection(), options.srId)
+            if (options.projection !== undefined) {
+              geom = geom.transform(this.map_.getView().getProjection(), options.projection)
             }
             resolve(geom.getCoordinates())
             break

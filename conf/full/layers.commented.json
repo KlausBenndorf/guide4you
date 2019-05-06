@@ -171,7 +171,6 @@
         "attribution": "&copy; Geobasis NRW 2016"
       }
     },
-
     {
       "id": "B-topplus-web-open",
       "title": "TopPlus-Web-Open (WMTS)",
@@ -197,9 +196,9 @@
       },
       "type": "KML",
       "source": {
-            "loadingStrategy": "TILE",
+        "loadingStrategy": "TILE",
         "bboxRatio": 1.2,
-            "url": "files/hotelsbonn.kml?bbox={minx},{miny},{maxx},{maxy}",
+        "url": "files/hotelsbonn.kml?bbox={minx},{miny},{maxx},{maxy}",
         "cluster": true,
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
