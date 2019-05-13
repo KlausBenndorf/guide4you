@@ -132,21 +132,22 @@ export class GeometryAPI {
   }
 
   showGeometry (geometryWKT, options = {}) {
+    const styling = this.map_.get('styling')
     if (!this.geometrySource_) {
       this.geometrySource_ = new VectorSource({
         useSpatialIndex: false
       })
       this.map_.addLayer(new VectorLayer({
-        source: this.geometrySource_
+        source: this.geometrySource_,
+        style: styling.getStyle('#defaultStyle')
       }))
       this.modifyCollection_ = new Collection()
 
-      const style = this.map_.get('styling').getStyle(options.style || this.mainAPI_.getDrawStyle())
-      this.map_.get('styling').manageFeatureCollection(this.modifyCollection_)
+      styling.manageFeatureCollection(this.modifyCollection_)
 
       this.modifyGeometryInteraction_ = new Modify({
         features: this.modifyCollection_,
-        style
+        style: styling.getStyle(this.mainAPI_.getDrawStyle())
       })
       this.map_.addDefaultInteraction('singleclick', this.modifyGeometryInteraction_)
       this.modifyGeometryInteraction_.setActive(true)
@@ -155,9 +156,12 @@ export class GeometryAPI {
     const id = ++this.lastId_
     const feature = this.wktParser_.readFeature(geometryWKT)
     feature.setId(id)
+    if (options.style) {
+      feature.setStyle(styling.getStyle(options.style))
+    }
     this.geometrySource_.addFeature(feature)
 
-    if (options.modifyable) {
+    if (options.modifiable) {
       this.modifyCollection_.add(feature)
     }
 
