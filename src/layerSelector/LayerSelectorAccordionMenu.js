@@ -112,6 +112,20 @@ export class LayerSelectorAccordionMenu {
     this.$menu_.hide()
   }
 
+  addCheckGroup (type, names, callback) {
+    const $group = $('<div>')
+      .addClass('g4u-accordion-check-group')
+      .addClass('g4u-accordion-line-content')
+      .appendTo(this.$menu_)
+    for (const name of names) {
+      $('<button>')
+        .text(name)
+        .addClass(`g4u-accordion-check-group-${type}`)
+        .on('click', () => callback(name))
+      $group.append()
+    }
+  }
+
   appendTo ($parent) {
     this.$parent_ = $parent
     // this.$parent_.addClass('g4u-layerbutton-with-accordion')

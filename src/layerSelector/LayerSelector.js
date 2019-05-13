@@ -391,6 +391,39 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   buildMultiControl (buttonConfig, $target, group) {
     // TODO: available for group buttons ??
 
+    // const multiController = this.layerController_.registerMultiControl(buttonConfig, group)
+    //
+    // const $button = this.buildBasicButton(buttonConfig.title, buttonConfig, multiController, $target)
+    //
+    //
+    // if (layer && layer.get('available')) {
+    //   const buttonController = this.layerController_.registerLayerButton(buttonConfig, group)
+    //
+    //
+    //
+    //   let activeClassName = this.classNames_.menu + '-active'
+    //
+    //   $button.toggleClass(activeClassName, buttonController.getActive())
+    //   $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+    //   $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+    //
+    //   this.listenAt(buttonController).on('change:active', () => {
+    //     $button.toggleClass(activeClassName, buttonController.getActive())
+    //   })
+    //   this.listenAt(buttonController).on('change:loading', () => {
+    //     $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
+    //   })
+    //   this.listenAt(buttonController).on('change:disabled', () => {
+    //     $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
+    //   })
+    //
+    //   this.listenAt($button).on('click', () => {
+    //     buttonController.toggleActive()
+    //   })
+    //
+    //   return buttonController
+    // }
+
     const multiController = this.layerController_.registerMultiControl(buttonConfig, group)
 
     if (buttonConfig.title !== undefined) {

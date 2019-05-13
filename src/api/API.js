@@ -10,6 +10,7 @@ import { FeatureAPI } from './FeatureAPI'
 import { GeometryAPI } from './GeometryAPI'
 import { KMLAPI } from './KMLAPI'
 import { MeasureAPI } from './MeasureAPI'
+import { PlacesAPI } from './PlacesAPI'
 import { PrintToScaleAPI } from './PrintToScaleAPI'
 
 // NOTE:
@@ -57,6 +58,7 @@ export class API extends BaseObject {
     this.featureAPI_ = new FeatureAPI(this, map)
     this.kmlAPI_ = new KMLAPI(this, map)
     this.measureAPI_ = new MeasureAPI(this, map)
+    this.placesAPI_ = new PlacesAPI(this, map)
 
     this.setApiAccessObject()
   }
@@ -101,6 +103,12 @@ export class API extends BaseObject {
         update: this.kmlAPI_.update.bind(this.kmlAPI_),
         remove: this.kmlAPI_.remove.bind(this.kmlAPI_)
       },
+      places: {
+        add: this.placesAPI_.addPlace.bind(this.placesAPI_),
+        clear: this.placesAPI_.clear.bind(this.placesAPI_),
+        popup: this.placesAPI_.openPopup.bind(this.placesAPI_),
+        extent: this.placesAPI_.getExtent.bind(this.placesAPI_)
+      },
       // 'userInteraction': {
       //   'get': {
       //     'position': function (callback, options) {
@@ -112,11 +120,11 @@ export class API extends BaseObject {
       //       this.map_.once('singleclick', (e) => {
       //         $(this.map_.getViewport()).css('cursor', savedCursorStyle)
       //         var coordinate = e.coordinate
-      //         if (options.srId) {
+      //         if (options.projection) {
       //           coordinate = transform(
       //             coordinate,
       //             options.map.getView().getProjection(),
-      //             options.srId
+      //             options.projection
       //           )
       //         }
       //         callback(coordinate)
@@ -181,36 +189,36 @@ export class API extends BaseObject {
 
   getExtent (options) {
     var extent = this.map_.getView().calculateExtent()
-    if (options && options.srId) {
-      extent = transformExtent(extent, this.map_.getView().getProjection(), options.srId)
+    if (options && options.projection) {
+      extent = transformExtent(extent, this.map_.getView().getProjection(), options.projection)
     }
     return extent
   }
 
   fitExtent (extent, options) {
-    if (options && options.srId) {
-      extent = transformExtent(extent, options.srId, this.map_.getView().getProjection())
+    if (options && options.projection) {
+      extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
     }
     this.map_.getView().fit(extent)
   }
 
   moveToExtent (extent, options) {
-    if (options && options.srId) {
-      extent = transformExtent(extent, options.srId, this.map_.getView().getProjection())
+    if (options && options.projection) {
+      extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
     }
     this.map_.get('move').toExtent(extent, options)
   }
 
   moveToPoint (coordinate, options) {
-    if (options && options.srId) {
-      coordinate = transform(coordinate, options.srId, this.map_.getView().getProjection())
+    if (options && options.projection) {
+      coordinate = transform(coordinate, options.projection, this.map_.getView().getProjection())
     }
     this.map_.get('move').toPoint(coordinate, options)
   }
 
   // zoomToExtent (extent, options) {
-  //   if (options && options.srId) {
-  //     extent = transformExtent(extent, options.srId, this.map_.getView().getProjection())
+  //   if (options && options.projection) {
+  //     extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
   //   }
   //   toPoint: this.zoomToPoint.bind(this)
   // }
@@ -243,8 +251,8 @@ export class API extends BaseObject {
   }
 
   fitRectangle (coordinates, opt = {}) {
-    if (!opt.hasOwnProperty('srId')) {
-      opt.srId = 'EPSG:4326'
+    if (!opt.hasOwnProperty('projection')) {
+      opt.projection = 'EPSG:4326'
     }
     if (!opt.hasOwnProperty('constrainResolution')) {
       opt.constrainResolution = false
@@ -252,18 +260,18 @@ export class API extends BaseObject {
     if (!opt.hasOwnProperty('padding')) {
       opt.padding = [0, 0, 0, 0]
     }
-    if (getProj(opt.srId)) {
+    if (getProj(opt.projection)) {
       this.map_.getView().fit(
         boundingExtent(
           [
             transform(
               [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
-              opt.srId,
+              opt.projection,
               this.map_.get('mapProjection').getCode()
             ),
             transform(
               [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
-              opt.srId,
+              opt.projection,
               this.map_.get('mapProjection').getCode()
             )
           ]
@@ -271,7 +279,7 @@ export class API extends BaseObject {
         opt
       )
     } else {
-      Debug.error(`Unknown Projection '${opt.srId}'`)
+      Debug.error(`Unknown Projection '${opt.projection}'`)
     }
   }
 

@@ -16,7 +16,8 @@ import View from 'ol/View'
 /**
  * @typedef {FitOptions} SingleMoveOptions
  * @property {boolean} [animated] if specified overwrites the default settings
- * @property {number[]|string} [padding] can be set to 'default' to use the default settings
+ * @property {number[]|string} [padding] if not set the default value (pixelPadding) is used
+ * @property {number} [minSize] if not set the default value (meterMinSize) is used
  */
 
 /**
@@ -37,7 +38,7 @@ export class Move {
      * @type {number}
      * @private
      */
-    this.pixelPadding_ = options.meterMinSize !== undefined ? 50 : options.pixelPadding
+    this.pixelPadding_ = options.pixelPadding !== undefined ? options.pixelPadding : 50
 
     /**
      * @type {number}
@@ -103,8 +104,12 @@ export class Move {
    */
   toExtent (extent, options = {}) {
     let newExtent = extent
-    if (this.meterMinSize_) {
-      newExtent = this.bufferUpToMinSize_(extent)
+    const minSize = options.minSize !== undefined ? options.minSize : this.meterMinSize_
+    if (minSize) {
+      newExtent = this.bufferUpToMinSize_(extent, minSize)
+    }
+    if (options.padding === undefined) {
+      options.padding = [this.pixelPadding_, this.pixelPadding_, this.pixelPadding_, this.pixelPadding_]
     }
     if (options.animated === undefined ? this.animations_ : options.animated) {
       this.animationZoomToExtent_(newExtent, options)
@@ -123,15 +128,16 @@ export class Move {
 
   /**
    * @param {ol.Extent} extent
+   * @param {number} minSize
    * @returns {ol.Extent}
    * @private
    */
-  bufferUpToMinSize_ (extent) {
+  bufferUpToMinSize_ (extent, minSize) {
     // TODO: maybe use something more precise than transforming into 3857 to get meter size.
     let extentInMeters = transformExtent(extent, this.map_.getView().getProjection(), 'EPSG:3857')
     let smallerSize = Math.min(getWidth(extentInMeters), getHeight(extentInMeters))
-    if (smallerSize < this.meterMinSize_) {
-      extentInMeters = buffer(extentInMeters, this.meterMinSize_ - smallerSize / 2)
+    if (smallerSize < minSize) {
+      extentInMeters = buffer(extentInMeters, minSize - smallerSize / 2)
       return transformExtent(extentInMeters, 'EPSG:3857', this.map_.getView().getProjection())
     } else {
       return extent
@@ -144,7 +150,7 @@ export class Move {
    * @private
    */
   fit_ (extent, options) {
-    if (options.padding === 'default') {
+    if (options.padding === undefined) {
       options.padding = [this.pixelPadding_, this.pixelPadding_, this.pixelPadding_, this.pixelPadding_]
     }
 
