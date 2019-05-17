@@ -1,3 +1,4 @@
+import { Debug } from '../../src/Debug'
 import { createMapInternal } from '../../src/main'
 import { registerModule } from '../../src/moduleRegistration'
 
@@ -8,11 +9,11 @@ import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
 import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
 import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.commented.json'
+import defaultLanguageConf from 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
 import 'file-loader?name=files/[name].[ext]!../../files/restaurantsbonn.kml'
 
-import 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 import 'tojson-file-loader?name=files/[name]!../../files/helptext.json.js'
 import 'file-loader?name=files/[name].[ext]!../../files/infos_de.html'
 import 'file-loader?name=files/[name].[ext]!../../files/infos_en.html'
@@ -67,8 +68,12 @@ registerModule(new URLAPIModule(
    } */
 ))
 
-export function createMap (target, clientConf = defaultClientConf, layerConf = defaultLayerConf, options) {
-  return createMapInternal(target, clientConf, layerConf, options)
+export function createMap (target, ...args) {
+  return createMapInternal(target, args, {
+    client: defaultClientConf,
+    layer: defaultLayerConf,
+    translations: defaultLanguageConf
+  })
 }
 
 export * from '../../src/exports'

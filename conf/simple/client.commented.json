@@ -1,12 +1,10 @@
 {
   "proxy": "{{{ajaxProxy}}}",
-  "languageSettings": {
-    "languageFile": "{{{languageFile}}}"
-  },
   "view": {
     "center": [ 7.099227905273438, 50.73069673104681 ],
     "zoom": 10
   },
+  "mapProjection": "EPSG:3857",
   "mobileLayout": {
     "mediaQueries": [
       "(max-width: 736px)"

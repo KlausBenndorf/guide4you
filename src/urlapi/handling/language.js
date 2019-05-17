@@ -3,7 +3,7 @@
  */
 export const languageParam = {
   keys: [ 'lang' ],
-  setEvent: 'afterConfigLoad',
+  setEvent: 'change:localiser',
   setToMap: (map, query) => {
     if (query.isSet('lang')) {
       map.get('localiser').setCurrentLang(query.getSanitizedVal('lang'))

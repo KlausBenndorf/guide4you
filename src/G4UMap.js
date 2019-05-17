@@ -1,19 +1,26 @@
 import $ from 'jquery'
+import { isPlainObject } from 'lodash/lang'
 import OlMap from 'ol/Map'
 import stripJsonComments from 'strip-json-comments'
 
 import { MapConfigurator } from './configurators/MapConfigurator'
 import { Debug } from './Debug'
-import { defaults } from './defaultconfig'
 import { cssClasses } from './globals'
 import { L10N } from './L10N'
 import { layerConfigConverter } from './layerSelector/layerConfigConverter'
 import { getRegisteredModules } from './moduleRegistration'
 import './openlayersInjections'
 import { PopupModifierManager } from './PopupModifierManager'
-import { mergeWithDefaults } from './utilitiesObject'
 
 import '../less/map.less'
+
+/**
+ * @typedef {object} Configs
+ * @property {string|object} client the client config
+ * @property {string|object} layer the layer config
+ * @property {string|object} translations the translations
+ * @property {string|object} [styles] the style map
+ */
 
 /**
  * @typedef {object} G4UMapOptions
@@ -38,16 +45,127 @@ import '../less/map.less'
  * @fires 'change:ready:layers'
  */
 export class G4UMap extends OlMap {
+  static loadConfigFile (fileName) {
+    return $.ajax({
+      url: fileName,
+      dataType: 'text'
+    }).then(data => {
+      try {
+        return JSON.parse(stripJsonComments(data))
+      } catch (err) {
+        Debug.error(`The config file ${fileName} couldn't be parsed.`)
+        Debug.error(err)
+      }
+    }).fail((err) => {
+      Debug.error(`The config file ${fileName} couldn't be loaded.`)
+      Debug.error(err)
+    })
+  }
+
+  updateClientConfig (config) {
+    let clientPromise
+    if (isPlainObject(config)) {
+      clientPromise = Promise.resolve(config)
+    } else {
+      if (!this.get('configFileName')) {
+        this.set('configFileName', config)
+      }
+      clientPromise = G4UMap.loadConfigFile(config)
+    }
+    clientPromise.then(data => {
+      this.set('mapConfigReady', true)
+      this.set('mapConfig', data)
+    })
+    return clientPromise
+  }
+
+  updateLayerConfig (config) {
+    let layerPromise
+    if (isPlainObject(config)) {
+      layerPromise = Promise.resolve(config)
+    } else {
+      if (!this.get('layerConfigFileName')) {
+        this.set('layerConfigFileName', config)
+      }
+      layerPromise = G4UMap.loadConfigFile(config)
+    }
+    layerPromise.then(data => {
+      this.set('layerConfigReady', true)
+      this.set('layerConfig', layerConfigConverter(data))
+    })
+  }
+
+  loadConfigs (configs) {
+    this.set('mapConfigReady', false)
+    this.set('layerConfigReady', false)
+
+    const configPromises = []
+
+    if (configs.hasOwnProperty('client')) {
+      configPromises.push(this.updateClientConfig(configs.client))
+    } else {
+      Debug.error('No client config provided.')
+    }
+
+    // issue reload of mapConfig if the name was changed
+    this.on('change:configFileName', /** ol.ObjectEvent */ e => {
+      this.set('ready', false)
+      this.set('mapConfigReady', false)
+
+      this.oldMapConfigs_ = this.oldMapConfigs_ || {}
+      this.oldMapConfigs_[e.oldValue] = this.get('mapConfig')
+
+      if (this.oldMapConfigs_.hasOwnProperty(this.get('configFileName'))) {
+        this.updateClientConfig(this.oldMapConfigs_[this.get('configFileName')])
+      } else {
+        this.updateClientConfig(this.get('configFileName'))
+      }
+    })
+
+    if (configs.hasOwnProperty('layer')) {
+      configPromises.push(this.updateLayerConfig(configs.layer))
+    } else {
+      Debug.error('No client config provided.')
+    }
+
+    // issue reload of layerConfig if the name was changed
+    this.on('change:layerConfigFileName', /** ol.ObjectEvent */ e => {
+      this.set('ready', false)
+      this.set('layerConfigReady', false)
+
+      this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
+      this.oldLayerConfigs_[e.oldValue] = this.get('layerConfig')
+
+      if (this.oldLayerConfigs_.hasOwnProperty(this.get('layerConfigFileName'))) {
+        this.updateLayerConfig(this.oldLayerConfigs_[this.get('layerConfigFileName')])
+      } else {
+        this.updateLayerConfig(this.get('layerConfigFileName'))
+      }
+    })
+
+    if (configs.hasOwnProperty('translations')) {
+      configPromises.push(G4UMap.loadConfigFile(configs.translations).then(data => {
+        this.set('translations', data)
+      }))
+    } else {
+      Debug.error('No translations provided')
+    }
+
+    if (configs.hasOwnProperty('styleMap')) {
+      configPromises.push(G4UMap.loadConfigFile(configs.styleMap).then(data => {
+        this.set('styleMap', data)
+      }))
+    }
+
+    return Promise.all(configPromises)
+  }
+
   /**
    * @param {HTMLElement|jQuery|string} target element or id of an element
-   * @param {MapConfig|string} configOrFileName
-   * @param {LayerConfig|string} layerConfigOrFileName
+   * @param {Configs} configs
    * @param {G4UMapOptions} [options={}]
    */
-  constructor (target, configOrFileName, layerConfigOrFileName, options = {}) {
-    let config = {}
-    let layerConfig = {}
-
+  constructor (target, configs, options = {}) {
     // //////////////////////////////////////////////////////////////////////////////////////// //
     //                     Call of the Parents Class Constructor                                //
     // //////////////////////////////////////////////////////////////////////////////////////// //
@@ -116,25 +234,6 @@ export class G4UMap extends OlMap {
     // set the display mode to desktop initially to render overviewmpa correctly
     $(this.getTarget()).children().addClass(cssClasses.desktop)
 
-    // check type of mapConfig
-    if (typeof configOrFileName === 'object') {
-      config = configOrFileName
-    } else if (typeof configOrFileName === 'string') {
-      this.set('configFileName', configOrFileName)
-      this.set('defaultLayerConfigFileName', layerConfigOrFileName)
-    } else {
-      throw new Error('Unrecognised type for parameter configOrFileName!')
-    }
-
-    // check type of layerConfig
-    if (typeof layerConfigOrFileName === 'object') {
-      layerConfig = layerConfigOrFileName
-    } else if (typeof layerConfigOrFileName === 'string') {
-      this.set('layerConfigFileName', layerConfigOrFileName)
-    } else {
-      throw new Error('Unrecognised type for parameter layerConfigOrFileName!')
-    }
-
     // //////////////////////////////////////////////////////////////////////////////////////////
     //                            Load config files if needed                                 //
     // //////////////////////////////////////////////////////////////////////////////////////////
@@ -144,109 +243,16 @@ export class G4UMap extends OlMap {
     this.set('mapConfigReady', false)
     this.set('layerConfigReady', false)
 
-    function loadConfigFile (fileName) {
-      return $.ajax({
-        url: fileName,
-        dataType: 'text'
-      }).then((data) => {
-        try {
-          return JSON.parse(stripJsonComments(data))
-        } catch (err) {
-          Debug.error(`The config file ${fileName} couldn't be parsed.`)
-          Debug.error(err)
-        }
-      }).fail((err) => {
-        Debug.error(`The config file ${fileName} couldn't be loaded.`)
-        Debug.error(err)
-      })
-    }
+    this.loadConfigs(configs).then(() => {
+      const config = this.get('mapConfig')
 
-    let filesToLoad = []
-
-    let configFileName = this.get('configFileName')
-    if (configFileName) {
-      filesToLoad.push(loadConfigFile(configFileName).then((data) => {
-        config = data
-      }))
-    }
-
-    let layerConfigFileName = this.get('layerConfigFileName')
-    if (layerConfigFileName) {
-      filesToLoad.push(loadConfigFile(layerConfigFileName).then((data) => {
-        layerConfig = data
-      }))
-    }
-
-    // wait for all promises in filesToLoad to resolve
-    Promise.all(filesToLoad).then(() => {
-      this.set('mapConfigReady', true)
-      this.set('layerConfigReady', true)
-
-      // Merging the custom config with the default config
-      config = mergeWithDefaults(config, defaults.config)
-
-      this.set('mapConfig', config)
-      this.set('layerConfig', layerConfigConverter(layerConfig))
-
-      let loading = 0
-
-      // issue reload of mapConfig if the name was changed
-      this.on('change:configFileName', /** ol.ObjectEvent */ e => {
-        this.set('ready', false)
-        loading++
-
-        this.oldMapConfigs_ = this.oldMapConfigs_ || {}
-        this.oldMapConfigs_[e.oldValue] = this.get('mapConfig')
-
-        if (this.oldMapConfigs_.hasOwnProperty(this.get('configFileName'))) {
-          this.set('mapConfig', this.oldMapConfigs_[this.get('configFileName')])
-        } else {
-          this.set('mapConfigReady', false)
-          loadConfigFile(this.get('configFileName')).then((data) => {
-            this.set('mapConfigReady', true)
-            this.set('mapConfig', data)
-          }).always(() => {
-            loading--
-            if (loading === 0) {
-              this.set('ready', true)
-            }
-          })
-        }
-      })
-
-      // issue reload of layerConfig if the name was changed
-      this.on('change:layerConfigFileName', /** ol.ObjectEvent */ e => {
-        this.set('ready', false)
-        loading++
-
-        this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
-        this.oldLayerConfigs_[e.oldValue] = this.get('layerConfig')
-
-        if (this.oldLayerConfigs_.hasOwnProperty(this.get('layerConfigFileName'))) {
-          this.set('layerConfig', this.oldLayerConfigs_[this.get('layerConfigFileName')])
-        } else {
-          this.set('layerConfigReady', false)
-          loadConfigFile(this.get('layerConfigFileName'))
-            .then((data) => {
-              this.set('layerConfigReady', true)
-              this.set('layerConfig', layerConfigConverter(data))
-            })
-            .always(() => {
-              loading--
-              if (loading === 0) {
-                this.set('ready', true)
-              }
-            })
-        }
-      })
+      this.dispatchEvent('afterConfigLoad')
 
       this.set('proxy', config.proxy)
 
       // //////////////////////////////////////////////////////////////////////////////////////// //
       //                                     Localization                                         //
       // //////////////////////////////////////////////////////////////////////////////////////// //
-
-      let asyncLanguageFilePromise
 
       if (!options.localiser) {
         let localiserOptions = {}
@@ -260,19 +266,19 @@ export class G4UMap extends OlMap {
             localiserOptions.defaultLanguage = l10nconf.defaultLanguage
           }
 
-          if (l10nconf.hasOwnProperty('languageFile')) {
-            localiserOptions.languageFile = l10nconf.languageFile
-          }
-
           if (l10nconf.hasOwnProperty('availableLanguages')) {
             localiserOptions.availableLanguages = l10nconf.availableLanguages
           }
         }
 
-        let localiser = new L10N(localiserOptions)
-        this.set('localiser', localiser)
+        if (localiserOptions.hasOwnProperty('languageFile')) {
+          Debug.error('You are using a languageFile options in your client config. This option is not used anymore.\n' +
+            'Either remove the option if you want to use the default values or pass it via' +
+            'the configs object to createMap (`createMap(target, { l10n: \'path/to/l10n.json\' })`).')
+        }
 
-        asyncLanguageFilePromise = localiser.ajaxGetLanguageFile()
+        let localiser = new L10N(this.get('translations'), localiserOptions)
+        this.set('localiser', localiser)
       } else {
         this.set('localiser', options.localiser)
       }
@@ -288,34 +294,28 @@ export class G4UMap extends OlMap {
         })
       })
 
-      this.dispatchEvent('afterConfigLoad')
+      // //////////////////////////////////////////////////////////////////////////////////////// //
+      //                                    Configurator                                          //
+      // //////////////////////////////////////////////////////////////////////////////////////// //
 
-      return asyncLanguageFilePromise
-    })
-      .then(() => {
-        // //////////////////////////////////////////////////////////////////////////////////////// //
-        //                                    Configurator                                          //
-        // //////////////////////////////////////////////////////////////////////////////////////// //
+      this.set('configurator', new MapConfigurator(this))
 
-        this.set('configurator', new MapConfigurator(this))
+      this.dispatchEvent('afterConfiguring')
 
-        this.dispatchEvent('afterConfiguring')
+      if (this.get('ready:ui') && this.get('ready:layers')) {
+        this.set('ready', true)
+      }
+
+      this.on(['change:ready:ui', 'change:ready:layers'], /** ol.ObjectEvent */ e => {
+        if (!this.get(e.key)) {
+          this.set('ready', false)
+        }
 
         if (this.get('ready:ui') && this.get('ready:layers')) {
           this.set('ready', true)
         }
-
-        this.on(['change:ready:ui', 'change:ready:layers'], /** ol.ObjectEvent */ e => {
-          if (!this.get(e.key)) {
-            this.set('ready', false)
-          }
-
-          if (this.get('ready:ui') && this.get('ready:layers')) {
-            this.set('ready', true)
-          }
-        })
       })
-      .catch(Debug.defaultErrorHandler)
+    }).catch(Debug.defaultErrorHandler)
   }
 
   /**
