@@ -8,6 +8,7 @@ export class PlacesAPI {
   constructor (mainAPI, map) {
     this.mainAPI_ = mainAPI
     this.map_ = map
+    this.possiblePlaces_ = []
   }
 
   init () {
@@ -39,7 +40,7 @@ export class PlacesAPI {
     const styling = this.map_.get('styling')
     const style = styling.getStyle(options.style || '#placesStyle')
 
-    const id = this.nextId++
+    const id = options.id === undefined ? this.nextId++ : options.id
 
     const feature = new Feature(geom)
     feature.setId(id)
@@ -48,9 +49,21 @@ export class PlacesAPI {
     feature.setStyle(style)
     styling.manageFeature(feature)
 
-    this.source_.addFeature(feature)
+    this.possiblePlaces_.push(feature)
+
+    if (options.active === undefined || options.active) {
+      this.source_.addFeature(feature)
+    }
 
     return id
+  }
+
+  activate (id) {
+    this.source_.addFeature(this.possiblePlaces_.find(f => f.getId() === id))
+  }
+
+  deactivate (id) {
+    this.source_.removeFeature(this.possiblePlaces_.find(f => f.getId() === id))
   }
 
   clear () {
@@ -67,7 +80,24 @@ export class PlacesAPI {
     }
   }
 
+  closePopup () {
+    this.map_.get('featurePopup').setVisible(false)
+  }
+
   getExtent () {
     return this.source_.getExtent()
+  }
+
+  onPopup (callback) {
+    const featurePopup = this.map_.get('featurePopup')
+    featurePopup.on('change:visible', () => {
+      if (featurePopup.getVisible()) {
+        const feature = featurePopup.getFeature()
+        const found = this.possiblePlaces_.find(f => f === feature)
+        if (found) {
+          callback(found.getId())
+        }
+      }
+    })
   }
 }
