@@ -1,3 +1,4 @@
+import { difference } from 'lodash/array'
 import { isEmpty } from 'lodash/lang'
 import { ButtonController } from './ButtonController'
 
@@ -9,38 +10,12 @@ export class MultiController extends ButtonController {
     this.loading_ = false
     this.configs_ = configs
     this.currentConfig_ = {}
-    this.lastActiveParams_ = {}
     this.settedParams_ = {}
-  }
-
-  setDefault (param, value) {
-    this.lastActiveParams_[param] = value
-  }
-
-  initParams () {
-    Object.assign(this.settedParams_, this.lastActiveParams_)
-  }
-
-  saveParams () {
-    Object.assign(this.lastActiveParams_, this.settedParams_)
+    this.active_ = false
   }
 
   setParam (name, value) {
-    if (isEmpty(this.settedParams_) || this.settedParams_[name] !== value) {
-      if (isEmpty(this.settedParams_)) {
-        this.initParams()
-      }
-      this.settedParams_[name] = value
-      this.saveParams()
-      this.updateConfig()
-    } else {
-      this.clearParams()
-    }
-    this.dispatchEvent('change:params')
-  }
-
-  clearParams () {
-    this.settedParams_ = {}
+    this.settedParams_[name] = value
     this.updateConfig()
     this.dispatchEvent('change:params')
   }
@@ -59,7 +34,6 @@ export class MultiController extends ButtonController {
       if (oldConfig.QUERY_LAYERS) {
         layer.getSource().deactivateQueryLayers(oldConfig.QUERY_LAYERS)
       }
-      layer.setVisible(layer.getSource().anyLayerActive())
     }
     const newConfig = this.getMatchingConfig()
     if (newConfig.refId !== undefined) {
@@ -70,18 +44,23 @@ export class MultiController extends ButtonController {
       if (newConfig.QUERY_LAYERS) {
         layer.getSource().activateQueryLayers(newConfig.QUERY_LAYERS)
       }
-      layer.setVisible(layer.getSource().anyLayerActive())
     }
+
+    for (const layer of Object.values(this.layers_)) {
+      if (this.getActive()) {
+        layer.setVisible(layer.getSource().anyLayerActive())
+      } else {
+        layer.setVisible(false)
+      }
+    }
+
     this.currentConfig_ = newConfig
     this.dispatchEvent('change:active')
   }
 
   checkCondition (condition) {
     for (const name in condition) {
-      if (!this.settedParams_[name]) {
-        return false
-      }
-      if (condition[name] !== this.settedParams_[name]) {
+      if (!isEmpty(difference(condition[name], this.settedParams_[name]))) {
         return false
       }
     }
@@ -127,7 +106,7 @@ export class MultiController extends ButtonController {
   }
 
   getActive () {
-    return this.currentConfig_.refId !== undefined && !isEmpty(this.currentConfig_.LAYERS)
+    return this.active_
   }
 
   getLoading () {
@@ -143,8 +122,13 @@ export class MultiController extends ButtonController {
   }
 
   toggleActive (active) {
-    if (!active) {
-      this.clearParams()
+    this.active_ = active === undefined ? !this.getActive() : active
+    for (const layer of Object.values(this.layers_)) {
+      if (this.active_) {
+        layer.setVisible(layer.getSource().anyLayerActive())
+      } else {
+        layer.setVisible(false)
+      }
     }
   }
 

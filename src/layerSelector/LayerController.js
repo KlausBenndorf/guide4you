@@ -98,6 +98,12 @@ export class LayerController {
       for (const refId of uniq(options.configs.map(c => c.refId).filter(r => r !== undefined))) {
         controller.addLayer(refId, this.layers_[refId])
       }
+      if (group) {
+        group.addChild(controller)
+      }
+      if (options.addGroup) {
+        this.registerAdditionalGroup(options.addGroup, controller)
+      }
       options._id = this.id_++
       this.controllers_[options._id] = controller
     }

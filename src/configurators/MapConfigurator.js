@@ -186,7 +186,9 @@ export class MapConfigurator {
       stylingOptions.manageStyles = mapConfigCopy.manageStyles
     }
 
-    if (mapConfigCopy.hasOwnProperty('styleMap')) {
+    if (this.map_.get('styleMap')) {
+      stylingOptions.styleConfigMap = this.map_.get('styleMap')
+    } else if (mapConfigCopy.hasOwnProperty('styleMap')) {
       stylingOptions.styleConfigMap = mapConfigCopy.styleMap
     }
 

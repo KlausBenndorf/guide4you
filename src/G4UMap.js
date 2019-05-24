@@ -269,12 +269,12 @@ export class G4UMap extends OlMap {
           if (l10nconf.hasOwnProperty('availableLanguages')) {
             localiserOptions.availableLanguages = l10nconf.availableLanguages
           }
-        }
 
-        if (localiserOptions.hasOwnProperty('languageFile')) {
-          Debug.error('You are using a languageFile options in your client config. This option is not used anymore.\n' +
-            'Either remove the option if you want to use the default values or pass it via' +
-            'the configs object to createMap (`createMap(target, { l10n: \'path/to/l10n.json\' })`).')
+          if (l10nconf.hasOwnProperty('languageFile')) {
+            Debug.warn('You are using a languageFile options in your client config. This option is not used ' +
+              'anymore.\n Either remove the option if you want to use the default values or pass it via ' +
+              'the configs object to createMap (`createMap(target, { l10n: \'path/to/l10n.json\' })`).')
+          }
         }
 
         let localiser = new L10N(this.get('translations'), localiserOptions)

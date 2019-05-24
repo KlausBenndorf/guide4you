@@ -1,0 +1,29 @@
+@import "./lengths";
+@import "./colors";
+@import "./buttons";
+
+@radio-unchecked: url("../images/icons/radio-unchecked.svg");
+@radio-checked: url("../images/icons/radio-checked.svg");
+@checkbox-unchecked: url("../images/icons/checkbox-unchecked.svg");
+@checkbox-checked: url("../images/icons/checkbox-checked.svg");
+
+
+.g4u-check-group {
+  &.g4u-check-group-radio {
+    button {
+      .buttonWithIconBefore(@radio-unchecked; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+      &.g4u-active {
+        .changeIconBefore(@radio-checked; @g4u-desktop-normal-fontsize);
+      }
+    }
+  }
+
+  &.g4u-check-group-checkbox {
+    button {
+      .buttonWithIconBefore(@checkbox-unchecked; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+      &.g4u-active {
+        .changeIconBefore(@checkbox-checked; @g4u-desktop-normal-fontsize);
+      }
+    }
+  }
+}

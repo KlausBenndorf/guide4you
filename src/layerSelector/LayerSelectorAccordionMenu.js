@@ -10,7 +10,7 @@ export class LayerSelectorAccordionMenu {
     this.options_ = options
     this.layerController_ = layerController
     this.active_ = false
-    this.lines_ = 0
+    this.size_ = 0
     this.map_ = map
     /**
      * @type {L10N}
@@ -20,10 +20,11 @@ export class LayerSelectorAccordionMenu {
     this.buildHTML()
   }
 
-  get$Line () {
-    this.lines_++
+  get$Entry (size = 1) {
+    this.size_ += size
     return $('<div>')
-      .addClass('g4u-accordion-line')
+      .addClass('g4u-accordion-entry')
+      .addClass(`g4u-accordion-entry-size-${size}`)
   }
 
   buildHTML () {
@@ -42,13 +43,13 @@ export class LayerSelectorAccordionMenu {
     for (const option of this.options_) {
       switch (option.type) {
         case 'transparency':
-          const $head = this.get$Line()
+          const $head = this.get$Entry()
             .appendTo(this.$menu_)
           $head
             .append($('<span>')
               .html(this.localiser_.localiseUsingDictionary('LayerSelectorAccordion transparency'))
-              .addClass('g4u-accordion-line-content'))
-          const $slider = this.get$Line()
+              .addClass('g4u-accordion-entry-content'))
+          const $slider = this.get$Entry()
             .appendTo(this.$menu_)
           const $input = $('<input>')
             .addClass('g4u-slider')
@@ -66,7 +67,7 @@ export class LayerSelectorAccordionMenu {
           })
           break
         case 'window':
-          const $line = this.get$Line()
+          const $entry = this.get$Entry()
             .appendTo(this.$menu_)
           const window = new Window({
             map: this.map_
@@ -89,7 +90,7 @@ export class LayerSelectorAccordionMenu {
           }
 
           $('<button>')
-            .addClass('g4u-accordion-line-content')
+            .addClass('g4u-accordion-entry-content')
             .html(this.localiser_.selectL10N(option.title))
             .on('click', () => {
               if (!window.getVisible()) {
@@ -106,24 +107,16 @@ export class LayerSelectorAccordionMenu {
                 hideWindow()
               }
             })
-            .appendTo($line)
+            .appendTo($entry)
       }
     }
     this.$menu_.hide()
   }
 
-  addCheckGroup (type, names, callback) {
-    const $group = $('<div>')
-      .addClass('g4u-accordion-check-group')
-      .addClass('g4u-accordion-line-content')
+  addEntry ($content, size = 1) {
+    this.get$Entry(size)
+      .append($content)
       .appendTo(this.$menu_)
-    for (const name of names) {
-      $('<button>')
-        .text(name)
-        .addClass(`g4u-accordion-check-group-${type}`)
-        .on('click', () => callback(name))
-      $group.append()
-    }
   }
 
   appendTo ($parent) {
@@ -134,15 +127,15 @@ export class LayerSelectorAccordionMenu {
       .append(this.$menu_)
   }
 
-  toggleActive () {
-    this.active_ = !this.active_
+  toggleActive (active) {
+    this.active_ = active === undefined ? !this.active_ : active
     if (this.active_) {
       this.$button_.addClass('g4u-accordion-active')
-      this.$parent_.addClass('g4u-accordion-size-' + this.lines_)
+      this.$parent_.addClass('g4u-accordion-size-' + this.size_)
       this.$menu_.show()
     } else {
       this.$button_.removeClass('g4u-accordion-active')
-      this.$parent_.removeClass('g4u-accordion-size-' + this.lines_)
+      this.$parent_.removeClass('g4u-accordion-size-' + this.size_)
       this.$menu_.hide()
     }
   }
