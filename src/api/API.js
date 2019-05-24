@@ -106,12 +106,14 @@ export class API extends BaseObject {
       places: {
         add: this.placesAPI_.addPlace.bind(this.placesAPI_),
         clear: this.placesAPI_.clear.bind(this.placesAPI_),
-        popup: this.placesAPI_.openPopup.bind(this.placesAPI_),
-        close: this.placesAPI_.closePopup.bind(this.placesAPI_),
+        openPopup: this.placesAPI_.openPopup.bind(this.placesAPI_),
+        closePopup: this.placesAPI_.closePopup.bind(this.placesAPI_),
+        hasPopup: this.placesAPI_.hasPopup.bind(this.placesAPI_),
+        onPopup: this.placesAPI_.onPopup.bind(this.placesAPI_),
         extent: this.placesAPI_.getExtent.bind(this.placesAPI_),
         activate: this.placesAPI_.activate.bind(this.placesAPI_),
         deactivate: this.placesAPI_.deactivate.bind(this.placesAPI_),
-        onPopup: this.placesAPI_.onPopup.bind(this.placesAPI_)
+        isActive: this.placesAPI_.isActive.bind(this.placesAPI_)
       },
       // 'userInteraction': {
       //   'get': {

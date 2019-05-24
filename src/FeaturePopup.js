@@ -312,25 +312,30 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * @private
    */
   onFeatureClick_ (feature, layer, coordinate = null) {
-    if (feature.get('features')) {
-      feature = feature.get('features')[0]
-    }
-
-    this.referencingVisibleLayers_ = []
-
-    this.getMap().getLayerGroup().recursiveForEach(layer => {
-      if (layer.getVisible() && layer.getSource && layer.getSource().getFeatures) {
-        if (layer.getSource().getFeatures().indexOf(feature) > -1) {
-          this.referencingVisibleLayers_.push(layer)
-        }
+    if (this.getFeature() === feature) {
+      this.setVisible(false)
+      this.setFeature(null)
+    } else {
+      if (feature.get('features')) {
+        feature = feature.get('features')[0]
       }
-    })
 
-    this.setFeature(feature, feature.getStyle() || layer.getStyle(), coordinate)
-    this.setVisible(true)
+      this.referencingVisibleLayers_ = []
 
-    if (this.centerOnPopup_) {
-      this.centerMapOnPopup()
+      this.getMap().getLayerGroup().recursiveForEach(layer => {
+        if (layer.getVisible() && layer.getSource && layer.getSource().getFeatures) {
+          if (layer.getSource().getFeatures().indexOf(feature) > -1) {
+            this.referencingVisibleLayers_.push(layer)
+          }
+        }
+      })
+
+      this.setFeature(feature, feature.getStyle() || layer.getStyle(), coordinate)
+      this.setVisible(true)
+
+      if (this.centerOnPopup_) {
+        this.centerMapOnPopup()
+      }
     }
   }
 

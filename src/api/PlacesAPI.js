@@ -66,6 +66,10 @@ export class PlacesAPI {
     this.source_.removeFeature(this.possiblePlaces_.find(f => f.getId() === id))
   }
 
+  isActive (id) {
+    return this.source_.getFeatureById(id) !== null
+  }
+
   clear () {
     this.source_.clear()
   }
@@ -82,6 +86,17 @@ export class PlacesAPI {
 
   closePopup () {
     this.map_.get('featurePopup').setVisible(false)
+  }
+
+  hasPopup (id) {
+    const featurePopup = this.map_.get('featurePopup')
+    if (featurePopup.getVisible()) {
+      const found = this.possiblePlaces_.find(f => f.getId() === id)
+      if (found) {
+        return featurePopup.getFeature() === found
+      }
+    }
+    return false
   }
 
   getExtent () {
