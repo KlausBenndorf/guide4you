@@ -35,6 +35,8 @@ export class API extends BaseObject {
      */
     this.featureManipulationActive_ = false
 
+    this.extentPadding_ = options.extentPadding
+
     /**
      * @type {StyleLike}
      * @private
@@ -91,8 +93,8 @@ export class API extends BaseObject {
         hideFrame: this.printToScaleAPI_.hideFrame.bind(this.printToScaleAPI_)
       },
       feature: {
-      //   create: this.createFeature.bind(this),
-      //   show: this.showFeature.bind(this),
+        // create: this.createFeature.bind(this),
+        // show: this.showFeature.bind(this),
         // hide: this.hideFeature.bind(this)
         modify: this.featureAPI_.modifyFeature.bind(this.featureAPI_),
         select: this.featureAPI_.selectFeature.bind(this.featureAPI_),
@@ -161,8 +163,14 @@ export class API extends BaseObject {
       //   'updateWms': api.updateWmsLayer
       // },
       view: {
-        getExtent: this.getExtent.bind(this),
-        fitExtent: this.fitExtent.bind(this)
+        getExtent: this.transformResult(() => this.map_.getView().calculateExtent(), transformExtent),
+        fitExtent: this.transformInput(input => this.map_.getView().fit(input, {
+          padding: this.extentPadding_
+        }), transformExtent),
+        getCenter: this.transformResult(() => this.map_.getView().getCenter(), transform),
+        setCenter: this.transformInput(input => this.map_.getView().setCenter(input), transform),
+        getZoom: () => this.map_.getView().getZoom(),
+        setZoom: input => this.map_.getView().setZoom(input)
       },
       move: {
         toExtent: this.moveToExtent.bind(this),
@@ -174,9 +182,9 @@ export class API extends BaseObject {
         WKT: this.transformWKT.bind(this)
       },
       measure: {
-        getLength: this.measureAPI_.getLength.bind(this.measureAPI_),
-        getArea: this.measureAPI_.getArea.bind(this.measureAPI_),
-        getDistance: this.measureAPI_.getDistance.bind(this.measureAPI_)
+        length: this.measureAPI_.getLength.bind(this.measureAPI_),
+        area: this.measureAPI_.getArea.bind(this.measureAPI_),
+        distance: this.measureAPI_.getDistance.bind(this.measureAPI_)
       },
       // 'style': {
       //   'collection': styling.styleCollection,
@@ -193,24 +201,31 @@ export class API extends BaseObject {
     return this.map_.get('guide4youVersion')
   }
 
-  getExtent (options) {
-    var extent = this.map_.getView().calculateExtent()
-    if (options && options.projection) {
-      extent = transformExtent(extent, this.map_.getView().getProjection(), options.projection)
+  transformResult (func, transform) {
+    return options => {
+      let result = func()
+      if (options && options.projection) {
+        result = transform(result, this.map_.getView().getProjection(), options.projection)
+      }
+      return result
     }
-    return extent
   }
 
-  fitExtent (extent, options) {
-    if (options && options.projection) {
-      extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
+  transformInput (func, transform) {
+    return (input, options) => {
+      if (options && options.projection) {
+        input = transform(input, options.projection, this.map_.getView().getProjection())
+      }
+      return func(input)
     }
-    this.map_.getView().fit(extent)
   }
 
   moveToExtent (extent, options) {
     if (options && options.projection) {
       extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
+    }
+    if (!options.padding) {
+      options.padding = this.extentPadding_
     }
     this.map_.get('move').toExtent(extent, options)
   }

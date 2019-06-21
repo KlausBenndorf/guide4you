@@ -159,7 +159,20 @@ export class GeometryAPI {
     if (options.style) {
       feature.setStyle(styling.getStyle(options.style))
     }
-    this.geometrySource_.addFeature(feature)
+
+    let target = this.geometrySource_
+    if (options.target !== undefined) {
+      const layer = this.map_.getLayerGroup().getLayerById(options.target)
+      if (layer === undefined) {
+        Debug.error(`No layer with id ${options.target} found.`)
+      } else if (!layer.getSource || !(layer.getSource() instanceof VectorSource)) {
+        Debug.error(`The layer has to be a VectorLayer (KML, GeoJSON, Intern)`)
+      } else {
+        target = layer.getSource()
+      }
+    }
+
+    target.addFeature(feature)
 
     if (options.modifiable) {
       this.modifyCollection_.add(feature)
