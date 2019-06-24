@@ -10,6 +10,7 @@ import KeyboardZoom from 'ol/interaction/KeyboardZoom'
 import MouseWheelZoom from 'ol/interaction/MouseWheelZoom'
 import PinchRotate from 'ol/interaction/PinchRotate'
 import PinchZoom from 'ol/interaction/PinchZoom'
+import { ClickableInteraction } from '../interactions/ClickableInteraction'
 
 import { Positioning } from './Positioning'
 
@@ -480,16 +481,19 @@ export class UIConfigurator {
           }
         }
 
-        this.map_.addDefaultInteraction('singleclick', new FeatureInteraction({
+        const clickInteraction = new FeatureInteraction({
           type: 'singleclick',
           style: null
-        }))
+        })
+        this.map_.addDefaultInteraction('singleclick', clickInteraction)
+        this.map_.set('clickInteraction', clickInteraction)
 
-        let moveInteraction = new FeatureInteraction({
+        const moveInteraction = new FeatureInteraction({
           type: 'pointermove',
           style: null
         })
         this.map_.addDefaultInteraction('pointermove', moveInteraction)
+        this.map_.set('moveInteraction', moveInteraction)
 
         let $viewport = $(this.map_.getViewport())
 
@@ -499,6 +503,10 @@ export class UIConfigurator {
             moveInteraction.triggerEmptyMapEvent()
           }
         })
+
+        const clickableInteraction = new ClickableInteraction({ style: null })
+        this.map_.addDefaultInteraction('pointermove', clickableInteraction)
+        this.map_.set('clickableInteraction', clickableInteraction)
 
         // hitTolerance
         let updateHitTolerance = () => {

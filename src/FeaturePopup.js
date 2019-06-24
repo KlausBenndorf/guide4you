@@ -199,7 +199,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
 
       // feature click
 
-      this.listenAt(map.getDefaultInteractions('singleclick')[ 0 ]).on('interaction', e => {
+      this.listenAt(map.get('clickInteraction')).on('interaction', e => {
         let interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
         if (interacted.length) {
           const { feature, layer } = interacted[0]
@@ -207,16 +207,8 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         }
       })
 
-      // feature hover
-
-      this.listenAt(map.getDefaultInteractions('pointermove')[ 0 ]).on('interaction', e => {
-        const interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
-        if (interacted.length) {
-          $(map.getViewport()).addClass(cssClasses.clickable)
-        } else {
-          $(map.getViewport()).removeClass(cssClasses.clickable)
-        }
-      })
+      // clickable
+      map.get('clickableInteraction').addFilter(FeaturePopup.canDisplay)
 
       // hiding feature Popup if the layer gets hidden or the feature gets removed
 
@@ -482,17 +474,20 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
       for (let layer of this.referencingVisibleLayers_) {
         this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get('popupModifiers')))
       }
-      this.geometryChangeHandler_ = () => {
-        let coordinate = clickCoordinate
-        if (feature.getGeometry() instanceof Point || !clickCoordinate) {
-          coordinate = getCenter(feature.getGeometry().getExtent())
+      if (this.feature_) {
+        this.geometryChangeHandler_ = () => {
+          let coordinate = clickCoordinate
+          if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+            coordinate = getCenter(feature.getGeometry().getExtent())
+          }
+          this.overlay_.setPosition(coordinate)
+          if (this.getVisible()) {
+            this.update(style)
+          }
         }
-        this.overlay_.setPosition(coordinate)
-        if (this.getVisible()) {
-          this.update(style)
-        }
+        this.feature_.on('change:geometry', this.geometryChangeHandler_)
       }
-      this.feature_.on('change:geometry', this.geometryChangeHandler_)
+
       this.dispatchEvent({
         type: 'change:feature',
         oldValue: oldValue,
@@ -516,6 +511,8 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   setVisible (visible) {
     let oldValue = this.visible_
     if (oldValue !== visible) {
+      this.visible_ = visible
+
       if (visible === true && this.getFeature()) {
         this.$element_.removeClass(cssClasses.hidden)
         this.window_.setVisible(true)
@@ -525,7 +522,9 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         this.window_.resetDragged()
       }
 
-      this.visible_ = visible
+      if (!visible) {
+        this.setFeature(null)
+      }
 
       this.dispatchEvent({
         type: 'change:visible',

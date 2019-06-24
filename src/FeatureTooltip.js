@@ -79,8 +79,7 @@ export class FeatureTooltip {
     if (map) {
       map.addOverlay(this.overlay_)
 
-      const interaction = map.getDefaultInteractions('pointermove')[0]
-      interaction.on('interaction', e => {
+      map.get('moveInteraction').on('interaction', e => {
         const interacted = e.interacted.filter(({ feature }) => FeatureTooltip.canDisplay(feature))
         if (interacted.length) {
           let { feature } = interacted[0]
