@@ -115,30 +115,18 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
         .append('<br/>')
         .append(this.getLocaliser().localiseUsingDictionary('MeasurementButton doubleClickEndsMeasurement'))
 
-      /**
-       * @type {ol.proj.Projection}
-       * @private
-       */
-      this.measurementProjection_ = map.get('measurementProjection')
-
-      if (!this.measurementProjection_) {
-        throw new Error('MeasurementButton needs a measurementProjection. This is a global option of the map.')
-      }
-
       if (this.dimension_ === 1) {
-        this.$unitPlaceholder_.replaceWith(this.measurementProjection_.getUnits())
+        this.$unitPlaceholder_.replaceWith('m')
       }
       if (this.dimension_ === 2) {
-        this.$unitPlaceholder_.replaceWith(this.measurementProjection_.getUnits() + '&sup2;')
+        this.$unitPlaceholder_.replaceWith('m&sup2;')
       }
 
       /**
        * @type {ol.source.Vector}
        * @private
        */
-      this.source_ = new VectorSource({
-        projection: this.measurementProjection_
-      })
+      this.source_ = new VectorSource({})
 
       /**
        * @type {VectorLayer}
