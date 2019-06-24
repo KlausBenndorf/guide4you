@@ -105,14 +105,24 @@ export class PlacesAPI {
 
   onPopup (callback) {
     const featurePopup = this.map_.get('featurePopup')
-    featurePopup.on('change:visible', () => {
-      if (featurePopup.getVisible()) {
-        const feature = featurePopup.getFeature()
-        const found = this.possiblePlaces_.find(f => f === feature)
-        if (found) {
-          callback(found.getId())
-        }
+    let feature
+    featurePopup.on('change:feature', () => {
+      feature = featurePopup.getFeature() || feature
+    })
+    featurePopup.on('change:visible', e => {
+      const visible = featurePopup.getVisible()
+      const found = this.possiblePlaces_.find(f => f === feature)
+      if (found) {
+        callback(found.getId(), visible)
       }
     })
+  }
+
+  changeStyle (id, style) {
+    const styling = this.map_.get('styling')
+    style = styling.getStyle(style || '#placesStyle')
+
+    const feature = this.source_.getFeatureById(id)
+    feature.setStyle(style)
   }
 }

@@ -115,7 +115,8 @@ export class API extends BaseObject {
         extent: this.placesAPI_.getExtent.bind(this.placesAPI_),
         activate: this.placesAPI_.activate.bind(this.placesAPI_),
         deactivate: this.placesAPI_.deactivate.bind(this.placesAPI_),
-        isActive: this.placesAPI_.isActive.bind(this.placesAPI_)
+        isActive: this.placesAPI_.isActive.bind(this.placesAPI_),
+        style: this.placesAPI_.changeStyle.bind(this.placesAPI_)
       },
       // 'userInteraction': {
       //   'get': {
