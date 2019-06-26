@@ -369,15 +369,13 @@ export class Window extends BaseObject {
         this.$element_.css('height', 'auto')
 
         // calculate width & height
+        // restrain width first because height can be compensated with a scroll bar
 
         let calcWidth = this.$element_.outerWidth()
+        this.$element_.css('width', Math.min(calcWidth, maxWidth))
+
         let calcHeight = this.$element_.outerHeight()
-
-        let width = Math.min(calcWidth, maxWidth)
-        let height = Math.min(calcHeight, maxHeight)
-
-        this.$element_.css('width', width)
-        this.$element_.css('height', height)
+        this.$element_.css('height', Math.min(calcHeight, maxHeight))
 
         // setting max-height for the scroll bar
         // i assume here there is no margin and no padding on the parent element

@@ -459,7 +459,9 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
     let oldValue = this.feature_
     if (feature) {
       let coordinate = clickCoordinate
-      if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+      if (feature.get('origCoords') !== undefined) {
+        coordinate = feature.get('origCoords')
+      } else if (feature.getGeometry() instanceof Point || !clickCoordinate) {
         coordinate = getCenter(feature.getGeometry().getExtent())
       }
       this.overlay_.setPosition(coordinate)
