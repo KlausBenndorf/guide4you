@@ -1,17 +1,15 @@
 import $ from 'jquery'
-import { zip } from 'lodash/array'
-import { groupBy } from 'lodash/collection'
 import { Control } from '../controls/Control'
-import { Debug } from '../Debug'
 import { ButtonBox } from '../html/ButtonBox'
-import { CheckGroup } from '../html/CheckGroup'
-import { addTooltip, changeTooltip } from '../html/html'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin, offset } from '../utilities'
 import { isObject, isArray } from 'lodash/lang'
 
 import '../../less/layerselector.less'
-import { LayerSelectorAccordionMenu } from './LayerSelectorAccordionMenu'
+import { LayerButton } from './LayerButton'
+import { GroupElement } from './GroupElement'
+import { MultiButton } from './MultiButton'
+import { WMSLayerButton } from './WMSLayerButton'
 
 /**
  * @typedef {g4uControlOptions} LayerSelectorOptions
@@ -149,6 +147,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     if (options.checkboxes !== false) {
       this.menu_.get$Element().addClass('g4u-layerselector-with-checkbox')
     }
+
+    this.elements_ = []
+
+    this.elementGroups_ = {}
   }
 
   /**
@@ -168,23 +170,46 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
        */
       this.layerController_ = map.get('layerController')
       this.build()
+
+      this.listenAt(map.getView()).on('change:resolution', () => {
+        const zoom = map.getView().getZoom()
+        for (const elem of this.elements_) {
+          elem.updateDisabled(zoom)
+        }
+      })
+
+      const zoom = map.getView().getZoom()
+      for (const elem of this.elements_) {
+        elem.updateDisabled(zoom)
+      }
     }
   }
 
   clear () {
     this.detachAllListeners()
+    for (const elem of this.elements_) {
+      elem.detach()
+    }
     this.menu_.get$Body().empty()
+  }
+
+  addElement (config) {
+    const element = this.getElement(config)
+    this.menu_.get$Body().append(element.get$Element())
+    this.elements_.push(element)
+    return element.count()
   }
 
   build () {
     const menuConfig = this.layerController_.getMenuConfig(this.menuName_)
     let count = 0
+    this.elements_ = []
     if (isArray(menuConfig)) {
       for (const buttonConfig of menuConfig) {
-        count += this.chooseButtonBuilder(buttonConfig, this.menu_.get$Body()).count()
+        count += this.addElement(buttonConfig)
       }
     } else if (isObject(menuConfig)) {
-      count += this.chooseButtonBuilder(menuConfig, this.menu_.get$Body()).count()
+      count += this.addElement(menuConfig)
     }
 
     if (count < this.minLayerAmount_) {
@@ -192,272 +217,32 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     }
   }
 
-  /**
-   * This method chooses the right builder function. Intended to be overwritten for special button types
-   * @param {ButtonConfig} buttonConfig
-   * @param {jQuery} $target
-   * @param {GroupButtonController} [group]
-   */
-  chooseButtonBuilder (buttonConfig, $target, group) {
-    if (buttonConfig.type === 'group') {
-      return this.buildGroupButton(buttonConfig, $target, group)
-    } else if (buttonConfig.type === 'WMS') {
-      return this.buildWMSButton(buttonConfig, $target, group)
-    } else if (buttonConfig.type === 'layer') {
-      return this.buildLayerButton(buttonConfig, $target, group)
-    } else if (buttonConfig.type === 'multi') {
-      return this.buildMultiControl(buttonConfig, $target, group)
-    } else {
-      Debug.error(`Unknown button type '${buttonConfig.type}'`)
+  getElement (config) {
+    switch (config.type) {
+      case 'layer':
+        return new LayerButton(this, config, this.getMap())
+      case 'group':
+        return new GroupElement(this, config, this.getMap())
+      case 'WMS':
+        return new WMSLayerButton(this, config, this.getMap())
+      case 'multi':
+        return new MultiButton(this, config, this.getMap())
     }
   }
 
-  /**
-   * this method builds a button for a layer. It toggles visibility if you click on it
-   * @param {ButtonConfig} buttonConfig
-   */
-  buildBasicButton (title, buttonConfig, controller, $target) {
-    let $button = $('<span>')
-      .addClass('button')
-      .addClass(this.classNames_.layerButton)
-
-    if (buttonConfig.refId) {
-      $button.attr('id', buttonConfig.refId)
+  addElementToGroup (element, groupName) {
+    if (!this.elementGroups_.hasOwnProperty(groupName)) {
+      this.elementGroups_[groupName] = []
     }
-
-    if (buttonConfig.hasOwnProperty('class')) {
-      $button.addClass(buttonConfig.class)
-    }
-
-    if (this.getMap().get('localiser').isRtl()) {
-      $button.prop('dir', 'rtl')
-    }
-
-    $button.html(title)
-    const $wrap = $('<div>')
-      .addClass('g4u-layerselector-button-frame')
-      .append($button)
-
-    $target.append($wrap)
-
-    if (buttonConfig.hasOwnProperty('window')) {
-      this.addWindowToButton($button, buttonConfig) // TODO: add method to class
-    }
-
-    return $button
+    this.elementGroups_[groupName].push(element)
   }
 
-  buildLayerButton (buttonConfig, $target, group) {
-    const layer = this.layerController_.getLayer(buttonConfig.refId)
-    if (layer && layer.get('available')) {
-      const buttonController = this.layerController_.registerLayerButton(buttonConfig, group)
-
-      const $button = this.buildBasicButton(buttonConfig.title ? buttonConfig.title : layer.get('title'),
-        buttonConfig, buttonController, $target)
-
-      if (buttonConfig.accordion) {
-        const accordion = new LayerSelectorAccordionMenu(this.getMap(), buttonConfig.accordion,
-          this.getLocaliser(), buttonController)
-        accordion.appendTo($button.parent())
+  deactivateOtherGroupElements (element, groupName) {
+    for (const other of this.elementGroups_[groupName]) {
+      if (other !== element) {
+        other.setActive(false)
       }
-
-      let activeClassName = this.classNames_.menu + '-active'
-
-      $button.toggleClass(activeClassName, buttonController.getActive())
-      $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
-      $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
-
-      this.listenAt(buttonController).on('change:active', () => {
-        $button.toggleClass(activeClassName, buttonController.getActive())
-      })
-      this.listenAt(buttonController).on('change:loading', () => {
-        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
-      })
-      this.listenAt(buttonController).on('change:disabled', () => {
-        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
-      })
-
-      this.listenAt($button).on('click', () => {
-        buttonController.toggleActive()
-      })
-
-      return buttonController
     }
-  }
-
-  buildGroupButton (buttonConfig, $target, group) {
-    // TODO: available for group buttons
-
-    const groupController = this.layerController_.registerGroupButton(buttonConfig, group)
-
-    if (buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'noButton') {
-      for (const childConfig of buttonConfig.buttons) {
-        this.chooseButtonBuilder(childConfig, $target, groupController)
-      }
-    } else {
-      const activateChildren = buttonConfig.hasOwnProperty('groupButton') && buttonConfig.groupButton === 'activate'
-      // TODO: where is categoryLayer.get('collapsed') used (or 'change:collapsed')
-
-      const menu = new ButtonBox({
-        className: this.classNames_.menu,
-        title: this.getLocaliser().selectL10N(buttonConfig.title),
-        rtl: this.getMap().get('localiser').isRtl(),
-        titleButton: activateChildren,
-        collapsed: buttonConfig.collapsed !== false,
-        addClass: buttonConfig.addClass
-      })
-
-      this.listenAt(menu).on('change:collapsed', () => {
-        this.dispatchEvent('change:size')
-      })
-
-      const updateMenu = () => {
-        menu.setCollapseButtonActive(groupController.getActive())
-        if (activateChildren) {
-          menu.setTitleButtonActive(groupController.getAllActive())
-        }
-      }
-
-      this.listenAt(groupController).on('change:active', updateMenu)
-
-      // TODO: menu set disabled ?
-
-      $target.append(menu.get$Element())
-
-      for (const childConfig of buttonConfig.buttons) {
-        this.chooseButtonBuilder(childConfig, menu.get$Body(), groupController)
-      }
-
-      updateMenu()
-    }
-
-    return groupController
-  }
-
-  buildWMSButton (buttonConfig, $target, group) {
-    const layer = this.layerController_.getLayer(buttonConfig.refId)
-    if (layer && layer.get('available')) {
-      const buttonController = this.layerController_.registerWmsLayerButton(buttonConfig, group)
-
-      const $button = this.buildBasicButton(buttonConfig.title ? buttonConfig.title : layer.get('title'),
-        buttonConfig, buttonController, $target)
-
-      if (buttonConfig.accordion) {
-        const accordion = new LayerSelectorAccordionMenu(this.getMap(), buttonConfig.accordion,
-          this.getLocaliser(), buttonController)
-        accordion.appendTo($button.parent())
-      }
-
-      let $toggleFeatureInfo = $('<span>')
-        .addClass(this.classNames_.featureInfo)
-      addTooltip($toggleFeatureInfo,
-        this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
-
-      let activeClassName = this.classNames_.menu + '-active'
-
-      $button.toggleClass(activeClassName, buttonController.getActive())
-      $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
-      $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
-      const updateFeatureInfoActive = () => {
-        if (buttonController.getFeatureInfoActive()) {
-          $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, true)
-          changeTooltip($toggleFeatureInfo,
-            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo hide'))
-        } else {
-          $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, false)
-          changeTooltip($toggleFeatureInfo,
-            this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
-        }
-      }
-      updateFeatureInfoActive()
-
-      this.listenAt(buttonController).on('change:active', () => {
-        $button.toggleClass(activeClassName, buttonController.getActive())
-      })
-      this.listenAt(buttonController).on('change:loading', () => {
-        $button.toggleClass('g4u-layer-loading', buttonController.getLoading())
-      })
-      this.listenAt(buttonController).on('change:disabled', () => {
-        $button.toggleClass(this.classNames_.disabled, buttonController.getDisabled())
-      })
-      this.listenAt(buttonController).on('change:featureInfoActive', updateFeatureInfoActive)
-
-      if (buttonConfig.QUERY_LAYERS !== undefined) {
-        $button.append($toggleFeatureInfo)
-        this.listenAt($toggleFeatureInfo).on('click', e => {
-          buttonController.toggleFeatureInfo()
-          e.stopPropagation()
-        })
-      }
-
-      this.listenAt($button).on('click', () => {
-        buttonController.toggleActive()
-      })
-
-      return buttonController
-    }
-  }
-
-  buildMultiControl (buttonConfig, $target, group) {
-    // TODO: available for group buttons ??
-    // TODO: disabled for multi control
-
-    const multiController = this.layerController_.registerMultiControl(buttonConfig, group)
-
-    const $button = this.buildBasicButton(buttonConfig.title, buttonConfig, multiController, $target)
-
-    const accordion = new LayerSelectorAccordionMenu(this.getMap(), buttonConfig.accordion || [],
-      this.getLocaliser(), multiController)
-    accordion.appendTo($button.parent())
-
-    const activeClassName = this.classNames_.menu + '-active'
-
-    $button.toggleClass(activeClassName, multiController.getActive())
-    $button.toggleClass('g4u-layer-loading', multiController.getLoading())
-    if (buttonConfig.toggleAccordion) {
-      accordion.toggleActive(multiController.getActive())
-    }
-    // $button.toggleClass(this.classNames_.disabled, multiController.getDisabled())
-
-    let active = multiController.getActive()
-    this.listenAt(multiController).on('change:active', () => {
-      if (active !== multiController.getActive()) {
-        active = multiController.getActive()
-        $button.toggleClass(activeClassName, active)
-        if (buttonConfig.toggleAccordion) {
-          accordion.toggleActive(active)
-        }
-      }
-    })
-    this.listenAt(multiController).on('change:loading', () => {
-      $button.toggleClass('g4u-layer-loading', multiController.getLoading())
-    })
-    // this.listenAt(multiController).on('change:disabled', () => {
-    //   $button.toggleClass(this.classNames_.disabled, multiController.getDisabled())
-    // })
-
-    this.listenAt($button).on('click', () => {
-      multiController.toggleActive()
-    })
-
-    // for each because of closure of name
-    buttonConfig.controls.forEach(control => {
-      multiController.setParam(control.name, [control.values[0]])
-      const checkGroup = new CheckGroup(control.type, zip(control.titles, control.values))
-      checkGroup.on('change:value', () => {
-        multiController.setParam(control.name, checkGroup.getValues())
-      })
-      const updateCheckGroup = () => {
-        checkGroup.setValues(multiController.getParams()[control.name])
-      }
-      updateCheckGroup()
-      this.listenAt(multiController).on('change:params', updateCheckGroup)
-      accordion.addEntry(checkGroup.get$Element(), checkGroup.getSize())
-    })
-
-    // TODO: menu set disabled ?
-
-    return multiController
   }
 
   /**

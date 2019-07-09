@@ -4,7 +4,7 @@ import Observable from 'ol/Observable'
 import '../../less/checkgroup.less'
 
 export class CheckGroup extends Observable {
-  constructor (type, nameValues) {
+  constructor (type, nameValues, title) {
     super()
     this.buttons_ = {}
     this.type_ = type
@@ -13,6 +13,14 @@ export class CheckGroup extends Observable {
     this.$element_ = $('<div>')
       .addClass('g4u-check-group')
       .addClass(`g4u-check-group-${type}`)
+
+    if (title !== undefined) {
+      $('<div>').text(title)
+        .addClass('g4u-check-group-title')
+        .appendTo(this.$element_)
+      this.hasTitle_ = true
+    }
+
     nameValues.forEach(([name, value]) => {
       const $button = $('<button>')
         .text(name)
@@ -72,6 +80,6 @@ export class CheckGroup extends Observable {
   }
 
   getSize () {
-    return Object.keys(this.buttons_).length
+    return Object.keys(this.buttons_).length + (this.hasTitle_ ? 1 : 0)
   }
 }
