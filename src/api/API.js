@@ -116,7 +116,8 @@ export class API extends BaseObject {
         activate: this.placesAPI_.activate.bind(this.placesAPI_),
         deactivate: this.placesAPI_.deactivate.bind(this.placesAPI_),
         isActive: this.placesAPI_.isActive.bind(this.placesAPI_),
-        style: this.placesAPI_.changeStyle.bind(this.placesAPI_)
+        style: this.placesAPI_.changeStyle.bind(this.placesAPI_),
+        cluster: this.placesAPI_.activateClustering.bind(this.placesAPI_)
       },
       // 'userInteraction': {
       //   'get': {

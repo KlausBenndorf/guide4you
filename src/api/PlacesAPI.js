@@ -16,9 +16,10 @@ export class PlacesAPI {
       this.wktParser_ = new WKT()
 
       this.source_ = new VectorSource()
-      this.map_.addLayer(new VectorLayer({
+      this.layer_ = new VectorLayer({
         source: this.source_
-      }))
+      })
+      this.map_.addLayer(this.layer_)
 
       this.nextId = 0
     }
@@ -47,6 +48,7 @@ export class PlacesAPI {
     feature.set('name', title)
     feature.set('description', popuptext)
     feature.setStyle(style)
+    feature.set('clustering', options.clustering)
     styling.manageFeature(feature)
 
     this.possiblePlaces_.push(feature)
@@ -124,5 +126,9 @@ export class PlacesAPI {
 
     const feature = this.source_.getFeatureById(id)
     feature.setStyle(style)
+  }
+
+  activateClustering () {
+    this.map_.get('clusterLayer').addLayer(this.layer_)
   }
 }
