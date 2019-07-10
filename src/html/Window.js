@@ -347,14 +347,14 @@ export class Window extends BaseObject {
         let top = this.$element_.css('top')
         let left = this.$element_.css('left')
 
-        // reset position to get default value
-        this.$element_.css('position', '')
-
-        // resetting all directly setted values
-        this.$element_.css('top', '')
-        this.$element_.css('left', '')
-        this.$element_.css('width', '')
-        this.$element_.css('height', '')
+        // // reset position to get default value
+        // this.$element_.css('position', '')
+        //
+        // // resetting all directly setted values
+        // this.$element_.css('top', '')
+        // this.$element_.css('left', '')
+        // this.$element_.css('width', '')
+        // this.$element_.css('height', '')
 
         this.get$Body().css('max-height', '')
 
@@ -371,10 +371,11 @@ export class Window extends BaseObject {
         // calculate width & height
         // restrain width first because height can be compensated with a scroll bar
 
-        let calcWidth = this.$element_.outerWidth()
-        this.$element_.css('width', Math.min(calcWidth, maxWidth))
+        const calcWidth = this.$element_.outerWidth()
+        const width = Math.min(calcWidth, maxWidth)
+        this.$element_.css('width', width)
 
-        let calcHeight = this.$element_.outerHeight()
+        const calcHeight = this.$element_.outerHeight()
         this.$element_.css('height', Math.min(calcHeight, maxHeight))
 
         // setting max-height for the scroll bar
