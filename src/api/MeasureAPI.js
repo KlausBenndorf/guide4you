@@ -30,7 +30,7 @@ export class MeasureAPI {
     return getDistance(pointA, pointB, options)
   }
 
-  getArea (geom, options) {
+  getArea (geom, options = {}) {
     if (options.format && options.format === 'array') {
       geom = new Polygon(geom)
     } else {
