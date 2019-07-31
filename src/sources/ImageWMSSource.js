@@ -7,6 +7,7 @@ import { appendParams } from 'ol/uri'
 
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
+import { take } from '../utilitiesObject'
 
 /**
  * @typedef {object} WMSFeatureInfoOptions
@@ -40,6 +41,8 @@ export class WMSMixin {
         LAYERS: []
       })
     }
+
+    this.set('legend', options.legend === true)
   }
 
   getQueryable () {
@@ -121,16 +124,6 @@ export class WMSMixin {
     })
   }
 
-  getGetLegendGraphicUrl (params) {
-    const baseParams = {
-      'REQUEST': 'GetLegendGraphic',
-      'FORMAT': 'image/png'
-    }
-    Object.assign(baseParams, this.getParams(), params)
-
-    return appendParams(this.getUrl(), baseParams)
-  }
-
   // toggleArrayEntries_ (obj, prop, names, toggle) {
   //   let arr = obj[prop] || []
   //   if (toggle) {
@@ -178,6 +171,45 @@ export class WMSMixin {
   // getWMSQueryLayersVisible (names) {
   //   return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)
   // }
+
+  // TODO: remove with ol version 6
+  getGetLegendGraphicUrls (resolution) {
+    const params = Object.assign({}, this.getParams())
+    const layers = take(params, 'LAYERS')
+    const urls = []
+
+    for (const layer of layers) {
+      const baseParams = {
+        'SERVICE': 'WMS',
+        'VERSION': '1.3.0',
+        'REQUEST': 'GetLegendGraphic',
+        'FORMAT': 'image/png',
+        'LAYER': layer
+      }
+
+      if (resolution !== undefined) {
+        const mpu = this.getProjection() ? this.getProjection().getMetersPerUnit() : 1
+        const dpi = 25.4 / 0.28
+        const inchesPerMeter = 39.37
+        baseParams['SCALE'] = resolution * mpu * inchesPerMeter * dpi
+      }
+
+      Object.assign(baseParams, params)
+
+      const url = this.originalUrlObject.clone()
+
+      // Skip any null or undefined parameter values
+      Object.keys(baseParams).forEach(k => {
+        if (baseParams[k] !== null && baseParams[k] !== undefined) {
+          url.addParam(k + '=' + encodeURIComponent(baseParams[k]))
+        }
+      })
+
+      urls.push(url.finalize())
+    }
+
+    return urls
+  }
 }
 
 /**

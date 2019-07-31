@@ -30,6 +30,7 @@ export class CheckGroup extends Observable {
             type: 'change:value',
             changed: value
           })
+          $button.blur()
         })
         .appendTo(this.$element_)
       this.buttons_[value] = $button

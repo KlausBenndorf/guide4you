@@ -168,6 +168,11 @@ module.exports = {
     'en': 'Transparency'
   },
 
+  'LegendViewer title': {
+    'de': 'Legende',
+    'en': 'Legend'
+  },
+
   'LinkButton title': {
     'de': 'Home',
     'en': 'Home',

@@ -5,6 +5,7 @@ import { Attribution } from '../controls/Attribution'
 import { ComposedControl } from '../controls/ComposedControl'
 import { ArrowButtons } from '../controls/ArrowButtons'
 import { CombinedZoom } from '../controls/CombinedZoom'
+import { LegendViewer } from '../controls/LegendViewer'
 import { LayerSelector } from '../layerSelector/LayerSelector'
 import { GeolocationButton } from '../controls/GeoLocationButton'
 import { MeasurementButton } from '../controls/MeasurementButton'
@@ -197,6 +198,8 @@ export class ControlFactory {
         return new ComposedControl(options)
       case 'singleDrawButton':
         return new SingleDrawButton(options)
+      case 'legendViewer':
+        return new LegendViewer(options)
     }
   }
 
