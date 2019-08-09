@@ -2,6 +2,15 @@ import { Element } from './Element'
 import { LayerButton } from './LayerButton'
 
 export class WMSLayerButton extends LayerButton {
+  constructor (layerSelector, config, map) {
+    super(layerSelector, config, map)
+    if (this.layer_ && this.layer_.get('available')) {
+      this.listenAt(this.layer_.getSource()).on(['change:layers', 'change:queryLayers'], () => {
+        this.debouncedUpdate()
+      })
+    }
+  }
+
   buildButton (title) {
     super.buildButton(title)
 
@@ -32,15 +41,6 @@ export class WMSLayerButton extends LayerButton {
     //     e.stopPropagation()
     //   })
     // }
-  }
-
-  setMap (map) {
-    super.setMap(map)
-    if (map && this.layer_ && this.layer_.get('available')) {
-      this.listenAt(this.layer_.getSource()).on(['change:layers', 'change:queryLayers'], () => {
-        this.debouncedUpdate()
-      })
-    }
   }
 
   getActive () {

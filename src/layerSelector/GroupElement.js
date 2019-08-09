@@ -14,6 +14,7 @@ export class GroupElement extends Element {
         }
       }
     })
+    this.deactivatable_ = config.deactivatable !== false
     this.buildGroup()
   }
 
@@ -38,6 +39,7 @@ export class GroupElement extends Element {
     if (this.config.hasOwnProperty('groupButton') && this.config.groupButton === 'noButton') {
       this.$element_ = $()
       for (const childConfig of this.config.buttons) {
+        childConfig.deactivatable = this.deactivatable_
         const child = this.layerSelector.getElement(childConfig)
         this.addChild(child)
         this.$element_ = this.$element_.add(child.get$Element())
@@ -90,6 +92,14 @@ export class GroupElement extends Element {
     super.updateDisabled(zoom)
     for (const child of this.children_) {
       child.updateDisabled(zoom)
+    }
+    if (!this.deactivatable_ && !this.getActive()) {
+      for (const child of this.children_) {
+        if (!child.getDisabled()) {
+          child.setActive(true)
+          return
+        }
+      }
     }
   }
 

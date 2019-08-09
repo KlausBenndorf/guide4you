@@ -18,7 +18,6 @@ import { WMSLayerButton } from './WMSLayerButton'
  * @property {number} [minVisibleEntries=6] amount of minimal visible elements
  * @property {string} menuName the name of the layerMenu this selector is connected to. For example 'baseLayers'
  * @property {number} [minLayerAmount=1] the minimum number of layers which should be visible to show this selector
- * @property {LayerController} layerController the layerController will be passed in by the UIConfigurator
  * @property {boolean} [checkboxes=false] if the layerbuttons should have trailing checkboxes
  */
 
@@ -164,11 +163,6 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     super.setMap(map)
 
     if (map) {
-      /**
-       * @type {LayerController}
-       * @private
-       */
-      this.layerController_ = map.get('layerController')
       this.build()
 
       this.listenAt(map.getView()).on('change:resolution', () => {
@@ -201,7 +195,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   build () {
-    const menuConfig = this.layerController_.getMenuConfig(this.menuName_)
+    const menuConfig = this.getMap().get('layerConfig')['menus'][this.menuName_]
     let count = 0
     this.elements_ = []
     if (isArray(menuConfig)) {

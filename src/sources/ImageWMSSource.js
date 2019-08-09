@@ -3,11 +3,9 @@ import { concat, difference } from 'lodash/array'
 import { isEmpty } from 'lodash/lang'
 import ImageWMS from 'ol/source/ImageWMS'
 import TileWMS from 'ol/source/TileWMS'
-import { appendParams } from 'ol/uri'
 
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
-import { take } from '../utilitiesObject'
 
 /**
  * @typedef {object} WMSFeatureInfoOptions
@@ -42,7 +40,7 @@ export class WMSMixin {
       })
     }
 
-    this.set('legend', options.legend === true)
+    this.set('legends', options.legends || false)
   }
 
   getQueryable () {
@@ -173,42 +171,36 @@ export class WMSMixin {
   // }
 
   // TODO: remove with ol version 6
-  getGetLegendGraphicUrls (resolution) {
+  getGetLegendGraphicUrl (resolution, layer) {
     const params = Object.assign({}, this.getParams())
-    const layers = take(params, 'LAYERS')
-    const urls = []
 
-    for (const layer of layers) {
-      const baseParams = {
-        'SERVICE': 'WMS',
-        'VERSION': '1.3.0',
-        'REQUEST': 'GetLegendGraphic',
-        'FORMAT': 'image/png',
-        'LAYER': layer
-      }
-
-      if (resolution !== undefined) {
-        const mpu = this.getProjection() ? this.getProjection().getMetersPerUnit() : 1
-        const dpi = 25.4 / 0.28
-        const inchesPerMeter = 39.37
-        baseParams['SCALE'] = resolution * mpu * inchesPerMeter * dpi
-      }
-
-      Object.assign(baseParams, params)
-
-      const url = this.originalUrlObject.clone()
-
-      // Skip any null or undefined parameter values
-      Object.keys(baseParams).forEach(k => {
-        if (baseParams[k] !== null && baseParams[k] !== undefined) {
-          url.addParam(k + '=' + encodeURIComponent(baseParams[k]))
-        }
-      })
-
-      urls.push(url.finalize())
+    const baseParams = {
+      'SERVICE': 'WMS',
+      'VERSION': '1.3.0',
+      'REQUEST': 'GetLegendGraphic',
+      'FORMAT': 'image/png',
+      'LAYER': layer
     }
 
-    return urls
+    if (resolution !== undefined) {
+      const mpu = this.getProjection() ? this.getProjection().getMetersPerUnit() : 1
+      const dpi = 25.4 / 0.28
+      const inchesPerMeter = 39.37
+      baseParams['SCALE'] = resolution * mpu * inchesPerMeter * dpi
+    }
+
+    Object.assign(baseParams, params)
+
+    const url = this.originalUrlObject.clone()
+
+    // Skip any null or undefined parameter values
+    Object.keys(baseParams).forEach(k => {
+      if (baseParams[k] !== null && baseParams[k] !== undefined) {
+        url.addParam(k + '=' + encodeURIComponent(baseParams[k]))
+      }
+    })
+
+    return url.finalize()
   }
 }
 

@@ -122,6 +122,11 @@
           .changeIconBefore(@g4u-checkbox-unchecked; @g4u-desktop-normal-fontsize);
           &.g4u-layerselector-menu-active {
             .changeIconBefore(@g4u-checkbox-checked; @g4u-desktop-normal-fontsize);
+            &.g4u-layer-loading {
+              &:before {
+                content: @g4u-load-animation;
+              }
+            }
           }
         }
       }
@@ -141,6 +146,7 @@
             background: @g4u-active-hover-button-color; // k
           }
         }
+
         &.g4u-layer-loading {
           &:before {
             content: @g4u-load-animation;

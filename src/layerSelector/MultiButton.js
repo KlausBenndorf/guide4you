@@ -32,7 +32,7 @@ export class MultiButton extends Button {
   setParam (name, value) {
     this.checkedParams_[name] = value
     if (this.getActive()) {
-      this.updateLayers()
+      this.updateLayers(true, true)
     }
   }
 
@@ -62,9 +62,9 @@ export class MultiButton extends Button {
     }
   }
 
-  updateLayers () {
+  updateLayers (on, off) {
     const oldConfig = this.currentConfig_
-    if (oldConfig.refId !== undefined) {
+    if (off && oldConfig.refId !== undefined) {
       const layer = this.layers_[oldConfig.refId]
       if (oldConfig.LAYERS) {
         layer.getSource().deactivateLayers(oldConfig.LAYERS)
@@ -75,7 +75,7 @@ export class MultiButton extends Button {
     }
 
     const newConfig = this.getMatchingConfig()
-    if (newConfig.refId !== undefined) {
+    if (on && newConfig.refId !== undefined) {
       const layer = this.layers_[newConfig.refId]
       if (newConfig.LAYERS) {
         layer.getSource().activateLayers(newConfig.LAYERS)
@@ -100,7 +100,11 @@ export class MultiButton extends Button {
     super.setActive(active)
     this.active_ = active
 
-    this.updateLayers()
+    if (active) {
+      this.updateLayers(true, false)
+    } else {
+      this.updateLayers(false, true)
+    }
   }
 
   getActive () {

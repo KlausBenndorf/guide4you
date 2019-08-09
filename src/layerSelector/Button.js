@@ -3,6 +3,11 @@ import { Element } from './Element'
 import { Accordion } from './Accordion'
 
 export class Button extends Element {
+  constructor (layerSelector, config, map) {
+    super(layerSelector, config, map)
+    this.deactivatable_ = config.deactivatable !== false
+  }
+
   buildButton (text) {
     this.$button_ = $('<span>')
       .addClass('button')
@@ -21,7 +26,7 @@ export class Button extends Element {
     }
 
     if (this.config.hasOwnProperty('window')) {
-      this.addWindowToButton(this.$button_, this.config) // TODO: add method to class
+      this.addWindowToButton(this.$button_, this.config)
     }
 
     this.$button_.html(text)
@@ -29,12 +34,10 @@ export class Button extends Element {
       .addClass('g4u-layerselector-button-frame')
       .append(this.$button_)
 
-    if (this.config.hasOwnProperty('window')) {
-      this.addWindowToButton(this.$button_, this.config) // TODO: add method to class
-    }
-
     this.listenAt(this.$button_).on('click', () => {
-      this.setActive(!this.getActive())
+      if (this.deactivatable_ || !this.getActive()) {
+        this.setActive(!this.getActive())
+      }
     })
 
     if (this.config.hasOwnProperty('accordion') && this.config.accordion) {
@@ -47,6 +50,10 @@ export class Button extends Element {
     }
   }
 
+  setActive (active) {
+    super.setActive(active)
+  }
+
   addAccordionOption (option) {
     if (option.type === 'window') {
       this.accordion.addWindow(option)
@@ -56,7 +63,7 @@ export class Button extends Element {
 
   update () {
     this.$button_.toggleClass('g4u-layerselector-menu-active', this.getActive())
-    this.$button_.toggleClass('g4u-layer-loading', this.getLoading())
+    this.$button_.toggleClass('g4u-layer-loading', this.getActive() && this.getLoading())
     this.$button_.toggleClass('g4u-layerselector-disabled', this.getDisabled())
     if (this.accordion) {
       this.accordion.setActive(this.getActive())

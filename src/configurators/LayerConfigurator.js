@@ -1,5 +1,4 @@
 import { GroupLayer } from '../layers/GroupLayer'
-import { LayerController } from '../layerSelector/LayerController'
 import { copyDeep } from '../utilitiesObject'
 import { Debug } from '../Debug'
 import { LayerFactory } from './LayerFactory'
@@ -304,7 +303,7 @@ import { Attributions } from '../Attributions'
  * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'
  *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
  * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
- * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ * @property {ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
  *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
  */
@@ -356,13 +355,6 @@ export class LayerConfigurator {
     this.layerFactory_ = new LayerFactory(map)
 
     map.set('layerFactory', this.layerFactory_)
-
-    this.map_.on('ready', () => {
-      this.layerController_.updateDisabledLayers(this.map_.getView().getZoom())
-      this.map_.getView().on('change:resolution', () => {
-        this.layerController_.updateDisabledLayers(this.map_.getView().getZoom())
-      })
-    })
   }
 
   /**
@@ -395,9 +387,6 @@ export class LayerConfigurator {
       mapConfig.hasOwnProperty('ignoreLayerAvailability') ? mapConfig.ignoreLayerAvailability : false
     )
 
-    this.layerController_ = new LayerController(this.map_, layerConfigCopy)
-    this.map_.set('layerController', this.layerController_)
-
     // //////////////////////////////////////////////////////////////////////////////////////////
     //                                      layers                                        //
     // //////////////////////////////////////////////////////////////////////////////////////////
@@ -414,7 +403,6 @@ export class LayerConfigurator {
         if (this.configureLayerIsIdOk_(options.id)) {
           const layer = this.layerFactory_.createLayer(options)
           this.map_.addLayer(layer)
-          this.layerController_.registerLayer(options.id, layer)
         }
       }
     })

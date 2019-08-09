@@ -32,17 +32,11 @@ export class Element extends mixin(Observable, ListenerOrganizerMixin) {
   }
 
   updateDisabled (zoom) {
-    let disable = false
-    if (this.config.hasOwnProperty('minZoom') && zoom < this.config.minZoom) {
-      disable = true
-    }
-    if (this.config.hasOwnProperty('maxZoom') && zoom > this.config.maxZoom) {
-      disable = true
-    }
-    if (disable && this.getActive()) {
+    this.disabled_ = (this.config.hasOwnProperty('minZoom') && zoom < this.config.minZoom) ||
+      (this.config.hasOwnProperty('maxZoom') && zoom > this.config.maxZoom)
+    if (this.disabled_ && this.getActive) {
       this.setActive(false)
     }
-    this.disabled_ = disable
     this.debouncedUpdate()
   }
 
