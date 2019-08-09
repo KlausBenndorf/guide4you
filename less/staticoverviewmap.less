@@ -1,0 +1,76 @@
+@import "./lengths";
+@import "./colors";
+@import "./tooltip";
+@import "./buttons";
+
+@ol-overviewmap-collapse-icon: url("../images/icons/expand-outline-bottom-right.svg");
+@ol-overviewmap-expand-icon: url("../images/icons/globe.svg");
+
+.g4u-static-overviewmap {
+  position: absolute;
+
+  border-radius: @g4u-desktop-large-border-radius;
+  padding: @g4u-desktop-padding;
+  //overflow: hidden; //this should hide the corners of the map, alternative: cutting corners of the canvas
+  button {
+    .g4u-symbol-colors;
+    .buttonSquaredWithIcon(@ol-overviewmap-collapse-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize);
+    position: absolute;
+    bottom: @g4u-desktop-padding;
+    right: @g4u-desktop-padding;
+    // var a
+    // border-bottom-left-radius: @g4u-desktop-small-border-radius;
+    // border-bottom-right-radius: @g4u-desktop-small-border-radius;
+    // var b
+    border-radius: @g4u-desktop-small-border-radius;
+  }
+
+  .g4u-static-overviewmap-map {
+    // var a
+    // position: absolute;
+    // width: @ol-overviewmap-width;
+    // height: @ol-overviewmap-height - @g4u-desktop-padding - @g4u-desktop-button-size;
+    // var b
+    // width: @ol-overviewmap-width - 2* @g4u-desktop-padding;
+    // height: @ol-overviewmap-height - 2* @g4u-desktop-padding;
+
+    border-bottom: 0;
+
+    .ol-viewport {
+      border-bottom-left-radius: @g4u-desktop-small-border-radius;
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      cursor: default;
+    }
+  }
+
+  &.ol-collapsed {
+    width: @g4u-desktop-button-size;
+    height: @g4u-desktop-button-size;
+
+    .g4u-static-overviewmap-map {
+      display: none;
+    }
+
+    button {
+      border-top-left-radius: @g4u-desktop-small-border-radius;
+      border-top-right-radius: @g4u-desktop-small-border-radius;
+      .changeIcon( @ol-overviewmap-expand-icon; @g4u-desktop-button-size; @g4u-desktop-huge-fontsize );
+    }
+  }
+
+  &:not(.ol-collapsed) {
+    .g4u-static-overviewmap-map {
+      display: block;
+    }
+  }
+
+  .g4u-has-tooltip {
+    .g4u-tooltip-left-above;
+  }
+
+  // * {
+  //   width: 100%;
+  //   height: 100%;
+  // }
+}

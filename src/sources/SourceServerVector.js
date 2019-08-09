@@ -80,10 +80,15 @@ export class SourceServerVector extends VectorSource {
       formatOptions.extractStyles = options.extractStyles
     }
 
+    if (options.hasOwnProperty('showPointNames')) {
+      formatOptions.showPointNames = options.showPointNames
+    } else {
+      formatOptions.showPointNames = false
+    }
+
     let formatProjection
     switch (this.type_) {
       case 'KML':
-        formatOptions.showPointNames = false
         this.format_ = new KML(formatOptions)
         this.dataType_ = 'text xml' // for $.ajax (GET-request)
         formatProjection = 'EPSG:4326'

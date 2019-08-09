@@ -30,6 +30,7 @@ import { MousePosition } from '../controls/MousePosition'
 import { ScaleLine } from '../controls/ScaleLine'
 import { OverviewMap } from '../controls/OverviewMap'
 import { SingleDrawButton } from '../controls/SingleDrawButton'
+import { StaticOverviewMap } from '../controls/StaticOverviewMap'
 
 /**
  *  Inside of this object the controls are configured. Normally they are referenced by their type, but if
@@ -145,6 +146,8 @@ export class ControlFactory {
         let projection = options.projection || this.map_.get('mapProjection')
         options.view = new View({ projection: projection })
         return new OverviewMap(options)
+      case 'staticOverviewMap':
+        return new StaticOverviewMap(options)
       case 'infoButton':
         return new WindowDecorator({
           component: new InfoButton(options)
