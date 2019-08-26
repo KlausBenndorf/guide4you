@@ -1,18 +1,16 @@
-import $ from 'jQuery'
+import $ from 'jquery'
 
 import { cssClasses } from '../globals'
-import { FeatureInteraction } from './FeatureInteraction'
+import { MapEventInteraction } from './MapEventInteraction'
 
-export class ClickableInteraction extends FeatureInteraction {
+export class ClickableInteraction extends MapEventInteraction {
   constructor (options) {
     options.type = 'pointermove'
     super(options)
     this.filters_ = []
 
-    this.on('interaction', e => {
-      const clickable = e.interacted
-        .map(o => o.feature)
-        .some(feature => this.filters_.some(filter => filter(feature)))
+    this.on('mapevent', e => {
+      const clickable = this.filters_.some(f => f(e.mapEvent))
       if (clickable) {
         $(this.getMap().getViewport()).addClass(cssClasses.clickable)
       } else {

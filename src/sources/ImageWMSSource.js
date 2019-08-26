@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { concat, difference } from 'lodash/array'
+import { concat, difference, intersection } from 'lodash/array'
 import { isEmpty } from 'lodash/lang'
 import ImageWMS from 'ol/source/ImageWMS'
 import TileWMS from 'ol/source/TileWMS'
@@ -16,6 +16,7 @@ import { Debug } from '../Debug'
  *    extra button on the layer button appears to toggle the feature info.
  * @property {boolean} [checked=true] If the layer does not use the buttons options and checkable is true, this option
  *    specifies if the feature info button appears activated or not.
+ * @property {[number, number]} [iframe=false] load in iframe of this size
  */
 
 export class WMSMixin {
@@ -30,6 +31,7 @@ export class WMSMixin {
     }
 
     if (this.featureInfo_) {
+      this.featureInfoIframe = options.featureInfo.iframe
       Object.assign(this.featureInfoParams_, options.featureInfo.params)
       this.featureInfoMutators_ = options.featureInfo.mutators
     }
@@ -44,8 +46,9 @@ export class WMSMixin {
   }
 
   getQueryable () {
-    return this.featureInfo_ &&
-      this.featureInfoParams_['QUERY_LAYERS'] && this.featureInfoParams_['QUERY_LAYERS'].length
+    return this.featureInfo_ && this.featureInfoParams_['QUERY_LAYERS'] &&
+      this.featureInfoParams_['QUERY_LAYERS'].length > 0 &&
+      intersection(this.featureInfoParams_['QUERY_LAYERS'], this.getParams()['LAYERS']).length > 0
   }
 
   getFeatureInfoMutators () {
@@ -107,17 +110,29 @@ export class WMSMixin {
 
   getFeatureInfo (coordinate, resolution, projection) {
     return new Promise((resolve, reject) => {
-      let params = this.featureInfoParams_
-      if (!params['QUERY_LAYERS'] || params['QUERY_LAYERS'].length === 0) {
-        resolve('')
+      let params = Object.assign({}, this.featureInfoParams_)
+      if (!params['QUERY_LAYERS']) {
+        resolve(undefined)
+      }
+      params['QUERY_LAYERS'] = intersection(params['QUERY_LAYERS'], this.getParams()['LAYERS'])
+      if (params['QUERY_LAYERS'].length === 0) {
+        resolve(undefined)
       } else {
         const gfiExt = this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
-        $.ajax({
-          url: this.originalUrlObject.extend(gfiExt).finalize(),
-          success: resolve,
-          error: reject,
-          dataType: 'text'
-        })
+        const url = this.originalUrlObject.extend(gfiExt).finalize()
+        if (this.featureInfoIframe) {
+          resolve($('<iframe>')
+            .width(this.featureInfoIframe[0])
+            .height(this.featureInfoIframe[1])
+            .attr('src', url))
+        } else {
+          $.ajax({
+            url,
+            success: resolve,
+            error: reject,
+            dataType: 'text'
+          })
+        }
       }
     })
   }

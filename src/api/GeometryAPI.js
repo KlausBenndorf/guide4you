@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import Collection from 'ol/Collection'
 import WKT from 'ol/format/WKT'
 import LineString from 'ol/geom/LineString'
@@ -31,6 +30,7 @@ export class GeometryAPI {
     const cssCursor = options.cssCursor || 'crosshair'
     const showCircleRadius = options.showCircleRadius
     const format = options.format || 'wkt'
+    const projection = options.projection || this.map_.getView().getProjection()
 
     let sketchFeature
 
@@ -56,7 +56,7 @@ export class GeometryAPI {
     }
 
     if (type === 'Circle' && showCircleRadius) {
-      drawOptions.style = (feature, resolution) => {
+      drawOptions.style = feature => {
         if (feature === sketchFeature) {
           return style
         } else if (sketchFeature !== undefined) {
@@ -76,7 +76,7 @@ export class GeometryAPI {
         }
       }
     } else {
-      drawOptions.style = (feature, resolution) => {
+      drawOptions.style = feature => {
         if (feature === sketchFeature) {
           return style
         } else {
@@ -96,7 +96,7 @@ export class GeometryAPI {
     const oldCursor = this.map_.getViewport().style.cursor
     this.map_.getViewport().style.cursor = cssCursor
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.mainAPI_.once('cancelInteractions', () => {
         if (interaction.getActive()) {
           interaction.setActive(false)
@@ -116,14 +116,12 @@ export class GeometryAPI {
         switch (format) {
           case 'wkt':
             resolve(this.wktParser_.writeGeometry(geom, {
-              dataProjection: this.map_.getView().getProjection(),
-              featureProjection: options.projection || undefined
+              dataProjection: projection,
+              featureProjection: this.map_.getView().getProjection()
             }))
             break
           case 'array':
-            if (options.projection !== undefined) {
-              geom = geom.transform(this.map_.getView().getProjection(), options.projection)
-            }
+            geom = geom.transform(this.map_.getView().getProjection(), projection)
             resolve(geom.getCoordinates())
             break
         }
@@ -134,9 +132,7 @@ export class GeometryAPI {
   showGeometry (geometryWKT, options = {}) {
     const styling = this.map_.get('styling')
     if (!this.geometrySource_) {
-      this.geometrySource_ = new VectorSource({
-        useSpatialIndex: false
-      })
+      this.geometrySource_ = new VectorSource()
       this.map_.addLayer(new VectorLayer({
         source: this.geometrySource_,
         style: styling.getStyle('#defaultStyle')
@@ -154,7 +150,10 @@ export class GeometryAPI {
     }
 
     const id = ++this.lastId_
-    const feature = this.wktParser_.readFeature(geometryWKT)
+    const feature = this.wktParser_.readFeature(geometryWKT, {
+      dataProjection: options.projection || this.map_.get('interfaceProjection'),
+      featureProjection: this.map_.get('mapProjection')
+    })
     feature.setId(id)
     if (options.style) {
       feature.setStyle(styling.getStyle(options.style))
@@ -187,5 +186,15 @@ export class GeometryAPI {
 
   hideGeometry (id) {
     this.geometrySource_.removeFeature(this.geometrySource_.getFeatureById(id))
+  }
+
+  clear () {
+    if (this.geometrySource_) {
+      this.geometrySource_.clear()
+    }
+  }
+
+  getExtent () {
+    return this.geometrySource_.getExtent()
   }
 }

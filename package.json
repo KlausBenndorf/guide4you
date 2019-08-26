@@ -11,7 +11,7 @@
     "g4u server"
   ],
   "engines": {
-    "node": "8"
+    "node": ">=8"
   },
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you",

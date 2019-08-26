@@ -85,7 +85,9 @@ export class API extends BaseObject {
       geometry: {
         draw: this.geometryAPI_.drawGeometry.bind(this.geometryAPI_),
         show: this.geometryAPI_.showGeometry.bind(this.geometryAPI_),
-        hide: this.geometryAPI_.hideGeometry.bind(this.geometryAPI_)
+        hide: this.geometryAPI_.hideGeometry.bind(this.geometryAPI_),
+        clear: this.geometryAPI_.clear.bind(this.geometryAPI_),
+        extent: this.geometryAPI_.getExtent.bind(this.geometryAPI_)
       },
       printToScale: {
         showFrame: this.printToScaleAPI_.showFrame.bind(this.printToScaleAPI_),
@@ -214,16 +216,16 @@ export class API extends BaseObject {
   }
 
   transformInput (func, transform) {
-    return (input, options) => {
-      if (options && options.projection) {
+    return (input, options = {}) => {
+      if (options.projection) {
         input = transform(input, options.projection, this.map_.getView().getProjection())
       }
       return func(input)
     }
   }
 
-  moveToExtent (extent, options) {
-    if (options && options.projection) {
+  moveToExtent (extent, options = {}) {
+    if (options.projection) {
       extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
     }
     if (!options.padding) {
@@ -232,8 +234,8 @@ export class API extends BaseObject {
     this.map_.get('move').toExtent(extent, options)
   }
 
-  moveToPoint (coordinate, options) {
-    if (options && options.projection) {
+  moveToPoint (coordinate, options = {}) {
+    if (options.projection) {
       coordinate = transform(coordinate, options.projection, this.map_.getView().getProjection())
     }
     this.map_.get('move').toPoint(coordinate, options)
@@ -308,7 +310,7 @@ export class API extends BaseObject {
 
   setVisibleLayer (id) {
     this.map_.getLayerGroup().recursiveForEach((layer) => {
-      if (layer.get('id')) {
+      if (layer.get('id') === id) {
         layer.setVisible(true)
       }
     })
@@ -346,7 +348,7 @@ export class API extends BaseObject {
     layerOptions.visible = true
     layerOptions.source = layerOptions.source || {}
 
-    let promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let layer = this.addLayer(layerOptions)
       let source = layer.getSource()
       let loadEndHandler = () => {
@@ -360,8 +362,6 @@ export class API extends BaseObject {
       source.once('vectorloadend', loadEndHandler)
       source.once('vectorloaderror', loadErrorHandler)
     })
-
-    return promise
   }
 
   /**

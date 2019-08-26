@@ -134,18 +134,7 @@ export class Styling {
      * @private
      */
     this.managingFeatureStyle_ = (feature, resolution) => {
-      let style = feature.get('managedStyle')
-      if ($.isFunction(style)) {
-        style = style(feature, resolution)
-      }
-      if (!style) {
-        style = this.getStyle('#defaultStyle')
-      }
-      if (isArray(style)) {
-        return style.map(s => this.adjustStyle_(feature, s))
-      } else {
-        return this.adjustStyle_(feature, style)
-      }
+      return this.processedStyle(feature.get('managedStyle'), feature, resolution)
     }
 
     this.nullStyle_ = new Style({
@@ -153,6 +142,20 @@ export class Styling {
     })
 
     this.manageStyles_ = options.manageStyles !== false
+  }
+
+  manifestStyle (style, feature, resolution) {
+    while ($.isFunction(style)) {
+      style = style(feature, resolution)
+    }
+    if (!style) {
+      style = this.getStyle('#defaultStyle')
+    }
+    if (isArray(style)) {
+      return style.map(s => this.manifestStyle(s))
+    } else {
+      return style
+    }
   }
 
   /**
@@ -211,7 +214,12 @@ export class Styling {
 
     let styleOptions = addFillsAndStrokes(filledStyleConf)
 
-    styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))
+    let getTextProperty
+
+    if (filledStyleConf.hasOwnProperty('text')) {
+      getTextProperty = filledStyleConf.text['textProperty']
+      styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))
+    }
 
     let scalable = false
 
@@ -233,10 +241,21 @@ export class Styling {
       }
     }
 
-    return new Style(styleOptions)
+    const style = new Style(styleOptions)
+    if (getTextProperty) {
+      return feature => {
+        const text = feature.get(getTextProperty)
+        if (text) {
+          style.getText().setText(text)
+        }
+        return style
+      }
+    } else {
+      return style
+    }
   }
 
-  getConfigFromStyle (style) {
+  getConfigFromStyle () {
     throw new Error('Not implemented yet')
   }
 
@@ -300,12 +319,16 @@ export class Styling {
    */
   adjustStyle_ (feature, style) {
     if (!feature.get('hidden')) {
-      let clone = style.clone()
-      this.scaleStyle_(clone)
-      if (feature.get('opacity') !== undefined) {
-        this.changeColorOpacity_(clone, feature.get('opacity'))
+      if (this.getGlobalIconScale() !== 1 || feature.get('opacity') !== undefined) {
+        let clone = style.clone()
+        this.scaleStyle_(clone)
+        if (feature.get('opacity') !== undefined) {
+          this.changeColorOpacity_(clone, feature.get('opacity'))
+        }
+        return clone
+      } else {
+        return style
       }
-      return clone
     } else {
       return this.nullStyle_
     }
@@ -388,26 +411,23 @@ export class Styling {
     }
   }
 
+  processedStyle (style, feature, resolution) {
+    const mStyle = this.manifestStyle(style, feature, resolution)
+    if (isArray(mStyle)) {
+      return mStyle.map(s => this.adjustStyle_(feature, s))
+    } else {
+      return this.adjustStyle_(feature, mStyle)
+    }
+  }
+
   manageLayer (layer) {
     if (this.manageStyles_) {
       let style = layer.getStyle()
 
       if (style && !layer.get('managedStyle')) {
-        layer.set('managedStyle', layer.getStyle())
-
+        layer.set('managedStyle', style)
         layer.setStyle((feature, resolution) => {
-          let style = layer.get('managedStyle')
-          if ($.isFunction(style)) {
-            style = style(feature, resolution)
-          }
-          if (!style) {
-            style = this.getStyle('#defaultStyle')
-          }
-          if (isArray(style)) {
-            return style.map(s => this.adjustStyle_(feature, s))
-          } else {
-            return this.adjustStyle_(feature, style)
-          }
+          return this.processedStyle(style, feature, resolution)
         })
       }
 
@@ -423,7 +443,7 @@ export class Styling {
 
   getConditionalStyleFromConfig (configArr) {
     const styles = configArr.map(o => this.getStyle(o.style))
-    return (feature, resolution) => {
+    return feature => {
       for (let i = 0; i < configArr.length; i++) {
         if (!configArr[i]['condition']) {
           return styles[i]

@@ -1,7 +1,5 @@
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
-import isFunction from 'lodash/isFunction'
-import isArray from 'lodash/isArray'
 import { getCenter } from 'ol/extent'
 import Point from 'ol/geom/Point'
 import BaseObject from 'ol/Object'
@@ -208,7 +206,9 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
       })
 
       // clickable
-      map.get('clickableInteraction').addFilter(FeaturePopup.canDisplay)
+      map.get('clickableInteraction').addFilter(e => {
+        return map.forEachFeatureAtPixel(e.pixel, FeaturePopup.canDisplay)
+      })
 
       // hiding feature Popup if the layer gets hidden or the feature gets removed
 
@@ -550,12 +550,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   addIconSizedOffset (feature, style, resolution) {
     if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
       if (style) {
-        if (isFunction(style)) {
-          style = style(feature, resolution)
-        }
-        if (isArray(style)) {
-          style = style[ 0 ]
-        }
+        style = this.getMap().get('styling').manifestStyle(style, feature, resolution)
         if (style) {
           let imageStyle = style.getImage()
           if (imageStyle instanceof Icon) {
