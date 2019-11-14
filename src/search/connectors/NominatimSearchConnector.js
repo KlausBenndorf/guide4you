@@ -12,19 +12,33 @@ export class NominatimSearchConnector extends SearchConnector {
     super(options)
 
     this.dataProjection = 'EPSG:4326'
+
+    if (options.extent) {
+      this.userExtent_ = options.extent
+    }
+  }
+
+  setExtent (extent) {
+    let extentString = transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
+    this.serviceURL.addParam(`format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=${extentString}` +
+      `&bounded=1&extratags=1&namedetails=1`)
   }
 
   setMap (map) {
     super.setMap(map)
 
     if (map) {
-      let extent = map.getView().calculateExtent(map.getSize())
+      let userExtent = this.userExtent_
+      if (map.get('mapConfig').view.extent) {
+        userExtent = map.get('mapConfig').view.extent
+      }
 
-      let extentString = transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
-
-      this.serviceURL.addParam(
-        'format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=' + extentString +
-        '&bounded=1&extratags=1&namedetails=1')
+      if (userExtent) {
+        this.setExtent(transformExtent(userExtent, map.get('interfaceProjection'), this.dataProjection))
+      } else {
+        const extent = map.getView().calculateExtent(map.getSize())
+        this.setExtent(transformExtent(extent, this.featureProjection, this.dataProjection))
+      }
     }
   }
 
