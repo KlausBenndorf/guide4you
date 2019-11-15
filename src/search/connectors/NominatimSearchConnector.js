@@ -19,7 +19,7 @@ export class NominatimSearchConnector extends SearchConnector {
   }
 
   setExtent (extent) {
-    let extentString = transformExtent(extent, this.featureProjection, this.dataProjection).join(',')
+    let extentString = extent.join(',')
     this.serviceURL.addParam(`format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=${extentString}` +
       `&bounded=1&extratags=1&namedetails=1`)
   }
