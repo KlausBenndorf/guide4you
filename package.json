@@ -34,7 +34,7 @@
     "csscolorparser": "1.0.3",
     "lodash": "4.17.11",
     "notifyjs-browser": "0.4.2",
-    "proj4": "2.5.0",
+    "proj4": "2.6.0",
     "strip-json-comments": "2.0.1"
   },
   "devDependencies": {
