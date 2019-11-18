@@ -93,7 +93,7 @@ export class ShowWMSFeatureInfo {
 
   clickableFilter (e) {
     if (this.showClickable_ === 'everywhere') {
-      return true
+      return this.layers_.some(l => l.getVisible())
     } else if (this.showClickable_ === 'layerAtPixel') {
       return this.getMap().forEachLayerAtPixel(e.pixel, layer => this.layerQueryable(layer))
     } else {

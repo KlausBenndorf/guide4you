@@ -227,7 +227,7 @@ export class LinkGeneratorButton extends Control {
         style: map.get('styling').getStyle(this.style_)
       })
       this.drawPoint_.setActive(false)
-      map.addSupersedingInteraction('singleClick doubleClick mouseMove', this.drawPoint_)
+      map.addSupersedingInteraction('singleclick dblclick pointermove', this.drawPoint_)
     }
 
     super.setMap(map)

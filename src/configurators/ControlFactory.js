@@ -6,6 +6,7 @@ import { ComposedControl } from '../controls/ComposedControl'
 import { ArrowButtons } from '../controls/ArrowButtons'
 import { CombinedZoom } from '../controls/CombinedZoom'
 import { LegendViewer } from '../controls/LegendViewer'
+import { ZoomToBbox } from '../controls/ZoomToBbox'
 import { LayerSelector } from '../layerSelector/LayerSelector'
 import { GeolocationButton } from '../controls/GeoLocationButton'
 import { MeasurementButton } from '../controls/MeasurementButton'
@@ -203,6 +204,8 @@ export class ControlFactory {
         return new SingleDrawButton(options)
       case 'legendViewer':
         return new LegendViewer(options)
+      case 'zoomToBbox':
+        return new ZoomToBbox(options)
     }
   }
 
