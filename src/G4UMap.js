@@ -45,121 +45,6 @@ import '../less/map.less'
  * @fires 'change:ready:layers'
  */
 export class G4UMap extends OlMap {
-  static loadConfigFile (fileName) {
-    return $.ajax({
-      url: fileName,
-      dataType: 'text'
-    }).then(data => {
-      try {
-        return JSON.parse(stripJsonComments(data))
-      } catch (err) {
-        Debug.error(`The config file ${fileName} couldn't be parsed.`)
-        Debug.error(err)
-      }
-    }).fail((err) => {
-      Debug.error(`The config file ${fileName} couldn't be loaded.`)
-      Debug.error(err)
-    })
-  }
-
-  updateClientConfig (config) {
-    let clientPromise
-    if (isPlainObject(config)) {
-      clientPromise = Promise.resolve(config)
-    } else {
-      if (!this.get('configFileName')) {
-        this.set('configFileName', config)
-      }
-      clientPromise = G4UMap.loadConfigFile(config)
-    }
-    clientPromise.then(data => {
-      this.set('mapConfigReady', true)
-      this.set('mapConfig', data)
-    })
-    return clientPromise
-  }
-
-  updateLayerConfig (config) {
-    let layerPromise
-    if (isPlainObject(config)) {
-      layerPromise = Promise.resolve(config)
-    } else {
-      if (!this.get('layerConfigFileName')) {
-        this.set('layerConfigFileName', config)
-      }
-      layerPromise = G4UMap.loadConfigFile(config)
-    }
-    layerPromise.then(data => {
-      this.set('layerConfigReady', true)
-      this.set('layerConfig', layerConfigConverter(data))
-    })
-  }
-
-  loadConfigs (configs) {
-    this.set('mapConfigReady', false)
-    this.set('layerConfigReady', false)
-
-    const configPromises = []
-
-    if (configs.hasOwnProperty('client')) {
-      configPromises.push(this.updateClientConfig(configs.client))
-    } else {
-      Debug.error('No client config provided.')
-    }
-
-    // issue reload of mapConfig if the name was changed
-    this.on('change:configFileName', /** ol.ObjectEvent */ e => {
-      this.set('ready', false)
-      this.set('mapConfigReady', false)
-
-      this.oldMapConfigs_ = this.oldMapConfigs_ || {}
-      this.oldMapConfigs_[e.oldValue] = this.get('mapConfig')
-
-      if (this.oldMapConfigs_.hasOwnProperty(this.get('configFileName'))) {
-        this.updateClientConfig(this.oldMapConfigs_[this.get('configFileName')])
-      } else {
-        this.updateClientConfig(this.get('configFileName'))
-      }
-    })
-
-    if (configs.hasOwnProperty('layer')) {
-      configPromises.push(this.updateLayerConfig(configs.layer))
-    } else {
-      Debug.error('No client config provided.')
-    }
-
-    // issue reload of layerConfig if the name was changed
-    this.on('change:layerConfigFileName', /** ol.ObjectEvent */ e => {
-      this.set('ready', false)
-      this.set('layerConfigReady', false)
-
-      this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
-      this.oldLayerConfigs_[e.oldValue] = this.get('layerConfig')
-
-      if (this.oldLayerConfigs_.hasOwnProperty(this.get('layerConfigFileName'))) {
-        this.updateLayerConfig(this.oldLayerConfigs_[this.get('layerConfigFileName')])
-      } else {
-        this.updateLayerConfig(this.get('layerConfigFileName'))
-      }
-    })
-
-    if (configs.hasOwnProperty('translations')) {
-      configPromises.push(G4UMap.loadConfigFile(configs.translations).then(data => {
-        this.set('translations', data)
-      }))
-    } else {
-      Debug.error('No translations provided')
-    }
-
-    if (configs.hasOwnProperty('styleMap')) {
-      configPromises.push(G4UMap.loadConfigFile(configs.styleMap).then(data => {
-        this.set('styleMap', data)
-      }))
-    }
-
-    return Promise.all(configPromises)
-  }
-
   /**
    * @param {HTMLElement|jQuery|string} target element or id of an element
    * @param {Configs} configs
@@ -314,6 +199,122 @@ export class G4UMap extends OlMap {
         }
       })
     }).catch(Debug.defaultErrorHandler)
+  }
+
+  static loadConfigFile (fileName) {
+    return $.ajax({
+      url: fileName,
+      dataType: 'text'
+    }).then(data => {
+      try {
+        return JSON.parse(stripJsonComments(data))
+      } catch (err) {
+        Debug.error(`The config file ${fileName} couldn't be parsed.`)
+        Debug.error(err)
+      }
+    }).fail((err) => {
+      Debug.error(`The config file ${fileName} couldn't be loaded.`)
+      Debug.error(err)
+    })
+  }
+
+  updateClientConfig (config) {
+    let clientPromise
+    if (isPlainObject(config)) {
+      clientPromise = Promise.resolve(config)
+    } else {
+      if (!this.get('configFileName')) {
+        this.set('configFileName', config)
+      }
+      clientPromise = G4UMap.loadConfigFile(config)
+    }
+    clientPromise.then(data => {
+      this.set('mapConfigReady', true)
+      this.set('mapConfig', data)
+    })
+    return clientPromise
+  }
+
+  updateLayerConfig (config) {
+    let layerPromise
+    if (isPlainObject(config)) {
+      layerPromise = Promise.resolve(config)
+    } else {
+      if (!this.get('layerConfigFileName')) {
+        this.set('layerConfigFileName', config)
+      }
+      layerPromise = G4UMap.loadConfigFile(config)
+    }
+    layerPromise.then(data => {
+      this.set('layerConfigReady', true)
+      this.set('layerConfig', layerConfigConverter(data))
+    })
+    return layerPromise
+  }
+
+  loadConfigs (configs) {
+    this.set('mapConfigReady', false)
+    this.set('layerConfigReady', false)
+
+    const configPromises = []
+
+    if (configs.hasOwnProperty('client')) {
+      configPromises.push(this.updateClientConfig(configs.client))
+    } else {
+      Debug.error('No client config provided.')
+    }
+
+    // issue reload of mapConfig if the name was changed
+    this.on('change:configFileName', /** ol.ObjectEvent */ e => {
+      this.set('ready', false)
+      this.set('mapConfigReady', false)
+
+      this.oldMapConfigs_ = this.oldMapConfigs_ || {}
+      this.oldMapConfigs_[e.oldValue] = this.get('mapConfig')
+
+      if (this.oldMapConfigs_.hasOwnProperty(this.get('configFileName'))) {
+        this.updateClientConfig(this.oldMapConfigs_[this.get('configFileName')])
+      } else {
+        this.updateClientConfig(this.get('configFileName'))
+      }
+    })
+
+    if (configs.hasOwnProperty('layer')) {
+      configPromises.push(this.updateLayerConfig(configs.layer))
+    } else {
+      Debug.error('No layer config provided.')
+    }
+
+    // issue reload of layerConfig if the name was changed
+    this.on('change:layerConfigFileName', /** ol.ObjectEvent */ e => {
+      this.set('ready', false)
+      this.set('layerConfigReady', false)
+
+      this.oldLayerConfigs_ = this.oldLayerConfigs_ || {}
+      this.oldLayerConfigs_[e.oldValue] = this.get('layerConfig')
+
+      if (this.oldLayerConfigs_.hasOwnProperty(this.get('layerConfigFileName'))) {
+        this.updateLayerConfig(this.oldLayerConfigs_[this.get('layerConfigFileName')])
+      } else {
+        this.updateLayerConfig(this.get('layerConfigFileName'))
+      }
+    })
+
+    if (configs.hasOwnProperty('translations')) {
+      configPromises.push(G4UMap.loadConfigFile(configs.translations).then(data => {
+        this.set('translations', data)
+      }))
+    } else {
+      Debug.error('No translations provided')
+    }
+
+    if (configs.hasOwnProperty('styleMap')) {
+      configPromises.push(G4UMap.loadConfigFile(configs.styleMap).then(data => {
+        this.set('styleMap', data)
+      }))
+    }
+
+    return Promise.all(configPromises)
   }
 
   /**

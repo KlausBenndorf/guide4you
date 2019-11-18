@@ -27,37 +27,37 @@
   },
   "peerDependencies": {
     "jquery": "3.4.1",
-    "ol": "5.3.0"
+    "ol": "5.3.3"
   },
   "dependencies": {
-    "better-scroll": "1.13.2",
+    "better-scroll": "1.15.2",
     "csscolorparser": "1.0.3",
-    "lodash": "4.17.11",
+    "lodash": "4.17.15",
     "notifyjs-browser": "0.4.2",
-    "proj4": "2.5.0",
-    "strip-json-comments": "2.0.1"
+    "proj4": "2.6.0",
+    "strip-json-comments": "3.0.1"
   },
   "devDependencies": {
     "babel-polyfill": "6.26.0",
-    "concurrently": "4.0.1",
-    "cross-env": "^5.2.0",
+    "concurrently": "5.0.0",
+    "cross-env": "^6.0.3",
     "esdoc": "1.1.0",
     "esdoc-standard-plugin": "1.0.0",
-    "eslint": "5.7.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint": "6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "guide4you-builder": "3.5.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "0.11.1",
     "jquery": "3.4.1",
-    "mocha": "5.2.0",
-    "ol": "5.3.0",
+    "mocha": "6.2.2",
+    "ol": "5.3.3",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
-    "wait-on": "3.1.0"
+    "wait-on": "3.3.0"
   },
   "scripts": {
     "grab": "g4u-grab guide4you-builder",
