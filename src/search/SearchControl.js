@@ -376,7 +376,7 @@ export class SearchControl extends Control {
       if (!this.getMap().get('mobile') && isExact) {
         // exact search result desktop
         let featurePopup = this.getMap().get('featurePopup')
-        featurePopup.setFeature(features[0], features[0].getStyle() || this.searchView_.getStyle())
+        featurePopup.setFeature(features[0], null, features[0].getStyle() || this.searchView_.getStyle())
         featurePopup.setVisible(true, false)
         // featurePopup.update(false)
         featurePopup.centerMapOnPopup()

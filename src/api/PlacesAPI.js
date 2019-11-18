@@ -79,7 +79,7 @@ export class PlacesAPI {
   openPopup (id, options = {}) {
     const featurePopup = this.map_.get('featurePopup')
     const feature = this.source_.getFeatureById(id)
-    featurePopup.setFeature(feature, feature.getStyle())
+    featurePopup.setFeature(feature, null, feature.getStyle())
     featurePopup.setVisible(true)
     if (options.center !== false) {
       featurePopup.centerMapOnPopup()

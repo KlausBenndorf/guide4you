@@ -190,6 +190,9 @@ export class API extends BaseObject {
         area: this.measureAPI_.getArea.bind(this.measureAPI_),
         distance: this.measureAPI_.getDistance.bind(this.measureAPI_)
       },
+      popupModifier: {
+        register: (name, popupModifier) => this.map_.get('popupModifiers').register(name, popupModifier)
+      },
       // 'style': {
       //   'collection': styling.styleCollection,
       //   'feature': styling.styleFeature,

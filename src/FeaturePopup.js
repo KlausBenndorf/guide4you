@@ -216,11 +216,11 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         if (source.getFeatures) {
           this.listenAt(source).on('removefeature', e => {
             if (e.feature === this.getFeature()) {
-              this.referencingVisibleLayers_.forEach(rLay => {
+              for (const rLay of this.referencingVisibleLayers_) {
                 if (rLay.getSource() === source) {
                   this.removeReferencingLayer_(rLay)
                 }
-              })
+              }
             }
           })
         }
@@ -240,17 +240,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
           })
 
           this.listenAt(layer).on('change:visible', () => {
-            let source = layer.getSource()
-            if (source && source.getFeatures) {
-              if (layer.getVisible() === false) {
-                if (source.getFeatures().indexOf(this.getFeature()) > -1) {
-                  this.removeReferencingLayer_(layer)
-                }
-              } else {
-                if (source.getFeatures().indexOf(this.getFeature()) > -1) {
-                  this.referencingVisibleLayers_.push(layer)
-                }
+            if (layer.getVisible()) {
+              if (this.layerContainsFeature(layer, this.getFeature())) {
+                this.addReferencingLayer_(layer)
               }
+            } else {
+              this.removeReferencingLayer_(layer)
             }
           })
         }
@@ -312,17 +307,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         feature = feature.get('features')[0]
       }
 
-      this.referencingVisibleLayers_ = []
-
-      this.getMap().getLayerGroup().recursiveForEach(layer => {
-        if (layer.getVisible() && layer.getSource && layer.getSource().getFeatures) {
-          if (layer.getSource().getFeatures().indexOf(feature) > -1) {
-            this.referencingVisibleLayers_.push(layer)
-          }
-        }
-      })
-
-      this.setFeature(feature, feature.getStyle() || layer.getStyle(), coordinate)
+      this.setFeature(feature, layer, feature.getStyle() || layer.getStyle(), coordinate)
       this.setVisible(true)
 
       if (this.centerOnPopup_) {
@@ -336,9 +321,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * @private
    */
   removeReferencingLayer_ (layer) {
-    this.referencingVisibleLayers_.splice(this.referencingVisibleLayers_.indexOf(layer), 1)
-    if (this.referencingVisibleLayers_.length === 0) {
-      this.setVisible(false)
+    const index = this.referencingVisibleLayers_.indexOf(layer)
+    if (index > -1) {
+      this.referencingVisibleLayers_.splice(index, 1)
+      if (this.referencingVisibleLayers_.length === 0) {
+        this.setVisible(false)
+      }
     }
   }
 
@@ -373,7 +361,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
     return this.getMap().get('popupModifiers').apply({
       name: this.getFeature().get('name'),
       description: this.getFeature().get('description')
-    }, this.currentPopupModifiers_)
+    }, this.getMap(), this.currentPopupModifiers_)
       .then(result => {
         if (result.name) {
           this.$name_.removeClass(cssClasses.hidden)
@@ -451,11 +439,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
+   * @param {ol.layer.Base} layer
    * @param {ol.style.Style} style
    * @param {ol.Coordinate} clickCoordinate
    * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, style, clickCoordinate = null, optPopupModifiers = []) {
+  setFeature (feature, layer, style, clickCoordinate = null) {
     let oldValue = this.feature_
     if (feature) {
       let coordinate = clickCoordinate
@@ -472,10 +461,24 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.currentPopupModifiers_ = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
-      for (let layer of this.referencingVisibleLayers_) {
-        this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get('popupModifiers')))
+
+      this.referencingVisibleLayers_ = []
+
+      if (layer) {
+        this.addReferencingLayer_(layer)
       }
+
+      this.getMap().getLayerGroup().recursiveForEach(layer => {
+        if (this.layerContainsFeature(layer, feature)) {
+          this.addReferencingLayer_(layer)
+        }
+      })
+
+      this.currentPopupModifiers_ = this.defaultPopupModifiers_.slice()
+      for (let refLayer of this.referencingVisibleLayers_) {
+        this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(refLayer.get('popupModifiers')))
+      }
+
       if (this.feature_) {
         this.geometryChangeHandler_ = () => {
           let coordinate = clickCoordinate
@@ -498,6 +501,14 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
 
       this.update(style)
     }
+  }
+
+  layerContainsFeature (layer, feature) {
+    const source = layer.getSource && layer.getSource()
+    if (source && source.getFeatures) {
+      return source.getFeatures().indexOf(feature) > -1
+    }
+    return false
   }
 
   /**
@@ -638,5 +649,11 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
     }
 
     return this.getMap().getCoordinateFromPixel(pixelPosition)
+  }
+
+  addReferencingLayer_ (layer) {
+    if (this.referencingVisibleLayers_.indexOf(layer) < 0) {
+      this.referencingVisibleLayers_.push(layer)
+    }
   }
 }

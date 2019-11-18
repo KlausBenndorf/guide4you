@@ -216,9 +216,7 @@ export class G4UMap extends OlMap {
     if (options.popupModifiers) {
       this.on('change:featurePopup', () => {
         for (let name of Object.keys(options.popupModifiers)) {
-          let popupModifier = options.popupModifiers[name]
-          popupModifier.setMap(this)
-          popupModifiers.register(name, popupModifier)
+          popupModifiers.register(name, options.popupModifiers[name])
         }
       })
     }

@@ -11,7 +11,7 @@ import { VectorLayer } from './layers/VectorLayer'
  * @typedef {Object} ShowWMSFeatureInfoOptions
  * @property {StyleLike} [style='#defaultStyle']
  * @property {String} [seperator='<br>']
- * @property {String[]} [popupModifiers=[]]
+ * @property {String} [showClickable='layerAtPixel'] can be 'everywhere', 'layerAtPixel' or 'nowhere'
  * @property {boolean} [animated]
  */
 
@@ -25,17 +25,16 @@ export class ShowWMSFeatureInfo {
 
     this.animated_ = options.animated
     this.centerOnPopup_ = options.hasOwnProperty('centerOnPopup') ? options.centerOnPopup : true
-    this.centerIfNoData_ = this.centerOnPopup_ && options.hasOwnProperty('centerIfNoData')
-      ? options.centerIfNoData : false
+    this.showClickable_ = options.hasOwnProperty('showClickable') ? options.showClickable : 'layerAtPixel'
+    // this.centerIfNoData_ = this.centerOnPopup_ && options.hasOwnProperty('centerIfNoData')
+    //   ? options.centerIfNoData : false
 
     this.centerOnPopupInitial_ = this.centerOnPopup_
-
-    this.popupModifiers_ = options.popupModifiers || []
   }
 
   handleClickEvent (e) {
     let map = this.getMap()
-    let featurePopup = map.get('featurePopup')
+
     let projection = map.getView().getProjection()
 
     let layers = this.layers_.filter(l => l.getVisible())
@@ -49,34 +48,38 @@ export class ShowWMSFeatureInfo {
       let feature
       for (let layer of layers) {
         layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
-          .then(data => {
-            if (data !== '') {
-              if (!feature) {
-                this.utilitySource_.clear()
-                feature = new Feature({
-                  geometry: new Point(coordinate),
-                  description: data,
-                  style: this.style_
-                })
-                map.get('styling').manageFeature(feature)
-                this.utilitySource_.addFeature(feature)
-                featurePopup.setFeature(feature, this.style_, coordinate,
-                  [...this.popupModifiers_, ...layer.getSource().getFeatureInfoMutators()])
-                featurePopup.setVisible(true)
-                this.setPointVisible(true)
-                if (this.centerOnPopup_) {
-                  featurePopup.centerMapOnPopup(this.animated_)
-                }
-                featurePopup.once('change:visible', () => this.setPointVisible(false))
-              } else {
-                feature.set('description', feature.get('description') + this.separator_ + data)
-              }
-            }
-            layer.on('change:visible', () => {
-              featurePopup.setVisible(false)
-            })
-          })
+          .then(data => this.handleData(feature, coordinate, layer, data))
       }
+    }
+  }
+
+  handleData (feature, coordinate, layer, data) {
+    if (data !== '') {
+      let featurePopup = this.getMap().get('featurePopup')
+      if (!feature) {
+        this.utilitySource_.clear()
+        feature = new Feature({
+          geometry: new Point(coordinate),
+          description: data,
+          style: this.style_
+        })
+        this.getMap().get('styling').manageFeature(feature)
+        this.utilitySource_.addFeature(feature)
+
+        featurePopup.setFeature(feature, layer, this.style_, coordinate)
+        featurePopup.setVisible(true)
+
+        this.setPointVisible(true)
+        if (this.centerOnPopup_) {
+          featurePopup.centerMapOnPopup(this.animated_)
+        }
+        featurePopup.once('change:visible', () => this.setPointVisible(false))
+      } else {
+        feature.set('description', feature.get('description') + this.separator_ + data)
+      }
+      layer.on('change:visible', () => {
+        featurePopup.setVisible(false)
+      })
     }
   }
 
@@ -89,53 +92,13 @@ export class ShowWMSFeatureInfo {
   }
 
   clickableFilter (e) {
-    return this.getMap().forEachLayerAtPixel(e.pixel, layer => this.layerQueryable(layer))
-
-    // let map = this.getMap()
-    // if (!map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay, { hitTolerance: 5 })) {
-    //   let featureTooltip = map.get('featureTooltip')
-    //   this.lastTooltipPixel_ = e.pixel
-    //
-    //   if (map.forEachLayerAtPixel(e.mapEvent.pixel, layer => this.layerQueryable(layer))) {
-    //     clearTimeout(this.tooltipTimeout_)
-    //     $(map.getViewport()).addClass(cssClasses.clickable)
-    //     this.tooltipTimeout_ = setTimeout(() => {
-    //       if (e.pixel === this.lastTooltipPixel_) {
-    //         let projection = map.getView().getProjection()
-    //         let coordinate = e.mapEvent.coordinate
-    //         let feature
-    //         map.forEachLayerAtPixel(e.mapEvent.pixel, layer => {
-    //           if (this.layerQueryable(layer)) {
-    //             layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
-    //               .then(data => {
-    //                 if (data !== '') {
-    //                   if (!feature) {
-    //                     feature = new Feature({
-    //                       geometry: new Point(coordinate),
-    //                       description: data
-    //                     })
-    //                     featureTooltip.setFeature(feature, coordinate,
-    //                       [...this.popupModifiers_, ...layer.getSource().getFeatureInfoMutators()])
-    //                   } else {
-    //                     feature.set('description', feature.get('description') + this.separator_ + data)
-    //                   }
-    //                   this.shouldHide_ = true
-    //                 }
-    //                 layer.on('change:visible', () => {
-    //                   featureTooltip.setFeature(null)
-    //                 })
-    //               })
-    //           }
-    //         })
-    //       }
-    //     }, 200)
-    //   } else {
-    //     if (this.shouldHide_) {
-    //       featureTooltip.setFeature(null)
-    //     }
-    //     $(map.getViewport()).removeClass(cssClasses.clickable)
-    //   }
-    // }
+    if (this.showClickable_ === 'everywhere') {
+      return true
+    } else if (this.showClickable_ === 'layerAtPixel') {
+      return this.getMap().forEachLayerAtPixel(e.pixel, layer => this.layerQueryable(layer))
+    } else {
+      return false
+    }
   }
 
   setMap (map) {
@@ -149,7 +112,6 @@ export class ShowWMSFeatureInfo {
 
     if (this.getMap()) {
       this.getMap().un('change:mobile', onMapChangeMobile)
-      unByKey(this.listenerKey_)
     }
 
     this.map_ = map
