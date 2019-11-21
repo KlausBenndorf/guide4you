@@ -115,10 +115,7 @@ export class StaticOverviewMap extends Control {
         }
 
         let fitViewToImage = () => {
-          this.ovmap_.getView().fit(transformedExtent, {
-            constrainResolution: false // ,
-            // padding: [-1, -1, -1, -1] // HACK: somehow fit doesn't fit exactly
-          })
+          this.ovmap_.getView().fit(transformedExtent)
         }
 
         let setSize = (width, height) => {
@@ -137,7 +134,8 @@ export class StaticOverviewMap extends Control {
         this.ovmap_ = new Map({
           target: this.$mapElement_[0],
           view: new View({
-            projection: mapProjection
+            projection: mapProjection,
+            constrainResolution: false
           }),
           layers: [
             new ImageLayer({

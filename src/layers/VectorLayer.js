@@ -1,18 +1,12 @@
 import OlVectorLayer from 'ol/layer/Vector'
+import OlVectorImageLayer from 'ol/layer/VectorImage'
 
 import { LayerLoadProcessCountMixin } from './LayerLoadProcessCountMixin'
 import { mixin } from '../utilities'
 import { ProvideMapMixin } from './ProvideMapMixin'
 
-/**
- * @typedef {object} VectorLayerOptions
- * @property {string[]} [mutators=[]] list of mutators (changes featurepopup content) to use for this layer.
- */
-
-export class VectorLayer extends mixin(mixin(OlVectorLayer, ProvideMapMixin), LayerLoadProcessCountMixin) {
-  constructor (options = {}) {
-    super(options)
-
+class UpdateRefreshingMixin {
+  constructor () {
     this.on('change:visible', () => {
       if (this.getSource().setRefreshing) {
         this.getSource().setRefreshing(this.getVisible())
@@ -23,3 +17,14 @@ export class VectorLayer extends mixin(mixin(OlVectorLayer, ProvideMapMixin), La
     this.set('mutators', options.mutators || [])
   }
 }
+
+/**
+ * @typedef {object} VectorLayerOptions
+ * @property {string[]} [mutators=[]] list of mutators (changes featurepopup content) to use for this layer.
+ */
+
+export class VectorLayer extends
+  mixin(OlVectorLayer, [ProvideMapMixin, LayerLoadProcessCountMixin, UpdateRefreshingMixin]) { }
+
+export class VectorImageLayer extends
+  mixin(OlVectorImageLayer, [ProvideMapMixin, LayerLoadProcessCountMixin, UpdateRefreshingMixin]) { }

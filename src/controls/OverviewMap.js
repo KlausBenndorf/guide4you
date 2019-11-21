@@ -1,11 +1,11 @@
 import OlOverviewMap from 'ol/control/OverviewMap'
-import LayerGroup from 'ol/layer/Group'
 
 import { RewireMixin } from './RewireMixin'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
 
 import '../../less/overviewmap.less'
+import { copyDeep } from '../utilitiesObject.js'
 
 /**
  * @typedef {g4uControlOptions} OverviewMapOptions
@@ -42,11 +42,20 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
     if (map) {
       const view = map.getView()
 
-      const groupLayer = new LayerGroup({
-        layers: map.getLayers().getArray().filter(l => l.get('overview'))
-      })
+      const layerConfigs = copyDeep(map.get('layerConfig').layers.filter(l => l.overview))
 
-      this.getOverviewMap().setLayerGroup(groupLayer)
+      for (const options of layerConfigs) {
+        const layer = map.get('layerFactory').createLayer(options)
+        this.getOverviewMap().addLayer(layer)
+        const matchedLayer = map.getLayerGroup().getLayerById(options.id)
+        if (options.overview === 'always') {
+          layer.setVisible(true)
+        } else {
+          matchedLayer.on('change:visible', () => {
+            layer.setVisible(matchedLayer.getVisible())
+          })
+        }
+      }
 
       let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
 

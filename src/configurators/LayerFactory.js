@@ -20,7 +20,7 @@ import ImageCanvas from 'ol/source/ImageCanvas'
 import { ImageLayer } from '../layers/ImageLayer'
 import { EmptyImageLayer } from '../layers/EmptyImageLayer'
 import { TileLayer } from '../layers/TileLayer'
-import { VectorLayer } from '../layers/VectorLayer'
+import { VectorLayer, VectorImageLayer } from '../layers/VectorLayer'
 import { ArcGISRESTFeatureSource } from '../sources/ArcGISRESTFeatureSource'
 import { SourceServerVector } from '../sources/SourceServerVector'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
@@ -269,7 +269,12 @@ export class LayerFactory extends Observable {
           clusterOptions = asObject(clusterOptions)
           optionsCopy.source = new ClusterSource(optionsCopy.source, clusterOptions)
         }
-        layer = new VectorLayer(optionsCopy)
+        if (options.renderMode !== 'image') {
+          layer = new VectorLayer(optionsCopy)
+        } else {
+          layer = new VectorImageLayer(optionsCopy)
+        }
+
         break
       case LayerType.KML:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
@@ -290,7 +295,12 @@ export class LayerFactory extends Observable {
         if (clusterOptions) {
           optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))
         }
-        layer = new VectorLayer(optionsCopy)
+
+        if (options.renderMode !== 'image') {
+          layer = new VectorLayer(optionsCopy)
+        } else {
+          layer = new VectorImageLayer(optionsCopy)
+        }
         break
       case LayerType.ARCGISRESTFEATURE:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)

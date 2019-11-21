@@ -260,6 +260,7 @@ export class MapConfigurator {
         mapConfigCopy.view.extent,
         getTransform(interfaceProjection, mapProjection)
       )
+      viewOptions.constrainCenterOnly = true
     }
 
     let oldView = this.map_.getView()
