@@ -402,8 +402,8 @@ module.exports = {
     en: 'Zoom to area'
   },
   'ZoomToBbox tipLabel': {
-    de: 'Zoom zu Bereich',
-    en: 'Zoom to area'
+    de: 'Zoom zu Bereich (Maus gedrückt halten)',
+    en: 'Zoom to area (keep mouse pressed)'
   },
 
   // ///////////////////////////////////////////////////////////////////////////

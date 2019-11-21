@@ -36,7 +36,7 @@
           "de": "Essen und Schlafen in Bonn",
           "en": "Eating and sleeping in Bonn"
         },
-        "groupButton": "activate",
+        groupButton: "activate",
         "buttons": [
           {
             "type": "layer",

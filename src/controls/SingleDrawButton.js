@@ -1,4 +1,8 @@
 import $ from 'jquery'
+import { Feature } from 'ol'
+import LineString from 'ol/geom/LineString'
+import { unByKey } from 'ol/Observable'
+import { getLength } from 'ol/sphere'
 
 import { Control } from './Control'
 import { cssClasses, keyCodes } from '../globals'
@@ -113,10 +117,12 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
   addInteraction (mode) {
     const map = this.getMap()
 
+    const style = map.get('styling').getStyle(this.editStyle_)
+
     this.interaction_ = new Draw({
       source: this.layer_.getSource(),
       type: mode,
-      style: map.get('styling').getStyle(this.editStyle_)
+      style: style
     })
 
     $(map.getViewport()).addClass(cssClasses.crosshair)
@@ -169,10 +175,49 @@ export class SingleDrawButton extends mixin(Control, ActivatableMixin) {
           this.removeInteraction()
         }
       })
+
+      this.addMeasureLine()
     }
   }
 
   getLayer () {
     return this.layer_
+  }
+
+  addMeasureLine () {
+    let lastPoint = null
+
+    const style = this.getMap().get('styling').getStyle(this.editStyle_).clone()
+    style.setZIndex(style.getZIndex() + 1)
+    const projection = this.getMap().getView().getProjection()
+
+    const measureLine = new Feature()
+    measureLine.setStyle(() => {
+      if (style.getText()) {
+        const length = getLength(measureLine.getGeometry(), { projection })
+        style.getText().setText(length.toFixed(0) + ' m')
+      }
+      return style
+    })
+
+    this.layer_.getSource().addFeature(measureLine)
+
+    this.getMap().on('singleclick', e => {
+      measureLine.set('hidden', true)
+      lastPoint = e.coordinate
+    })
+
+    this.getMap().on('pointermove', e => {
+      if (this.getActive() && lastPoint) {
+        const geometry = new LineString([lastPoint, e.coordinate])
+        measureLine.setGeometry(geometry)
+        measureLine.set('hidden', false)
+      }
+    })
+
+    this.on('change:active', () => {
+      lastPoint = null
+      measureLine.set('hidden', true)
+    })
   }
 }

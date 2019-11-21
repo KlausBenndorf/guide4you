@@ -1,11 +1,10 @@
 {
-// Beware of breaking the JSON-syntax!
+// This file uses json5 syntax (See https://json5.org/)
   "proxy": "{{{ajaxProxy}}}",
   "languageSettings": {
     "currentLanguage": "en",
     "defaultLanguage": "en",
-    "availableLanguages": ["en", "de", "pl", "ar"],
-    "languageFile": "{{{languageFile}}}"
+    "availableLanguages": ["en", "de", "pl", "ar"]
   },
   "mapProjection": "EPSG:3857",
   "interfaceProjection": "EPSG:4326",

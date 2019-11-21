@@ -76,6 +76,17 @@
         "color": "rgba( 255, 0, 0, 0.8)",
         "width": 2
       }
+    },
+    "text": {
+      "font": "12px sans-serif",
+      "placement": "line",
+      "textBaseline": "bottom",
+      "fill": {
+        "color": "black"
+      },
+      "stroke": {
+        "color": "white"
+      }
     }
   },
   "#iconStyle": {

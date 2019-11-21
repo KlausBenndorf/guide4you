@@ -8,7 +8,7 @@ import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
 import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.json5'
 import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.json5'
-import defaultStylesConf from 'file-loader?name=conf/[name].[ext]!./styles.json'
+import defaultStylesConf from 'file-loader?name=conf/[name].[ext]!./styles.json5'
 import defaultLanguageConf from 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
