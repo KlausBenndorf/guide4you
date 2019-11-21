@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { isPlainObject } from 'lodash/lang'
 import OlMap from 'ol/Map'
-import stripJsonComments from 'strip-json-comments'
+import JSON5 from 'json5'
 
 import { MapConfigurator } from './configurators/MapConfigurator'
 import { Debug } from './Debug'
@@ -207,7 +207,7 @@ export class G4UMap extends OlMap {
       dataType: 'text'
     }).then(data => {
       try {
-        return JSON.parse(stripJsonComments(data))
+        return JSON5.parse(data)
       } catch (err) {
         Debug.error(`The config file ${fileName} couldn't be parsed.`)
         Debug.error(err)

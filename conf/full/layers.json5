@@ -197,6 +197,9 @@
       "visible": false
     },
     {
+      // uses decluttering and a style with textProperty to show the names of the point
+      // uses loadingStrategy "TILE", but this does not do much because it is a single KML files
+      // uses a popupModifier
       "id": "f1",
       "title": {
         "en": "Hotels in Bonn",
@@ -207,16 +210,19 @@
         "loadingStrategy": "TILE",
         "bboxRatio": 1.2,
         "url": "files/hotelsbonn.kml?bbox={minx},{miny},{maxx},{maxy}",
-        "cluster": true,
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
         },
         "extractStyles": false
       },
-      "style": "#textPropertyStyle"
+      "popupModifiers": ["test"],
+      "style": "#textPropertyStyle",
+      // "declutter": true // does not work at the moment
     },
     {
+      // uses showPointNames option for KMLs
+      // uses clustering
       "id": "f2",
       "title": {
         "en": "Restaurants in Bonn",
@@ -231,11 +237,10 @@
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
-        },
-        "extractStyles": true,
-        "showPointNames": true
+        }
+        // "extractStyles": true,
+        // "showPointNames": true // does not work at the moment. problem with openlayers?
       },
-      "popupModifiers": ["test"],
       "style": "#defaultStyle"
     },
     {

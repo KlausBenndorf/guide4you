@@ -1,4 +1,3 @@
-import { Debug } from '../../src/Debug'
 import { createMapInternal } from '../../src/main'
 import { registerModule } from '../../src/moduleRegistration'
 
@@ -7,8 +6,8 @@ import { NominatimSearchConnector } from 'src/search/connectors/NominatimSearchC
 
 import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
-import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
-import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.commented.json'
+import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.json5'
+import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.json5'
 import defaultStylesConf from 'file-loader?name=conf/[name].[ext]!./styles.json'
 import defaultLanguageConf from 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 

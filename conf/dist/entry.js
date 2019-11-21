@@ -5,8 +5,8 @@ import { SearchModule } from 'src/search/SearchModule'
 import { NominatimSearchConnector } from 'src/search/connectors/NominatimSearchConnector'
 import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
-import 'file-loader?name=conf/[name].[ext]!mustache-loader!../full/client.commented.json'
-import 'file-loader?name=conf/[name].[ext]!./layers.commented.json'
+import 'file-loader?name=conf/[name].[ext]!mustache-loader!../full/client.json5'
+import 'file-loader?name=conf/[name].[ext]!./layers.json5'
 
 import 'tojson-file-loader?name=files/[name]!files/l10n.json.js'
 

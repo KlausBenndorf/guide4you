@@ -247,6 +247,8 @@ export class Styling {
         const text = feature.get(getTextProperty)
         if (text) {
           style.getText().setText(text)
+        } else {
+          style.getText().setText()
         }
         return style
       }

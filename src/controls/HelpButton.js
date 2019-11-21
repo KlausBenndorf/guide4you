@@ -2,7 +2,6 @@ import $ from 'jquery'
 
 import { Control } from './Control'
 import { checkFor, finishAllImages, mixin } from '../utilities'
-import stripJsonComments from 'strip-json-comments'
 import { Debug } from '../Debug'
 
 import '../../less/helpbutton.less'
@@ -50,7 +49,7 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
   createContent_ () {
     let localiser = this.getMap().get('localiser')
 
-    let documentationObject = JSON.parse(stripJsonComments(this.contentData_))
+    let documentationObject = JSON5.parse(this.contentData_)
 
     if (checkFor(documentationObject, localiser.getCurrentLang())) {
       this.language = localiser.getCurrentLang()

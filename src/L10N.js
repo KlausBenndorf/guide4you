@@ -1,7 +1,5 @@
-import $ from 'jquery'
 import Observable from 'ol/Observable'
 
-import stripJsonComments from 'strip-json-comments'
 import { Debug } from './Debug'
 import { URL } from './URLHelper'
 
