@@ -46,7 +46,7 @@ export class FeatureAPI {
 
     $(this.map_.getViewport()).addClass(cssClasses.crosshair)
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.mainAPI_.once('cancelInteractions', () => {
         if (interaction.getActive()) {
           interaction.setActive(false)

@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import { Feature } from 'ol'
 import LineString from 'ol/geom/LineString'
-import { unByKey } from 'ol/Observable'
 import { getLength } from 'ol/sphere'
 
 import { Control } from './Control'

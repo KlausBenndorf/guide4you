@@ -135,9 +135,9 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   addWindowToButton ($button, layer) {
-    let windowConfig = layer.get('window')
+    const windowConfig = layer.get('window')
 
-    let window = new Window({
+    const window = new Window({
       map: this.getMap()
     })
 
@@ -147,7 +147,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
     let content
 
-    let showWindow = () => {
+    const showWindow = () => {
       if (this.getMap().get('localiser').isRtl()) {
         window.get$Body().prop('dir', 'rtl')
       } else {
@@ -157,14 +157,14 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
       window.setVisible(true)
     }
 
-    let hideWindow = () => {
+    const hideWindow = () => {
       window.setVisible(false)
     }
 
     this.listenAt($button).on('click', () => {
       if (layer.getVisible()) {
         if (!content) {
-          let url = URL.extractFromConfig(windowConfig, 'url', undefined, this.getMap())
+          const url = URL.extractFromConfig(windowConfig, 'url', undefined, this.getMap())
           $.get(url.finalize(), data => {
             content = data
             showWindow()
@@ -189,7 +189,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    */
   buildLayerButton (layer, $target) {
     if (layer.get('available')) {
-      let $button = $('<button>')
+      const $button = $('<button>')
         .addClass(this.classNames_.layerButton)
         .attr('id', layer.get('id'))
         .html(layer.get('title'))
@@ -210,7 +210,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         $button.prop('dir', 'rtl')
       }
 
-      let activeClassName = this.classNames_.menu + '-active'
+      const activeClassName = this.classNames_.menu + '-active'
 
       this.listenAt($button).on('click', () => {
         layer.setVisible(!layer.getVisible())
@@ -258,7 +258,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     let $nextTarget = $target
 
     if (categoryLayer.get('available')) {
-      let activateChildren = categoryLayer.get('activateChildren') !== false
+      const activateChildren = categoryLayer.get('activateChildren') !== false
 
       let collapsed = categoryLayer.get('collapsed')
       if (collapsed === undefined) {
@@ -266,7 +266,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         categoryLayer.set('collapsed', collapsed)
       }
 
-      let menu = new ButtonBox({
+      const menu = new ButtonBox({
         className: this.classNames_.menu,
         title: this.getLocaliser().selectL10N(categoryLayer.get('title')),
         rtl: this.getMap().get('localiser').isRtl(),
@@ -276,10 +276,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
         addClass: categoryLayer.get('addClass')
       })
 
-      let countChildren = categoryLayer.countChildren()
+      const countChildren = categoryLayer.countChildren()
       let countVisibleChildren = categoryLayer.countChildrenVisible()
 
-      let updateButtonActivities = () => {
+      const updateButtonActivities = () => {
         if (countVisibleChildren === 0) {
           menu.setCollapseButtonActive(false)
           if (activateChildren) {
@@ -300,10 +300,10 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       updateButtonActivities()
 
-      let forEachChildLayer = childLayer => {
+      const forEachChildLayer = childLayer => {
         this.listenAt(childLayer)
           .on(['change:visible', 'change:childVisible'], e => {
-            let changedLayer = e.child || childLayer
+            const changedLayer = e.child || childLayer
 
             if (changedLayer.getVisible()) {
               countVisibleChildren++
@@ -322,7 +322,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
       this.listenAt(menu)
         .on('title:click', () => {
-          let visible = countVisibleChildren < countChildren
+          const visible = countVisibleChildren < countChildren
           categoryLayer.recursiveForEach(childLayer => {
             if (!(childLayer instanceof GroupLayer)) {
               childLayer.setVisible(visible)
@@ -345,13 +345,13 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           this.changed()
         })
 
-      for (let childLayer of categoryLayer.getLayers().getArray()) {
+      for (const childLayer of categoryLayer.getLayers().getArray()) {
         this.chooseButtonBuilder(childLayer, $nextTarget)
       }
 
       return menu
     } else {
-      for (let childLayer of categoryLayer.getLayers().getArray()) {
+      for (const childLayer of categoryLayer.getLayers().getArray()) {
         this.chooseButtonBuilder(childLayer, $nextTarget)
       }
     }
@@ -359,16 +359,16 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
   buildWMSButton (wmsLayer, $target) {
     if (wmsLayer.get('available')) {
-      let layerButtons = wmsLayer.get('buttons')
+      const layerButtons = wmsLayer.get('buttons')
 
       if (layerButtons && layerButtons.length) {
         let countActiveButtons = 0
-        let wmsSource = wmsLayer.getSource()
+        const wmsSource = wmsLayer.getSource()
 
         let allLayersParams = []
         let allQueryLayersParams = []
 
-        let featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
+        const featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
 
         let menu
         if (layerButtons.length > 1) {
@@ -392,17 +392,17 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           $target = menu.get$Body()
         }
 
-        let activeClassName = this.classNames_.menu + '-active'
+        const activeClassName = this.classNames_.menu + '-active'
 
-        for (let layerButton of layerButtons) {
+        for (const layerButton of layerButtons) {
           allLayersParams = allLayersParams.concat(layerButton.LAYERS)
           allQueryLayersParams = allQueryLayersParams.concat(layerButton.QUERY_LAYERS)
 
-          let $button = $('<span>')
+          const $button = $('<span>')
             .addClass(this.classNames_.layerButton)
             .addClass('button')
             .html(this.getLocaliser().selectL10N(layerButton.title))
-          let $toggleFeatureInfo = $('<span>')
+          const $toggleFeatureInfo = $('<span>')
             .addClass(this.classNames_.featureInfo)
           addTooltip($toggleFeatureInfo,
             this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
@@ -417,10 +417,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
           $target.append($button)
 
-          let toggleButtonActive, setCheckboxActive
-
-          toggleButtonActive = () => {
-            let active = !wmsSource.getWMSLayersVisible(layerButton.LAYERS)
+          const toggleButtonActive = () => {
+            const active = !wmsSource.getWMSLayersVisible(layerButton.LAYERS)
 
             if (active) {
               countActiveButtons++
@@ -466,7 +464,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
             })
           }
 
-          setCheckboxActive = checkboxActive => {
+          const setCheckboxActive = checkboxActive => {
             if (checkboxActive && !wmsSource.getWMSLayersVisible(layerButton.LAYERS)) {
               toggleButtonActive()
             }
@@ -511,7 +509,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
         if (menu) {
           this.listenAt(menu).on('title:click', () => {
-            let activateAll = countActiveButtons < layerButtons.length
+            const activateAll = countActiveButtons < layerButtons.length
             if (activateAll) {
               wmsSource.toggleWMSLayers(allLayersParams, true)
               countActiveButtons = layerButtons.length
@@ -547,12 +545,12 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           return menu
         }
       } else {
-        let wmsSource = wmsLayer.getSource()
-        let featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
+        const wmsSource = wmsLayer.getSource()
+        const featureInfoCheckable = wmsSource.isFeatureInfoCheckable()
 
-        let activeClassName = this.classNames_.menu + '-active'
+        const activeClassName = this.classNames_.menu + '-active'
 
-        let $button = $('<span>')
+        const $button = $('<span>')
           .addClass(this.classNames_.layerButton)
           .addClass('button')
           .html(this.getLocaliser().selectL10N(wmsLayer.get('title')))
@@ -569,17 +567,15 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
           $button.toggleClass(this.classNames_.disabled, wmsLayer.get('disabled'))
         })
 
-        let $toggleFeatureInfo = $('<span>')
+        const $toggleFeatureInfo = $('<span>')
           .addClass(this.classNames_.featureInfo)
         addTooltip($toggleFeatureInfo,
           this.getLocaliser().localiseUsingDictionary('LayerSelector featureInfo show'))
 
         $target.append($button)
 
-        let toggleButtonActive, setCheckboxActive
-
-        toggleButtonActive = () => {
-          let active = !wmsLayer.getVisible()
+        const toggleButtonActive = () => {
+          const active = !wmsLayer.getVisible()
           wmsLayer.setVisible(active)
           $button.toggleClass(activeClassName, active)
 
@@ -600,11 +596,11 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
 
         const featureInfoParams = wmsSource.getFeatureInfoParams()
 
-        setCheckboxActive = checkboxActive => {
+        const setCheckboxActive = checkboxActive => {
           if (checkboxActive && !wmsLayer.getVisible()) {
             toggleButtonActive()
           }
-          wmsSource.toggleWMSQueryLayers(featureInfoParams['QUERY_LAYERS'], checkboxActive)
+          wmsSource.toggleWMSQueryLayers(featureInfoParams.QUERY_LAYERS, checkboxActive)
           $toggleFeatureInfo.toggleClass(this.classNames_.featureInfoActive, checkboxActive)
           if (checkboxActive) {
             changeTooltip($toggleFeatureInfo,
@@ -676,8 +672,8 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     this.layers_ = this.getMap().get(this.layerGroupName_).getLayers()
     if (this.layers_.getLength() >= this.minLayerAmount_) {
       this.setVisible(true)
-      let menuFunctions = new ButtonBox({ className: this.classNames_.menu })
-      for (let layer of this.layers_.getArray()) {
+      const menuFunctions = new ButtonBox({ className: this.classNames_.menu })
+      for (const layer of this.layers_.getArray()) {
         this.chooseButtonBuilder(layer, this.menu_.get$Body())
       }
       menuFunctions.giveLastVisible(this.get$Element().children(':last-child').children(':last-child'))
@@ -710,15 +706,15 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    */
   squeezeBy (dimension, value) {
     if (dimension === 'height') {
-      let $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
-      let $buttons = $contentBox.find('button:visible')
+      const $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
+      const $buttons = $contentBox.find('button:visible')
         .filter(`.${this.getClassName()}-layerbutton,.${this.getClassName()}-menu-titlebutton`)
 
       if ($buttons.length > 1) {
-        let height = $contentBox.height()
-        let buttonHeight = offset($buttons.eq(1), $buttons.eq(0)).top
+        const height = $contentBox.height()
+        const buttonHeight = offset($buttons.eq(1), $buttons.eq(0)).top
 
-        let newHeight = Math.max(buttonHeight * this.minVisibleButtons_, height - value)
+        const newHeight = Math.max(buttonHeight * this.minVisibleButtons_, height - value)
 
         if (height > newHeight) {
           $contentBox.css('max-height', newHeight)

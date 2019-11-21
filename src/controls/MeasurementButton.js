@@ -137,7 +137,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
       })
 
       const style = map.get('styling').getStyle(this.style_)
-      const segmentStyle = (feature, resolution) => {
+      const segmentStyle = feature => {
         let coords
         if (this.dimension_ === 1) {
           coords = feature.getGeometry().getCoordinates()
@@ -243,7 +243,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
   }
 
   handleActiveChange_ () {
-    let active = this.getActive()
+    const active = this.getActive()
 
     this.layer_.setVisible(active)
 
@@ -253,7 +253,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
       } else {
         this.get$Element().prop('dir', undefined)
       }
-      let popup = this.getMap().get('featurePopup')
+      const popup = this.getMap().get('featurePopup')
       if (popup) {
         popup.setVisible(false)
       }

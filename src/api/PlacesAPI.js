@@ -111,7 +111,7 @@ export class PlacesAPI {
     featurePopup.on('change:feature', () => {
       feature = featurePopup.getFeature() || feature
     })
-    featurePopup.on('change:visible', e => {
+    featurePopup.on('change:visible', () => {
       const visible = featurePopup.getVisible()
       const found = this.possiblePlaces_.find(f => f === feature)
       if (found) {

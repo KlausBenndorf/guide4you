@@ -36,7 +36,7 @@ export class G4UServerSearchConnector extends SearchConnector {
     return new Promise((resolve, reject) => {
       const layerConfigFileName = this.getMap().get('layerConfigFileName')
       const layerConfigId = /.*?(\d+)\/?$/.exec(layerConfigFileName)[1]
-      let finalUrl = this.serviceURL.clone()
+      const finalUrl = this.serviceURL.clone()
         .expandTemplate('searchstring', input)
         .expandTemplate('layerconfigid', layerConfigId)
         .finalize()
@@ -45,7 +45,7 @@ export class G4UServerSearchConnector extends SearchConnector {
         url: finalUrl,
         dataType: 'text',
         success: results => {
-          let features = this.format_.readFeatures(results,
+          const features = this.format_.readFeatures(results,
             { dataProjection: 'EPSG:4326', featureProjection: this.featureProjection })
           resolve(SearchConnector.flipTuples(features.map(f => [f.get('extra'), f])))
         },

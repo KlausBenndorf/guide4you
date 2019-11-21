@@ -12,10 +12,10 @@ export class SilentGroupLayer extends mixin(Group, ProvideMapMixin) {
   constructor (options = {}) {
     super(options)
 
-    let listenerKeys = new WeakMap()
+    const listenerKeys = new WeakMap()
 
     this.getLayers().on('add', /** ol.CollectionEvent */ e => {
-      let layer = e.element
+      const layer = e.element
       if (layer.provideMap) {
         layer.provideMap(this.getProvidedMap())
       }
@@ -28,7 +28,7 @@ export class SilentGroupLayer extends mixin(Group, ProvideMapMixin) {
     })
 
     this.getLayers().on('remove', /** ol.CollectionEvent */ e => {
-      let layer = e.element
+      const layer = e.element
       if (layer.provideMap) {
         layer.provideMap(null)
       }

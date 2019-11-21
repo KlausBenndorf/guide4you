@@ -14,7 +14,7 @@ class DOMListener {
   }
 
   once (event, listener, useCapture) {
-    let that = this
+    const that = this
     this.on(event, function (...args) {
       listener.apply(this, args)
       that.detach()
@@ -88,18 +88,18 @@ export class ListenerOrganizerMixin {
 
   listenAt (elements) {
     elements = Array.isArray(elements) ? elements : [elements]
-    let returnObj = {
+    const returnObj = {
       on: (event, listener, useCapture) => {
-        for (let element of elements) {
-          let tListener = ListenerOrganizerMixin.getTypeListener(element)
+        for (const element of elements) {
+          const tListener = ListenerOrganizerMixin.getTypeListener(element)
           tListener.on(event, listener, useCapture)
           this.organizedListeners_.push(tListener)
         }
         return returnObj
       },
       once: (event, listener, useCapture) => {
-        for (let element of elements) {
-          let tListener = ListenerOrganizerMixin.getTypeListener(element)
+        for (const element of elements) {
+          const tListener = ListenerOrganizerMixin.getTypeListener(element)
           tListener.once(event, listener, useCapture)
           this.organizedListeners_.push(tListener)
         }
@@ -114,14 +114,14 @@ export class ListenerOrganizerMixin {
     if (event) {
       listeners = listeners.filter(l => l.event === event)
     }
-    for (let listener of listeners) {
+    for (const listener of listeners) {
       listener.detach()
       this.organizedListeners_.splice(this.organizedListeners_.indexOf(listener), 1)
     }
   }
 
   detachAllListeners () {
-    for (let listener of this.organizedListeners_) {
+    for (const listener of this.organizedListeners_) {
       listener.detach()
     }
     this.organizedListeners_ = []

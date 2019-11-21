@@ -15,10 +15,10 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
   constructor (options = {}) {
     super(options)
 
-    let listenerKeys = new WeakMap()
+    const listenerKeys = new WeakMap()
 
     this.getLayers().on('add', /** CollectionEvent */ e => {
-      let layer = e.element
+      const layer = e.element
       if (layer.provideMap) {
         layer.provideMap(this.getProvidedMap())
       }
@@ -31,7 +31,7 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
     })
 
     this.getLayers().on('remove', /** CollectionEvent */ e => {
-      let layer = e.element
+      const layer = e.element
       if (layer.provideMap) {
         layer.provideMap(null)
       }
@@ -90,7 +90,7 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
    * @returns {number}
    */
   countChildrenVisible () {
-    let array = this.getLayersArray()
+    const array = this.getLayersArray()
     let count = 0
 
     for (let i = 0, ii = array.length; i < ii; i++) {
@@ -104,7 +104,7 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
   }
 
   countChildren () {
-    let array = this.getLayersArray()
+    const array = this.getLayersArray()
     let count = 0
 
     for (let i = 0, ii = array.length; i < ii; i++) {
@@ -155,7 +155,7 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
   getIds () {
     let ids = this.get('id') !== undefined ? [this.get('id')] : []
 
-    let array = this.getLayersArray()
+    const array = this.getLayersArray()
 
     for (let i = 0, ii = array.length; i < ii; i++) {
       if (array[i].getIds) {
@@ -178,7 +178,7 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
     this.recursiveForEach(function (layer) {
       if (layer.getVisible()) {
         if (layer.getSource) {
-          let atts = layer.getSource().getAttributions()
+          const atts = layer.getSource().getAttributions()
           if (atts) {
             attributions = attributions.concat(atts)
           }
@@ -194,12 +194,12 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
    * @param {string|number} id
    */
   removeLayerById (id) {
-    let layers = this.getLayers()
+    const layers = this.getLayers()
     for (let i = 0; i < layers.getLength(); i++) {
       if (layers.item(i).get('id') === id) {
         return layers.removeAt(i)
       } else if (layers.item(i).removeLayerById) {
-        let res = layers.item(i).removeLayerById(id)
+        const res = layers.item(i).removeLayerById(id)
         if (res) {
           return res
         }
@@ -212,11 +212,11 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
    * @param {Function} cb
    */
   findLayer (cb) {
-    for (let layer of this.getLayersArray()) {
+    for (const layer of this.getLayersArray()) {
       if (cb(layer)) {
         return layer
       } else if (layer.findLayer) {
-        let res = layer.findLayer(cb)
+        const res = layer.findLayer(cb)
         if (res) {
           return res
         }
@@ -229,11 +229,11 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
    * @param {string|number} id
    */
   getLayerById (id) {
-    for (let layer of this.getLayersArray()) {
+    for (const layer of this.getLayersArray()) {
       if (layer.get('id') === id) {
         return layer
       } else if (layer.getLayerById) {
-        let res = layer.getLayerById(id)
+        const res = layer.getLayerById(id)
         if (res) {
           return res
         }
@@ -262,7 +262,7 @@ export class GroupLayer extends mixin(Group, ProvideMapMixin) {
    * @returns {Object.<string|number,boolean>}
    */
   getIdsVisibilities () {
-    let visibilities = {}
+    const visibilities = {}
     this.recursiveForEach(layer => {
       if (layer.get('id')) {
         visibilities[layer.get('id')] = layer.getVisible()

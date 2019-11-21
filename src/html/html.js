@@ -38,7 +38,7 @@ export function getInFront ($element, $context) {
       .find('*:visible')
       .not((i, el) => el !== $element[0] && $(el).parents().is($element))
       .each(function () {
-        let current = parseInt($(this).css('z-index'), 10)
+        const current = parseInt($(this).css('z-index'), 10)
         if (current && highest < current) {
           highest = current
         }

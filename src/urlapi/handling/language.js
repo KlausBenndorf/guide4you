@@ -2,7 +2,7 @@
  * @type {URLParameter}
  */
 export const languageParam = {
-  keys: [ 'lang' ],
+  keys: ['lang'],
   setEvent: 'change:localiser',
   setToMap: (map, query) => {
     if (query.isSet('lang')) {
@@ -11,7 +11,7 @@ export const languageParam = {
   },
   getFromMap: (map) => {
     return {
-      'lang': map.get('localiser').getCurrentLang()
+      lang: map.get('localiser').getCurrentLang()
     }
   }
 }

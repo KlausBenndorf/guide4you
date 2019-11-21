@@ -12,7 +12,7 @@ import { copy } from './utilitiesObject'
 window.jQuery = window.jQuery || $
 
 export function createMapInternal (element, args, defaultConfigs) {
-  let configs = copy(defaultConfigs)
+  const configs = copy(defaultConfigs)
   let options
   if (args.length > 0) {
     if (isPlainObject(args[0])) {
@@ -39,7 +39,7 @@ export function createMapInternal (element, args, defaultConfigs) {
       if (!$) {
         reject(new Error('jQuery not available.'))
       } else {
-        let v = $().jquery.split('.')
+        const v = $().jquery.split('.')
         if (+v[0] < 2 && +v[1] < 9) {
           Debug.error('You are using an outdated version of jQuery. Please use version 1.9 or higher.')
         }

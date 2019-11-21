@@ -195,7 +195,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   build () {
-    const menuConfig = this.getMap().get('layerConfig')['menus'][this.menuName_]
+    const menuConfig = this.getMap().get('layerConfig').menus[this.menuName_]
     let count = 0
     this.elements_ = []
     if (isArray(menuConfig)) {
@@ -281,15 +281,15 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
    */
   squeezeBy (dimension, value) {
     if (dimension === 'height') {
-      let $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
-      let $buttons = $contentBox.find('button:visible')
+      const $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
+      const $buttons = $contentBox.find('button:visible')
         .filter(`.${this.getClassName()}-layerbutton,.${this.getClassName()}-menu-titlebutton`)
 
       if ($buttons.length > 1) {
-        let height = $contentBox.height()
-        let buttonHeight = offset($buttons.eq(1), $buttons.eq(0)).top
+        const height = $contentBox.height()
+        const buttonHeight = offset($buttons.eq(1), $buttons.eq(0)).top
 
-        let newHeight = Math.max(buttonHeight * this.minVisibleButtons_, height - value)
+        const newHeight = Math.max(buttonHeight * this.minVisibleButtons_, height - value)
 
         if (height > newHeight) {
           $contentBox.css('max-height', newHeight)

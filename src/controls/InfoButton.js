@@ -103,7 +103,7 @@ export class InfoButton extends mixin(Control, ActivatableMixin) {
    * @param {G4UMap} map
    */
   setMap (map) {
-    let oldMap = this.getMap()
+    const oldMap = this.getMap()
 
     if (oldMap && this.attribution_) {
       oldMap.removeControl(this.attributionControl_)

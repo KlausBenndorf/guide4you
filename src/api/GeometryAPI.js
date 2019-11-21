@@ -165,7 +165,7 @@ export class GeometryAPI {
       if (layer === undefined) {
         Debug.error(`No layer with id ${options.target} found.`)
       } else if (!layer.getSource || !(layer.getSource() instanceof VectorSource)) {
-        Debug.error(`The layer has to be a VectorLayer (KML, GeoJSON, Intern)`)
+        Debug.error('The layer has to be a VectorLayer (KML, GeoJSON, Intern)')
       } else {
         target = layer.getSource()
       }

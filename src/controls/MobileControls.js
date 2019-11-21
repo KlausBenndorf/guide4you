@@ -48,7 +48,7 @@ export class MobileControls extends ShiftableComposedControl {
     if (map) {
       this.handler_ = () => {
         if (!map.get('mobile')) {
-          for (let control of this.getControls().filter(c => c.setWindowVisible)) {
+          for (const control of this.getControls().filter(c => c.setWindowVisible)) {
             control.setWindowVisible(false)
           }
         }

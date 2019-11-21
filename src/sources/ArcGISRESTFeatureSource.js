@@ -93,7 +93,7 @@ export class ArcGISRESTFeatureSource extends VectorSource {
             response.error.details.join('\n'))
         } else {
           // dataProjection will be read from document
-          var features = this.format_.readFeatures(response, {
+          const features = this.format_.readFeatures(response, {
             dataProjection: this.projection_,
             featureProjection: projection
           })

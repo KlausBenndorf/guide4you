@@ -30,7 +30,7 @@ export class CloseWindowButton extends Control {
       ? this.getLocaliser().selectL10N(options.label)
       : this.getLocaliser().localiseUsingDictionary('CloseWindowButton label')
 
-    let $button = $('<button>')
+    const $button = $('<button>')
       .html(this.label_)
       .on('click', () => {
         window.close()

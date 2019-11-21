@@ -116,12 +116,12 @@ export class Window extends BaseObject {
      * @private
      */
     this.$context_ = $(this.map_.getTarget())
-    let initialDraggable = this.draggable_
+    const initialDraggable = this.draggable_
 
     this.map_.asSoonAs('ready', true, () => {
       this.map_.on('resize', () => this.updateSize(true))
 
-      let onChangeMobile = () => {
+      const onChangeMobile = () => {
         if (this.map_.get('mobile')) {
           this.draggable_ = false
           if (this.getVisible()) {
@@ -266,7 +266,7 @@ export class Window extends BaseObject {
    * @param {boolean} [popHistory=true]
    */
   setVisible (visible, popHistory = true) {
-    let oldValue = this.visible_
+    const oldValue = this.visible_
     if (oldValue !== visible) {
       if (visible) {
         this.$element_.removeClass(cssClasses.hidden)
@@ -339,11 +339,11 @@ export class Window extends BaseObject {
         // desktop
         margin = 50
 
-        let maxWidth = this.$context_.innerWidth() - 2 * margin
-        let maxHeight = this.$context_.innerHeight() - 2 * margin
+        const maxWidth = this.$context_.innerWidth() - 2 * margin
+        const maxHeight = this.$context_.innerHeight() - 2 * margin
 
         // storing values
-        let position = this.$element_.css('position')
+        const position = this.$element_.css('position')
         let top = this.$element_.css('top')
         let left = this.$element_.css('left')
 
@@ -380,8 +380,8 @@ export class Window extends BaseObject {
 
         // setting max-height for the scroll bar
         // i assume here there is no margin and no padding on the parent element
-        let padding = parseInt(this.get$Body().css('padding-top').split('px')[ 0 ]) +
-          parseInt(this.get$Body().css('padding-bottom').split('px')[ 0 ])
+        const padding = parseInt(this.get$Body().css('padding-top').split('px')[0]) +
+          parseInt(this.get$Body().css('padding-bottom').split('px')[0])
         this.get$Body().css('max-height', this.get$Element().innerHeight() - this.$button_.outerHeight() - padding)
 
         this.$element_.css('position', position)
@@ -392,13 +392,13 @@ export class Window extends BaseObject {
           left = this.$element_.css('left')
 
           // initialize_ at top middle
-          let off = offset(this.$context_, this.$element_)
+          const off = offset(this.$context_, this.$element_)
 
-          let sideDist = (this.$context_.width() - width) / 2
-          let topDist = margin
+          const sideDist = (this.$context_.width() - width) / 2
+          const topDist = margin
 
-          let topPixel = (top === 'auto') ? 0 : parseInt(top)
-          let leftPixel = (left === 'auto') ? 0 : parseInt(left)
+          const topPixel = (top === 'auto') ? 0 : parseInt(top)
+          const leftPixel = (left === 'auto') ? 0 : parseInt(left)
 
           this.$element_.css('top', topPixel + off.top + topDist)
           this.$element_.css('left', leftPixel + off.left + sideDist)
@@ -411,14 +411,14 @@ export class Window extends BaseObject {
         // mobile
         margin = 10
 
-        let maxWidth = this.$context_.innerWidth() - 2 * margin
-        let maxHeight = this.$context_.innerHeight() - 2 * margin
+        const maxWidth = this.$context_.innerWidth() - 2 * margin
+        const maxHeight = this.$context_.innerHeight() - 2 * margin
 
         this.get$Body().css('max-height', '')
         this.$element_.css('width', maxWidth)
         this.$element_.css('height', maxHeight)
 
-        let contextOff = this.$context_.offset()
+        const contextOff = this.$context_.offset()
 
         this.$element_.css('left', margin + contextOff.left)
         this.$element_.css('top', margin + contextOff.top)

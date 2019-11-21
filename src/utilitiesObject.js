@@ -71,7 +71,7 @@ export function mergeDeep (obj1, obj2) {
  */
 export function take (object, prop) {
   if (object.hasOwnProperty(prop)) {
-    let tmp = object[prop]
+    const tmp = object[prop]
     delete object[prop]
     return tmp
   }

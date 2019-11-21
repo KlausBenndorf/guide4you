@@ -67,7 +67,7 @@ export class Marker {
       map.get('styling').manageLayer(this.vectorLayer_)
 
       if (map.get('featurePopup')) {
-        let featurePopup = map.get('featurePopup')
+        const featurePopup = map.get('featurePopup')
         featurePopup.on('change:visible', () => {
           if (featurePopup.getFeature() === this.feature_) {
             this.popupVisible_ = featurePopup.get('visible')
@@ -94,7 +94,7 @@ export class Marker {
   setPopupVisible (visible) {
     this.popupVisible_ = visible
 
-    let featurePopup = this.map_.get('featurePopup')
+    const featurePopup = this.map_.get('featurePopup')
 
     if (featurePopup) {
       if (visible === true) {
@@ -112,7 +112,7 @@ export class Marker {
    * @param {boolean} active
    */
   setActive (active) {
-    let oldValue = this.active_
+    const oldValue = this.active_
 
     if (oldValue !== active) {
       this.active_ = active
@@ -135,7 +135,7 @@ export class Marker {
    * returns {ol.Coordinate|undefined}
    */
   getPosition () {
-    let point = this.feature_.getGeometry()
+    const point = this.feature_.getGeometry()
     if (point) {
       return point.getCoordinates()
     }
@@ -145,7 +145,7 @@ export class Marker {
    * @param {ol.Coordinate} coords
    */
   setPosition (coords) {
-    let point = new Point(coords)
+    const point = new Point(coords)
     this.feature_.setGeometry(point) // triggers the repositioning of the marker
   }
 

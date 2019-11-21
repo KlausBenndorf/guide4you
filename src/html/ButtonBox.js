@@ -102,7 +102,7 @@ export class ButtonBox extends BaseObject {
       this.$element_.append(this.$title_)
 
       if (this.collapsible_) {
-        let $collapseButton = $('<button>')
+        const $collapseButton = $('<button>')
           .addClass(this.classNames_.collapseButton)
 
         $collapseButton.on('click', () => {
@@ -111,7 +111,7 @@ export class ButtonBox extends BaseObject {
         })
 
         if (this.titleButton_) {
-          let $titleButton = $('<span>')
+          const $titleButton = $('<span>')
             .addClass('button')
             .addClass(this.classNames_.titleButton)
             .on('click', () => {
@@ -247,7 +247,7 @@ export class ButtonBox extends BaseObject {
     } else {
       if ($element.hasClass(this.className_)) {
         // the element is a button box (with the same className) and not collapsed
-        let $lastChild = this.get$LastChild_($element)
+        const $lastChild = this.get$LastChild_($element)
         if ($lastChild) {
           // -> recursively call this method on the last element
           this.giveLastVisible($lastChild)
@@ -273,7 +273,7 @@ export class ButtonBox extends BaseObject {
       $element.removeClass(this.classNames_.lastVisible)
       return true
     } else if ($element.hasClass(this.className_)) {
-      let $lastChild = this.get$LastChild_($element)
+      const $lastChild = this.get$LastChild_($element)
       // reverse call
       if ($lastChild) {
         return this.takeLastVisible($lastChild)

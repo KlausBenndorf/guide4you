@@ -352,13 +352,13 @@ export class API extends BaseObject {
     layerOptions.source = layerOptions.source || {}
 
     return new Promise((resolve, reject) => {
-      let layer = this.addLayer(layerOptions)
-      let source = layer.getSource()
-      let loadEndHandler = () => {
+      const layer = this.addLayer(layerOptions)
+      const source = layer.getSource()
+      const loadEndHandler = () => {
         source.un('vectorloadend', loadErrorHandler)
         resolve(layer)
       }
-      let loadErrorHandler = () => {
+      const loadErrorHandler = () => {
         source.un('vectorloaderror', loadEndHandler)
         reject(new Error('vector load error'))
       }

@@ -87,7 +87,7 @@ export class SearchView {
    */
   centerOnSearchlayer () {
     if (this.searchlayerBottom_.getVisible()) {
-      let extent = extend(
+      const extent = extend(
         this.searchlayerBottom_.getSource().getExtent(),
         this.searchlayerTop_.getSource().getExtent()
       )
@@ -108,10 +108,10 @@ export class SearchView {
    * @param {ol.Feature[]} features
    */
   showSearchResults (features) {
-    let sourceBottom = this.searchlayerBottom_.getSource()
+    const sourceBottom = this.searchlayerBottom_.getSource()
     sourceBottom.clear()
 
-    let sourceTop = this.searchlayerTop_.getSource()
+    const sourceTop = this.searchlayerTop_.getSource()
     sourceTop.clear()
 
     features.forEach(function (feature) {

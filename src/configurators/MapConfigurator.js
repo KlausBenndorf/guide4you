@@ -162,7 +162,7 @@ export class MapConfigurator {
     /**
      * @type {MapConfig}
      */
-    let mapConfigCopy = copyDeep(this.map_.get('mapConfig'))
+    const mapConfigCopy = copyDeep(this.map_.get('mapConfig'))
 
     if (!mapConfigCopy.enableContextMenu) {
       $(this.map_.getTarget()).on('contextmenu', e => {
@@ -180,7 +180,7 @@ export class MapConfigurator {
 
     // has to be done before configureLayers ... -> promise?
 
-    let stylingOptions = {}
+    const stylingOptions = {}
 
     if (mapConfigCopy.hasOwnProperty('manageStyles')) {
       stylingOptions.manageStyles = mapConfigCopy.manageStyles
@@ -192,7 +192,7 @@ export class MapConfigurator {
       stylingOptions.styleConfigMap = mapConfigCopy.styleMap
     }
 
-    let scaleIcons = mapConfigCopy.hasOwnProperty('scaleIcons') ? mapConfigCopy.scaleIcons : 1
+    const scaleIcons = mapConfigCopy.hasOwnProperty('scaleIcons') ? mapConfigCopy.scaleIcons : 1
     stylingOptions.scaleIcons = scaleIcons
 
     this.map_.set('scaleIcons', scaleIcons)
@@ -202,7 +202,7 @@ export class MapConfigurator {
     //                                      Projections                                         //
     // //////////////////////////////////////////////////////////////////////////////////////// //
 
-    let additionalProjectionsConf = mapConfigCopy.hasOwnProperty('additionalProjections')
+    const additionalProjectionsConf = mapConfigCopy.hasOwnProperty('additionalProjections')
       ? mapConfigCopy.additionalProjections
       : []
 
@@ -223,7 +223,7 @@ export class MapConfigurator {
     }
     this.map_.set('mapProjection', mapProjection)
 
-    let interfaceProjection = mapConfigCopy.hasOwnProperty('interfaceProjection')
+    const interfaceProjection = mapConfigCopy.hasOwnProperty('interfaceProjection')
       ? mapConfigCopy.interfaceProjection
       : 'EPSG:4326'
 
@@ -247,7 +247,7 @@ export class MapConfigurator {
     /**
      * @type {g4uViewOptions}
      */
-    let viewOptions = mapConfigCopy.view || {}
+    const viewOptions = mapConfigCopy.view || {}
 
     viewOptions.projection = mapProjection
 
@@ -263,7 +263,7 @@ export class MapConfigurator {
       viewOptions.constrainCenterOnly = true
     }
 
-    let oldView = this.map_.getView()
+    const oldView = this.map_.getView()
     if (oldView) {
       viewOptions.center = oldView.getCenter() || mapConfigCopy.view.center
       viewOptions.resolution = oldView.getResolution() || mapConfigCopy.view.resolution
@@ -271,7 +271,7 @@ export class MapConfigurator {
     }
 
     // creating the view
-    let view = new View(viewOptions)
+    const view = new View(viewOptions)
 
     // setting the extent overwrites any settings about zoom and start coordinates
     if (!oldView && checkFor(mapConfigCopy.view, 'fit')) {
@@ -298,10 +298,10 @@ export class MapConfigurator {
     //                              Generic global handlers                                     //
     // //////////////////////////////////////////////////////////////////////////////////////// //
 
-    let $viewport = $(this.map_.getViewport())
+    const $viewport = $(this.map_.getViewport())
 
     // applying a mousedown class to the viewport if the mouse is down
-    let mousedownClass = 'mousedown'
+    const mousedownClass = 'mousedown'
     $viewport.on('mousedown', () => {
       $viewport.addClass(mousedownClass)
     })
@@ -327,7 +327,7 @@ export class MapConfigurator {
 
     this.map_.set('api', new API(this.map_, mapConfigCopy.api))
 
-    for (let module of this.map_.getModules()) {
+    for (const module of this.map_.getModules()) {
       module.configureMap(mapConfigCopy)
     }
   }

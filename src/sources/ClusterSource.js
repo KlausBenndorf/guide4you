@@ -19,7 +19,7 @@ export class ClusterSource extends OlClusterSource {
   }
 
   static defaultGeometryFunction (feature) {
-    let geom = feature.getGeometry()
+    const geom = feature.getGeometry()
     if (geom instanceof Point) {
       return geom
     } else if (geom instanceof LineString || geom instanceof Polygon) {

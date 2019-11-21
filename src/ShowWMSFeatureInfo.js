@@ -1,6 +1,5 @@
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
-import { unByKey } from 'ol/Observable'
 import VectorSource from 'ol/source/Vector'
 import { FeaturePopup } from './FeaturePopup'
 import { MapEventInteraction } from './interactions/MapEventInteraction'
@@ -33,20 +32,20 @@ export class ShowWMSFeatureInfo {
   }
 
   handleClickEvent (e) {
-    let map = this.getMap()
+    const map = this.getMap()
 
-    let projection = map.getView().getProjection()
+    const projection = map.getView().getProjection()
 
-    let layers = this.layers_.filter(l => l.getVisible())
+    const layers = this.layers_.filter(l => l.getVisible())
 
-    let shouldShow = map.forEachLayerAtPixel(e.mapEvent.pixel, layer => layers.indexOf(layer) > -1) &&
+    const shouldShow = map.forEachLayerAtPixel(e.mapEvent.pixel, layer => layers.indexOf(layer) > -1) &&
       !map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay)
 
     if (shouldShow) {
-      let coordinate = e.mapEvent.coordinate
+      const coordinate = e.mapEvent.coordinate
       this.utilitySource_.clear()
       let feature
-      for (let layer of layers) {
+      for (const layer of layers) {
         layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
           .then(data => this.handleData(feature, coordinate, layer, data))
       }
@@ -55,7 +54,7 @@ export class ShowWMSFeatureInfo {
 
   handleData (feature, coordinate, layer, data) {
     if (data !== '') {
-      let featurePopup = this.getMap().get('featurePopup')
+      const featurePopup = this.getMap().get('featurePopup')
       if (!feature) {
         this.utilitySource_.clear()
         feature = new Feature({
@@ -102,7 +101,7 @@ export class ShowWMSFeatureInfo {
   }
 
   setMap (map) {
-    let onMapChangeMobile = () => {
+    const onMapChangeMobile = () => {
       if (map.get('mobile')) {
         this.centerOnPopup_ = false
       } else {
@@ -127,7 +126,7 @@ export class ShowWMSFeatureInfo {
 
       this.layers_ = []
 
-      let interaction = new MapEventInteraction({ type: 'singleclick' })
+      const interaction = new MapEventInteraction({ type: 'singleclick' })
       interaction.on('mapevent', e => this.handleClickEvent(e))
 
       map.addDefaultInteraction('singleclick', interaction)

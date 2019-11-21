@@ -2,11 +2,11 @@
  * @type {URLParameter}
  */
 export const layerConfigurationFileParam = {
-  keys: [ 'layconf' ],
+  keys: ['layconf'],
   setEvent: 'beforeConfigLoad',
   setToMap: (map, query) => {
     if (query.isSet('layconf')) {
-      let val = query.getInjectUnsafeVal('layconf').trim()
+      const val = query.getInjectUnsafeVal('layconf').trim()
       if (val.match(/^(?:[a-z]+:)?\/\//i)) {
         throw new Error('The provided layconf parameter is absolute. Only relative paths are allowed.')
       }

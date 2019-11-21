@@ -36,7 +36,7 @@ export class WMSMixin {
       this.featureInfoMutators_ = options.featureInfo.mutators
     }
 
-    if (!this.getParams()['LAYERS']) {
+    if (!this.getParams().LAYERS) {
       this.updateParams({
         LAYERS: []
       })
@@ -46,9 +46,9 @@ export class WMSMixin {
   }
 
   getQueryable () {
-    return this.featureInfo_ && this.featureInfoParams_['QUERY_LAYERS'] &&
-      this.featureInfoParams_['QUERY_LAYERS'].length > 0 &&
-      intersection(this.featureInfoParams_['QUERY_LAYERS'], this.getParams()['LAYERS']).length > 0
+    return this.featureInfo_ && this.featureInfoParams_.QUERY_LAYERS &&
+      this.featureInfoParams_.QUERY_LAYERS.length > 0 &&
+      intersection(this.featureInfoParams_.QUERY_LAYERS, this.getParams().LAYERS).length > 0
   }
 
   getFeatureInfoMutators () {
@@ -61,42 +61,42 @@ export class WMSMixin {
 
   activateLayers (layers) {
     this.updateParams({
-      LAYERS: concat(this.getParams()['LAYERS'], layers)
+      LAYERS: concat(this.getParams().LAYERS, layers)
     })
     this.dispatchEvent('change:layers')
   }
 
   deactivateLayers (layers) {
     this.updateParams({
-      LAYERS: difference(this.getParams()['LAYERS'], layers)
+      LAYERS: difference(this.getParams().LAYERS, layers)
     })
     this.dispatchEvent('change:layers')
   }
 
   areLayersActive (layers) {
-    return isEmpty(difference(layers, this.getParams()['LAYERS']))
+    return isEmpty(difference(layers, this.getParams().LAYERS))
   }
 
   anyLayerActive () {
-    return !isEmpty(this.getParams()['LAYERS'])
+    return !isEmpty(this.getParams().LAYERS)
   }
 
   activateQueryLayers (layers) {
     this.updateFeatureInfoParams({
-      QUERY_LAYERS: concat(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+      QUERY_LAYERS: concat(this.getFeatureInfoParams().QUERY_LAYERS, layers)
     })
     this.dispatchEvent('change:queryLayers')
   }
 
   deactivateQueryLayers (layers) {
     this.updateFeatureInfoParams({
-      QUERY_LAYERS: difference(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+      QUERY_LAYERS: difference(this.getFeatureInfoParams().QUERY_LAYERS, layers)
     })
     this.dispatchEvent('change:queryLayers')
   }
 
   areQueryLayersActive (layers) {
-    return isEmpty(difference(layers, this.getFeatureInfoParams()['QUERY_LAYERS']))
+    return isEmpty(difference(layers, this.getFeatureInfoParams().QUERY_LAYERS))
   }
 
   getFeatureInfoParams () {
@@ -110,12 +110,12 @@ export class WMSMixin {
 
   getFeatureInfo (coordinate, resolution, projection) {
     return new Promise((resolve, reject) => {
-      let params = Object.assign({}, this.featureInfoParams_)
-      if (!params['QUERY_LAYERS']) {
+      const params = Object.assign({}, this.featureInfoParams_)
+      if (!params.QUERY_LAYERS) {
         resolve(undefined)
       }
-      params['QUERY_LAYERS'] = intersection(params['QUERY_LAYERS'], this.getParams()['LAYERS'])
-      if (params['QUERY_LAYERS'].length === 0) {
+      params.QUERY_LAYERS = intersection(params.QUERY_LAYERS, this.getParams().LAYERS)
+      if (params.QUERY_LAYERS.length === 0) {
         resolve(undefined)
       } else {
         const gfiExt = this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
@@ -190,18 +190,18 @@ export class WMSMixin {
     const params = Object.assign({}, this.getParams())
 
     const baseParams = {
-      'SERVICE': 'WMS',
-      'VERSION': '1.3.0',
-      'REQUEST': 'GetLegendGraphic',
-      'FORMAT': 'image/png',
-      'LAYER': layer
+      SERVICE: 'WMS',
+      VERSION: '1.3.0',
+      REQUEST: 'GetLegendGraphic',
+      FORMAT: 'image/png',
+      LAYER: layer
     }
 
     if (resolution !== undefined) {
       const mpu = this.getProjection() ? this.getProjection().getMetersPerUnit() : 1
       const dpi = 25.4 / 0.28
       const inchesPerMeter = 39.37
-      baseParams['SCALE'] = resolution * mpu * inchesPerMeter * dpi
+      baseParams.SCALE = resolution * mpu * inchesPerMeter * dpi
     }
 
     Object.assign(baseParams, params)

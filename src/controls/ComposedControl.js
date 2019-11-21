@@ -24,7 +24,7 @@ export class ComposedControl extends Control {
    * @param {ComposedControlOptions} [options={}]
    */
   constructor (options = {}) {
-    let $container = $('<div>')
+    const $container = $('<div>')
 
     if (options.hasOwnProperty('element')) {
       $(options.element).append($container)
@@ -91,7 +91,7 @@ export class ComposedControl extends Control {
    * @private
    */
   setWindowForControl_ (control) {
-    let aWindow = new Window({ map: this.getMap() })
+    const aWindow = new Window({ map: this.getMap() })
     control.setWindow(aWindow, true)
   }
 
@@ -126,7 +126,7 @@ export class ComposedControl extends Control {
    *    control.set$Target()
    */
   addControl (control, options = {}) {
-    let map = this.getMap()
+    const map = this.getMap()
     if (map) {
       map.addControl(control)
     } else {
@@ -139,7 +139,7 @@ export class ComposedControl extends Control {
 
     if (!(options.hasOwnProperty('claim')) || !options.claim) {
       if (!(options.hasOwnProperty('wrap')) || options.wrap) {
-        let $wrap = $('<div>')
+        const $wrap = $('<div>')
 
         if (options.hasOwnProperty('element')) {
           $wrap.append($(options.element))

@@ -39,7 +39,7 @@ export class LinkButton extends Control {
     if (options.hasOwnProperty('target')) {
       this.get$Element().attr('target', options.target)
     }
-    let $button = $('<button>')
+    const $button = $('<button>')
       .addClass(cssClasses.mainButton)
       .html(this.getTitle())
 

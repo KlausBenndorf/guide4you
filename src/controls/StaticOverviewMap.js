@@ -65,7 +65,7 @@ export class StaticOverviewMap extends Control {
   }
 
   setCollapsed (collapsed) {
-    let oldValue = this.collapsed_
+    const oldValue = this.collapsed_
     if (oldValue !== collapsed) {
       this.collapsed_ = collapsed
       if (collapsed) {
@@ -106,19 +106,19 @@ export class StaticOverviewMap extends Control {
     // attach
     if (map) {
       map.asSoonAs('mobile', false, () => {
-        let mapProjection = map.getView().getProjection()
-        let transformedExtent = transformExtent(this.extent, this.projection, mapProjection)
+        const mapProjection = map.getView().getProjection()
+        const transformedExtent = transformExtent(this.extent, this.projection, mapProjection)
 
         this.frame = new Feature()
         if (!this.doNotShowArrow_) {
           this.arrow = new Feature()
         }
 
-        let fitViewToImage = () => {
+        const fitViewToImage = () => {
           this.ovmap_.getView().fit(transformedExtent)
         }
 
-        let setSize = (width, height) => {
+        const setSize = (width, height) => {
           if (this.ovmap_) {
             this.$mapElement_.innerWidth(width)
             this.$mapElement_.innerHeight(height)
@@ -127,7 +127,7 @@ export class StaticOverviewMap extends Control {
           }
         }
 
-        let features = [this.frame]
+        const features = [this.frame]
         if (!this.doNotShowArrow_) {
           features.push(this.arrow)
         }
@@ -143,7 +143,7 @@ export class StaticOverviewMap extends Control {
                 imageExtent: transformedExtent,
                 url: this.url,
                 imageLoadFunction: function (image, src) {
-                  let $img = $(image.getImage())
+                  const $img = $(image.getImage())
                   $img.on('load', () => {
                     setSize($img.prop('width'), $img.prop('height'))
                   }).prop('src', src)
@@ -194,7 +194,7 @@ export class StaticOverviewMap extends Control {
           mouseDown = true
         })
 
-        $overviewmap.on('mouseup', e => {
+        $overviewmap.on('mouseup', () => {
           mouseDown = false
         })
 
@@ -214,7 +214,7 @@ export class StaticOverviewMap extends Control {
 
   calculateOrientationFeatures () {
     if (this.getMap() && !this.getCollapsed()) {
-      let extent = this.getMap().getView().calculateExtent(this.getMap().getSize())
+      const extent = this.getMap().getView().calculateExtent(this.getMap().getSize())
       this.frame.setGeometry(new Polygon([[
         [extent[0], extent[1]],
         [extent[2], extent[1]],
@@ -224,15 +224,14 @@ export class StaticOverviewMap extends Control {
       ]]))
 
       if (!this.doNotShowArrow_) {
-        let arrowPointPixel
-        let mapCenter = this.getMap().getView().getCenter()
+        const mapCenter = this.getMap().getView().getCenter()
 
-        let edgePoint = [mapCenter[0], extent[3]]
-        let edgePointPixel = this.ovmap_.getPixelFromCoordinate(edgePoint)
+        const edgePoint = [mapCenter[0], extent[3]]
+        const edgePointPixel = this.ovmap_.getPixelFromCoordinate(edgePoint)
 
-        arrowPointPixel = [edgePointPixel[0], edgePointPixel[1] - 7]
+        const arrowPointPixel = [edgePointPixel[0], edgePointPixel[1] - 7]
 
-        let arrowPoint = this.ovmap_.getCoordinateFromPixel(arrowPointPixel)
+        const arrowPoint = this.ovmap_.getCoordinateFromPixel(arrowPointPixel)
         this.arrow.setGeometry(new Point(arrowPoint))
 
         this.arrow.setStyle(new Style({

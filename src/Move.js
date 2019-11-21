@@ -86,12 +86,12 @@ export class Move {
    */
   toPoint (point, options = {}) {
     // calculate extent
-    let tmpView = new View({
+    const tmpView = new View({
       projection: this.map_.getView().getProjection(),
       center: point,
       resolution: this.map_.getView().getResolution()
     })
-    let extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 2))
+    const extent = tmpView.calculateExtent(this.map_.getSize().map(s => s - 2))
 
     options.padding = [0, 0, 0, 0] // no padding around this extent
 
@@ -135,7 +135,7 @@ export class Move {
   bufferUpToMinSize_ (extent, minSize) {
     // TODO: maybe use something more precise than transforming into 3857 to get meter size.
     let extentInMeters = transformExtent(extent, this.map_.getView().getProjection(), 'EPSG:3857')
-    let smallerSize = Math.min(getWidth(extentInMeters), getHeight(extentInMeters))
+    const smallerSize = Math.min(getWidth(extentInMeters), getHeight(extentInMeters))
     if (smallerSize < minSize) {
       extentInMeters = buffer(extentInMeters, minSize - smallerSize / 2)
       return transformExtent(extentInMeters, 'EPSG:3857', this.map_.getView().getProjection())
@@ -167,27 +167,27 @@ export class Move {
    * @private
    */
   animationZoomToExtent_ (endExtent, options) {
-    let map = this.map_
-    let view = map.getView()
-    let size = map.getSize()
+    const map = this.map_
+    const view = map.getView()
+    const size = map.getSize()
 
-    let startExtent = view.calculateExtent(size)
+    const startExtent = view.calculateExtent(size)
 
-    let moveExtent = extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
+    const moveExtent = extend(startExtent.slice(0), endExtent) // a extent where both extents are contained.
 
     if (this.bouncing_ && !intersects(startExtent, endExtent)) {
-      let moveOptions = Object.assign({
+      const moveOptions = Object.assign({
         duration: this.animationDuration_ / 2
       }, options)
       view.fit(moveExtent, moveOptions)
       setTimeout(() => {
-        let endOptions = Object.assign({
+        const endOptions = Object.assign({
           duration: this.animationDuration_ / 2
         }, options)
         view.fit(endExtent, endOptions)
       }, this.animationDuration_ / 2)
     } else {
-      let endOptions = Object.assign({
+      const endOptions = Object.assign({
         duration: this.animationDuration_ / 2
       }, options)
       view.fit(endExtent, endOptions)

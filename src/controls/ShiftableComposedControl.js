@@ -30,7 +30,7 @@ export class ShiftableComposedControl extends ComposedControl {
      */
     this.position_ = 1
 
-    let $shiftContainer = $('<div>')
+    const $shiftContainer = $('<div>')
       .addClass(this.className_ + '-shift')
     this.get$Element()
       .append($shiftContainer.append(this.get$Container()))
@@ -71,7 +71,7 @@ export class ShiftableComposedControl extends ComposedControl {
     super.addControl(control, options)
 
     if (this.controls_.length > this.visibleControls_) {
-      let $lastInsertedControl = this.get$Container().children(':last-child')
+      const $lastInsertedControl = this.get$Container().children(':last-child')
       $lastInsertedControl.addClass(cssClasses.hidden)
       $(this.get$Container().children()[this.visibleControls_ - 1]).addClass(cssClasses.hidden)
       this.$moveRightButton_.removeClass(cssClasses.hidden)

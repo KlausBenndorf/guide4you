@@ -237,10 +237,10 @@ export class Dropdown extends mixin(BaseObject, ListenerOrganizerMixin) {
   addEntry (value, text, optSelected = false) {
     text = text || value
 
-    let index = this.getLength()
+    const index = this.getLength()
     this.setLength(index + 1)
 
-    let entry = this.entriesArray_[index]
+    const entry = this.entriesArray_[index]
     entry.text = text
     entry.$element.html(text)
     entry.value = value
@@ -307,7 +307,7 @@ export class Dropdown extends mixin(BaseObject, ListenerOrganizerMixin) {
 
     if (length > this.entriesArray_.length) { // adding entries and dropdown handlers
       for (i = this.entriesArray_.length, ii = length; i < ii; i++) {
-        let $entry = $('<button tabindex="-1">')
+        const $entry = $('<button tabindex="-1">')
           .addClass(this.classNames_.entry)
           .hide()
 

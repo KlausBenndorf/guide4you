@@ -27,7 +27,7 @@ export class RewireMixin extends ControlLogicMixin {
   rewire () {
     recursiveSelect(this.get$Element(), 'button[title]')
       .each(function () {
-        let title = $(this).attr('title')
+        const title = $(this).attr('title')
         $(this).addClass(cssClasses.hasTooltip).removeAttr('title').append(`<span role='tooltip'>${title}</span>`)
       })
   }

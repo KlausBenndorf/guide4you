@@ -11,7 +11,7 @@ export class MapEventInteraction extends Interaction {
    * @param {MapEventInteractionOptions} options
    */
   constructor (options = {}) {
-    let type = options.type || 'singleclick'
+    const type = options.type || 'singleclick'
     super({
       handleEvent: e => {
         if (this.getActive() && e.type === type && $(e.originalEvent.target).is('.ol-viewport > canvas')) {

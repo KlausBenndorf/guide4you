@@ -45,11 +45,10 @@ export class SearchModule extends Module {
    * @returns {undefined|SearchControl}
    */
   createControl (controlType, options, receiver) {
-    switch (controlType) {
-      case 'searchControl':
-        let control = new SearchControl(this, options)
-        this.searchControls_.push(control)
-        return control
+    if (controlType === 'searchControl') {
+      const control = new SearchControl(this, options)
+      this.searchControls_.push(control)
+      return control
     }
   }
 
@@ -58,7 +57,7 @@ export class SearchModule extends Module {
    * @returns {undefined}
    */
   enableUserActionTracking () {
-    for (let searchControl of this.searchControls_) {
+    for (const searchControl of this.searchControls_) {
       searchControl.on('searchEnd', e => {
         this.getMap().dispatchEvent({
           type: 'userActionTracking',

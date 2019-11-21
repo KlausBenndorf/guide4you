@@ -116,7 +116,7 @@ export class URLAPI {
      */
     this.parameterGetters_ = []
 
-    for (let parameterConf of this.parameters_) {
+    for (const parameterConf of this.parameters_) {
       // gather keys
       this.parameterKeys_ = this.parameterKeys_.concat(parameterConf.keys)
 
@@ -138,8 +138,8 @@ export class URLAPI {
       }
     }
 
-    let extractFromUrl = options.mode !== 'js'
-    let jsValues = options.mode !== 'url' ? options.init : {}
+    const extractFromUrl = options.mode !== 'js'
+    const jsValues = options.mode !== 'url' ? options.init : {}
     this.query_ = new Query(this.parameterKeys_, options.excluded || [], extractFromUrl, jsValues)
   }
 
@@ -155,16 +155,16 @@ export class URLAPI {
       Debug.error('Key should be lowercase.')
     } else {
       key = decodeURIComponent(key)
-      let queryString = window.location.search
-      let match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'))
+      const queryString = window.location.search
+      const match = queryString.match(new RegExp('(\\?|&)' + key + '=(.*?)(&|$)', 'i'))
       if (match) {
-        let value = decodeURIComponent(match[2]).trim()
+        const value = decodeURIComponent(match[2]).trim()
         this.query_.setUrlValue(key, value)
       }
 
       // get
-      let get = () => {
-        let obj = {}
+      const get = () => {
+        const obj = {}
         obj[key] = layer.getSource().getQueryValues()
         return obj
       }
@@ -181,7 +181,7 @@ export class URLAPI {
   }
 
   getCurrentParameters () {
-    let values = {}
+    const values = {}
 
     /**
      * Compares if the two values are equal
@@ -199,7 +199,7 @@ export class URLAPI {
           return false
         }
         for (let i = 0, ii = valA.length; i < ii; i++) {
-          if (valA[ i ] !== valB[ i ]) {
+          if (valA[i] !== valB[i]) {
             return false
           }
         }
@@ -211,15 +211,15 @@ export class URLAPI {
       }
     }
 
-    for (let getter of this.parameterGetters_) {
-      let keyValuePairs = getter(this.map_, this.query_)
+    for (const getter of this.parameterGetters_) {
+      const keyValuePairs = getter(this.map_, this.query_)
       if (keyValuePairs) {
-        for (let key in keyValuePairs) {
-          if (keyValuePairs.hasOwnProperty(key) && keyValuePairs[ key ] !== undefined) {
+        for (const key in keyValuePairs) {
+          if (keyValuePairs.hasOwnProperty(key) && keyValuePairs[key] !== undefined) {
             // check if the value differs from the initial Value
             if (this.query_.isSet(key) ||
-                !(this.initialValues_.hasOwnProperty(key) && equal(this.initialValues_[ key ], keyValuePairs[ key ]))) {
-              values[key] = keyValuePairs[ key ].toString()
+                !(this.initialValues_.hasOwnProperty(key) && equal(this.initialValues_[key], keyValuePairs[key]))) {
+              values[key] = keyValuePairs[key].toString()
             }
           }
         }
@@ -237,23 +237,23 @@ export class URLAPI {
    * @returns {string} Query string
    */
   makeURL (options = {}) {
-    let baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[ 0 ]
+    const baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0]
 
-    let assignmentList = []
+    const assignmentList = []
 
-    let values = this.getCurrentParameters()
+    const values = this.getCurrentParameters()
 
-    for (let key in values) {
+    for (const key in values) {
       assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(values[key]))
     }
 
     if (options.parameters !== undefined) {
-      for (let key in options.parameters) {
+      for (const key in options.parameters) {
         assignmentList.push(encodeURIComponent(key) + '=' + encodeURIComponent(options.parameters[key]))
       }
     }
 
-    let url = baseURL || ''
+    const url = baseURL || ''
 
     if (assignmentList.length === 0) {
       return url
@@ -273,11 +273,11 @@ export class URLAPI {
    * @returns {string} Query string
    */
   makeHTMLSnippet (options = {}) {
-    let baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[ 0 ]
-    let rand = Math.random().toString(36).substring(7)
-    let clientConfig = this.map_.get('configFileName')
-    let layerConfig = this.map_.get('layerConfigFileName')
-    let values = this.getCurrentParameters()
+    const baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0]
+    const rand = Math.random().toString(36).substring(7)
+    const clientConfig = this.map_.get('configFileName')
+    const layerConfig = this.map_.get('layerConfigFileName')
+    const values = this.getCurrentParameters()
     delete values.conf
     delete values.layconf
     return `

@@ -36,7 +36,7 @@ export class SourceServerVector extends VectorSource {
   constructor (options = {}) {
     const parentOptions = copy(options)
 
-    let urlTemplate = take(options, 'url')
+    const urlTemplate = take(options, 'url')
 
     const type = take(options, 'type') || ''
 
@@ -70,7 +70,7 @@ export class SourceServerVector extends VectorSource {
      */
     this.type_ = type
 
-    let formatOptions = {}
+    const formatOptions = {}
 
     if (options.hasOwnProperty('defaultStyle')) {
       formatOptions.defaultStyle = options.defaultStyle
@@ -134,10 +134,10 @@ export class SourceServerVector extends VectorSource {
    * @param {module:ol/proj~Projection} projection
    */
   loader (extent, resolution, projection) {
-    let url = this.urlTemplate.clone()
+    const url = this.urlTemplate.clone()
 
     if (this.strategyType_ === 'BBOX' || this.strategyType_ === 'TILE') {
-      let transformedExtent = transformExtent(extent, projection, this.urlProjection_)
+      const transformedExtent = transformExtent(extent, projection, this.urlProjection_)
 
       if (url.url.includes('{bbox')) {
         Debug.warn('The {bbox...} url parameters are deprecated, please use {minx}, {miny}, {maxx}, {maxy} instead.')
@@ -168,7 +168,7 @@ export class SourceServerVector extends VectorSource {
       url.cache = false
     }
 
-    let finalUrl = url.finalize()
+    const finalUrl = url.finalize()
 
     $.ajax({
       url: finalUrl,
@@ -185,7 +185,7 @@ export class SourceServerVector extends VectorSource {
           this.doClear_ = false
         }
 
-        let features = this.format_.readFeatures(response, { featureProjection: projection })
+        const features = this.format_.readFeatures(response, { featureProjection: projection })
 
         this.addFeatures(features)
 
@@ -216,7 +216,7 @@ export class SourceServerVector extends VectorSource {
    * @returns {HTMLElement} the xmlDocument
    */
   addProxyToHrefTags (text) {
-    let hrefTags = text.getElementsByTagName('href') // not working in IE11
+    const hrefTags = text.getElementsByTagName('href') // not working in IE11
 
     let i, ii
     for (i = 0, ii = hrefTags.length; i < ii; i++) {

@@ -75,7 +75,7 @@ export class LayerFactory extends Observable {
    * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}
    */
   createLayer (options) {
-    let optionsCopy = copyDeep(options)
+    const optionsCopy = copyDeep(options)
 
     if (!optionsCopy.type) {
       throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)
@@ -105,7 +105,7 @@ export class LayerFactory extends Observable {
       localised = optionsCopy.source.localised
     }
 
-    let style = take(optionsCopy, 'style')
+    const style = take(optionsCopy, 'style')
 
     switch (layerType) {
       case LayerType.SILENTGROUP:
@@ -226,8 +226,8 @@ export class LayerFactory extends Observable {
         })
 
         break
-      case LayerType.WMTS:
-        let sourceOptions = take(optionsCopy, 'source')
+      case LayerType.WMTS: {
+        const sourceOptions = take(optionsCopy, 'source')
 
         if (!sourceOptions.autoConfig) {
           if (!sourceOptions.tileGrid) {
@@ -249,6 +249,7 @@ export class LayerFactory extends Observable {
         }
 
         break
+      }
       case LayerType.GEOJSON:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
@@ -324,7 +325,7 @@ export class LayerFactory extends Observable {
         break
     }
 
-    for (let module of this.map_.getModules()) {
+    for (const module of this.map_.getModules()) {
       if (layer) {
         break
       }
@@ -396,7 +397,7 @@ export class LayerFactory extends Observable {
       : this.map_.get('loadingStrategy')
 
     if (loadingStrategy === 'BBOX') {
-      let bboxRatio = sourceConfig.bboxRatio || 1
+      const bboxRatio = sourceConfig.bboxRatio || 1
 
       if (bboxRatio < 1) {
         throw new Error('The bboxRatio should not be smaller than 1')
@@ -408,8 +409,8 @@ export class LayerFactory extends Observable {
         if (containsExtent(lastScaledExtent, extent)) {
           return [extent]
         } else {
-          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
-          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
+          const deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
+          const deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
 
           lastScaledExtent = [
             extent[0] - deltaX,
@@ -471,18 +472,18 @@ export class LayerFactory extends Observable {
     /**
      * @type {FeatureConfig}
      */
-    let featureConfCopy = copyDeep(featureConf)
+    const featureConfCopy = copyDeep(featureConf)
 
-    let id = take(featureConfCopy, 'id')
+    const id = take(featureConfCopy, 'id')
 
-    let style = take(featureConfCopy, 'style')
+    const style = take(featureConfCopy, 'style')
 
-    let format = new WKT()
-    let wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')
+    const format = new WKT()
+    const wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')
     featureConfCopy.geometry = format.readGeometry(wkt)
       .transform(this.map_.get('interfaceProjection'), this.map_.get('mapProjection'))
 
-    let feature = new Feature(featureConfCopy)
+    const feature = new Feature(featureConfCopy)
 
     if (style) {
       this.map_.get('styling').styleFeature(feature, style)

@@ -24,7 +24,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   setCollapsed (collapsed, silent) {
-    let oldValue = this.collapsed_
+    const oldValue = this.collapsed_
     if (oldValue !== collapsed) {
       this.collapsed_ = collapsed
       this.dispatchEvent({
@@ -43,7 +43,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
   }
 
   createStaticHTML (options) {
-    let $button = $('<button>')
+    const $button = $('<button>')
       .on('click', () => {
         this.setCollapsed(!this.getCollapsed())
       })
@@ -85,7 +85,7 @@ export class Attribution extends mixin(Control, ListenerOrganizerMixin) {
       this.$list_.append(this.$poweredBy_)
     }
 
-    for (let attribution of attributions) {
+    for (const attribution of attributions) {
       this.$list_.append($('<li>').html(attribution))
     }
 

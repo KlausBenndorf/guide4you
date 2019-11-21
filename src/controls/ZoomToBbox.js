@@ -59,7 +59,7 @@ export class ZoomToBbox extends mixin(Control, ActivatableMixin) {
       this.interaction_ = new ExtentInteraction({
         boxStyle: map.get('styling').getStyle(this.style_),
         pointerStyle: () => null,
-        handleUpEvent: e => {
+        handleUpEvent: () => {
           this.setActive(false)
           return true
         }

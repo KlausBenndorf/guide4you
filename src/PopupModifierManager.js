@@ -70,8 +70,8 @@ export class PopupModifierManager {
   apply (popupContent, map, popupModifiers) {
     let promiseContent = Promise.resolve(popupContent)
 
-    for (let m of popupModifiers) {
-      let popupModifier = this.popupModifiers_.get(m)
+    for (const m of popupModifiers) {
+      const popupModifier = this.popupModifiers_.get(m)
       if (popupModifier) {
         promiseContent = promiseContent.then(result => popupModifier(result, map))
       } else {

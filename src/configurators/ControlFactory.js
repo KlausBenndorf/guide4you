@@ -143,18 +143,19 @@ export class ControlFactory {
         return new LinkButton(options)
       case 'mobileControls':
         return new MobileControls(options)
-      case 'overviewMap':
-        let projection = options.projection || this.map_.get('mapProjection')
+      case 'overviewMap': {
+        const projection = options.projection || this.map_.get('mapProjection')
         options.view = new View({ projection: projection })
         return new OverviewMap(options)
+      }
       case 'staticOverviewMap':
         return new StaticOverviewMap(options)
       case 'infoButton':
         return new WindowDecorator({
           component: new InfoButton(options)
         })
-      case 'arrowButtons':
-        let mapConfig = this.map_.get('mapConfig')
+      case 'arrowButtons': {
+        const mapConfig = this.map_.get('mapConfig')
         if (mapConfig.view) {
           if (mapConfig.view.center) {
             options.initCenter = transform(mapConfig.view.center,
@@ -165,6 +166,7 @@ export class ControlFactory {
           }
         }
         return new ArrowButtons(options)
+      }
       case 'layerSelector':
         return new LayerSelector(options)
       case 'geolocationButton':
@@ -219,9 +221,9 @@ export class ControlFactory {
     /**
      * @type {g4uControlOptions}
      */
-    let config = copyDeep(asObject(this.controlsConfig[controlName]))
+    const config = copyDeep(asObject(this.controlsConfig[controlName]))
 
-    let controlType = config.controlType || controlName
+    const controlType = config.controlType || controlName
 
     config.controlName = controlName
 
@@ -233,7 +235,7 @@ export class ControlFactory {
 
     let control = this.createControl(controlType, config, receiver)
 
-    let modules = this.map_.getModules()
+    const modules = this.map_.getModules()
 
     for (let i = 0, ii = modules.length; i < ii && (control === undefined); i++) {
       control = modules[i].createControl(controlType, config, receiver)

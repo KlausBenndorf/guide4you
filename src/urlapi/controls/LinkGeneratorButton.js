@@ -54,7 +54,7 @@ export class LinkGeneratorButton extends Control {
   }
 
   createHTML () {
-    let $element = this.get$Element()
+    const $element = this.get$Element()
 
     // rtl
 
@@ -75,7 +75,7 @@ export class LinkGeneratorButton extends Control {
      */
     this.$markerCheckbox_ = $('<input type="checkbox">')
 
-    let $checkboxLabel = $('<label>')
+    const $checkboxLabel = $('<label>')
       .addClass(this.className_ + '-setmarker-checkbox')
       .html(this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton setMarkerText'))
       .prepend(this.$markerCheckbox_)
@@ -157,7 +157,7 @@ export class LinkGeneratorButton extends Control {
   }
 
   updateDescription () {
-    let text = filterText(this.$markerDescriptionTextArea_.val())
+    const text = filterText(this.$markerDescriptionTextArea_.val())
     this.marker_.setText(text)
     if (text) {
       this.marker_.setPopupVisible(true)
@@ -169,14 +169,14 @@ export class LinkGeneratorButton extends Control {
 
   enableMap () {
     this.shield_.setActive(false)
-    let $overlayContainers = $(this.getMap().getViewport())
+    const $overlayContainers = $(this.getMap().getViewport())
       .children('.ol-overlaycontainer-stopevent, .ol-overlaycontainer')
     $overlayContainers.addClass(cssClasses.hidden)
   }
 
   disableMap () {
     this.shield_.setActive(true)
-    let $overlayContainers = $(this.getMap().getViewport())
+    const $overlayContainers = $(this.getMap().getViewport())
       .children('.ol-overlaycontainer-stopevent, .ol-overlaycontainer')
     $overlayContainers.removeClass(cssClasses.hidden)
   }
@@ -184,7 +184,7 @@ export class LinkGeneratorButton extends Control {
   updateMarker (point) {
     this.marker_.setPosition(point)
 
-    let text = this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton markerText')
+    const text = this.getLocaliser().localiseUsingDictionary('LinkGeneratorButton markerText')
     this.marker_.setText(text)
     this.$markerDescriptionTextArea_.val(restoreText(text))
 
@@ -215,7 +215,7 @@ export class LinkGeneratorButton extends Control {
        */
       this.shield_ = map.get('shield')
 
-      let collection = new Collection()
+      const collection = new Collection()
 
       /**
        * @type {Draw}
@@ -253,7 +253,7 @@ export class LinkGeneratorButton extends Control {
   }
 
   updateURL () {
-    let urlApi = this.getMap().get('urlApi')
+    const urlApi = this.getMap().get('urlApi')
     this.$linkDisplay_.val(urlApi.makeURL({ baseURL: this.baseURL_ }))
   }
 
@@ -261,7 +261,7 @@ export class LinkGeneratorButton extends Control {
    * @param {boolean} active
    */
   setActive (active) {
-    let oldValue = this.active_
+    const oldValue = this.active_
     if (oldValue !== active) {
       this.active_ = active
 

@@ -95,7 +95,7 @@ export class WindowDecorator extends Control {
         })
 
         this.component_.on('change:active', () => {
-          let active = this.component_.getActive()
+          const active = this.component_.getActive()
           setTimeout(() => this.setWindowVisible(active), 0)
           this.$button_.toggleClass(cssClasses.active, active)
         })

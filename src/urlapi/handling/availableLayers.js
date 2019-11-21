@@ -2,11 +2,11 @@
  * @type {URLParameter}
  */
 export const availableLayersParam = {
-  keys: [ 'avalay' ],
+  keys: ['avalay'],
   setEvent: 'afterConfiguring',
   setToMap: (map, query) => {
     if (query.isSet('avalay')) {
-      let layerIds = query.getArray('avalay')
+      const layerIds = query.getArray('avalay')
 
       if (layerIds.length > 0) {
         // let visibleBaseLayer
@@ -17,7 +17,7 @@ export const availableLayersParam = {
           // if (!visibleBaseLayer && layer.getVisible()) {
           //   visibleBaseLayer = layer
           // }
-          let available = layerIds.indexOf(layer.get('id').toString()) > -1
+          const available = layerIds.indexOf(layer.get('id').toString()) > -1
           layer.set('available', available)
           // if (available) {
           //   countAvailable++
@@ -35,7 +35,7 @@ export const availableLayersParam = {
     }
   },
   getFromMap: (map, query) => {
-    let layerIds = []
+    const layerIds = []
 
     map.getLayerGroup().recursiveForEach(layer => {
       if (layer.get('available')) {

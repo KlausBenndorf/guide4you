@@ -30,17 +30,17 @@ import { isFunction, isObject, isArray } from 'lodash/lang'
  * @returns {StyleObject}
  */
 function mergeStyleConfigs (configTarget, configSource) {
-  let mergedConf = copyDeep(configTarget)
+  const mergedConf = copyDeep(configTarget)
   if (configSource) {
-    for (let k of Object.keys(configSource)) {
-      let sourceProp = configSource[k]
+    for (const k of Object.keys(configSource)) {
+      const sourceProp = configSource[k]
 
       if (configTarget.hasOwnProperty(k)) {
-        let targetProp = configTarget[k]
+        const targetProp = configTarget[k]
 
         if (typeof targetProp === 'object' && !(targetProp instanceof Array)) {
           // if it is another object, merge recursively
-          let targetProp = configTarget[k]
+          const targetProp = configTarget[k]
 
           if (targetProp.hasOwnProperty('type')) {
             if (sourceProp.hasOwnProperty('type')) {
@@ -85,28 +85,28 @@ export class Styling {
     if (!this.styleConfigMap_.has('#defaultStyle')) {
       // FallbackStyle
       this.styleConfigMap_.set('#defaultStyle', {
-        'stroke': {
-          'color': 'rgba(0,0,0,0.9)',
-          'width': 2
+        stroke: {
+          color: 'rgba(0,0,0,0.9)',
+          width: 2
         },
-        'fill': {
-          'color': 'rgba(0,0,0,0.3)'
+        fill: {
+          color: 'rgba(0,0,0,0.3)'
         },
-        'image': {
-          'type': 'circle',
-          'stroke': {
-            'color': 'rgba(0,0,0,0.9)',
-            'width': 2
+        image: {
+          type: 'circle',
+          stroke: {
+            color: 'rgba(0,0,0,0.9)',
+            width: 2
           },
-          'fill': {
-            'color': 'rgba(0,0,0,0.3)'
+          fill: {
+            color: 'rgba(0,0,0,0.3)'
           }
         }
       })
     }
 
     if (options.styleConfigMap) {
-      for (let k of Object.keys(options.styleConfigMap)) {
+      for (const k of Object.keys(options.styleConfigMap)) {
         this.styleConfigMap_.set(k, options.styleConfigMap[k])
       }
     }
@@ -181,11 +181,11 @@ export class Styling {
    * @returns {ol.style.Style}
    */
   getStyleFromConfig (styleConf) {
-    let filledStyleConf = mergeStyleConfigs(styleConf, this.styleConfigMap_.get('#default'))
+    const filledStyleConf = mergeStyleConfigs(styleConf, this.styleConfigMap_.get('#default'))
 
     function addFillsAndStrokes (subStyleConf) {
       subStyleConf = subStyleConf || {}
-      let preparedOptions = copy(subStyleConf)
+      const preparedOptions = copy(subStyleConf)
 
       if (checkFor(subStyleConf, 'fill')) {
         preparedOptions.fill = new Fill(mergeStyleConfigs(subStyleConf.fill, filledStyleConf.fill))
@@ -212,12 +212,12 @@ export class Styling {
       return preparedOptions
     }
 
-    let styleOptions = addFillsAndStrokes(filledStyleConf)
+    const styleOptions = addFillsAndStrokes(filledStyleConf)
 
     let getTextProperty
 
     if (filledStyleConf.hasOwnProperty('text')) {
-      getTextProperty = filledStyleConf.text['textProperty']
+      getTextProperty = filledStyleConf.text.textProperty
       styleOptions.text = new Text(addFillsAndStrokes(filledStyleConf.text))
     }
 
@@ -322,7 +322,7 @@ export class Styling {
   adjustStyle_ (feature, style) {
     if (!feature.get('hidden')) {
       if (this.getGlobalIconScale() !== 1 || feature.get('opacity') !== undefined) {
-        let clone = style.clone()
+        const clone = style.clone()
         this.scaleStyle_(clone)
         if (feature.get('opacity') !== undefined) {
           this.changeColorOpacity_(clone, feature.get('opacity'))
@@ -342,9 +342,9 @@ export class Styling {
    * @private
    */
   scaleStyle_ (style) {
-    let image = style.getImage()
+    const image = style.getImage()
     if (image) {
-      let origScale = style.getImage().getScale() || 1
+      const origScale = style.getImage().getScale() || 1
       image.setScale(origScale * this.getGlobalIconScale())
     }
   }
@@ -356,7 +356,7 @@ export class Styling {
    * @returns {ol.style.Style}
    */
   changeColorOpacity_ (style, opacity) {
-    let adjustColor = (style, opacity) => {
+    const adjustColor = (style, opacity) => {
       let color = style.getColor()
       if (color !== null) {
         if (!(color instanceof Array)) {
@@ -393,7 +393,7 @@ export class Styling {
 
   manageFeature (feature) {
     if (this.manageStyles_) {
-      let style = feature.getStyle()
+      const style = feature.getStyle()
       if (style && !feature.get('managedStyle')) {
         feature.set('managedStyle', style)
         feature.setStyle(this.managingFeatureStyle_)
@@ -424,7 +424,7 @@ export class Styling {
 
   manageLayer (layer) {
     if (this.manageStyles_) {
-      let style = layer.getStyle()
+      const style = layer.getStyle()
 
       if (style && !layer.get('managedStyle')) {
         layer.set('managedStyle', style)
@@ -447,10 +447,10 @@ export class Styling {
     const styles = configArr.map(o => this.getStyle(o.style))
     return feature => {
       for (let i = 0; i < configArr.length; i++) {
-        if (!configArr[i]['condition']) {
+        if (!configArr[i].condition) {
           return styles[i]
         }
-        const cond = configArr[i]['condition']
+        const cond = configArr[i].condition
         switch (cond[1]) {
           case '=':
             if (feature.get(cond[0]) === cond[2]) {

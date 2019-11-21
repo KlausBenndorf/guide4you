@@ -83,7 +83,7 @@ export class Shield extends BaseObject {
    * @param {boolean} active
    */
   setActive (active) {
-    let oldValue = this.active_
+    const oldValue = this.active_
     if (oldValue !== active) {
       if (active) {
         this.$element_.removeClass(cssClasses.hidden)
@@ -116,13 +116,13 @@ export class Shield extends BaseObject {
     let $actualElement = $element
 
     if (!options.hasOwnProperty('findParentWindow') || options.findParentWindow) {
-      let $window = $element.parents().filter('.g4u-window')
+      const $window = $element.parents().filter('.g4u-window')
       if ($window.length > 0) {
         $actualElement = $window
       }
     }
 
-    let $oldParent = $actualElement.parent()
+    const $oldParent = $actualElement.parent()
 
     this.elementsOnTop_.set($element[0], {
       $actualElement,
@@ -133,7 +133,7 @@ export class Shield extends BaseObject {
     this.$element_.append($actualElement)
     getInFront($actualElement, this.$element_)
 
-    for (let className of Array.from($oldParent[0].classList)) {
+    for (const className of Array.from($oldParent[0].classList)) {
       this.$element_.addClass(className)
     }
   }
@@ -144,9 +144,9 @@ export class Shield extends BaseObject {
    * @returns {Promise}
    */
   remove$OnTop ($element) {
-    let element = $element[0]
+    const element = $element[0]
 
-    let { $actualElement, $oldParent, oldIndex } = this.elementsOnTop_.get(element)
+    const { $actualElement, $oldParent, oldIndex } = this.elementsOnTop_.get(element)
 
     if (oldIndex === 0) {
       $oldParent.prepend($actualElement)
@@ -154,7 +154,7 @@ export class Shield extends BaseObject {
       $oldParent.children().eq(oldIndex - 1).after($actualElement)
     }
 
-    for (let className of Array.from($oldParent[0].classList)) {
+    for (const className of Array.from($oldParent[0].classList)) {
       this.$element_.removeClass(className)
     }
 

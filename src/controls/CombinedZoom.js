@@ -94,8 +94,8 @@ export class CombinedZoom extends ComposedControl {
 
     this.addControl(this.zoomButtons_, { wrap: false })
 
-    let $zoomIn = this.zoomButtons_.get$Element().children('.g4u-zoom-in')
-    let $zoomOut = this.zoomButtons_.get$Element().children('.g4u-zoom-out')
+    const $zoomIn = this.zoomButtons_.get$Element().children('.g4u-zoom-in')
+    const $zoomOut = this.zoomButtons_.get$Element().children('.g4u-zoom-out')
 
     this.get$Container().prepend($zoomIn)
     this.get$Container().append($zoomOut)
@@ -112,7 +112,7 @@ export class CombinedZoom extends ComposedControl {
 
     this.addControl(this.zoomSlider_, { wrap: false })
 
-    let $zoomSlider = this.zoomSlider_.get$Element()
+    const $zoomSlider = this.zoomSlider_.get$Element()
 
     $zoomSlider.on('mousedown', function () {
       $zoomSlider.addClass(cssClasses.mousedown)
@@ -121,7 +121,7 @@ export class CombinedZoom extends ComposedControl {
       $zoomSlider.removeClass(cssClasses.mousedown)
     })
 
-    let $zoomIn = this.get$Container().filter('.g4u-zoom-in')
+    const $zoomIn = this.get$Container().filter('.g4u-zoom-in')
 
     if ($zoomIn.length) {
       $zoomSlider.insertAfter($zoomIn)

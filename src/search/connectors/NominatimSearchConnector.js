@@ -19,9 +19,9 @@ export class NominatimSearchConnector extends SearchConnector {
   }
 
   setExtent (extent) {
-    let extentString = extent.join(',')
+    const extentString = extent.join(',')
     this.serviceURL.addParam(`format=json&q={searchstring}&addressdetails=1&dedupe=1&viewboxlbrt=${extentString}` +
-      `&bounded=1&extratags=1&namedetails=1`)
+      '&bounded=1&extratags=1&namedetails=1')
   }
 
   setMap (map) {
@@ -48,7 +48,7 @@ export class NominatimSearchConnector extends SearchConnector {
 
   getSearchResult (searchTerm) {
     return new Promise((resolve, reject) => {
-      let finalUrl = this.serviceURL.clone().expandTemplate('searchstring', searchTerm).finalize()
+      const finalUrl = this.serviceURL.clone().expandTemplate('searchstring', searchTerm).finalize()
 
       $.ajax({
         url: finalUrl,
@@ -79,7 +79,7 @@ export class NominatimSearchConnector extends SearchConnector {
     //
     // and will have a geometry and a style if anything was provided
 
-    let descriptionArray = []
+    const descriptionArray = []
 
     /**
      * Pushes an element to the description array
@@ -91,7 +91,7 @@ export class NominatimSearchConnector extends SearchConnector {
       }
     }
 
-    let featureOptions = {}
+    const featureOptions = {}
     let id
 
     if (data.hasOwnProperty('place_id')) {
@@ -103,7 +103,7 @@ export class NominatimSearchConnector extends SearchConnector {
     }
 
     if (data.hasOwnProperty('namedetails')) {
-      let curLang = this.localiser.getCurrentLang()
+      const curLang = this.localiser.getCurrentLang()
       if (data.namedetails.hasOwnProperty('name:' + curLang)) {
         pushDescriptionArray(data.namedetails['name:' + curLang])
       } else if (data.namedetails.hasOwnProperty('name')) {
@@ -166,12 +166,12 @@ export class NominatimSearchConnector extends SearchConnector {
       throw new Error('Please add the option addressdetails=1 to your searchstring in the config.')
     }
 
-    let dropdowntext = descriptionArray.join(',<br />')
+    const dropdowntext = descriptionArray.join(',<br />')
     featureOptions.name = descriptionArray.shift()
 
     if (data.hasOwnProperty('extratags')) {
       if (data.extratags.hasOwnProperty('website')) {
-        let linkText = this.localiser.localiseUsingDictionary('Nominatim website')
+        const linkText = this.localiser.localiseUsingDictionary('Nominatim website')
         let url = data.extratags.website
         if (url.slice(0, 7) !== 'http://') {
           url = 'http://' + url
@@ -179,9 +179,9 @@ export class NominatimSearchConnector extends SearchConnector {
         pushDescriptionArray(`<a href="${url}" target="_blank">${linkText}</a>`)
       }
       if (data.extratags.hasOwnProperty('wikipedia')) {
-        let comps = data.extratags.wikipedia.split(':')
-        let linkText = this.localiser.localiseUsingDictionary('Nominatim wikipedia')
-        let url = `http://${comps[0]}.wikipedia.org/wiki/${comps[1]}`
+        const comps = data.extratags.wikipedia.split(':')
+        const linkText = this.localiser.localiseUsingDictionary('Nominatim wikipedia')
+        const url = `http://${comps[0]}.wikipedia.org/wiki/${comps[1]}`
         pushDescriptionArray(`<a href="${url}" target="_blank">${linkText}</a>`)
       }
     } else {
@@ -191,7 +191,7 @@ export class NominatimSearchConnector extends SearchConnector {
     featureOptions.description = descriptionArray.join('<br />')
 
     if (data.hasOwnProperty('polygonpoints')) {
-      let polygonpoints = []
+      const polygonpoints = []
       for (let i = 0, ii = data.polygonpoints.length; i < ii; i++) {
         polygonpoints.push([parseFloat(data.polygonpoints[i][0]), parseFloat(data.polygonpoints[i][1])])
       }
@@ -204,14 +204,14 @@ export class NominatimSearchConnector extends SearchConnector {
       let point = [parseFloat(data.lon), parseFloat(data.lat)]
 
       if (this.featureProjection) {
-        let coords = [parseFloat(data.lon), parseFloat(data.lat)]
+        const coords = [parseFloat(data.lon), parseFloat(data.lat)]
         point = transform(coords, this.dataProjection, this.featureProjection)
       }
 
       featureOptions.geometry = new Point(point)
     }
 
-    let feature = new Feature(featureOptions)
+    const feature = new Feature(featureOptions)
 
     if (data.hasOwnProperty('icon')) {
       feature.set('iconStyle', data.icon)

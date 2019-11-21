@@ -76,7 +76,7 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
         mouseDown = true
       })
 
-      this.listenAt($overviewmap).on('mouseup', e => {
+      this.listenAt($overviewmap).on('mouseup', () => {
         mouseDown = false
       })
 
@@ -91,7 +91,7 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
         dontClick = true
       })
 
-      let $button = this.get$Element().find('button')
+      const $button = this.get$Element().find('button')
       this.listenAt($button).on('click', () => this.dispatchEvent('change:size'))
     }
   }

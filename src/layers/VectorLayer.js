@@ -6,7 +6,7 @@ import { mixin } from '../utilities'
 import { ProvideMapMixin } from './ProvideMapMixin'
 
 class UpdateRefreshingMixin {
-  constructor () {
+  initialize (options = {}) {
     this.on('change:visible', () => {
       if (this.getSource().setRefreshing) {
         this.getSource().setRefreshing(this.getVisible())

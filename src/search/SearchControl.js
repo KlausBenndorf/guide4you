@@ -93,7 +93,7 @@ export class SearchControl extends Control {
      * @private
      */
     this.autocompleteStart_ = (options.hasOwnProperty('autocompleteStart')) ? options.autocompleteStart : 2
-    let slideDuration = options.slideDuration || 400
+    const slideDuration = options.slideDuration || 400
 
     /**
      * @type {number}
@@ -121,7 +121,7 @@ export class SearchControl extends Control {
      */
     this.projectionOfServer_ = options.projectionOfServer
 
-    let placeholder = (options.hasOwnProperty('placeholder'))
+    const placeholder = (options.hasOwnProperty('placeholder'))
       ? this.getLocaliser().selectL10N(options.placeholder)
       : this.getLocaliser().localiseUsingDictionary('SearchControl placeholder')
 
@@ -234,11 +234,7 @@ export class SearchControl extends Control {
       let slideUp
 
       document.addEventListener('click', () => {
-        if (!map.get('mobile')) {
-          slideUp = true
-        } else {
-          slideUp = false
-        }
+        slideUp = !map.get('mobile')
       }, true)
 
       $(map.getViewport()).find('.ol-overlaycontainer-stopevent')
@@ -261,7 +257,7 @@ export class SearchControl extends Control {
    * @param {boolean} active
    */
   setActive (active) {
-    let oldValue = this.active_
+    const oldValue = this.active_
     if (oldValue !== active) {
       if (active) {
         if (this.dropdownActive_) {
@@ -290,7 +286,7 @@ export class SearchControl extends Control {
    * @private
    */
   updateDropdown_ (dropdownTexts, data) {
-    let dropdownContainsOnlyInput = this.dropdown_.getValue() &&
+    const dropdownContainsOnlyInput = this.dropdown_.getValue() &&
       dropdownTexts.length === 1 && this.dropdown_.getText() === html2Text(dropdownTexts[0])
 
     if (dropdownContainsOnlyInput || dropdownTexts.length === 0) {
@@ -298,7 +294,7 @@ export class SearchControl extends Control {
       this.dropdownActive_ = false
       return this.dropdown_.slideUp().then(() => this.changed())
     } else {
-      let length = Math.min(this.amountDropdownEntries_, dropdownTexts.length)
+      const length = Math.min(this.amountDropdownEntries_, dropdownTexts.length)
       this.dropdown_.setEntries(data.slice(0, length), dropdownTexts.slice(0, length))
       this.dropdownActive_ = true
       return this.dropdown_.slideDown().then(() => this.changed())
@@ -309,7 +305,7 @@ export class SearchControl extends Control {
    * @private
    */
   onDropdownSelect_ () {
-    let dropdownData = this.dropdown_.getValue()
+    const dropdownData = this.dropdown_.getValue()
 
     this.$textfield_.val(html2Text(this.dropdown_.getText()))
 
@@ -334,7 +330,7 @@ export class SearchControl extends Control {
     clearTimeout(this.autocompleteTimeout_)
     this.autocompleteTimeout_ = setTimeout(() => {
       // checking if autocomplete search should be performed and perform it
-      let searchtext = this.$textfield_.val()
+      const searchtext = this.$textfield_.val()
       if (this.autocompleteStart_ >= 0 && searchtext.length >= this.autocompleteStart_) {
         this.searchConnector_.getAutoComplete(searchtext)
           .then(([dropdownTexts, data]) => {
@@ -350,7 +346,7 @@ export class SearchControl extends Control {
     * @private
    */
   onSubmit_ () {
-    let searchstring = this.$textfield_.val()
+    const searchstring = this.$textfield_.val()
 
     if (!this.dropdown_.getValue() || searchstring !== html2Text(this.dropdown_.getText())) {
       this.searchView_.hideSearchResults()
@@ -371,11 +367,11 @@ export class SearchControl extends Control {
     if (features.length > 0) {
       this.searchView_.showSearchResults(features)
 
-      let isExact = features.length === 1
+      const isExact = features.length === 1
 
       if (!this.getMap().get('mobile') && isExact) {
         // exact search result desktop
-        let featurePopup = this.getMap().get('featurePopup')
+        const featurePopup = this.getMap().get('featurePopup')
         featurePopup.setFeature(features[0], null, features[0].getStyle() || this.searchView_.getStyle())
         featurePopup.setVisible(true, false)
         // featurePopup.update(false)

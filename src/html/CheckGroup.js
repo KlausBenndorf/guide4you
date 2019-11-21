@@ -24,7 +24,7 @@ export class CheckGroup extends Observable {
     nameValues.forEach(([name, value]) => {
       const $button = $('<button>')
         .text(name)
-        .on('click', e => {
+        .on('click', () => {
           this.toggleValue(value)
           this.dispatchEvent({
             type: 'change:value',
@@ -43,7 +43,7 @@ export class CheckGroup extends Observable {
     } else {
       this.values_ = values
     }
-    for (let bval in this.buttons_) {
+    for (const bval in this.buttons_) {
       if (this.values_.includes(bval)) {
         this.buttons_[bval].addClass('g4u-active')
       } else {
@@ -52,7 +52,7 @@ export class CheckGroup extends Observable {
     }
   }
 
-  getValues (values) {
+  getValues () {
     return this.values_
   }
 

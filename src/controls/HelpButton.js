@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import JSON5 from 'json5'
 
 import { Control } from './Control'
 import { checkFor, finishAllImages, mixin } from '../utilities'
@@ -47,9 +48,9 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
   }
 
   createContent_ () {
-    let localiser = this.getMap().get('localiser')
+    const localiser = this.getMap().get('localiser')
 
-    let documentationObject = JSON5.parse(this.contentData_)
+    const documentationObject = JSON5.parse(this.contentData_)
 
     if (checkFor(documentationObject, localiser.getCurrentLang())) {
       this.language = localiser.getCurrentLang()
@@ -59,12 +60,12 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
       this.language = 'de'
     }
 
-    let makeDocumentationTable = (documentation, language) => {
-      let $table = $('<table>').addClass(this.className_ + '-table')
+    const makeDocumentationTable = (documentation, language) => {
+      const $table = $('<table>').addClass(this.className_ + '-table')
       if (localiser.isRtl()) {
         $table.prop('dir', 'rtl')
       }
-      let documentationLocalized = documentationObject[language]
+      const documentationLocalized = documentationObject[language]
       let id
       let imgData
       let descrData
@@ -75,13 +76,13 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
       let visibleControls = []
 
       if (this.configControls_ && this.configControls_.hasOwnProperty('onMap')) {
-        let findContainedControls = controlNamesArr => {
+        const findContainedControls = controlNamesArr => {
           visibleControls = visibleControls.concat(controlNamesArr.map(name => {
             return this.configControls_.hasOwnProperty(name) && this.configControls_[name].hasOwnProperty('controlType')
               ? this.configControls_[name].controlType : name
           }))
 
-          for (let controlName of controlNamesArr) {
+          for (const controlName of controlNamesArr) {
             if (this.configControls_.hasOwnProperty(controlName)) {
               if (this.configControls_[controlName].hasOwnProperty('contains')) {
                 findContainedControls(this.configControls_[controlName].contains)
@@ -174,7 +175,7 @@ export class HelpButton extends mixin(Control, ActivatableMixin) {
 
           $.ajax(this.documentationFileName_, { dataType: 'text' })
             .fail(() => {
-              let msg = 'Wasn\'t able to load the documentation file ' + this.documentationFileName_
+              const msg = 'Wasn\'t able to load the documentation file ' + this.documentationFileName_
               Debug.error(msg)
               throw new Error(msg)
             })

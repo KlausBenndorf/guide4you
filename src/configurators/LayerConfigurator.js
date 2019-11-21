@@ -370,12 +370,12 @@ export class LayerConfigurator {
     /**
      * @type {LayerConfig}
      */
-    let layerConfigCopy = copyDeep(this.map_.get('layerConfig'))
+    const layerConfigCopy = copyDeep(this.map_.get('layerConfig'))
 
     /**
      * @type {MapConfig}
      */
-    let mapConfig = this.map_.get('mapConfig')
+    const mapConfig = this.map_.get('mapConfig')
 
     this.map_.set('layerIds', []) // in layerIds all ids are stored to check if one is double.
 
@@ -411,11 +411,11 @@ export class LayerConfigurator {
     //                                   All layers loaded                                      //
     // //////////////////////////////////////////////////////////////////////////////////////// //
 
-    let loadingLayers = []
+    const loadingLayers = []
     let isLoadingDelayed = false
     let isLoadingPrecise = false
 
-    let forEachLayer = (layer) => {
+    const forEachLayer = (layer) => {
       if (layer.getLayers) {
         layer.getLayers().on('add', e => {
           forEachLayer(e.element)
@@ -505,7 +505,7 @@ export class LayerConfigurator {
     /**
      * @type {string[]|number[]}
      */
-    let layerIds = this.map_.get('layerIds')
+    const layerIds = this.map_.get('layerIds')
 
     if (id === 0 || (id && (typeof id === 'string' || !isNaN(id)))) {
       for (let j = 0, jj = layerIds.length; j < jj; j++) {

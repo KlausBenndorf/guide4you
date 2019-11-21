@@ -115,7 +115,7 @@ export class FeatureTooltip {
    */
   setFeature (feature, layer, coordinate = null) {
     if (feature) {
-      let currentPopupModifiers = [ ...this.defaultPopupModifiers_, ...(layer.get('popupModifiers') || []) ]
+      const currentPopupModifiers = [...this.defaultPopupModifiers_, ...(layer.get('popupModifiers') || [])]
       this.getMap().get('popupModifiers').apply({
         name: feature.get('tooltip') || feature.get('name'),
         description: feature.get('description')
@@ -127,7 +127,7 @@ export class FeatureTooltip {
           }
         })
       if (!coordinate) {
-        let geometry = feature.getGeometry()
+        const geometry = feature.getGeometry()
         coordinate = getCenter(geometry.getExtent())
       }
       this.overlay_.setPosition(coordinate)

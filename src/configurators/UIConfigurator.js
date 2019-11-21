@@ -77,7 +77,7 @@ export class UIConfigurator {
    */
   static templateCSS (css, colors) {
     // find the used index of the color template
-    let colorTemplateIndex = (c) => {
+    const colorTemplateIndex = (c) => {
       let channels = 0
       let index = -1
       for (let i = 0; i < 3; i++) {
@@ -93,17 +93,17 @@ export class UIConfigurator {
       }
     }
 
-    let regExp = /(rgba?\([^)]*\))|(#[0-9a-f]{6})/g
+    const regExp = /(rgba?\([^)]*\))|(#[0-9a-f]{6})/g
 
     colors = colors.map(parseCSSColor)
 
     return css.replace(regExp, match => {
-      let templateColor = parseCSSColor(match)
-      let index = colorTemplateIndex(templateColor)
+      const templateColor = parseCSSColor(match)
+      const index = colorTemplateIndex(templateColor)
       if (index > -1) {
-        let aFac = templateColor[3]
-        let cFac = templateColor[index] / 120
-        let newColor = [
+        const aFac = templateColor[3]
+        const cFac = templateColor[index] / 120
+        const newColor = [
           colors[index][0] * cFac,
           colors[index][1] * cFac,
           colors[index][2] * cFac,
@@ -122,7 +122,7 @@ export class UIConfigurator {
    * @returns {string}
    */
   static fixUrls (css, cssPath) {
-    let dirname = urlDirname(cssPath)
+    const dirname = urlDirname(cssPath)
     return css.replace(/url\("([^"]*)"\)/g, (match, url) => {
       return `url("${urlJoin(dirname, url)}")`
     })
@@ -141,7 +141,7 @@ export class UIConfigurator {
 
         if ($style.length === 0) {
           $style = $('<style>', {
-            'id': id
+            id: id
           })
           $('head').append($style)
         }
@@ -188,12 +188,12 @@ export class UIConfigurator {
     /**
      * @type {PositioningOptions}
      */
-    let positioningOptions = mapConfigCopy.positioning || {}
+    const positioningOptions = mapConfigCopy.positioning || {}
     positioningOptions.viewport = this.map_.getViewport()
 
     this.map_.set('controlPositioning', new Positioning(positioningOptions))
 
-    let debouncedPosition = debounce(() => this.map_.get('controlPositioning').positionElements())
+    const debouncedPosition = debounce(() => this.map_.get('controlPositioning').positionElements())
 
     this.map_.on('ready', debouncedPosition)
 
@@ -223,7 +223,7 @@ export class UIConfigurator {
 
     this.map_.set('scaleIcons', mapConfigCopy.scaleIcons)
 
-    let mobileChangeHandler = this.getHandleMobileChange_()
+    const mobileChangeHandler = this.getHandleMobileChange_()
     this.map_.on('change:mobile', mobileChangeHandler)
 
     this.map_.once('ready', () => {
@@ -235,11 +235,11 @@ export class UIConfigurator {
       mobileChangeHandler()
     })
 
-    let checkMobileLayoutQuery = () => {
+    const checkMobileLayoutQuery = () => {
       /**
        * @type {MobileLayoutOptions}
        */
-      let mobileLayout = this.map_.get('mobileLayout')
+      const mobileLayout = this.map_.get('mobileLayout')
 
       if (mobileLayout && mobileLayout.mediaQueries && window.matchMedia) {
         this.map_.set('mobile', mobileLayout.mediaQueries.some(query => {
@@ -254,7 +254,7 @@ export class UIConfigurator {
 
     let oldResponsive
 
-    let onChangeResponsive = () => {
+    const onChangeResponsive = () => {
       if (this.map_.get('responsive') !== oldResponsive) {
         if (this.map_.get('responsive')) {
           checkMobileLayoutQuery()
@@ -294,10 +294,10 @@ export class UIConfigurator {
       this.map_.set('hitTolerance', layout.hitTolerance)
     }
 
-    let featurePopup = this.map_.get('featurePopup')
-    let wmsFeatureInfo = this.map_.get('showWMSFeatureInfo')
+    const featurePopup = this.map_.get('featurePopup')
+    const wmsFeatureInfo = this.map_.get('showWMSFeatureInfo')
 
-    let restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
+    const restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
 
     if (featurePopup && featurePopup.getVisible()) {
       featurePopup.setVisible(false)
@@ -336,7 +336,7 @@ export class UIConfigurator {
     this.map_.set('ready:ui', false)
     this.pending_++
 
-    let mapConfigCopy = copyDeep(this.map_.get('mapConfig'))
+    const mapConfigCopy = copyDeep(this.map_.get('mapConfig'))
 
     if (!this.initialized_) {
       this.initialize_(mapConfigCopy)
@@ -366,7 +366,7 @@ export class UIConfigurator {
         //                           Move Class (before mobileLayout)                               //
         // //////////////////////////////////////////////////////////////////////////////////////// //
 
-        let moveOptions = copyDeep(getConfig(mapConfigCopy, 'move')) || {}
+        const moveOptions = copyDeep(getConfig(mapConfigCopy, 'move')) || {}
         moveOptions.map = this.map_
 
         this.map_.set('move', new Move(moveOptions))
@@ -393,7 +393,7 @@ export class UIConfigurator {
 
         // should be before adding controls so the controls don't have to wait for any other ui elements
 
-        for (let module of this.map_.getModules()) {
+        for (const module of this.map_.getModules()) {
           module.configureUI(mapConfigCopy)
         }
 
@@ -412,7 +412,7 @@ export class UIConfigurator {
 
         this.controlFactory.addControls()
 
-        let deactivate = control => {
+        const deactivate = control => {
           if (control.setActive) {
             control.setActive(false)
           }
@@ -495,7 +495,7 @@ export class UIConfigurator {
         this.map_.addDefaultInteraction('pointermove', moveInteraction)
         this.map_.set('moveInteraction', moveInteraction)
 
-        let $viewport = $(this.map_.getViewport())
+        const $viewport = $(this.map_.getViewport())
 
         // if the map is left the features should get deselected
         $viewport.find('canvas').on('mouseleave', e => {
@@ -509,9 +509,9 @@ export class UIConfigurator {
         this.map_.set('clickableInteraction', clickableInteraction)
 
         // hitTolerance
-        let updateHitTolerance = () => {
-          let hitTolerance = this.map_.get('hitTolerance')
-          for (let interaction of this.map_.getInteractions().getArray()) {
+        const updateHitTolerance = () => {
+          const hitTolerance = this.map_.get('hitTolerance')
+          for (const interaction of this.map_.getInteractions().getArray()) {
             if (interaction.setHitTolerance) {
               interaction.setHitTolerance(hitTolerance)
             }
@@ -576,7 +576,7 @@ export class UIConfigurator {
         //                                     UserExit (2/2)                                       //
         // //////////////////////////////////////////////////////////////////////////////////////// //
         if (this.map_.get('userActionTracking')) {
-          let map = this.map_
+          const map = this.map_
 
           this.map_.on('moveend', function () {
             map.dispatchEvent({
@@ -609,7 +609,7 @@ export class UIConfigurator {
             })
           }
 
-          for (let module of this.map_.getModules()) {
+          for (const module of this.map_.getModules()) {
             module.enableUserActionTracking()
           }
 

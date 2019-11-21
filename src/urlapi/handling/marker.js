@@ -6,18 +6,18 @@ import { transform } from 'ol/proj'
  * @type {URLParameter}
  */
 export const markerParam = {
-  keys: [ 'marklat', 'marklon', 'markx', 'marky', 'marktext', 'markpop', 'srid' ],
+  keys: ['marklat', 'marklon', 'markx', 'marky', 'marktext', 'markpop', 'srid'],
   setEvent: 'ready',
   setToMap: (map, query) => {
-    let marker = map.get('marker')
+    const marker = map.get('marker')
 
     let coords, fromProjection
     if (marker) {
       if (query.isSet('markx') && query.isSet('marky')) {
-        coords = [ parseFloat(query.getSanitizedVal('markx')), parseFloat(query.getSanitizedVal('marky')) ]
+        coords = [parseFloat(query.getSanitizedVal('markx')), parseFloat(query.getSanitizedVal('marky'))]
         fromProjection = query.isSet('srid') ? query.getSanitizedVal('srid') : map.get('interfaceProjection')
       } else if (query.isSet('marklat') && query.isSet('marklon')) {
-        coords = [ parseFloat(query.getSanitizedVal('marklon')), parseFloat(query.getSanitizedVal('marklat')) ]
+        coords = [parseFloat(query.getSanitizedVal('marklon')), parseFloat(query.getSanitizedVal('marklat'))]
         fromProjection = 'EPSG:4326'
       } else {
         coords = map.getView().getCenter()
@@ -44,20 +44,20 @@ export const markerParam = {
     }
   },
   getFromMap: (map, query) => {
-    let marker = map.get('marker')
+    const marker = map.get('marker')
 
     if (marker && marker.getActive() && !query.isExcluded('marker')) {
-      let result = {
+      const result = {
         srid: map.get('interfaceProjection')
       }
 
-      let xy = transform(
+      const xy = transform(
         marker.getPosition(), map.get('mapProjection'), map.get('interfaceProjection'))
-      let text = restoreText(marker.getText())
-      let popvis = marker.getPopupVisible()
+      const text = restoreText(marker.getText())
+      const popvis = marker.getPopupVisible()
 
-      result.markx = xy[ 0 ].toFixed(5)
-      result.marky = xy[ 1 ].toFixed(5)
+      result.markx = xy[0].toFixed(5)
+      result.marky = xy[1].toFixed(5)
 
       if (text) {
         result.marktext = text

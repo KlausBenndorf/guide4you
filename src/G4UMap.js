@@ -95,12 +95,12 @@ export class G4UMap extends OlMap {
 
     // popupModifiers
 
-    let popupModifiers = new PopupModifierManager()
+    const popupModifiers = new PopupModifierManager()
     this.set('popupModifiers', popupModifiers)
 
     if (options.popupModifiers) {
       this.on('change:featurePopup', () => {
-        for (let name of Object.keys(options.popupModifiers)) {
+        for (const name of Object.keys(options.popupModifiers)) {
           popupModifiers.register(name, options.popupModifiers[name])
         }
       })
@@ -138,10 +138,10 @@ export class G4UMap extends OlMap {
       // //////////////////////////////////////////////////////////////////////////////////////// //
 
       if (!options.localiser) {
-        let localiserOptions = {}
+        const localiserOptions = {}
 
         if (config.hasOwnProperty('languageSettings')) {
-          let l10nconf = config.languageSettings
+          const l10nconf = config.languageSettings
 
           localiserOptions.currentLanguage = l10nconf.currentLanguage
 
@@ -160,7 +160,7 @@ export class G4UMap extends OlMap {
           }
         }
 
-        let localiser = new L10N(this.get('translations'), localiserOptions)
+        const localiser = new L10N(this.get('translations'), localiserOptions)
         this.set('localiser', localiser)
       } else {
         this.set('localiser', options.localiser)
@@ -168,7 +168,7 @@ export class G4UMap extends OlMap {
 
       this.asSoonAs('ready', true, () => {
         this.get('localiser').on('change:language', () => {
-          let visibilities = this.getLayerGroup().getIdsVisibilities()
+          const visibilities = this.getLayerGroup().getIdsVisibilities()
 
           this.get('configurator').configureLayers()
           this.get('configurator').configureUI()
@@ -346,7 +346,7 @@ export class G4UMap extends OlMap {
    * @param {Module[]} modules
    */
   addModules (modules) {
-    for (let module of modules) {
+    for (const module of modules) {
       this.addModule(module)
     }
   }
@@ -394,7 +394,7 @@ export class G4UMap extends OlMap {
    */
   removeInteractions () {
     while (this.getInteractions() && this.getInteractions().getLength()) {
-      for (let interaction of this.getInteractions().getArray()) {
+      for (const interaction of this.getInteractions().getArray()) {
         this.removeInteraction(interaction)
       }
     }
@@ -413,7 +413,7 @@ export class G4UMap extends OlMap {
    * @param {ol.interaction.Interaction} interaction
    */
   addDefaultInteraction (eventTypes, interaction) {
-    for (let eventtype of eventTypes.split(' ')) {
+    for (const eventtype of eventTypes.split(' ')) {
       if (this.defaultInteractions_.has(eventtype)) {
         this.defaultInteractions_.get(eventtype).push(interaction)
       } else {
@@ -429,10 +429,10 @@ export class G4UMap extends OlMap {
    * @param {string} eventType
    */
   deactivateInteractions (eventType) {
-    for (let defInteraction of this.defaultInteractions_.get(eventType)) {
+    for (const defInteraction of this.defaultInteractions_.get(eventType)) {
       defInteraction.setActive(false)
     }
-    for (let supInteraction of this.supersedingInteractions_.get(eventType)) {
+    for (const supInteraction of this.supersedingInteractions_.get(eventType)) {
       supInteraction.setActive(false)
     }
   }
@@ -442,7 +442,7 @@ export class G4UMap extends OlMap {
    * @param {string} eventType
    */
   activateInteractions (eventType) {
-    for (let defInteraction of this.getDefaultInteractions(eventType)) {
+    for (const defInteraction of this.getDefaultInteractions(eventType)) {
       defInteraction.setActive(true)
     }
   }
@@ -463,39 +463,39 @@ export class G4UMap extends OlMap {
    * @param {ol.interaction.Interaction} interaction
    */
   addSupersedingInteraction (eventTypes, interaction) {
-    let eventTypes_ = eventTypes.split(' ')
+    const eventTypes_ = eventTypes.split(' ')
 
-    let onActivation = () => {
+    const onActivation = () => {
       // deactivation of all other interactions with the same eventtypes
 
-      for (let eventType of eventTypes_) {
-        for (let supersedingInteraction of this.supersedingInteractions_.get(eventType)) {
+      for (const eventType of eventTypes_) {
+        for (const supersedingInteraction of this.supersedingInteractions_.get(eventType)) {
           if (interaction !== supersedingInteraction) {
             supersedingInteraction.setActive(false)
           }
         }
 
         if (this.defaultInteractions_.get(eventType)) {
-          for (let defaultInteraction of this.defaultInteractions_.get(eventType)) {
+          for (const defaultInteraction of this.defaultInteractions_.get(eventType)) {
             defaultInteraction.setActive(false)
           }
         }
       }
     }
 
-    let onDeactivation = () => {
+    const onDeactivation = () => {
       // reactivation of the default interactions
       // NOTE: if a superseding turned off another superseding interactions it won't reactivate it
-      for (let eventType of eventTypes_) {
+      for (const eventType of eventTypes_) {
         if (this.defaultInteractions_.get(eventType)) {
-          for (let defaultInteraction of this.defaultInteractions_.get(eventType)) {
+          for (const defaultInteraction of this.defaultInteractions_.get(eventType)) {
             defaultInteraction.setActive(true)
           }
         }
       }
     }
 
-    for (let eventType of eventTypes_) {
+    for (const eventType of eventTypes_) {
       if (this.supersedingInteractions_.has(eventType)) {
         this.supersedingInteractions_.get(eventType).push(interaction)
       } else {

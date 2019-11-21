@@ -88,7 +88,7 @@ export class Accordion {
       window.setVisible(true)
     }
 
-    let hideWindow = () => {
+    const hideWindow = () => {
       window.setVisible(false)
     }
 
@@ -98,7 +98,7 @@ export class Accordion {
       .on('click', () => {
         if (!window.getVisible()) {
           if (!content) {
-            let url = URL.extractFromConfig(options, 'url', undefined, this.map_)
+            const url = URL.extractFromConfig(options, 'url', undefined, this.map_)
             $.get(url.finalize(), data => {
               content = data
               showWindow()
