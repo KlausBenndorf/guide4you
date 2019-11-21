@@ -4,4 +4,4 @@ import { LayerLoadProcessCountMixin } from './LayerLoadProcessCountMixin'
 import { mixin } from '../utilities'
 import { ProvideMapMixin } from './ProvideMapMixin'
 
-export const TileLayer = mixin(Tile, [ ProvideMapMixin, LayerLoadProcessCountMixin ])
+export const TileLayer = mixin(Tile, mixin(ProvideMapMixin, LayerLoadProcessCountMixin))

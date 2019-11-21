@@ -178,7 +178,7 @@
       "source": {
         "url": {
           "url": "http://sg.geodatenzentrum.de/wmts_topplus_web_open/1.0.0/WMTSCapabilities.xml",
-          "useProxy": true
+          "useProxy": false
         },
         "config": {
           "layer": "web"
