@@ -308,8 +308,8 @@ export class G4UMap extends OlMap {
       Debug.error('No translations provided')
     }
 
-    if (configs.hasOwnProperty('styleMap')) {
-      configPromises.push(G4UMap.loadConfigFile(configs.styleMap).then(data => {
+    if (configs.hasOwnProperty('styles')) {
+      configPromises.push(G4UMap.loadConfigFile(configs.styles).then(data => {
         this.set('styleMap', data)
       }))
     }

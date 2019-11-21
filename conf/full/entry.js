@@ -9,6 +9,7 @@ import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
 import defaultClientConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./client.commented.json'
 import defaultLayerConf from 'file-loader?name=conf/[name].[ext]!mustache-loader!./layers.commented.json'
+import defaultStylesConf from 'file-loader?name=conf/[name].[ext]!./styles.json'
 import defaultLanguageConf from 'tojson-file-loader?name=files/[name]!../../files/l10n.json.js'
 
 import 'file-loader?name=files/[name].[ext]!../../files/hotelsbonn.kml'
@@ -72,7 +73,11 @@ export function createMap (target, ...args) {
   return createMapInternal(target, args, {
     client: defaultClientConf,
     layer: defaultLayerConf,
-    translations: defaultLanguageConf
+    translations: defaultLanguageConf,
+    styles: defaultStylesConf
+  }).then(map => {
+    map.api.popupModifier.register('test', () => { return { name: 'test', description: 'testest' } })
+    return map
   })
 }
 

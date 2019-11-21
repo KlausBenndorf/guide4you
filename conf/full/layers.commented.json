@@ -156,6 +156,7 @@
       "id": "B-dop-nw",
       "title": "DOP NRW (WMS)",
       "type": "WMS",
+      "popupModifiers": ["test"],
       "source": {
         "url": {
           "useProxy": true,
@@ -167,6 +168,13 @@
           "LAYERS": [
             "nw_dop_rgb"
           ]
+        },
+        "featureInfo": {
+          "params": {
+            "QUERY_LAYERS": [
+              "nw_dop_rgb"
+            ]
+          }
         },
         "attribution": "&copy; Geobasis NRW 2016"
       }
@@ -203,9 +211,10 @@
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
-        }
+        },
+        "extractStyles": false
       },
-      "style": "#defaultStyle"
+      "style": "#textPropertyStyle"
     },
     {
       "id": "f2",
@@ -222,9 +231,12 @@
         "attribution": {
           "en": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors",
           "de": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> Mitwirkende"
-        }
+        },
+        "extractStyles": true,
+        "showPointNames": true
       },
-      "style": "#iconStyle"
+      "popupModifiers": ["test"],
+      "style": "#defaultStyle"
     },
     {
       "id": "f3",
