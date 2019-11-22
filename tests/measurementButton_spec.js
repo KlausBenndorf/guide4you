@@ -123,7 +123,7 @@ describe('measurementButton', function () {
       .isDisplayed()
     assert(visible, 'distance measurement window should be visible').isEqualTo(true)
     const point1 = await driver.executeScript(getPixelFromCoordinate, [773466.7463450996, 6610915.166693036])
-    const point2 = driver.executeScript(getPixelFromCoordinate, [775715.4000591239, 6610915.166693036])
+    const point2 = await driver.executeScript(getPixelFromCoordinate, [775715.4000591239, 6610915.166693036])
     const element = await driver.findElement(By.className('ol-viewport'))
     await driver.actions()
       .mouseMove(element, { x: point1[0], y: point1[1] })

@@ -10,6 +10,7 @@ import { getLength } from 'ol/sphere'
 import CircleStyle from 'ol/style/Circle'
 import Style from 'ol/style/Style'
 import { Debug } from '../Debug'
+import { take } from '../utilitiesObject'
 
 export class GeometryAPI {
   constructor (mainAPI, map) {
@@ -24,13 +25,13 @@ export class GeometryAPI {
     this.mainAPI_.cancelInteractions()
 
     const collection = new Collection()
-    const style = this.map_.get('styling').getStyle(options.style || this.mainAPI_.getDrawStyle())
+    const style = this.map_.get('styling').getStyle(take(options, 'style') || this.mainAPI_.getDrawStyle())
     // this.map_.get('styling').manageFeatureCollection(collection)
-    const cursorRadius = options.cursorRadius || 0
-    const cssCursor = options.cssCursor || 'crosshair'
-    const showCircleRadius = options.showCircleRadius
-    const format = options.format || 'wkt'
-    const projection = options.projection || this.map_.getView().getProjection()
+    const cursorRadius = take(options, 'cursorRadius') || 0
+    const cssCursor = take(options, 'cssCursor') || 'crosshair'
+    const showCircleRadius = take(options, 'showCircleRadius')
+    const format = take(options, 'format') || 'wkt'
+    const projection = take(options, 'projection') || this.map_.getView().getProjection()
 
     let sketchFeature
 
@@ -44,9 +45,9 @@ export class GeometryAPI {
       cursorStyle.getImage().setRadius(cursorRadius)
     }
 
-    const drawOptions = {
+    const drawOptions = Object.assign({}, options, {
       features: collection
-    }
+    })
 
     if (type === 'Box') {
       drawOptions.type = 'Circle'
