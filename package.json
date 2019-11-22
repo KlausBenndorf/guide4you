@@ -70,7 +70,7 @@
     "debug:full": "g4u-build -c conf/full/webpack.debug.js",
     "full": "npm run prod:full && npm run debug:full",
     "lint": "eslint src/ tests/",
-    "version": "(npm run test && npm run doc && git add -A) || git checkout .",
+    "version": "(npm run test && npm run doc && git add dist/* docs/* package.json) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
     "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha tests/*\"",
     "test": "npm run lint && npm run dist && npm run runTests && echo \"Tests completed successfully\"",
