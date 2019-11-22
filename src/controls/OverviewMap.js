@@ -57,38 +57,8 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
         }
       }
 
-      let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
-
-      $overviewmap = $overviewmap.add($overviewmap.find('.ol-overviewmap-box'))
-
-      let dontClick = false
-
-      this.listenAt($overviewmap).on('click', e => {
-        if (!dontClick) {
-          view.setCenter(this.getOverviewMap().getEventCoordinate(e))
-        }
-      })
-
-      let mouseDown = false
-
-      this.listenAt($overviewmap).on('mousedown', () => {
-        dontClick = false
-        mouseDown = true
-      })
-
-      this.listenAt($overviewmap).on('mouseup', () => {
-        mouseDown = false
-      })
-
-      this.listenAt($overviewmap).on('mousemove', e => {
-        if (mouseDown) {
-          view.setCenter(this.getOverviewMap().getEventCoordinate(e))
-        }
-      })
-
-      this.getOverviewMap().getView().on('change:center', () => {
-        mouseDown = false
-        dontClick = true
+      this.listenAt(this.getOverviewMap()).on('click', e => {
+        view.setCenter(e.coordinate)
       })
 
       const $button = this.get$Element().find('button')
