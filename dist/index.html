@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta name="application-name" content="Guide 4 You - G4U">
-
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
     <title>Guide4You</title>
@@ -14,7 +15,7 @@
             padding: 0;
         }
     </style>
-<link rel="shortcut icon" href="g4u-logo.png"><link href="css/g4u.css" rel="stylesheet"><script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script><script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,cancelAnimationFrame,Element.prototype.classList,URL,Object.defineProperty,Object.getPrototypeOf,Object.getOwnPropertyDescriptor,Object.getOwnPropertyNames,Array.prototype.includes,Array.prototype.findIndex,Array.prototype.find&flags=gated"></script><script type="text/javascript" src="js/g4u.js"></script></head>
+<link rel="shortcut icon" href="g4u-logo.png"><link href="css/g4u.css" rel="stylesheet"><script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script><script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,cancelAnimationFrame,Element.prototype.classList,URL,Object.defineProperty,Object.getPrototypeOf,Object.getOwnPropertyDescriptor,Object.getOwnPropertyNames,Element.prototype.placeholder,Array.prototype.findIndex,Array.prototype.find,Array.prototype.includes&flags=gated"></script><script type="text/javascript" src="js/jquery.min.js"></script><script type="text/javascript" src="js/g4u.js"></script></head>
 
 <body>
 <div id="g4u-map" class="g4u-map" tabindex="1">
@@ -37,13 +38,11 @@
     g4u.createMap('#g4u-map')
 
     // To use other than default config files:
-    // g4u.createMap('#g4u-map', 'path/to/clientConfig.json', 'path/to/layerConfig.json')
+    // g4u.createMap('#g4u-map', { client: 'path/to/clientConfig.json', layer: 'path/to/layerConfig.json' })
 
     // To access the map when its ready (layers and ui are initialized):
     // g4u.createMap(...).then(function (map) {
-    //   map.asSoonAs('ready', true, function () {
-    //     ... map is ready ...
-    //   })
+    //   ... map is ready ...
     // })
 </script>
 </body>
