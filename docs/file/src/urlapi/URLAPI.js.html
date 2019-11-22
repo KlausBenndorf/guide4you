@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/urlapi/URLAPI.js | guide4you</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="guide4you"><meta property="twitter:description" content="A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/KlausBenndorf/guide4you"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Attributions.js~Attributions.html">Attributions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Debug.js~Debug.html">Debug</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeaturePopup.js~FeaturePopup.html">FeaturePopup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/FeatureTooltip.js~FeatureTooltip.html">FeatureTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/G4UMap.js~G4UMap.html">G4UMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/L10N.js~L10N.html">L10N</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/ListenerOrganizerMixin.js~ListenerOrganizerMixin.html">ListenerOrganizerMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/MessageDisplay.js~MessageDisplay.html">MessageDisplay</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Module.js~Module.html">Module</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Move.js~Move.html">Move</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/PopupModifierManager.js~PopupModifierManager.html">PopupModifierManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Styling.js~Styling.html">Styling</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-multiplyExtent">multiplyExtent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-createMapInternal">createMapInternal</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getRegisteredModules">getRegisteredModules</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-registerModule">registerModule</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asObject">asObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asyncImageLoad">asyncImageLoad</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-checkFor">checkFor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-even">even</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-finishAllImages">finishAllImages</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getConfig">getConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-html2Text">html2Text</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mixin">mixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mixinAsClass">mixinAsClass</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-odd">odd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-offset">offset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-recursiveSelect">recursiveSelect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-showInteractionActivity">showInteractionActivity</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlDirname">urlDirname</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlIsAbsolute">urlIsAbsolute</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlJoin">urlJoin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlNormalize">urlNormalize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-urlRelative">urlRelative</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-copy">copy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-copyDeep">copyDeep</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-merge">merge</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-mergeDeep">mergeDeep</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-take">take</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-filterText">filterText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-restoreText">restoreText</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-olEventTypes">olEventTypes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-cssClasses">cssClasses</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-keyCodes">keyCodes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeaturePopupOptions">FeaturePopupOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureTooltipOptions">FeatureTooltipOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Configs">Configs</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-G4UMapOptions">G4UMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-L10NOptions">L10NOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Localizable">Localizable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageConstructorOptions">MessageConstructorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageDisplayOptions">MessageDisplayOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MessageReducedDisplayOptions">MessageReducedDisplayOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MoveOptions">MoveOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SingleMoveOptions">SingleMoveOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PopupContent">PopupContent</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShowWMSFeatureInfoOptions">ShowWMSFeatureInfoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StyleLike">StyleLike</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StyleObject">StyleObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLConfig">URLConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLLike">URLLike</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#api">api</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/api/FeatureAPI.js~FeatureAPI.html">FeatureAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/api/GeometryAPI.js~GeometryAPI.html">GeometryAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/api/KMLAPI.js~KMLAPI.html">KMLAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/api/MeasureAPI.js~MeasureAPI.html">MeasureAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/api/PlacesAPI.js~PlacesAPI.html">PlacesAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html">PrintToScaleAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-APIOptions">APIOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#configurators">configurators</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/ControlFactory.js~ControlFactory.html">ControlFactory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/LayerConfigurator.js~LayerConfigurator.html">LayerConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/LayerFactory.js~LayerFactory.html">LayerFactory</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/MapConfigurator.js~MapConfigurator.html">MapConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/configurators/UIConfigurator.js~UIConfigurator.html">UIConfigurator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-LayerType">LayerType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ControlFactoryOptions">ControlFactoryOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ControlsConfig">ControlsConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-AnyLayerConfig">AnyLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-AnyLayerConfig">AnyLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BingLayerConfig">BingLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BingLayerConfig">BingLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CategoryLayerConfig">CategoryLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CategoryLayerConfig">CategoryLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EmptyLayerConfig">EmptyLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EmptyLayerConfig">EmptyLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureConfig">FeatureConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureConfig">FeatureConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoJSONLayerConfig">GeoJSONLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoJSONLayerConfig">GeoJSONLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalLayerConfig">InternalLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalLayerConfig">InternalLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalSourceConfig">InternalSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InternalSourceConfig">InternalSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KMLLayerConfig">KMLLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KMLLayerConfig">KMLLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerConfig">LayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OSMLayerConfig">OSMLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OSMLayerConfig">OSMLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SilentGroupLayerConfig">SilentGroupLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SilentGroupLayerConfig">SilentGroupLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceConfig">SourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StamenLayerConfig">StamenLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StamenLayerConfig">StamenLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TileWMSLayerConfig">TileWMSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-TileWMSLayerConfig">TileWMSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorSourceConfig">VectorSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorSourceConfig">VectorSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSLayerConfig">WMSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSLayerConfig">WMSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSLayerConfig">WMTSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSLayerConfig">WMTSLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSSSourceConfig">WMTSSSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMTSSSourceConfig">WMTSSSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-XYZLayerConfig">XYZLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-XYZLayerConfig">XYZLayerConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uLayerOptions">g4uLayerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-KineticOptions">KineticOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapConfig">MapConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MobileLayoutOptions">MobileLayoutOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ProjectionConfig">ProjectionConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uViewOptions">g4uViewOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Float">Float</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HideableElement">HideableElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PositionedElement">PositionedElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-PositioningOptions">PositioningOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#controls">controls</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ActivatableMixin.js~ActivatableMixin.html">ActivatableMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ActiveGroup.js~ActiveGroup.html">ActiveGroup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ArrowButtons.js~ArrowButtons.html">ArrowButtons</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/Attribution.js~Attribution.html">Attribution</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~CombinedZoom.html">CombinedZoom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~Zoom.html">Zoom</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/CombinedZoom.js~ZoomSlider.html">ZoomSlider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ComposedControl.js~ComposedControl.html">ComposedControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ControlLogicMixin.js~ControlLogicMixin.html">ControlLogicMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/GeoLocationButton.js~GeolocationButton.html">GeolocationButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/HelpButton.js~HelpButton.html">HelpButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/InfoButton.js~InfoButton.html">InfoButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LanguageSwitcherButton.js~LanguageSwitcherButton.html">LanguageSwitcherButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LanguageSwitcherMenu.js~LanguageSwitcherMenu.html">LanguageSwitcherMenu</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LayerSelector.js~LayerSelector.html">LayerSelector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LegendViewer.js~LegendViewer.html">LegendViewer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/LinkButton.js~LinkButton.html">LinkButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/Logo.js~Logo.html">Logo</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MeasurementButton.js~MeasurementButton.html">MeasurementButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MobileControls.js~MobileControls.html">MobileControls</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/MousePosition.js~MousePosition.html">MousePosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/OverviewMap.js~OverviewMap.html">OverviewMap</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/PrintButton.js~PrintButton.html">PrintButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/RewireMixin.js~RewireMixin.html">RewireMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ScaleLine.js~ScaleLine.html">ScaleLine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ShiftableComposedControl.js~ShiftableComposedControl.html">ShiftableComposedControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/SingleDrawButton.js~SingleDrawButton.html">SingleDrawButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/WindowDecorator.js~WindowDecorator.html">WindowDecorator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/controls/ZoomToBbox.js~ZoomToBbox.html">ZoomToBbox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Control">Control</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArrowButtonOptions">ArrowButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CombinedZoomOptions">CombinedZoomOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ZoomOptions">ZoomOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ComposedControlOptions">ComposedControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-g4uControlOptions">g4uControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GeoLocationButtonOptions">GeoLocationButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-HelpButtonOptions">HelpButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-InfoButtonOptions">InfoButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LanguageSwitcherButtonOptions">LanguageSwitcherButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LanguageSwitcherMenuOptions">LanguageSwitcherMenuOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerButton">LayerButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerSelectorOptions">LayerSelectorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LinkButtonOptions">LinkButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LogoOptions">LogoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MeasurementButtonOptions">MeasurementButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MousePositionOptions">MousePositionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OverviewMapOptions">OverviewMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShiftableComposedControlOptions">ShiftableComposedControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DrawButtonsOptions">DrawButtonsOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StaticOverviewMapOptions">StaticOverviewMapOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowDecoratorOptions">WindowDecoratorOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#html">html</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/ButtonBox.js~ButtonBox.html">ButtonBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/CheckGroup.js~CheckGroup.html">CheckGroup</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Dropdown.js~Dropdown.html">Dropdown</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/History.js~History.html">History</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Shield.js~Shield.html">Shield</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/html/Window.js~Window.html">Window</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addTooltip">addTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-changeTooltip">changeTooltip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getInFront">getInFront</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ButtonBoxOptions">ButtonBoxOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-DropdownOptions">DropdownOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Entry">Entry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ElementPosition">ElementPosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-OnTopOptions">OnTopOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ShieldOptions">ShieldOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WindowOptions">WindowOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#interactions">interactions</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/interactions/ClickableInteraction.js~ClickableInteraction.html">ClickableInteraction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-FeatureInteractionOptions">FeatureInteractionOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MapEventInteractionOptions">MapEventInteractionOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layerselector">layerSelector</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/Accordion.js~Accordion.html">Accordion</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/Button.js~Button.html">Button</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/Element.js~Element.html">Element</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/GroupElement.js~GroupElement.html">GroupElement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/LayerButton.js~LayerButton.html">LayerButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/MultiButton.js~MultiButton.html">MultiButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layerSelector/WMSLayerButton.js~WMSLayerButton.html">WMSLayerButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-layerConfigConverter">layerConfigConverter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ButtonActions">ButtonActions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ButtonConfig">ButtonConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-GroupButtonConfig">GroupButtonConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerButtonConfig">LayerButtonConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LayerSelectorOptions">LayerSelectorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSLayerButtonConfig">WMSLayerButtonConfig</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#layers">layers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html">BaseLayerMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/EmptyImageLayer.js~EmptyImageLayer.html">EmptyImageLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/GroupLayer.js~GroupLayer.html">GroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/LayerLoadProcessCountMixin.js~LayerLoadProcessCountMixin.html">LayerLoadProcessCountMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/ProvideMapMixin.js~ProvideMapMixin.html">ProvideMapMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/SilentGroupLayer.js~SilentGroupLayer.html">SilentGroupLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/layers/VectorLayer.js~VectorImageLayer.html">VectorImageLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageLayer">ImageLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TileLayer">TileLayer</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-BaseLayerMixinOptions">BaseLayerMixinOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-VectorLayerOptions">VectorLayerOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#search">search</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/search/SearchControl.js~SearchControl.html">SearchControl</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SearchControlOptions">SearchControlOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SearchControlModuleOptions">SearchControlModuleOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SearchViewOptions">SearchViewOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#search-connectors">search/connectors</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html">G4USearchV2Connector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html">G4UServerSearchConnector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html">NominatimSearchConnector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html">NominatimSearchConnector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SearchConnectorOptions">SearchConnectorOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#sources">sources</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ClusterSource.js~ClusterSource.html">ClusterSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/ImageWMSSource.js~TileWMSSource.html">TileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryVectorSource.js~QueryVectorSource.html">QueryVectorSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/QueryWMSSource.js~QueryWMSMixin.html">QueryWMSMixin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/SourceServerVector.js~SourceServerVector.html">SourceServerVector</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/sources/WMTSSource.js~WMTSSource.html">WMTSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryImageWMSSource">QueryImageWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-QueryTileWMSSource">QueryTileWMSSource</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions">ArcGISRESTFeatureSourceOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSFeatureInfoOptions">WMSFeatureInfoOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WMSSSourceConfig">WMSSSourceConfig</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-QuerySourceOptions">QuerySourceOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SourceServerVectorOptions">SourceServerVectorOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#urlapi">urlapi</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/LinkGenerator.js~LinkGenerator.html">LinkGenerator</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/Marker.js~Marker.html">Marker</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/Query.js~Query.html">Query</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/URLAPI.js~URLAPI.html">URLAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/URLAPIModule.js~URLAPIModule.html">URLAPIModule</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LinkGeneratorOptions">LinkGeneratorOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MarkerOptions">MarkerOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLAPIOptions">URLAPIOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-URLParameter">URLParameter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#urlapi-controls">urlapi/controls</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/controls/CloseWindowButton.js~CloseWindowButton.html">CloseWindowButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html">LinkGeneratorButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html">MaximizeButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-CloseWindowButtonOptions">CloseWindowButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LinkGeneratorButtonOptions">LinkGeneratorButtonOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-MaximizeButtonOptions">MaximizeButtonOptions</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#urlapi-handling">urlapi/handling</a><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-availableLayersParam">availableLayersParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-centerParam">centerParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-closeButtonParam">closeButtonParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-configurationFileParam">configurationFileParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-fitRectangleParam">fitRectangleParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-languageParam">languageParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-layerConfigurationFileParam">layerConfigurationFileParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-markerParam">markerParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-responsivenessParam">responsivenessParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-rotationParam">rotationParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-searchParam">searchParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-visibleLayersParam">visibleLayersParam</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-zoomParam">zoomParam</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/urlapi/URLAPI.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import $ from &apos;jquery&apos;
+
+import { Debug } from &apos;../Debug&apos;
+import { Query } from &apos;./Query&apos;
+
+import { availableLayersParam } from &apos;./handling/availableLayers&apos;
+import { centerParam } from &apos;./handling/center&apos;
+import { closeButtonParam } from &apos;./handling/closeButton&apos;
+import { configurationFileParam } from &apos;./handling/configurationFile&apos;
+import { fitRectangleParam } from &apos;./handling/fitRectangle&apos;
+import { languageParam } from &apos;./handling/language&apos;
+import { layerConfigurationFileParam } from &apos;./handling/layerConfigurationFile&apos;
+import { markerParam } from &apos;./handling/marker&apos;
+import { responsivenessParam } from &apos;./handling/responsiveness&apos;
+import { rotationParam } from &apos;./handling/rotation&apos;
+import { searchParam } from &apos;./handling/search&apos;
+import { visibleLayersParam } from &apos;./handling/visibleLayers&apos;
+import { zoomParam } from &apos;./handling/zoom&apos;
+
+/**
+ * @callback SetToMapFunction
+ * @param {G4UMap} map
+ * @param {Query} query
+ */
+
+/**
+ * @callback GetFromMapFunction
+ * @param {G4UMap} map
+ * @param {Query} query
+ * @returns {object.&lt;string,string&gt;} result
+ */
+
+/**
+ * @typedef {object} URLParameter
+ * @property {string[]} keys an array of keys this URLParameter reacts to. If any of this are contined in the URL
+ *    the setToMap function of this parameter is called.
+ * @property {string} [setEvent] if this event is thrown by the map the setToMap function will be called.
+ * @property {function} [SetToMapFunction] this function should adjust the map state according to the given keys.
+ * @property {function} [GetFromMapFunction] this function is called to get the needed values from the map to create the
+ *    needed URL Parameter(s). This function needs to return an object with key value pairs representing the values
+ *    to be written in the URL
+ */
+
+/**
+ * @typedef {object} URLAPIOptions
+ * @property {G4UMap} map
+ * @property {string[]} [excluded] parameters to exclude
+ * @property {object} [init] set all properties to this initial values
+ * @property {string} [mode=&apos;both&apos;] possible values: &apos;js&apos;, &apos;url&apos;, &apos;both&apos;
+ */
+
+/**
+ * The purpose of the URLAPI is two-fold:
+ *
+ * 1)   to parse the page&apos;s search string, extract information like layers to
+ *      be activated, the location, etc. and modify the map&apos;s state accordingly,
+ *
+ * 2)   to read the map&apos;s state and generate a link that said layers to be
+ *      activated, the location, etc.
+ */
+export class URLAPI {
+  /**
+   * @param {URLAPIOptions} options
+   */
+  constructor (options) {
+    /**
+     * @type {G4UMap}
+     * @private
+     */
+    this.map_ = options.map
+
+    /**
+     * In this object all initial values are stored. This is needed to create only the needed Parameters for an URL.
+     * All getters are called once after the map is ready for the first time to fill this.
+     * @type {object}
+     * @private
+     */
+    this.initialValues_ = {}
+
+    /**
+     * @type {URLParameter[]}
+     * @private
+     */
+    this.parameters_ = [
+      availableLayersParam,
+      centerParam,
+      closeButtonParam,
+      configurationFileParam,
+      fitRectangleParam,
+      languageParam,
+      layerConfigurationFileParam,
+      markerParam,
+      responsivenessParam,
+      rotationParam,
+      searchParam,
+      visibleLayersParam,
+      zoomParam
+    ]
+
+    if (options.hasOwnProperty(&apos;moduleParameters&apos;) &amp;&amp;
+      Array.isArray(options.moduleParameters) &amp;&amp; options.moduleParameters.length) {
+      this.parameters_ = this.parameters_.concat(options.moduleParameters)
+    }
+
+    /**
+     * All used keys by all parameters
+     * @type {string[]}
+     * @private
+     */
+    this.parameterKeys_ = []
+
+    /**
+     * All getters by all parameters
+     * @type {function[]}
+     * @private
+     */
+    this.parameterGetters_ = []
+
+    for (const parameterConf of this.parameters_) {
+      // gather keys
+      this.parameterKeys_ = this.parameterKeys_.concat(parameterConf.keys)
+
+      // set values and gather values before setting to avoid unneccessary parameters
+      if (parameterConf.hasOwnProperty(&apos;setToMap&apos;)) {
+        this.map_.once(parameterConf.setEvent, () =&gt; {
+          // read out initial value
+          if (parameterConf.hasOwnProperty(&apos;getFromMap&apos;)) {
+            $.extend(this.initialValues_, parameterConf.getFromMap(this.map_, this.query_))
+          }
+          // set value
+          parameterConf.setToMap(this.map_, this.query_)
+        })
+      }
+
+      // gather getters
+      if (parameterConf.hasOwnProperty(&apos;getFromMap&apos;)) {
+        this.parameterGetters_.push(parameterConf.getFromMap)
+      }
+    }
+
+    const extractFromUrl = options.mode !== &apos;js&apos;
+    const jsValues = options.mode !== &apos;url&apos; ? options.init : {}
+    this.query_ = new Query(this.parameterKeys_, options.excluded || [], extractFromUrl, jsValues)
+  }
+
+  /**
+   * Adds an layer which should be controlled with the URLAPI
+   * @param {VectorLayer} layer needs to have a {{QuerySource}}
+   * @param {string} key the key this layer should be controlled by
+   */
+  addApiLayer (layer, key) {
+    if (this.parameterKeys_.indexOf(key) &gt; -1) {
+      Debug.error(&apos;Key is already in use.&apos;)
+    } else if (key.toLowerCase() !== key) {
+      Debug.error(&apos;Key should be lowercase.&apos;)
+    } else {
+      key = decodeURIComponent(key)
+      const queryString = window.location.search
+      const match = queryString.match(new RegExp(&apos;(\\?|&amp;)&apos; + key + &apos;=(.*?)(&amp;|$)&apos;, &apos;i&apos;))
+      if (match) {
+        const value = decodeURIComponent(match[2]).trim()
+        this.query_.setUrlValue(key, value)
+      }
+
+      // get
+      const get = () =&gt; {
+        const obj = {}
+        obj[key] = layer.getSource().getQueryValues()
+        return obj
+      }
+
+      this.parameterGetters_.push(get)
+      this.initialValues_[key] = get()[key]
+
+      // set
+      if (this.query_.isSet(key)) {
+        layer.getSource().setQueryValues(this.query_.getArray(key))
+        layer.setVisible(true)
+      }
+    }
+  }
+
+  getCurrentParameters () {
+    const values = {}
+
+    /**
+     * Compares if the two values are equal
+     * @param valA
+     * @param valB
+     * @returns {boolean}
+     */
+    function equal (valA, valB) {
+      if (typeof (valA) !== typeof (valB)) {
+        return false
+      }
+
+      if (valA instanceof Array) {
+        if (valA.length !== valB.length) {
+          return false
+        }
+        for (let i = 0, ii = valA.length; i &lt; ii; i++) {
+          if (valA[i] !== valB[i]) {
+            return false
+          }
+        }
+        return true
+      } else if (typeof (valA) === &apos;object&apos;) {
+        throw new Error(&apos;object comparsion not supported atm.&apos;)
+      } else {
+        return valA === valB
+      }
+    }
+
+    for (const getter of this.parameterGetters_) {
+      const keyValuePairs = getter(this.map_, this.query_)
+      if (keyValuePairs) {
+        for (const key in keyValuePairs) {
+          if (keyValuePairs.hasOwnProperty(key) &amp;&amp; keyValuePairs[key] !== undefined) {
+            // check if the value differs from the initial Value
+            if (this.query_.isSet(key) ||
+                !(this.initialValues_.hasOwnProperty(key) &amp;&amp; equal(this.initialValues_[key], keyValuePairs[key]))) {
+              values[key] = keyValuePairs[key].toString()
+            }
+          }
+        }
+      }
+    }
+
+    return values
+  }
+
+  /**
+   * Create query string from map and optional name of config file
+   * @param {object} [options={}]
+   * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
+   * @param {object} [options.parameters=undefined] additional parameters to add to the url.
+   * @returns {string} Query string
+   */
+  makeURL (options = {}) {
+    const baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0]
+
+    const assignmentList = []
+
+    const values = this.getCurrentParameters()
+
+    for (const key in values) {
+      assignmentList.push(encodeURIComponent(key) + &apos;=&apos; + encodeURIComponent(values[key]))
+    }
+
+    if (options.parameters !== undefined) {
+      for (const key in options.parameters) {
+        assignmentList.push(encodeURIComponent(key) + &apos;=&apos; + encodeURIComponent(options.parameters[key]))
+      }
+    }
+
+    const url = baseURL || &apos;&apos;
+
+    if (assignmentList.length === 0) {
+      return url
+    }
+
+    if (url.indexOf(&apos;?&apos;) &gt; -1) {
+      return url + &apos;&amp;&apos; + assignmentList.join(&apos;&amp;&apos;)
+    } else {
+      return url + &apos;?&apos; + assignmentList.join(&apos;&amp;&apos;)
+    }
+  }
+
+  /**
+   * Create query string from map and optional name of config file
+   * @param {object} [options={}]
+   * @param {string} [options.baseURL] the base URL to use. Defaults to the current location.
+   * @returns {string} Query string
+   */
+  makeHTMLSnippet (options = {}) {
+    const baseURL = options.baseURL || window.location.href.match(/^[^?]*/)[0]
+    const rand = Math.random().toString(36).substring(7)
+    const clientConfig = this.map_.get(&apos;configFileName&apos;)
+    const layerConfig = this.map_.get(&apos;layerConfigFileName&apos;)
+    const values = this.getCurrentParameters()
+    delete values.conf
+    delete values.layconf
+    return `
+      &lt;div&gt;
+        &lt;script src=&quot;${baseURL}/js/ol.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;${baseURL}/js/jquery.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;${baseURL}/js/g4u.js&quot;&gt;&lt;/script&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;${this.mapUrl}/css/g4u.css&quot; /&gt;
+        &lt;div id=&quot;#g4u-${rand}&quot;&gt;&lt;/div&gt;
+          &lt;script&gt;
+            g4u.createMap(&apos;#g4u-${rand}&apos;, &apos;${clientConfig}&apos;, &apos;${layerConfig}&apos;, { apiInit: ${JSON.stringify(values)}})
+        &lt;/script&gt;
+      &lt;/div&gt;
+    `
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

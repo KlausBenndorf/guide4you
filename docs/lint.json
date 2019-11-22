@@ -1,1 +1,93 @@
-[]
+[
+  {
+    "name": "LayerFactory#createLayer",
+    "filePath": "src/configurators/LayerFactory.js",
+    "lines": [
+      {
+        "lineNumber": 71,
+        "line": "  /**"
+      },
+      {
+        "lineNumber": 72,
+        "line": "   * Creates a layer or a collection of layers from the config"
+      },
+      {
+        "lineNumber": 73,
+        "line": "   * @param {g4uLayerOptions} optionsCopy"
+      },
+      {
+        "lineNumber": 74,
+        "line": "   * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}"
+      },
+      {
+        "lineNumber": 75,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 76,
+        "line": "  createLayer (options) {"
+      }
+    ],
+    "codeParams": [
+      "options"
+    ],
+    "docParams": [
+      "optionsCopy"
+    ]
+  },
+  {
+    "name": "FeaturePopup#setFeature",
+    "filePath": "src/FeaturePopup.js",
+    "lines": [
+      {
+        "lineNumber": 442,
+        "line": "  /**"
+      },
+      {
+        "lineNumber": 443,
+        "line": "   * The feature should have a property 'name' and/or 'description' to be shown inside of the popup."
+      },
+      {
+        "lineNumber": 444,
+        "line": "   * @param {ol.Feature} feature"
+      },
+      {
+        "lineNumber": 445,
+        "line": "   * @param {ol.layer.Base} layer"
+      },
+      {
+        "lineNumber": 446,
+        "line": "   * @param {ol.style.Style} style"
+      },
+      {
+        "lineNumber": 447,
+        "line": "   * @param {ol.Coordinate} clickCoordinate"
+      },
+      {
+        "lineNumber": 448,
+        "line": "   * @param {string[]} [optPopupModifiers=[]]"
+      },
+      {
+        "lineNumber": 449,
+        "line": "   */"
+      },
+      {
+        "lineNumber": 450,
+        "line": "  setFeature (feature, layer, style, clickCoordinate = null) {"
+      }
+    ],
+    "codeParams": [
+      "feature",
+      "layer",
+      "style",
+      "clickCoordinate"
+    ],
+    "docParams": [
+      "feature",
+      "layer",
+      "style",
+      "clickCoordinate",
+      "optPopupModifiers"
+    ]
+  }
+]

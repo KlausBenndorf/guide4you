@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 4500 4500">
+	<g transform="rotate(-45,2250,2250)">
+		<polyline points="2000,1950 2000,1800 1700,1500, 900,1500 600,1800 600,2700 900,3000 1700,3000 2000,2700 2000,2550" style="fill:none; stroke:rgba(255,255,255,1); stroke-width:300; stroke-linejoin:round;"/>
+		<polyline points="2600,1950 2600,1800 2900,1500 3600,1500 3900,1800 3900,2700 3600,3000 2900,3000 2600,2700 2600,2550" style="fill:none; stroke:rgba(255,255,255,1); stroke-width:300; stroke-linejoin:round;"/>
+		<line x1="1500" y1="2250" x2="3000" y2="2250" style="fill:none; stroke:rgba(255,255,255,1); stroke-width:300; stroke-linejoin:round;"/>
+	</g>
+</svg>
