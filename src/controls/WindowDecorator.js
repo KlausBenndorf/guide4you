@@ -75,7 +75,10 @@ export class WindowDecorator extends Control {
        * @type {Window}
        * @private
        */
-      this.window_ = new Window({ map: map })
+      this.window_ = new Window({
+        parentClassName: this.component_.getClassName(),
+        map: map
+      })
 
       this.component_.on('change', () => {
         this.window_.updateSize()

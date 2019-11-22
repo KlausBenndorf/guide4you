@@ -32,9 +32,7 @@ export const centerParam = {
       if (!isNaN(x) && !isNaN(y)) {
         const view = map.getView()
         if (getProj(srId)) {
-          view.setCenter(view.constrainCenter(
-            transform([x, y], srId, view.getProjection())
-          ))
+          view.setCenter(transform([x, y], srId, view.getProjection()))
         } else {
           Debug.error(`Unknown Projection '${srId}'`)
         }

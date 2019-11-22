@@ -300,8 +300,10 @@ export class UIConfigurator {
     const restoreWmsFeatureInfoPoint = wmsFeatureInfo && wmsFeatureInfo.getPointVisible()
 
     if (featurePopup && featurePopup.getVisible()) {
+      const feature = featurePopup.getFeature()
       featurePopup.setVisible(false)
       setTimeout(() => {
+        featurePopup.setFeature(feature)
         featurePopup.setVisible(true)
         if (restoreWmsFeatureInfoPoint) {
           wmsFeatureInfo.setPointVisible(true)

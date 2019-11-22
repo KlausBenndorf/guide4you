@@ -183,7 +183,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
     }
 
     if (map) {
-      this.window_ = new Window({ draggable: this.draggable_, fixedPosition: true, map: map })
+      this.window_ = new Window({
+        parentClassName: this.className_,
+        draggable: this.draggable_,
+        fixedPosition: true,
+        map: map
+      })
 
       this.window_.get$Body().append(this.$name_).append(this.$description_)
 
@@ -389,9 +394,8 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * Update the Popup. Call this if something in the feature has changed
    */
   update (style) {
-    if (this.getFeature()) {
-      const feature = this.getFeature()
-
+    const feature = this.getFeature()
+    if (feature) {
       this.$name_.empty()
       this.$description_.empty()
 
@@ -412,7 +416,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         if (!this.getMap().get('mobile')) {
           const resolution = this.getMap().getView().getResolution()
 
-          this.addIconSizedOffset(this.getFeature(), style, resolution)
+          this.addIconSizedOffset(feature, style, resolution)
         }
 
         for (const layer of this.referencingVisibleLayers_) {

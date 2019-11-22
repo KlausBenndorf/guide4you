@@ -10,6 +10,7 @@ import '../../less/window.less'
 
 /**
  * @typedef {object} WindowOptions
+ * @property {string} parentClassName an additional html class name to use
  * @property {boolean} [draggable=false]
  * @property {string} [id] an html id for the outer window element
  * @property {string} [className] an alternative html class name to use instead of 'g4u-window', not recommended
@@ -57,7 +58,7 @@ export class Window extends BaseObject {
      * @type {jQuery}
      * @private
      */
-    this.$element_ = $('<div>').addClass(this.className_)
+    this.$element_ = $('<div>').addClass(this.className_).addClass(options.parentClassName + '-window')
       .on('click', e => e.stopPropagation())
 
     /**

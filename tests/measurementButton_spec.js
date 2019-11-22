@@ -119,7 +119,7 @@ describe('measurementButton', function () {
     await driver.findElement(By.css('.g4u-distance-measurement .g4u-control-mainbutton'))
       .click()
     const visible = await driver
-      .findElement(By.css('.g4u-distance-measurement .g4u-window'))
+      .findElement(By.css('.g4u-distance-measurement-window'))
       .isDisplayed()
     assert(visible, 'distance measurement window should be visible').isEqualTo(true)
     const point1 = await driver.executeScript(getPixelFromCoordinate, [773466.7463450996, 6610915.166693036])

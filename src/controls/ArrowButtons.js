@@ -156,16 +156,16 @@ export class ArrowButtons extends Control {
 
       // adding the delta to the actual center
 
-      const constrainedCenter = view.constrainCenter([oldPosition[0] + delta[0], oldPosition[1] + delta[1]])
+      const newPosition = [oldPosition[0] + delta[0], oldPosition[1] + delta[1]]
 
       if (this.animated_) {
         // creating a pan-animation
         view.animate({
-          center: constrainedCenter,
+          center: newPosition,
           duration: this.animationDuration_
         })
       } else {
-        view.setCenter(constrainedCenter)
+        view.setCenter(newPosition)
       }
     }
     $(map.getViewport()).focus()

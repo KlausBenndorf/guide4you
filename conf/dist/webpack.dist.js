@@ -5,12 +5,14 @@ const webpackMerge = require('webpack-merge')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const mustacheLoader = require('guide4you-builder/mustache-loader')
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const baseDir = process.cwd()
 
 mustacheLoader.setTemplateVars({
   svgColor: 'rgba(255,255,255,1)',
-  languageFile: './files/l10n.json'
+  languageFile: 'files/l10n.json'
 })
 
 const common = webpackMerge.smartStrategy({ plugins: 'prepend' })(
@@ -33,6 +35,15 @@ const common = webpackMerge.smartStrategy({ plugins: 'prepend' })(
         inject: 'head',
         favicon: 'images/g4u-logo.png',
         title: 'Guide4You'
+      }),
+      new CopyWebpackPlugin([
+        { from: 'node_modules/jquery/dist/jquery.min.js', to: 'js/jquery.min.js' }
+      ]),
+      new HtmlWebpackIncludeAssetsPlugin({
+        assets: [
+          'js/jquery.min.js'
+        ],
+        append: false
       })
     ]
   })

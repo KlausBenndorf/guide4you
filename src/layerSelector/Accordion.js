@@ -73,6 +73,7 @@ export class Accordion {
     const $entry = this.get$Entry()
       .appendTo(this.$menu_)
     const window = new Window({
+      parentClassName: 'g4u-accordion',
       map: this.map_
     })
 

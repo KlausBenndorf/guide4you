@@ -29,7 +29,7 @@ describe('URLAPI', function () {
     driver.quit()
   })
 
-  it('[lat, lon] should set the center of the map to the with lon and lat specified coordinates',
+  it('[lat, lon] should set the center of the map to the specified coordinates',
     async function (done) {
       await driver.get(config.testClient + '?lon=0&lat=0')
       await waitUntilMapReady(driver)
@@ -78,7 +78,7 @@ describe('URLAPI', function () {
     done()
   })
 
-  it('[zoom] should zoom to 16', async function (done) {
+  xit('[zoom] should zoom to 16', async function (done) {
     await driver.get(config.testClient + '?zoom=16')
     await waitUntilMapReady(driver)
 

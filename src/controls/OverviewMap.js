@@ -65,7 +65,7 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
 
       this.listenAt($overviewmap).on('click', e => {
         if (!dontClick) {
-          view.setCenter(view.constrainCenter(this.getOverviewMap().getEventCoordinate(e)))
+          view.setCenter(this.getOverviewMap().getEventCoordinate(e))
         }
       })
 
@@ -82,7 +82,7 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
 
       this.listenAt($overviewmap).on('mousemove', e => {
         if (mouseDown) {
-          view.setCenter(view.constrainCenter(this.getOverviewMap().getEventCoordinate(e)))
+          view.setCenter(this.getOverviewMap().getEventCoordinate(e))
         }
       })
 

@@ -14,60 +14,21 @@ const waitUntilMapReady = require('./testUtils').waitUntilMapReady
 // globals in browser
 var map
 
-function addLayerWithPointAtMapCenter (name, description, done) {
-  map.getView().setCenter([0, 0])
-  map.get('api').addLayer({
-    id: 42,
-    type: 'Intern',
-    source: {
-      features: [
-        {
-          name: name,
-          description: description,
-          geometryWKT: 'POINT(0 0)'
-        }
-      ]
-    },
-    visible: true
-  })
+function addPoint (name, description, done) {
+  map.getView().setCenter([1, 1])
+  map.api.places.add('POINT(1 1)', name, description)
   window.requestAnimationFrame(done)
 }
 
-function addLayerWithLineThroughMapCenter (name, description, done) {
-  map.getView().setCenter([0, 0])
-  map.get('api').addLayer({
-    id: 43,
-    type: 'Intern',
-    source: {
-      features: [
-        {
-          name: name,
-          description: description,
-          geometryWKT: 'LINESTRING(-0.1 -0.1,0.1 0.1)'
-        }
-      ]
-    },
-    visible: true
-  })
+function addLine (name, description, done) {
+  map.getView().setCenter([1, 1])
+  map.api.places.add('LINESTRING(-500 -500, 500 500)', name, description)
   window.requestAnimationFrame(done)
 }
 
-function addLayerWithPolygonAroundMapCenter (name, description, done) {
-  map.getView().setCenter([0, 0])
-  map.get('api').addLayer({
-    id: 44,
-    type: 'Intern',
-    source: {
-      features: [
-        {
-          name: name,
-          description: description,
-          geometryWKT: 'POLYGON((-0.01 -0.01,-0.01 0.01,0.01 0.01,0.01 -0.01,-0.01 -0.01))'
-        }
-      ]
-    },
-    visible: true
-  })
+function addPolygon (name, description, done) {
+  map.getView().setCenter([1, 1])
+  map.api.places.add('POLYGON((-500 -500, -500 500, 500 500, 500 -500, -500 -500))', name, description)
   window.requestAnimationFrame(done)
 }
 
@@ -101,7 +62,7 @@ describe('FeatureTooltip', function () {
     ' should hide the tooltip if the mouse moves somewhere else', async function (done) {
     await driver.get(config.testClient)
     await waitUntilMapReady(driver)
-    await driver.executeAsyncScript(addLayerWithPointAtMapCenter, 'name', 'description')
+    await driver.executeAsyncScript(addPoint, 'name', 'description')
     const viewport = await driver.findElement(By.className('ol-viewport'))
     const featureTooltip = await driver.findElement(By.className('g4u-featuretooltip'))
     // 1:
@@ -125,7 +86,7 @@ describe('FeatureTooltip', function () {
     'and 2: hide the tooltip again if the mouse moves somewhere else', async function (done) {
     await driver.get(config.testClient)
     await waitUntilMapReady(driver)
-    await driver.executeAsyncScript(addLayerWithLineThroughMapCenter, 'name', 'description')
+    await driver.executeAsyncScript(addLine, 'name', 'description')
 
     const viewport = await driver.findElement(By.className('ol-viewport'))
     const featureTooltip = await driver.findElement(By.className('g4u-featuretooltip'))
@@ -150,7 +111,7 @@ describe('FeatureTooltip', function () {
     'and 2: hide the tooltip again if the mouse moves somewhere else', async function (done) {
     await driver.get(config.testClient)
     await waitUntilMapReady(driver)
-    await driver.executeAsyncScript(addLayerWithPolygonAroundMapCenter, 'name', 'description')
+    await driver.executeAsyncScript(addPolygon, 'name', 'description')
 
     const viewport = await driver.findElement(By.className('ol-viewport'))
     const featureTooltip = await driver.findElement(By.className('g4u-featuretooltip'))
@@ -174,8 +135,8 @@ describe('FeatureTooltip', function () {
   it('should show the tooltip of a point lying under a polygon', async function (done) {
     await driver.get(config.testClient)
     await waitUntilMapReady(driver)
-    await driver.executeAsyncScript(addLayerWithPointAtMapCenter, 'namePoint', 'description')
-    await driver.executeAsyncScript(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description')
+    await driver.executeAsyncScript(addPoint, 'namePoint', 'description')
+    await driver.executeAsyncScript(addPolygon, 'namePolygon', 'description')
 
     const viewport = await driver.findElement(By.className('ol-viewport'))
     const featureTooltip = await driver.findElement(By.className('g4u-featuretooltip'))
@@ -203,8 +164,8 @@ describe('FeatureTooltip', function () {
   it('should show the tooltip of a line lying under a polygon', async function (done) {
     await driver.get(config.testClient)
     await waitUntilMapReady(driver)
-    await driver.executeAsyncScript(addLayerWithLineThroughMapCenter, 'nameLine', 'description')
-    await driver.executeAsyncScript(addLayerWithPolygonAroundMapCenter, 'namePolygon', 'description')
+    await driver.executeAsyncScript(addLine, 'nameLine', 'description')
+    await driver.executeAsyncScript(addPolygon, 'namePolygon', 'description')
 
     const viewport = await driver.findElement(By.className('ol-viewport'))
     const featureTooltip = await driver.findElement(By.className('g4u-featuretooltip'))

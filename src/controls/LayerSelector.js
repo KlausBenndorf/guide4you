@@ -138,6 +138,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
     const windowConfig = layer.get('window')
 
     const window = new Window({
+      parentClassName: this.getClassName(),
       map: this.getMap()
     })
 
