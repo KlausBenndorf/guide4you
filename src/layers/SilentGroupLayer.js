@@ -1,7 +1,6 @@
 import Group from 'ol/layer/Group'
 import { unByKey } from 'ol/Observable'
 import { mixin } from '../utilities'
-import { BaseLayerMixin } from './BaseLayerMixin'
 
 import { ProvideMapMixin } from './ProvideMapMixin'
 
@@ -48,8 +47,4 @@ export class SilentGroupLayer extends mixin(Group, ProvideMapMixin) {
       if (layer.provideMap) { layer.provideMap(map) }
     })
   }
-}
-
-export class BaseSilentGroupLayer extends mixin(SilentGroupLayer, BaseLayerMixin) {
-
 }
