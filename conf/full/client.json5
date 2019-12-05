@@ -168,10 +168,9 @@
         "left"
       ],
       "connector": {
-        "type": "nominatim",
+        "type": "photon",
         "serviceURL": {
-          "url": "http://nominatim.openstreetmap.org/search?",
-          "useProxy": true
+          "url": "myphotonsearch://api/?q={searchstring}&lon={lon}&lat={lat}&location_bias_scale=8&limit=5"
         }
       },
       "closePageOnSearchEnd": false,

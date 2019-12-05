@@ -3,6 +3,7 @@ import { registerModule } from '../../src/moduleRegistration'
 
 import { SearchModule } from 'src/search/SearchModule'
 import { NominatimSearchConnector } from 'src/search/connectors/NominatimSearchConnector'
+import { PhotonSearchConnector } from '../../src/search/connectors/PhotonSearchConnector'
 
 import { URLAPIModule } from 'src/urlapi/URLAPIModule'
 
@@ -52,7 +53,10 @@ import 'file-loader?name=proxy/[name].[ext]!mustache-loader!guide4you-proxy/prox
 import 'file-loader?name=proxy/AjaxProxy.[ext]!guide4you-proxy/LICENSE.txt'
 
 registerModule(new SearchModule({
-  connectors: { nominatim: NominatimSearchConnector }
+  connectors: {
+    nominatim: NominatimSearchConnector,
+    photon: PhotonSearchConnector
+  }
 }))
 
 registerModule(new URLAPIModule(
