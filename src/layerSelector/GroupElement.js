@@ -29,7 +29,7 @@ export class GroupElement extends Element {
     this.children_.push(child)
     child.on('update', () => {
       this.debouncedUpdate()
-      if (this.config.hasOwnProperty('exclusive') && this.config.exclusive && child.getActive()) {
+      if (this.config.hasOwnProperty('items') && this.config.items === 'exclusive' && child.getActive()) {
         this.makeExclusive_(child)
       }
     })
@@ -65,6 +65,12 @@ export class GroupElement extends Element {
       this.listenAt(this.menu_).on('change:collapsed', () => {
         this.layerSelector.dispatchEvent('change:size')
       })
+
+      if (this.activateChildren_) {
+        this.listenAt(this.menu_).on('title:click', () => {
+          this.setActive(!this.getAllActive())
+        })
+      }
 
       // TODO: menu set disabled ?
 

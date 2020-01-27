@@ -282,7 +282,7 @@ export class LayerSelector extends mixin(Control, ListenerOrganizerMixin) {
   squeezeBy (dimension, value) {
     if (dimension === 'height') {
       const $contentBox = this.get$Element().find(`.${this.getClassName()}-content`)
-      const $buttons = $contentBox.find('button:visible')
+      const $buttons = $contentBox.find('button:visible,.button:visible')
         .filter(`.${this.getClassName()}-layerbutton,.${this.getClassName()}-menu-titlebutton`)
 
       if ($buttons.length > 1) {

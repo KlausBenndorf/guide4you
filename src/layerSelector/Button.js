@@ -62,11 +62,13 @@ export class Button extends Element {
   }
 
   update () {
-    this.$button_.toggleClass('g4u-layerselector-menu-active', this.getActive())
-    this.$button_.toggleClass('g4u-layer-loading', this.getActive() && this.getLoading())
-    this.$button_.toggleClass('g4u-layerselector-disabled', this.getDisabled())
-    if (this.accordion) {
-      this.accordion.setActive(this.getActive())
+    if (this.$button_) {
+      this.$button_.toggleClass('g4u-layerselector-menu-active', this.getActive())
+      this.$button_.toggleClass('g4u-layer-loading', this.getActive() && this.getLoading())
+      this.$button_.toggleClass('g4u-layerselector-disabled', this.getDisabled())
+      if (this.accordion) {
+        this.accordion.setActive(this.getActive())
+      }
     }
     super.update()
   }

@@ -258,7 +258,7 @@ export class G4UMap extends OlMap {
 
     const configPromises = []
 
-    if (configs.hasOwnProperty('client')) {
+    if (configs.client) {
       configPromises.push(this.updateClientConfig(configs.client))
     } else {
       Debug.error('No client config provided.')
@@ -279,7 +279,7 @@ export class G4UMap extends OlMap {
       }
     })
 
-    if (configs.hasOwnProperty('layer')) {
+    if (configs.layer) {
       configPromises.push(this.updateLayerConfig(configs.layer))
     } else {
       Debug.error('No layer config provided.')
@@ -300,7 +300,7 @@ export class G4UMap extends OlMap {
       }
     })
 
-    if (configs.hasOwnProperty('translations')) {
+    if (configs.translations) {
       configPromises.push(G4UMap.loadConfigFile(configs.translations).then(data => {
         this.set('translations', data)
       }))
@@ -308,7 +308,7 @@ export class G4UMap extends OlMap {
       Debug.error('No translations provided')
     }
 
-    if (configs.hasOwnProperty('styles')) {
+    if (configs.styles) {
       configPromises.push(G4UMap.loadConfigFile(configs.styles).then(data => {
         this.set('styleMap', data)
       }))
