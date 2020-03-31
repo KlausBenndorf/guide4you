@@ -118,7 +118,7 @@ export class WMSMixin {
       if (params.QUERY_LAYERS.length === 0) {
         resolve(undefined)
       } else {
-        const gfiExt = this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
+        const gfiExt = this.getFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
         const url = this.originalUrlObject.extend(gfiExt).finalize()
         if (this.featureInfoIframe) {
           resolve($('<iframe>')
