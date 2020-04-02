@@ -75,7 +75,10 @@ export class WindowDecorator extends Control {
        * @type {Window}
        * @private
        */
-      this.window_ = new Window({ map: map })
+      this.window_ = new Window({
+        parentClassName: this.component_.getClassName(),
+        map: map
+      })
 
       this.component_.on('change', () => {
         this.window_.updateSize()
@@ -95,7 +98,7 @@ export class WindowDecorator extends Control {
         })
 
         this.component_.on('change:active', () => {
-          let active = this.component_.getActive()
+          const active = this.component_.getActive()
           setTimeout(() => this.setWindowVisible(active), 0)
           this.$button_.toggleClass(cssClasses.active, active)
         })
@@ -121,7 +124,6 @@ export class WindowDecorator extends Control {
           })
         })
       }
-      this.get$Element().append(this.window_.get$Element())
     }
   }
 

@@ -1,11 +1,11 @@
 import OlOverviewMap from 'ol/control/OverviewMap'
-import LayerGroup from 'ol/layer/Group'
 
 import { RewireMixin } from './RewireMixin'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
 import { mixin } from '../utilities'
 
 import '../../less/overviewmap.less'
+import { copyDeep } from '../utilitiesObject.js'
 
 /**
  * @typedef {g4uControlOptions} OverviewMapOptions
@@ -42,47 +42,26 @@ export class OverviewMap extends mixin(mixin(OlOverviewMap, RewireMixin), Listen
     if (map) {
       const view = map.getView()
 
-      const groupLayer = new LayerGroup({
-        layers: map.getLayers().getArray().filter(l => l.get('overview'))
-      })
+      const layerConfigs = copyDeep(map.get('layerConfig').layers.filter(l => l.overview))
 
-      this.getOverviewMap().setLayerGroup(groupLayer)
-
-      let $overviewmap = this.get$Element().find('.ol-overviewmap-map')
-
-      $overviewmap = $overviewmap.add($overviewmap.find('.ol-overviewmap-box'))
-
-      let dontClick = false
-
-      this.listenAt($overviewmap).on('click', e => {
-        if (!dontClick) {
-          view.setCenter(view.constrainCenter(this.getOverviewMap().getEventCoordinate(e)))
+      for (const options of layerConfigs) {
+        const layer = map.get('layerFactory').createLayer(options)
+        this.getOverviewMap().addLayer(layer)
+        const matchedLayer = map.getLayerGroup().getLayerById(options.id)
+        if (options.overview === 'always') {
+          layer.setVisible(true)
+        } else {
+          matchedLayer.on('change:visible', () => {
+            layer.setVisible(matchedLayer.getVisible())
+          })
         }
+      }
+
+      this.listenAt(this.getOverviewMap()).on('click', e => {
+        view.setCenter(e.coordinate)
       })
 
-      let mouseDown = false
-
-      this.listenAt($overviewmap).on('mousedown', () => {
-        dontClick = false
-        mouseDown = true
-      })
-
-      this.listenAt($overviewmap).on('mouseup', e => {
-        mouseDown = false
-      })
-
-      this.listenAt($overviewmap).on('mousemove', e => {
-        if (mouseDown) {
-          view.setCenter(view.constrainCenter(this.getOverviewMap().getEventCoordinate(e)))
-        }
-      })
-
-      this.getOverviewMap().getView().on('change:center', () => {
-        mouseDown = false
-        dontClick = true
-      })
-
-      let $button = this.get$Element().find('button')
+      const $button = this.get$Element().find('button')
       this.listenAt($button).on('click', () => this.dispatchEvent('change:size'))
     }
   }

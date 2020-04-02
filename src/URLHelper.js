@@ -159,12 +159,12 @@ export class URL {
       urlAsString += url.params.join('&')
     }
 
-    for (let expand of url.expand) {
+    for (const expand of url.expand) {
       urlAsString = URL.expandTemplate_(urlAsString, expand)
     }
 
     if (url.useProxy === true || (url.useProxy === undefined && !!url.proxy)) {
-      let proxy = url.proxy || this.globalProxy
+      const proxy = url.proxy || this.globalProxy
       if (!proxy) {
         throw new Error('No proxy configured. Either configure a local or global proxy if you want to use the option' +
           ' useProxy.')
@@ -177,11 +177,11 @@ export class URL {
     }
   }
 
-  /*
- * this function will add an parameter to the url
- * @param {string} param
- * @returns {URL)
- */
+  /**
+   * this function will add an parameter to the url
+   * @param {string} param
+   * @returns {URL}
+   */
   addParam (param) {
     this.params.push(param)
     return this
@@ -200,16 +200,16 @@ export class URL {
    * @returns {string} the expanded string
    */
   static expandTemplate_ (template, expand) {
-    let regexp = new RegExp('{' + expand.paramName + '([^}]*)}')
-    let match = template.match(regexp)
+    const regexp = new RegExp('{' + expand.paramName + '([^}]*)}')
+    const match = template.match(regexp)
     if (match) {
       if ($.type(expand.paramValue) === 'string') {
         return template.replace(regexp, expand.paramValue)
       } else if ($.type(expand.paramValue) === 'array') {
-        let joinString = match[1] || ','
+        const joinString = match[1] || ','
         return template.replace(regexp, expand.paramValue.join(joinString))
       } else if ($.type(expand.paramValue) === 'number') {
-        let valReg = new RegExp('(?::|,)([^,])', 'g')
+        const valReg = new RegExp('[:,]([^,])', 'g')
         let nextMatch = valReg.exec(match[1])
         for (let i = 0; i < expand.paramValue; i++) {
           nextMatch = valReg.exec(match[1])
@@ -231,11 +231,11 @@ export class URL {
    * @returns {URL}
    */
   expandTemplate (paramName, paramValue, required = true) {
-    let index = this.expand.findIndex(e => e.paramName === paramName)
+    const index = this.expand.findIndex(e => e.paramName === paramName)
     if (index >= 0) {
       this.expand.splice(index, 1)
     }
-    let encode = val => {
+    const encode = val => {
       if ($.type(val) === 'string') {
         return encodeURIComponent(val)
       } else if ($.type(paramValue) === 'array') {
@@ -269,13 +269,13 @@ export class URL {
    * @returns {string} the encoded (url) template
    */
   static encodeTemplate_ (template) {
-    let parts = template.split('}')
+    const parts = template.split('}')
 
     let encodedTemplate = ''
 
     let i
     for (i = 0; i < parts.length - 1; i += 1) {
-      let partedParts = parts[i].split('{')
+      const partedParts = parts[i].split('{')
       encodedTemplate += encodeURIComponent(partedParts[0]) + '{' + partedParts[1] + '}'
     }
 
@@ -295,12 +295,11 @@ export class URL {
     return newUrl
   }
 
-  beforeSend () {
-    return xhr => {
-      if (this.username && this.password) {
-        const auth = window.btoa(`${this.username}:${this.password}`)
-        xhr.setRequestHeader('Authorization', 'Basic ' + auth)
-      }
+  setAuth (xhr) {
+    if (this.username && this.password) {
+      const auth = window.btoa(`${this.username}:${this.password}`)
+      xhr.withCredentials = true
+      xhr.setRequestHeader(this.useProxy ? 'X-Proxy-Forward-Authorization' : 'Authorization', 'Basic ' + auth)
     }
   }
 }

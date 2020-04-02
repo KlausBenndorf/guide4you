@@ -1,8 +1,9 @@
 import $ from 'jquery'
+import LineString from 'ol/geom/LineString'
 
-import { getTransform } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
 import Draw from 'ol/interaction/Draw'
+import { getArea, getLength } from 'ol/sphere'
 
 import { Control } from './Control'
 import { cssClasses, keyCodes } from '../globals'
@@ -114,36 +115,18 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
         .append('<br/>')
         .append(this.getLocaliser().localiseUsingDictionary('MeasurementButton doubleClickEndsMeasurement'))
 
-      /**
-       * @type {ol.proj.Projection}
-       * @private
-       */
-      this.measurementProjection_ = map.get('measurementProjection')
-
-      if (!this.measurementProjection_) {
-        throw new Error('MeasurementButton needs a measurementProjection. This is a global option of the map.')
-      }
-
       if (this.dimension_ === 1) {
-        this.$unitPlaceholder_.replaceWith(this.measurementProjection_.getUnits())
+        this.$unitPlaceholder_.replaceWith('m')
       }
       if (this.dimension_ === 2) {
-        this.$unitPlaceholder_.replaceWith(this.measurementProjection_.getUnits() + '&sup2;')
+        this.$unitPlaceholder_.replaceWith('m&sup2;')
       }
-
-      /**
-       * @type {ol.TransformFunction}
-       * @private
-       */
-      this.measurementTransform_ = getTransform(map.getView().getProjection(), this.measurementProjection_)
 
       /**
        * @type {ol.source.Vector}
        * @private
        */
-      this.source_ = new VectorSource({
-        projection: this.measurementProjection_
-      })
+      this.source_ = new VectorSource({})
 
       /**
        * @type {VectorLayer}
@@ -153,10 +136,32 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
         source: this.source_
       })
 
-      this.layer_.setStyle(map.get('styling').getStyle(this.style_))
+      const style = map.get('styling').getStyle(this.style_)
+      const segmentStyle = feature => {
+        let coords
+        if (this.dimension_ === 1) {
+          coords = feature.getGeometry().getCoordinates()
+        } else if (this.dimension_ === 2) {
+          coords = feature.getGeometry().getCoordinates()[0]
+        }
+        const styles = []
+        for (let i = 0; i < coords.length - 1; i++) {
+          const segment = new LineString([coords[i], coords[i + 1]])
+          const segmentStyle = style.clone()
+          const length = getLength(segment, { projection: map.getView().getProjection() })
+          segmentStyle.getText().setText(`${length.toFixed(0)} m`)
+          segmentStyle.setGeometry(segment)
+          styles.push(segmentStyle)
+        }
+        return styles
+      }
+
+      this.layer_.setStyle(segmentStyle)
       map.get('styling').manageLayer(this.layer_)
 
-      map.getLayers().insertAt(1, this.layer_) // at 0 the baselayers are
+      map.addLayer(this.layer_)
+
+      let curFeature
 
       /**
        * @type {ol.interaction.Draw}
@@ -165,14 +170,16 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
       this.drawInteraction_ = new Draw({
         source: this.source_,
         type: this.type_,
-        style: map.get('styling').getStyle(this.style_)
+        style: (feature, resolution) => {
+          if (feature === curFeature) {
+            return segmentStyle(feature, resolution)
+          }
+        }
       })
 
       this.drawInteraction_.setActive(false)
 
       map.addSupersedingInteraction('singleclick dblclick pointermove', this.drawInteraction_)
-
-      let curFeature = null
 
       this.drawInteraction_.on('drawstart', e => {
         this.clear()
@@ -182,12 +189,10 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
 
       map.on('click', () => {
         if (this.getActive()) {
-          let geometry = curFeature.getGeometry().clone()
-          geometry.applyTransform(this.measurementTransform_)
           if (this.dimension_ === 1) {
-            this.setValue(geometry.getLength())
+            this.setValue(getLength(curFeature.getGeometry(), { projection: map.getView().getProjection() }))
           } else if (this.dimension_ === 2) {
-            this.setValue(geometry.getArea())
+            this.setValue(getArea(curFeature.getGeometry(), { projection: map.getView().getProjection() }))
           }
         }
       })
@@ -238,7 +243,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
   }
 
   handleActiveChange_ () {
-    let active = this.getActive()
+    const active = this.getActive()
 
     this.layer_.setVisible(active)
 
@@ -248,7 +253,7 @@ export class MeasurementButton extends mixin(Control, ActivatableMixin) {
       } else {
         this.get$Element().prop('dir', undefined)
       }
-      let popup = this.getMap().get('featurePopup')
+      const popup = this.getMap().get('featurePopup')
       if (popup) {
         popup.setVisible(false)
       }

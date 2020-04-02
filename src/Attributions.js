@@ -68,14 +68,14 @@ export class Attributions extends mixin(Observable, ListenerOrganizerMixin) {
   scanLayer (layer, layerTitle = null) {
     if (layer && layer.getVisible()) {
       if (layer.getLayers) {
-        let silentGroup = !(layer instanceof GroupLayer)
+        const silentGroup = !(layer instanceof GroupLayer)
         return layer.getLayers().getArray().reduce((arr, nextLayer) => {
           layerTitle = silentGroup ? layer.get('title') : null
           return arr.concat(this.scanLayer(nextLayer, layerTitle))
         }, [])
       } else {
         if (layer.getVisible()) {
-          let label = layer.isBaseLayer
+          const label = layer.isBaseLayer
             ? this.map_.get('localiser').localiseUsingDictionary('Attribution baseLayerLabel')
             : (layerTitle || layer.get('title'))
           if (label) {
@@ -89,7 +89,7 @@ export class Attributions extends mixin(Observable, ListenerOrganizerMixin) {
 
   extractAttributions (layer, label) {
     if (layer.getSource && layer.getSource()) {
-      let attributions = layer.getSource().getAttributions()
+      const attributions = layer.getSource().getAttributions()
       if (attributions) {
         return attributions().map(a => [label, a])
       }

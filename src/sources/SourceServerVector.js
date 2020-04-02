@@ -1,25 +1,20 @@
 import $ from 'jquery'
-import { containsExtent } from 'ol/extent'
 import GeoJSON from 'ol/format/GeoJSON'
 import KML from 'ol/format/KML'
 import { transformExtent } from 'ol/proj'
 import VectorSource from 'ol/source/Vector'
-import { all } from 'ol/loadingstrategy'
 
 import { copy, take } from '../utilitiesObject'
 import { Debug } from '../Debug'
 
 /**
- * @typedef {olx.source.VectorOptions} SourceServerVectorOptions
+ * @typedef {module:ol/source/Vector~Options} SourceServerVectorOptions
  * @property {string} type the format to use
  * @property {URLLike} url
+ * @property {module:ol/proj~ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {StyleLike} [defaultStyle] a default style to fallback to
  * @property {boolean} [extractStyles=true] if styles should get extracted from the KML
- * @property {string} [loadingStrategy='ALL'] Either 'BBOX' or 'ALL' (Synonym: 'FIXED').
- *    If BBOX the given url has to contain the parameters {bboxleft}, {bboxbottom}, {bboxright}, {bboxtop}.
- * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
- * @property {ol.ProjectionLike} [bboxProjection] coordinates will be inserted into the url in this format. defaults to
- *    the interfaceProjection
  * @property {boolean} [cache=] true, false for dataType 'script' and 'jsonp'
  * @property {number} [refresh] if set the layer will refresh itself in the specified time (in ms)
  * @property {L10N} localiser
@@ -32,9 +27,6 @@ import { Debug } from '../Debug'
  *
  * Let you set the loading loadingStrategy, if a proxy is used and you should specify in which format it comes in.
  *
- * **IMPORTANT:** You can't set the projection of the source! This is **always** determined by the data received. If you
- * set projection here you force the source to assume that this is the projection of the view.
- *
  * This class defines a custom loader function which makes it possible to use different loading strategies.
  */
 export class SourceServerVector extends VectorSource {
@@ -44,45 +36,19 @@ export class SourceServerVector extends VectorSource {
   constructor (options = {}) {
     const parentOptions = copy(options)
 
-    let urlTemplate = take(options, 'url')
+    const urlTemplate = take(options, 'url')
 
     const type = take(options, 'type') || ''
 
     parentOptions.loader = (...args) => this.loader(...args)
 
-    const loadingStrategy = options.loadingStrategy || 'ALL'
-
-    if (loadingStrategy === 'BBOX') {
-      let bboxRatio = options.bboxRatio || 1
-
-      if (bboxRatio < 1) {
-        throw new Error('The bboxRatio should not be smaller than 1')
-      }
-
-      let lastScaledExtent = [0, 0, 0, 0]
-
-      parentOptions.strategy = (extent) => {
-        if (containsExtent(lastScaledExtent, extent)) {
-          return [extent]
-        } else {
-          let deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
-          let deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
-
-          lastScaledExtent = [
-            extent[0] - deltaX,
-            extent[1] - deltaY,
-            extent[2] + deltaX,
-            extent[3] + deltaY
-          ]
-
-          return [lastScaledExtent]
-        }
-      }
-    } else {
-      parentOptions.strategy = all
-    }
-
     super(parentOptions)
+
+    /**
+     * @type {string}
+     * @private
+     */
+    this.strategyType_ = options.loadingStrategyType
 
     /**
      * @type {L10N}
@@ -91,12 +57,6 @@ export class SourceServerVector extends VectorSource {
     this.localiser_ = options.localiser
 
     this.localised_ = options.localised || false
-
-    /**
-     * @type {string}
-     * @private
-     */
-    this.loadingStrategy_ = loadingStrategy
 
     /**
      * @type {URL}
@@ -110,7 +70,7 @@ export class SourceServerVector extends VectorSource {
      */
     this.type_ = type
 
-    let formatOptions = {}
+    const formatOptions = {}
 
     if (options.hasOwnProperty('defaultStyle')) {
       formatOptions.defaultStyle = options.defaultStyle
@@ -120,15 +80,23 @@ export class SourceServerVector extends VectorSource {
       formatOptions.extractStyles = options.extractStyles
     }
 
+    if (options.hasOwnProperty('showPointNames')) {
+      formatOptions.showPointNames = options.showPointNames
+    } else {
+      formatOptions.showPointNames = false
+    }
+
+    let formatProjection
     switch (this.type_) {
       case 'KML':
-        formatOptions.showPointNames = false
         this.format_ = new KML(formatOptions)
         this.dataType_ = 'text xml' // for $.ajax (GET-request)
+        formatProjection = 'EPSG:4326'
         break
       case 'GeoJSON':
         this.format_ = new GeoJSON(formatOptions)
         this.dataType_ = 'text json' // for $.ajax (GET-request)
+        formatProjection = 'EPSG:4326'
         break
       default:
         throw new Error(`${this.type_} is not supported by SourceServerVector!`)
@@ -154,30 +122,35 @@ export class SourceServerVector extends VectorSource {
     this.doClear_ = false
 
     /**
-     * @type {ol.ProjectionLike}
+     * @type {module:ol/proj~ProjectionLike}
      * @private
      */
-    this.bboxProjection_ = options.bboxProjection
+    this.urlProjection_ = options.urlProjection || formatProjection
   }
 
   /**
-   * This method returns a promise which is triggered after the loader successfully loaded a source.
-   * @param {ol.Extent} extent
+   * @param {module:ol/extent~Extent} extent
    * @param {number} resolution
-   * @param {ol.ProjectionLike} projection
+   * @param {module:ol/proj~Projection} projection
    */
   loader (extent, resolution, projection) {
-    // Problem with BBOX: if features are already in the layer, they shouldn't be added. Not trivial
+    const url = this.urlTemplate.clone()
 
-    let url = this.urlTemplate.clone()
+    if (this.strategyType_ === 'BBOX' || this.strategyType_ === 'TILE') {
+      const transformedExtent = transformExtent(extent, projection, this.urlProjection_)
 
-    if (this.loadingStrategy_ === 'BBOX') {
-      let transformedExtent = transformExtent(extent, projection, this.bboxProjection_)
+      if (url.url.includes('{bbox')) {
+        Debug.warn('The {bbox...} url parameters are deprecated, please use {minx}, {miny}, {maxx}, {maxy} instead.')
+        url.url.replace(/{bboxleft}/g, '{minx}')
+        url.url.replace(/{bboxbottom}/g, '{miny}')
+        url.url.replace(/{bboxright}/g, '{maxx}')
+        url.url.replace(/{bboxtop}/g, '{maxy}')
+      }
 
-      url.expandTemplate('bboxleft', transformedExtent[0].toString())
-        .expandTemplate('bboxbottom', transformedExtent[1].toString())
-        .expandTemplate('bboxright', transformedExtent[2].toString())
-        .expandTemplate('bboxtop', transformedExtent[3].toString())
+      url.expandTemplate('minx', transformedExtent[0].toString())
+        .expandTemplate('miny', transformedExtent[1].toString())
+        .expandTemplate('maxx', transformedExtent[2].toString())
+        .expandTemplate('maxy', transformedExtent[3].toString())
         .expandTemplate('resolution', resolution.toString(), false)
     }
 
@@ -195,7 +168,7 @@ export class SourceServerVector extends VectorSource {
       url.cache = false
     }
 
-    let finalUrl = url.finalize()
+    const finalUrl = url.finalize()
 
     $.ajax({
       url: finalUrl,
@@ -212,7 +185,7 @@ export class SourceServerVector extends VectorSource {
           this.doClear_ = false
         }
 
-        let features = this.format_.readFeatures(response, { featureProjection: projection })
+        const features = this.format_.readFeatures(response, { featureProjection: projection })
 
         this.addFeatures(features)
 
@@ -243,7 +216,7 @@ export class SourceServerVector extends VectorSource {
    * @returns {HTMLElement} the xmlDocument
    */
   addProxyToHrefTags (text) {
-    let hrefTags = text.getElementsByTagName('href') // not working in IE11
+    const hrefTags = text.getElementsByTagName('href') // not working in IE11
 
     let i, ii
     for (i = 0, ii = hrefTags.length; i < ii; i++) {

@@ -38,13 +38,13 @@ export class G4USearchV2Connector extends SearchConnector {
 
   getAutoComplete (input) {
     return new Promise((resolve, reject) => {
-      let finalUrl = this.autocompleteUrl_.clone().expandTemplate('searchstring', input).finalize()
+      const finalUrl = this.autocompleteUrl_.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
         url: finalUrl,
         dataType: 'text',
         success: text => {
-          let results = this.parseFeatures(text)
+          const results = this.parseFeatures(text)
           resolve(SearchConnector.flipTuples(results.map(r => [r.name, r.name])))
         },
         error: (jqXHR, textStatus) => {
@@ -56,14 +56,14 @@ export class G4USearchV2Connector extends SearchConnector {
 
   getSearchResult (input) {
     return new Promise((resolve, reject) => {
-      let finalUrl = this.fuzzyUrl_.clone().expandTemplate('searchstring', input).finalize()
+      const finalUrl = this.fuzzyUrl_.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
         url: finalUrl,
         dataType: 'text',
         success: text => {
-          let results = this.parseFeatures(text)
-          let features = results.map(r => this.readFeature_(r))
+          const results = this.parseFeatures(text)
+          const features = results.map(r => this.readFeature_(r))
           resolve(SearchConnector.flipTuples(features.map(f => [f.get('name'), f])))
         },
         error: (jqXHR, textStatus) => {
@@ -78,13 +78,13 @@ export class G4USearchV2Connector extends SearchConnector {
 
   getByHandle (input) {
     return new Promise((resolve, reject) => {
-      let finalUrl = this.byHandleUrl_.clone().expandTemplate('searchstring', input).finalize()
+      const finalUrl = this.byHandleUrl_.clone().expandTemplate('searchstring', input).finalize()
 
       $.ajax({
         url: finalUrl,
         dataType: 'text',
         success: text => {
-          let results = this.parseFeatures(text)
+          const results = this.parseFeatures(text)
           resolve(this.readFeature_(results[0]))
         },
         error: (jqXHR, textStatus) => {
@@ -103,7 +103,7 @@ export class G4USearchV2Connector extends SearchConnector {
    * @protected
    */
   readFeature_ (data) {
-    let featureOptions = {}
+    const featureOptions = {}
 
     if (data.hasOwnProperty('id')) {
       featureOptions.id = data.id

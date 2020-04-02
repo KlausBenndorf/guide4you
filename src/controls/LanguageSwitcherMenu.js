@@ -49,7 +49,7 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
 
     this.get$Element().append(this.$button_)
 
-    let dropdownOptions = { 'className': 'g4u-dropdown' }
+    const dropdownOptions = { className: 'g4u-dropdown' }
 
     /**
      * @type {Dropdown}
@@ -58,7 +58,7 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
     this.dropdown_ = new Dropdown(dropdownOptions)
     this.get$Element().append(this.dropdown_.get$Element())
 
-    let languages = this.getLocaliser().getAvailableLanguages()
+    const languages = this.getLocaliser().getAvailableLanguages()
 
     if (languages.length < 2) {
       Debug.info('You do not have any languages to switch between.')
@@ -103,7 +103,7 @@ export class LanguageSwitcherMenu extends mixin(Control, [ListenerOrganizerMixin
         this.setActive(!this.getActive())
       })
 
-      let curLang = this.getLocaliser().getCurrentLang()
+      const curLang = this.getLocaliser().getCurrentLang()
       if (!this.showLongLanguage_) {
         this.$button_.html(curLang.toUpperCase())
       } else {

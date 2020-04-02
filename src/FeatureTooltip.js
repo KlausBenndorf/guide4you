@@ -65,7 +65,8 @@ export class FeatureTooltip {
     if (feature.get('features') && feature.get('features').length === 1) {
       feature = feature.get('features')[0]
     }
-    return !feature.get('disabled') && !feature.get('tooltip.disabled') && feature.get('name')
+    return !feature.get('disabled') && !feature.get('tooltip.disabled') &&
+      (feature.get('tooltip') || feature.get('name'))
   }
 
   /**
@@ -79,15 +80,14 @@ export class FeatureTooltip {
     if (map) {
       map.addOverlay(this.overlay_)
 
-      const interaction = map.getDefaultInteractions('pointermove')[0]
-      interaction.on('interaction', e => {
+      map.get('moveInteraction').on('interaction', e => {
         const interacted = e.interacted.filter(({ feature }) => FeatureTooltip.canDisplay(feature))
         if (interacted.length) {
-          let { feature } = interacted[0]
+          let { feature, layer } = interacted[0]
           if (feature.get('features')) {
             feature = feature.get('features')[0]
           }
-          this.setFeature(feature, e.coordinate)
+          this.setFeature(feature, layer, e.coordinate)
         } else {
           this.setFeature(null)
         }
@@ -110,16 +110,16 @@ export class FeatureTooltip {
 
   /**
    * @param {?ol.Feature} feature
+   * @param layer
    * @param {ol.Coordinate} coordinate
-   * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, coordinate = null, optPopupModifiers = []) {
+  setFeature (feature, layer, coordinate = null) {
     if (feature) {
-      let currentPopupModifiers = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
+      const currentPopupModifiers = [...this.defaultPopupModifiers_, ...(layer.get('popupModifiers') || [])]
       this.getMap().get('popupModifiers').apply({
-        name: feature.get('name'),
+        name: feature.get('tooltip') || feature.get('name'),
         description: feature.get('description')
-      }, currentPopupModifiers)
+      }, this.getMap(), currentPopupModifiers)
         .then(result => {
           if (result.name) {
             this.$element_.html(html2Text(result.name))
@@ -127,7 +127,7 @@ export class FeatureTooltip {
           }
         })
       if (!coordinate) {
-        let geometry = feature.getGeometry()
+        const geometry = feature.getGeometry()
         coordinate = getCenter(geometry.getExtent())
       }
       this.overlay_.setPosition(coordinate)

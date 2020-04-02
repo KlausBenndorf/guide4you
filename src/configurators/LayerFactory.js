@@ -1,6 +1,8 @@
 import $ from 'jquery'
 import Observable from 'ol/Observable'
 
+import { containsExtent } from 'ol/extent'
+import { all, tile } from 'ol/loadingstrategy'
 import VectorSource from 'ol/source/Vector'
 import XYZ from 'ol/source/XYZ'
 import OSM from 'ol/source/OSM'
@@ -12,13 +14,14 @@ import WMTSTileGrid from 'ol/tilegrid/WMTS'
 import WKT from 'ol/format/WKT'
 import Feature from 'ol/Feature'
 import WMTSCapabilities from 'ol/format/WMTSCapabilities'
-import WMTS from 'ol/source/WMTS'
+import WMTS, { optionsFromCapabilities } from 'ol/source/WMTS'
 import ImageCanvas from 'ol/source/ImageCanvas'
 
 import { ImageLayer } from '../layers/ImageLayer'
 import { EmptyImageLayer } from '../layers/EmptyImageLayer'
 import { TileLayer } from '../layers/TileLayer'
-import { VectorLayer } from '../layers/VectorLayer'
+import { VectorLayer, VectorImageLayer } from '../layers/VectorLayer'
+import { ArcGISRESTFeatureSource } from '../sources/ArcGISRESTFeatureSource'
 import { SourceServerVector } from '../sources/SourceServerVector'
 import { copyDeep, mergeDeep, take } from '../utilitiesObject'
 import { asObject, checkFor } from '../utilities'
@@ -45,10 +48,12 @@ export const LayerType = {
   INTERN: 'Intern',
   EMPTY: 'Empty',
   XYZ: 'XYZ',
-  BING: 'Bing'
+  BING: 'Bing',
+  ARCGISRESTFEATURE: 'ArcGISRESTFeature'
 }
 
 /**
+ * @property {number} [tileSize=512] If set the tile loading strategy will use tiles of this size
  * This class constructs a layer according to the given {{LayerOptions}}
  */
 export class LayerFactory extends Observable {
@@ -70,7 +75,7 @@ export class LayerFactory extends Observable {
    * @returns {ol.layer.Layer|ol.Collection.<ol.layer.Layer>}
    */
   createLayer (options) {
-    let optionsCopy = copyDeep(options)
+    const optionsCopy = copyDeep(options)
 
     if (!optionsCopy.type) {
       throw new Error(`Layer needs a type. Layer id: ${optionsCopy.id}. Layer title: ${optionsCopy.title}.`)
@@ -100,7 +105,7 @@ export class LayerFactory extends Observable {
       localised = optionsCopy.source.localised
     }
 
-    let style = take(optionsCopy, 'style')
+    const style = take(optionsCopy, 'style')
 
     switch (layerType) {
       case LayerType.SILENTGROUP:
@@ -221,8 +226,8 @@ export class LayerFactory extends Observable {
         })
 
         break
-      case LayerType.WMTS:
-        let sourceOptions = take(optionsCopy, 'source')
+      case LayerType.WMTS: {
+        const sourceOptions = take(optionsCopy, 'source')
 
         if (!sourceOptions.autoConfig) {
           if (!sourceOptions.tileGrid) {
@@ -244,6 +249,7 @@ export class LayerFactory extends Observable {
         }
 
         break
+      }
       case LayerType.GEOJSON:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
         optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
@@ -264,7 +270,12 @@ export class LayerFactory extends Observable {
           clusterOptions = asObject(clusterOptions)
           optionsCopy.source = new ClusterSource(optionsCopy.source, clusterOptions)
         }
-        layer = new VectorLayer(optionsCopy)
+        if (options.renderMode !== 'image') {
+          layer = new VectorLayer(optionsCopy)
+        } else {
+          layer = new VectorImageLayer(optionsCopy)
+        }
+
         break
       case LayerType.KML:
         this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
@@ -285,6 +296,19 @@ export class LayerFactory extends Observable {
         if (clusterOptions) {
           optionsCopy.source = new ClusterSource(optionsCopy.source, asObject(clusterOptions))
         }
+
+        if (options.renderMode !== 'image') {
+          layer = new VectorLayer(optionsCopy)
+        } else {
+          layer = new VectorImageLayer(optionsCopy)
+        }
+        break
+      case LayerType.ARCGISRESTFEATURE:
+        this.configureLayerSourceLoadingStrategy_(optionsCopy.source)
+        optionsCopy.source.url = URL.extractFromConfig(optionsCopy.source, 'url', undefined, this.map_) // not finalized
+
+        optionsCopy.source = new ArcGISRESTFeatureSource(optionsCopy.source)
+
         layer = new VectorLayer(optionsCopy)
         break
       case LayerType.INTERN:
@@ -301,7 +325,7 @@ export class LayerFactory extends Observable {
         break
     }
 
-    for (let module of this.map_.getModules()) {
+    for (const module of this.map_.getModules()) {
       if (layer) {
         break
       }
@@ -368,9 +392,46 @@ export class LayerFactory extends Observable {
    * @private
    */
   configureLayerSourceLoadingStrategy_ (sourceConfig) {
-    sourceConfig.loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
+    const loadingStrategy = sourceConfig.hasOwnProperty('loadingStrategy')
       ? sourceConfig.loadingStrategy
       : this.map_.get('loadingStrategy')
+
+    if (loadingStrategy === 'BBOX') {
+      const bboxRatio = sourceConfig.bboxRatio || 1
+
+      if (bboxRatio < 1) {
+        throw new Error('The bboxRatio should not be smaller than 1')
+      }
+
+      let lastScaledExtent = [0, 0, 0, 0]
+
+      sourceConfig.strategy = (extent) => {
+        if (containsExtent(lastScaledExtent, extent)) {
+          return [extent]
+        } else {
+          const deltaX = ((extent[2] - extent[0]) / 2) * (bboxRatio - 1)
+          const deltaY = ((extent[3] - extent[1]) / 2) * (bboxRatio - 1)
+
+          lastScaledExtent = [
+            extent[0] - deltaX,
+            extent[1] - deltaY,
+            extent[2] + deltaX,
+            extent[3] + deltaY
+          ]
+
+          return [lastScaledExtent]
+        }
+      }
+    } else if (loadingStrategy === 'TILE') {
+      sourceConfig.strategy = tile(createXYZ({
+        tileSize: sourceConfig.tileSize || 512
+      }))
+    } else {
+      sourceConfig.strategy = all
+    }
+
+    sourceConfig.loadingStrategyType = loadingStrategy
+
     return sourceConfig
   }
 
@@ -411,18 +472,18 @@ export class LayerFactory extends Observable {
     /**
      * @type {FeatureConfig}
      */
-    let featureConfCopy = copyDeep(featureConf)
+    const featureConfCopy = copyDeep(featureConf)
 
-    let id = take(featureConfCopy, 'id')
+    const id = take(featureConfCopy, 'id')
 
-    let style = take(featureConfCopy, 'style')
+    const style = take(featureConfCopy, 'style')
 
-    let format = new WKT()
-    let wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')
+    const format = new WKT()
+    const wkt = take(featureConfCopy, 'geometryWKT') || take(featureConfCopy, 'geographyWKT')
     featureConfCopy.geometry = format.readGeometry(wkt)
       .transform(this.map_.get('interfaceProjection'), this.map_.get('mapProjection'))
 
-    let feature = new Feature(featureConfCopy)
+    const feature = new Feature(featureConfCopy)
 
     if (style) {
       this.map_.get('styling').styleFeature(feature, style)
@@ -444,7 +505,7 @@ export class LayerFactory extends Observable {
       crossDomain: true,
       success: data => {
         const wmtsCap = (new WMTSCapabilities()).read(data)
-        const capOptions = WMTS.optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
+        const capOptions = optionsFromCapabilities(wmtsCap, take(sourceOptions, 'config'))
         if (capOptions === null) {
           Debug.error(`wmts layer not found or not set for layer with id "${layer.get('id')}"`)
         } else {

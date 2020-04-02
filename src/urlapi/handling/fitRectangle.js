@@ -9,14 +9,14 @@ export const fitRectangleParam = {
   setEvent: 'afterConfiguring',
   setToMap: (map, query) => {
     if (query.isSet('x0') && query.isSet('y0') && query.isSet('x1') && query.isSet('y1')) {
-      let x0 = parseFloat(query.getSanitizedVal('x0'))
-      let y0 = parseFloat(query.getSanitizedVal('y0'))
-      let x1 = parseFloat(query.getSanitizedVal('x1'))
-      let y1 = parseFloat(query.getSanitizedVal('y1'))
+      const x0 = parseFloat(query.getSanitizedVal('x0'))
+      const y0 = parseFloat(query.getSanitizedVal('y0'))
+      const x1 = parseFloat(query.getSanitizedVal('x1'))
+      const y1 = parseFloat(query.getSanitizedVal('y1'))
       if (!isNaN(x0) && !isNaN(y0) && !isNaN(x1) && !isNaN(y1)) {
-        let options = {}
+        const options = {}
         if (query.isSet('srid')) {
-          let srId = query.getSanitizedVal('srid')
+          const srId = query.getSanitizedVal('srid')
           if (getProj(srId)) {
             options.srId = srId
           } else {
@@ -26,7 +26,7 @@ export const fitRectangleParam = {
           options.srId = map.get('interfaceProjection')
         }
         if (query.isSet('pad')) {
-          let p = parseFloat(query.getSanitizedVal('pad'))
+          const p = parseFloat(query.getSanitizedVal('pad'))
           options.padding = [p, p, p, p]
         }
 
@@ -35,8 +35,8 @@ export const fitRectangleParam = {
     }
   },
   getFromMap: (map, query) => {
-    let view = map.getView()
-    let coordinate = transform(
+    const view = map.getView()
+    const coordinate = transform(
       view.getCenter(),
       view.getProjection(),
       map.get('interfaceProjection')

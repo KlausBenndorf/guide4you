@@ -9,8 +9,8 @@ export const centerParam = {
   setEvent: 'afterConfiguring',
   setToMap: (map, query) => {
     if (query.isSet('lon') && query.isSet('lat') && Math.abs(parseFloat(query.getSanitizedVal('lat'))) < 90) {
-      let lon = parseFloat(query.getSanitizedVal('lon'))
-      let lat = parseFloat(query.getSanitizedVal('lat'))
+      const lon = parseFloat(query.getSanitizedVal('lon'))
+      const lat = parseFloat(query.getSanitizedVal('lat'))
 
       if (!isNaN(lon) && !isNaN(lat)) {
         query.setUrlValue('x', lon.toString())
@@ -22,19 +22,17 @@ export const centerParam = {
       }
     }
     if (query.isSet('x') && query.isSet('y')) {
-      let x = parseFloat(query.getSanitizedVal('x'))
-      let y = parseFloat(query.getSanitizedVal('y'))
+      const x = parseFloat(query.getSanitizedVal('x'))
+      const y = parseFloat(query.getSanitizedVal('y'))
       let srId = map.get('interfaceProjection')
       if (query.isSet('srid')) {
         srId = query.getSanitizedVal('srid')
       }
 
       if (!isNaN(x) && !isNaN(y)) {
-        let view = map.getView()
+        const view = map.getView()
         if (getProj(srId)) {
-          view.setCenter(view.constrainCenter(
-            transform([x, y], srId, view.getProjection())
-          ))
+          view.setCenter(transform([x, y], srId, view.getProjection()))
         } else {
           Debug.error(`Unknown Projection '${srId}'`)
         }
@@ -42,8 +40,8 @@ export const centerParam = {
     }
   },
   getFromMap: (map, query) => {
-    let view = map.getView()
-    let coordinate = transform(
+    const view = map.getView()
+    const coordinate = transform(
       view.getCenter(),
       view.getProjection(),
       map.get('interfaceProjection')

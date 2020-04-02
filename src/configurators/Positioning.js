@@ -2,8 +2,8 @@ import $ from 'jquery'
 import uniq from 'lodash/uniq'
 
 import { cssClasses } from '../globals'
-import { mixinAsClass } from '../utilities'
 import { ListenerOrganizerMixin } from '../ListenerOrganizerMixin'
+import { mixinAsClass } from '../utilities'
 
 /**
  * This describes the floating directions of an element. It can be an array, then it will move from the center to the
@@ -87,22 +87,22 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
      * @private
      */
     this.corners_ = {
-      'left': {
-        'top': {
+      left: {
+        top: {
           counterclockwise: [],
           clockwise: []
         },
-        'bottom': {
+        bottom: {
           counterclockwise: [],
           clockwise: []
         }
       },
-      'right': {
-        'top': {
+      right: {
+        top: {
           counterclockwise: [],
           clockwise: []
         },
-        'bottom': {
+        bottom: {
           counterclockwise: [],
           clockwise: []
         }
@@ -171,14 +171,14 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       if (!parentMeta || !parentMeta.control.isWindowed()) {
         // gather metainformation
         /** @type {HideableElement} */
-        let metaElem = {
+        const metaElem = {
           control,
           order: this.order_++,
           importance: control.getImportance()
         }
 
         control.on('change:visible', e => {
-          let index = this.hidden$Elements_.indexOf(control.get$Element())
+          const index = this.hidden$Elements_.indexOf(control.get$Element())
           if (e.oldValue && index > -1) {
             this.hidden$Elements_.splice(index, 1)
           }
@@ -203,7 +203,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
 
           if (metaElem.control.getControls) {
             metaElem.hideableChildren = []
-            for (let child of metaElem.control.getControls()) {
+            for (const child of metaElem.control.getControls()) {
               this.addControl(child, metaElem)
             }
           }
@@ -283,10 +283,10 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       y2 = 'top'
     }
 
-    let clockwise = this.corners_[x1][y1].clockwise.filter(Positioning.isElemVisible_)
-    let counterclockwise = this.corners_[x2][y2].counterclockwise.filter(Positioning.isElemVisible_)
+    const clockwise = this.corners_[x1][y1].clockwise.filter(Positioning.isElemVisible_)
+    const counterclockwise = this.corners_[x2][y2].counterclockwise.filter(Positioning.isElemVisible_)
 
-    let arr = []
+    const arr = []
     let c = this.getCorner_(x1, y1)
     if (c) {
       arr.push(c)
@@ -305,7 +305,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * @private
    */
   beforePositioning_ () {
-    let elems = new Set(this.all_)
+    const elems = new Set(this.all_)
 
     this.hidden$Elements_.forEach($e => $e.removeClass(cssClasses.hidden))
     this.hidden$Elements_ = []
@@ -313,14 +313,14 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
     /**
      * @param {PositionedElement} elem
      */
-    let forEach = elem => {
+    const forEach = elem => {
       if (Positioning.isElemVisible_(elem)) {
         if (elem.control.beforePositioning) {
           elem.control.beforePositioning()
         }
 
         if (elem.hideableChildren) {
-          for (let child of elem.hideableChildren) {
+          for (const child of elem.hideableChildren) {
             forEach(child)
           }
         }
@@ -336,7 +336,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       elems.delete(elem)
     }
 
-    for (let elem of elems) {
+    for (const elem of elems) {
       forEach(elem)
     }
   }
@@ -346,18 +346,18 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * @private
    */
   afterPositioning_ () {
-    let elems = new Set(this.all_)
+    const elems = new Set(this.all_)
 
     /**
      * @param {PositionedElement} elem
      */
-    let forEach = elem => {
+    const forEach = elem => {
       if (elem.control.afterPositioning) {
         elem.control.afterPositioning()
       }
 
       if (elem.hideableChildren) {
-        for (let child of elem.hideableChildren) {
+        for (const child of elem.hideableChildren) {
           forEach(child)
         }
       }
@@ -365,7 +365,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       elems.delete(elem)
     }
 
-    for (let elem of elems) {
+    for (const elem of elems) {
       forEach(elem)
     }
   }
@@ -386,7 +386,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
 
     let firstElement = true
 
-    for (let elem of edgeElems) {
+    for (const elem of edgeElems) {
       length += elem.size[dim]
       if (firstElement) {
         firstElement = false
@@ -399,7 +399,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   }
 
   calculateSide_ (side, availableSpace) {
-    let dim = (side === 'top' || side === 'bottom') ? 'width' : 'height'
+    const dim = (side === 'top' || side === 'bottom') ? 'width' : 'height'
     let elems = this.getEdge_(side)
     let wantedSpace = this.calculateLength_(elems, dim)
     let changed = false
@@ -417,7 +417,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
   }
 
   positionElementsCorner_ (x, y) {
-    let corner = this.getCorner_(x, y)
+    const corner = this.getCorner_(x, y)
     if (corner) {
       let xLength = this.padding_
       let yLength = this.padding_
@@ -445,7 +445,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       }
 
       // x
-      for (let elem of this.corners_[x][y][xDirection]
+      for (const elem of this.corners_[x][y][xDirection]
         .filter(el => Positioning.isElemVisible_(el) && el !== corner)) {
         $elem = elem.control.get$Element()
         $elem.css({ [x]: xLength, [y]: this.padding_ })
@@ -453,7 +453,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       }
 
       // y
-      for (let elem of this.corners_[x][y][yDirection]
+      for (const elem of this.corners_[x][y][yDirection]
         .filter(el => Positioning.isElemVisible_(el) && el !== corner)) {
         $elem = elem.control.get$Element()
         $elem.css({ [x]: this.padding_, [y]: yLength })
@@ -466,13 +466,13 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * (Re-)Position the controls on the map
    */
   positionElements () {
-    let width = this.$viewport_.innerWidth()
-    let height = this.$viewport_.innerHeight()
+    const width = this.$viewport_.innerWidth()
+    const height = this.$viewport_.innerHeight()
 
     this.beforePositioning_()
 
     // calculation
-    let processSides = new Set(['top', 'left', 'bottom', 'right'])
+    const processSides = new Set(['top', 'left', 'bottom', 'right'])
 
     while (processSides.size) {
       if (processSides.has('top')) {
@@ -531,13 +531,13 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * @returns {boolean}
    */
   squeezeElements_ (elems, side, neededSpace) {
-    let squeezableElements = []
+    const squeezableElements = []
 
     function insert (item, x = 0, y = squeezableElements.length) {
       if (y === x) {
         squeezableElements.splice(x, 0, item)
       } else {
-        let p = Math.floor((x + y) / 2)
+        const p = Math.floor((x + y) / 2)
         if (item.importance <= squeezableElements[p].importance) {
           insert(item, x, p)
         } else {
@@ -550,7 +550,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
      * @param {PositionedElement[]} elems
      */
     function findSqueezables (elems) {
-      for (let elem of elems) {
+      for (const elem of elems) {
         if (elem.control.isSqueezable && elem.control.isSqueezable(side)) {
           insert(elem)
         } else if (elem.hideableChildren) {
@@ -561,7 +561,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
 
     findSqueezables(elems)
 
-    for (let elem of squeezableElements) {
+    for (const elem of squeezableElements) {
       neededSpace -= elem.control.squeezeBy(side, neededSpace)
 
       if (neededSpace <= 0) {
@@ -569,7 +569,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
       }
     }
 
-    for (let elem of squeezableElements) {
+    for (const elem of squeezableElements) {
       elem.control.release(side)
     }
 
@@ -583,10 +583,10 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * @private
    */
   expandElement_ (elem) {
-    let expanded = []
+    const expanded = []
 
     if (elem.hideableChildren) {
-      for (let child of elem.hideableChildren) {
+      for (const child of elem.hideableChildren) {
         expanded.push(...this.expandElement_(child))
       }
     }
@@ -607,13 +607,8 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    * @private
    */
   measureExpandedElement_ (elem) {
-    // let expanded = this.expandElement_(elem)
-    let $elem = elem.control.get$Element()
-    let size = { width: $elem.outerWidth(), height: $elem.outerHeight() }
-    // for (let exp of expanded) {
-    //   exp.setCollapsed(true, true)
-    // }
-    return size
+    const $elem = elem.control.get$Element()
+    return { width: $elem.outerWidth(), height: $elem.outerHeight() }
   }
 
   /**
@@ -623,7 +618,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
    */
   hideLeastImportant_ (elems) {
     let leastImportant = elems[0]
-    for (let elem of elems.slice(1)) {
+    for (const elem of elems.slice(1)) {
       if (elem.importance < leastImportant.importance) {
         leastImportant = elem
       }
@@ -631,7 +626,7 @@ export class Positioning extends mixinAsClass(ListenerOrganizerMixin) {
 
     let childHidden = false
     if (leastImportant.hideableChildren) {
-      let hideableChildren = leastImportant.hideableChildren.filter(Positioning.isElemVisible_)
+      const hideableChildren = leastImportant.hideableChildren.filter(Positioning.isElemVisible_)
       if (hideableChildren.length > 1) {
         this.hideLeastImportant_(hideableChildren)
         childHidden = true

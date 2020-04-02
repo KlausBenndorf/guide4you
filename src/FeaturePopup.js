@@ -1,7 +1,5 @@
 import $ from 'jquery'
 import flatten from 'lodash/flatten'
-import isFunction from 'lodash/isFunction'
-import isArray from 'lodash/isArray'
 import { getCenter } from 'ol/extent'
 import Point from 'ol/geom/Point'
 import BaseObject from 'ol/Object'
@@ -89,13 +87,13 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
      * @type {number[]}
      * @private
      */
-    this.pixelOffset_ = options.hasOwnProperty('offset') ? options.offset : [ 0, 0 ]
+    this.pixelOffset_ = options.hasOwnProperty('offset') ? options.offset : [0, 0]
 
     /**
      * @type {number[]}
      * @private
      */
-    this.iconSizedOffset_ = options.hasOwnProperty('iconSizedOffset') ? options.iconSizedOffset : [ 0, 0 ]
+    this.iconSizedOffset_ = options.hasOwnProperty('iconSizedOffset') ? options.iconSizedOffset : [0, 0]
 
     /**
      * @type {boolean}
@@ -185,7 +183,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
     }
 
     if (map) {
-      this.window_ = new Window({ draggable: this.draggable_, fixedPosition: true, map: map })
+      this.window_ = new Window({
+        parentClassName: this.className_,
+        draggable: this.draggable_,
+        fixedPosition: true,
+        map: map
+      })
 
       this.window_.get$Body().append(this.$name_).append(this.$description_)
 
@@ -199,44 +202,38 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
 
       // feature click
 
-      this.listenAt(map.getDefaultInteractions('singleclick')[ 0 ]).on('interaction', e => {
-        let interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
+      this.listenAt(map.get('clickInteraction')).on('interaction', e => {
+        const interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
         if (interacted.length) {
           const { feature, layer } = interacted[0]
           this.onFeatureClick_(feature, layer, e.coordinate)
         }
       })
 
-      // feature hover
-
-      this.listenAt(map.getDefaultInteractions('pointermove')[ 0 ]).on('interaction', e => {
-        const interacted = e.interacted.filter(({ feature }) => FeaturePopup.canDisplay(feature))
-        if (interacted.length) {
-          $(map.getViewport()).addClass(cssClasses.clickable)
-        } else {
-          $(map.getViewport()).removeClass(cssClasses.clickable)
-        }
+      // clickable
+      map.get('clickableInteraction').addFilter(e => {
+        return map.forEachFeatureAtPixel(e.pixel, FeaturePopup.canDisplay)
       })
 
       // hiding feature Popup if the layer gets hidden or the feature gets removed
 
-      let forEachSource = (layer, source) => {
+      const forEachSource = (layer, source) => {
         if (source.getFeatures) {
           this.listenAt(source).on('removefeature', e => {
             if (e.feature === this.getFeature()) {
-              this.referencingVisibleLayers_.forEach(rLay => {
+              for (const rLay of this.referencingVisibleLayers_) {
                 if (rLay.getSource() === source) {
                   this.removeReferencingLayer_(rLay)
                 }
-              })
+              }
             }
           })
         }
       }
 
-      let forEachLayer = layer => {
+      const forEachLayer = layer => {
         if (layer.getSource) {
-          let source = layer.getSource()
+          const source = layer.getSource()
 
           if (source) {
             forEachSource(layer, source)
@@ -248,17 +245,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
           })
 
           this.listenAt(layer).on('change:visible', () => {
-            let source = layer.getSource()
-            if (source && source.getFeatures) {
-              if (layer.getVisible() === false) {
-                if (source.getFeatures().indexOf(this.getFeature()) > -1) {
-                  this.removeReferencingLayer_(layer)
-                }
-              } else {
-                if (source.getFeatures().indexOf(this.getFeature()) > -1) {
-                  this.referencingVisibleLayers_.push(layer)
-                }
+            if (layer.getVisible()) {
+              if (this.layerContainsFeature(layer, this.getFeature())) {
+                this.addReferencingLayer_(layer)
               }
+            } else {
+              this.removeReferencingLayer_(layer)
             }
           })
         }
@@ -284,7 +276,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
 
       this.$element_.parent().addClass(this.className_ + '-container')
 
-      let onMapChangeMobile = () => {
+      const onMapChangeMobile = () => {
         if (map.get('mobile')) {
           this.centerOnPopup_ = false
         } else {
@@ -312,25 +304,20 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * @private
    */
   onFeatureClick_ (feature, layer, coordinate = null) {
-    if (feature.get('features')) {
-      feature = feature.get('features')[0]
-    }
-
-    this.referencingVisibleLayers_ = []
-
-    this.getMap().getLayerGroup().recursiveForEach(layer => {
-      if (layer.getVisible() && layer.getSource && layer.getSource().getFeatures) {
-        if (layer.getSource().getFeatures().indexOf(feature) > -1) {
-          this.referencingVisibleLayers_.push(layer)
-        }
+    if (this.getFeature() === feature) {
+      this.setVisible(false)
+      this.setFeature(null)
+    } else {
+      if (feature.get('features')) {
+        feature = feature.get('features')[0]
       }
-    })
 
-    this.setFeature(feature, feature.getStyle() || layer.getStyle(), coordinate)
-    this.setVisible(true)
+      this.setFeature(feature, layer, feature.getStyle() || layer.getStyle(), coordinate)
+      this.setVisible(true)
 
-    if (this.centerOnPopup_) {
-      this.centerMapOnPopup()
+      if (this.centerOnPopup_) {
+        this.centerMapOnPopup()
+      }
     }
   }
 
@@ -339,9 +326,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * @private
    */
   removeReferencingLayer_ (layer) {
-    this.referencingVisibleLayers_.splice(this.referencingVisibleLayers_.indexOf(layer), 1)
-    if (this.referencingVisibleLayers_.length === 0) {
-      this.setVisible(false)
+    const index = this.referencingVisibleLayers_.indexOf(layer)
+    if (index > -1) {
+      this.referencingVisibleLayers_.splice(index, 1)
+      if (this.referencingVisibleLayers_.length === 0) {
+        this.setVisible(false)
+      }
     }
   }
 
@@ -376,7 +366,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
     return this.getMap().get('popupModifiers').apply({
       name: this.getFeature().get('name'),
       description: this.getFeature().get('description')
-    }, this.currentPopupModifiers_)
+    }, this.getMap(), this.currentPopupModifiers_)
       .then(result => {
         if (result.name) {
           this.$name_.removeClass(cssClasses.hidden)
@@ -404,9 +394,8 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * Update the Popup. Call this if something in the feature has changed
    */
   update (style) {
-    if (this.getFeature()) {
-      const feature = this.getFeature()
-
+    const feature = this.getFeature()
+    if (feature) {
       this.$name_.empty()
       this.$description_.empty()
 
@@ -425,12 +414,12 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         })
 
         if (!this.getMap().get('mobile')) {
-          let resolution = this.getMap().getView().getResolution()
+          const resolution = this.getMap().getView().getResolution()
 
-          this.addIconSizedOffset(this.getFeature(), style, resolution)
+          this.addIconSizedOffset(feature, style, resolution)
         }
 
-        for (let layer of this.referencingVisibleLayers_) {
+        for (const layer of this.referencingVisibleLayers_) {
           if (layer.get('addClass')) {
             this.window_.get$Element().addClass(layer.get('addClass'))
           }
@@ -454,15 +443,18 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
   /**
    * The feature should have a property 'name' and/or 'description' to be shown inside of the popup.
    * @param {ol.Feature} feature
+   * @param {ol.layer.Base} layer
    * @param {ol.style.Style} style
    * @param {ol.Coordinate} clickCoordinate
    * @param {string[]} [optPopupModifiers=[]]
    */
-  setFeature (feature, style, clickCoordinate = null, optPopupModifiers = []) {
-    let oldValue = this.feature_
+  setFeature (feature, layer, style, clickCoordinate = null) {
+    const oldValue = this.feature_
     if (feature) {
       let coordinate = clickCoordinate
-      if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+      if (feature.get('origCoords') !== undefined) {
+        coordinate = feature.get('origCoords')
+      } else if (feature.getGeometry() instanceof Point || !clickCoordinate) {
         coordinate = getCenter(feature.getGeometry().getExtent())
       }
       this.overlay_.setPosition(coordinate)
@@ -473,21 +465,38 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         this.feature_.un('change:geometry', this.geometryChangeHandler_)
       }
       this.feature_ = feature
-      this.currentPopupModifiers_ = [ ...this.defaultPopupModifiers_, ...optPopupModifiers ]
-      for (let layer of this.referencingVisibleLayers_) {
-        this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(layer.get('popupModifiers')))
+
+      this.referencingVisibleLayers_ = []
+
+      if (layer) {
+        this.addReferencingLayer_(layer)
       }
-      this.geometryChangeHandler_ = () => {
-        let coordinate = clickCoordinate
-        if (feature.getGeometry() instanceof Point || !clickCoordinate) {
-          coordinate = getCenter(feature.getGeometry().getExtent())
+
+      this.getMap().getLayerGroup().recursiveForEach(layer => {
+        if (this.layerContainsFeature(layer, feature)) {
+          this.addReferencingLayer_(layer)
         }
-        this.overlay_.setPosition(coordinate)
-        if (this.getVisible()) {
-          this.update(style)
-        }
+      })
+
+      this.currentPopupModifiers_ = this.defaultPopupModifiers_.slice()
+      for (const refLayer of this.referencingVisibleLayers_) {
+        this.currentPopupModifiers_ = this.currentPopupModifiers_.concat(flatten(refLayer.get('popupModifiers')))
       }
-      this.feature_.on('change:geometry', this.geometryChangeHandler_)
+
+      if (this.feature_) {
+        this.geometryChangeHandler_ = () => {
+          let coordinate = clickCoordinate
+          if (feature.getGeometry() instanceof Point || !clickCoordinate) {
+            coordinate = getCenter(feature.getGeometry().getExtent())
+          }
+          this.overlay_.setPosition(coordinate)
+          if (this.getVisible()) {
+            this.update(style)
+          }
+        }
+        this.feature_.on('change:geometry', this.geometryChangeHandler_)
+      }
+
       this.dispatchEvent({
         type: 'change:feature',
         oldValue: oldValue,
@@ -496,6 +505,14 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
 
       this.update(style)
     }
+  }
+
+  layerContainsFeature (layer, feature) {
+    const source = layer.getSource && layer.getSource()
+    if (source && source.getFeatures) {
+      return source.getFeatures().indexOf(feature) > -1
+    }
+    return false
   }
 
   /**
@@ -509,8 +526,10 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * @param {boolean} visible
    */
   setVisible (visible) {
-    let oldValue = this.visible_
+    const oldValue = this.visible_
     if (oldValue !== visible) {
+      this.visible_ = visible
+
       if (visible === true && this.getFeature()) {
         this.$element_.removeClass(cssClasses.hidden)
         this.window_.setVisible(true)
@@ -520,7 +539,9 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
         this.window_.resetDragged()
       }
 
-      this.visible_ = visible
+      if (!visible) {
+        this.setFeature(null)
+      }
 
       this.dispatchEvent({
         type: 'change:visible',
@@ -542,19 +563,14 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    */
 
   addIconSizedOffset (feature, style, resolution) {
-    if (this.iconSizedOffset_[ 0 ] !== 0 || this.iconSizedOffset_[ 1 ] !== 0) {
+    if (this.iconSizedOffset_[0] !== 0 || this.iconSizedOffset_[1] !== 0) {
       if (style) {
-        if (isFunction(style)) {
-          style = style(feature, resolution)
-        }
-        if (isArray(style)) {
-          style = style[ 0 ]
-        }
+        style = this.getMap().get('styling').manifestStyle(style, feature, resolution)
         if (style) {
-          let imageStyle = style.getImage()
+          const imageStyle = style.getImage()
           if (imageStyle instanceof Icon) {
             (new Promise(resolve => {
-              let img = imageStyle.getImage()
+              const img = imageStyle.getImage()
               if (img.complete && img.src) {
                 resolve()
               } else {
@@ -565,11 +581,11 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
                 imageStyle.load()
               }
             })).then(() => {
-              let iconSize = imageStyle.getSize()
+              const iconSize = imageStyle.getSize()
 
-              let totalOffset = [
-                this.pixelOffset_[ 0 ] + this.iconSizedOffset_[ 0 ] * iconSize[ 0 ] * (imageStyle.getScale() || 1),
-                this.pixelOffset_[ 1 ] + this.iconSizedOffset_[ 1 ] * iconSize[ 1 ] * (imageStyle.getScale() || 1)
+              const totalOffset = [
+                this.pixelOffset_[0] + this.iconSizedOffset_[0] * iconSize[0] * (imageStyle.getScale() || 1),
+                this.pixelOffset_[1] + this.iconSizedOffset_[1] * iconSize[1] * (imageStyle.getScale() || 1)
               ]
 
               this.overlay_.setOffset(totalOffset)
@@ -593,7 +609,7 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
 
     finishAllImages(this.window_.get$Body()).then(() => {
       // we need to do this trick to find out if map is already visible/started rendering
-      if (this.getMap().getPixelFromCoordinate([ 0, 0 ])) {
+      if (this.getMap().getPixelFromCoordinate([0, 0])) {
         _centerMap()
       } else {
         this.getMap().once('postrender', _centerMap)
@@ -608,34 +624,40 @@ export class FeaturePopup extends mixin(BaseObject, ListenerOrganizerMixin) {
    * @returns {ol.Coordinate}
    */
   getCenter () {
-    let offset = this.overlay_.getOffset()
+    const offset = this.overlay_.getOffset()
 
-    let pixelPosition = this.getMap().getPixelFromCoordinate(this.overlay_.getPosition())
+    const pixelPosition = this.getMap().getPixelFromCoordinate(this.overlay_.getPosition())
 
     // apply offset
-    pixelPosition[ 0 ] += offset[ 0 ]
-    pixelPosition[ 1 ] += offset[ 1 ]
+    pixelPosition[0] += offset[0]
+    pixelPosition[1] += offset[1]
 
     // applay width/height depending on positioning
-    let positioning = this.overlay_.getPositioning().split('-')
+    const positioning = this.overlay_.getPositioning().split('-')
 
-    let width = this.$element_.outerWidth()
-    let height = this.$element_.outerHeight()
+    const width = this.$element_.outerWidth()
+    const height = this.$element_.outerHeight()
 
-    if (positioning[ 1 ] === 'left') {
-      pixelPosition[ 0 ] += width / 2
+    if (positioning[1] === 'left') {
+      pixelPosition[0] += width / 2
     }
-    if (positioning[ 1 ] === 'right') {
-      pixelPosition[ 0 ] -= width / 2
+    if (positioning[1] === 'right') {
+      pixelPosition[0] -= width / 2
     }
 
-    if (positioning[ 0 ] === 'top') {
-      pixelPosition[ 1 ] += height / 2
+    if (positioning[0] === 'top') {
+      pixelPosition[1] += height / 2
     }
-    if (positioning[ 0 ] === 'bottom') {
-      pixelPosition[ 1 ] -= height / 2
+    if (positioning[0] === 'bottom') {
+      pixelPosition[1] -= height / 2
     }
 
     return this.getMap().getCoordinateFromPixel(pixelPosition)
+  }
+
+  addReferencingLayer_ (layer) {
+    if (this.referencingVisibleLayers_.indexOf(layer) < 0) {
+      this.referencingVisibleLayers_.push(layer)
+    }
   }
 }

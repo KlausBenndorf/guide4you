@@ -6,7 +6,7 @@ import { SearchConnector } from './SearchConnector'
 export class G4UServerSearchConnector extends SearchConnector {
   constructor (options) {
     super(options)
-    this.serviceURL.url += '/Search/{searchstring}'
+    this.serviceURL.url += '/Search/{layerconfigid}/{searchstring}'
     this.format_ = new KML({ showPointNames: false })
   }
 
@@ -34,13 +34,18 @@ export class G4UServerSearchConnector extends SearchConnector {
 
   getSearchResult (input) {
     return new Promise((resolve, reject) => {
-      let finalUrl = this.serviceURL.clone().expandTemplate('searchstring', input).finalize()
+      const layerConfigFileName = this.getMap().get('layerConfigFileName')
+      const layerConfigId = /.*?(\d+)\/?$/.exec(layerConfigFileName)[1]
+      const finalUrl = this.serviceURL.clone()
+        .expandTemplate('searchstring', input)
+        .expandTemplate('layerconfigid', layerConfigId)
+        .finalize()
 
       $.ajax({
         url: finalUrl,
         dataType: 'text',
         success: results => {
-          let features = this.format_.readFeatures(results,
+          const features = this.format_.readFeatures(results,
             { dataProjection: 'EPSG:4326', featureProjection: this.featureProjection })
           resolve(SearchConnector.flipTuples(features.map(f => [f.get('extra'), f])))
         },

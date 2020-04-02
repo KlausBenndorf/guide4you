@@ -14,7 +14,9 @@ import { cssClasses } from '../globals'
 export function getInFront ($element, $context) {
   let highest = 0
 
-  $context = $context || $(document)
+  if (!$context) {
+    throw new Error('no context for getInFront provided')
+  }
 
   let foundAbsolute = false
 
@@ -24,7 +26,10 @@ export function getInFront ($element, $context) {
         foundAbsolute = true
         getInFront($(el), $context)
         getInFront($element, $(el))
+        return false
       }
+    } else {
+      return false
     }
   })
 
@@ -33,7 +38,7 @@ export function getInFront ($element, $context) {
       .find('*:visible')
       .not((i, el) => el !== $element[0] && $(el).parents().is($element))
       .each(function () {
-        let current = parseInt($(this).css('z-index'), 10)
+        const current = parseInt($(this).css('z-index'), 10)
         if (current && highest < current) {
           highest = current
         }

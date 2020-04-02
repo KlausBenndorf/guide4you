@@ -10,6 +10,7 @@ import '../../less/window.less'
 
 /**
  * @typedef {object} WindowOptions
+ * @property {string} parentClassName an additional html class name to use
  * @property {boolean} [draggable=false]
  * @property {string} [id] an html id for the outer window element
  * @property {string} [className] an alternative html class name to use instead of 'g4u-window', not recommended
@@ -28,6 +29,12 @@ export class Window extends BaseObject {
    */
   constructor (options = {}) {
     super()
+
+    /**
+     * @type {G4UMap}
+     * @private
+     */
+    this.map_ = options.map
 
     /**
      * @type {string}
@@ -51,7 +58,7 @@ export class Window extends BaseObject {
      * @type {jQuery}
      * @private
      */
-    this.$element_ = $('<div>').addClass(this.className_)
+    this.$element_ = $('<div>').addClass(this.className_).addClass(options.parentClassName + '-window')
       .on('click', e => e.stopPropagation())
 
     /**
@@ -85,6 +92,7 @@ export class Window extends BaseObject {
         )
       )
       .addClass(cssClasses.hidden)
+      .appendTo($(this.map_.getViewport()).children('.ol-overlaycontainer-stopevent'))
 
     if (options.hasOwnProperty('id')) {
       this.$element_.attr('id', options.id)
@@ -105,22 +113,16 @@ export class Window extends BaseObject {
     this.fixedPosition_ = options.fixedPosition === true
 
     /**
-     * @type {G4UMap}
-     * @private
-     */
-    this.map_ = options.map
-
-    /**
      * @type {jQuery}
      * @private
      */
     this.$context_ = $(this.map_.getTarget())
-    let initialDraggable = this.draggable_
+    const initialDraggable = this.draggable_
 
     this.map_.asSoonAs('ready', true, () => {
       this.map_.on('resize', () => this.updateSize(true))
 
-      let onChangeMobile = () => {
+      const onChangeMobile = () => {
         if (this.map_.get('mobile')) {
           this.draggable_ = false
           if (this.getVisible()) {
@@ -265,7 +267,7 @@ export class Window extends BaseObject {
    * @param {boolean} [popHistory=true]
    */
   setVisible (visible, popHistory = true) {
-    let oldValue = this.visible_
+    const oldValue = this.visible_
     if (oldValue !== visible) {
       if (visible) {
         this.$element_.removeClass(cssClasses.hidden)
@@ -338,22 +340,22 @@ export class Window extends BaseObject {
         // desktop
         margin = 50
 
-        let maxWidth = this.$context_.innerWidth() - 2 * margin
-        let maxHeight = this.$context_.innerHeight() - 2 * margin
+        const maxWidth = this.$context_.innerWidth() - 2 * margin
+        const maxHeight = this.$context_.innerHeight() - 2 * margin
 
         // storing values
-        let position = this.$element_.css('position')
+        const position = this.$element_.css('position')
         let top = this.$element_.css('top')
         let left = this.$element_.css('left')
 
-        // reset position to get default value
-        this.$element_.css('position', '')
-
-        // resetting all directly setted values
-        this.$element_.css('top', '')
-        this.$element_.css('left', '')
-        this.$element_.css('width', '')
-        this.$element_.css('height', '')
+        // // reset position to get default value
+        // this.$element_.css('position', '')
+        //
+        // // resetting all directly setted values
+        // this.$element_.css('top', '')
+        // this.$element_.css('left', '')
+        // this.$element_.css('width', '')
+        // this.$element_.css('height', '')
 
         this.get$Body().css('max-height', '')
 
@@ -368,20 +370,19 @@ export class Window extends BaseObject {
         this.$element_.css('height', 'auto')
 
         // calculate width & height
+        // restrain width first because height can be compensated with a scroll bar
 
-        let calcWidth = this.$element_.outerWidth()
-        let calcHeight = this.$element_.outerHeight()
-
-        let width = Math.min(calcWidth, maxWidth)
-        let height = Math.min(calcHeight, maxHeight)
-
+        const calcWidth = this.$element_.outerWidth()
+        const width = Math.min(calcWidth, maxWidth)
         this.$element_.css('width', width)
-        this.$element_.css('height', height)
+
+        const calcHeight = this.$element_.outerHeight()
+        this.$element_.css('height', Math.min(calcHeight, maxHeight))
 
         // setting max-height for the scroll bar
         // i assume here there is no margin and no padding on the parent element
-        let padding = parseInt(this.get$Body().css('padding-top').split('px')[ 0 ]) +
-          parseInt(this.get$Body().css('padding-bottom').split('px')[ 0 ])
+        const padding = parseInt(this.get$Body().css('padding-top').split('px')[0]) +
+          parseInt(this.get$Body().css('padding-bottom').split('px')[0])
         this.get$Body().css('max-height', this.get$Element().innerHeight() - this.$button_.outerHeight() - padding)
 
         this.$element_.css('position', position)
@@ -392,13 +393,13 @@ export class Window extends BaseObject {
           left = this.$element_.css('left')
 
           // initialize_ at top middle
-          let off = offset(this.$context_, this.$element_)
+          const off = offset(this.$context_, this.$element_)
 
-          let sideDist = (this.$context_.width() - width) / 2
-          let topDist = margin
+          const sideDist = (this.$context_.width() - width) / 2
+          const topDist = margin
 
-          let topPixel = (top === 'auto') ? 0 : parseInt(top)
-          let leftPixel = (left === 'auto') ? 0 : parseInt(left)
+          const topPixel = (top === 'auto') ? 0 : parseInt(top)
+          const leftPixel = (left === 'auto') ? 0 : parseInt(left)
 
           this.$element_.css('top', topPixel + off.top + topDist)
           this.$element_.css('left', leftPixel + off.left + sideDist)
@@ -411,14 +412,14 @@ export class Window extends BaseObject {
         // mobile
         margin = 10
 
-        let maxWidth = this.$context_.innerWidth() - 2 * margin
-        let maxHeight = this.$context_.innerHeight() - 2 * margin
+        const maxWidth = this.$context_.innerWidth() - 2 * margin
+        const maxHeight = this.$context_.innerHeight() - 2 * margin
 
         this.get$Body().css('max-height', '')
         this.$element_.css('width', maxWidth)
         this.$element_.css('height', maxHeight)
 
-        let contextOff = this.$context_.offset()
+        const contextOff = this.$context_.offset()
 
         this.$element_.css('left', margin + contextOff.left)
         this.$element_.css('top', margin + contextOff.top)

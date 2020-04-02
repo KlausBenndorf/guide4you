@@ -3,6 +3,7 @@
   "rules": {
     "max-len": ["error", 120],
     "no-console": "error",
-    "import/no-webpack-loader-syntax": "off"
+    "import/no-webpack-loader-syntax": "off",
+    "no-prototype-builtins": "off"
   }
 }

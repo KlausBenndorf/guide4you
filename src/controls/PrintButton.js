@@ -28,9 +28,9 @@ export class PrintButton extends Control {
    * @private
    */
   onClick_ () {
-    let setDivSize = function (div, mapSize) {
-      $(div).innerWidth(mapSize[ 0 ])
-      $(div).innerHeight(mapSize[ 1 ])
+    const setDivSize = function (div, mapSize) {
+      $(div).innerWidth(mapSize[0])
+      $(div).innerHeight(mapSize[1])
     }
 
     //
@@ -54,10 +54,10 @@ export class PrintButton extends Control {
     //      -> some work, but maybe useful for other functions, too
     //
 
-    let isMapCanvasTainted = function () { // Needs to be looked into
+    const isMapCanvasTainted = function () { // Needs to be looked into
       try {
-        let viewport = this.getMap().getViewport()
-        let srcCanvas = viewport.getElementsByTagName('canvas')[ 0 ]
+        const viewport = this.getMap().getViewport()
+        const srcCanvas = viewport.getElementsByTagName('canvas')[0]
         srcCanvas.getContext('2d').getImageData(1, 1, 1, 1)
         return false
       } catch (e) {
@@ -75,23 +75,23 @@ export class PrintButton extends Control {
       //
 
       // new window
-      let newWindow = window.open('', '_blank')
+      const newWindow = window.open('', '_blank')
 
-      let jStyleDiv = $('<div>').append(
+      const jStyleDiv = $('<div>').append(
         $('style').clone()
       ).append(
         $('link[type="text/css"]').clone()
       )
 
       // copying the map
-      let viewport = this.getMap().getViewport()
-      let mapClone = viewport.parentNode.cloneNode(true)
+      const viewport = this.getMap().getViewport()
+      const mapClone = viewport.parentNode.cloneNode(true)
       setDivSize(mapClone, this.getMap().getSize())
-      let srcCanvas = viewport.getElementsByTagName('canvas')[ 0 ]
-      let destCanvas = mapClone.getElementsByTagName('canvas')[ 0 ]
-      let destContext = destCanvas.getContext('2d')
+      const srcCanvas = viewport.getElementsByTagName('canvas')[0]
+      const destCanvas = mapClone.getElementsByTagName('canvas')[0]
+      const destContext = destCanvas.getContext('2d')
       destContext.drawImage(srcCanvas, 0, 0)
-      let newdoc = newWindow.document
+      const newdoc = newWindow.document
 
       // writing the document
       newdoc.open()
@@ -116,7 +116,7 @@ export class PrintButton extends Control {
       newdoc.close()
 
       newWindow.onload = function () {
-        newdoc.getElementsByTagName('body')[ 0 ].appendChild(mapClone)
+        newdoc.getElementsByTagName('body')[0].appendChild(mapClone)
       }
 
       newWindow.focus()
@@ -125,12 +125,12 @@ export class PrintButton extends Control {
       // Variant C: Creating a new body and switching it with the old body for printing
       //
 
-      let $mapViewport = $(this.getMap().getViewport())
-      let $mapParent = $mapViewport.parent()
-      let $mapContainer = $mapParent.clone().empty().append($mapViewport)
+      const $mapViewport = $(this.getMap().getViewport())
+      const $mapParent = $mapViewport.parent()
+      const $mapContainer = $mapParent.clone().empty().append($mapViewport)
       setDivSize($mapContainer, this.getMap().getSize())
-      let $oldbody = $('body')
-      let $newbody = $('<body>').append($mapContainer)
+      const $oldbody = $('body')
+      const $newbody = $('<body>').append($mapContainer)
       document.body = $newbody.get(0)
       window.print()
       document.body = $oldbody.get(0)

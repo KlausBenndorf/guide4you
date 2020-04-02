@@ -2,7 +2,7 @@
  * @type {URLParameter}
  */
 export const closeButtonParam = {
-  keys: [ 'clsbtn' ],
+  keys: ['clsbtn'],
   setEvent: 'ready:ui',
   setToMap: (map, query) => {
     if (query.isTrue('clsbtn')) {

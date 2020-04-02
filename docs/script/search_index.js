@@ -1,5 +1,11 @@
 window.esdocSearchIndex = [
   [
+    "guide4you/src/layerselector/accordion.js~accordion",
+    "class/src/layerSelector/Accordion.js~Accordion.html",
+    "<span>Accordion</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/Accordion.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/controls/activatablemixin.js~activatablemixin",
     "class/src/controls/ActivatableMixin.js~ActivatableMixin.html",
     "<span>ActivatableMixin</span> <span class=\"search-result-import-path\">guide4you/src/controls/ActivatableMixin.js</span>",
@@ -30,33 +36,39 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/layers/imagelayer.js~baselayerimage",
-    "variable/index.html#static-variable-BaseLayerImage",
-    "<span>BaseLayerImage</span> <span class=\"search-result-import-path\">guide4you/src/layers/ImageLayer.js</span>",
-    "variable"
-  ],
-  [
     "guide4you/src/layers/baselayermixin.js~baselayermixin",
     "class/src/layers/BaseLayerMixin.js~BaseLayerMixin.html",
     "<span>BaseLayerMixin</span> <span class=\"search-result-import-path\">guide4you/src/layers/BaseLayerMixin.js</span>",
     "class"
   ],
   [
-    "guide4you/src/layers/silentgrouplayer.js~basesilentgrouplayer",
-    "class/src/layers/SilentGroupLayer.js~BaseSilentGroupLayer.html",
-    "<span>BaseSilentGroupLayer</span> <span class=\"search-result-import-path\">guide4you/src/layers/SilentGroupLayer.js</span>",
+    "guide4you/src/layerselector/button.js~button",
+    "class/src/layerSelector/Button.js~Button.html",
+    "<span>Button</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/Button.js</span>",
     "class"
-  ],
-  [
-    "guide4you/src/layers/basetilelayer.js~basetilelayer",
-    "variable/index.html#static-variable-BaseTileLayer",
-    "<span>BaseTileLayer</span> <span class=\"search-result-import-path\">guide4you/src/layers/BaseTileLayer.js</span>",
-    "variable"
   ],
   [
     "guide4you/src/html/buttonbox.js~buttonbox",
     "class/src/html/ButtonBox.js~ButtonBox.html",
     "<span>ButtonBox</span> <span class=\"search-result-import-path\">guide4you/src/html/ButtonBox.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/html/checkgroup.js~checkgroup",
+    "class/src/html/CheckGroup.js~CheckGroup.html",
+    "<span>CheckGroup</span> <span class=\"search-result-import-path\">guide4you/src/html/CheckGroup.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/interactions/clickableinteraction.js~clickableinteraction",
+    "class/src/interactions/ClickableInteraction.js~ClickableInteraction.html",
+    "<span>ClickableInteraction</span> <span class=\"search-result-import-path\">guide4you/src/interactions/ClickableInteraction.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/controls/closewindowbutton.js~closewindowbutton",
+    "class/src/urlapi/controls/CloseWindowButton.js~CloseWindowButton.html",
+    "<span>CloseWindowButton</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/controls/CloseWindowButton.js</span>",
     "class"
   ],
   [
@@ -108,9 +120,21 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/layers/emptybaselayer.js~emptybaselayer",
-    "class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html",
-    "<span>EmptyBaseLayer</span> <span class=\"search-result-import-path\">guide4you/src/layers/EmptyBaseLayer.js</span>",
+    "guide4you/src/layerselector/element.js~element",
+    "class/src/layerSelector/Element.js~Element.html",
+    "<span>Element</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/Element.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/layers/emptyimagelayer.js~emptyimagelayer",
+    "class/src/layers/EmptyImageLayer.js~EmptyImageLayer.html",
+    "<span>EmptyImageLayer</span> <span class=\"search-result-import-path\">guide4you/src/layers/EmptyImageLayer.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/api/featureapi.js~featureapi",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html",
+    "<span>FeatureAPI</span> <span class=\"search-result-import-path\">guide4you/src/api/FeatureAPI.js</span>",
     "class"
   ],
   [
@@ -132,9 +156,33 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/search/connectors/g4usearchv2connector.js~g4usearchv2connector",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html",
+    "<span>G4USearchV2Connector</span> <span class=\"search-result-import-path\">guide4you/src/search/connectors/G4USearchV2Connector.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/search/connectors/g4userversearchconnector.js~g4userversearchconnector",
+    "class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html",
+    "<span>G4UServerSearchConnector</span> <span class=\"search-result-import-path\">guide4you/src/search/connectors/G4UServerSearchConnector.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/controls/geolocationbutton.js~geolocationbutton",
     "class/src/controls/GeoLocationButton.js~GeolocationButton.html",
     "<span>GeolocationButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/GeoLocationButton.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/api/geometryapi.js~geometryapi",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html",
+    "<span>GeometryAPI</span> <span class=\"search-result-import-path\">guide4you/src/api/GeometryAPI.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/layerselector/groupelement.js~groupelement",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html",
+    "<span>GroupElement</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/GroupElement.js</span>",
     "class"
   ],
   [
@@ -168,6 +216,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/api/kmlapi.js~kmlapi",
+    "class/src/api/KMLAPI.js~KMLAPI.html",
+    "<span>KMLAPI</span> <span class=\"search-result-import-path\">guide4you/src/api/KMLAPI.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/l10n.js~l10n",
     "class/src/L10N.js~L10N.html",
     "<span>L10N</span> <span class=\"search-result-import-path\">guide4you/src/L10N.js</span>",
@@ -183,6 +237,12 @@ window.esdocSearchIndex = [
     "guide4you/src/controls/languageswitchermenu.js~languageswitchermenu",
     "class/src/controls/LanguageSwitcherMenu.js~LanguageSwitcherMenu.html",
     "<span>LanguageSwitcherMenu</span> <span class=\"search-result-import-path\">guide4you/src/controls/LanguageSwitcherMenu.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/layerselector/layerbutton.js~layerbutton",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html",
+    "<span>LayerButton</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/LayerButton.js</span>",
     "class"
   ],
   [
@@ -216,9 +276,27 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "guide4you/src/controls/legendviewer.js~legendviewer",
+    "class/src/controls/LegendViewer.js~LegendViewer.html",
+    "<span>LegendViewer</span> <span class=\"search-result-import-path\">guide4you/src/controls/LegendViewer.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/controls/linkbutton.js~linkbutton",
     "class/src/controls/LinkButton.js~LinkButton.html",
     "<span>LinkButton</span> <span class=\"search-result-import-path\">guide4you/src/controls/LinkButton.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/linkgenerator.js~linkgenerator",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html",
+    "<span>LinkGenerator</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/LinkGenerator.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html",
+    "<span>LinkGeneratorButton</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/controls/LinkGeneratorButton.js</span>",
     "class"
   ],
   [
@@ -237,6 +315,24 @@ window.esdocSearchIndex = [
     "guide4you/src/configurators/mapconfigurator.js~mapconfigurator",
     "class/src/configurators/MapConfigurator.js~MapConfigurator.html",
     "<span>MapConfigurator</span> <span class=\"search-result-import-path\">guide4you/src/configurators/MapConfigurator.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/marker.js~marker",
+    "class/src/urlapi/Marker.js~Marker.html",
+    "<span>Marker</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/Marker.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/controls/maximizebutton.js~maximizebutton",
+    "class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html",
+    "<span>MaximizeButton</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/controls/MaximizeButton.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/api/measureapi.js~measureapi",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html",
+    "<span>MeasureAPI</span> <span class=\"search-result-import-path\">guide4you/src/api/MeasureAPI.js</span>",
     "class"
   ],
   [
@@ -276,9 +372,33 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/layerselector/multibutton.js~multibutton",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html",
+    "<span>MultiButton</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/MultiButton.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html",
+    "<span>NominatimSearchConnector</span> <span class=\"search-result-import-path\">guide4you/src/search/connectors/NominatimSearchConnector.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/search/connectors/photonsearchconnector.js~nominatimsearchconnector",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html",
+    "<span>NominatimSearchConnector</span> <span class=\"search-result-import-path\">guide4you/src/search/connectors/PhotonSearchConnector.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/controls/overviewmap.js~overviewmap",
     "class/src/controls/OverviewMap.js~OverviewMap.html",
     "<span>OverviewMap</span> <span class=\"search-result-import-path\">guide4you/src/controls/OverviewMap.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/api/placesapi.js~placesapi",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html",
+    "<span>PlacesAPI</span> <span class=\"search-result-import-path\">guide4you/src/api/PlacesAPI.js</span>",
     "class"
   ],
   [
@@ -294,9 +414,21 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/api/printtoscaleapi.js~printtoscaleapi",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html",
+    "<span>PrintToScaleAPI</span> <span class=\"search-result-import-path\">guide4you/src/api/PrintToScaleAPI.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/layers/providemapmixin.js~providemapmixin",
     "class/src/layers/ProvideMapMixin.js~ProvideMapMixin.html",
     "<span>ProvideMapMixin</span> <span class=\"search-result-import-path\">guide4you/src/layers/ProvideMapMixin.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/query.js~query",
+    "class/src/urlapi/Query.js~Query.html",
+    "<span>Query</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/Query.js</span>",
     "class"
   ],
   [
@@ -336,6 +468,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/search/searchcontrol.js~searchcontrol",
+    "class/src/search/SearchControl.js~SearchControl.html",
+    "<span>SearchControl</span> <span class=\"search-result-import-path\">guide4you/src/search/SearchControl.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/html/shield.js~shield",
     "class/src/html/Shield.js~Shield.html",
     "<span>Shield</span> <span class=\"search-result-import-path\">guide4you/src/html/Shield.js</span>",
@@ -372,12 +510,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "guide4you/src/configurators/layerfactory.js~supertype",
-    "variable/index.html#static-variable-SuperType",
-    "<span>SuperType</span> <span class=\"search-result-import-path\">guide4you/src/configurators/LayerFactory.js</span>",
-    "variable"
-  ],
-  [
     "guide4you/src/layers/tilelayer.js~tilelayer",
     "variable/index.html#static-variable-TileLayer",
     "<span>TileLayer</span> <span class=\"search-result-import-path\">guide4you/src/layers/TileLayer.js</span>",
@@ -393,6 +525,30 @@ window.esdocSearchIndex = [
     "guide4you/src/configurators/uiconfigurator.js~uiconfigurator",
     "class/src/configurators/UIConfigurator.js~UIConfigurator.html",
     "<span>UIConfigurator</span> <span class=\"search-result-import-path\">guide4you/src/configurators/UIConfigurator.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/urlapi.js~urlapi",
+    "class/src/urlapi/URLAPI.js~URLAPI.html",
+    "<span>URLAPI</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/URLAPI.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/urlapi/urlapimodule.js~urlapimodule",
+    "class/src/urlapi/URLAPIModule.js~URLAPIModule.html",
+    "<span>URLAPIModule</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/URLAPIModule.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/layers/vectorlayer.js~vectorimagelayer",
+    "class/src/layers/VectorLayer.js~VectorImageLayer.html",
+    "<span>VectorImageLayer</span> <span class=\"search-result-import-path\">guide4you/src/layers/VectorLayer.js</span>",
+    "class"
+  ],
+  [
+    "guide4you/src/layerselector/wmslayerbutton.js~wmslayerbutton",
+    "class/src/layerSelector/WMSLayerButton.js~WMSLayerButton.html",
+    "<span>WMSLayerButton</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/WMSLayerButton.js</span>",
     "class"
   ],
   [
@@ -426,6 +582,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "guide4you/src/controls/zoomtobbox.js~zoomtobbox",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html",
+    "<span>ZoomToBbox</span> <span class=\"search-result-import-path\">guide4you/src/controls/ZoomToBbox.js</span>",
+    "class"
+  ],
+  [
     "guide4you/src/html/html.js~addtooltip",
     "function/index.html#static-function-addTooltip",
     "<span>addTooltip</span> <span class=\"search-result-import-path\">guide4you/src/html/html.js</span>",
@@ -444,6 +606,18 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "guide4you/src/urlapi/handling/availablelayers.js~availablelayersparam",
+    "variable/index.html#static-variable-availableLayersParam",
+    "<span>availableLayersParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/availableLayers.js</span>",
+    "variable"
+  ],
+  [
+    "guide4you/src/urlapi/handling/center.js~centerparam",
+    "variable/index.html#static-variable-centerParam",
+    "<span>centerParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/center.js</span>",
+    "variable"
+  ],
+  [
     "guide4you/src/html/html.js~changetooltip",
     "function/index.html#static-function-changeTooltip",
     "<span>changeTooltip</span> <span class=\"search-result-import-path\">guide4you/src/html/html.js</span>",
@@ -454,6 +628,18 @@ window.esdocSearchIndex = [
     "function/index.html#static-function-checkFor",
     "<span>checkFor</span> <span class=\"search-result-import-path\">guide4you/src/utilities.js</span>",
     "function"
+  ],
+  [
+    "guide4you/src/urlapi/handling/closebutton.js~closebuttonparam",
+    "variable/index.html#static-variable-closeButtonParam",
+    "<span>closeButtonParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/closeButton.js</span>",
+    "variable"
+  ],
+  [
+    "guide4you/src/urlapi/handling/configurationfile.js~configurationfileparam",
+    "variable/index.html#static-variable-configurationFileParam",
+    "<span>configurationFileParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/configurationFile.js</span>",
+    "variable"
   ],
   [
     "guide4you/src/utilitiesobject.js~copy",
@@ -480,12 +666,6 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
-    "guide4you/src/defaultconfig.js~defaults",
-    "variable/index.html#static-variable-defaults",
-    "<span>defaults</span> <span class=\"search-result-import-path\">guide4you/src/defaultconfig.js</span>",
-    "variable"
-  ],
-  [
     "guide4you/src/utilities.js~even",
     "function/index.html#static-function-even",
     "<span>even</span> <span class=\"search-result-import-path\">guide4you/src/utilities.js</span>",
@@ -502,6 +682,12 @@ window.esdocSearchIndex = [
     "function/index.html#static-function-finishAllImages",
     "<span>finishAllImages</span> <span class=\"search-result-import-path\">guide4you/src/utilities.js</span>",
     "function"
+  ],
+  [
+    "guide4you/src/urlapi/handling/fitrectangle.js~fitrectangleparam",
+    "variable/index.html#static-variable-fitRectangleParam",
+    "<span>fitRectangleParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/fitRectangle.js</span>",
+    "variable"
   ],
   [
     "guide4you/src/utilities.js~getconfig",
@@ -534,6 +720,30 @@ window.esdocSearchIndex = [
     "variable"
   ],
   [
+    "guide4you/src/urlapi/handling/language.js~languageparam",
+    "variable/index.html#static-variable-languageParam",
+    "<span>languageParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/language.js</span>",
+    "variable"
+  ],
+  [
+    "guide4you/src/layerselector/layerconfigconverter.js~layerconfigconverter",
+    "function/index.html#static-function-layerConfigConverter",
+    "<span>layerConfigConverter</span> <span class=\"search-result-import-path\">guide4you/src/layerSelector/layerConfigConverter.js</span>",
+    "function"
+  ],
+  [
+    "guide4you/src/urlapi/handling/layerconfigurationfile.js~layerconfigurationfileparam",
+    "variable/index.html#static-variable-layerConfigurationFileParam",
+    "<span>layerConfigurationFileParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/layerConfigurationFile.js</span>",
+    "variable"
+  ],
+  [
+    "guide4you/src/urlapi/handling/marker.js~markerparam",
+    "variable/index.html#static-variable-markerParam",
+    "<span>markerParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/marker.js</span>",
+    "variable"
+  ],
+  [
     "guide4you/src/utilitiesobject.js~merge",
     "function/index.html#static-function-merge",
     "<span>merge</span> <span class=\"search-result-import-path\">guide4you/src/utilitiesObject.js</span>",
@@ -543,12 +753,6 @@ window.esdocSearchIndex = [
     "guide4you/src/utilitiesobject.js~mergedeep",
     "function/index.html#static-function-mergeDeep",
     "<span>mergeDeep</span> <span class=\"search-result-import-path\">guide4you/src/utilitiesObject.js</span>",
-    "function"
-  ],
-  [
-    "guide4you/src/utilitiesobject.js~mergewithdefaults",
-    "function/index.html#static-function-mergeWithDefaults",
-    "<span>mergeWithDefaults</span> <span class=\"search-result-import-path\">guide4you/src/utilitiesObject.js</span>",
     "function"
   ],
   [
@@ -600,10 +804,28 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "guide4you/src/urlapi/handling/responsiveness.js~responsivenessparam",
+    "variable/index.html#static-variable-responsivenessParam",
+    "<span>responsivenessParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/responsiveness.js</span>",
+    "variable"
+  ],
+  [
     "guide4you/src/xssprotection.js~restoretext",
     "function/index.html#static-function-restoreText",
     "<span>restoreText</span> <span class=\"search-result-import-path\">guide4you/src/xssprotection.js</span>",
     "function"
+  ],
+  [
+    "guide4you/src/urlapi/handling/rotation.js~rotationparam",
+    "variable/index.html#static-variable-rotationParam",
+    "<span>rotationParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/rotation.js</span>",
+    "variable"
+  ],
+  [
+    "guide4you/src/urlapi/handling/search.js~searchparam",
+    "variable/index.html#static-variable-searchParam",
+    "<span>searchParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/search.js</span>",
+    "variable"
   ],
   [
     "guide4you/src/utilities.js~showinteractionactivity",
@@ -646,6 +868,18 @@ window.esdocSearchIndex = [
     "function/index.html#static-function-urlRelative",
     "<span>urlRelative</span> <span class=\"search-result-import-path\">guide4you/src/utilities.js</span>",
     "function"
+  ],
+  [
+    "guide4you/src/urlapi/handling/visiblelayers.js~visiblelayersparam",
+    "variable/index.html#static-variable-visibleLayersParam",
+    "<span>visibleLayersParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/visibleLayers.js</span>",
+    "variable"
+  ],
+  [
+    "guide4you/src/urlapi/handling/zoom.js~zoomparam",
+    "variable/index.html#static-variable-zoomParam",
+    "<span>zoomParam</span> <span class=\"search-result-import-path\">guide4you/src/urlapi/handling/zoom.js</span>",
+    "variable"
   ],
   [
     "src/.external-ecmascript.js~array",
@@ -930,24 +1164,6 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
-    "src/api.js",
-    "file/src/API.js.html",
-    "src/API.js",
-    "file"
-  ],
-  [
-    "src/api.js~apimapinteraction",
-    "typedef/index.html#static-typedef-APIMapInteraction",
-    "src/API.js~APIMapInteraction",
-    "typedef"
-  ],
-  [
-    "src/api.js~apioptions",
-    "typedef/index.html#static-typedef-APIOptions",
-    "src/API.js~APIOptions",
-    "typedef"
-  ],
-  [
     "src/attributions.js",
     "file/src/Attributions.js.html",
     "src/Attributions.js",
@@ -1092,6 +1308,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/featurepopup.js~featurepopup#addreferencinglayer_",
+    "class/src/FeaturePopup.js~FeaturePopup.html#instance-method-addReferencingLayer_",
+    "src/FeaturePopup.js~FeaturePopup#addReferencingLayer_",
+    "method"
+  ],
+  [
     "src/featurepopup.js~featurepopup#animated_",
     "class/src/FeaturePopup.js~FeaturePopup.html#instance-member-animated_",
     "src/FeaturePopup.js~FeaturePopup#animated_",
@@ -1204,6 +1426,12 @@ window.esdocSearchIndex = [
     "class/src/FeaturePopup.js~FeaturePopup.html#instance-member-iconSizedOffset_",
     "src/FeaturePopup.js~FeaturePopup#iconSizedOffset_",
     "member"
+  ],
+  [
+    "src/featurepopup.js~featurepopup#layercontainsfeature",
+    "class/src/FeaturePopup.js~FeaturePopup.html#instance-method-layerContainsFeature",
+    "src/FeaturePopup.js~FeaturePopup#layerContainsFeature",
+    "method"
   ],
   [
     "src/featurepopup.js~featurepopup#map__",
@@ -1392,6 +1620,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/g4umap.js~configs",
+    "typedef/index.html#static-typedef-Configs",
+    "src/G4UMap.js~Configs",
+    "typedef"
+  ],
+  [
     "src/g4umap.js~g4umap#activateinteractions",
     "class/src/G4UMap.js~G4UMap.html#instance-method-activateInteractions",
     "src/G4UMap.js~G4UMap#activateInteractions",
@@ -1488,6 +1722,12 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/g4umap.js~g4umap#loadconfigs",
+    "class/src/G4UMap.js~G4UMap.html#instance-method-loadConfigs",
+    "src/G4UMap.js~G4UMap#loadConfigs",
+    "method"
+  ],
+  [
     "src/g4umap.js~g4umap#modules_",
     "class/src/G4UMap.js~G4UMap.html#instance-member-modules_",
     "src/G4UMap.js~G4UMap#modules_",
@@ -1536,6 +1776,24 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/g4umap.js~g4umap#updateclientconfig",
+    "class/src/G4UMap.js~G4UMap.html#instance-method-updateClientConfig",
+    "src/G4UMap.js~G4UMap#updateClientConfig",
+    "method"
+  ],
+  [
+    "src/g4umap.js~g4umap#updatelayerconfig",
+    "class/src/G4UMap.js~G4UMap.html#instance-method-updateLayerConfig",
+    "src/G4UMap.js~G4UMap#updateLayerConfig",
+    "method"
+  ],
+  [
+    "src/g4umap.js~g4umap.loadconfigfile",
+    "class/src/G4UMap.js~G4UMap.html#static-method-loadConfigFile",
+    "src/G4UMap.js~G4UMap.loadConfigFile",
+    "method"
+  ],
+  [
     "src/g4umap.js~g4umapoptions",
     "typedef/index.html#static-typedef-G4UMapOptions",
     "src/G4UMap.js~G4UMapOptions",
@@ -1546,12 +1804,6 @@ window.esdocSearchIndex = [
     "file/src/L10N.js.html",
     "src/L10N.js",
     "file"
-  ],
-  [
-    "src/l10n.js~l10n#ajaxgetlanguagefile",
-    "class/src/L10N.js~L10N.html#instance-method-ajaxGetLanguageFile",
-    "src/L10N.js~L10N#ajaxGetLanguageFile",
-    "method"
   ],
   [
     "src/l10n.js~l10n#availablelanguages_",
@@ -1962,22 +2214,16 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "src/popupmodifier.js",
-    "file/src/PopupModifier.js.html",
-    "src/PopupModifier.js",
-    "file"
-  ],
-  [
-    "src/popupmodifier.js~popupcontent",
-    "typedef/index.html#static-typedef-PopupContent",
-    "src/PopupModifier.js~PopupContent",
-    "typedef"
-  ],
-  [
     "src/popupmodifiermanager.js",
     "file/src/PopupModifierManager.js.html",
     "src/PopupModifierManager.js",
     "file"
+  ],
+  [
+    "src/popupmodifiermanager.js~popupcontent",
+    "typedef/index.html#static-typedef-PopupContent",
+    "src/PopupModifierManager.js~PopupContent",
+    "typedef"
   ],
   [
     "src/popupmodifiermanager.js~popupmodifiermanager#apply",
@@ -2136,10 +2382,22 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "src/styling.js~styling#manifeststyle",
+    "class/src/Styling.js~Styling.html#instance-method-manifestStyle",
+    "src/Styling.js~Styling#manifestStyle",
+    "method"
+  ],
+  [
     "src/styling.js~styling#nullstyle_",
     "class/src/Styling.js~Styling.html#instance-member-nullStyle_",
     "src/Styling.js~Styling#nullStyle_",
     "member"
+  ],
+  [
+    "src/styling.js~styling#processedstyle",
+    "class/src/Styling.js~Styling.html#instance-method-processedStyle",
+    "src/Styling.js~Styling#processedStyle",
+    "method"
   ],
   [
     "src/styling.js~styling#scalestyle_",
@@ -2182,6 +2440,444 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-URLLike",
     "src/URLHelper.js~URLLike",
     "typedef"
+  ],
+  [
+    "src/api/api.js",
+    "file/src/api/API.js.html",
+    "src/api/API.js",
+    "file"
+  ],
+  [
+    "src/api/api.js~apioptions",
+    "typedef/index.html#static-typedef-APIOptions",
+    "src/api/API.js~APIOptions",
+    "typedef"
+  ],
+  [
+    "src/api/featureapi.js",
+    "file/src/api/FeatureAPI.js.html",
+    "src/api/FeatureAPI.js",
+    "file"
+  ],
+  [
+    "src/api/featureapi.js~featureapi#constructor",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html#instance-constructor-constructor",
+    "src/api/FeatureAPI.js~FeatureAPI#constructor",
+    "method"
+  ],
+  [
+    "src/api/featureapi.js~featureapi#drawfeature",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html#instance-method-drawFeature",
+    "src/api/FeatureAPI.js~FeatureAPI#drawFeature",
+    "method"
+  ],
+  [
+    "src/api/featureapi.js~featureapi#mainapi_",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html#instance-member-mainAPI_",
+    "src/api/FeatureAPI.js~FeatureAPI#mainAPI_",
+    "member"
+  ],
+  [
+    "src/api/featureapi.js~featureapi#map_",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html#instance-member-map_",
+    "src/api/FeatureAPI.js~FeatureAPI#map_",
+    "member"
+  ],
+  [
+    "src/api/featureapi.js~featureapi#modifyfeature",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html#instance-method-modifyFeature",
+    "src/api/FeatureAPI.js~FeatureAPI#modifyFeature",
+    "method"
+  ],
+  [
+    "src/api/featureapi.js~featureapi#selectfeature",
+    "class/src/api/FeatureAPI.js~FeatureAPI.html#instance-method-selectFeature",
+    "src/api/FeatureAPI.js~FeatureAPI#selectFeature",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js",
+    "file/src/api/GeometryAPI.js.html",
+    "src/api/GeometryAPI.js",
+    "file"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#clear",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-method-clear",
+    "src/api/GeometryAPI.js~GeometryAPI#clear",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#constructor",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-constructor-constructor",
+    "src/api/GeometryAPI.js~GeometryAPI#constructor",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#drawgeometry",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-method-drawGeometry",
+    "src/api/GeometryAPI.js~GeometryAPI#drawGeometry",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#geometrysource_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-geometrySource_",
+    "src/api/GeometryAPI.js~GeometryAPI#geometrySource_",
+    "member"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#getextent",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-method-getExtent",
+    "src/api/GeometryAPI.js~GeometryAPI#getExtent",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#getgeometry",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-method-getGeometry",
+    "src/api/GeometryAPI.js~GeometryAPI#getGeometry",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#hidegeometry",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-method-hideGeometry",
+    "src/api/GeometryAPI.js~GeometryAPI#hideGeometry",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#lastid_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-lastId_",
+    "src/api/GeometryAPI.js~GeometryAPI#lastId_",
+    "member"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#mainapi_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-mainAPI_",
+    "src/api/GeometryAPI.js~GeometryAPI#mainAPI_",
+    "member"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#map_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-map_",
+    "src/api/GeometryAPI.js~GeometryAPI#map_",
+    "member"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#modifycollection_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-modifyCollection_",
+    "src/api/GeometryAPI.js~GeometryAPI#modifyCollection_",
+    "member"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#modifygeometryinteraction_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-modifyGeometryInteraction_",
+    "src/api/GeometryAPI.js~GeometryAPI#modifyGeometryInteraction_",
+    "member"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#showgeometry",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-method-showGeometry",
+    "src/api/GeometryAPI.js~GeometryAPI#showGeometry",
+    "method"
+  ],
+  [
+    "src/api/geometryapi.js~geometryapi#wktparser_",
+    "class/src/api/GeometryAPI.js~GeometryAPI.html#instance-member-wktParser_",
+    "src/api/GeometryAPI.js~GeometryAPI#wktParser_",
+    "member"
+  ],
+  [
+    "src/api/kmlapi.js",
+    "file/src/api/KMLAPI.js.html",
+    "src/api/KMLAPI.js",
+    "file"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#add",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-method-add",
+    "src/api/KMLAPI.js~KMLAPI#add",
+    "method"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#constructor",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-constructor-constructor",
+    "src/api/KMLAPI.js~KMLAPI#constructor",
+    "method"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#layers_",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-member-layers_",
+    "src/api/KMLAPI.js~KMLAPI#layers_",
+    "member"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#mainapi_",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-member-mainAPI_",
+    "src/api/KMLAPI.js~KMLAPI#mainAPI_",
+    "member"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#map_",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-member-map_",
+    "src/api/KMLAPI.js~KMLAPI#map_",
+    "member"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#nextid_",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-member-nextId_",
+    "src/api/KMLAPI.js~KMLAPI#nextId_",
+    "member"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#remove",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-method-remove",
+    "src/api/KMLAPI.js~KMLAPI#remove",
+    "method"
+  ],
+  [
+    "src/api/kmlapi.js~kmlapi#update",
+    "class/src/api/KMLAPI.js~KMLAPI.html#instance-method-update",
+    "src/api/KMLAPI.js~KMLAPI#update",
+    "method"
+  ],
+  [
+    "src/api/measureapi.js",
+    "file/src/api/MeasureAPI.js.html",
+    "src/api/MeasureAPI.js",
+    "file"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#constructor",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-constructor-constructor",
+    "src/api/MeasureAPI.js~MeasureAPI#constructor",
+    "method"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#getarea",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-method-getArea",
+    "src/api/MeasureAPI.js~MeasureAPI#getArea",
+    "method"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#getdistance",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-method-getDistance",
+    "src/api/MeasureAPI.js~MeasureAPI#getDistance",
+    "method"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#getlength",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-method-getLength",
+    "src/api/MeasureAPI.js~MeasureAPI#getLength",
+    "method"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#mainapi_",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-member-mainAPI_",
+    "src/api/MeasureAPI.js~MeasureAPI#mainAPI_",
+    "member"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#map_",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-member-map_",
+    "src/api/MeasureAPI.js~MeasureAPI#map_",
+    "member"
+  ],
+  [
+    "src/api/measureapi.js~measureapi#wktparser_",
+    "class/src/api/MeasureAPI.js~MeasureAPI.html#instance-member-wktParser_",
+    "src/api/MeasureAPI.js~MeasureAPI#wktParser_",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js",
+    "file/src/api/PlacesAPI.js.html",
+    "src/api/PlacesAPI.js",
+    "file"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#activate",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-activate",
+    "src/api/PlacesAPI.js~PlacesAPI#activate",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#activateclustering",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-activateClustering",
+    "src/api/PlacesAPI.js~PlacesAPI#activateClustering",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#addplace",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-addPlace",
+    "src/api/PlacesAPI.js~PlacesAPI#addPlace",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#changestyle",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-changeStyle",
+    "src/api/PlacesAPI.js~PlacesAPI#changeStyle",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#clear",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-clear",
+    "src/api/PlacesAPI.js~PlacesAPI#clear",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#closepopup",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-closePopup",
+    "src/api/PlacesAPI.js~PlacesAPI#closePopup",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#constructor",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-constructor-constructor",
+    "src/api/PlacesAPI.js~PlacesAPI#constructor",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#deactivate",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-deactivate",
+    "src/api/PlacesAPI.js~PlacesAPI#deactivate",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#getextent",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-getExtent",
+    "src/api/PlacesAPI.js~PlacesAPI#getExtent",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#haspopup",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-hasPopup",
+    "src/api/PlacesAPI.js~PlacesAPI#hasPopup",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#init",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-init",
+    "src/api/PlacesAPI.js~PlacesAPI#init",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#isactive",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-isActive",
+    "src/api/PlacesAPI.js~PlacesAPI#isActive",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#layer_",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-layer_",
+    "src/api/PlacesAPI.js~PlacesAPI#layer_",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#mainapi_",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-mainAPI_",
+    "src/api/PlacesAPI.js~PlacesAPI#mainAPI_",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#map_",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-map_",
+    "src/api/PlacesAPI.js~PlacesAPI#map_",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#nextid",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-nextId",
+    "src/api/PlacesAPI.js~PlacesAPI#nextId",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#onpopup",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-onPopup",
+    "src/api/PlacesAPI.js~PlacesAPI#onPopup",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#openpopup",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-method-openPopup",
+    "src/api/PlacesAPI.js~PlacesAPI#openPopup",
+    "method"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#possibleplaces_",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-possiblePlaces_",
+    "src/api/PlacesAPI.js~PlacesAPI#possiblePlaces_",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#source_",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-source_",
+    "src/api/PlacesAPI.js~PlacesAPI#source_",
+    "member"
+  ],
+  [
+    "src/api/placesapi.js~placesapi#wktparser_",
+    "class/src/api/PlacesAPI.js~PlacesAPI.html#instance-member-wktParser_",
+    "src/api/PlacesAPI.js~PlacesAPI#wktParser_",
+    "member"
+  ],
+  [
+    "src/api/printtoscaleapi.js",
+    "file/src/api/PrintToScaleAPI.js.html",
+    "src/api/PrintToScaleAPI.js",
+    "file"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#constructor",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-constructor-constructor",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#constructor",
+    "method"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#framegeometry_",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-member-frameGeometry_",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#frameGeometry_",
+    "member"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#framesource_",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-member-frameSource_",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#frameSource_",
+    "member"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#getframe",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-method-getFrame",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#getFrame",
+    "method"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#hideframe",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-method-hideFrame",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#hideFrame",
+    "method"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#interaction_",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-member-interaction_",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#interaction_",
+    "member"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#mainapi_",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-member-mainAPI_",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#mainAPI_",
+    "member"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#map_",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-member-map_",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#map_",
+    "member"
+  ],
+  [
+    "src/api/printtoscaleapi.js~printtoscaleapi#showframe",
+    "class/src/api/PrintToScaleAPI.js~PrintToScaleAPI.html#instance-method-showFrame",
+    "src/api/PrintToScaleAPI.js~PrintToScaleAPI#showFrame",
+    "method"
   ],
   [
     "src/configurators/controlfactory.js",
@@ -2280,9 +2976,27 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerconfigurator.js~anylayerconfig",
+    "typedef/index.html#static-typedef-AnyLayerConfig",
+    "src/configurators/LayerConfigurator.js~AnyLayerConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~binglayerconfig",
     "typedef/index.html#static-typedef-BingLayerConfig",
     "src/configurators/LayerConfigurator.js~BingLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~binglayerconfig",
+    "typedef/index.html#static-typedef-BingLayerConfig",
+    "src/configurators/LayerConfigurator.js~BingLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~categorylayerconfig",
+    "typedef/index.html#static-typedef-CategoryLayerConfig",
+    "src/configurators/LayerConfigurator.js~CategoryLayerConfig",
     "typedef"
   ],
   [
@@ -2298,9 +3012,27 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerconfigurator.js~emptylayerconfig",
+    "typedef/index.html#static-typedef-EmptyLayerConfig",
+    "src/configurators/LayerConfigurator.js~EmptyLayerConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~featureconfig",
     "typedef/index.html#static-typedef-FeatureConfig",
     "src/configurators/LayerConfigurator.js~FeatureConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~featureconfig",
+    "typedef/index.html#static-typedef-FeatureConfig",
+    "src/configurators/LayerConfigurator.js~FeatureConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~geojsonlayerconfig",
+    "typedef/index.html#static-typedef-GeoJSONLayerConfig",
+    "src/configurators/LayerConfigurator.js~GeoJSONLayerConfig",
     "typedef"
   ],
   [
@@ -2316,9 +3048,27 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerconfigurator.js~internallayerconfig",
+    "typedef/index.html#static-typedef-InternalLayerConfig",
+    "src/configurators/LayerConfigurator.js~InternalLayerConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~internalsourceconfig",
     "typedef/index.html#static-typedef-InternalSourceConfig",
     "src/configurators/LayerConfigurator.js~InternalSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~internalsourceconfig",
+    "typedef/index.html#static-typedef-InternalSourceConfig",
+    "src/configurators/LayerConfigurator.js~InternalSourceConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~kmllayerconfig",
+    "typedef/index.html#static-typedef-KMLLayerConfig",
+    "src/configurators/LayerConfigurator.js~KMLLayerConfig",
     "typedef"
   ],
   [
@@ -2334,10 +3084,10 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "src/configurators/layerconfigurator.js~layerconfigurator#baselayergroup_",
-    "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-member-baseLayerGroup_",
-    "src/configurators/LayerConfigurator.js~LayerConfigurator#baseLayerGroup_",
-    "member"
+    "src/configurators/layerconfigurator.js~layerconfigurator#configurelayerisidok_",
+    "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-method-configureLayerIsIdOk_",
+    "src/configurators/LayerConfigurator.js~LayerConfigurator#configureLayerIsIdOk_",
+    "method"
   ],
   [
     "src/configurators/layerconfigurator.js~layerconfigurator#configurelayers",
@@ -2349,12 +3099,6 @@ window.esdocSearchIndex = [
     "src/configurators/layerconfigurator.js~layerconfigurator#constructor",
     "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-constructor-constructor",
     "src/configurators/LayerConfigurator.js~LayerConfigurator#constructor",
-    "method"
-  ],
-  [
-    "src/configurators/layerconfigurator.js~layerconfigurator#getbaselayergroup",
-    "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-method-getBaseLayerGroup",
-    "src/configurators/LayerConfigurator.js~LayerConfigurator#getBaseLayerGroup",
     "method"
   ],
   [
@@ -2376,15 +3120,21 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "src/configurators/layerconfigurator.js~layerconfigurator#onresolutionchange",
-    "class/src/configurators/LayerConfigurator.js~LayerConfigurator.html#instance-method-onResolutionChange",
-    "src/configurators/LayerConfigurator.js~LayerConfigurator#onResolutionChange",
-    "method"
+    "src/configurators/layerconfigurator.js~osmlayerconfig",
+    "typedef/index.html#static-typedef-OSMLayerConfig",
+    "src/configurators/LayerConfigurator.js~OSMLayerConfig",
+    "typedef"
   ],
   [
     "src/configurators/layerconfigurator.js~osmlayerconfig",
     "typedef/index.html#static-typedef-OSMLayerConfig",
     "src/configurators/LayerConfigurator.js~OSMLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~silentgrouplayerconfig",
+    "typedef/index.html#static-typedef-SilentGroupLayerConfig",
+    "src/configurators/LayerConfigurator.js~SilentGroupLayerConfig",
     "typedef"
   ],
   [
@@ -2400,9 +3150,27 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerconfigurator.js~sourceconfig",
+    "typedef/index.html#static-typedef-SourceConfig",
+    "src/configurators/LayerConfigurator.js~SourceConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~stamenlayerconfig",
     "typedef/index.html#static-typedef-StamenLayerConfig",
     "src/configurators/LayerConfigurator.js~StamenLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~stamenlayerconfig",
+    "typedef/index.html#static-typedef-StamenLayerConfig",
+    "src/configurators/LayerConfigurator.js~StamenLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~tilewmslayerconfig",
+    "typedef/index.html#static-typedef-TileWMSLayerConfig",
+    "src/configurators/LayerConfigurator.js~TileWMSLayerConfig",
     "typedef"
   ],
   [
@@ -2418,9 +3186,27 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerconfigurator.js~vectorsourceconfig",
+    "typedef/index.html#static-typedef-VectorSourceConfig",
+    "src/configurators/LayerConfigurator.js~VectorSourceConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~wmslayerconfig",
     "typedef/index.html#static-typedef-WMSLayerConfig",
     "src/configurators/LayerConfigurator.js~WMSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~wmslayerconfig",
+    "typedef/index.html#static-typedef-WMSLayerConfig",
+    "src/configurators/LayerConfigurator.js~WMSLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~wmtslayerconfig",
+    "typedef/index.html#static-typedef-WMTSLayerConfig",
+    "src/configurators/LayerConfigurator.js~WMTSLayerConfig",
     "typedef"
   ],
   [
@@ -2436,9 +3222,27 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
+    "src/configurators/layerconfigurator.js~wmtsssourceconfig",
+    "typedef/index.html#static-typedef-WMTSSSourceConfig",
+    "src/configurators/LayerConfigurator.js~WMTSSSourceConfig",
+    "typedef"
+  ],
+  [
     "src/configurators/layerconfigurator.js~xyzlayerconfig",
     "typedef/index.html#static-typedef-XYZLayerConfig",
     "src/configurators/LayerConfigurator.js~XYZLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~xyzlayerconfig",
+    "typedef/index.html#static-typedef-XYZLayerConfig",
+    "src/configurators/LayerConfigurator.js~XYZLayerConfig",
+    "typedef"
+  ],
+  [
+    "src/configurators/layerconfigurator.js~g4ulayeroptions",
+    "typedef/index.html#static-typedef-g4uLayerOptions",
+    "src/configurators/LayerConfigurator.js~g4uLayerOptions",
     "typedef"
   ],
   [
@@ -2454,27 +3258,9 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/configurators/layerfactory.js~layerfactory#addlayer",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-addLayer",
-    "src/configurators/LayerFactory.js~LayerFactory#addLayer",
-    "method"
-  ],
-  [
-    "src/configurators/layerfactory.js~layerfactory#addlayers",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-addLayers",
-    "src/configurators/LayerFactory.js~LayerFactory#addLayers",
-    "method"
-  ],
-  [
     "src/configurators/layerfactory.js~layerfactory#configurelayeravailability_",
     "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-configureLayerAvailability_",
     "src/configurators/LayerFactory.js~LayerFactory#configureLayerAvailability_",
-    "method"
-  ],
-  [
-    "src/configurators/layerfactory.js~layerfactory#configurelayerisidok_",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-configureLayerIsIdOk_",
-    "src/configurators/LayerFactory.js~LayerFactory#configureLayerIsIdOk_",
     "method"
   ],
   [
@@ -2520,39 +3306,15 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/configurators/layerfactory.js~layerfactory#getmapprojection",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-getMapProjection",
-    "src/configurators/LayerFactory.js~LayerFactory#getMapProjection",
-    "method"
-  ],
-  [
-    "src/configurators/layerfactory.js~layerfactory#mapprojection",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-member-mapProjection",
-    "src/configurators/LayerFactory.js~LayerFactory#mapProjection",
-    "member"
-  ],
-  [
     "src/configurators/layerfactory.js~layerfactory#map_",
     "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-member-map_",
     "src/configurators/LayerFactory.js~LayerFactory#map_",
     "member"
   ],
   [
-    "src/configurators/layerfactory.js~layerfactory#setmapconfigprojection",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-setMapConfigProjection",
-    "src/configurators/LayerFactory.js~LayerFactory#setMapConfigProjection",
-    "method"
-  ],
-  [
     "src/configurators/layerfactory.js~layerfactory#setwmtssourcefromcapabilities",
     "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-setWMTSSourceFromCapabilities",
     "src/configurators/LayerFactory.js~LayerFactory#setWMTSSourceFromCapabilities",
-    "method"
-  ],
-  [
-    "src/configurators/layerfactory.js~layerfactory#supertypenotsupported",
-    "class/src/configurators/LayerFactory.js~LayerFactory.html#instance-method-superTypeNotSupported",
-    "src/configurators/LayerFactory.js~LayerFactory#superTypeNotSupported",
     "method"
   ],
   [
@@ -3096,6 +3858,18 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/controls/composedcontrol.js~composedcontrol#afterpositioning",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-afterPositioning",
+    "src/controls/ComposedControl.js~ComposedControl#afterPositioning",
+    "method"
+  ],
+  [
+    "src/controls/composedcontrol.js~composedcontrol#beforepositioning",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-beforePositioning",
+    "src/controls/ComposedControl.js~ComposedControl#beforePositioning",
+    "method"
+  ],
+  [
     "src/controls/composedcontrol.js~composedcontrol#classnameitemfirst_",
     "class/src/controls/ComposedControl.js~ComposedControl.html#instance-member-classNameItemFirst_",
     "src/controls/ComposedControl.js~ComposedControl#classNameItemFirst_",
@@ -3138,10 +3912,34 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/controls/composedcontrol.js~composedcontrol#issqueezable",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-isSqueezable",
+    "src/controls/ComposedControl.js~ComposedControl#isSqueezable",
+    "method"
+  ],
+  [
+    "src/controls/composedcontrol.js~composedcontrol#minheight_",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-member-minHeight_",
+    "src/controls/ComposedControl.js~ComposedControl#minHeight_",
+    "member"
+  ],
+  [
+    "src/controls/composedcontrol.js~composedcontrol#release",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-release",
+    "src/controls/ComposedControl.js~ComposedControl#release",
+    "method"
+  ],
+  [
     "src/controls/composedcontrol.js~composedcontrol#removecontrol",
     "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-removeControl",
     "src/controls/ComposedControl.js~ComposedControl#removeControl",
     "method"
+  ],
+  [
+    "src/controls/composedcontrol.js~composedcontrol#scrolled_",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-member-scrolled_",
+    "src/controls/ComposedControl.js~ComposedControl#scrolled_",
+    "member"
   ],
   [
     "src/controls/composedcontrol.js~composedcontrol#setmap",
@@ -3150,10 +3948,16 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/controls/composedcontrol.js~composedcontrol#setwindowforcontrol_",
-    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-setWindowForControl_",
-    "src/controls/ComposedControl.js~ComposedControl#setWindowForControl_",
+    "src/controls/composedcontrol.js~composedcontrol#squeezeby",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-method-squeezeBy",
+    "src/controls/ComposedControl.js~ComposedControl#squeezeBy",
     "method"
+  ],
+  [
+    "src/controls/composedcontrol.js~composedcontrol#squeeze_",
+    "class/src/controls/ComposedControl.js~ComposedControl.html#instance-member-squeeze_",
+    "src/controls/ComposedControl.js~ComposedControl#squeeze_",
+    "member"
   ],
   [
     "src/controls/composedcontrol.js~composedcontrol#updatevisibility",
@@ -3678,12 +4482,6 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "src/controls/layerselector.js~layerselector#$windowcontainer_",
-    "class/src/controls/LayerSelector.js~LayerSelector.html#instance-member-$windowContainer_",
-    "src/controls/LayerSelector.js~LayerSelector#$windowContainer_",
-    "member"
-  ],
-  [
     "src/controls/layerselector.js~layerselector#addwindowtobutton",
     "class/src/controls/LayerSelector.js~LayerSelector.html#instance-method-addWindowToButton",
     "src/controls/LayerSelector.js~LayerSelector#addWindowToButton",
@@ -3834,12 +4632,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/controls/layerselector.js~layerselector#setmap",
-    "class/src/controls/LayerSelector.js~LayerSelector.html#instance-method-setMap",
-    "src/controls/LayerSelector.js~LayerSelector#setMap",
-    "method"
-  ],
-  [
     "src/controls/layerselector.js~layerselector#squeezeby",
     "class/src/controls/LayerSelector.js~LayerSelector.html#instance-method-squeezeBy",
     "src/controls/LayerSelector.js~LayerSelector#squeezeBy",
@@ -3862,6 +4654,36 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-LayerSelectorOptions",
     "src/controls/LayerSelector.js~LayerSelectorOptions",
     "typedef"
+  ],
+  [
+    "src/controls/legendviewer.js",
+    "file/src/controls/LegendViewer.js.html",
+    "src/controls/LegendViewer.js",
+    "file"
+  ],
+  [
+    "src/controls/legendviewer.js~legendviewer#constructor",
+    "class/src/controls/LegendViewer.js~LegendViewer.html#instance-constructor-constructor",
+    "src/controls/LegendViewer.js~LegendViewer#constructor",
+    "method"
+  ],
+  [
+    "src/controls/legendviewer.js~legendviewer#setmap",
+    "class/src/controls/LegendViewer.js~LegendViewer.html#instance-method-setMap",
+    "src/controls/LegendViewer.js~LegendViewer#setMap",
+    "method"
+  ],
+  [
+    "src/controls/legendviewer.js~legendviewer#update",
+    "class/src/controls/LegendViewer.js~LegendViewer.html#instance-method-update",
+    "src/controls/LegendViewer.js~LegendViewer#update",
+    "method"
+  ],
+  [
+    "src/controls/legends.js",
+    "file/src/controls/Legends.js.html",
+    "src/controls/Legends.js",
+    "file"
   ],
   [
     "src/controls/linkbutton.js",
@@ -3981,18 +4803,6 @@ window.esdocSearchIndex = [
     "src/controls/measurementbutton.js~measurementbutton#layer_",
     "class/src/controls/MeasurementButton.js~MeasurementButton.html#instance-member-layer_",
     "src/controls/MeasurementButton.js~MeasurementButton#layer_",
-    "member"
-  ],
-  [
-    "src/controls/measurementbutton.js~measurementbutton#measurementprojection_",
-    "class/src/controls/MeasurementButton.js~MeasurementButton.html#instance-member-measurementProjection_",
-    "src/controls/MeasurementButton.js~MeasurementButton#measurementProjection_",
-    "member"
-  ],
-  [
-    "src/controls/measurementbutton.js~measurementbutton#measurementtransform_",
-    "class/src/controls/MeasurementButton.js~MeasurementButton.html#instance-member-measurementTransform_",
-    "src/controls/MeasurementButton.js~MeasurementButton#measurementTransform_",
     "member"
   ],
   [
@@ -4242,6 +5052,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/controls/singledrawbutton.js~singledrawbutton#addmeasureline",
+    "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-addMeasureLine",
+    "src/controls/SingleDrawButton.js~SingleDrawButton#addMeasureLine",
+    "method"
+  ],
+  [
     "src/controls/singledrawbutton.js~singledrawbutton#constructor",
     "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-constructor-constructor",
     "src/controls/SingleDrawButton.js~SingleDrawButton#constructor",
@@ -4306,6 +5122,18 @@ window.esdocSearchIndex = [
     "class/src/controls/SingleDrawButton.js~SingleDrawButton.html#instance-method-setMap",
     "src/controls/SingleDrawButton.js~SingleDrawButton#setMap",
     "method"
+  ],
+  [
+    "src/controls/staticoverviewmap.js",
+    "file/src/controls/StaticOverviewMap.js.html",
+    "src/controls/StaticOverviewMap.js",
+    "file"
+  ],
+  [
+    "src/controls/staticoverviewmap.js~staticoverviewmapoptions",
+    "typedef/index.html#static-typedef-StaticOverviewMapOptions",
+    "src/controls/StaticOverviewMap.js~StaticOverviewMapOptions",
+    "typedef"
   ],
   [
     "src/controls/windowdecorator.js",
@@ -4380,10 +5208,46 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "src/defaultconfig.js",
-    "file/src/defaultconfig.js.html",
-    "src/defaultconfig.js",
+    "src/controls/zoomtobbox.js",
+    "file/src/controls/ZoomToBbox.js.html",
+    "src/controls/ZoomToBbox.js",
     "file"
+  ],
+  [
+    "src/controls/zoomtobbox.js~zoomtobbox#activechangehandler_",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html#instance-method-activeChangeHandler_",
+    "src/controls/ZoomToBbox.js~ZoomToBbox#activeChangeHandler_",
+    "method"
+  ],
+  [
+    "src/controls/zoomtobbox.js~zoomtobbox#classnameactive_",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html#instance-member-classNameActive_",
+    "src/controls/ZoomToBbox.js~ZoomToBbox#classNameActive_",
+    "member"
+  ],
+  [
+    "src/controls/zoomtobbox.js~zoomtobbox#constructor",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html#instance-constructor-constructor",
+    "src/controls/ZoomToBbox.js~ZoomToBbox#constructor",
+    "method"
+  ],
+  [
+    "src/controls/zoomtobbox.js~zoomtobbox#interaction_",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html#instance-member-interaction_",
+    "src/controls/ZoomToBbox.js~ZoomToBbox#interaction_",
+    "member"
+  ],
+  [
+    "src/controls/zoomtobbox.js~zoomtobbox#setmap",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html#instance-method-setMap",
+    "src/controls/ZoomToBbox.js~ZoomToBbox#setMap",
+    "method"
+  ],
+  [
+    "src/controls/zoomtobbox.js~zoomtobbox#style_",
+    "class/src/controls/ZoomToBbox.js~ZoomToBbox.html#instance-member-style_",
+    "src/controls/ZoomToBbox.js~ZoomToBbox#style_",
+    "member"
   ],
   [
     "src/events.js",
@@ -4540,6 +5404,78 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-ButtonBoxOptions",
     "src/html/ButtonBox.js~ButtonBoxOptions",
     "typedef"
+  ],
+  [
+    "src/html/checkgroup.js",
+    "file/src/html/CheckGroup.js.html",
+    "src/html/CheckGroup.js",
+    "file"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#$element_",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-member-$element_",
+    "src/html/CheckGroup.js~CheckGroup#$element_",
+    "member"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#buttons_",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-member-buttons_",
+    "src/html/CheckGroup.js~CheckGroup#buttons_",
+    "member"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#constructor",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-constructor-constructor",
+    "src/html/CheckGroup.js~CheckGroup#constructor",
+    "method"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#get$element",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-method-get$Element",
+    "src/html/CheckGroup.js~CheckGroup#get$Element",
+    "method"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#getsize",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-method-getSize",
+    "src/html/CheckGroup.js~CheckGroup#getSize",
+    "method"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#getvalues",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-method-getValues",
+    "src/html/CheckGroup.js~CheckGroup#getValues",
+    "method"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#hastitle_",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-member-hasTitle_",
+    "src/html/CheckGroup.js~CheckGroup#hasTitle_",
+    "member"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#setvalues",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-method-setValues",
+    "src/html/CheckGroup.js~CheckGroup#setValues",
+    "method"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#togglevalue",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-method-toggleValue",
+    "src/html/CheckGroup.js~CheckGroup#toggleValue",
+    "method"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#type_",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-member-type_",
+    "src/html/CheckGroup.js~CheckGroup#type_",
+    "member"
+  ],
+  [
+    "src/html/checkgroup.js~checkgroup#values_",
+    "class/src/html/CheckGroup.js~CheckGroup.html#instance-member-values_",
+    "src/html/CheckGroup.js~CheckGroup#values_",
+    "member"
   ],
   [
     "src/html/dropdown.js",
@@ -5040,6 +5976,30 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/interactions/clickableinteraction.js",
+    "file/src/interactions/ClickableInteraction.js.html",
+    "src/interactions/ClickableInteraction.js",
+    "file"
+  ],
+  [
+    "src/interactions/clickableinteraction.js~clickableinteraction#addfilter",
+    "class/src/interactions/ClickableInteraction.js~ClickableInteraction.html#instance-method-addFilter",
+    "src/interactions/ClickableInteraction.js~ClickableInteraction#addFilter",
+    "method"
+  ],
+  [
+    "src/interactions/clickableinteraction.js~clickableinteraction#constructor",
+    "class/src/interactions/ClickableInteraction.js~ClickableInteraction.html#instance-constructor-constructor",
+    "src/interactions/ClickableInteraction.js~ClickableInteraction#constructor",
+    "method"
+  ],
+  [
+    "src/interactions/clickableinteraction.js~clickableinteraction#filters_",
+    "class/src/interactions/ClickableInteraction.js~ClickableInteraction.html#instance-member-filters_",
+    "src/interactions/ClickableInteraction.js~ClickableInteraction#filters_",
+    "member"
+  ],
+  [
     "src/interactions/featureinteraction.js",
     "file/src/interactions/FeatureInteraction.js.html",
     "src/interactions/FeatureInteraction.js",
@@ -5062,6 +6022,594 @@ window.esdocSearchIndex = [
     "typedef/index.html#static-typedef-MapEventInteractionOptions",
     "src/interactions/MapEventInteraction.js~MapEventInteractionOptions",
     "typedef"
+  ],
+  [
+    "src/layerselector/accordion.js",
+    "file/src/layerSelector/Accordion.js.html",
+    "src/layerSelector/Accordion.js",
+    "file"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#$button_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-$button_",
+    "src/layerSelector/Accordion.js~Accordion#$button_",
+    "member"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#$menu_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-$menu_",
+    "src/layerSelector/Accordion.js~Accordion#$menu_",
+    "member"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#active_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-active_",
+    "src/layerSelector/Accordion.js~Accordion#active_",
+    "member"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#addentry",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-addEntry",
+    "src/layerSelector/Accordion.js~Accordion#addEntry",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#addtransparencyslider",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-addTransparencySlider",
+    "src/layerSelector/Accordion.js~Accordion#addTransparencySlider",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#addwindow",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-addWindow",
+    "src/layerSelector/Accordion.js~Accordion#addWindow",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#buildhtml",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-buildHTML",
+    "src/layerSelector/Accordion.js~Accordion#buildHTML",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#constructor",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-constructor-constructor",
+    "src/layerSelector/Accordion.js~Accordion#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#get$element",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-get$Element",
+    "src/layerSelector/Accordion.js~Accordion#get$Element",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#get$entry",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-get$Entry",
+    "src/layerSelector/Accordion.js~Accordion#get$Entry",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#getvisible",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-getVisible",
+    "src/layerSelector/Accordion.js~Accordion#getVisible",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#localiser_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-localiser_",
+    "src/layerSelector/Accordion.js~Accordion#localiser_",
+    "member"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#map_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-map_",
+    "src/layerSelector/Accordion.js~Accordion#map_",
+    "member"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#setactive",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-setActive",
+    "src/layerSelector/Accordion.js~Accordion#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#setvisible",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-method-setVisible",
+    "src/layerSelector/Accordion.js~Accordion#setVisible",
+    "method"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#size_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-size_",
+    "src/layerSelector/Accordion.js~Accordion#size_",
+    "member"
+  ],
+  [
+    "src/layerselector/accordion.js~accordion#visible_",
+    "class/src/layerSelector/Accordion.js~Accordion.html#instance-member-visible_",
+    "src/layerSelector/Accordion.js~Accordion#visible_",
+    "member"
+  ],
+  [
+    "src/layerselector/button.js",
+    "file/src/layerSelector/Button.js.html",
+    "src/layerSelector/Button.js",
+    "file"
+  ],
+  [
+    "src/layerselector/button.js~button#$button_",
+    "class/src/layerSelector/Button.js~Button.html#instance-member-$button_",
+    "src/layerSelector/Button.js~Button#$button_",
+    "member"
+  ],
+  [
+    "src/layerselector/button.js~button#$element_",
+    "class/src/layerSelector/Button.js~Button.html#instance-member-$element_",
+    "src/layerSelector/Button.js~Button#$element_",
+    "member"
+  ],
+  [
+    "src/layerselector/button.js~button#accordion",
+    "class/src/layerSelector/Button.js~Button.html#instance-member-accordion",
+    "src/layerSelector/Button.js~Button#accordion",
+    "member"
+  ],
+  [
+    "src/layerselector/button.js~button#addaccordionoption",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-addAccordionOption",
+    "src/layerSelector/Button.js~Button#addAccordionOption",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#buildbutton",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-buildButton",
+    "src/layerSelector/Button.js~Button#buildButton",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#constructor",
+    "class/src/layerSelector/Button.js~Button.html#instance-constructor-constructor",
+    "src/layerSelector/Button.js~Button#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#count",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-count",
+    "src/layerSelector/Button.js~Button#count",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#deactivatable_",
+    "class/src/layerSelector/Button.js~Button.html#instance-member-deactivatable_",
+    "src/layerSelector/Button.js~Button#deactivatable_",
+    "member"
+  ],
+  [
+    "src/layerselector/button.js~button#getactive",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-getActive",
+    "src/layerSelector/Button.js~Button#getActive",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#getloading",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-getLoading",
+    "src/layerSelector/Button.js~Button#getLoading",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#setactive",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-setActive",
+    "src/layerSelector/Button.js~Button#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/button.js~button#update",
+    "class/src/layerSelector/Button.js~Button.html#instance-method-update",
+    "src/layerSelector/Button.js~Button#update",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js",
+    "file/src/layerSelector/Element.js.html",
+    "src/layerSelector/Element.js",
+    "file"
+  ],
+  [
+    "src/layerselector/element.js~element#$element_",
+    "class/src/layerSelector/Element.js~Element.html#instance-member-$element_",
+    "src/layerSelector/Element.js~Element#$element_",
+    "member"
+  ],
+  [
+    "src/layerselector/element.js~element#config",
+    "class/src/layerSelector/Element.js~Element.html#instance-member-config",
+    "src/layerSelector/Element.js~Element#config",
+    "member"
+  ],
+  [
+    "src/layerselector/element.js~element#constructor",
+    "class/src/layerSelector/Element.js~Element.html#instance-constructor-constructor",
+    "src/layerSelector/Element.js~Element#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js~element#debouncedupdate",
+    "class/src/layerSelector/Element.js~Element.html#instance-member-debouncedUpdate",
+    "src/layerSelector/Element.js~Element#debouncedUpdate",
+    "member"
+  ],
+  [
+    "src/layerselector/element.js~element#detach",
+    "class/src/layerSelector/Element.js~Element.html#instance-method-detach",
+    "src/layerSelector/Element.js~Element#detach",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js~element#disabled_",
+    "class/src/layerSelector/Element.js~Element.html#instance-member-disabled_",
+    "src/layerSelector/Element.js~Element#disabled_",
+    "member"
+  ],
+  [
+    "src/layerselector/element.js~element#get$element",
+    "class/src/layerSelector/Element.js~Element.html#instance-method-get$Element",
+    "src/layerSelector/Element.js~Element#get$Element",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js~element#getdisabled",
+    "class/src/layerSelector/Element.js~Element.html#instance-method-getDisabled",
+    "src/layerSelector/Element.js~Element#getDisabled",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js~element#layerselector",
+    "class/src/layerSelector/Element.js~Element.html#instance-member-layerSelector",
+    "src/layerSelector/Element.js~Element#layerSelector",
+    "member"
+  ],
+  [
+    "src/layerselector/element.js~element#map",
+    "class/src/layerSelector/Element.js~Element.html#instance-member-map",
+    "src/layerSelector/Element.js~Element#map",
+    "member"
+  ],
+  [
+    "src/layerselector/element.js~element#setactive",
+    "class/src/layerSelector/Element.js~Element.html#instance-method-setActive",
+    "src/layerSelector/Element.js~Element#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js~element#update",
+    "class/src/layerSelector/Element.js~Element.html#instance-method-update",
+    "src/layerSelector/Element.js~Element#update",
+    "method"
+  ],
+  [
+    "src/layerselector/element.js~element#updatedisabled",
+    "class/src/layerSelector/Element.js~Element.html#instance-method-updateDisabled",
+    "src/layerSelector/Element.js~Element#updateDisabled",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js",
+    "file/src/layerSelector/GroupElement.js.html",
+    "src/layerSelector/GroupElement.js",
+    "file"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#$element_",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-member-$element_",
+    "src/layerSelector/GroupElement.js~GroupElement#$element_",
+    "member"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#activatechildren_",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-member-activateChildren_",
+    "src/layerSelector/GroupElement.js~GroupElement#activateChildren_",
+    "member"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#addchild",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-addChild",
+    "src/layerSelector/GroupElement.js~GroupElement#addChild",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#buildgroup",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-buildGroup",
+    "src/layerSelector/GroupElement.js~GroupElement#buildGroup",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#children_",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-member-children_",
+    "src/layerSelector/GroupElement.js~GroupElement#children_",
+    "member"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#constructor",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-constructor-constructor",
+    "src/layerSelector/GroupElement.js~GroupElement#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#count",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-count",
+    "src/layerSelector/GroupElement.js~GroupElement#count",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#deactivatable_",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-member-deactivatable_",
+    "src/layerSelector/GroupElement.js~GroupElement#deactivatable_",
+    "member"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#detach",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-detach",
+    "src/layerSelector/GroupElement.js~GroupElement#detach",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#getactive",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-getActive",
+    "src/layerSelector/GroupElement.js~GroupElement#getActive",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#getallactive",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-getAllActive",
+    "src/layerSelector/GroupElement.js~GroupElement#getAllActive",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#getloading",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-getLoading",
+    "src/layerSelector/GroupElement.js~GroupElement#getLoading",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#makeexclusive_",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-member-makeExclusive_",
+    "src/layerSelector/GroupElement.js~GroupElement#makeExclusive_",
+    "member"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#menu_",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-member-menu_",
+    "src/layerSelector/GroupElement.js~GroupElement#menu_",
+    "member"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#setactive",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-setActive",
+    "src/layerSelector/GroupElement.js~GroupElement#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#update",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-update",
+    "src/layerSelector/GroupElement.js~GroupElement#update",
+    "method"
+  ],
+  [
+    "src/layerselector/groupelement.js~groupelement#updatedisabled",
+    "class/src/layerSelector/GroupElement.js~GroupElement.html#instance-method-updateDisabled",
+    "src/layerSelector/GroupElement.js~GroupElement#updateDisabled",
+    "method"
+  ],
+  [
+    "src/layerselector/layerbutton.js",
+    "file/src/layerSelector/LayerButton.js.html",
+    "src/layerSelector/LayerButton.js",
+    "file"
+  ],
+  [
+    "src/layerselector/layerbutton.js~layerbutton#addaccordionoption",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html#instance-method-addAccordionOption",
+    "src/layerSelector/LayerButton.js~LayerButton#addAccordionOption",
+    "method"
+  ],
+  [
+    "src/layerselector/layerbutton.js~layerbutton#constructor",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html#instance-constructor-constructor",
+    "src/layerSelector/LayerButton.js~LayerButton#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/layerbutton.js~layerbutton#getactive",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html#instance-method-getActive",
+    "src/layerSelector/LayerButton.js~LayerButton#getActive",
+    "method"
+  ],
+  [
+    "src/layerselector/layerbutton.js~layerbutton#getloading",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html#instance-method-getLoading",
+    "src/layerSelector/LayerButton.js~LayerButton#getLoading",
+    "method"
+  ],
+  [
+    "src/layerselector/layerbutton.js~layerbutton#layer_",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html#instance-member-layer_",
+    "src/layerSelector/LayerButton.js~LayerButton#layer_",
+    "member"
+  ],
+  [
+    "src/layerselector/layerbutton.js~layerbutton#setactive",
+    "class/src/layerSelector/LayerButton.js~LayerButton.html#instance-method-setActive",
+    "src/layerSelector/LayerButton.js~LayerButton#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/layerselector.js",
+    "file/src/layerSelector/LayerSelector.js.html",
+    "src/layerSelector/LayerSelector.js",
+    "file"
+  ],
+  [
+    "src/layerselector/layerselector.js~buttonactions",
+    "typedef/index.html#static-typedef-ButtonActions",
+    "src/layerSelector/LayerSelector.js~ButtonActions",
+    "typedef"
+  ],
+  [
+    "src/layerselector/layerselector.js~buttonconfig",
+    "typedef/index.html#static-typedef-ButtonConfig",
+    "src/layerSelector/LayerSelector.js~ButtonConfig",
+    "typedef"
+  ],
+  [
+    "src/layerselector/layerselector.js~groupbuttonconfig",
+    "typedef/index.html#static-typedef-GroupButtonConfig",
+    "src/layerSelector/LayerSelector.js~GroupButtonConfig",
+    "typedef"
+  ],
+  [
+    "src/layerselector/layerselector.js~layerbuttonconfig",
+    "typedef/index.html#static-typedef-LayerButtonConfig",
+    "src/layerSelector/LayerSelector.js~LayerButtonConfig",
+    "typedef"
+  ],
+  [
+    "src/layerselector/layerselector.js~layerselectoroptions",
+    "typedef/index.html#static-typedef-LayerSelectorOptions",
+    "src/layerSelector/LayerSelector.js~LayerSelectorOptions",
+    "typedef"
+  ],
+  [
+    "src/layerselector/layerselector.js~wmslayerbuttonconfig",
+    "typedef/index.html#static-typedef-WMSLayerButtonConfig",
+    "src/layerSelector/LayerSelector.js~WMSLayerButtonConfig",
+    "typedef"
+  ],
+  [
+    "src/layerselector/multibutton.js",
+    "file/src/layerSelector/MultiButton.js.html",
+    "src/layerSelector/MultiButton.js",
+    "file"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#active_",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-member-active_",
+    "src/layerSelector/MultiButton.js~MultiButton#active_",
+    "member"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#buildbutton",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-buildButton",
+    "src/layerSelector/MultiButton.js~MultiButton#buildButton",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#checkcondition",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-checkCondition",
+    "src/layerSelector/MultiButton.js~MultiButton#checkCondition",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#checkgroups_",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-member-checkGroups_",
+    "src/layerSelector/MultiButton.js~MultiButton#checkGroups_",
+    "member"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#checkedparams_",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-member-checkedParams_",
+    "src/layerSelector/MultiButton.js~MultiButton#checkedParams_",
+    "member"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#constructor",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-constructor-constructor",
+    "src/layerSelector/MultiButton.js~MultiButton#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#currentconfig_",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-member-currentConfig_",
+    "src/layerSelector/MultiButton.js~MultiButton#currentConfig_",
+    "member"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#getactive",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-getActive",
+    "src/layerSelector/MultiButton.js~MultiButton#getActive",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#getmatchingconfig",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-getMatchingConfig",
+    "src/layerSelector/MultiButton.js~MultiButton#getMatchingConfig",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#layers_",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-member-layers_",
+    "src/layerSelector/MultiButton.js~MultiButton#layers_",
+    "member"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#setactive",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-setActive",
+    "src/layerSelector/MultiButton.js~MultiButton#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#setparam",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-setParam",
+    "src/layerSelector/MultiButton.js~MultiButton#setParam",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#update",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-update",
+    "src/layerSelector/MultiButton.js~MultiButton#update",
+    "method"
+  ],
+  [
+    "src/layerselector/multibutton.js~multibutton#updatelayers",
+    "class/src/layerSelector/MultiButton.js~MultiButton.html#instance-method-updateLayers",
+    "src/layerSelector/MultiButton.js~MultiButton#updateLayers",
+    "method"
+  ],
+  [
+    "src/layerselector/wmslayerbutton.js",
+    "file/src/layerSelector/WMSLayerButton.js.html",
+    "src/layerSelector/WMSLayerButton.js",
+    "file"
+  ],
+  [
+    "src/layerselector/wmslayerbutton.js~wmslayerbutton#buildbutton",
+    "class/src/layerSelector/WMSLayerButton.js~WMSLayerButton.html#instance-method-buildButton",
+    "src/layerSelector/WMSLayerButton.js~WMSLayerButton#buildButton",
+    "method"
+  ],
+  [
+    "src/layerselector/wmslayerbutton.js~wmslayerbutton#constructor",
+    "class/src/layerSelector/WMSLayerButton.js~WMSLayerButton.html#instance-constructor-constructor",
+    "src/layerSelector/WMSLayerButton.js~WMSLayerButton#constructor",
+    "method"
+  ],
+  [
+    "src/layerselector/wmslayerbutton.js~wmslayerbutton#getactive",
+    "class/src/layerSelector/WMSLayerButton.js~WMSLayerButton.html#instance-method-getActive",
+    "src/layerSelector/WMSLayerButton.js~WMSLayerButton#getActive",
+    "method"
+  ],
+  [
+    "src/layerselector/wmslayerbutton.js~wmslayerbutton#setactive",
+    "class/src/layerSelector/WMSLayerButton.js~WMSLayerButton.html#instance-method-setActive",
+    "src/layerSelector/WMSLayerButton.js~WMSLayerButton#setActive",
+    "method"
+  ],
+  [
+    "src/layerselector/layerconfigconverter.js",
+    "file/src/layerSelector/layerConfigConverter.js.html",
+    "src/layerSelector/layerConfigConverter.js",
+    "file"
   ],
   [
     "src/layers/baselayermixin.js",
@@ -5106,21 +6654,15 @@ window.esdocSearchIndex = [
     "typedef"
   ],
   [
-    "src/layers/basetilelayer.js",
-    "file/src/layers/BaseTileLayer.js.html",
-    "src/layers/BaseTileLayer.js",
+    "src/layers/emptyimagelayer.js",
+    "file/src/layers/EmptyImageLayer.js.html",
+    "src/layers/EmptyImageLayer.js",
     "file"
   ],
   [
-    "src/layers/emptybaselayer.js",
-    "file/src/layers/EmptyBaseLayer.js.html",
-    "src/layers/EmptyBaseLayer.js",
-    "file"
-  ],
-  [
-    "src/layers/emptybaselayer.js~emptybaselayer#constructor",
-    "class/src/layers/EmptyBaseLayer.js~EmptyBaseLayer.html#instance-constructor-constructor",
-    "src/layers/EmptyBaseLayer.js~EmptyBaseLayer#constructor",
+    "src/layers/emptyimagelayer.js~emptyimagelayer#constructor",
+    "class/src/layers/EmptyImageLayer.js~EmptyImageLayer.html#instance-constructor-constructor",
+    "src/layers/EmptyImageLayer.js~EmptyImageLayer#constructor",
     "method"
   ],
   [
@@ -5364,6 +6906,468 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/search/searchcontrol.js",
+    "file/src/search/SearchControl.js.html",
+    "src/search/SearchControl.js",
+    "file"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#$submitbutton_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-$submitButton_",
+    "src/search/SearchControl.js~SearchControl#$submitButton_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#$textfield_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-$textfield_",
+    "src/search/SearchControl.js~SearchControl#$textfield_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#active_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-active_",
+    "src/search/SearchControl.js~SearchControl#active_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#amountdropdownentries_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-amountDropdownEntries_",
+    "src/search/SearchControl.js~SearchControl#amountDropdownEntries_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#animated_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-animated_",
+    "src/search/SearchControl.js~SearchControl#animated_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#autocompletedelay_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-autocompleteDelay_",
+    "src/search/SearchControl.js~SearchControl#autocompleteDelay_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#autocompletestart_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-autocompleteStart_",
+    "src/search/SearchControl.js~SearchControl#autocompleteStart_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#autocompletetimeout_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-autocompleteTimeout_",
+    "src/search/SearchControl.js~SearchControl#autocompleteTimeout_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#classnamesearchbutton_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-classNameSearchbutton_",
+    "src/search/SearchControl.js~SearchControl#classNameSearchbutton_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#classnametextfield_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-classNameTextfield_",
+    "src/search/SearchControl.js~SearchControl#classNameTextfield_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#constructor",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-constructor-constructor",
+    "src/search/SearchControl.js~SearchControl#constructor",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#deactivatemobilesearch_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-deactivateMobileSearch_",
+    "src/search/SearchControl.js~SearchControl#deactivateMobileSearch_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#dropdownactive_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-dropdownActive_",
+    "src/search/SearchControl.js~SearchControl#dropdownActive_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#dropdowndata_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-dropdownData_",
+    "src/search/SearchControl.js~SearchControl#dropdownData_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#dropdown_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-dropdown_",
+    "src/search/SearchControl.js~SearchControl#dropdown_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#getactive",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-getActive",
+    "src/search/SearchControl.js~SearchControl#getActive",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#getsanitizedsearchvalue",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-getSanitizedSearchValue",
+    "src/search/SearchControl.js~SearchControl#getSanitizedSearchValue",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#getsearchview",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-getSearchView",
+    "src/search/SearchControl.js~SearchControl#getSearchView",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#module_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-module_",
+    "src/search/SearchControl.js~SearchControl#module_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#ondropdownselect_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-onDropdownSelect_",
+    "src/search/SearchControl.js~SearchControl#onDropdownSelect_",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#onsearchend_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-onSearchEnd_",
+    "src/search/SearchControl.js~SearchControl#onSearchEnd_",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#onsubmit_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-onSubmit_",
+    "src/search/SearchControl.js~SearchControl#onSubmit_",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#ontextinput_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-onTextInput_",
+    "src/search/SearchControl.js~SearchControl#onTextInput_",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#projectionofserver_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-projectionOfServer_",
+    "src/search/SearchControl.js~SearchControl#projectionOfServer_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#searchconnector_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-searchConnector_",
+    "src/search/SearchControl.js~SearchControl#searchConnector_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#searchview_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-member-searchView_",
+    "src/search/SearchControl.js~SearchControl#searchView_",
+    "member"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#setactive",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-setActive",
+    "src/search/SearchControl.js~SearchControl#setActive",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#setmap",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-setMap",
+    "src/search/SearchControl.js~SearchControl#setMap",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontrol#updatedropdown_",
+    "class/src/search/SearchControl.js~SearchControl.html#instance-method-updateDropdown_",
+    "src/search/SearchControl.js~SearchControl#updateDropdown_",
+    "method"
+  ],
+  [
+    "src/search/searchcontrol.js~searchcontroloptions",
+    "typedef/index.html#static-typedef-SearchControlOptions",
+    "src/search/SearchControl.js~SearchControlOptions",
+    "typedef"
+  ],
+  [
+    "src/search/searchmodule.js",
+    "file/src/search/SearchModule.js.html",
+    "src/search/SearchModule.js",
+    "file"
+  ],
+  [
+    "src/search/searchmodule.js~searchcontrolmoduleoptions",
+    "typedef/index.html#static-typedef-SearchControlModuleOptions",
+    "src/search/SearchModule.js~SearchControlModuleOptions",
+    "typedef"
+  ],
+  [
+    "src/search/searchview.js",
+    "file/src/search/SearchView.js.html",
+    "src/search/SearchView.js",
+    "file"
+  ],
+  [
+    "src/search/searchview.js~searchviewoptions",
+    "typedef/index.html#static-typedef-SearchViewOptions",
+    "src/search/SearchView.js~SearchViewOptions",
+    "typedef"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js",
+    "file/src/search/connectors/G4USearchV2Connector.js.html",
+    "src/search/connectors/G4USearchV2Connector.js",
+    "file"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#autocompleteurl_",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-member-autocompleteUrl_",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#autocompleteUrl_",
+    "member"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#byhandleurl_",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-member-byHandleUrl_",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#byHandleUrl_",
+    "member"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#constructor",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-constructor-constructor",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#constructor",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#dataprojection",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-member-dataProjection",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#dataProjection",
+    "member"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#errortext_",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-errorText_",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#errorText_",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#fuzzyurl_",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-member-fuzzyUrl_",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#fuzzyUrl_",
+    "member"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#getautocomplete",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-getAutoComplete",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#getAutoComplete",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#getbyhandle",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-getByHandle",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#getByHandle",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#getsearchresult",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-getSearchResult",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#getSearchResult",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#parsefeatures",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-parseFeatures",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#parseFeatures",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#readfeature_",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-readFeature_",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#readFeature_",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#setmap",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-method-setMap",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#setMap",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4usearchv2connector.js~g4usearchv2connector#wktparser_",
+    "class/src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector.html#instance-member-wktParser_",
+    "src/search/connectors/G4USearchV2Connector.js~G4USearchV2Connector#wktParser_",
+    "member"
+  ],
+  [
+    "src/search/connectors/g4userversearchconnector.js",
+    "file/src/search/connectors/G4UServerSearchConnector.js.html",
+    "src/search/connectors/G4UServerSearchConnector.js",
+    "file"
+  ],
+  [
+    "src/search/connectors/g4userversearchconnector.js~g4userversearchconnector#constructor",
+    "class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html#instance-constructor-constructor",
+    "src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector#constructor",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4userversearchconnector.js~g4userversearchconnector#format_",
+    "class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html#instance-member-format_",
+    "src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector#format_",
+    "member"
+  ],
+  [
+    "src/search/connectors/g4userversearchconnector.js~g4userversearchconnector#getautocomplete",
+    "class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html#instance-method-getAutoComplete",
+    "src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector#getAutoComplete",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4userversearchconnector.js~g4userversearchconnector#getbyhandle",
+    "class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html#instance-method-getByHandle",
+    "src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector#getByHandle",
+    "method"
+  ],
+  [
+    "src/search/connectors/g4userversearchconnector.js~g4userversearchconnector#getsearchresult",
+    "class/src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector.html#instance-method-getSearchResult",
+    "src/search/connectors/G4UServerSearchConnector.js~G4UServerSearchConnector#getSearchResult",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js",
+    "file/src/search/connectors/NominatimSearchConnector.js.html",
+    "src/search/connectors/NominatimSearchConnector.js",
+    "file"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#constructor",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-constructor-constructor",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#constructor",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#dataprojection",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-member-dataProjection",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#dataProjection",
+    "member"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#getautocomplete",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-method-getAutoComplete",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#getAutoComplete",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#getsearchresult",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-method-getSearchResult",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#getSearchResult",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#readfeature_",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-method-readFeature_",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#readFeature_",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#setextent",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-method-setExtent",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#setExtent",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#setmap",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-method-setMap",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#setMap",
+    "method"
+  ],
+  [
+    "src/search/connectors/nominatimsearchconnector.js~nominatimsearchconnector#userextent_",
+    "class/src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector.html#instance-member-userExtent_",
+    "src/search/connectors/NominatimSearchConnector.js~NominatimSearchConnector#userExtent_",
+    "member"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js",
+    "file/src/search/connectors/PhotonSearchConnector.js.html",
+    "src/search/connectors/PhotonSearchConnector.js",
+    "file"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#constructor",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-constructor-constructor",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#constructor",
+    "method"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#dataprojection",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-member-dataProjection",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#dataProjection",
+    "member"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#getautocomplete",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-method-getAutoComplete",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#getAutoComplete",
+    "method"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#getsearchresult",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-method-getSearchResult",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#getSearchResult",
+    "method"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#readfeature_",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-method-readFeature_",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#readFeature_",
+    "method"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#setextent",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-method-setExtent",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#setExtent",
+    "method"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#setmap",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-method-setMap",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#setMap",
+    "method"
+  ],
+  [
+    "src/search/connectors/photonsearchconnector.js~nominatimsearchconnector#userextent_",
+    "class/src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector.html#instance-member-userExtent_",
+    "src/search/connectors/PhotonSearchConnector.js~NominatimSearchConnector#userExtent_",
+    "member"
+  ],
+  [
+    "src/search/connectors/searchconnector.js",
+    "file/src/search/connectors/SearchConnector.js.html",
+    "src/search/connectors/SearchConnector.js",
+    "file"
+  ],
+  [
+    "src/search/connectors/searchconnector.js~searchconnectoroptions",
+    "typedef/index.html#static-typedef-SearchConnectorOptions",
+    "src/search/connectors/SearchConnector.js~SearchConnectorOptions",
+    "typedef"
+  ],
+  [
+    "src/sources/arcgisrestfeaturesource.js",
+    "file/src/sources/ArcGISRESTFeatureSource.js.html",
+    "src/sources/ArcGISRESTFeatureSource.js",
+    "file"
+  ],
+  [
+    "src/sources/arcgisrestfeaturesource.js~arcgisrestfeaturesourceoptions",
+    "typedef/index.html#static-typedef-ArcGISRESTFeatureSourceOptions",
+    "src/sources/ArcGISRESTFeatureSource.js~ArcGISRESTFeatureSourceOptions",
+    "typedef"
+  ],
+  [
     "src/sources/clustersource.js",
     "file/src/sources/ClusterSource.js.html",
     "src/sources/ClusterSource.js",
@@ -5490,12 +7494,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/sources/sourceservervector.js~sourceservervector#bboxprojection_",
-    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-bboxProjection_",
-    "src/sources/SourceServerVector.js~SourceServerVector#bboxProjection_",
-    "member"
-  ],
-  [
     "src/sources/sourceservervector.js~sourceservervector#constructor",
     "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-constructor-constructor",
     "src/sources/SourceServerVector.js~SourceServerVector#constructor",
@@ -5530,12 +7528,6 @@ window.esdocSearchIndex = [
     "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-method-loader",
     "src/sources/SourceServerVector.js~SourceServerVector#loader",
     "method"
-  ],
-  [
-    "src/sources/sourceservervector.js~sourceservervector#loadingstrategy_",
-    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-loadingStrategy_",
-    "src/sources/SourceServerVector.js~SourceServerVector#loadingStrategy_",
-    "member"
   ],
   [
     "src/sources/sourceservervector.js~sourceservervector#localised_",
@@ -5574,9 +7566,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "src/sources/sourceservervector.js~sourceservervector#strategytype_",
+    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-strategyType_",
+    "src/sources/SourceServerVector.js~SourceServerVector#strategyType_",
+    "member"
+  ],
+  [
     "src/sources/sourceservervector.js~sourceservervector#type_",
     "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-type_",
     "src/sources/SourceServerVector.js~SourceServerVector#type_",
+    "member"
+  ],
+  [
+    "src/sources/sourceservervector.js~sourceservervector#urlprojection_",
+    "class/src/sources/SourceServerVector.js~SourceServerVector.html#instance-member-urlProjection_",
+    "src/sources/SourceServerVector.js~SourceServerVector#urlProjection_",
     "member"
   ],
   [
@@ -5608,6 +7612,684 @@ window.esdocSearchIndex = [
     "class/src/sources/WMTSSource.js~WMTSSource.html#instance-member-originalUrlObject",
     "src/sources/WMTSSource.js~WMTSSource#originalUrlObject",
     "member"
+  ],
+  [
+    "src/urlapi/linkgenerator.js",
+    "file/src/urlapi/LinkGenerator.js.html",
+    "src/urlapi/LinkGenerator.js",
+    "file"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#$link_",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-member-$link_",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#$link_",
+    "member"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#$textfield_",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-member-$textfield_",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#$textfield_",
+    "member"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#baseurl_",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-member-baseURL_",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#baseURL_",
+    "member"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#constructor",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-constructor-constructor",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#generatehandler_",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-member-generateHandler_",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#generateHandler_",
+    "member"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#generate_",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-method-generate_",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#generate_",
+    "method"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#setmap",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-method-setMap",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#setMap",
+    "method"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgenerator#type_",
+    "class/src/urlapi/LinkGenerator.js~LinkGenerator.html#instance-member-type_",
+    "src/urlapi/LinkGenerator.js~LinkGenerator#type_",
+    "member"
+  ],
+  [
+    "src/urlapi/linkgenerator.js~linkgeneratoroptions",
+    "typedef/index.html#static-typedef-LinkGeneratorOptions",
+    "src/urlapi/LinkGenerator.js~LinkGeneratorOptions",
+    "typedef"
+  ],
+  [
+    "src/urlapi/marker.js",
+    "file/src/urlapi/Marker.js.html",
+    "src/urlapi/Marker.js",
+    "file"
+  ],
+  [
+    "src/urlapi/marker.js~marker#active_",
+    "class/src/urlapi/Marker.js~Marker.html#instance-member-active_",
+    "src/urlapi/Marker.js~Marker#active_",
+    "member"
+  ],
+  [
+    "src/urlapi/marker.js~marker#constructor",
+    "class/src/urlapi/Marker.js~Marker.html#instance-constructor-constructor",
+    "src/urlapi/Marker.js~Marker#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#feature_",
+    "class/src/urlapi/Marker.js~Marker.html#instance-member-feature_",
+    "src/urlapi/Marker.js~Marker#feature_",
+    "member"
+  ],
+  [
+    "src/urlapi/marker.js~marker#getactive",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-getActive",
+    "src/urlapi/Marker.js~Marker#getActive",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#getpopupvisible",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-getPopupVisible",
+    "src/urlapi/Marker.js~Marker#getPopupVisible",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#getposition",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-getPosition",
+    "src/urlapi/Marker.js~Marker#getPosition",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#gettext",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-getText",
+    "src/urlapi/Marker.js~Marker#getText",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#map_",
+    "class/src/urlapi/Marker.js~Marker.html#instance-member-map_",
+    "src/urlapi/Marker.js~Marker#map_",
+    "member"
+  ],
+  [
+    "src/urlapi/marker.js~marker#popupvisible_",
+    "class/src/urlapi/Marker.js~Marker.html#instance-member-popupVisible_",
+    "src/urlapi/Marker.js~Marker#popupVisible_",
+    "member"
+  ],
+  [
+    "src/urlapi/marker.js~marker#setactive",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-setActive",
+    "src/urlapi/Marker.js~Marker#setActive",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#setmap",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-setMap",
+    "src/urlapi/Marker.js~Marker#setMap",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#setpopupvisible",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-setPopupVisible",
+    "src/urlapi/Marker.js~Marker#setPopupVisible",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#setposition",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-setPosition",
+    "src/urlapi/Marker.js~Marker#setPosition",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#settext",
+    "class/src/urlapi/Marker.js~Marker.html#instance-method-setText",
+    "src/urlapi/Marker.js~Marker#setText",
+    "method"
+  ],
+  [
+    "src/urlapi/marker.js~marker#style_",
+    "class/src/urlapi/Marker.js~Marker.html#instance-member-style_",
+    "src/urlapi/Marker.js~Marker#style_",
+    "member"
+  ],
+  [
+    "src/urlapi/marker.js~marker#vectorlayer_",
+    "class/src/urlapi/Marker.js~Marker.html#instance-member-vectorLayer_",
+    "src/urlapi/Marker.js~Marker#vectorLayer_",
+    "member"
+  ],
+  [
+    "src/urlapi/marker.js~markeroptions",
+    "typedef/index.html#static-typedef-MarkerOptions",
+    "src/urlapi/Marker.js~MarkerOptions",
+    "typedef"
+  ],
+  [
+    "src/urlapi/query.js",
+    "file/src/urlapi/Query.js.html",
+    "src/urlapi/Query.js",
+    "file"
+  ],
+  [
+    "src/urlapi/query.js~query#constructor",
+    "class/src/urlapi/Query.js~Query.html#instance-constructor-constructor",
+    "src/urlapi/Query.js~Query#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#excluded_",
+    "class/src/urlapi/Query.js~Query.html#instance-member-excluded_",
+    "src/urlapi/Query.js~Query#excluded_",
+    "member"
+  ],
+  [
+    "src/urlapi/query.js~query#getarray",
+    "class/src/urlapi/Query.js~Query.html#instance-method-getArray",
+    "src/urlapi/Query.js~Query#getArray",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#getinjectunsafeval",
+    "class/src/urlapi/Query.js~Query.html#instance-method-getInjectUnsafeVal",
+    "src/urlapi/Query.js~Query#getInjectUnsafeVal",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#getsanitizedval",
+    "class/src/urlapi/Query.js~Query.html#instance-method-getSanitizedVal",
+    "src/urlapi/Query.js~Query#getSanitizedVal",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#isexcluded",
+    "class/src/urlapi/Query.js~Query.html#instance-method-isExcluded",
+    "src/urlapi/Query.js~Query#isExcluded",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#isset",
+    "class/src/urlapi/Query.js~Query.html#instance-method-isSet",
+    "src/urlapi/Query.js~Query#isSet",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#istrue",
+    "class/src/urlapi/Query.js~Query.html#instance-method-isTrue",
+    "src/urlapi/Query.js~Query#isTrue",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#jsvalues_",
+    "class/src/urlapi/Query.js~Query.html#instance-member-jsValues_",
+    "src/urlapi/Query.js~Query#jsValues_",
+    "member"
+  ],
+  [
+    "src/urlapi/query.js~query#parameterkeys_",
+    "class/src/urlapi/Query.js~Query.html#instance-member-parameterKeys_",
+    "src/urlapi/Query.js~Query#parameterKeys_",
+    "member"
+  ],
+  [
+    "src/urlapi/query.js~query#setjsvalue",
+    "class/src/urlapi/Query.js~Query.html#instance-method-setJsValue",
+    "src/urlapi/Query.js~Query#setJsValue",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#seturlvalue",
+    "class/src/urlapi/Query.js~Query.html#instance-method-setUrlValue",
+    "src/urlapi/Query.js~Query#setUrlValue",
+    "method"
+  ],
+  [
+    "src/urlapi/query.js~query#urlvalues_",
+    "class/src/urlapi/Query.js~Query.html#instance-member-urlValues_",
+    "src/urlapi/Query.js~Query#urlValues_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js",
+    "file/src/urlapi/URLAPI.js.html",
+    "src/urlapi/URLAPI.js",
+    "file"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#addapilayer",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-method-addApiLayer",
+    "src/urlapi/URLAPI.js~URLAPI#addApiLayer",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#constructor",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-constructor-constructor",
+    "src/urlapi/URLAPI.js~URLAPI#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#getcurrentparameters",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-method-getCurrentParameters",
+    "src/urlapi/URLAPI.js~URLAPI#getCurrentParameters",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#initialvalues_",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-member-initialValues_",
+    "src/urlapi/URLAPI.js~URLAPI#initialValues_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#makehtmlsnippet",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-method-makeHTMLSnippet",
+    "src/urlapi/URLAPI.js~URLAPI#makeHTMLSnippet",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#makeurl",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-method-makeURL",
+    "src/urlapi/URLAPI.js~URLAPI#makeURL",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#map_",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-member-map_",
+    "src/urlapi/URLAPI.js~URLAPI#map_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#parametergetters_",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-member-parameterGetters_",
+    "src/urlapi/URLAPI.js~URLAPI#parameterGetters_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#parameterkeys_",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-member-parameterKeys_",
+    "src/urlapi/URLAPI.js~URLAPI#parameterKeys_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#parameters_",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-member-parameters_",
+    "src/urlapi/URLAPI.js~URLAPI#parameters_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapi#query_",
+    "class/src/urlapi/URLAPI.js~URLAPI.html#instance-member-query_",
+    "src/urlapi/URLAPI.js~URLAPI#query_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlapioptions",
+    "typedef/index.html#static-typedef-URLAPIOptions",
+    "src/urlapi/URLAPI.js~URLAPIOptions",
+    "typedef"
+  ],
+  [
+    "src/urlapi/urlapi.js~urlparameter",
+    "typedef/index.html#static-typedef-URLParameter",
+    "src/urlapi/URLAPI.js~URLParameter",
+    "typedef"
+  ],
+  [
+    "src/urlapi/urlapimodule.js",
+    "file/src/urlapi/URLAPIModule.js.html",
+    "src/urlapi/URLAPIModule.js",
+    "file"
+  ],
+  [
+    "src/urlapi/urlapimodule.js~urlapimodule#configureui",
+    "class/src/urlapi/URLAPIModule.js~URLAPIModule.html#instance-method-configureUI",
+    "src/urlapi/URLAPIModule.js~URLAPIModule#configureUI",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapimodule.js~urlapimodule#constructor",
+    "class/src/urlapi/URLAPIModule.js~URLAPIModule.html#instance-constructor-constructor",
+    "src/urlapi/URLAPIModule.js~URLAPIModule#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapimodule.js~urlapimodule#createcontrol",
+    "class/src/urlapi/URLAPIModule.js~URLAPIModule.html#instance-method-createControl",
+    "src/urlapi/URLAPIModule.js~URLAPIModule#createControl",
+    "method"
+  ],
+  [
+    "src/urlapi/urlapimodule.js~urlapimodule#moduleparameters_",
+    "class/src/urlapi/URLAPIModule.js~URLAPIModule.html#instance-member-moduleParameters_",
+    "src/urlapi/URLAPIModule.js~URLAPIModule#moduleParameters_",
+    "member"
+  ],
+  [
+    "src/urlapi/urlapimodule.js~urlapimodule#setmap",
+    "class/src/urlapi/URLAPIModule.js~URLAPIModule.html#instance-method-setMap",
+    "src/urlapi/URLAPIModule.js~URLAPIModule#setMap",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/closewindowbutton.js",
+    "file/src/urlapi/controls/CloseWindowButton.js.html",
+    "src/urlapi/controls/CloseWindowButton.js",
+    "file"
+  ],
+  [
+    "src/urlapi/controls/closewindowbutton.js~closewindowbutton#constructor",
+    "class/src/urlapi/controls/CloseWindowButton.js~CloseWindowButton.html#instance-constructor-constructor",
+    "src/urlapi/controls/CloseWindowButton.js~CloseWindowButton#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/closewindowbutton.js~closewindowbutton#getfloat",
+    "class/src/urlapi/controls/CloseWindowButton.js~CloseWindowButton.html#instance-method-getFloat",
+    "src/urlapi/controls/CloseWindowButton.js~CloseWindowButton#getFloat",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/closewindowbutton.js~closewindowbutton#label_",
+    "class/src/urlapi/controls/CloseWindowButton.js~CloseWindowButton.html#instance-member-label_",
+    "src/urlapi/controls/CloseWindowButton.js~CloseWindowButton#label_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/closewindowbutton.js~closewindowbuttonoptions",
+    "typedef/index.html#static-typedef-CloseWindowButtonOptions",
+    "src/urlapi/controls/CloseWindowButton.js~CloseWindowButtonOptions",
+    "typedef"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js",
+    "file/src/urlapi/controls/LinkGeneratorButton.js.html",
+    "src/urlapi/controls/LinkGeneratorButton.js",
+    "file"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#$linkdisplay_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-$linkDisplay_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#$linkDisplay_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#$markercheckbox_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-$markerCheckbox_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#$markerCheckbox_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#$markerdescriptiontextarea_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-$markerDescriptionTextArea_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#$markerDescriptionTextArea_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#$markerdescription_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-$markerDescription_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#$markerDescription_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#active_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-active_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#active_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#baseurl_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-baseURL_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#baseURL_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#constructor",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-constructor-constructor",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#createhtml",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-createHTML",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#createHTML",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#disablemap",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-disableMap",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#disableMap",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#drawmarkerpoint",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-drawMarkerPoint",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#drawMarkerPoint",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#drawpoint_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-drawPoint_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#drawPoint_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#enablemap",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-enableMap",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#enableMap",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#getactive",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-getActive",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#getActive",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#hidemarker",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-hideMarker",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#hideMarker",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#marker_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-marker_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#marker_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#placemarker",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-placeMarker",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#placeMarker",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#resetmarker_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-resetMarker_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#resetMarker_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#setactive",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-setActive",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#setActive",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#setmap",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-setMap",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#setMap",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#shield_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-shield_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#shield_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#style_",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-member-style_",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#style_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#updatedescription",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-updateDescription",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#updateDescription",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#updatemarker",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-updateMarker",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#updateMarker",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbutton#updateurl",
+    "class/src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton.html#instance-method-updateURL",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButton#updateURL",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/linkgeneratorbutton.js~linkgeneratorbuttonoptions",
+    "typedef/index.html#static-typedef-LinkGeneratorButtonOptions",
+    "src/urlapi/controls/LinkGeneratorButton.js~LinkGeneratorButtonOptions",
+    "typedef"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js",
+    "file/src/urlapi/controls/MaximizeButton.js.html",
+    "src/urlapi/controls/MaximizeButton.js",
+    "file"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js~maximizebutton#baseurl_",
+    "class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html#instance-member-baseURL_",
+    "src/urlapi/controls/MaximizeButton.js~MaximizeButton#baseURL_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js~maximizebutton#constructor",
+    "class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html#instance-constructor-constructor",
+    "src/urlapi/controls/MaximizeButton.js~MaximizeButton#constructor",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js~maximizebutton#handleclick_",
+    "class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html#instance-method-handleClick_",
+    "src/urlapi/controls/MaximizeButton.js~MaximizeButton#handleClick_",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js~maximizebutton#parameters_",
+    "class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html#instance-member-parameters_",
+    "src/urlapi/controls/MaximizeButton.js~MaximizeButton#parameters_",
+    "member"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js~maximizebutton#setmap",
+    "class/src/urlapi/controls/MaximizeButton.js~MaximizeButton.html#instance-method-setMap",
+    "src/urlapi/controls/MaximizeButton.js~MaximizeButton#setMap",
+    "method"
+  ],
+  [
+    "src/urlapi/controls/maximizebutton.js~maximizebuttonoptions",
+    "typedef/index.html#static-typedef-MaximizeButtonOptions",
+    "src/urlapi/controls/MaximizeButton.js~MaximizeButtonOptions",
+    "typedef"
+  ],
+  [
+    "src/urlapi/handling/availablelayers.js",
+    "file/src/urlapi/handling/availableLayers.js.html",
+    "src/urlapi/handling/availableLayers.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/center.js",
+    "file/src/urlapi/handling/center.js.html",
+    "src/urlapi/handling/center.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/closebutton.js",
+    "file/src/urlapi/handling/closeButton.js.html",
+    "src/urlapi/handling/closeButton.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/configurationfile.js",
+    "file/src/urlapi/handling/configurationFile.js.html",
+    "src/urlapi/handling/configurationFile.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/fitrectangle.js",
+    "file/src/urlapi/handling/fitRectangle.js.html",
+    "src/urlapi/handling/fitRectangle.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/language.js",
+    "file/src/urlapi/handling/language.js.html",
+    "src/urlapi/handling/language.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/layerconfigurationfile.js",
+    "file/src/urlapi/handling/layerConfigurationFile.js.html",
+    "src/urlapi/handling/layerConfigurationFile.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/marker.js",
+    "file/src/urlapi/handling/marker.js.html",
+    "src/urlapi/handling/marker.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/responsiveness.js",
+    "file/src/urlapi/handling/responsiveness.js.html",
+    "src/urlapi/handling/responsiveness.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/rotation.js",
+    "file/src/urlapi/handling/rotation.js.html",
+    "src/urlapi/handling/rotation.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/search.js",
+    "file/src/urlapi/handling/search.js.html",
+    "src/urlapi/handling/search.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/visiblelayers.js",
+    "file/src/urlapi/handling/visibleLayers.js.html",
+    "src/urlapi/handling/visibleLayers.js",
+    "file"
+  ],
+  [
+    "src/urlapi/handling/zoom.js",
+    "file/src/urlapi/handling/zoom.js.html",
+    "src/urlapi/handling/zoom.js",
+    "file"
   ],
   [
     "src/utilities.js",

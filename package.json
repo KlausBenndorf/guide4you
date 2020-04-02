@@ -1,6 +1,6 @@
 {
   "name": "guide4you",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "A configurable web client for geo-applications. Uses OpenLayers. Suitable for mobile devices.",
   "keywords": [
     "map",
@@ -11,7 +11,7 @@
     "g4u server"
   ],
   "engines": {
-    "node": "8"
+    "node": ">=8"
   },
   "author": "Klaus Benndorf",
   "homepage": "https://github.com/KlausBenndorf/guide4you",
@@ -26,50 +26,51 @@
     "url": "https://github.com/KlausBenndorf/guide4you"
   },
   "peerDependencies": {
-    "jquery": "3.3.1",
-    "ol": "5.2.0"
+    "jquery": "3.4.1",
+    "ol": "6.1.1"
   },
   "dependencies": {
-    "better-scroll": "1.13.2",
+    "better-scroll": "1.15.2",
     "csscolorparser": "1.0.3",
-    "lodash": "4.17.11",
+    "lodash": "4.17.15",
     "notifyjs-browser": "0.4.2",
-    "proj4": "2.5.0",
-    "strip-json-comments": "2.0.1"
+    "proj4": "2.6.0",
+    "json5": "^2.1.1"
   },
   "devDependencies": {
     "babel-polyfill": "6.26.0",
-    "concurrently": "4.0.1",
-    "cross-env": "^5.2.0",
+    "concurrently": "5.0.0",
+    "cross-env": "^6.0.3",
     "esdoc": "1.1.0",
     "esdoc-standard-plugin": "1.0.0",
-    "eslint": "5.7.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint": "6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "guide4you-builder": "3.5.1",
     "guide4you-proxy": "github:KlausBenndorf/guide4you-proxy#v1.1.0",
     "http-server": "0.11.1",
-    "jquery": "3.3.1",
-    "mocha": "5.2.0",
-    "ol": "5.2.0",
+    "jquery": "3.4.1",
+    "mocha": "6.2.2",
+    "ol": "6.1.1",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
-    "wait-on": "3.1.0"
+    "wait-on": "3.3.0"
   },
   "scripts": {
     "grab": "g4u-grab guide4you-builder",
     "dist": "rimraf dist/* && g4u-build -c conf/dist/webpack.dist.js",
     "dev:simple": "cross-env-shell DEVELOPMENT=true g4u-build -c conf/simple/webpack.dev.js",
     "prod:simple": "rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js",
-    "debug:simple": "rimraf build/simple/* && g4u-build -c conf/simple/webpack.prod.js",
+    "debug:simple": "g4u-build -c conf/simple/webpack.debug.js",
     "dev:full": "cross-env-shell DEVELOPMENT=true g4u-build -c conf/full/webpack.dev.js",
     "prod:full": "rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js",
-    "debug:full": "rimraf build/full/* && g4u-build -c conf/full/webpack.prod.js",
+    "debug:full": "g4u-build -c conf/full/webpack.debug.js",
+    "full": "npm run prod:full && npm run debug:full",
     "lint": "eslint src/ tests/",
-    "version": "(npm run test && npm run doc && git add -A) || git checkout .",
+    "version": "(npm run test && npm run doc && git add dist/* docs/* package.json) || git checkout .",
     "server": "http-server ./ -p 8089 -s",
     "runTests": "concurrently --kill-others --success first \"npm run server\" \"wait-on -l http-get://localhost:8089 && mocha tests/*\"",
     "test": "npm run lint && npm run dist && npm run runTests && echo \"Tests completed successfully\"",

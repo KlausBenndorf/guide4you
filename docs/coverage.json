@@ -1,8 +1,108 @@
 {
-  "coverage": "74.17%",
-  "expectCount": 755,
-  "actualCount": 560,
+  "coverage": "59.42%",
+  "expectCount": 1119,
+  "actualCount": 665,
   "files": {
+    "src/api/FeatureAPI.js": {
+      "expectCount": 7,
+      "actualCount": 5,
+      "undocumentLines": [
+        8,
+        9
+      ]
+    },
+    "src/api/GeometryAPI.js": {
+      "expectCount": 15,
+      "actualCount": 0,
+      "undocumentLines": [
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        24,
+        133,
+        136,
+        141,
+        145,
+        184,
+        188,
+        192,
+        198
+      ]
+    },
+    "src/api/KMLAPI.js": {
+      "expectCount": 9,
+      "actualCount": 2,
+      "undocumentLines": [
+        6,
+        7,
+        20,
+        22,
+        25,
+        47,
+        64
+      ]
+    },
+    "src/api/MeasureAPI.js": {
+      "expectCount": 8,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        8,
+        9,
+        11,
+        14,
+        24,
+        33
+      ]
+    },
+    "src/api/PlacesAPI.js": {
+      "expectCount": 22,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        16,
+        18,
+        19,
+        24,
+        28,
+        63,
+        67,
+        71,
+        75,
+        79,
+        89,
+        93,
+        104,
+        108,
+        123,
+        131
+      ]
+    },
+    "src/api/PrintToScaleAPI.js": {
+      "expectCount": 10,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        8,
+        9,
+        10,
+        13,
+        15,
+        21,
+        28,
+        37,
+        41
+      ]
+    },
     "src/Attributions.js": {
       "expectCount": 14,
       "actualCount": 2,
@@ -27,20 +127,16 @@
       "undocumentLines": []
     },
     "src/configurators/LayerConfigurator.js": {
-      "expectCount": 9,
-      "actualCount": 8,
-      "undocumentLines": [
-        205
-      ]
+      "expectCount": 7,
+      "actualCount": 7,
+      "undocumentLines": []
     },
     "src/configurators/LayerFactory.js": {
-      "expectCount": 20,
-      "actualCount": 16,
+      "expectCount": 12,
+      "actualCount": 10,
       "undocumentLines": [
-        49,
-        68,
-        84,
-        628
+        59,
+        499
       ]
     },
     "src/configurators/MapConfigurator.js": {
@@ -52,11 +148,11 @@
       "expectCount": 15,
       "actualCount": 10,
       "undocumentLines": [
-        164,
-        277,
-        312,
-        314,
-        404
+        165,
+        278,
+        315,
+        317,
+        407
       ]
     },
     "src/controls/ActivatableMixin.js": {
@@ -110,10 +206,14 @@
       ]
     },
     "src/controls/ComposedControl.js": {
-      "expectCount": 15,
-      "actualCount": 14,
+      "expectCount": 22,
+      "actualCount": 17,
       "undocumentLines": [
-        228
+        70,
+        71,
+        219,
+        252,
+        253
       ]
     },
     "src/controls/Control.js": {
@@ -169,20 +269,29 @@
       ]
     },
     "src/controls/LayerSelector.js": {
-      "expectCount": 31,
-      "actualCount": 20,
+      "expectCount": 29,
+      "actualCount": 19,
       "undocumentLines": [
         88,
         137,
-        145,
-        188,
-        367,
-        692,
-        697,
-        698,
-        712,
-        755,
-        756
+        182,
+        361,
+        667,
+        672,
+        673,
+        687,
+        730,
+        731
+      ]
+    },
+    "src/controls/LegendViewer.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        10,
+        11,
+        20,
+        36
       ]
     },
     "src/controls/LinkButton.js": {
@@ -196,10 +305,10 @@
       "undocumentLines": []
     },
     "src/controls/MeasurementButton.js": {
-      "expectCount": 20,
-      "actualCount": 19,
+      "expectCount": 18,
+      "actualCount": 17,
       "undocumentLines": [
-        240
+        245
       ]
     },
     "src/controls/MobileControls.js": {
@@ -218,8 +327,8 @@
       "expectCount": 4,
       "actualCount": 2,
       "undocumentLines": [
-        36,
-        85
+        37,
+        69
       ]
     },
     "src/controls/PrintButton.js": {
@@ -247,36 +356,40 @@
       "undocumentLines": []
     },
     "src/controls/SingleDrawButton.js": {
-      "expectCount": 13,
+      "expectCount": 14,
       "actualCount": 6,
       "undocumentLines": [
-        56,
-        71,
-        99,
-        113,
+        59,
+        74,
+        102,
         116,
-        131,
-        175
+        121,
+        136,
+        182,
+        186
       ]
     },
     "src/controls/WindowDecorator.js": {
       "expectCount": 11,
       "actualCount": 10,
       "undocumentLines": [
-        128
+        130
+      ]
+    },
+    "src/controls/ZoomToBbox.js": {
+      "expectCount": 7,
+      "actualCount": 3,
+      "undocumentLines": [
+        26,
+        53,
+        59,
+        74
       ]
     },
     "src/Debug.js": {
       "expectCount": 6,
       "actualCount": 6,
       "undocumentLines": []
-    },
-    "src/defaultconfig.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        8
-      ]
     },
     "src/events.js": {
       "expectCount": 1,
@@ -291,12 +404,14 @@
       "undocumentLines": []
     },
     "src/FeaturePopup.js": {
-      "expectCount": 39,
+      "expectCount": 41,
       "actualCount": 36,
       "undocumentLines": [
-        369,
-        448,
-        480
+        359,
+        437,
+        487,
+        510,
+        658
       ]
     },
     "src/FeatureTooltip.js": {
@@ -307,11 +422,15 @@
       ]
     },
     "src/G4UMap.js": {
-      "expectCount": 25,
+      "expectCount": 29,
       "actualCount": 20,
       "undocumentLines": [
-        197,
+        204,
         221,
+        238,
+        255,
+        272,
+        293,
         329,
         513,
         522
@@ -330,8 +449,26 @@
       "undocumentLines": [
         39,
         53,
-        229,
-        233
+        231,
+        235
+      ]
+    },
+    "src/html/CheckGroup.js": {
+      "expectCount": 12,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        9,
+        10,
+        11,
+        13,
+        21,
+        40,
+        55,
+        59,
+        79,
+        83
       ]
     },
     "src/html/Dropdown.js": {
@@ -379,15 +516,25 @@
       "expectCount": 26,
       "actualCount": 25,
       "undocumentLines": [
-        224
+        226
+      ]
+    },
+    "src/interactions/ClickableInteraction.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        10,
+        22
       ]
     },
     "src/L10N.js": {
-      "expectCount": 16,
-      "actualCount": 14,
+      "expectCount": 15,
+      "actualCount": 13,
       "undocumentLines": [
-        87,
-        156
+        60,
+        138
       ]
     },
     "src/layers/BaseLayerMixin.js": {
@@ -397,14 +544,7 @@
         25
       ]
     },
-    "src/layers/BaseTileLayer.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        5
-      ]
-    },
-    "src/layers/EmptyBaseLayer.js": {
+    "src/layers/EmptyImageLayer.js": {
       "expectCount": 2,
       "actualCount": 1,
       "undocumentLines": [
@@ -419,11 +559,10 @@
       ]
     },
     "src/layers/ImageLayer.js": {
-      "expectCount": 2,
+      "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        8,
-        10
+        7
       ]
     },
     "src/layers/LayerLoadProcessCountMixin.js": {
@@ -445,11 +584,10 @@
       ]
     },
     "src/layers/SilentGroupLayer.js": {
-      "expectCount": 4,
+      "expectCount": 3,
       "actualCount": 2,
       "undocumentLines": [
-        8,
-        53
+        7
       ]
     },
     "src/layers/TileLayer.js": {
@@ -457,6 +595,154 @@
       "actualCount": 0,
       "undocumentLines": [
         7
+      ]
+    },
+    "src/layers/VectorLayer.js": {
+      "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        8,
+        9,
+        29
+      ]
+    },
+    "src/layerSelector/Accordion.js": {
+      "expectCount": 18,
+      "actualCount": 1,
+      "undocumentLines": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        21,
+        28,
+        32,
+        33,
+        43,
+        47,
+        72,
+        117,
+        118,
+        124,
+        129,
+        135
+      ]
+    },
+    "src/layerSelector/Button.js": {
+      "expectCount": 13,
+      "actualCount": 0,
+      "undocumentLines": [
+        5,
+        6,
+        8,
+        11,
+        12,
+        33,
+        44,
+        53,
+        57,
+        64,
+        74,
+        78,
+        82
+      ]
+    },
+    "src/layerSelector/Element.js": {
+      "expectCount": 14,
+      "actualCount": 0,
+      "undocumentLines": [
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        22,
+        26,
+        30,
+        34,
+        43,
+        47
+      ]
+    },
+    "src/layerSelector/GroupElement.js": {
+      "expectCount": 18,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        9,
+        10,
+        17,
+        21,
+        28,
+        38,
+        40,
+        48,
+        53,
+        81,
+        91,
+        106,
+        110,
+        114,
+        118,
+        126
+      ]
+    },
+    "src/layerSelector/LayerButton.js": {
+      "expectCount": 7,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        4,
+        6,
+        17,
+        27,
+        31,
+        35
+      ]
+    },
+    "src/layerSelector/layerConfigConverter.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        57
+      ]
+    },
+    "src/layerSelector/MultiButton.js": {
+      "expectCount": 15,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        9,
+        11,
+        12,
+        13,
+        14,
+        32,
+        39,
+        53,
+        65,
+        99,
+        110,
+        114,
+        123
+      ]
+    },
+    "src/layerSelector/WMSLayerButton.js": {
+      "expectCount": 5,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        5,
+        14,
+        46,
+        50
       ]
     },
     "src/ListenerOrganizerMixin.js": {
@@ -501,7 +787,7 @@
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        12
+        14
       ]
     },
     "src/MessageDisplay.js": {
@@ -535,10 +821,79 @@
     },
     "src/PopupModifierManager.js": {
       "expectCount": 5,
-      "actualCount": 3,
+      "actualCount": 4,
       "undocumentLines": [
-        3,
-        4
+        47
+      ]
+    },
+    "src/search/connectors/G4USearchV2Connector.js": {
+      "expectCount": 14,
+      "actualCount": 2,
+      "undocumentLines": [
+        9,
+        10,
+        13,
+        15,
+        17,
+        20,
+        22,
+        25,
+        34,
+        39,
+        57,
+        79
+      ]
+    },
+    "src/search/connectors/G4UServerSearchConnector.js": {
+      "expectCount": 6,
+      "actualCount": 0,
+      "undocumentLines": [
+        6,
+        7,
+        10,
+        13,
+        35,
+        63
+      ]
+    },
+    "src/search/connectors/NominatimSearchConnector.js": {
+      "expectCount": 9,
+      "actualCount": 1,
+      "undocumentLines": [
+        10,
+        11,
+        14,
+        17,
+        21,
+        27,
+        45,
+        49
+      ]
+    },
+    "src/search/connectors/PhotonSearchConnector.js": {
+      "expectCount": 9,
+      "actualCount": 1,
+      "undocumentLines": [
+        10,
+        11,
+        14,
+        17,
+        21,
+        27,
+        45,
+        49
+      ]
+    },
+    "src/search/SearchControl.js": {
+      "expectCount": 31,
+      "actualCount": 25,
+      "undocumentLines": [
+        31,
+        41,
+        71,
+        281,
+        331,
+        366
       ]
     },
     "src/sources/ClusterSource.js": {
@@ -553,7 +908,7 @@
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        150
+        243
       ]
     },
     "src/sources/QueryVectorSource.js": {
@@ -576,10 +931,10 @@
       "expectCount": 18,
       "actualCount": 14,
       "undocumentLines": [
+        59,
+        92,
         93,
-        126,
-        127,
-        147
+        115
       ]
     },
     "src/sources/WMTSSource.js": {
@@ -592,30 +947,177 @@
       ]
     },
     "src/Styling.js": {
-      "expectCount": 24,
+      "expectCount": 26,
       "actualCount": 17,
       "undocumentLines": [
+        140,
+        144,
+        147,
+        260,
+        394,
+        404,
+        416,
+        425,
+        446
+      ]
+    },
+    "src/urlapi/controls/CloseWindowButton.js": {
+      "expectCount": 4,
+      "actualCount": 3,
+      "undocumentLines": [
+        42
+      ]
+    },
+    "src/urlapi/controls/LinkGeneratorButton.js": {
+      "expectCount": 25,
+      "actualCount": 16,
+      "undocumentLines": [
+        56,
+        139,
         151,
-        155,
-        229,
-        359,
-        369,
-        381,
-        414
+        159,
+        170,
+        177,
+        184,
+        255,
+        270
+      ]
+    },
+    "src/urlapi/controls/MaximizeButton.js": {
+      "expectCount": 6,
+      "actualCount": 2,
+      "undocumentLines": [
+        37,
+        38,
+        41,
+        48
+      ]
+    },
+    "src/urlapi/handling/availableLayers.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/center.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/closeButton.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/configurationFile.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/fitRectangle.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/language.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/layerConfigurationFile.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/marker.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/responsiveness.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/rotation.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/search.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/visibleLayers.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/handling/zoom.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/urlapi/LinkGenerator.js": {
+      "expectCount": 9,
+      "actualCount": 7,
+      "undocumentLines": [
+        43,
+        47
+      ]
+    },
+    "src/urlapi/Marker.js": {
+      "expectCount": 17,
+      "actualCount": 17,
+      "undocumentLines": []
+    },
+    "src/urlapi/Query.js": {
+      "expectCount": 14,
+      "actualCount": 1,
+      "undocumentLines": [
+        3,
+        4,
+        12,
+        14,
+        16,
+        54,
+        58,
+        62,
+        66,
+        70,
+        78,
+        82,
+        86
+      ]
+    },
+    "src/urlapi/URLAPI.js": {
+      "expectCount": 12,
+      "actualCount": 10,
+      "undocumentLines": [
+        143,
+        183
+      ]
+    },
+    "src/urlapi/URLAPIModule.js": {
+      "expectCount": 6,
+      "actualCount": 4,
+      "undocumentLines": [
+        25,
+        28
       ]
     },
     "src/utilities.js": {
       "expectCount": 20,
       "actualCount": 17,
       "undocumentLines": [
-        179,
-        314,
-        390
+        176,
+        311,
+        387
       ]
     },
     "src/utilitiesObject.js": {
-      "expectCount": 6,
-      "actualCount": 6,
+      "expectCount": 5,
+      "actualCount": 5,
       "undocumentLines": []
     },
     "src/xssprotection.js": {

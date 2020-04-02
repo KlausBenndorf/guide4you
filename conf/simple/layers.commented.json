@@ -1,5 +1,105 @@
 {
-  "baseLayers": [
+  "menus": {
+    "baseLayers": [
+      {
+        "type": "group",
+        "items": "exclusive",
+        "groupButton": "noButton",
+        "buttons": [
+          {
+            "type": "layer",
+            "refId": 0
+          }
+        ]
+      }
+    ],
+    "featureLayers": [
+      {
+        "type": "group",
+        "buttons": [
+          {
+            "title": "Landesgrenzen",
+            "LAYERS": [
+              "nw_dvg_bld"
+            ],
+            "type": "WMS",
+            "refId": 3
+          },
+          {
+            "title": "Regierungsbezirke",
+            "LAYERS": [
+              "nw_dvg_rbz",
+              "nw_dvg_rbz_namen"
+            ],
+            "type": "WMS",
+            "refId": 3
+          },
+          {
+            "title": "Kreise",
+            "LAYERS": [
+              "nw_dvg_krs",
+              "nw_dvg_krs_namen"
+            ],
+            "type": "WMS",
+            "refId": 3
+          },
+          {
+            "title": "Gemeinden",
+            "LAYERS": [
+              "nw_dvg_gem",
+              "nw_dvg_gem_namen"
+            ],
+            "type": "WMS",
+            "refId": 3
+          },
+          {
+            "title": "Gemeinden Gesamt",
+            "LAYERS": [
+              "nw_dvg_gem_gesamt",
+              "nw_dvg_gem_gesamt_namen"
+            ],
+            "type": "WMS",
+            "refId": 3
+          }
+        ],
+        "title": "Verwaltungsgrenzen NRW"
+      },
+      {
+        "type": "layer",
+        "refId": 4
+      },
+      {
+        "type": "group",
+        "buttons": [
+          {
+            "title": "test",
+            "LAYERS": [
+              "nw_histortho_1988-1994"
+            ],
+            "QUERY_LAYERS": [
+              "nw_histortho_1988-1994_info"
+            ],
+            "type": "WMS",
+            "refId": 6
+          },
+          {
+            "title": "test2",
+            "LAYERS": [
+              "nw_histortho_1988-1994"
+            ],
+            "QUERY_LAYERS": [
+              "nw_histortho_1988-1994_info"
+            ],
+            "type": "WMS",
+            "refId": 6
+          }
+        ],
+        "groupButton": "noButton"
+      }
+    ]
+  },
+  "queryLayers": [],
+  "layers": [
     {
       "id": 0,
       "title": "Roads",
@@ -8,19 +108,9 @@
         "url": "http://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         "attribution": "&copy; <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
       },
-      "visible": true
-    }//,
-//    {
-//      "id": 1,
-//      "title": "Cycling Map",
-//      "type": "OSM",
-//      "source": {
-//        "url": "http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
-//        "attribution": "&copy; <a href=\"http://www.thunderforest.com/\" target=\"blank\">Thunderforest</a> &mdash; Map data <a href=\"http://www.openstreetmap.org/copyright\" target=\"_blank\">OpenStreetMap</a> contributors"
-//      }
-//    }
-  ],
-  "featureLayers": [
+      "visible": true,
+      "overview": true
+    },
     {
       "id": 3,
       "title": "Verwaltungsgrenzen NRW",
@@ -31,31 +121,8 @@
           "FORMAT": "image/png",
           "VERSION": "1.3.0"
         },
-        "categoryButton": true,
         "attribution": "Geobasis NRW 2016"
-      },
-      "buttons": [
-        {
-          "title": "Landesgrenzen",
-          "LAYERS": ["nw_dvg_bld"]
-        },
-        {
-          "title": "Regierungsbezirke",
-          "LAYERS": ["nw_dvg_rbz", "nw_dvg_rbz_namen"]
-        },
-        {
-          "title": "Kreise",
-          "LAYERS": ["nw_dvg_krs", "nw_dvg_krs_namen"]
-        },
-        {
-          "title": "Gemeinden",
-          "LAYERS": ["nw_dvg_gem", "nw_dvg_gem_namen"]
-        },
-        {
-          "title": "Gemeinden Gesamt",
-          "LAYERS": ["nw_dvg_gem_gesamt", "nw_dvg_gem_gesamt_namen"]
-        }
-      ]
+      }
     },
     {
       "id": 4,
@@ -72,12 +139,13 @@
           "LAYERS": [
             "nw_fzk"
           ],
-          "QUERY_LAYERS": ["nw_fzk_info"]
+          "QUERY_LAYERS": [
+            "nw_fzk_info"
+          ]
         },
         "featureInfo": {
           "params": {
             "FORMAT": "text/html"
-            // "text/plain", "application/vnd.ogc.gml"
           }
         },
         "attribution": "Geobasis NRW 2016"
@@ -104,19 +172,7 @@
           "checkable": true
         },
         "attribution": "Geobasis NRW 2016"
-      },
-      "buttons": [
-        {
-          "title": "test",
-          "LAYERS": [ "nw_histortho_1988-1994" ],
-          "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
-        },
-        {
-          "title": "test2",
-          "LAYERS": [ "nw_histortho_1988-1994" ],
-          "QUERY_LAYERS": [ "nw_histortho_1988-1994_info" ]
-        }
-      ]
+      }
     }
   ]
 }

@@ -1,9 +1,8 @@
 import $ from 'jquery'
-import { concat, difference } from 'lodash/array'
+import { concat, difference, intersection } from 'lodash/array'
 import { isEmpty } from 'lodash/lang'
 import ImageWMS from 'ol/source/ImageWMS'
 import TileWMS from 'ol/source/TileWMS'
-import { appendParams } from 'ol/uri'
 
 import { asyncImageLoad, mixin } from '../utilities'
 import { Debug } from '../Debug'
@@ -17,6 +16,7 @@ import { Debug } from '../Debug'
  *    extra button on the layer button appears to toggle the feature info.
  * @property {boolean} [checked=true] If the layer does not use the buttons options and checkable is true, this option
  *    specifies if the feature info button appears activated or not.
+ * @property {[number, number]} [iframe=false] load in iframe of this size
  */
 
 export class WMSMixin {
@@ -31,20 +31,24 @@ export class WMSMixin {
     }
 
     if (this.featureInfo_) {
+      this.featureInfoIframe = options.featureInfo.iframe
       Object.assign(this.featureInfoParams_, options.featureInfo.params)
       this.featureInfoMutators_ = options.featureInfo.mutators
     }
 
-    if (!this.getParams()['LAYERS']) {
+    if (!this.getParams().LAYERS) {
       this.updateParams({
         LAYERS: []
       })
     }
+
+    this.set('legends', options.legends || false)
   }
 
   getQueryable () {
-    return this.featureInfo_ &&
-      this.featureInfoParams_['QUERY_LAYERS'] && this.featureInfoParams_['QUERY_LAYERS'].length
+    return this.featureInfo_ && this.featureInfoParams_.QUERY_LAYERS &&
+      this.featureInfoParams_.QUERY_LAYERS.length > 0 &&
+      intersection(this.featureInfoParams_.QUERY_LAYERS, this.getParams().LAYERS).length > 0
   }
 
   getFeatureInfoMutators () {
@@ -57,42 +61,42 @@ export class WMSMixin {
 
   activateLayers (layers) {
     this.updateParams({
-      LAYERS: concat(this.getParams()['LAYERS'], layers)
+      LAYERS: concat(this.getParams().LAYERS, layers)
     })
     this.dispatchEvent('change:layers')
   }
 
   deactivateLayers (layers) {
     this.updateParams({
-      LAYERS: difference(this.getParams()['LAYERS'], layers)
+      LAYERS: difference(this.getParams().LAYERS, layers)
     })
     this.dispatchEvent('change:layers')
   }
 
   areLayersActive (layers) {
-    return isEmpty(difference(layers, this.getParams()['LAYERS']))
+    return isEmpty(difference(layers, this.getParams().LAYERS))
   }
 
   anyLayerActive () {
-    return !isEmpty(this.getParams()['LAYERS'])
+    return !isEmpty(this.getParams().LAYERS)
   }
 
   activateQueryLayers (layers) {
     this.updateFeatureInfoParams({
-      QUERY_LAYERS: concat(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+      QUERY_LAYERS: concat(this.getFeatureInfoParams().QUERY_LAYERS, layers)
     })
     this.dispatchEvent('change:queryLayers')
   }
 
   deactivateQueryLayers (layers) {
     this.updateFeatureInfoParams({
-      QUERY_LAYERS: difference(this.getFeatureInfoParams()['QUERY_LAYERS'], layers)
+      QUERY_LAYERS: difference(this.getFeatureInfoParams().QUERY_LAYERS, layers)
     })
     this.dispatchEvent('change:queryLayers')
   }
 
   areQueryLayersActive (layers) {
-    return isEmpty(difference(layers, this.getFeatureInfoParams()['QUERY_LAYERS']))
+    return isEmpty(difference(layers, this.getFeatureInfoParams().QUERY_LAYERS))
   }
 
   getFeatureInfoParams () {
@@ -106,29 +110,31 @@ export class WMSMixin {
 
   getFeatureInfo (coordinate, resolution, projection) {
     return new Promise((resolve, reject) => {
-      let params = this.featureInfoParams_
-      if (!params['QUERY_LAYERS'] || params['QUERY_LAYERS'].length === 0) {
-        resolve('')
+      const params = Object.assign({}, this.featureInfoParams_)
+      if (!params.QUERY_LAYERS) {
+        resolve(undefined)
+      }
+      params.QUERY_LAYERS = intersection(params.QUERY_LAYERS, this.getParams().LAYERS)
+      if (params.QUERY_LAYERS.length === 0) {
+        resolve(undefined)
       } else {
-        const gfiExt = this.getGetFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
-        $.ajax({
-          url: this.originalUrlObject.extend(gfiExt).finalize(),
-          success: resolve,
-          error: reject,
-          dataType: 'text'
-        })
+        const gfiExt = this.getFeatureInfoUrl(coordinate, resolution, projection, params).slice(1)
+        const url = this.originalUrlObject.extend(gfiExt).finalize()
+        if (this.featureInfoIframe) {
+          resolve($('<iframe>')
+            .width(this.featureInfoIframe[0])
+            .height(this.featureInfoIframe[1])
+            .attr('src', url))
+        } else {
+          $.ajax({
+            url,
+            success: resolve,
+            error: reject,
+            dataType: 'text'
+          })
+        }
       }
     })
-  }
-
-  getGetLegendGraphicUrl (params) {
-    const baseParams = {
-      'REQUEST': 'GetLegendGraphic',
-      'FORMAT': 'image/png'
-    }
-    Object.assign(baseParams, this.getParams(), params)
-
-    return appendParams(this.getUrl(), baseParams)
   }
 
   // toggleArrayEntries_ (obj, prop, names, toggle) {
@@ -178,6 +184,39 @@ export class WMSMixin {
   // getWMSQueryLayersVisible (names) {
   //   return this.arrayContainsAll(this.featureInfoParams_.QUERY_LAYERS || [], names)
   // }
+
+  // TODO: remove with ol version 6
+  getGetLegendGraphicUrl (resolution, layer) {
+    const params = Object.assign({}, this.getParams())
+
+    const baseParams = {
+      SERVICE: 'WMS',
+      VERSION: '1.3.0',
+      REQUEST: 'GetLegendGraphic',
+      FORMAT: 'image/png',
+      LAYER: layer
+    }
+
+    if (resolution !== undefined) {
+      const mpu = this.getProjection() ? this.getProjection().getMetersPerUnit() : 1
+      const dpi = 25.4 / 0.28
+      const inchesPerMeter = 39.37
+      baseParams.SCALE = resolution * mpu * inchesPerMeter * dpi
+    }
+
+    Object.assign(baseParams, params)
+
+    const url = this.originalUrlObject.clone()
+
+    // Skip any null or undefined parameter values
+    Object.keys(baseParams).forEach(k => {
+      if (baseParams[k] !== null && baseParams[k] !== undefined) {
+        url.addParam(k + '=' + encodeURIComponent(baseParams[k]))
+      }
+    })
+
+    return url.finalize()
+  }
 }
 
 /**

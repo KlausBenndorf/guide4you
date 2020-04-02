@@ -37,12 +37,12 @@ export class ArrowButtons extends Control {
 
     super(options)
 
-    let description = {
-      'left': this.getLocaliser().localiseUsingDictionary('ArrowButtons leftward'),
-      'right': this.getLocaliser().localiseUsingDictionary('ArrowButtons rightward'),
-      'up': this.getLocaliser().localiseUsingDictionary('ArrowButtons upward'),
-      'down': this.getLocaliser().localiseUsingDictionary('ArrowButtons downward'),
-      'center': this.getLocaliser().localiseUsingDictionary('ArrowButtons centerward')
+    const description = {
+      left: this.getLocaliser().localiseUsingDictionary('ArrowButtons leftward'),
+      right: this.getLocaliser().localiseUsingDictionary('ArrowButtons rightward'),
+      up: this.getLocaliser().localiseUsingDictionary('ArrowButtons upward'),
+      down: this.getLocaliser().localiseUsingDictionary('ArrowButtons downward'),
+      center: this.getLocaliser().localiseUsingDictionary('ArrowButtons centerward')
     }
 
     /**
@@ -95,10 +95,10 @@ export class ArrowButtons extends Control {
 
     // creating the HTML-Elements and registering Event-Handlers
 
-    for (let direction of this.directions_) {
+    for (const direction of this.directions_) {
       // HTML
 
-      let $button = $('<button>')
+      const $button = $('<button>')
         .addClass(this.className_ + '-' + direction)
         .html(this.labels_[direction])
 
@@ -134,38 +134,38 @@ export class ArrowButtons extends Control {
    * @private
    */
   onClick_ (direction) {
-    let map = this.getMap()
-    let view = map.getView()
+    const map = this.getMap()
+    const view = map.getView()
 
     if (direction === 'center') {
       map.get('move').toExtent(this.initExtent_, { animated: this.animated_ })
     } else {
-      let resolution = view.getResolution()
-      let rotation = view.getRotation()
+      const resolution = view.getResolution()
+      const rotation = view.getRotation()
 
       // a vector that points in the direction the move should be going
-      let dirVec = this.vectors_[direction]
+      const dirVec = this.vectors_[direction]
 
       // this calculates the 'move'-vector out of the direction and pixelDelta (-> length, how many pixels per move)
-      let delta = [dirVec[0] * resolution * this.pixelDelta_, dirVec[1] * resolution * this.pixelDelta_]
+      const delta = [dirVec[0] * resolution * this.pixelDelta_, dirVec[1] * resolution * this.pixelDelta_]
 
       // this rotates if needed
       rotate(delta, rotation)
 
-      let oldPosition = view.getCenter()
+      const oldPosition = view.getCenter()
 
       // adding the delta to the actual center
 
-      let constrainedCenter = view.constrainCenter([oldPosition[0] + delta[0], oldPosition[1] + delta[1]])
+      const newPosition = [oldPosition[0] + delta[0], oldPosition[1] + delta[1]]
 
       if (this.animated_) {
         // creating a pan-animation
         view.animate({
-          center: constrainedCenter,
+          center: newPosition,
           duration: this.animationDuration_
         })
       } else {
-        view.setCenter(constrainedCenter)
+        view.setCenter(newPosition)
       }
     }
     $(map.getViewport()).focus()

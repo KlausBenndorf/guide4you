@@ -51,27 +51,27 @@ export class MessageDisplay {
       if (!$.notify.getStyle('benndorf')) {
         $.notify.addStyle('benndorf', {
           html: '<div>' +
-          '<div class="text" data-notify-text />' +
+          '<div class="text" data-notify-text></div>' +
           '</div>' +
           '</div>',
           classes: {
             error: {
-              'color': '#b94a48',
+              color: '#b94a48',
               'background-color': '#f2dede',
               'border-color': '#b94a48'
             },
             success: {
-              'color': '#468847',
+              color: '#468847',
               'background-color': '#dff0d8',
               'border-color': '#468847'
             },
             info: {
-              'color': '#3a87a',
+              color: '#3a87a',
               'background-color': '#d9edf7',
               'border-color': '#3a87ad'
             },
             warn: {
-              'color': '#c09853',
+              color: '#c09853',
               'background-color': '#fcf8e3',
               'border-color': '#c09853'
             }
@@ -114,7 +114,7 @@ export class MessageDisplay {
    * @param {MessageDisplayOptions} options
    */
   message (message, options = {}) {
-    let msgOptions = this.defaults_
+    const msgOptions = this.defaults_
     if (options.hasOwnProperty('autoHide')) { msgOptions.autoHide = options.autoHide }
     if (options.hasOwnProperty('autoHideDelay')) { msgOptions.autoHideDelay = options.autoHideDelay }
     if (options.hasOwnProperty('className')) { msgOptions.className = options.className }

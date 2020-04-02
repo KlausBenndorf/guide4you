@@ -36,7 +36,7 @@ export class URLAPIModule extends Module {
    */
   setMap (map) {
     super.setMap(map)
-    let options = map.get('options')
+    const options = map.get('options')
     map.set('urlApi', new URLAPI({
       map: map,
       moduleParameters: this.moduleParameters_,
@@ -57,7 +57,7 @@ export class URLAPIModule extends Module {
       marker.setMap(null)
     }
 
-    let curConfig = getConfig(mapConfig, 'marker')
+    const curConfig = getConfig(mapConfig, 'marker')
 
     if (curConfig) {
       marker = new Marker(mapConfig.marker)

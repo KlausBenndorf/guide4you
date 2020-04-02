@@ -2,7 +2,7 @@
  * @type {URLParameter}
  */
 export const responsivenessParam = {
-  keys: [ 'responsive' ],
+  keys: ['responsive'],
   setEvent: 'ready',
   setToMap: (map, query) => {
     if (query.isSet('responsive')) {

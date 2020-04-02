@@ -13,7 +13,7 @@ export class ActiveGroup {
      * @private
      */
     this.controls_ = controls
-    for (let control of this.controls_) {
+    for (const control of this.controls_) {
       this.addControl(control)
     }
   }

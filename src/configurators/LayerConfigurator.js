@@ -1,5 +1,4 @@
 import { GroupLayer } from '../layers/GroupLayer'
-import { LayerController } from '../layerSelector/LayerController'
 import { copyDeep } from '../utilitiesObject'
 import { Debug } from '../Debug'
 import { LayerFactory } from './LayerFactory'
@@ -301,9 +300,11 @@ import { Attributions } from '../Attributions'
 /**
  * A vector source config.
  * @typedef {SourceConfig} VectorSourceConfig
- * @property {string} [loadingStrategy] "BBOX" or "ALL"
- * @property {number} [bboxRatio] only applies if loadingStrategy is BBOX. If bigger than 1 this much more will be
- *    loaded around a bbox.
+ * @property {string} [loadingStrategy='ALL'] Either 'BBOX', 'ALL' or 'TILE'
+ *    If BBOX or TILE the given url has to contain the parameters {minx}, {miny}, {maxx}, {maxy}.
+ * @property {number} [bboxRatio=1] If set the bbox loading strategy will increase the load extent by this factor
+ * @property {ProjectionLike} [urlProjection] coordinates will be inserted into the url in this format.
+ *    defaults to the sourceProjection
  * @property {boolean} [localised=false] if set to true the loader will send accept-language headers.
  */
 
@@ -354,13 +355,6 @@ export class LayerConfigurator {
     this.layerFactory_ = new LayerFactory(map)
 
     map.set('layerFactory', this.layerFactory_)
-
-    this.map_.on('ready', () => {
-      this.layerController_.updateDisabledLayers(this.map_.getView().getZoom())
-      this.map_.getView().on('change:resolution', () => {
-        this.layerController_.updateDisabledLayers(this.map_.getView().getZoom())
-      })
-    })
   }
 
   /**
@@ -376,12 +370,12 @@ export class LayerConfigurator {
     /**
      * @type {LayerConfig}
      */
-    let layerConfigCopy = copyDeep(this.map_.get('layerConfig'))
+    const layerConfigCopy = copyDeep(this.map_.get('layerConfig'))
 
     /**
      * @type {MapConfig}
      */
-    let mapConfig = this.map_.get('mapConfig')
+    const mapConfig = this.map_.get('mapConfig')
 
     this.map_.set('layerIds', []) // in layerIds all ids are stored to check if one is double.
 
@@ -392,9 +386,6 @@ export class LayerConfigurator {
     this.map_.set('ignoreLayerAvailability',
       mapConfig.hasOwnProperty('ignoreLayerAvailability') ? mapConfig.ignoreLayerAvailability : false
     )
-
-    this.layerController_ = new LayerController(this.map_, layerConfigCopy)
-    this.map_.set('layerController', this.layerController_)
 
     // //////////////////////////////////////////////////////////////////////////////////////////
     //                                      layers                                        //
@@ -412,7 +403,6 @@ export class LayerConfigurator {
         if (this.configureLayerIsIdOk_(options.id)) {
           const layer = this.layerFactory_.createLayer(options)
           this.map_.addLayer(layer)
-          this.layerController_.registerLayer(options.id, layer)
         }
       }
     })
@@ -421,11 +411,11 @@ export class LayerConfigurator {
     //                                   All layers loaded                                      //
     // //////////////////////////////////////////////////////////////////////////////////////// //
 
-    let loadingLayers = []
+    const loadingLayers = []
     let isLoadingDelayed = false
     let isLoadingPrecise = false
 
-    let forEachLayer = (layer) => {
+    const forEachLayer = (layer) => {
       if (layer.getLayers) {
         layer.getLayers().on('add', e => {
           forEachLayer(e.element)
@@ -515,7 +505,7 @@ export class LayerConfigurator {
     /**
      * @type {string[]|number[]}
      */
-    let layerIds = this.map_.get('layerIds')
+    const layerIds = this.map_.get('layerIds')
 
     if (id === 0 || (id && (typeof id === 'string' || !isNaN(id)))) {
       for (let j = 0, jj = layerIds.length; j < jj; j++) {

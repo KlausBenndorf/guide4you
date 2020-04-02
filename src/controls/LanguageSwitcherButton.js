@@ -31,7 +31,7 @@ export class LanguageSwitcherButton extends Control {
      */
     this.$button_ = this.get$Element().addClass(this.className_ + '-button')
 
-    let languages = this.getLocaliser().getAvailableLanguages()
+    const languages = this.getLocaliser().getAvailableLanguages()
 
     if (languages.length < 2) {
       Debug.info('You do not have any languages to switch between.')
@@ -42,7 +42,7 @@ export class LanguageSwitcherButton extends Control {
     }
 
     this.$button_.on('click', () => {
-      let targetLanguage = languages[1 - languages.indexOf(this.getLocaliser().getCurrentLang())]
+      const targetLanguage = languages[1 - languages.indexOf(this.getLocaliser().getCurrentLang())]
       this.getLocaliser().setCurrentLang(targetLanguage)
     })
   }

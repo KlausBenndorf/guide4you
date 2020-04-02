@@ -9,7 +9,7 @@ export class History {
 
     window.addEventListener('popstate', e => {
       if (e.state === 'base') {
-        let cb = this.callbacks_.pop()
+        const cb = this.callbacks_.pop()
         if (cb) {
           cb.call()
           window.history.forward()

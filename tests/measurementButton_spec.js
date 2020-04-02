@@ -16,11 +16,10 @@ function getPixelFromCoordinate (coordinate) {
 
 describe('measurementButton', function () {
   // before and after ///////////////////////////////////////////////////////
-
+  this.timeout(config.mochaTimeout)
   let driver
 
   before(function () {
-    this.timeout(config.mochaTimeout)
     driver = customDriver()
     driver.manage().window().setSize(1200, 800)
     driver.manage().setTimeouts(config.seleniumTimeouts)
@@ -120,11 +119,11 @@ describe('measurementButton', function () {
     await driver.findElement(By.css('.g4u-distance-measurement .g4u-control-mainbutton'))
       .click()
     const visible = await driver
-      .findElement(By.css('.g4u-distance-measurement .g4u-window'))
+      .findElement(By.css('.g4u-distance-measurement-window'))
       .isDisplayed()
     assert(visible, 'distance measurement window should be visible').isEqualTo(true)
     const point1 = await driver.executeScript(getPixelFromCoordinate, [773466.7463450996, 6610915.166693036])
-    const point2 = driver.executeScript(getPixelFromCoordinate, [775715.4000591239, 6610915.166693036])
+    const point2 = await driver.executeScript(getPixelFromCoordinate, [775715.4000591239, 6610915.166693036])
     const element = await driver.findElement(By.className('ol-viewport'))
     await driver.actions()
       .mouseMove(element, { x: point1[0], y: point1[1] })

@@ -39,7 +39,9 @@ export class PrintToScaleAPI {
   }
 
   hideFrame () {
-    this.frameSource_.clear()
-    this.interaction_.setActive(false)
+    if (this.frameSource_) {
+      this.frameSource_.clear()
+      this.interaction_.setActive(false)
+    }
   }
 }

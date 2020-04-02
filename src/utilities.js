@@ -19,7 +19,7 @@ import { Debug } from './Debug'
  */
 export function even (value) {
   if ($.isNumeric(value)) {
-    let valueAsInteger = parseInt(value)
+    const valueAsInteger = parseInt(value)
     if ((value === valueAsInteger) && (valueAsInteger % 2 === 0)) {
       return true
     }
@@ -34,7 +34,7 @@ export function even (value) {
  */
 export function odd (value) {
   if ($.isNumeric(value)) {
-    let valueAsInteger = parseInt(value)
+    const valueAsInteger = parseInt(value)
     if ((value === valueAsInteger) && (valueAsInteger % 2 === 1)) {
       return true
     }
@@ -95,18 +95,15 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
     if (!origUrl.username || !origUrl.password) {
       image.src = finalUrl
     } else {
-      let xhr = new XMLHttpRequest() // eslint-disable-line no-undef
-      // xhr.open('GET', url, true, username, password)
+      const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
       xhr.open('GET', finalUrl, true)
       xhr.responseType = 'blob'
-      xhr.withCredentials = true
 
-      xhr.setRequestHeader(origUrl.useProxy ? 'X-Proxy-Forward-Authorization' : 'Authorization',
-        'Basic ' + btoa(origUrl.username + ':' + origUrl.password)) // eslint-disable-line no-undef
+      origUrl.setAuth(xhr)
 
-      xhr.addEventListener('load', function (e) {
+      xhr.addEventListener('load', function () {
         if (this.status === 200) {
-          let urlCreator = window.URL || window.webkitURL
+          const urlCreator = window.URL || window.webkitURL
           image.src = urlCreator.createObjectURL(this.response)
         } else {
           onError()
@@ -128,12 +125,12 @@ export function asyncImageLoad (image, origUrl, finalUrl) {
  * @returns {Promise}
  */
 export function finishAllImages ($object) {
-  let imagePromises = []
+  const imagePromises = []
 
-  let $images = recursiveSelect($object, 'img')
+  const $images = recursiveSelect($object, 'img')
 
   $images.each(function () {
-    let image = this
+    const image = this
 
     if (!image.complete) {
       imagePromises.push(new Promise(resolve => {
@@ -153,8 +150,8 @@ export function finishAllImages ($object) {
  * @returns {{top: number, left: number}}
  */
 export function offset ($one, $other) {
-  let oneOff = $one.offset()
-  let otherOff = $other.offset()
+  const oneOff = $one.offset()
+  const otherOff = $other.offset()
   return { top: oneOff.top - otherOff.top, left: oneOff.left - otherOff.left }
 }
 
@@ -250,8 +247,8 @@ export function urlJoin (urlRoot, urlExt) {
   let normPathRoot = urlDirname(urlNormalize(urlRoot))
   let normPathExt = urlNormalize(urlExt)
 
-  let lastPart = /[^/]+\/$/
-  let leadingDoubleDots = /^\.\.\//
+  const lastPart = /[^/]+\/$/
+  const leadingDoubleDots = /^\.\.\//
 
   while (normPathRoot.match(lastPart) && normPathExt.match(leadingDoubleDots)) {
     normPathRoot = normPathRoot.replace(lastPart, '')
@@ -273,7 +270,7 @@ export function urlRelative (source, target) {
 
   let urlRelative = ''
 
-  let firstPart = /^\/?((\/\/)|[^/])+\//
+  const firstPart = /^\/?((\/\/)|[^/])+\//
 
   let firstSourcePart
   let firstTargetPart
@@ -312,7 +309,7 @@ export function urlIsAbsolute (url) {
 // //////////////////////////////////////////////////////////////////////////////////////// //
 
 function getPropertyNamesAndDescriptions (obj) {
-  let props = {}
+  const props = {}
 
   do {
     Object.getOwnPropertyNames(obj).forEach(function (prop) {
@@ -338,12 +335,12 @@ export function mixin (baseClass, mixinClasses) {
   if (!Array.isArray(mixinClasses)) {
     mixinClasses = [mixinClasses]
   }
-  let initializes = mixinClasses.map(mC => mC.prototype.initialize)
+  const initializes = mixinClasses.map(mC => mC.prototype.initialize)
 
-  let mixed = class extends baseClass {
+  const mixed = class extends baseClass {
     constructor (options) {
       super(options)
-      for (let initialize of initializes) {
+      for (const initialize of initializes) {
         if (initialize) {
           initialize.call(this, options)
         }
@@ -351,10 +348,10 @@ export function mixin (baseClass, mixinClasses) {
     }
   }
 
-  for (let mixinClass of mixinClasses) {
-    let propsAndDescriptions = getPropertyNamesAndDescriptions(mixinClass.prototype)
+  for (const mixinClass of mixinClasses) {
+    const propsAndDescriptions = getPropertyNamesAndDescriptions(mixinClass.prototype)
 
-    for (let name in propsAndDescriptions) {
+    for (const name in propsAndDescriptions) {
       if (name !== 'constructor' && name !== 'initialize') {
         if (name in mixed.prototype) {
           throw new Error('mixins should not overwrite methods')
@@ -373,9 +370,9 @@ export function mixin (baseClass, mixinClasses) {
  * @returns {class}
  */
 export function mixinAsClass (mixinClass) {
-  let initialize = mixinClass.prototype.initialize
+  const initialize = mixinClass.prototype.initialize
 
-  let m = class extends mixinClass {
+  const m = class extends mixinClass {
     constructor (options) {
       super(options)
       if (initialize) {
@@ -387,7 +384,7 @@ export function mixinAsClass (mixinClass) {
   return m
 }
 
-let $p = $('<p>')
+const $p = $('<p>')
 
 /**
  * Takes a string with HTML and returns the containing resulting text.

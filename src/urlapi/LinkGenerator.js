@@ -79,15 +79,15 @@ export class LinkGenerator extends Control {
    * @private
    */
   generate_ () {
-    let map = this.getMap()
-    let url = map.get('urlApi').makeURL({
+    const map = this.getMap()
+    const url = map.get('urlApi').makeURL({
       baseURL: this.baseURL_,
       exclude: ['lang']
     })
 
     if (this.type_ === 'iframe') {
-      let mapSize = map.getSize()
-      let text = `<iframe style="border:0;" width="${mapSize[0]}" height="${mapSize[1]}" src="${url}"></iframe>`
+      const mapSize = map.getSize()
+      const text = `<iframe style="border:0;" width="${mapSize[0]}" height="${mapSize[1]}" src="${url}"></iframe>`
       this.$textfield_.val(text)
     } else if (this.type_ === 'url') {
       this.$textfield_.val(url)

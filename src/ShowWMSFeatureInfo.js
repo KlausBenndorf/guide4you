@@ -1,10 +1,7 @@
-import $ from 'jquery'
 import Feature from 'ol/Feature'
 import Point from 'ol/geom/Point'
-import { unByKey } from 'ol/Observable'
 import VectorSource from 'ol/source/Vector'
 import { FeaturePopup } from './FeaturePopup'
-import { cssClasses } from './globals'
 import { MapEventInteraction } from './interactions/MapEventInteraction'
 
 import { VectorLayer } from './layers/VectorLayer'
@@ -13,7 +10,7 @@ import { VectorLayer } from './layers/VectorLayer'
  * @typedef {Object} ShowWMSFeatureInfoOptions
  * @property {StyleLike} [style='#defaultStyle']
  * @property {String} [seperator='<br>']
- * @property {String[]} [popupModifiers=[]]
+ * @property {String} [showClickable='layerAtPixel'] can be 'everywhere', 'layerAtPixel' or 'nowhere'
  * @property {boolean} [animated]
  */
 
@@ -23,62 +20,65 @@ export class ShowWMSFeatureInfo {
    */
   constructor (options = {}) {
     this.separator_ = options.hasOwnProperty('seperator') ? options.seperator : '<br>'
-    this.style_ = options.style || '#defaultStyle'
+    this.styleConf_ = options.style || '#defaultStyle'
 
     this.animated_ = options.animated
     this.centerOnPopup_ = options.hasOwnProperty('centerOnPopup') ? options.centerOnPopup : true
-    this.centerIfNoData_ = this.centerOnPopup_ && options.hasOwnProperty('centerIfNoData')
-      ? options.centerIfNoData : false
+    this.showClickable_ = options.hasOwnProperty('showClickable') ? options.showClickable : 'layerAtPixel'
+    // this.centerIfNoData_ = this.centerOnPopup_ && options.hasOwnProperty('centerIfNoData')
+    //   ? options.centerIfNoData : false
 
     this.centerOnPopupInitial_ = this.centerOnPopup_
-
-    this.popupModifiers_ = options.popupModifiers || []
   }
 
   handleClickEvent (e) {
-    let map = this.getMap()
-    let featurePopup = map.get('featurePopup')
-    let projection = map.getView().getProjection()
+    const map = this.getMap()
 
-    let layers = this.layers_.filter(l => l.getVisible())
+    const projection = map.getView().getProjection()
 
-    let shouldShow = map.forEachLayerAtPixel(e.mapEvent.pixel, layer => layers.indexOf(layer) > -1) &&
+    const layers = this.layers_.filter(l => l.getVisible())
+
+    const shouldShow = map.forEachLayerAtPixel(e.mapEvent.pixel, layer => layers.indexOf(layer) > -1) &&
       !map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay)
 
     if (shouldShow) {
-      let coordinate = e.mapEvent.coordinate
+      const coordinate = e.mapEvent.coordinate
       this.utilitySource_.clear()
       let feature
-      for (let layer of layers) {
+      for (const layer of layers) {
         layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
-          .then(data => {
-            if (data !== '') {
-              if (!feature) {
-                this.utilitySource_.clear()
-                feature = new Feature({
-                  geometry: new Point(coordinate),
-                  description: data,
-                  style: map.get('styling').getStyle(this.style_)
-                })
-                map.get('styling').manageFeature(feature)
-                this.utilitySource_.addFeature(feature)
-                featurePopup.setFeature(feature, coordinate,
-                  [...this.popupModifiers_, ...layer.getSource().getFeatureInfoMutators()])
-                featurePopup.setVisible(true)
-                this.setPointVisible(true)
-                if (this.centerOnPopup_) {
-                  featurePopup.centerMapOnPopup(this.animated_)
-                }
-                featurePopup.once('change:visible', () => this.setPointVisible(false))
-              } else {
-                feature.set('description', feature.get('description') + this.separator_ + data)
-              }
-            }
-            layer.on('change:visible', () => {
-              featurePopup.setVisible(false)
-            })
-          })
+          .then(data => this.handleData(feature, coordinate, layer, data))
       }
+    }
+  }
+
+  handleData (feature, coordinate, layer, data) {
+    if (data !== '') {
+      const featurePopup = this.getMap().get('featurePopup')
+      if (!feature) {
+        this.utilitySource_.clear()
+        feature = new Feature({
+          geometry: new Point(coordinate),
+          description: data,
+          style: this.style_
+        })
+        this.getMap().get('styling').manageFeature(feature)
+        this.utilitySource_.addFeature(feature)
+
+        featurePopup.setFeature(feature, layer, this.style_, coordinate)
+        featurePopup.setVisible(true)
+
+        this.setPointVisible(true)
+        if (this.centerOnPopup_) {
+          featurePopup.centerMapOnPopup(this.animated_)
+        }
+        featurePopup.once('change:visible', () => this.setPointVisible(false))
+      } else {
+        feature.set('description', feature.get('description') + this.separator_ + data)
+      }
+      layer.on('change:visible', () => {
+        featurePopup.setVisible(false)
+      })
     }
   }
 
@@ -90,56 +90,18 @@ export class ShowWMSFeatureInfo {
     })
   }
 
-  handlePointerMoveEvent (e) {
-    let map = this.getMap()
-    if (!map.forEachFeatureAtPixel(e.mapEvent.pixel, FeaturePopup.canDisplay, { hitTolerance: 5 })) {
-      let featureTooltip = map.get('featureTooltip')
-      this.lastTooltipPixel_ = e.pixel
-
-      if (map.forEachLayerAtPixel(e.mapEvent.pixel, layer => this.layerQueryable(layer))) {
-        clearTimeout(this.tooltipTimeout_)
-        $(map.getViewport()).addClass(cssClasses.clickable)
-        this.tooltipTimeout_ = setTimeout(() => {
-          if (e.pixel === this.lastTooltipPixel_) {
-            let projection = map.getView().getProjection()
-            let coordinate = e.mapEvent.coordinate
-            let feature
-            map.forEachLayerAtPixel(e.mapEvent.pixel, layer => {
-              if (this.layerQueryable(layer)) {
-                layer.getSource().getFeatureInfo(coordinate, map.getView().getResolution(), projection)
-                  .then(data => {
-                    if (data !== '') {
-                      if (!feature) {
-                        feature = new Feature({
-                          geometry: new Point(coordinate),
-                          description: data
-                        })
-                        featureTooltip.setFeature(feature, coordinate,
-                          [...this.popupModifiers_, ...layer.getSource().getFeatureInfoMutators()])
-                      } else {
-                        feature.set('description', feature.get('description') + this.separator_ + data)
-                      }
-                      this.shouldHide_ = true
-                    }
-                    layer.on('change:visible', () => {
-                      featureTooltip.setFeature(null)
-                    })
-                  })
-              }
-            })
-          }
-        }, 200)
-      } else {
-        if (this.shouldHide_) {
-          featureTooltip.setFeature(null)
-        }
-        $(map.getViewport()).removeClass(cssClasses.clickable)
-      }
+  clickableFilter (e) {
+    if (this.showClickable_ === 'everywhere') {
+      return this.layers_.some(l => l.getVisible())
+    } else if (this.showClickable_ === 'layerAtPixel') {
+      return this.getMap().forEachLayerAtPixel(e.pixel, layer => this.layerQueryable(layer))
+    } else {
+      return false
     }
   }
 
   setMap (map) {
-    let onMapChangeMobile = () => {
+    const onMapChangeMobile = () => {
       if (map.get('mobile')) {
         this.centerOnPopup_ = false
       } else {
@@ -149,11 +111,12 @@ export class ShowWMSFeatureInfo {
 
     if (this.getMap()) {
       this.getMap().un('change:mobile', onMapChangeMobile)
-      unByKey(this.listenerKey_)
     }
 
     this.map_ = map
     if (map) {
+      this.style_ = map.get('styling').getStyle(this.styleConf_)
+
       this.utilitySource_ = new VectorSource()
       this.utilityLayer_ = new VectorLayer({
         visible: false,
@@ -163,15 +126,12 @@ export class ShowWMSFeatureInfo {
 
       this.layers_ = []
 
-      let interaction = new MapEventInteraction({ type: 'singleclick' })
+      const interaction = new MapEventInteraction({ type: 'singleclick' })
       interaction.on('mapevent', e => this.handleClickEvent(e))
 
       map.addDefaultInteraction('singleclick', interaction)
 
-      let hoverInteraction = new MapEventInteraction({ type: 'pointermove' })
-      hoverInteraction.on('mapevent', e => this.handlePointerMoveEvent(e))
-
-      map.addDefaultInteraction('pointermove', hoverInteraction)
+      map.get('clickableInteraction').addFilter(e => this.clickableFilter(e))
 
       onMapChangeMobile()
       map.on('change:mobile', onMapChangeMobile)

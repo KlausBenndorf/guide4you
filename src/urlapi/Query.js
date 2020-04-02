@@ -15,7 +15,7 @@ export class Query {
 
     this.excluded_ = excluded
 
-    for (let ex of this.excluded_) {
+    for (const ex of this.excluded_) {
       if (this.jsValues_.hasOwnProperty(ex)) {
         this.jsValues_[ex] = undefined
       }
@@ -24,11 +24,11 @@ export class Query {
     // some helper functions to be used in the parameter definitions
 
     let keyValuePair
-    let queryString = window.location.search
+    const queryString = window.location.search
 
     if (queryString !== '') { // Nothing to be done if search string is absent
       // Remove initial '?', split search at '&', result is supposed to be 'key=value' list
-      let assignmentList = queryString.substring(1).split('&')
+      const assignmentList = queryString.substring(1).split('&')
 
       // iterated over all assignmentList elements
       for (let i = 0; i < assignmentList.length; i += 1) {

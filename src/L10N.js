@@ -1,7 +1,5 @@
-import $ from 'jquery'
 import Observable from 'ol/Observable'
 
-import stripJsonComments from 'strip-json-comments'
 import { Debug } from './Debug'
 import { URL } from './URLHelper'
 
@@ -25,7 +23,7 @@ export class L10N extends Observable {
   /**
    * @param {L10NOptions} options
    */
-  constructor (options = {}) {
+  constructor (translations, options = {}) {
     super()
 
     /**
@@ -58,6 +56,8 @@ export class L10N extends Observable {
         this.availableLanguages_.push(this.defaultLang_)
       }
     }
+
+    this.dictionary = translations
   }
 
   /**
@@ -72,24 +72,6 @@ export class L10N extends Observable {
    */
   setAvailableLanguages (languages) {
     this.availableLanguages_ = languages
-  }
-
-  /**
-   * Loads the language file. This function is called manually from outside to be abel to pass in a callback.
-   */
-  ajaxGetLanguageFile () {
-    let finalUrl = this.languageFileUrl_.finalize()
-    return $.ajax({
-      type: 'GET',
-      url: finalUrl,
-      dataType: 'text',
-      success: data => {
-        this.dictionary = JSON.parse(stripJsonComments(data))
-      },
-      error: () => { // The arguments are ignored
-        Debug.error(`The language file ${finalUrl} couldn't be loaded or parsed`)
-      }
-    })
   }
 
   /**

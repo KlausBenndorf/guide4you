@@ -1,6 +1,5 @@
 import $ from 'jquery'
 
-import { Window } from '../html/Window'
 import { Control } from './Control'
 import { cssClasses } from '../globals'
 
@@ -24,7 +23,7 @@ export class ComposedControl extends Control {
    * @param {ComposedControlOptions} [options={}]
    */
   constructor (options = {}) {
-    let $container = $('<div>')
+    const $container = $('<div>')
 
     if (options.hasOwnProperty('element')) {
       $(options.element).append($container)
@@ -87,15 +86,6 @@ export class ComposedControl extends Control {
   }
 
   /**
-   * @param {Control} control
-   * @private
-   */
-  setWindowForControl_ (control) {
-    let aWindow = new Window({ $context: $(this.getMap().getViewport()) })
-    control.setWindow(aWindow, true)
-  }
-
-  /**
    * This method adds some helping css classes to the items
    * @param {jQuery} $item
    * @returns {jQuery}
@@ -126,20 +116,16 @@ export class ComposedControl extends Control {
    *    control.set$Target()
    */
   addControl (control, options = {}) {
-    let map = this.getMap()
+    const map = this.getMap()
     if (map) {
       map.addControl(control)
     } else {
       throw new Error('composed controls needs to be added to the map before they can get any controls')
     }
 
-    if (control.setWindow) {
-      this.setWindowForControl_(control)
-    }
-
     if (!(options.hasOwnProperty('claim')) || !options.claim) {
       if (!(options.hasOwnProperty('wrap')) || options.wrap) {
-        let $wrap = $('<div>')
+        const $wrap = $('<div>')
 
         if (options.hasOwnProperty('element')) {
           $wrap.append($(options.element))

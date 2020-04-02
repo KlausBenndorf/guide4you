@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import WKT from 'ol/format/WKT'
 import { get as getProj, transform, transformExtent } from 'ol/proj'
 import BaseObject from 'ol/Object'
 import { boundingExtent } from 'ol/extent'
@@ -7,6 +8,9 @@ import { cssClasses, keyCodes } from '../globals'
 import { Debug } from '../Debug'
 import { FeatureAPI } from './FeatureAPI'
 import { GeometryAPI } from './GeometryAPI'
+import { KMLAPI } from './KMLAPI'
+import { MeasureAPI } from './MeasureAPI'
+import { PlacesAPI } from './PlacesAPI'
 import { PrintToScaleAPI } from './PrintToScaleAPI'
 
 // NOTE:
@@ -31,6 +35,8 @@ export class API extends BaseObject {
      */
     this.featureManipulationActive_ = false
 
+    this.extentPadding_ = options.extentPadding
+
     /**
      * @type {StyleLike}
      * @private
@@ -52,6 +58,9 @@ export class API extends BaseObject {
     this.geometryAPI_ = new GeometryAPI(this, map)
     this.printToScaleAPI_ = new PrintToScaleAPI(this, map)
     this.featureAPI_ = new FeatureAPI(this, map)
+    this.kmlAPI_ = new KMLAPI(this, map)
+    this.measureAPI_ = new MeasureAPI(this, map)
+    this.placesAPI_ = new PlacesAPI(this, map)
 
     this.setApiAccessObject()
   }
@@ -76,7 +85,9 @@ export class API extends BaseObject {
       geometry: {
         draw: this.geometryAPI_.drawGeometry.bind(this.geometryAPI_),
         show: this.geometryAPI_.showGeometry.bind(this.geometryAPI_),
-        hide: this.geometryAPI_.hideGeometry.bind(this.geometryAPI_)
+        hide: this.geometryAPI_.hideGeometry.bind(this.geometryAPI_),
+        clear: this.geometryAPI_.clear.bind(this.geometryAPI_),
+        extent: this.geometryAPI_.getExtent.bind(this.geometryAPI_)
       },
       printToScale: {
         showFrame: this.printToScaleAPI_.showFrame.bind(this.printToScaleAPI_),
@@ -84,19 +95,32 @@ export class API extends BaseObject {
         hideFrame: this.printToScaleAPI_.hideFrame.bind(this.printToScaleAPI_)
       },
       feature: {
-      //   create: this.createFeature.bind(this),
-      //   show: this.showFeature.bind(this),
+        // create: this.createFeature.bind(this),
+        // show: this.showFeature.bind(this),
         // hide: this.hideFeature.bind(this)
         modify: this.featureAPI_.modifyFeature.bind(this.featureAPI_),
         select: this.featureAPI_.selectFeature.bind(this.featureAPI_),
         draw: this.featureAPI_.drawFeature.bind(this.featureAPI_)
       },
-
-      // 'feature': {
-      //   'cancelManipulation': this.cancelFeatureManipulation,
-      //   'create': this.createFeature,
-      //
-      // },
+      kml: {
+        add: this.kmlAPI_.add.bind(this.kmlAPI_),
+        update: this.kmlAPI_.update.bind(this.kmlAPI_),
+        remove: this.kmlAPI_.remove.bind(this.kmlAPI_)
+      },
+      places: {
+        add: this.placesAPI_.addPlace.bind(this.placesAPI_),
+        clear: this.placesAPI_.clear.bind(this.placesAPI_),
+        openPopup: this.placesAPI_.openPopup.bind(this.placesAPI_),
+        closePopup: this.placesAPI_.closePopup.bind(this.placesAPI_),
+        hasPopup: this.placesAPI_.hasPopup.bind(this.placesAPI_),
+        onPopup: this.placesAPI_.onPopup.bind(this.placesAPI_),
+        extent: this.placesAPI_.getExtent.bind(this.placesAPI_),
+        activate: this.placesAPI_.activate.bind(this.placesAPI_),
+        deactivate: this.placesAPI_.deactivate.bind(this.placesAPI_),
+        isActive: this.placesAPI_.isActive.bind(this.placesAPI_),
+        style: this.placesAPI_.changeStyle.bind(this.placesAPI_),
+        cluster: this.placesAPI_.activateClustering.bind(this.placesAPI_)
+      },
       // 'userInteraction': {
       //   'get': {
       //     'position': function (callback, options) {
@@ -108,11 +132,11 @@ export class API extends BaseObject {
       //       this.map_.once('singleclick', (e) => {
       //         $(this.map_.getViewport()).css('cursor', savedCursorStyle)
       //         var coordinate = e.coordinate
-      //         if (options.srId) {
+      //         if (options.projection) {
       //           coordinate = transform(
       //             coordinate,
       //             options.map.getView().getProjection(),
-      //             options.srId
+      //             options.projection
       //           )
       //         }
       //         callback(coordinate)
@@ -143,104 +167,86 @@ export class API extends BaseObject {
       //   'updateWms': api.updateWmsLayer
       // },
       view: {
-        getExtent: this.getExtent.bind(this),
-        fitExtent: this.fitExtent.bind(this),
-        move: {
-          toExtent: this.moveToExtent.bind(this),
-          toPoint: this.moveToPoint.bind(this)
-        }
+        getExtent: this.transformResult(() => this.map_.getView().calculateExtent(), transformExtent),
+        fitExtent: this.transformInput(input => this.map_.getView().fit(input, {
+          padding: this.extentPadding_
+        }), transformExtent),
+        getCenter: this.transformResult(() => this.map_.getView().getCenter(), transform),
+        setCenter: this.transformInput(input => this.map_.getView().setCenter(input), transform),
+        getZoom: () => this.map_.getView().getZoom(),
+        setZoom: input => this.map_.getView().setZoom(input)
       },
-      // kml:
-      //   'set': {
-      //     'KML': function (options) {
-      //       options = options || {}
-      //       options.id = options.id || 0
-      //       options.styleId = options.styleId || '#defaultStyle'
-      //       var styling = map.get('styling')
-      //       var style = options.style || styling.getStyleById(options.styleId)
-      //
-      //       var layerName = 'CurrentKMLData' + options.id
-      //       var layer = map.get('fixedFeatureLayers').getLayerById(layerName)
-      //       var features = new ol.format.KML({
-      //         'extractStyles': !!options.extractStyles,
-      //         'defaultStyle': [style]
-      //       }).readFeatures(options.kml, {
-      //         'featureProjection': map.getView().getProjection()
-      //       })
-      //
-      //       if (layer) {
-      //         layer.setSource(new ol.source.Vector({ 'features': features }))
-      //         layer.setStyle(style)
-      //       } else {
-      //         map.get('fixedFeatureLayers').getLayers().push(
-      //           new ol.layer.Vector({
-      //             id: layerName,
-      //             source: new ol.source.Vector({ 'features': features }),
-      //             style: style
-      //           })
-      //         )
-      //       }
-      //     }
-      //   },
-      //   'remove': {
-      //     'KML': function(options) {
-      //       options = options || {}
-      //       options.id = options.id || [ 0 ]
-      //       options.id = Array.isArray(options.id) ? options.id : [ options.id ]
-      //
-      //       var fixedFeatureLayers = map.get('fixedFeatureLayers')
-      //
-      //       for (var i = 0; i < options.id.length; i++) {
-      //         fixedFeatureLayers.removeLayerById('CurrentKMLData' + options.id[i])
-      //       }
-      //     }
-      //   },
-      // },
+      move: {
+        toExtent: this.moveToExtent.bind(this),
+        toPoint: this.moveToPoint.bind(this)
+      },
+      transform: {
+        coordinate: transform,
+        extent: transformExtent,
+        WKT: this.transformWKT.bind(this)
+      },
+      measure: {
+        length: this.measureAPI_.getLength.bind(this.measureAPI_),
+        area: this.measureAPI_.getArea.bind(this.measureAPI_),
+        distance: this.measureAPI_.getDistance.bind(this.measureAPI_)
+      },
+      popupModifier: {
+        register: (name, popupModifier) => this.map_.get('popupModifiers').register(name, popupModifier)
+      },
       // 'style': {
       //   'collection': styling.styleCollection,
       //   'feature': styling.styleFeature,
       //   'layer': styling.styleLayer
       // },
-      'version': function () {
-        return (this.map_.get('guide4youVersion'))
-      }
+      version: this.getVersion.bind(this)
     }
 
     this.map_.api = Object.assign(this.map_.api || {}, api)
   }
 
-  getExtent (options) {
-    var extent = this.map_.getView().calculateExtent()
-    if (options && options.srId) {
-      extent = transformExtent(extent, this.map_.getView().getProjection(), options.srId)
-    }
-    return extent
+  getVersion () {
+    return this.map_.get('guide4youVersion')
   }
 
-  fitExtent (extent, options) {
-    if (options && options.srId) {
-      extent = transformExtent(extent, options.srId, this.map_.getView().getProjection())
+  transformResult (func, transform) {
+    return options => {
+      let result = func()
+      if (options && options.projection) {
+        result = transform(result, this.map_.getView().getProjection(), options.projection)
+      }
+      return result
     }
-    this.map_.getView().fit(extent)
   }
 
-  moveToExtent (extent, options) {
-    if (options && options.srId) {
-      extent = transformExtent(extent, options.srId, this.map_.getView().getProjection())
+  transformInput (func, transform) {
+    return (input, options = {}) => {
+      if (options.projection) {
+        input = transform(input, options.projection, this.map_.getView().getProjection())
+      }
+      return func(input)
+    }
+  }
+
+  moveToExtent (extent, options = {}) {
+    if (options.projection) {
+      extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
+    }
+    if (!options.padding) {
+      options.padding = this.extentPadding_
     }
     this.map_.get('move').toExtent(extent, options)
   }
 
-  moveToPoint (coordinate, options) {
-    if (options && options.srId) {
-      coordinate = transform(coordinate, options.srId, this.map_.getView().getProjection())
+  moveToPoint (coordinate, options = {}) {
+    if (options.projection) {
+      coordinate = transform(coordinate, options.projection, this.map_.getView().getProjection())
     }
     this.map_.get('move').toPoint(coordinate, options)
   }
 
   // zoomToExtent (extent, options) {
-  //   if (options && options.srId) {
-  //     extent = transformExtent(extent, options.srId, this.map_.getView().getProjection())
+  //   if (options && options.projection) {
+  //     extent = transformExtent(extent, options.projection, this.map_.getView().getProjection())
   //   }
   //   toPoint: this.zoomToPoint.bind(this)
   // }
@@ -273,8 +279,8 @@ export class API extends BaseObject {
   }
 
   fitRectangle (coordinates, opt = {}) {
-    if (!opt.hasOwnProperty('srId')) {
-      opt.srId = 'EPSG:4326'
+    if (!opt.hasOwnProperty('projection')) {
+      opt.projection = 'EPSG:4326'
     }
     if (!opt.hasOwnProperty('constrainResolution')) {
       opt.constrainResolution = false
@@ -282,18 +288,18 @@ export class API extends BaseObject {
     if (!opt.hasOwnProperty('padding')) {
       opt.padding = [0, 0, 0, 0]
     }
-    if (getProj(opt.srId)) {
+    if (getProj(opt.projection)) {
       this.map_.getView().fit(
         boundingExtent(
           [
             transform(
               [parseFloat(coordinates[0][0]), parseFloat(coordinates[0][1])],
-              opt.srId,
+              opt.projection,
               this.map_.get('mapProjection').getCode()
             ),
             transform(
               [parseFloat(coordinates[1][0]), parseFloat(coordinates[1][1])],
-              opt.srId,
+              opt.projection,
               this.map_.get('mapProjection').getCode()
             )
           ]
@@ -301,13 +307,13 @@ export class API extends BaseObject {
         opt
       )
     } else {
-      Debug.error(`Unknown Projection '${opt.srId}'`)
+      Debug.error(`Unknown Projection '${opt.projection}'`)
     }
   }
 
   setVisibleLayer (id) {
     this.map_.getLayerGroup().recursiveForEach((layer) => {
-      if (layer.get('id')) {
+      if (layer.get('id') === id) {
         layer.setVisible(true)
       }
     })
@@ -345,22 +351,20 @@ export class API extends BaseObject {
     layerOptions.visible = true
     layerOptions.source = layerOptions.source || {}
 
-    let promise = new Promise((resolve, reject) => {
-      let layer = this.addLayer(layerOptions)
-      let source = layer.getSource()
-      let loadEndHandler = () => {
+    return new Promise((resolve, reject) => {
+      const layer = this.addLayer(layerOptions)
+      const source = layer.getSource()
+      const loadEndHandler = () => {
         source.un('vectorloadend', loadErrorHandler)
         resolve(layer)
       }
-      let loadErrorHandler = () => {
+      const loadErrorHandler = () => {
         source.un('vectorloaderror', loadEndHandler)
         reject(new Error('vector load error'))
       }
       source.once('vectorloadend', loadEndHandler)
       source.once('vectorloaderror', loadErrorHandler)
     })
-
-    return promise
   }
 
   /**
@@ -378,5 +382,28 @@ export class API extends BaseObject {
    */
   removeLayer (layer) {
     this.map_.getLayerGroup().removeLayer(layer)
+  }
+
+  /**
+   * Updates the layers parameter of a WMS Layer
+   * @param {string|number} layerId
+   * @param {string[]} layers
+   */
+  updateWmsLayer (layerId, layers) {
+    this.map_.getLayerGroup().recursiveForEach(layer => {
+      if (layer.get('id') === layerId) {
+        layer.getSource().updateParams({
+          LAYERS: layers
+        })
+      }
+    })
+  }
+
+  /**
+   * Transforms WKT from one projection to another
+   */
+  transformWKT (wkt, fromProj, toProj) {
+    const wktParser = new WKT()
+    return wktParser.writeGeometry(wktParser.readGeometry(wkt).transform(fromProj, toProj))
   }
 }

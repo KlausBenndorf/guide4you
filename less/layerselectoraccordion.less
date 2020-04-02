@@ -1,0 +1,69 @@
+@import "./lengths";
+@import "./colors";
+@import "./buttons";
+
+@arrow-down-outline: url("../images/icons/expand-outline-down.svg");
+@arrow-down-filled: url("../images/icons/expand-filled-down.svg");
+@arrow-right-outline: url("../images/icons/expand-outline-right.svg");
+
+.g4u-desktop {
+  .g4u-layerselector.ol-unselectable.ol-control {
+    .g4u-layerselector {
+      .g4u-layerselector-button-frame {
+        .accordion-size(@n, @i: 1) when (@i =< @n) {
+          .accordion-size(@n, (@i + 1));
+          &.g4u-accordion-size-@{i} {
+            height: (@g4u-desktop-button-size * (@i + 1));
+          }
+        }
+
+        .accordion-size(20);
+      }
+
+      .g4u-accordion-button {
+        .buttonSquaredWithIcon(@arrow-down-outline, @g4u-desktop-button-size, @g4u-desktop-huge-fontsize);
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        &.g4u-accordion-active {
+          .changeIcon(@arrow-down-filled);
+        }
+      }
+
+      .g4u-accordion-menu {
+        left: 0;
+        right: 0;
+        position: absolute;
+        top: @g4u-desktop-button-size;
+        .g4u-symbol-colors();
+
+        &.g4u-layer-active {
+          .g4u-accordion-entry {
+            background: @g4u-active-normal-button-color;
+          }
+        }
+
+        .g4u-accordion-entry {
+          //padding: @g4u-desktop-padding;
+          padding-left: @g4u-desktop-button-size;
+
+          .entry-size(@n, @i: 1) when (@i =< @n) {
+            .entry-size(@n, (@i + 1));
+            &.g4u-accordion-entry-size-@{i} {
+              height: (@g4u-desktop-button-size * (@i));
+            }
+          }
+
+          .entry-size(10);
+
+          .g4u-accordion-entry-content {
+            display: inline-block;
+            padding-left: 2 * @g4u-desktop-padding;
+            padding-top: @g4u-desktop-padding;
+          }
+        }
+      }
+    }
+  }
+}

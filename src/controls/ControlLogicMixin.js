@@ -20,7 +20,7 @@ export class ControlLogicMixin {
 
     if (options.hasOwnProperty('target')) {
       let $target
-      if (typeof options.target === 'string' && options.target[ 0 ] !== '#') {
+      if (typeof options.target === 'string' && options.target[0] !== '#') {
         $target = $('#' + options.target)
       } else {
         $target = $(options.target)
@@ -76,7 +76,7 @@ export class ControlLogicMixin {
      * @type {string[]| string}
      * @private
      */
-    this.float_ = (options.float === undefined) ? [ 'top', 'left' ] : options.float
+    this.float_ = (options.float === undefined) ? ['top', 'left'] : options.float
 
     /**
      * @type {number}
@@ -205,7 +205,7 @@ export class ControlLogicMixin {
      * @private
      */
     this.catched$Target_ = $target
-    this.setTarget($target[ 0 ])
+    this.setTarget($target[0])
     $target.append(this.get$Element())
   }
 

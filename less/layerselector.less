@@ -4,8 +4,9 @@
 
 @g4u-layerselector-menu-collapsed-icon: url("../images/icons/plusminus-plus.svg");
 @g4u-layerselector-menu-expanded-icon: url("../images/icons/plusminus-minus.svg");
-@g4u-layerselector-group-collapsed-icon: url("../images/icons/expand-outline-down.svg");
-@g4u-layerselector-group-expanded-icon: url("../images/icons/expand-outline-right.svg");
+@arrow-down-outline: url("../images/icons/expand-outline-down.svg");
+@arrow-down-filled: url("../images/icons/expand-filled-down.svg");
+@arrow-right-outline: url("../images/icons/expand-outline-right.svg");
 @g4u-layerselector-info: url("../images/icons/info-circle.svg");
 @g4u-layerselector-info-green: url("../images/icons/info-circle-green.svg");
 @g4u-whitespace-icon: url("../images/icons/plusminus-nothing.svg");
@@ -23,21 +24,19 @@
       button, .button {
         box-sizing: border-box;
         //width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
-        left: 0;
-        right: 0;
-        padding-left: 2 * @g4u-desktop-padding;
         border-radius: 0;
       }
 
       .g4u-layerselector-content {
         overflow-y: auto;
+        overflow-x: hidden;
         padding: 0;
       }
 
       // title
 
       .g4u-layerselector-titlebutton {
-        .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
+        .buttonWithIconBefore(@arrow-down-outline; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
         padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
         margin-top: 0;
         background: @g4u-titlebutton-color;
@@ -46,16 +45,14 @@
       }
 
       &.g4u-layerselector-collapsed {
-        .g4u-layerselector-titlebutton {
-          .changeIconBefore(@g4u-layerselector-group-expanded-icon);
-          border-bottom-right-radius: @g4u-desktop-small-border-radius;
-          border-bottom-left-radius: @g4u-desktop-small-border-radius;
-        }
-      }
+         .g4u-layerselector-titlebutton {
+           .changeIconBefore(@arrow-right-outline);
+           border-bottom-right-radius: @g4u-desktop-small-border-radius;
+           border-bottom-left-radius: @g4u-desktop-small-border-radius;
+         }
+       }
 
-      // layers
-
-      .g4u-layerselector-menu-title {
+      .g4u-layerselector-button-frame {
         margin-top: @g4u-desktop-padding;
         white-space: nowrap;
         position: relative;
@@ -73,7 +70,13 @@
       .g4u-layerselector-menu-titlebutton:not(.g4u-layerselector-menu-collapsebutton) {
         position: absolute;
         top: 0;
+        padding-left: 2 * @g4u-desktop-padding;
+        right: 0;
         left: @g4u-desktop-button-size;
+      }
+
+      .g4u-layerselector-menu-titlebutton {
+        padding-top: @g4u-desktop-padding;
       }
 
       // combined buttons
@@ -114,25 +117,36 @@
         background: fade(@g4u-disabled-color, @g4u-not-so-opaque);
       }
 
+      &.g4u-layerselector-with-checkbox {
+        .g4u-layerselector-layerbutton {
+          .changeIconBefore(@g4u-checkbox-unchecked; @g4u-desktop-normal-fontsize);
+          &.g4u-layerselector-menu-active {
+            .changeIconBefore(@g4u-checkbox-checked; @g4u-desktop-normal-fontsize);
+            &.g4u-layer-loading {
+              &:before {
+                content: @g4u-load-animation;
+              }
+            }
+          }
+        }
+      }
+
       .g4u-layerselector-layerbutton {
         .buttonWithIconBefore(@g4u-whitespace-icon; @g4u-desktop-button-size; @g4u-desktop-normal-fontsize);
-        height: auto; // hotfix
-        min-height: @g4u-desktop-button-size; // hotfix
-        padding-top: @g4u-desktop-padding; // hotfix
-        padding-bottom: @g4u-desktop-padding; // hotfix
-        margin-top: @g4u-desktop-padding;
-        //width: @g4u-layermenu-width + 2 * @g4u-desktop-padding;
-        left: 0;
-        right: 0;
+        padding-top: @g4u-desktop-padding;
         padding-left: @g4u-desktop-button-size + 2 * @g4u-desktop-padding;
+        position: absolute;
+        top: 0;
+        left:0;
+        right: 0;
 
-        // styling of active buttons
         &.g4u-layerselector-menu-active {
           background: @g4u-active-normal-button-color; // k
           &:hover {
             background: @g4u-active-hover-button-color; // k
           }
         }
+
         &.g4u-layer-loading {
           &:before {
             content: @g4u-load-animation;
@@ -276,13 +290,13 @@
       .g4u-layerselector-titlebutton {
         margin-top: 0;
         background: @g4u-titlebutton-color;
-        .buttonWithIconBefore(@g4u-layerselector-group-collapsed-icon; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
+        .buttonWithIconBefore(@arrow-down-outline; @g4u-mobile-button-size; @g4u-mobile-normal-fontsize);
         vertical-align: middle;
       }
 
       &.g4u-layerselector-collapsed {
         .g4u-layerselector-titlebutton {
-          .changeIconBefore(@g4u-layerselector-group-expanded-icon);
+          .changeIconBefore(@arrow-right-outline);
         }
       }
 

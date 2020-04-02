@@ -25,10 +25,10 @@ export class ActivatableMixin {
    * @param {boolean} active
    */
   setActive (active) {
-    let oldValue = this.active_
+    const oldValue = this.active_
     if (oldValue !== active) {
       this.active_ = active
-      let changeEvent = {
+      const changeEvent = {
         type: 'change:active',
         oldValue: oldValue
       }
