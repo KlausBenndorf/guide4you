@@ -15,7 +15,6 @@ import '../../less/window.less'
  * @property {string} [id] an html id for the outer window element
  * @property {string} [className] an alternative html class name to use instead of 'g4u-window', not recommended
  * @property {G4UMap} [map] the map the window should be shown on. The viewport will be set as the context of the window
- * @property {jQuery} [$context] context the window is shown in
  * @property {boolean} [visible=false] the visibility of the window on start up
  * @property {boolean} [fixedPosition=false] if the window is movable or not
  */
@@ -27,7 +26,7 @@ export class Window extends BaseObject {
   /**
    * @param {WindowOptions} options
    */
-  constructor (options = {}) {
+  constructor (options) {
     super()
 
     /**
