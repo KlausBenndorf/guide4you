@@ -12,6 +12,7 @@ import { KMLAPI } from './KMLAPI'
 import { MeasureAPI } from './MeasureAPI'
 import { PlacesAPI } from './PlacesAPI'
 import { PrintToScaleAPI } from './PrintToScaleAPI'
+import { WindowAPI } from './WindowAPI'
 
 // NOTE:
 // Access to a source factory would be nice
@@ -61,6 +62,7 @@ export class API extends BaseObject {
     this.kmlAPI_ = new KMLAPI(this, map)
     this.measureAPI_ = new MeasureAPI(this, map)
     this.placesAPI_ = new PlacesAPI(this, map)
+    this.windowAPI_ = new WindowAPI(this, map)
 
     this.setApiAccessObject()
   }
@@ -192,6 +194,9 @@ export class API extends BaseObject {
       },
       popupModifier: {
         register: (name, popupModifier) => this.map_.get('popupModifiers').register(name, popupModifier)
+      },
+      window: {
+        add: this.windowAPI_.addWindow.bind(this.windowAPI_)
       },
       // 'style': {
       //   'collection': styling.styleCollection,
