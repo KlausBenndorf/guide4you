@@ -32,16 +32,9 @@ import { Attributions } from '../Attributions'
  */
 
 /**
- * The silent group can display a group of layers which appears as a single in the layer selector.
+ * The group can display a group of layers which appears as a single in the layer selector.
  * @typedef {g4uLayerOptions} SilentGroupLayerConfig
- * @property {"SilentGroup"} type
- * @property {AnyLayerConfig[]} layers
- */
-
-/**
- * The category contains other layer(s) and will appear as a category in the layer selector.
- * @typedef {g4uLayerOptions} CategoryLayerConfig
- * @property {"Category"} type
+ * @property {"Group"} type
  * @property {AnyLayerConfig[]} layers
  */
 
