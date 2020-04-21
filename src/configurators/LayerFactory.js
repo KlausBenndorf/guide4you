@@ -108,7 +108,7 @@ export class LayerFactory extends Observable {
     const style = take(optionsCopy, 'style')
 
     switch (layerType) {
-      case LayerType.SILENTGROUP:
+      case LayerType.GROUP:
 
         layerConfigs = take(optionsCopy, 'layers')
 
@@ -116,7 +116,7 @@ export class LayerFactory extends Observable {
 
         for (const options of layerConfigs) {
           options.visible = true
-          layer.getLayers().add(this.createLayer(options))
+          layer.getLayers().push(this.createLayer(options))
         }
 
         break
