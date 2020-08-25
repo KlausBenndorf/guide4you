@@ -96,6 +96,11 @@ or with a local webserver watching file changes on port 8080
 ```
 npm run dev:simple
 ```
+or on another port:
+
+```
+npm run dev:simple -- -p 8081
+```
 
 ## Documentation
 
