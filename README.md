@@ -81,16 +81,20 @@ Switch into the `guide4you` directory and install all dependecies using
 npm install
 ```
 
-Then build with a configuration of your choice
+Then build with a configuration (simple, full) of your choice
 
 ```
-npm run build conf/simple
+npm run prod:simple
 ```
-
-If you want to develop you can use the dev server script, which listens on port 8080 by default
+or
 
 ```
-npm run dev conf/simple
+npm run debug:simple
+```
+or with a local webserver watching file changes on port 8080
+
+```
+npm run dev:simple
 ```
 
 ## Documentation
