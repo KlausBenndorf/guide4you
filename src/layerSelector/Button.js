@@ -34,9 +34,35 @@ export class Button extends Element {
       .addClass('g4u-layerselector-button-frame')
       .append(this.$button_)
 
-    this.listenAt(this.$button_).on('click', () => {
+    const clickHandler = () => {
       if (this.deactivatable_ || !this.getActive()) {
         this.setActive(!this.getActive())
+      }
+    }
+
+    this.listenAt(this.$button_).on('click', clickHandler)
+
+    // hack for registering clicks on spans in mobile chrome / firefox
+    const maxDiff = 20
+    let startX, startY
+
+    this.listenAt(this.$button_).on('touchstart', e => {
+      if (e.touches.length !== 1) {
+        startX = undefined
+        startY = undefined
+      } else {
+        startX = e.touches[0].pageX
+        startY = e.touches[0].pageY
+      }
+    })
+
+    this.listenAt(this.$button_).on('touchend', e => {
+      if (e.changedTouches.length === 1) {
+        const x = e.changedTouches[0].pageX
+        const y = e.changedTouches[0].pageY
+        if (Math.abs(x - startX) < maxDiff && Math.abs(y - startY) < maxDiff) {
+          clickHandler()
+        }
       }
     })
 
