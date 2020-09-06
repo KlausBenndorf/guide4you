@@ -32,7 +32,7 @@
   "dependencies": {
     "better-scroll": "1.15.2",
     "csscolorparser": "1.0.3",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "notifyjs-browser": "0.4.2",
     "proj4": "2.6.0",
     "json5": "^2.1.1"
