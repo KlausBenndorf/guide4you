@@ -57,7 +57,7 @@
     "ol": "6.1.1",
     "phantomjs-prebuilt": "2.1.14",
     "selenium-webdriver": "3.6.0",
-    "wait-on": "3.3.0"
+    "wait-on": "4.0.2"
   },
   "scripts": {
     "grab": "g4u-grab guide4you-builder",
